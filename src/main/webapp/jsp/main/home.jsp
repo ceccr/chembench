@@ -20,7 +20,8 @@
             Chembench can help researchers rationally design or select new compounds or compound libraries with
             significantly enhanced hit rates in screening experiments.
           </p>
-          <img class="interstitial-banner" src="/assets/images/home-banner.jpg" alt="Molecule image banner">
+          <img class="interstitial-banner" src="${pageContext.request.contextPath}/assets/images/home-banner.jpg"
+               alt="Molecule image banner">
 
           <p>
             It provides cheminformatics research support to molecular modelers, medicinal chemists and quantitative
@@ -92,8 +93,8 @@
             </div>
             <div class="form-group">
               <div class="col-xs-offset-4 col-xs-8">
-                <a href="/forgotPassword">Forgot your password?</a><br> <a href="loadRegistrationPage">Register
-                an account</a>
+                <s:a action="forgotPassword">Forgot your password?</s:a><br>
+                <s:a action="loadRegistrationPage">Register an account</s:a>
               </div>
             </div>
           </s:form>
@@ -142,22 +143,23 @@
     <section>
       <h4 class="sponsor-message">We thank the following commercial sponsors for their support:</h4>
       <ul class="sponsor-list">
-        <li><a href="http://www.chemcomp.com" target="_blank"><img src="/assets/images/sponsors/ccg.jpg" width="114"
-                                                                   height="46" alt="Chemical Computing Group"
-                                                                   class="img-thumbnail"></a>
+        <li><a href="http://www.chemcomp.com" target="_blank"><img
+            src="${pageContext.request.contextPath}/assets/images/sponsors/ccg.jpg" width="114" height="46"
+            alt="Chemical Computing Group" class="img-thumbnail"></a>
         </li>
-        <li><a href="http://www.talete.mi.it" target="_blank"><img src="/assets/images/sponsors/talete.jpg" width="71"
-                                                                   height="80" alt="Talete srl"
-                                                                   class="img-thumbnail"></a></li>
-        <li><a href="http://www.chemaxon.com" target="_blank"><img src="/assets/images/sponsors/chemaxon.jpg" width="88"
-                                                                   height="83" alt="ChemAxon" class="img-thumbnail"></a>
+        <li><a href="http://www.talete.mi.it" target="_blank"><img
+            src="${pageContext.request.contextPath}/assets/images/sponsors/talete.jpg" width="71" height="80"
+            alt="Talete srl" class="img-thumbnail"></a></li>
+        <li><a href="http://www.chemaxon.com" target="_blank"><img
+            src="${pageContext.request.contextPath}/assets/images/sponsors/chemaxon.jpg" width="88" height="83"
+            alt="ChemAxon" class="img-thumbnail"></a>
         </li>
-        <li><a href="http://www.edusoft-lc.com" target="_blank"><img src="/assets/images/sponsors/edusoft.jpg"
-                                                                     width="99" height="71" alt="eduSoft"
-                                                                     class="img-thumbnail"></a></li>
+        <li><a href="http://www.edusoft-lc.com" target="_blank"><img
+            src="${pageContext.request.contextPath}/assets/images/sponsors/edusoft.jpg" width="99" height="71"
+            alt="eduSoft" class="img-thumbnail"></a></li>
         <li><a href="http://www.sunsetmolecular.com" target="_blank"><img
-            src="/assets/images/sponsors/sunsetmolecular.jpg" width="100" height="100" alt="Sunset Molecular"
-            class="img-thumbnail"></a></li>
+            src="${pageContext.request.contextPath}/assets/images/sponsors/sunsetmolecular.jpg" width="100" height="100"
+            alt="Sunset Molecular" class="img-thumbnail"></a></li>
       </ul>
     </section>
   </div>
@@ -165,6 +167,6 @@
   <%@ include file="/jsp/main/footer.jsp" %>
 </div>
 <%@ include file="/jsp/main/tail.jsp" %>
-<script src="/assets/js/home.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/home.js"></script>
 </body>
 </html>

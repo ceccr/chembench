@@ -40,7 +40,7 @@
               <span class="spinner"><span class="glyphicon glyphicon-refresh fa-spin"></span></span>Refresh
             </button>
 
-            Auto-refresh every:
+            <label for="autorefresh-interval">Auto-refresh every:</label>
             <select id="autorefresh-interval" class="form-control input-sm">
               <option value="5">5 s</option>
               <option value="15">15 s</option>
@@ -144,6 +144,6 @@
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
-<script src="/assets/js/mybench.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/mybench.js"></script>
 </body>
 </html>

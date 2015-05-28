@@ -3,7 +3,8 @@
 <header>
   <div id="masthead">
     <h1>
-      <a href="/"><img src="/assets/images/masthead.jpg" width="312" height="66" alt="Chembench"></a>
+      <s:a action="home"><img src="${pageContext.request.contextPath}/assets/images/masthead.jpg" width="312"
+                              height="66" alt="Chembench"></s:a>
     </h1>
 
     <div class="userbox">

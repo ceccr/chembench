@@ -181,7 +181,7 @@
                   <s:param name="compoundId" value="%{compoundId}" />
                   <s:param name="datasetName" value="%{dataset.name}" />
                 </s:url> <img src=
-                                <s:property value="imageUrl" /> class="img-thumbnail" width="125" height="125"
+                                ""<s:property value="imageUrl" /> class="img-thumbnail" width="125" height="125"
                               alt="Compound structure"></td>
               </s:if>
               <s:if test="dataset.hasActivities()">
@@ -406,8 +406,8 @@
     };
   });
 </script>
-<script src="/assets/js/swfobject.js"></script>
-<script src="/assets/js/autolink.min.js"></script>
-<script src="/assets/js/viewDataset.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/swfobject.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/autolink.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/viewDataset.js"></script>
 </body>
 </html>

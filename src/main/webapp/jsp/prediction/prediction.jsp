@@ -196,8 +196,8 @@
 <script>
   Chembench.MYBENCH_URL = "<s:url action="jobs" />";
 </script>
-<script src="/assets/js/jsme/jsme.nocache.js"></script>
-<script src="/assets/js/jquery.zclip.min.js"></script>
-<script src="/assets/js/prediction.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/jsme/jsme.nocache.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/jquery.zclip.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/prediction.js"></script>
 </body>
 </html>
