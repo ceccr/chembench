@@ -251,6 +251,10 @@ input[type="checkbox"], input[type="radio"] {
 /* end modeling */
 
 /* prediction */
+#new-prediction-heading {
+    margin-bottom: 20px;
+}
+
 #prediction-model-selection table.datatable tbody > tr,
 #prediction-dataset-selection table.datatable tbody > tr {
     cursor: pointer;

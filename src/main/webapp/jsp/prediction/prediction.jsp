@@ -19,9 +19,7 @@
 
     <hr>
     <section>
-      <h2>Create a New Prediction</h2>
-
-      <p>&nbsp;<!-- TODO description here --></p>
+      <h2 id="new-prediction-heading">Create a New Prediction</h2>
 
       <div class="panel panel-primary">
         <div class="panel-heading">
