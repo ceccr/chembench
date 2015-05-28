@@ -87,14 +87,7 @@
                       <label for="smiles" class="col-xs-6 control-label">SMILES:</label>
 
                       <div class="col-xs-6">
-                        <div class="input-group">
-                          <input id="smiles" name="smiles" class="form-control">
-
-                          <div class="input-group-btn">
-                            <button id="copy-smiles" class="btn" title="Copy to clipboard" type="button">
-                              <span class="glyphicon glyphicon-copy"></span></button>
-                          </div>
-                        </div>
+                        <input id="smiles" name="smiles" class="form-control">
                       </div>
                     </div>
 
@@ -195,7 +188,6 @@
   Chembench.MYBENCH_URL = "<s:url action="jobs" />";
 </script>
 <script src="${pageContext.request.contextPath}/assets/js/jsme/jsme.nocache.js"></script>
-<script src="${pageContext.request.contextPath}/assets/js/jquery.zclip.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/prediction.js"></script>
 </body>
 </html>

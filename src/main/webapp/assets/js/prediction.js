@@ -18,21 +18,6 @@ $(document).ready(function() {
         $("#smiles").val(document.JME.smiles()).closest("form").submit();
     });
 
-    $("#copy-smiles").zclip({
-        path: "/assets/swf/ZeroClipboard.swf",
-        copy: $("#smiles").val()
-    }).tooltip({
-        animation: false,
-        placement: "bottom"
-    }).click(function() {
-        var button = $(this);
-        var oldTitle = button.attr("data-original-title");
-        button.attr("data-original-title", "Copied!").tooltip("hide").tooltip("show").one("hidden.bs.tooltip",
-            function() {
-                button.attr("data-original-title", oldTitle);
-            });
-    });
-
     $("form#predict-compound").submit(function(e) {
         e.preventDefault();
         var form = $(this);
