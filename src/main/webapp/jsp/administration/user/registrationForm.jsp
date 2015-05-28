@@ -31,9 +31,6 @@
   <div class="includesHeader">
     <%@ include file="/jsp/main/header.jsp" %>
   </div>
-  <div class="includesNavbar">
-    <%@ include file="/jsp/main/centralNavigationBar.jsp" %>
-  </div>
     <span id="maincontent">
 
       <div class="benchBackground includes">

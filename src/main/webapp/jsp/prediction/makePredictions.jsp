@@ -76,9 +76,6 @@
   <div class="includesHeader">
     <%@ include file="/jsp/main/header.jsp" %>
   </div>
-  <div class="includesNavbar">
-    <%@ include file="/jsp/main/centralNavigationBar.jsp" %>
-  </div>
   <!--
       <div class="StandardTextDarkGrayParagraph predictionBackground benchAlign"> <div class="homeLeft"> <br /> <br />
       <p style="margin-left:20px"> <b>Chembench Predictor Selection</b> <br /> <br /> Here you may use predictors to

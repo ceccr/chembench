@@ -64,9 +64,6 @@
   <div class="includesHeader">
     <%@ include file="/jsp/main/header.jsp" %>
   </div>
-  <div class="includesNavbar">
-    <%@ include file="/jsp/main/centralNavigationBar.jsp" %>
-  </div>
   <div>
     <table style="border: 0px solid black">
       <tbody>
