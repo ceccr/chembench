@@ -1,7 +1,7 @@
 package edu.unc.ceccr.chembench.taskObjects;
 
 import com.google.common.collect.Lists;
-import edu.unc.ceccr.chembench.actions.ModelingFormActions;
+import edu.unc.ceccr.chembench.actions.ModelAction;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.*;
@@ -139,7 +139,7 @@ public class QsarModelingTask extends WorkflowTask {
 
     }
 
-    public QsarModelingTask(String userName, ModelingFormActions ModelingForm) throws Exception {
+    public QsarModelingTask(String userName, ModelAction ModelingForm) throws Exception {
 
         // This function just loads all the ModelingForm parameters into local
         // variables

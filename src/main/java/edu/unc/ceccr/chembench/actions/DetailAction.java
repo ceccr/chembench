@@ -9,11 +9,11 @@ import org.hibernate.Session;
 
 import java.util.List;
 
-public abstract class ViewAction extends ActionSupport {
+public abstract class DetailAction extends ActionSupport {
 
     private static final long serialVersionUID = 1L;
 
-    private static Logger logger = Logger.getLogger(ViewAction.class.getName());
+    private static Logger logger = Logger.getLogger(DetailAction.class.getName());
     protected List<String> errorStrings = Lists.newArrayList();
     protected Session session;
     protected ActionContext context;

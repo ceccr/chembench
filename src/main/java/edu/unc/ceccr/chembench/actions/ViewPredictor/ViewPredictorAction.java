@@ -1,7 +1,7 @@
 package edu.unc.ceccr.chembench.actions.ViewPredictor;
 
 import com.google.common.collect.Lists;
-import edu.unc.ceccr.chembench.actions.ViewAction;
+import edu.unc.ceccr.chembench.actions.DetailAction;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Dataset;
 import edu.unc.ceccr.chembench.persistence.HibernateUtil;
@@ -14,7 +14,7 @@ import java.util.List;
 
 // struts2
 
-public class ViewPredictorAction extends ViewAction {
+public class ViewPredictorAction extends DetailAction {
     /**
      *
      */

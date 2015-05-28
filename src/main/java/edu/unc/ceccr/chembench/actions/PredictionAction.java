@@ -28,12 +28,12 @@ import java.nio.file.Paths;
 import java.util.*;
 // struts2
 
-public class PredictionFormActions extends ActionSupport {
+public class PredictionAction extends ActionSupport {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(PredictionFormActions.class.getName());
+    private static Logger logger = Logger.getLogger(PredictionAction.class.getName());
     List<String> errorStrings = Lists.newArrayList();
     // variables used for JSP display
     private User user;

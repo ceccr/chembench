@@ -20,9 +20,9 @@ import java.util.List;
 //struts2
 
 
-public class DatasetFormActions extends ActionSupport {
+public class DatasetAction extends ActionSupport {
 
-    private static Logger logger = Logger.getLogger(DatasetFormActions.class.getName());
+    private static Logger logger = Logger.getLogger(DatasetAction.class.getName());
     private List<String> errorStrings = Lists.newArrayList();
     private String datasetName = "";
     private String datasetType = Constants.MODELING;

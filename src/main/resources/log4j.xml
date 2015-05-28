@@ -35,7 +35,7 @@
         <appender-ref ref="Ceccr-Log"/>
     </logger>
 
-    <logger name="edu.unc.ceccr.chembench.actions.PredictionFormActions" additivity="true">
+    <logger name="edu.unc.ceccr.chembench.actions.PredictionAction" additivity="true">
         <level value="all"/>
         <appender-ref ref="Prediction-Log"/>
         <!-- should write to Ceccr-Log as well due to additivity=true -->
@@ -47,7 +47,7 @@
         <!-- should write to Ceccr-Log as well due to additivity=true -->
     </logger>
 
-    <logger name="edu.unc.ceccr.chembench.actions.JobsActions" additivity="false">
+    <logger name="edu.unc.ceccr.chembench.actions.MyBenchAction" additivity="false">
         <level value="all"/>
         <appender-ref ref="Jobs-Log"/>
     </logger>
@@ -57,7 +57,7 @@
         <appender-ref ref="Jobs-Log"/>
     </logger>
 
-    <logger name="edu.unc.ceccr.chembench.actions.ModelingFormActions" additivity="false">
+    <logger name="edu.unc.ceccr.chembench.actions.ModelAction" additivity="false">
         <level value="all"/>
         <appender-ref ref="Jobs-Log"/>
     </logger>

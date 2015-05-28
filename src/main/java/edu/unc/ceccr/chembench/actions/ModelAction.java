@@ -23,14 +23,14 @@ import java.util.List;
 import java.util.Map;
 // struts2
 
-public class ModelingFormActions extends ActionSupport {
+public class ModelAction extends ActionSupport {
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
 
-    private static Logger logger = Logger.getLogger(ModelingFormActions.class.getName());
+    private static Logger logger = Logger.getLogger(ModelAction.class.getName());
     Session executeSession = null; // specialized session variable used
     // only in this function
     boolean closeSessionAtEnd = true;

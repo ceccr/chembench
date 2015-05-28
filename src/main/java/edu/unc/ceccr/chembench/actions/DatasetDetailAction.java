@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ViewDataset extends ActionSupport {
+public class DatasetDetailAction extends ActionSupport {
 
-    private static Logger logger = Logger.getLogger(ViewDataset.class.getName());
+    private static Logger logger = Logger.getLogger(DatasetDetailAction.class.getName());
 
     private long id;
     private Dataset dataset;

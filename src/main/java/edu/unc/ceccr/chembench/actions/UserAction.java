@@ -21,13 +21,13 @@ import java.util.List;
 
 // struts2
 
-public class UserRegistrationAndProfileActions extends ActionSupport {
+public class UserAction extends ActionSupport {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
 
-    private static Logger logger = Logger.getLogger(UserRegistrationAndProfileActions.class.getName());
+    private static Logger logger = Logger.getLogger(UserAction.class.getName());
 
     /* USER FUNCTIONS */
     private User user;

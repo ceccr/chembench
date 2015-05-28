@@ -13,14 +13,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ViewPredictionAction extends ViewAction {
+public class PredictionDetailAction extends DetailAction {
 
 
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(ViewPredictionAction.class.getName());
+    private static Logger logger = Logger.getLogger(PredictionDetailAction.class.getName());
     List<CompoundPredictions> compoundPredictionValues = Lists.newArrayList();
     private Prediction prediction;
     private List<Predictor> predictors; //put these in order by predictorId

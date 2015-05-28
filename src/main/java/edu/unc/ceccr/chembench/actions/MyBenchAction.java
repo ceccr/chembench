@@ -13,8 +13,8 @@ import org.hibernate.Session;
 
 import java.util.List;
 
-public class JobsActions extends ActionSupport {
-    private static Logger logger = Logger.getLogger(JobsActions.class.getName());
+public class MyBenchAction extends ActionSupport {
+    private static Logger logger = Logger.getLogger(MyBenchAction.class.getName());
 
     // ====== variables used for displaying the JSP =====//
     private User user;
