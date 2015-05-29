@@ -40,12 +40,7 @@ public class DatasetDetailAction extends ActionSupport {
     private String datasetReference;
 
     public String load() throws Exception {
-        ActionContext context = ActionContext.getContext();
-        User user = (User) context.getSession().get("user");
-        if (user == null) {
-            return LOGIN;
-        }
-
+        User user = User.getCurrentUser();
         this.dataset = Dataset.get(id);
         if (dataset == null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(dataset.getUserName()))) {

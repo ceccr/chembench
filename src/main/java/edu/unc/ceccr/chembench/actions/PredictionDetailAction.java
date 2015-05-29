@@ -204,14 +204,6 @@ public class PredictionDetailAction extends DetailAction {
         if (context == null) {
             logger.debug("No ActionContext available");
         } else {
-            user = (User) context.getSession().get("user");
-
-            if (user == null) {
-                logger.debug("No user is logged in.");
-                result = LOGIN;
-                return result;
-            }
-
             if (context.getParameters().get("predictionId") != null) {
                 objectId = ((String[]) context.getParameters().get("predictionId"))[0];
             }

@@ -58,8 +58,14 @@
 
     <ul class="nav nav-tabs">
       <li class="active"><a href="#external-validation" data-toggle="tab">External Validation</a></li>
-      <li><a href="#trees" data-toggle="tab">Trees</a></li>
-      <li><a href="#y-random-trees" data-toggle="tab">y-Randomized Trees</a></li>
+      <s:if test="selectedPredictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST">
+        <li><a href="#trees" data-toggle="tab">Trees</a></li>
+        <li><a href="#y-randomized-trees" data-toggle="tab">y-Randomized Trees</a></li>
+      </s:if>
+      <s:else>
+        <li><a href="#models" data-toggle="tab">Models</a></li>
+        <li><a href="#y-randomized-models" data-toggle="tab">y-Randomized Models</a></li>
+      </s:else>
       <li><a href="#modeling-parameters" data-toggle="tab">Modeling Parameters</a></li>
     </ul>
 
@@ -68,13 +74,24 @@
         <h3>External Validation</h3>
       </div>
 
-      <div id="trees" class="tab-pane">
-        <h3>Trees</h3>
-      </div>
+      <s:if test="selectedPredictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST">
+        <div id="trees" class="tab-pane">
+          <h3>Trees</h3>
+        </div>
 
-      <div id="y-random-trees" class="tab-pane">
-        <h3><var>y</var>-Randomized Trees</h3>
-      </div>
+        <div id="y-randomized-trees" class="tab-pane">
+          <h3><var>y</var>-Randomized Trees</h3>
+        </div>
+      </s:if>
+      <s:else>
+        <div id="models" class="tab-pane">
+          <h3>Models</h3>
+        </div>
+
+        <div id="y-randomized-models" class="tab-pane">
+          <h3><var>y</var>-Randomized Models</h3>
+        </div>
+      </s:else>
 
       <div id="modeling-parameters" class="tab-pane">
         <h3>Modeling Parameters</h3>

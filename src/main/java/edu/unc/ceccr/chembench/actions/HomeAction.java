@@ -47,6 +47,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
 
     private HttpServletRequest request;
     private String ipAddress;
+    private String savedUrl = (String) ActionContext.getContext().getSession().get("savedUrl");
 
     @Override
     public void setServletResponse(HttpServletResponse servletResponse) {
@@ -57,7 +58,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
         try {
             //check if user is logged in
             ActionContext context = ActionContext.getContext();
-            user = (User) context.getSession().get("user");
+            user = User.getCurrentUser();
 
             //populate each string for the statistics section
             Session s = HibernateUtil.getSession();
@@ -232,7 +233,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
                 // allow admins to bypass password login if they have already
                 // logged in first
                 boolean adminBypassPassword = false;
-                User currentUser = (User) context.getSession().get("user");
+                User currentUser = User.getCurrentUser();
                 if (currentUser != null) {
                     String currentUserName = currentUser.getUserName();
                     if (currentUser.getIsAdmin().equals(Constants.YES)) {
@@ -277,14 +278,17 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
                 loginFailed = Constants.YES;
             }
         }
-        loadPage();
-        return result;
+
+        if (savedUrl != null && !savedUrl.isEmpty()) {
+            return "returnToSaved";
+        } else {
+            return loadPage();
+        }
     }
 
     public String logout() throws Exception {
         ActionContext context = ActionContext.getContext();
-        user = (User) context.getSession().get("user");
-
+        user = User.getCurrentUser();
         if (user != null) {
             logger.debug("Logged out: " + user.getUserName());
 
@@ -299,8 +303,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
             servletResponse.addCookie(ckie);
         }
 
-        loadPage();
-        return SUCCESS;
+        return loadPage();
     }
 
     public boolean deleteGuest(User user) {
@@ -572,5 +575,9 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
 
     public String getIpAddress() {
         return ipAddress;
+    }
+
+    public String getSavedUrl() {
+        return savedUrl;
     }
 }
