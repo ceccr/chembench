@@ -94,23 +94,7 @@ public class DatasetAction extends ActionSupport {
     private String descriptorNewNameD = "";
 
     public String loadPage() throws Exception {
-
         String result = SUCCESS;
-
-        //check that the user is logged in
-        ActionContext context = ActionContext.getContext();
-
-        if (context == null) {
-            logger.debug("No ActionContext available");
-        } else {
-            user = (User) context.getSession().get("user");
-
-            if (user == null) {
-                logger.debug("No user is logged in.");
-                result = LOGIN;
-                return result;
-            }
-        }
 
         //set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
 
@@ -146,7 +130,7 @@ public class DatasetAction extends ActionSupport {
         String result = INPUT;
 
         ActionContext context = ActionContext.getContext();
-        user = (User) context.getSession().get("user");
+        user = User.getCurrentUser();
         String userName = user.getUserName();
         if (datasetName != null) {
             datasetName = datasetName.replaceAll("\\s+", "_");

@@ -21,23 +21,12 @@ public abstract class DetailAction extends ActionSupport {
     protected String objectId;
 
     public String checkBasicParams() {
-
         try {
-
             context = ActionContext.getContext();
             if (context == null) {
                 logger.debug("No ActionContext available");
                 return ERROR;
             }
-
-
-            if (context.getSession().get("user") == null) {
-                logger.debug("No user is logged in.");
-                return LOGIN;
-            } else {
-                user = (User) context.getSession().get("user");
-            }
-
 
             if (context.getParameters().get("id") != null) {
                 objectId = ((String[]) context.getParameters().get("id"))[0];

@@ -58,7 +58,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
         try {
             //check if user is logged in
             ActionContext context = ActionContext.getContext();
-            user = (User) context.getSession().get("user");
+            user = User.getCurrentUser();
 
             //populate each string for the statistics section
             Session s = HibernateUtil.getSession();
@@ -233,7 +233,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
                 // allow admins to bypass password login if they have already
                 // logged in first
                 boolean adminBypassPassword = false;
-                User currentUser = (User) context.getSession().get("user");
+                User currentUser = User.getCurrentUser();
                 if (currentUser != null) {
                     String currentUserName = currentUser.getUserName();
                     if (currentUser.getIsAdmin().equals(Constants.YES)) {
@@ -288,8 +288,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
 
     public String logout() throws Exception {
         ActionContext context = ActionContext.getContext();
-        user = (User) context.getSession().get("user");
-
+        user = User.getCurrentUser();
         if (user != null) {
             logger.debug("Logged out: " + user.getUserName());
 
