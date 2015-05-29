@@ -3,7 +3,7 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
         "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-    <package name="default" namespace="/" extends="json-default">
+    <package name="chembench" namespace="/" extends="json-default">
         <global-results>
             <result name="login">/jsp/main/notLoggedIn.jsp</result>
             <result name="badrequest" type="httpheader">
