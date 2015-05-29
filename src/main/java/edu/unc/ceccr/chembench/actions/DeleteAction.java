@@ -105,22 +105,7 @@ public class DeleteAction extends ActionSupport {
 
     private boolean checkPermissions(String objectUser) {
         // make sure the user has permissions to delete this object
-
-        ActionContext context = ActionContext.getContext();
-
-        // check that there is a user logged in
-        User user = null;
-        if (context == null) {
-            logger.debug("No ActionContext available");
-            return false;
-        }
-        user = (User) context.getSession().get("user");
-        if (user == null) {
-            logger.debug("No user logged in.");
-            return false;
-        }
-
-        // make sure the user can actually delete this object
+        User user = User.getCurrentUser();
         if (user.getUserName().equalsIgnoreCase(objectUser) || user.getIsAdmin().equals(Constants.YES)) {
             return true;
         }
@@ -424,12 +409,12 @@ public class DeleteAction extends ActionSupport {
         // check that the person deleting the user is an admin, just to be
         // safe
         ActionContext context = ActionContext.getContext();
-        User u = (User) context.getSession().get("user");
+        User u = User.getCurrentUser();
 
         String userToDelete = ((String[]) context.getParameters().get("userToDelete"))[0];
         logger.debug("Deleting user: " + userToDelete);
 
-        if (u == null || !u.getIsAdmin().equals(Constants.YES)) {
+        if (!u.getIsAdmin().equals(Constants.YES)) {
             // this isn't an admin! Kick 'em out.
             return ERROR;
         }

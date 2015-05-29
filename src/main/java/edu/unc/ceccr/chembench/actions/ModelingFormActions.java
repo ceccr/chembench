@@ -1,7 +1,7 @@
 package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
-import com.opensymphony.xwork2.ActionContext;
+import com.google.common.collect.Ordering;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
@@ -35,7 +35,7 @@ public class ModelingFormActions extends ActionSupport {
     // errors (for error page)
     List<String> errorStrings = Lists.newArrayList();
     // ====== variables used for display on the JSP =====//
-    private User user;
+    private User user = User.getCurrentUser();
     private List<String> userDatasetNames;
     private List<String> userPredictorNames;
     private List<String> userPredictionNames;
@@ -175,21 +175,6 @@ public class ModelingFormActions extends ActionSupport {
     public String loadPage() throws Exception {
         String result = SUCCESS;
 
-        // check that the user is logged in
-        ActionContext context = ActionContext.getContext();
-
-        if (context == null) {
-            logger.debug("No ActionContext available");
-        } else {
-            user = (User) context.getSession().get("user");
-
-            if (user == null) {
-                logger.debug("No user is logged in.");
-                result = LOGIN;
-                return result;
-            }
-        }
-
         // set up any values that need to be populated onto the page
         // (dropdowns, lists, display stuff)
         Session session = HibernateUtil.getSession();
@@ -271,10 +256,6 @@ public class ModelingFormActions extends ActionSupport {
         if (executeSession == null) {
             executeSession = HibernateUtil.getSession();
         }
-
-        // get user
-        ActionContext context = ActionContext.getContext();
-        user = (User) context.getSession().get("user");
 
         if (jobName != null) {
             jobName = jobName.replaceAll(" ", "_");
@@ -569,11 +550,6 @@ public class ModelingFormActions extends ActionSupport {
     }
 
     public String ajaxLoadKnn() throws Exception {
-        ActionContext context = ActionContext.getContext();
-        if (context != null) {
-            user = (User) context.getSession().get("user");
-        }
-
         knnCategoryOptimizations = new HashMap<String, String>();
         knnCategoryOptimizations.put("1", "<img src=\"/theme/img/formula01.gif\" />");
         knnCategoryOptimizations.put("2", "<img src=\"/theme/img/formula02.gif\" />");

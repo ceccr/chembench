@@ -32,7 +32,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
     private static Logger logger = Logger.getLogger(UserRegistrationAndProfileActions.class.getName());
 
     /* USER FUNCTIONS */
-    private User user;
+    private User user = User.getCurrentUser();
     /* Variables used for user registration and updates */
     private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
     private List<String> errorMessages = Lists.newArrayList();
@@ -79,11 +79,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
     public String loadEditProfilePage() throws Exception {
         String result = SUCCESS;
         // check that the user is logged in
-        ActionContext context = ActionContext.getContext();
-        user = getLoggedInUser(context);
-        if (user == null) {
-            return LOGIN;
-        }
         if (Utility.isAdmin(user.getUserName())) {
             userIsAdmin = true;
         }
@@ -231,14 +226,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 
     public String changePassword() throws Exception {
         String result = SUCCESS;
-
-        // check that the user is logged in
-        ActionContext context = ActionContext.getContext();
-        user = getLoggedInUser(context);
-        if (user == null) {
-            return LOGIN;
-        }
-
         if (Utility.isAdmin(user.getUserName())) {
             userIsAdmin = true;
         }
@@ -308,13 +295,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
     public String updateUserInformation() throws Exception {
         String result = SUCCESS;
 
-        // check that the user is logged in
-        ActionContext context = ActionContext.getContext();
-        user = getLoggedInUser(context);
-        if (user == null) {
-            return LOGIN;
-        }
-
         // validate each field
         validateUserInfo();
         if (!errorMessages.isEmpty()) {
@@ -379,15 +359,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
     public String updateUserOptions() throws Exception {
         String result = SUCCESS;
 
-        // check that the user is logged in
-        ActionContext context = ActionContext.getContext();
-        user = getLoggedInUser(context);
-        if (user == null) {
-            return LOGIN;
-        }
-
         // Change user object according to edited fields
-
         user.setShowPublicDatasets(showPublicDatasets);
         user.setShowPublicPredictors(showPublicPredictors);
         user.setViewDatasetCompoundsPerPage(viewDatasetCompoundsPerPage);
@@ -413,16 +385,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         errorMessages.add("Your settings have been saved!");
 
         return result;
-    }
-
-    private User getLoggedInUser(ActionContext context) {
-        if (context == null) {
-            logger.debug("No ActionContext available");
-            return null;
-        } else {
-            user = (User) context.getSession().get("user");
-            return user;
-        }
     }
 
     private boolean userExists(String userName) throws Exception {
