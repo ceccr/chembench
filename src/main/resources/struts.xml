@@ -3,16 +3,7 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-    <constant name="struts.enable.DynamicMethodInvocation" value="false"/>
-    <constant name="struts.devMode" value="false"/>
-
-    <!-- no files over 8 GB allowed; defaults to 2MB if unset -->
-    <constant name="struts.multipart.maxSize" value="8589934592"/>
-
     <package name="default" namespace="/" extends="json-default">
-
-        <default-action-ref name="home"/>
-
         <global-results>
             <result name="login">/jsp/main/notLoggedIn.jsp</result>
         </global-results>
