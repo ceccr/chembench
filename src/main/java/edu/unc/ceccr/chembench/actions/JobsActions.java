@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.actions;
 
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
@@ -24,7 +23,7 @@ public class JobsActions extends ActionSupport {
 
     private static Logger logger = Logger.getLogger(JobsActions.class.getName());
     // ====== variables used for displaying the JSP =====//
-    private User user;
+    private User user = User.getCurrentUser();
     private boolean adminUser;
     // ====== variables used to hold the queue and finished jobs information
     // =====//
@@ -37,24 +36,7 @@ public class JobsActions extends ActionSupport {
     private List<Job> errorJobs;
 
     public String loadPage() throws Exception {
-
         String result = SUCCESS;
-
-        // check that the user is logged in
-        ActionContext context = ActionContext.getContext();
-
-        if (context == null) {
-            logger.warn("No ActionContext available");
-        } else {
-            user = (User) context.getSession().get("user");
-
-            if (user == null) {
-                logger.warn("No user is logged in.");
-                result = LOGIN;
-                return result;
-            }
-        }
-
         if (Utility.isAdmin(user.getUserName())) {
             adminUser = true;
         } else {

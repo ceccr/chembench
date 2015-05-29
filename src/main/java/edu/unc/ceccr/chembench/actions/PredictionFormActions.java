@@ -36,7 +36,7 @@ public class PredictionFormActions extends ActionSupport {
     private static Logger logger = Logger.getLogger(PredictionFormActions.class.getName());
     List<String> errorStrings = Lists.newArrayList();
     // variables used for JSP display
-    private User user;
+    private User user = User.getCurrentUser();
     private List<Predictor> userPredictors;
     private List<String> userDatasetNames;
     private List<String> userPredictorNames;
@@ -60,18 +60,6 @@ public class PredictionFormActions extends ActionSupport {
 
     public String loadSelectPredictorPage() throws Exception {
         String result = SUCCESS;
-        /* check that the user is logged in */
-        ActionContext context = ActionContext.getContext();
-        if (context == null) {
-            logger.debug("No ActionContext available");
-        } else {
-            user = (User) context.getSession().get("user");
-            if (user == null) {
-                logger.debug("No user is logged in.");
-                result = LOGIN;
-                return result;
-            }
-        }
         Session session = HibernateUtil.getSession();
         /* get predictors */
         if (user.getShowPublicPredictors().equals(Constants.ALL)) {
@@ -88,17 +76,10 @@ public class PredictionFormActions extends ActionSupport {
     public String makeSmilesPrediction() throws Exception {
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
-        user = (User) context.getSession().get("user");
+        User user = User.getCurrentUser();
 
         /* use the same session for all data requests */
         Session session = HibernateUtil.getSession();
-
-        if (user == null) {
-            // user is not logged in; we require users to be logged in before
-            // they can make smiles predictions
-            return "login";
-        }
-
         String smiles = ((String[]) context.getParameters().get("smiles"))[0];
         smilesString = smiles;
         String cutoff = ((String[]) context.getParameters().get("cutoff"))[0];
@@ -306,22 +287,7 @@ public class PredictionFormActions extends ActionSupport {
 
     public String loadMakePredictionsPage() throws Exception {
         this.loadSelectPredictorPage();
-
         String result = SUCCESS;
-        // check that the user is logged in
-        ActionContext context = ActionContext.getContext();
-
-        if (context == null) {
-            logger.debug("No ActionContext available");
-        } else {
-            user = (User) context.getSession().get("user");
-
-            if (user == null) {
-                logger.debug("No user is logged in.");
-                result = LOGIN;
-                return result;
-            }
-        }
 
         // use the same session for all data requests
         Session session = HibernateUtil.getSession();
@@ -533,9 +499,7 @@ public class PredictionFormActions extends ActionSupport {
          * prediction form submitted, so create a new prediction task and run
          * it
          */
-        ActionContext context = ActionContext.getContext();
-        user = (User) context.getSession().get("user");
-
+        User user = User.getCurrentUser();
         /* use the same session for all data requests */
         Session session = HibernateUtil.getSession();
 

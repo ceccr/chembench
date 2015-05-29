@@ -11,11 +11,13 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.log4j.Logger;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 
-public class HomeAction extends ActionSupport implements ServletResponseAware {
+public class HomeAction extends ActionSupport implements ServletResponseAware, ServletRequestAware {
     private static Logger logger = Logger.getLogger(HomeAction.class.getName());
     protected HttpServletResponse servletResponse;
 
@@ -44,6 +46,9 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
     String showStatistics = Constants.YES;
     private List<String> errorStrings = Lists.newArrayList();
 
+    private HttpServletRequest request;
+    private String savedUrl = (String) ActionContext.getContext().getSession().get("savedUrl");
+
     @Override
     public void setServletResponse(HttpServletResponse servletResponse) {
         this.servletResponse = servletResponse;
@@ -53,7 +58,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
         try {
             //check if user is logged in
             ActionContext context = ActionContext.getContext();
-            user = (User) context.getSession().get("user");
+            user = User.getCurrentUser();
 
             //populate each string for the statistics section
             Session s = HibernateUtil.getSession();
@@ -223,7 +228,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
                 // allow admins to bypass password login if they have already
                 // logged in first
                 boolean adminBypassPassword = false;
-                User currentUser = (User) context.getSession().get("user");
+                User currentUser = User.getCurrentUser();
                 if (currentUser != null) {
                     String currentUserName = currentUser.getUserName();
                     if (currentUser.getIsAdmin().equals(Constants.YES)) {
@@ -268,15 +273,17 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
                 loginFailed = Constants.YES;
             }
         }
-        loadPage();
-        return result;
+
+        if (savedUrl != null && !savedUrl.isEmpty()) {
+            return "returnToSaved";
+        } else {
+            return loadPage();
+        }
     }
 
     public String logout() throws Exception {
         ActionContext context = ActionContext.getContext();
-
-        user = (User) context.getSession().get("user");
-
+        user = User.getCurrentUser();
         if (user != null) {
             logger.debug("Logged out " + user.getUserName());
         }
@@ -292,8 +299,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
         Cookie ckie = new Cookie("login", "false");
         servletResponse.addCookie(ckie);
 
-        loadPage();
-        return SUCCESS;
+        return loadPage();
     }
 
     public boolean deleteGuest(User user) {
@@ -554,4 +560,16 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
         this.loginFailed = loginFailed;
     }
 
+    public HttpServletRequest getServletRequest() {
+        return this.request;
+    }
+
+    @Override
+    public void setServletRequest(HttpServletRequest request) {
+        this.request = request;
+    }
+
+    public String getSavedUrl() {
+        return savedUrl;
+    }
 }
