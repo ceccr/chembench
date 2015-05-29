@@ -1,15 +1,8 @@
 package edu.unc.ceccr.chembench.actions;
 
-import java.io.File;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.Dataset;
@@ -19,6 +12,11 @@ import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
+import java.io.File;
+import java.util.List;
 //struts2
 
 
@@ -83,7 +81,7 @@ public class DatasetFormActions extends ActionSupport {
     private String sdfFilePredDescContentType = "";
     private String sdfFilePredDescFileName = "";
     //====== variables used for display on the JSP =====//
-    private User user;
+    private User user = User.getCurrentUser();
     private List<String> userDatasetNames;
     private List<String> userPredictorNames;
     private List<String> userPredictionNames;
@@ -107,7 +105,6 @@ public class DatasetFormActions extends ActionSupport {
     public String ajaxLoadModelingWithDescriptors() throws Exception {
         ActionContext context = ActionContext.getContext();
         Session session = HibernateUtil.getSession();
-        user = (User) context.getSession().get("user");
         userUploadedDescriptorTypes =
                 PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
         return SUCCESS;
@@ -116,7 +113,6 @@ public class DatasetFormActions extends ActionSupport {
     public String ajaxLoadPredictionWithDescriptors() throws Exception {
         ActionContext context = ActionContext.getContext();
         Session session = HibernateUtil.getSession();
-        user = (User) context.getSession().get("user");
         userUploadedDescriptorTypes =
                 PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
         return SUCCESS;
@@ -168,7 +164,6 @@ public class DatasetFormActions extends ActionSupport {
         String result = INPUT;
 
         ActionContext context = ActionContext.getContext();
-        user = User.getCurrentUser();
         String userName = user.getUserName();
         if (datasetName != null) {
             datasetName = datasetName.replaceAll("\\s+", "_");

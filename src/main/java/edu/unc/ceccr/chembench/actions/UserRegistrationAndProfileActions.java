@@ -270,11 +270,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
     public String loadUpdateUserInformation() throws Exception {
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
-        user = getLoggedInUser(context);
-        if (user == null) {
-            return LOGIN;
-        }
-
         address = user.getAddress();
         city = user.getCity();
         country = user.getCountry();
@@ -343,10 +338,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         String result = SUCCESS;
         // check that the user is logged in
         ActionContext context = ActionContext.getContext();
-        user = getLoggedInUser(context);
-        if (user == null) {
-            return LOGIN;
-        }
         showPublicDatasets = user.getShowPublicDatasets();
         showPublicPredictors = user.getShowPublicPredictors();
         viewDatasetCompoundsPerPage = user.getViewDatasetCompoundsPerPage();

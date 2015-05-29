@@ -36,7 +36,7 @@ public class PredictionFormActions extends ActionSupport {
     private static Logger logger = Logger.getLogger(PredictionFormActions.class.getName());
     List<String> errorStrings = Lists.newArrayList();
     // variables used for JSP display
-    private User user;
+    private User user = User.getCurrentUser();
     private List<Predictor> userPredictors;
     private List<String> userDatasetNames;
     private List<String> userPredictorNames;

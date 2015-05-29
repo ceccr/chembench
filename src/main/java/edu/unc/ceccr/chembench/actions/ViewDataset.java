@@ -611,7 +611,7 @@ public class ViewDataset extends ViewAction {
         context = ActionContext.getContext();
 
         if (context != null && context.getParameters().get("objectId") != null) {
-            user = (User) context.getSession().get("user");
+            user = User.getCurrentUser();
             //get dataset id
             objectId = ((String[]) context.getParameters().get("objectId"))[0];
             String[] datasetIdAsStringArray = new String[1];
