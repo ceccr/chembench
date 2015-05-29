@@ -47,6 +47,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
 
     private HttpServletRequest request;
     private String ipAddress;
+    private String savedUrl = (String) ActionContext.getContext().getSession().get("savedUrl");
 
     @Override
     public void setServletResponse(HttpServletResponse servletResponse) {
@@ -277,8 +278,12 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
                 loginFailed = Constants.YES;
             }
         }
-        loadPage();
-        return result;
+
+        if (savedUrl != null && !savedUrl.isEmpty()) {
+            return "returnToSaved";
+        } else {
+            return loadPage();
+        }
     }
 
     public String logout() throws Exception {
@@ -299,8 +304,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
             servletResponse.addCookie(ckie);
         }
 
-        loadPage();
-        return SUCCESS;
+        return loadPage();
     }
 
     public boolean deleteGuest(User user) {
@@ -572,5 +576,9 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
 
     public String getIpAddress() {
         return ipAddress;
+    }
+
+    public String getSavedUrl() {
+        return savedUrl;
     }
 }
