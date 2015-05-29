@@ -37,7 +37,27 @@ public class AdminAction extends ActionSupport {
     private List<String> errorStrings = Lists.newArrayList();
 
     public String loadPage() throws Exception {
+
         String result = SUCCESS;
+
+        //check that the user is logged in
+        ActionContext context = ActionContext.getContext();
+
+        if (context == null) {
+            logger.debug("No ActionContext available");
+        } else {
+            user = (User) context.getSession().get("user");
+
+            if (user == null) {
+                logger.debug("No user is logged in.");
+                result = LOGIN;
+                return result;
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
+                result = ERROR;
+                return result;
+            }
+        }
+
         //log the results
         logger.debug("Forwarding user " + user.getUserName() + " to admin page.");
 
@@ -65,6 +85,21 @@ public class AdminAction extends ActionSupport {
     public String emailSelectedUsers() throws Exception {
         //check that the user is logged in
         logger.debug("emailing SELECTED user(s)");
+        ActionContext context = ActionContext.getContext();
+
+        if (context == null) {
+            logger.debug("No ActionContext available");
+        } else {
+            user = (User) context.getSession().get("user");
+
+            if (user == null) {
+                logger.debug("No user is logged in.");
+                return LOGIN;
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
+                logger.error("user " + user.getUserName() + " isn't an admin");
+                return ERROR;
+            }
+        }
         if (!sendTo.trim().isEmpty() && !emailMessage.trim().isEmpty() && !emailSubject.trim().isEmpty()) {
             List<String> emails = Arrays.asList(sendTo.split(";"));
             Iterator<String> it = emails.iterator();
@@ -81,6 +116,22 @@ public class AdminAction extends ActionSupport {
     public String emailAllUsers() throws Exception {
         //check that the user is logged in
         logger.debug("emailing user(s)");
+        ActionContext context = ActionContext.getContext();
+
+        if (context == null) {
+            logger.debug("No ActionContext available");
+        } else {
+            user = (User) context.getSession().get("user");
+
+            if (user == null) {
+                logger.debug("No user is logged in.");
+                return LOGIN;
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
+                logger.error("user " + user.getUserName() + " isn't an admin");
+                return ERROR;
+            }
+        }
+
         Session s = HibernateUtil.getSession();
         List<User> userList = PopulateDataObjects.getAllUsers(s);
         s.close();
@@ -101,6 +152,22 @@ public class AdminAction extends ActionSupport {
         //get the current user and the username of the user to be altered
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
+
+        if (context == null) {
+            logger.debug("No ActionContext available");
+        } else {
+            user = (User) context.getSession().get("user");
+
+            if (user == null) {
+                logger.debug("No user is logged in.");
+                result = LOGIN;
+                return result;
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
+                logger.error("user " + user.getUserName() + " isn't an admin");
+                result = ERROR;
+                return result;
+            }
+        }
         String userToChange = ((String[]) context.getParameters().get("userToChange"))[0];
 
         Session s = HibernateUtil.getSession();
@@ -139,6 +206,23 @@ public class AdminAction extends ActionSupport {
         //get the current user and the username of the user to be altered
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
+
+        if (context == null) {
+            logger.debug("No ActionContext available");
+        } else {
+            user = (User) context.getSession().get("user");
+
+            if (user == null) {
+                logger.debug("No user is logged in.");
+                result = LOGIN;
+                return result;
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
+                logger.error("user " + user.getUserName() + " isn't an admin");
+                result = ERROR;
+                return result;
+            }
+        }
+
         String userToChange = ((String[]) context.getParameters().get("userToChange"))[0];
 
         Session s = HibernateUtil.getSession();
@@ -179,8 +263,11 @@ public class AdminAction extends ActionSupport {
         if (context == null) {
             logger.warn("Attempted to access ActionContext but returned null");
         } else {
-            user = User.getCurrentUser();
-            if (!user.getIsAdmin().equals(Constants.YES)) {
+            user = (User) context.getSession().get("user");
+
+            if (user == null) {
+                return LOGIN;
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
                 logger.warn(String.format("Non-admin user %s attempted to delete predictor", user.getUserName()));
                 return ERROR;
             }
@@ -233,6 +320,22 @@ public class AdminAction extends ActionSupport {
     public String deletePublicPrediction() {
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
+
+        if (context == null) {
+            logger.debug("No ActionContext available");
+        } else {
+            user = (User) context.getSession().get("user");
+
+            if (user == null) {
+                logger.debug("No user is logged in.");
+                result = LOGIN;
+                return result;
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
+                logger.error("user " + user.getUserName() + " isn't an admin");
+                result = ERROR;
+                return result;
+            }
+        }
         try {
             String predictionID = ((String[]) context.getParameters().get("predictionName"))[0];
             String userName = ((String[]) context.getParameters().get("userName"))[0];
@@ -313,8 +416,11 @@ public class AdminAction extends ActionSupport {
         if (context == null) {
             logger.warn("Attempted to access ActionContext but returned null");
         } else {
-            user = User.getCurrentUser();
-            if (!user.getIsAdmin().equals(Constants.YES)) {
+            user = (User) context.getSession().get("user");
+
+            if (user == null) {
+                return LOGIN;
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
                 logger.warn(String.format("Non-admin user %s attempted to delete dataset", user.getUserName()));
                 return ERROR;
             }
@@ -431,6 +537,23 @@ public class AdminAction extends ActionSupport {
     public String makePredictorPublic() {
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
+
+        if (context == null) {
+            logger.debug("No ActionContext available");
+        } else {
+            user = (User) context.getSession().get("user");
+
+            if (user == null) {
+                logger.debug("No user is logged in.");
+                result = LOGIN;
+                return result;
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
+                logger.error("user " + user.getUserName() + " isn't an admin");
+                result = ERROR;
+                return result;
+            }
+        }
+
         try {
             String predictorName = ((String[]) context.getParameters().get("predictorName"))[0];
             String userName = ((String[]) context.getParameters().get("userName"))[0];
@@ -812,6 +935,23 @@ public class AdminAction extends ActionSupport {
     public String makeDatasetPublic() {
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
+
+        if (context == null) {
+            logger.debug("No ActionContext available");
+        } else {
+            user = (User) context.getSession().get("user");
+
+            if (user == null) {
+                logger.debug("No user is logged in.");
+                result = LOGIN;
+                return result;
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
+                logger.error("user " + user.getUserName() + " isn't an admin");
+                result = ERROR;
+                return result;
+            }
+        }
+
         try {
             String datasetName = ((String[]) context.getParameters().get("datasetName"))[0];
             String userName = ((String[]) context.getParameters().get("userName"))[0];
