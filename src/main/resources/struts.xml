@@ -4,6 +4,8 @@
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
     <package name="chembench" namespace="/" extends="json-default">
+        <default-action-ref name="home" />
+
         <global-results>
             <result name="login">/jsp/main/notLoggedIn.jsp</result>
         </global-results>
