@@ -27,7 +27,7 @@ public class AdminAction extends ActionSupport {
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(AdminAction.class.getName());
-    User user;
+    User user = User.getCurrentUser();
     String buildDate;
     List<User> users;
     //for sending email to all users
@@ -37,34 +37,29 @@ public class AdminAction extends ActionSupport {
     private List<String> errorStrings = Lists.newArrayList();
 
     public String loadPage() throws Exception {
-        String result = SUCCESS;
-        //log the results
-        logger.debug("Forwarding user " + user.getUserName() + " to admin page.");
-
-        //set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
-
-        // open database connection
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
+        }
         Session session = HibernateUtil.getSession();
-
-        // Latest Build Date
         buildDate = Constants.BUILD_DATE;
-
-        // list of users
         users = PopulateDataObjects.getAllUsers(session);
         session.close();
-
-        //go to the page
-        return result;
+        return SUCCESS;
     }
 
     public String loadEmailAllUsersPage() throws Exception {
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
+        }
         sendTo = "JUSTME";
         return SUCCESS;
     }
 
     public String emailSelectedUsers() throws Exception {
-        //check that the user is logged in
         logger.debug("emailing SELECTED user(s)");
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
+        }
         if (!sendTo.trim().isEmpty() && !emailMessage.trim().isEmpty() && !emailSubject.trim().isEmpty()) {
             List<String> emails = Arrays.asList(sendTo.split(";"));
             Iterator<String> it = emails.iterator();
@@ -79,8 +74,9 @@ public class AdminAction extends ActionSupport {
     }
 
     public String emailAllUsers() throws Exception {
-        //check that the user is logged in
-        logger.debug("emailing user(s)");
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
+        }
         Session s = HibernateUtil.getSession();
         List<User> userList = PopulateDataObjects.getAllUsers(s);
         s.close();
@@ -98,8 +94,10 @@ public class AdminAction extends ActionSupport {
     }
 
     public String changeUserAdminStatus() throws Exception {
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
+        }
         //get the current user and the username of the user to be altered
-        String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
         String userToChange = ((String[]) context.getParameters().get("userToChange"))[0];
 
@@ -131,13 +129,14 @@ public class AdminAction extends ActionSupport {
             s.close();
         }
 
-
-        return result;
+        return SUCCESS;
     }
 
     public String changeUserDescriptorDownloadStatus() throws Exception {
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
+        }
         //get the current user and the username of the user to be altered
-        String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
         String userToChange = ((String[]) context.getParameters().get("userToChange"))[0];
 
@@ -169,22 +168,14 @@ public class AdminAction extends ActionSupport {
             s.close();
         }
 
-        return result;
+        return SUCCESS;
     }
 
     public String deletePredictor() {
-        String result = SUCCESS;
-        ActionContext context = ActionContext.getContext();
-
-        if (context == null) {
-            logger.warn("Attempted to access ActionContext but returned null");
-        } else {
-            user = User.getCurrentUser();
-            if (!user.getIsAdmin().equals(Constants.YES)) {
-                logger.warn(String.format("Non-admin user %s attempted to delete predictor", user.getUserName()));
-                return ERROR;
-            }
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
         }
+        ActionContext context = ActionContext.getContext();
         try {
             Map<String, Object> params = context.getParameters();
             String predictorName = ((String[]) params.get("predictorName"))[0];
@@ -231,7 +222,9 @@ public class AdminAction extends ActionSupport {
      * @return
      */
     public String deletePublicPrediction() {
-        String result = SUCCESS;
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
+        }
         ActionContext context = ActionContext.getContext();
         try {
             String predictionID = ((String[]) context.getParameters().get("predictionName"))[0];
@@ -307,18 +300,10 @@ public class AdminAction extends ActionSupport {
     }
 
     public String deleteDataset() {
-        String result = SUCCESS;
-        ActionContext context = ActionContext.getContext();
-
-        if (context == null) {
-            logger.warn("Attempted to access ActionContext but returned null");
-        } else {
-            user = User.getCurrentUser();
-            if (!user.getIsAdmin().equals(Constants.YES)) {
-                logger.warn(String.format("Non-admin user %s attempted to delete dataset", user.getUserName()));
-                return ERROR;
-            }
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
         }
+        ActionContext context = ActionContext.getContext();
         try {
             Map<String, Object> params = context.getParameters();
             String datasetName = ((String[]) params.get("datasetName"))[0];
@@ -429,7 +414,9 @@ public class AdminAction extends ActionSupport {
      * @return
      */
     public String makePredictorPublic() {
-        String result = SUCCESS;
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
+        }
         ActionContext context = ActionContext.getContext();
         try {
             String predictorName = ((String[]) context.getParameters().get("predictorName"))[0];
@@ -802,15 +789,17 @@ public class AdminAction extends ActionSupport {
             }
 
         } catch (Exception ex) {
-            result = ERROR;
             logger.error(ex);
+            return ERROR;
         }
 
-        return result;
+        return SUCCESS;
     }
 
     public String makeDatasetPublic() {
-        String result = SUCCESS;
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
+        }
         ActionContext context = ActionContext.getContext();
         try {
             String datasetName = ((String[]) context.getParameters().get("datasetName"))[0];
@@ -880,11 +869,11 @@ public class AdminAction extends ActionSupport {
             }
 
         } catch (Exception ex) {
-            result = ERROR;
             logger.error(ex);
+            return ERROR;
         }
 
-        return result;
+        return SUCCESS;
     }
 
     public User getUser() {
