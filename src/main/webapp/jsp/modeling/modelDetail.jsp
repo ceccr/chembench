@@ -40,14 +40,15 @@
       <div class="list-group-item">
         <h4 class="list-group-item-heading">External validation results</h4>
 
-        <s:url var="externalValidationResults" action="fileServlet" escapeAmp="false">
+        <s:url var="externalValidationCsvUrl" action="fileServlet" escapeAmp="false">
           <s:param name="id" value="selectedPredictor.id" />
           <s:param name="user" value="selectedPredictor.userName" />
           <s:param name="jobType" value="'MODELING'" />
           <s:param name="file" value="'externalPredictionsAsCSV'" />
         </s:url>
-        <a class="btn btn-sm btn-default" href="<s:property value="externalValidationResults" />" role="button"><span
-            class="glyphicon glyphicon-save"></span>&nbsp;Download (.csv)</a>
+        <s:a href="%{externalValidationCsvUrl}" cssClass="btn btn-sm btn-default" role="button">
+          <span class="glyphicon glyphicon-save"></span> Download (.csv)
+        </s:a>
       </div>
       <!-- TODO editable description and paper reference for models
       <div class="list-group-item">

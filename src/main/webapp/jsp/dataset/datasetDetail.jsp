@@ -49,7 +49,8 @@
             <dt>Modelability index</dt>
             <dd>
               <span class="modi-value"><s:property value="dataset.modi" /></span>
-              <a class="modi-help" tabindex="0" role="button"><span class="glyphicon glyphicon-question-sign"></span></a>
+              <a class="modi-help" tabindex="0" role="button"><span
+                  class="glyphicon glyphicon-question-sign"></span></a>
             </dd>
           </s:if>
 
@@ -176,8 +177,8 @@
                   <s:param name="projectType" value="'dataset'" />
                   <s:param name="compoundId" value="%{compoundId}" />
                   <s:param name="datasetName" value="%{dataset.name}" />
-                </s:url> <img src=
-                                ""<s:property value="imageUrl" /> class="img-thumbnail" width="125" height="125"
+                </s:url> <img src=""
+                  <s:property value="imageUrl" /> class="img-thumbnail" width="125" height="125"
                               alt="Compound structure"></td>
               </s:if>
               <s:if test="dataset.hasActivities()">
