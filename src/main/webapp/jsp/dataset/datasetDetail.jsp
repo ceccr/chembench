@@ -11,12 +11,8 @@
   <%@ include file="/jsp/main/header.jsp" %>
 
   <section id="content">
-    <h2>
-      Dataset Details: <s:property value="dataset.name" />
-      <s:a action="jobs" anchor="datasets">
-        <button class="btn btn-primary">Back to Datasets</button>
-      </s:a>
-    </h2>
+    <h2>Dataset Details: <s:property value="dataset.name" /></h2>
+
     <s:hidden id="username" value="%{dataset.userName}" />
     <s:hidden id="dataset-name" value="%{dataset.name}" />
     <s:hidden id="has-structures" value="%{dataset.hasStructures()}" />

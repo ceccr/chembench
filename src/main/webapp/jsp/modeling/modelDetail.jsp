@@ -11,12 +11,7 @@
   <%@ include file="/jsp/main/header.jsp" %>
 
   <section id="content">
-    <h2>
-      Model Details: <s:property value="selectedPredictor.name" />
-      <s:a action="jobs" anchor="models">
-        <button class="btn btn-primary">Back to Models</button>
-      </s:a>
-    </h2>
+    <h2>Model Details: <s:property value="selectedPredictor.name" /></h2>
 
     <div class="list-group">
       <div class="list-group-item">
