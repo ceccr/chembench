@@ -21,6 +21,9 @@
             <result name="badrequest" type="httpheader">
                 <param name="error">400</param>
             </result>
+            <result name="forbidden" type="httpheader">
+                <param name="error">403</param>
+            </result>
             <result name="notfound" type="httpheader">
                 <param name="error">404</param>
             </result>
