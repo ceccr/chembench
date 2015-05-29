@@ -4,22 +4,41 @@
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
     <package name="chembench" namespace="/" extends="json-default">
+        <interceptors>
+            <interceptor name="authentication" class="edu.unc.ceccr.chembench.interceptors.AuthenticationInterceptor" />
+            <interceptor-stack name="authStack">
+                <interceptor-ref name="authentication" />
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="authStack" />
         <default-action-ref name="home" />
 
         <global-results>
-            <result name="login">/jsp/main/notLoggedIn.jsp</result>
+            <result name="login" type="redirect">/jsp/main/notLoggedIn.jsp</result>
+            <result name="returnToSaved" type="redirect">${savedUrl}</result>
+            <result name="badrequest" type="httpheader">
+                <param name="error">400</param>
+            </result>
+            <result name="notfound" type="httpheader">
+                <param name="error">404</param>
+            </result>
         </global-results>
 
         <!-- Main pages -->
         <action name="login" class="edu.unc.ceccr.chembench.actions.HomeAction" method="execute">
+            <interceptor-ref name="defaultStack" />
             <result name="success">/jsp/main/home.jsp</result>
         </action>
 
         <action name="logout" class="edu.unc.ceccr.chembench.actions.HomeAction" method="logout">
+            <interceptor-ref name="defaultStack" />
             <result name="success">/jsp/main/home.jsp</result>
         </action>
 
         <action name="home" class="edu.unc.ceccr.chembench.actions.HomeAction" method="loadPage">
+            <interceptor-ref name="defaultStack" />
             <result name="success">/jsp/main/home.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>

@@ -44,6 +44,10 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
     String showStatistics = Constants.YES;
     private List<String> errorStrings = Lists.newArrayList();
 
+    private HttpServletRequest request;
+    private String ipAddress;
+    private String savedUrl = (String) ActionContext.getContext().getSession().get("savedUrl");
+
     @Override
     public void setServletResponse(HttpServletResponse servletResponse) {
         this.servletResponse = servletResponse;
@@ -268,8 +272,12 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
                 loginFailed = Constants.YES;
             }
         }
-        loadPage();
-        return result;
+
+        if (savedUrl != null && !savedUrl.isEmpty()) {
+            return "returnToSaved";
+        } else {
+            return loadPage();
+        }
     }
 
     public String logout() throws Exception {
@@ -292,8 +300,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
         Cookie ckie = new Cookie("login", "false");
         servletResponse.addCookie(ckie);
 
-        loadPage();
-        return SUCCESS;
+        return loadPage();
     }
 
     public boolean deleteGuest(User user) {
@@ -554,4 +561,20 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
         this.loginFailed = loginFailed;
     }
 
+    public HttpServletRequest getServletRequest() {
+        return this.request;
+    }
+
+    @Override
+    public void setServletRequest(HttpServletRequest request) {
+        this.request = request;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public String getSavedUrl() {
+        return savedUrl;
+    }
 }
