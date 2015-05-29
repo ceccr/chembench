@@ -11,11 +11,13 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.log4j.Logger;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 
-public class HomeAction extends ActionSupport implements ServletResponseAware {
+public class HomeAction extends ActionSupport implements ServletResponseAware, ServletRequestAware {
     private static Logger logger = Logger.getLogger(HomeAction.class.getName());
     protected HttpServletResponse servletResponse;
 
