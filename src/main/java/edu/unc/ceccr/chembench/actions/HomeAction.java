@@ -45,7 +45,6 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
     private List<String> errorStrings = Lists.newArrayList();
 
     private HttpServletRequest request;
-    private String ipAddress;
     private String savedUrl = (String) ActionContext.getContext().getSession().get("savedUrl");
 
     @Override
@@ -566,10 +565,6 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
     @Override
     public void setServletRequest(HttpServletRequest request) {
         this.request = request;
-    }
-
-    public String getIpAddress() {
-        return ipAddress;
     }
 
     public String getSavedUrl() {
