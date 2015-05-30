@@ -100,21 +100,19 @@ $(document).ready(function() {
                                     }) + '">';
                             }
 
-                            var viewAction = "view";
+                            var detailAction = objectType + "Detail";
                             var deleteAction = "delete";
                             if (objectType === "model") {
-                                viewAction += "Predictor";
                                 deleteAction += "Predictor";
                             } else {
-                                viewAction += objectType.toProperCase();
                                 deleteAction += objectType.toProperCase();
                             }
-                            var viewLink = '<a href="' + viewAction + "?" + $.param({"id": row["id"]}) +
-                                           '" target="_blank">';
+                            var detailLink = '<a href="' + detailAction + "?" + $.param({"id": row["id"]}) +
+                                             '" target="_blank">';
 
                             var nameDisplay = data.split("_").join("_<wbr>");
-                            var r = '<div class="name-cell">' + viewLink + '<span class="object-name">' + nameDisplay +
-                                    "</span></a><br>" + '<div class="object-action-group">' +
+                            var r = '<div class="name-cell">' + detailLink + '<span class="object-name">' +
+                                    nameDisplay + "</span></a><br>" + '<div class="object-action-group">' +
                                     '<div class="download object-action">' +
                                     '<span class="glyphicon glyphicon-save"></span>&nbsp;' + downloadLink +
                                     "Download</a></div>";
@@ -160,8 +158,9 @@ $(document).ready(function() {
                     column["render"] = function(data, type, row) {
                         if (type === "display") {
                             var nameDisplay = data.split("_").join("_<wbr>");
-                            return '<div class="name-cell"><a href="viewDataset?' + $.param({"id": row["datasetId"]}) +
-                                   '" target="_blank">' + nameDisplay + "</a></div>";
+                            return '<div class="name-cell"><a href="datasetDetail?' +
+                                   $.param({"id": row["datasetId"]}) + '" target="_blank">' + nameDisplay +
+                                   "</a></div>";
                         }
                         return data;
                     };

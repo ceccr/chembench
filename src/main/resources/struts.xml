@@ -149,7 +149,7 @@
         <!-- End Jobs Page -->
 
         <!-- View Dataset Page -->
-        <action name="viewDataset" class="edu.unc.ceccr.chembench.actions.DatasetDetailAction" method="load">
+        <action name="datasetDetail" class="edu.unc.ceccr.chembench.actions.DatasetDetailAction" method="load">
             <result name="success">/jsp/dataset/datasetDetail.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
@@ -168,7 +168,7 @@
 
         <!-- View Predictor Page -->
         <!-- common to all modeling methods -->
-        <action name="viewPredictor" class="edu.unc.ceccr.chembench.actions.ViewPredictor.PredictorPage" method="load">
+        <action name="modelDetail" class="edu.unc.ceccr.chembench.actions.ViewPredictor.PredictorPage" method="load">
             <result name="success">/jsp/modeling/modelDetail.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>

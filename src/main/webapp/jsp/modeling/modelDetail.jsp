@@ -19,7 +19,7 @@
         <dl class="dl-horizontal properties-list">
           <dt>Modeling dataset</dt>
           <dd>
-            <s:url var="modelingDatasetUrl" action="viewDataset">
+            <s:url var="modelingDatasetUrl" action="datasetDetail">
               <s:param name="id" value="selectedPredictor.datasetId" />
             </s:url>
             <a href="<s:property value="modelingDatasetUrl" />" target="_blank"><s:property

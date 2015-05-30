@@ -405,6 +405,6 @@
 </script>
 <script src="${pageContext.request.contextPath}/assets/js/swfobject.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/autolink.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/js/viewDataset.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/datasetDetail.js"></script>
 </body>
 </html>

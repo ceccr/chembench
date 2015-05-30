@@ -45,7 +45,7 @@
         <ul>
           <s:iterator value="predictors">
             <li>
-              <s:url var="predictorUrl" action="viewPredictor">
+              <s:url var="predictorUrl" action="modelDetail">
                 <s:param name="id" value="%{id}" />
               </s:url>
               <s:a href="%{predictorUrl}"><s:property value="name" /></s:a>
