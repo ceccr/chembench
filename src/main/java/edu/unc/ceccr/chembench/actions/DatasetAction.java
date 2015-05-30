@@ -1,7 +1,6 @@
 package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
@@ -80,7 +79,7 @@ public class DatasetAction extends ActionSupport {
     private String sdfFilePredDescContentType = "";
     private String sdfFilePredDescFileName = "";
     //====== variables used for display on the JSP =====//
-    private User user;
+    private User user = User.getCurrentUser();
     private List<String> userDatasetNames;
     private List<String> userPredictorNames;
     private List<String> userPredictionNames;
@@ -129,8 +128,6 @@ public class DatasetAction extends ActionSupport {
 
         String result = INPUT;
 
-        ActionContext context = ActionContext.getContext();
-        user = User.getCurrentUser();
         String userName = user.getUserName();
         if (datasetName != null) {
             datasetName = datasetName.replaceAll("\\s+", "_");
