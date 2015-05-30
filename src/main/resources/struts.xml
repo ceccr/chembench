@@ -124,8 +124,7 @@
         <!-- End Modeling Page -->
 
         <!-- Make Predictions Pages -->
-        <action name="prediction" class="edu.unc.ceccr.chembench.actions.PredictionAction"
-                method="loadSelectPredictorPage">
+        <action name="prediction" class="edu.unc.ceccr.chembench.actions.PredictionAction">
             <result name="success">/jsp/prediction/prediction.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
