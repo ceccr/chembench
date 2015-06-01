@@ -17,7 +17,7 @@ public abstract class ViewAction extends ActionSupport {
     protected List<String> errorStrings = Lists.newArrayList();
     protected Session session;
     protected ActionContext context;
-    protected User user;
+    protected User user = User.getCurrentUser();
     protected String objectId;
 
     public String checkBasicParams() {
