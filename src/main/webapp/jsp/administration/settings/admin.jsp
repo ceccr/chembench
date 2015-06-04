@@ -93,7 +93,7 @@
               </tr>
               <tr>
                 <td></td>
-                <td><input type="submit" name="promote" onclick="this.form.action='makeDatasetAction'"
+                <td><input type="submit" name="promote" onclick="this.form.action='makeDatasetPublicAction'"
                            value="Promote" /> <input type="submit" name="delete"
                                                      onclick="this.form.action='deleteDatasetAction'" value="Delete" />
                 </td>
