@@ -28,7 +28,6 @@ public class AdminAction extends ActionSupport {
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(AdminAction.class.getName());
     User user = User.getCurrentUser();
-    String buildDate;
     List<User> users;
     //for sending email to all users
     String emailMessage;
@@ -41,7 +40,6 @@ public class AdminAction extends ActionSupport {
             return "forbidden";
         }
         Session session = HibernateUtil.getSession();
-        buildDate = Constants.BUILD_DATE;
         users = PopulateDataObjects.getAllUsers(session);
         session.close();
         return SUCCESS;
@@ -882,14 +880,6 @@ public class AdminAction extends ActionSupport {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public String getBuildDate() {
-        return buildDate;
-    }
-
-    public void setBuildDate(String buildDate) {
-        this.buildDate = buildDate;
     }
 
     public List<User> getUsers() {

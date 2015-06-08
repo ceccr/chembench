@@ -152,8 +152,6 @@ public class Constants {
     //Paths
     public static String CECCR_BASE_PATH;
     public static String TOMCAT_PATH;
-    public static String BUILD_DATE_FILE_PATH;
-    public static String BUILD_DATE;
     public static String CECCR_USER_BASE_PATH;
     public static String XML_FILE_PATH;
     public static String SDFILE_FILEPATH;

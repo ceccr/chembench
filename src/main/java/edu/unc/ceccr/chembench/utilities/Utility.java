@@ -111,18 +111,6 @@ public class Utility {
         return (end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
     }
 
-    public static void readBuildDateAndSystemConfig(String path) throws IOException {
-        ParseConfigurationXML.initializeConstants(path);
-
-        try {
-            BufferedReader dis = new BufferedReader(new FileReader(new File(Constants.BUILD_DATE_FILE_PATH)));
-            Constants.BUILD_DATE = dis.readLine().replace("#", "");
-            dis.close();
-        } catch (Exception ex) {
-            writeToDebug(ex);
-        }
-    }
-
     public static int getSignificantFigures(String number, boolean removeTrailingZeros) {
 
         int sigfigs = 0;

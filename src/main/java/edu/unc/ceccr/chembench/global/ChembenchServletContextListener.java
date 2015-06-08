@@ -2,12 +2,11 @@ package edu.unc.ceccr.chembench.global;
 
 import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
-import edu.unc.ceccr.chembench.utilities.Utility;
+import edu.unc.ceccr.chembench.utilities.ParseConfigurationXML;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -32,11 +31,7 @@ public class ChembenchServletContextListener implements ServletContextListener {
         }
 
         String configFilePath = Paths.get(ENV_CHEMBENCH_HOME, "config", "systemConfig.xml").toString();
-        try {
-            Utility.readBuildDateAndSystemConfig(configFilePath);
-        } catch (IOException e) {
-            logger.error("Couldn't parse system config", e);
-        }
+        ParseConfigurationXML.initializeConstants(configFilePath);
 
         // start up the job queues
         CentralDogma.getInstance();

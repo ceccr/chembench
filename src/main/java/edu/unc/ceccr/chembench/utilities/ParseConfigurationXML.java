@@ -110,8 +110,6 @@ public class ParseConfigurationXML {
                 Constants.EXECUTABLEFILE_PATH += "/";
             }
 
-            Constants.BUILD_DATE_FILE_PATH =
-                    Constants.TOMCAT_PATH + getNestedNodeValue(getParentNode(doc, "other"), "buildDateFile");
             //FIXME:Does not exist! Uknown purpose
             Constants.XML_FILE_PATH = Constants.CECCR_BASE_PATH + "xml-files/";
             Constants.doneReadingConfigFile = true;
