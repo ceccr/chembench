@@ -32,6 +32,7 @@ $(document).ready(function() {
     if (url.match("#")) {
         $(".nav-tabs a[href=#" + url.split('#')[1] + "]").tab("show");
     }
+
     // change page hash when a tab is clicked
     $(".nav-tabs a").on("shown.bs.tab", function(e) {
         var tabHash = e.target.hash;

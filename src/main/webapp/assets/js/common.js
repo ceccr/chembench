@@ -12,7 +12,7 @@ String.prototype.contains = function(needle) {
     return this.indexOf(needle) > -1;
 };
 
-Array.prototype.includes = function(needle) {
+Array.prototype.contains = function(needle) {
     for (var i = 0; i < this.length; i++) {
         if (this[i] === needle) {
             return true;
@@ -62,7 +62,7 @@ function formatAvailableDescriptors(text) {
     var descriptorList = text.trim().split(/\s+/);
     var newDescriptorList = [];
     var dragonsPresent = false;
-    if (descriptorList.includes("DRAGONNOH") && descriptorList.includes("DRAGONH")) {
+    if (descriptorList.contains("DRAGONNOH") && descriptorList.contains("DRAGONH")) {
         newDescriptorList.push("Dragon");
         dragonsPresent = true;
     }
