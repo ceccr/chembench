@@ -390,14 +390,6 @@
 
     <!-- API endpoints -->
     <package name="api" namespace="/api" extends="json-default">
-        <action name="ajaxGetDataset" class="edu.unc.ceccr.chembench.actions.api.AjaxDatasetAction"
-                method="ajaxGetDataset">
-            <result name="success" type="json">
-                <param name="root">dataset</param>
-                <param name="excludeNullProperties">true</param>
-            </result>
-        </action>
-
         <action name="getCurrentUser" class="edu.unc.ceccr.chembench.actions.api.UserAction"
                 method="getCurrentUser">
             <result name="success" type="json">

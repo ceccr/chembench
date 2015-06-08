@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $("table.datatable[data-url]").each(function() {
         var table = $(this);
+        // TODO convert this selector to closest(".checkbox-table") in prediction.jsp
         if (table.closest("#prediction-model-selection, #prediction-dataset-selection").exists()) {
             var checkboxHeader = $('<th data-property="checkbox" data-transient="data-transient" class="unsortable">' +
                                    '<input type="checkbox"></th>');
@@ -10,6 +11,9 @@ $(document).ready(function() {
                 checkAll.closest(".dataTables_scroll").find(".dataTables_scrollBody").find('input[type="checkbox"]').prop("checked",
                     checkAll.prop("checked")).change();
             });
+        } else if (table.closest(".radio-table").exists()) {
+            var radioHeader = $('<th data-property="radio" data-transient="data-transient" class="unsortable"></th>');
+            radioHeader.prependTo(table.find("thead").find("tr"));
         }
 
         var objectType = table.attr("data-object-type");
@@ -46,6 +50,12 @@ $(document).ready(function() {
                 case "checkbox":
                     column["data"] = function(row) {
                         return '<input type="checkbox"><input type="hidden" name="id" value="' + row["id"] + '">';
+                    };
+                    break;
+                case "radio":
+                    column["data"] = function(row) {
+                        return '<input type="radio" name="' + table.attr("id") +
+                               '"><input type="hidden" name="id" value="' + row["id"] + '">';
                     };
                     break;
                 case "cancel":

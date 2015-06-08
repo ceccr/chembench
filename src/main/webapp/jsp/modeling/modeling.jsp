@@ -53,40 +53,8 @@
               <b><s:a action="dataset">Dataset Creation</s:a></b> page.)
             </p>
 
-            <div class="row">
-              <div class="col-xs-6">
-                <div class="col-xs-12">
-                  <div class="form-group">
-                    <s:select id="dataset-selection" name="selectedDatasetId" cssClass="form-control"
-                              list="userDatasets" listKey="id" listValue="name" theme="simple"
-                              value="(select a dataset)" />
-                  </div>
-                  <div class="form-group">
-                    <a id="view-dataset-detail" href="#" class="btn btn-primary disabled">View Selected Dataset</a>
-                    <span class="text-muted">Opens in a new window.</span>
-                  </div>
-                </div>
-              </div>
-
-              <div id="dataset-info-wrapper" class="col-xs-6">
-                <div id="dataset-info"></div>
-
-                <div id="dataset-info-help">
-                  <h4>Select a dataset to continue</h4>
-
-                  <div class="text-muted">
-                    <p>
-                      Once you select a dataset, basic information about the dataset will be displayed here.
-                    </p>
-
-                    <p>
-                      You can also click <b>View Selected Dataset</b> to view more detailed information about the
-                      selected
-                      dataset.
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <div class="radio-table">
+              <%@ include file="/jsp/jobs/datasets.jsp" %>
             </div>
 
             <p id="small-dataset-warning" class="bg-danger">

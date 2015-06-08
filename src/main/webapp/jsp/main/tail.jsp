@@ -20,6 +20,14 @@
           }
           return "Showing " + max + " " + maxNoun;
         }
+      },
+      "Constants": {
+        "MODELING": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@MODELING" />",
+        "MODELINGWITHDESCRIPTORS": "<s:property
+        value="@edu.unc.ceccr.chembench.global.Constants@MODELINGWITHDESCRIPTORS" />",
+        "CONTINUOUS": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@CONTINUOUS" />",
+        "CATEGORY": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@CATEGORY" />",
+        "UPLOADED": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@UPLOADED" />"
       }
     };
   })();
