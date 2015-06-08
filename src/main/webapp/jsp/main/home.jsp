@@ -24,29 +24,12 @@
                alt="Molecule image banner">
 
           <p>
-            It provides cheminformatics research support to molecular modelers, medicinal chemists and quantitative
-            biologists by integrating robust model builders, property and activity predictors, virtual libraries of
-            available chemicals with predicted biological and drug-like properties, and special tools for chemical
-            library design. Chembench was initially developed to support researchers in the <a
+            Chembench provides cheminformatics research support to molecular modelers, medicinal chemists and
+            quantitative biologists by integrating robust model builders, property and activity predictors, virtual
+            libraries of available chemicals with predicted biological and drug-like properties, and special tools for
+            chemical library design. Chembench was initially developed to support researchers in the <a
               href="http://mli.nih.gov/mli/" target="_blank">Molecular Libraries Probe Production Centers Network
             (MLPCN)</a> and the Chemical Synthesis Centers.
-          </p>
-
-          <p>
-            Please cite this website using the following URL: <a href="http://chembench.mml.unc.edu">http://chembench.mml.unc.edu</a>
-          </p>
-          <hr>
-          <p>
-            The Carolina Cheminformatics Workbench (Chembench) is developed by the Carolina Exploratory Center for
-            Cheminformatics Research (CECCR) with the support of the <a href="http://www.nih.gov" target="_blank">National
-            Institutes of Health</a> (grants <a
-              href="http://projectreporter.nih.gov/project_info_details.cfm?aid=7472715&amp;icde=4746318"
-              target="_blank">P20HG003898</a>
-            and <a href="http://projectreporter.nih.gov/project_info_description.cfm?aid=7818406&amp;icde=4746305"
-                   target="_blank">R01GM066940</a>) and the Environmental Protection Agency (RD83382501 and RD832720).
-            This
-            website has been developed using grants from the EPA and NIH. Therefore Chembench adheres to their
-            required terms of use.
           </p>
         </div>
       </section>
@@ -139,10 +122,11 @@
         </s:if>
       </section>
     </div>
+
     <hr>
-    <section>
-      <h4 class="sponsor-message">We thank the following commercial sponsors for their support:</h4>
-      <ul class="sponsor-list">
+    <section id="sponsor-section">
+      <h4>We thank the following commercial sponsors for their support:</h4>
+      <ul id="sponsor-list">
         <li><a href="http://www.chemcomp.com" target="_blank"><img
             src="${pageContext.request.contextPath}/assets/images/sponsors/ccg.jpg" width="114" height="46"
             alt="Chemical Computing Group" class="img-thumbnail"></a>

@@ -1,17 +1,16 @@
 /* home */
 /* sponsor attribution */
-.sponsor-message {
+#sponsor-section {
     text-align: center;
 }
 
-.sponsor-list {
-    text-align: center;
+#sponsor-list {
     list-style-type: none;
     padding: 0;
     width: 100%;
 }
 
-.sponsor-list li {
+#sponsor-list li {
     display: inline-block;
     margin: 0 2em 0 2em;
 }
