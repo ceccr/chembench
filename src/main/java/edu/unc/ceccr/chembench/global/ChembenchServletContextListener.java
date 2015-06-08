@@ -20,14 +20,14 @@ public class ChembenchServletContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         // read $CHEMBENCH_HOME, then append config directory / filename
-        String ENV_CHEMBENCH_HOME = null;
+        String ENV_CHEMBENCH_HOME;
         try {
             ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
+            if (ENV_CHEMBENCH_HOME == null) {
+                throw new RuntimeException("Required environment variable $CHEMBENCH_HOME is not set");
+            }
         } catch (SecurityException e) {
-            logger.error("Couldn't read $CHEMBENCH_HOME environment variable", e);
-        }
-        if (ENV_CHEMBENCH_HOME == null) {
-            logger.error("Environment variable $CHEMBENCH_HOME doesn't exist");
+            throw new RuntimeException("Couldn't read $CHEMBENCH_HOME environment variable", e);
         }
 
         String configFilePath = Paths.get(ENV_CHEMBENCH_HOME, "config", "systemConfig.xml").toString();
