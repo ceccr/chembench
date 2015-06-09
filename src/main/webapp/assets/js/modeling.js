@@ -162,7 +162,7 @@
 
         var datasetSelectTable = $("#dataset-selection-section").find("table.datatable");
         datasetSelectTable.DataTable().on("init", function() {
-            $(this).find('input[type="radio"]').change(function(e) {
+            $(this).find('input[type="radio"]').change(function() {
                 var rowSelector = $(this).closest("tr");
                 var dataset = rowSelector.closest("table").DataTable().row(rowSelector).data();
                 datasetSelectedCallback(dataset);

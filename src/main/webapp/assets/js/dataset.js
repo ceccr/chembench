@@ -3,9 +3,10 @@ $(document).ready(function() {
     $("#nav-button-datasets").addClass("active");
 
     var datasetTypeInput = $("input#datasetType");
-    datasetTypeInput.val($(".tab-pane:first-child").find('input[name="dataset-type"]').val());
+    var selectedTabs = $(".tab-pane.active");
+    datasetTypeInput.val(selectedTabs.find('input[name="dataset-type"]').val());
     var splitTypeInput = $("input#splitType");
-    splitTypeInput.val($(".tab-pane:first-child").find('input[name="split-type"]').val());
+    splitTypeInput.val(selectedTabs.find('input[name="split-type"]').val());
 
     // add red background for unfilled file upload fields
     var requiredFileFields = $('input[type="file"]').not(".optional-sdf-select");
