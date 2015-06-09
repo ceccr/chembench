@@ -7,7 +7,7 @@ $(document).ready(function() {
     $("#nav-button-prediction").addClass("active");
 
     $(".nav-tabs a").on("shown.bs.tab", function(e) {
-        $(e.target.hash).find("table.dataTable").DataTable().columns.adjust();
+        $(e.target.hash).find("table.datatable").DataTable().columns.adjust();
     });
 
     $("#jsme-clear").click(function() {

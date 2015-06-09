@@ -37,7 +37,7 @@ $(document).ready(function() {
     $(".nav-tabs a").on("shown.bs.tab", function(e) {
         var tabHash = e.target.hash;
         window.location.hash = tabHash;
-        $(tabHash).find("table.dataTable").DataTable().columns.adjust();
+        $(tabHash).find("table.datatable").DataTable().columns.adjust();
     });
 
     $("#jobs-queue-refresh").click(function() {
