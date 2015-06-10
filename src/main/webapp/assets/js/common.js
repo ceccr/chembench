@@ -34,10 +34,10 @@
      * @returns true if MODI can be generated, false otherwise
      */
     Chembench.canGenerateModi = function(dataset) {
-        var actFile = dataset["actFile"];
-        var availableDescriptors = dataset["availableDescriptors"];
+        var actFile = dataset['actFile'];
+        var availableDescriptors = dataset['availableDescriptors'];
         return !!actFile && actFile.length > 0 &&
-               (availableDescriptors.contains("DRAGONH") || availableDescriptors.contains("CDK"));
+               (availableDescriptors.contains('DRAGONH') || availableDescriptors.contains('CDK'));
     };
 
     Chembench.formatJobType = function(text) {
@@ -49,62 +49,62 @@
     };
 
     Chembench.formatDatasetType = function(text) {
-        return text.replace("MODELING", "Modeling").replace("PREDICTION", "Prediction").replace("WITHDESCRIPTORS",
-                ", with descriptors");
+        return text.replace('MODELING', 'Modeling').replace('PREDICTION', 'Prediction').replace('WITHDESCRIPTORS',
+                ', with descriptors');
     };
 
     Chembench.formatSplitType = function(text) {
-        return text.replace("NFOLD", "N-fold").replace("RANDOM", "Random Split").replace("USERDEFINED", "User-defined");
+        return text.replace('NFOLD', 'N-fold').replace('RANDOM', 'Random Split').replace('USERDEFINED', 'User-defined');
     };
 
     Chembench.formatModelingMethod = function(text) {
-        return text.replace("RANDOMFOREST", "Random Forest");
+        return text.replace('RANDOMFOREST', 'Random Forest');
     };
 
     Chembench.formatAvailableDescriptors = function(text) {
         var descriptorList = text.trim().split(/\s+/);
         var newDescriptorList = [];
         var dragonsPresent = false;
-        if (descriptorList.contains("DRAGONNOH") && descriptorList.contains("DRAGONH")) {
-            newDescriptorList.push("Dragon");
+        if (descriptorList.contains('DRAGONNOH') && descriptorList.contains('DRAGONH')) {
+            newDescriptorList.push('Dragon');
             dragonsPresent = true;
         }
 
         for (var i = 0; i < descriptorList.length; i++) {
             var curr = descriptorList[i];
-            if (curr === "UPLOADED") {
-                var toAdd = ["Uploaded descriptors"];
+            if (curr === 'UPLOADED') {
+                var toAdd = ['Uploaded descriptors'];
                 while (!/\)$/.test(toAdd[toAdd.length - 1]) && i < descriptorList.length) {
                     toAdd.push(descriptorList[++i]);
                 }
-                newDescriptorList.push(toAdd.join(" "));
-            } else if (curr === "MOLCONNZ") {
-                newDescriptorList.push("MolconnZ");
-            } else if (curr === "DRAGONH" || curr === "DRAGONNOH") {
+                newDescriptorList.push(toAdd.join(' '));
+            } else if (curr === 'MOLCONNZ') {
+                newDescriptorList.push('MolconnZ');
+            } else if (curr === 'DRAGONH' || curr === 'DRAGONNOH') {
                 if (dragonsPresent === false) {
-                    newDescriptorList.push(curr.replace("DRAGON", "Dragon").replace("NOH", "NoH"));
+                    newDescriptorList.push(curr.replace('DRAGON', 'Dragon').replace('NOH', 'NoH'));
                 }
             } else {
                 newDescriptorList.push(curr);
             }
         }
-        return newDescriptorList.join(", ");
+        return newDescriptorList.join(', ');
     };
 
     Chembench.formatModi = function(text, dataset) {
         var html;
         if (dataset && Chembench.canGenerateModi(dataset) === false) {
             html = '<span class="text-muted">Not available</span>';
-        } else if (dataset && dataset["modiGenerated"] === false) {
+        } else if (dataset && dataset['modiGenerated'] === false) {
             html = '<span class="text-warning">Not generated</span>' +
                    '<button class="btn btn-primary btn-xs generate-modi">Generate MODI</button>';
         } else {
             var value = parseFloat(text);
-            var cssClass = "text-danger";
-            var tooltip = "Not modelable";
+            var cssClass = 'text-danger';
+            var tooltip = 'Not modelable';
             if (value >= Chembench.MODI_MODELABLE) {
-                cssClass = "text-success";
-                tooltip = "Modelable";
+                cssClass = 'text-success';
+                tooltip = 'Modelable';
             }
             html = '<span title="' + tooltip + '" class="' + cssClass + ' modi-value">' + value.toFixed(2) + '</span>';
         }
@@ -114,94 +114,94 @@
     Chembench.formatExternalPredictionAccuracy = function(fullValue) {
         var cssClass;
         if (fullValue) {
-            var value = (fullValue.contains(" ± ")) ? fullValue.split(" ± ")[0] : fullValue;
+            var value = (fullValue.contains(' ± ')) ? fullValue.split(' ± ')[0] : fullValue;
             if (value >= 0.7) {
-                cssClass = "text-success";
+                cssClass = 'text-success';
             } else if (value > 0.5) {
-                cssClass = "text-warning";
+                cssClass = 'text-warning';
             } else {
-                cssClass = "text-danger";
+                cssClass = 'text-danger';
             }
         }
-        return '<span class="' + cssClass + ' external-acc-value">' + fullValue + "</span>";
+        return '<span class="' + cssClass + ' external-acc-value">' + fullValue + '</span>';
     };
 
     Chembench.addRowHighlighting = function(row) {
         // add contextual highlighting for rows with MODI or R^2/CCR values
-        var match = /text-(danger|warning|success)/.exec(row.find(".modi-value, .external-acc-value").attr("class"));
+        var match = /text-(danger|warning|success)/.exec(row.find('.modi-value, .external-acc-value').attr('class'));
         if (match !== null) {
             row.addClass(match[1]);
         }
     };
 
     $(document).ready(function() {
-        $.get("api/getCurrentUser", function(data) {
+        $.get('api/getCurrentUser', function(data) {
             Chembench.CURRENT_USER = data;
         });
 
-        $(".nav-tabs li a").click(function() {
+        $('.nav-tabs li a').click(function() {
             history.pushState(null, null, $(this).attr('href'));
         });
 
         // navigation button handlers
-        $(".nav-list li").mouseup(function(event) {
+        $('.nav-list li').mouseup(function(event) {
             if (event.which === 1) {
-                window.location = $(this).find("a").attr("href");
+                window.location = $(this).find('a').attr('href');
             }
-        }).on("mouseenter mouseleave", function(event) {
-            $(this).find("a").toggleClass("hovered", event.type === "mouseenter");
+        }).on('mouseenter mouseleave', function(event) {
+            $(this).find('a').toggleClass('hovered', event.type === 'mouseenter');
         });
 
         // default highlighted button should be Home
-        $("#nav-button-home").addClass("active");
+        $('#nav-button-home').addClass('active');
 
-        $(".guest-login").click(function(event) {
+        $('.guest-login').click(function(event) {
             event.preventDefault();
 
-            var guestMessage = "A guest account allows a user to explore the functionality of Chembench using publicly " +
-                               "available datasets, predictions on single molecules, and modeling using Random Forests. " +
-                               "<br><br> All guest data is deleted when you leave the site or become inactive for 90 minutes. " +
-                               "For additional functionality, please register an account.";
+            var guestMessage = 'A guest account allows a user to explore the functionality of Chembench using publicly ' +
+                               'available datasets, predictions on single molecules, and modeling using Random Forests. ' +
+                               '<br><br> All guest data is deleted when you leave the site or become inactive for 90 minutes. ' +
+                               'For additional functionality, please register an account.';
 
             bootbox.confirm(guestMessage, function(response) {
                 if (response === true) {
-                    window.location = $(".guest-login").attr("href");
+                    window.location = $('.guest-login').attr('href');
                 }
             });
         });
 
         // replace ugly capitalization for constants
-        $(".available-descriptors").each(function() {
+        $('.available-descriptors').each(function() {
             var element = $(this);
             element.text(Chembench.formatAvailableDescriptors(element.text()));
         });
 
-        $(".modeling-method").each(function() {
+        $('.modeling-method').each(function() {
             var element = $(this);
             element.text(Chembench.formatModelingMethod(element.text()));
         });
 
-        $(".split-type").each(function() {
+        $('.split-type').each(function() {
             var element = $(this);
             element.text(Chembench.formatSplitType(element.text()));
         });
 
-        $(".dataset-type").each(function() {
+        $('.dataset-type').each(function() {
             var element = $(this);
             element.text(Chembench.formatDatasetType(element.text()));
         });
 
-        $(".activity-type").each(function() {
+        $('.activity-type').each(function() {
             var element = $(this);
             element.text(Chembench.formatActivityType(element.text()));
         });
 
-        $(".job-type").each(function() {
+        $('.job-type').each(function() {
             var element = $(this);
             element.text(Chembench.formatJobType(element.text()));
         });
 
-        $(".modi-value").each(function() {
+        $('.modi-value').each(function() {
             var element = $(this);
             // XXX n.b. use of html(), not text()
             element.html(Chembench.formatModi(element.text()));
