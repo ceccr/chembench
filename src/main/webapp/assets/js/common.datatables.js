@@ -11,7 +11,7 @@
                 checkboxHeader.find('input[type="checkbox"]').click(function() {
                     var checkAll = $(this);
                     checkAll.closest(".dataTables_scroll").find(".dataTables_scrollBody").find('input[type="checkbox"]').prop("checked",
-                        checkAll.prop("checked")).change();
+                            checkAll.prop("checked")).change();
                 });
             } else if (table.closest(".radio-table").exists()) {
                 var radioHeader = $('<th data-property="radio" data-transient="data-transient" class="unsortable"></th>');
@@ -94,22 +94,22 @@
                                 var downloadLink;
                                 if (objectType === "dataset") {
                                     downloadLink = '<a href="datasetFilesServlet?' + $.param({
-                                            "datasetName": data,
-                                            "user": row["userName"]
-                                        }) + '">';
+                                                "datasetName": data,
+                                                "user": row["userName"]
+                                            }) + '">';
                                 } else if (objectType === "model") {
                                     downloadLink = '<a href="projectFilesServlet?' + $.param({
-                                            "project": data,
-                                            "user": row["userName"],
-                                            "projectType": "modeling"
-                                        }) + '">';
+                                                "project": data,
+                                                "user": row["userName"],
+                                                "projectType": "modeling"
+                                            }) + '">';
                                 } else if (objectType === "prediction") {
                                     downloadLink = '<a href="fileServlet?' + $.param({
-                                            "id": row["id"],
-                                            "user": row["userName"],
-                                            "jobType": "PREDICTION",
-                                            "file": "predictionAsCsv"
-                                        }) + '">';
+                                                "id": row["id"],
+                                                "user": row["userName"],
+                                                "jobType": "PREDICTION",
+                                                "file": "predictionAsCsv"
+                                            }) + '">';
                                 }
 
                                 var detailAction = objectType + "Detail";

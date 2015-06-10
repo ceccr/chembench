@@ -16,7 +16,7 @@
 
         // enable only available descriptors in Descriptor Set selection
         $('input[name="descriptorGenerationType"]').prop("disabled",
-            true).removeAttr("checked").parent().addClass("text-muted");
+                true).removeAttr("checked").parent().addClass("text-muted");
         $.each(availableDescriptors, function(i, descriptor) {
             $('input[name="descriptorGenerationType"][value="' + descriptor +
               '"]').removeAttr("disabled").parent("label").removeClass("text-muted");
@@ -67,7 +67,7 @@
         $("#dataset-info-help").show();
         $("#view-dataset-detail").addClass("disabled");
         $("#descriptor-types").find("label").addClass("text-muted").find("input").prop("disabled", true).prop("checked",
-            false);
+                false);
     }
 
     function showSections() {

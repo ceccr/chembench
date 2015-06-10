@@ -86,67 +86,70 @@
             window.location = Chembench.MYBENCH_URL;
         });
 
-        $("#prediction-model-selection, #prediction-dataset-selection").find("table").DataTable().on("draw", function() {
-            var table = $(this);
-            var tableType = (table.parents("#prediction-model-selection").length) ? "model" : "dataset";
+        $("#prediction-model-selection, #prediction-dataset-selection").find("table").DataTable().on("draw",
+                function() {
+                    var table = $(this);
+                    var tableType = (table.parents("#prediction-model-selection").length) ? "model" : "dataset";
 
-            table.find("tr").click(function() {
-                var checkbox = $(this).find('input[type="checkbox"]');
-                checkbox.prop("checked", !(checkbox.prop("checked"))).change();
-            }).find("a").click(function(e) {
-                e.stopPropagation();
-            });
+                    table.find("tr").click(function() {
+                        var checkbox = $(this).find('input[type="checkbox"]');
+                        checkbox.prop("checked", !(checkbox.prop("checked"))).change();
+                    }).find("a").click(function(e) {
+                        e.stopPropagation();
+                    });
 
-            table.find('input[type="checkbox"]').click(function() {
-                var checkbox = $(this);
-                checkbox.prop("checked", !(checkbox.prop("checked"))).change();
-            }).change(function() {
-                var checkbox = $(this);
-                var row = checkbox.closest("tr");
-                var objectName = row.find("td").find(".object-name").first().text();
+                    table.find('input[type="checkbox"]').click(function() {
+                        var checkbox = $(this);
+                        checkbox.prop("checked", !(checkbox.prop("checked"))).change();
+                    }).change(function() {
+                        var checkbox = $(this);
+                        var row = checkbox.closest("tr");
+                        var objectName = row.find("td").find(".object-name").first().text();
 
-                var objectList = (tableType === "model") ? $("#model-list") : $("#dataset-list");
-                var objectsMatchingName = objectList.find("li").filter(function() {
-                    return $(this).text().trim() === objectName;
+                        var objectList = (tableType === "model") ? $("#model-list") : $("#dataset-list");
+                        var objectsMatchingName = objectList.find("li").filter(function() {
+                            return $(this).text().trim() === objectName;
+                        });
+                        if (checkbox.prop("checked")) {
+                            var match = /(danger|warning|success)/.exec(row.attr("class"));
+                            if (match != null) {
+                                var color = match[1];
+                                row.data("oldClass", color);
+                                row.removeClass(color);
+                            }
+                            row.addClass("info");
+                            if (objectsMatchingName.length === 0) {
+                                objectList.append("<li>" + objectName + "</li>")
+                            }
+                        } else {
+                            row.removeClass("info");
+                            row.addClass(row.data("oldClass"));
+                            objectsMatchingName.remove();
+                        }
+
+                        // XXX don't use closest("table") or the header checkbox will be included too
+                        var count = row.closest("tbody").find('input[type="checkbox"]:checked').length;
+                        var warning = (tableType === "model") ? $("#minimum-model-warning") :
+                                $("#minimum-dataset-warning");
+                        var counter = (tableType === "model") ? $("#selected-model-count") :
+                                $("#selected-dataset-count");
+                        counter.text(count);
+                        if (count === 0) {
+                            warning.show();
+                            if (tableType === "model") {
+                                $("#make-prediction, #model-list-message").hide();
+                            } else if (tableType === "dataset") {
+                                $("#predict-dataset, #dataset-list-message").hide();
+                            }
+                        } else {
+                            warning.hide();
+                            if (tableType === "model") {
+                                $("#make-prediction, #model-list-message").show();
+                            } else if (tableType === "dataset") {
+                                $("#predict-dataset, #dataset-list-message").show();
+                            }
+                        }
+                    });
                 });
-                if (checkbox.prop("checked")) {
-                    var match = /(danger|warning|success)/.exec(row.attr("class"));
-                    if (match != null) {
-                        var color = match[1];
-                        row.data("oldClass", color);
-                        row.removeClass(color);
-                    }
-                    row.addClass("info");
-                    if (objectsMatchingName.length === 0) {
-                        objectList.append("<li>" + objectName + "</li>")
-                    }
-                } else {
-                    row.removeClass("info");
-                    row.addClass(row.data("oldClass"));
-                    objectsMatchingName.remove();
-                }
-
-                // XXX don't use closest("table") or the header checkbox will be included too
-                var count = row.closest("tbody").find('input[type="checkbox"]:checked').length;
-                var warning = (tableType === "model") ? $("#minimum-model-warning") : $("#minimum-dataset-warning");
-                var counter = (tableType === "model") ? $("#selected-model-count") : $("#selected-dataset-count");
-                counter.text(count);
-                if (count === 0) {
-                    warning.show();
-                    if (tableType === "model") {
-                        $("#make-prediction, #model-list-message").hide();
-                    } else if (tableType === "dataset") {
-                        $("#predict-dataset, #dataset-list-message").hide();
-                    }
-                } else {
-                    warning.hide();
-                    if (tableType === "model") {
-                        $("#make-prediction, #model-list-message").show();
-                    } else if (tableType === "dataset") {
-                        $("#predict-dataset, #dataset-list-message").show();
-                    }
-                }
-            });
-        });
     });
 })();

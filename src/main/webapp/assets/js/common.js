@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    $.fn.exists = function () {
+    $.fn.exists = function() {
         return this.length !== 0;
     };
 
@@ -50,7 +50,7 @@
 
     Chembench.formatDatasetType = function(text) {
         return text.replace("MODELING", "Modeling").replace("PREDICTION", "Prediction").replace("WITHDESCRIPTORS",
-            ", with descriptors");
+                ", with descriptors");
     };
 
     Chembench.formatSplitType = function(text) {

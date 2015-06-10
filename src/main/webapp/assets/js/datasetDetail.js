@@ -155,14 +155,14 @@
                 firstFold.children("a").click();
             } else if (e.currentTarget.hash === "#heatmap") {
                 swfobject.embedSWF("assets/swf/heatmap.swf",
-                    "heatmapSwfContainer",
-                    "924",
-                    "924",
-                    "9.0.28",
-                    false,
-                    Chembench.Heatmap.flashvars,
-                    Chembench.Heatmap.params,
-                    Chembench.Heatmap.attributes);
+                        "heatmapSwfContainer",
+                        "924",
+                        "924",
+                        "9.0.28",
+                        false,
+                        Chembench.Heatmap.flashvars,
+                        Chembench.Heatmap.params,
+                        Chembench.Heatmap.attributes);
             }
         });
 
