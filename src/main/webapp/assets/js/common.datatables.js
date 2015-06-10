@@ -307,9 +307,9 @@
                 options.order = [[dateIndex, 'desc']];
             }
 
-            options.drawCallback = function() {
-                var wrapper = $(this.api().table().container());
-                var queue = wrapper.find('table').attr('data-queue-name');
+            table.DataTable(options).on('draw', function() {
+                var wrapper = table.closest('.dataTables_wrapper');
+                var queue = table.attr('data-queue-name');
                 var isErrorJobQueue = (objectType === 'job' && queue === 'error');
                 if (!wrapper.siblings('.no-objects-message').exists()) {
                     if (!isErrorJobQueue) {
@@ -337,9 +337,7 @@
                         wrapper.show().siblings('.no-objects-message').hide();
                     }
                 }
-            };
-
-            table.DataTable(options);
+            });
         });
     });
 })();
