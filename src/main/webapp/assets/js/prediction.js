@@ -112,14 +112,14 @@
                         });
                         if (checkbox.prop("checked")) {
                             var match = /(danger|warning|success)/.exec(row.attr("class"));
-                            if (match != null) {
+                            if (match !== null) {
                                 var color = match[1];
                                 row.data("oldClass", color);
                                 row.removeClass(color);
                             }
                             row.addClass("info");
                             if (objectsMatchingName.length === 0) {
-                                objectList.append("<li>" + objectName + "</li>")
+                                objectList.append("<li>" + objectName + "</li>");
                             }
                         } else {
                             row.removeClass("info");
