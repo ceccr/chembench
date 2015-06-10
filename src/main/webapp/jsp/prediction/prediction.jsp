@@ -30,7 +30,7 @@
             To deselect it, click its row again.
           </p>
 
-          <div id="prediction-model-selection">
+          <div id="prediction-model-selection" class="checkbox-table">
             <%@ include file="/jsp/jobs/models.jsp" %>
           </div>
 
@@ -128,7 +128,7 @@
                 have selected.
               </p>
 
-              <div id="prediction-dataset-selection">
+              <div id="prediction-dataset-selection" class="checkbox-table">
                 <%@ include file="/jsp/jobs/datasets.jsp" %>
               </div>
 

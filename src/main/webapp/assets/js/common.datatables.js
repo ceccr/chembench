@@ -4,8 +4,7 @@
     $(document).ready(function() {
         $("table.datatable[data-url]").each(function() {
             var table = $(this);
-            // TODO convert this selector to closest(".checkbox-table") in prediction.jsp
-            if (table.closest("#prediction-model-selection, #prediction-dataset-selection").exists()) {
+            if (table.closest(".checkbox-table").exists()) {
                 var checkboxHeader = $('<th data-property="checkbox" data-transient="data-transient" class="unsortable">' +
                                        '<input type="checkbox"></th>');
                 checkboxHeader.prependTo(table.find("thead").find("tr"));
