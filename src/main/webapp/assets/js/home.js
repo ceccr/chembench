@@ -1,3 +1,7 @@
-$(document).ready(function() {
-    $('input[name="username"]').focus();
-});
+(function() {
+    'use strict';
+
+    $(document).ready(function() {
+        $('input[name="username"]').focus();
+    });
+})();
