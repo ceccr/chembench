@@ -10,13 +10,13 @@
         var imageParams = {
             user: $('input#username').val(),
             projectType: 'dataset',
-            compoundId: object['compoundId'],
+            compoundId: object.compoundId,
             datasetName: $('input#dataset-name').val()
         };
         var image = '<img src="imageServlet?' + $.param(imageParams) +
                     '" class="img-thumbnail" width="125" height="125" alt="Compound structure">';
 
-        return [object['compoundId'], image, object['activityValue']];
+        return [object.compoundId, image, object.activityValue];
     }
 
     function updatePages(clicked) {

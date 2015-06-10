@@ -34,8 +34,8 @@
      * @returns true if MODI can be generated, false otherwise
      */
     Chembench.canGenerateModi = function(dataset) {
-        var actFile = dataset['actFile'];
-        var availableDescriptors = dataset['availableDescriptors'];
+        var actFile = dataset.actFile;
+        var availableDescriptors = dataset.availableDescriptors;
         return !!actFile && actFile.length > 0 &&
                (availableDescriptors.contains('DRAGONH') || availableDescriptors.contains('CDK'));
     };
@@ -95,7 +95,7 @@
         var html;
         if (dataset && Chembench.canGenerateModi(dataset) === false) {
             html = '<span class="text-muted">Not available</span>';
-        } else if (dataset && dataset['modiGenerated'] === false) {
+        } else if (dataset && dataset.modiGenerated === false) {
             html = '<span class="text-warning">Not generated</span>' +
                    '<button class="btn btn-primary btn-xs generate-modi">Generate MODI</button>';
         } else {

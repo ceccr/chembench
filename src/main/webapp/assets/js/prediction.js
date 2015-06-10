@@ -65,8 +65,8 @@
             $('#prediction-dataset-selection').find('tbody').find('tr:has(:checked)').each(function() {
                 var row = $(this);
                 var dataset = {};
-                dataset['id'] = row.find('[name="id"]').val();
-                dataset['name'] = row.find('.object-name').text();
+                dataset.id = row.find('[name="id"]').val();
+                dataset.name = row.find('.object-name').text();
                 selectedDatasets.push(dataset);
             });
             if (!jobName.val() || !selectedDatasets.length) {
@@ -75,10 +75,10 @@
 
             var originalJobName = jobName.val();
             $.each(selectedDatasets, function(index, dataset) {
-                form.find('#selectedDatasetId').val(dataset['id']);
+                form.find('#selectedDatasetId').val(dataset.id);
                 // change jobName only if we need to (multiple datasets to predict)
                 if (selectedDatasets.length > 1) {
-                    jobName.val(originalJobName + ' ' + dataset['name']);
+                    jobName.val(originalJobName + ' ' + dataset.name);
                 }
                 $.post(form.attr('action') + '?' + form.serialize());
             });

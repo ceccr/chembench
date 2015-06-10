@@ -45,33 +45,33 @@
                 var property = th.attr('data-property');
 
                 if (th.not('[data-transient]').exists()) {
-                    column['data'] = property;
+                    column.data = property;
                 }
                 switch (property) {
                     // transient properties
                     case 'checkbox':
-                        column['data'] = function(row) {
-                            return '<input type="checkbox"><input type="hidden" name="id" value="' + row['id'] + '">';
+                        column.data = function(row) {
+                            return '<input type="checkbox"><input type="hidden" name="id" value="' + row.id + '">';
                         };
                         break;
                     case 'radio':
-                        column['data'] = function(row) {
+                        column.data = function(row) {
                             return '<input type="radio" name="' + table.attr('id') +
-                                   '"><input type="hidden" name="id" value="' + row['id'] + '">';
+                                   '"><input type="hidden" name="id" value="' + row.id + '">';
                         };
                         break;
                     case 'cancel':
-                        column['data'] = function(row) {
-                            if (Chembench.CURRENT_USER['isAdmin'] === 'YES' ||
-                                (Chembench.CURRENT_USER['userName'] === row['userName'])) {
-                                return '<a class="delete-link" href="deleteJob?id=' + row['id'] + '">cancel</a>';
+                        column.data = function(row) {
+                            if (Chembench.CURRENT_USER.isAdmin === 'YES' ||
+                                (Chembench.CURRENT_USER.userName === row.userName)) {
+                                return '<a class="delete-link" href="deleteJob?id=' + row.id + '">cancel</a>';
                             }
                             return '';
                         };
                         break;
                     case 'public-private':
-                        column['data'] = 'userName';
-                        column['render'] = function(data, type) {
+                        column.data = 'userName';
+                        column.render = function(data, type) {
                             var visibility = (data === 'all-users') ? 'Public' : 'Private';
                             if (type === 'display') {
                                 if (data === 'all-users') {
@@ -89,24 +89,24 @@
                         break;
                     // end transient properties
                     case 'name':
-                        column['render'] = function(data, type, row) {
+                        column.render = function(data, type, row) {
                             if (type === 'display') {
                                 var downloadLink;
                                 if (objectType === 'dataset') {
                                     downloadLink = '<a href="datasetFilesServlet?' + $.param({
                                                 'datasetName': data,
-                                                'user': row['userName']
+                                                'user': row.userName
                                             }) + '">';
                                 } else if (objectType === 'model') {
                                     downloadLink = '<a href="projectFilesServlet?' + $.param({
                                                 'project': data,
-                                                'user': row['userName'],
+                                                'user': row.userName,
                                                 'projectType': "modeling"
                                             }) + '">';
                                 } else if (objectType === 'prediction') {
                                     downloadLink = '<a href="fileServlet?' + $.param({
-                                                'id': row['id'],
-                                                'user': row['userName'],
+                                                'id': row.id,
+                                                'user': row.userName,
                                                 'jobType': 'PREDICTION',
                                                 'file': "predictionAsCsv"
                                             }) + '">';
@@ -119,7 +119,7 @@
                                 } else {
                                     deleteAction += objectType.toProperCase();
                                 }
-                                var detailLink = '<a href="' + detailAction + "?" + $.param({'id': row['id']}) +
+                                var detailLink = '<a href="' + detailAction + "?" + $.param({'id': row.id}) +
                                                  '" target="_blank">';
 
                                 var nameDisplay = data.split('_').join('_<wbr>');
@@ -130,10 +130,10 @@
                                         'Download</a></div>';
                                 var currentUser = Chembench.CURRENT_USER;
                                 if (currentUser &&
-                                    (currentUser.isAdmin === 'YES' || currentUser.userName === row['userName'])) {
+                                    (currentUser.isAdmin === 'YES' || currentUser.userName === row.userName)) {
                                     r += '<div class="delete object-action">' +
                                          '<span class="glyphicon glyphicon-remove"></span>&nbsp;' + '<a href="' +
-                                         deleteAction + "?" + $.param({'id': row['id']}) + '">Delete</a></div>';
+                                         deleteAction + "?" + $.param({'id': row.id}) + '">Delete</a></div>';
                                 }
                                 r += '</div>';
                                 return r;
@@ -142,7 +142,7 @@
                         };
                         break;
                     case 'predictorNames':
-                        column['render'] = function(data, type) {
+                        column.render = function(data, type) {
                             if (data) {
                                 var models = [];
                                 $.each(data.split(';'), function(_, p) {
@@ -159,7 +159,7 @@
                         };
                         break;
                     case 'jobType':
-                        column['render'] = function(data, type) {
+                        column.render = function(data, type) {
                             if (type === 'display') {
                                 return Chembench.formatJobType(data);
                             }
@@ -167,45 +167,45 @@
                         };
                         break;
                     case 'datasetDisplay': // modeling/prediction dataset
-                        column['render'] = function(data, type, row) {
+                        column.render = function(data, type, row) {
                             if (type === 'display') {
                                 var nameDisplay = data.split('_').join('_<wbr>');
                                 return '<div class="name-cell"><a href="datasetDetail?' +
-                                       $.param({'id': row['datasetId']}) + '" target="_blank">' + nameDisplay +
+                                       $.param({'id': row.datasetId}) + '" target="_blank">' + nameDisplay +
                                        '</a></div>';
                             }
                             return data;
                         };
                         break;
                     case 'datasetType':
-                        column['render'] = function(data, _, row) {
+                        column.render = function(data, _, row) {
                             var r = Chembench.formatDatasetType(data);
                             if (r.toLowerCase().contains('modeling')) {
-                                r += ' (' + row['modelType'].toLowerCase() + ')';
+                                r += ' (' + row.modelType.toLowerCase() + ')';
                             }
                             return r;
                         };
                         break;
                     case 'modelMethod':
-                        column['render'] = function(data) {
+                        column.render = function(data) {
                             return Chembench.formatModelingMethod(data);
                         };
                         break;
                     case 'availableDescriptors': // datasets
                     case 'descriptorGeneration': // models
-                        column['render'] = function(data, _, row) {
+                        column.render = function(data, _, row) {
                             var r = data;
                             var uploadedIndex = r.toLowerCase().indexOf('uploaded');
                             if (uploadedIndex > -1) {
                                 // 8 being the number of characters in "uploaded"
-                                r = r.substring(0, uploadedIndex + 8) + ' ("' + row['uploadedDescriptorType'] + '") ' +
+                                r = r.substring(0, uploadedIndex + 8) + ' ("' + row.uploadedDescriptorType + '") ' +
                                     r.substring(uploadedIndex + 8);
                             }
                             return Chembench.formatAvailableDescriptors(r);
                         };
                         break;
                     case 'modi':
-                        column['render'] = function(data, type, row) {
+                        column.render = function(data, type, row) {
                             if (type === 'display') {
                                 return Chembench.formatModi(data, row);
                             }
@@ -213,7 +213,7 @@
                         };
                         break;
                     case 'similarityCutoff':
-                        column['render'] = function(data, type) {
+                        column.render = function(data, type) {
                             if (data === 99999) {
                                 if (type === 'display') {
                                     return '<span class="text-muted">Not used</span>';
@@ -226,10 +226,10 @@
                     case 'externalPredictionAccuracy':
                         // for single-fold datasets the property is "externalPredictionAccuracy",
                         // but for N-fold datasets the property is "externalPredictionAccuracyAvg"
-                        column['render'] = function(data, type, row) {
+                        column.render = function(data, type, row) {
                             var r = data;
-                            if (row['childType'] === 'NFOLD') {
-                                r = row['externalPredictionAccuracyAvg'];
+                            if (row.childType === 'NFOLD') {
+                                r = row.externalPredictionAccuracyAvg;
                             }
                             if (r === '0.0' || r === '0.0 ± 0.0') {
                                 r = 'N/A';
@@ -244,7 +244,7 @@
                     case 'timeCreated': // jobs
                     case 'createdTime': // datasets
                     case 'dateCreated': // everything else
-                        column['render'] = function(data, type) {
+                        column.render = function(data, type) {
                             if (type === 'display') {
                                 var date = data.split('T')[0];
                                 return '<span class="text-nowrap">' + date + '</span>';
@@ -268,7 +268,7 @@
                         row.find('.generate-modi').click(function() {
                             var button = $(this).text('Generating...').prop('disabled', 'disabled');
                             var parent = button.closest('td');
-                            $.post('generateModi', {'id': data['id']}, function(modiValue) {
+                            $.post('generateModi', {'id': data.id}, function(modiValue) {
                                 parent.html(Chembench.formatModi(modiValue));
                                 Chembench.addRowHighlighting(row);
                             }).fail(function() {
@@ -281,7 +281,7 @@
                         e.preventDefault();
                         var link = $(this).blur();
                         var verb = (objectType === 'job' ? 'cancel' : 'delete');
-                        var message = 'Are you sure you want to ' + verb + ' the ' + objectType + ' "' + data['name'] +
+                        var message = 'Are you sure you want to ' + verb + ' the ' + objectType + ' "' + data.name +
                                       '"?';
                         bootbox.confirm(message, function(response) {
                             if (response === true) {
@@ -306,10 +306,10 @@
             }, Chembench.DATATABLE_OPTIONS);
             var dateIndex = table.find('th').filter('.date-created').index();
             if (dateIndex > -1) {
-                options['order'] = [[dateIndex, 'desc']];
+                options.order = [[dateIndex, 'desc']];
             }
 
-            options['drawCallback'] = function() {
+            options.drawCallback = function() {
                 var wrapper = $(this.api().table().container());
                 var queue = wrapper.find('table').attr('data-queue-name');
                 var isErrorJobQueue = (objectType === 'job' && queue === 'error');
