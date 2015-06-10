@@ -147,7 +147,7 @@
                                 var models = [];
                                 $.each(data.split(';'), function(_, p) {
                                     // raw format: "MRP3x-DragonH-RF (DRAGONH,RANDOMFOREST)"
-                                    var match = /(.+) \((.+),(.+)\)/.exec(p);
+                                    var match = /(.+)\s\((.+),(.+)\)/.exec(p);
                                     if (match !== null) {
                                         models.push(match[1] + ' (' + Chembench.formatAvailableDescriptors(match[2]) +
                                                     ', ' + Chembench.formatModelingMethod(match[3]) + ')');
@@ -289,8 +289,6 @@
                                     if (objectType === 'job') {
                                         window.location.reload();
                                     } else {
-                                        var table = link.closest('table').DataTable();
-                                        var row = link.closest('tr');
                                         row.fadeOut(400, function() {
                                             table.row(row).remove().draw();
                                         });

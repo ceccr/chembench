@@ -70,11 +70,12 @@
             dragonsPresent = true;
         }
 
+        var curr, toAdd;
         for (var i = 0; i < descriptorList.length; i++) {
-            var curr = descriptorList[i];
+            curr = descriptorList[i];
             if (curr === 'UPLOADED') {
-                var toAdd = ['Uploaded descriptors'];
-                while (!/\)$/.test(toAdd[toAdd.length - 1]) && i < descriptorList.length) {
+                toAdd = ['Uploaded descriptors'];
+                while (!(/\)$/).test(toAdd[toAdd.length - 1]) && i < descriptorList.length) {
                     toAdd.push(descriptorList[++i]);
                 }
                 newDescriptorList.push(toAdd.join(' '));

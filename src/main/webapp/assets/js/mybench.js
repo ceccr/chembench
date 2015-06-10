@@ -52,11 +52,10 @@
         var refreshTask = setInterval(refreshJobQueues, interval * 1000);
 
         intervalSelect.change(function() {
-            var interval = $(this).find(':selected').val();
             if (refreshTask) {
                 clearInterval(refreshTask);
             }
-            if (interval != 0) {
+            if (interval !== 0) {
                 refreshTask = setInterval(refreshJobQueues, interval * 1000);
             }
         });
