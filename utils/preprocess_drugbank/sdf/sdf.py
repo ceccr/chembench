@@ -1,8 +1,7 @@
 #!/usr/bin/env python2
-from __future__ import print_function, unicode_literals
+from __future__ import print_function, unicode_literals, absolute_import
 from collections import OrderedDict
 from itertools import groupby
-import argparse
 import codecs
 import re
 
@@ -54,24 +53,14 @@ def process_compound(sdf):
         structure=structure, tags=tags)
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description=(
-        'Pre-processes Drugbank structure files in SDF format so that they '
-        'can be uploaded to Chembench.'))
-    parser.add_argument('filepath',
-        help='the Drugbank SDF file to be processed')
-
-    args = parser.parse_args()
+def get_compounds(filepath):
     compounds = []
-    with codecs.open(args.filepath, 'rU', encoding='utf8') as f:
+    with codecs.open(filepath, 'rU', encoding='utf8') as f:
         record = []
         for line in f:
             line = line.rstrip('\n')
             record.append(line)
             if line.startswith(END_OF_RECORD):
-                compound = process_compound(record)
-                # use the GENERIC_NAME tag value for a compound's name
-                # (because Drugbank's names aren't unique)
-                compound.name = compound.tags['GENERIC_NAME']
-                print(compound)
+                compounds.append(process_compound(record))
                 record = []
+    return compounds
