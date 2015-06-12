@@ -149,8 +149,8 @@
                                     // raw format: "MRP3x-DragonH-RF (DRAGONH,RANDOMFOREST)"
                                     var match = /(.+)\s\((.+),(.+)\)/.exec(p);
                                     if (match !== null) {
-                                        models.push(match[1] + ' (' + Chembench.formatAvailableDescriptors(match[2]) +
-                                                    ', ' + Chembench.formatModelingMethod(match[3]) + ')');
+                                        models.push(match[1] + ' (' + Chembench.formatDescriptorType(match[2]) + ', ' +
+                                                    Chembench.formatModelingMethod(match[3]) + ')');
                                     }
                                 });
                                 return models.join((type === 'display') ? '<br>' : ' ');
@@ -194,13 +194,7 @@
                     case 'availableDescriptors': // datasets
                     case 'descriptorGeneration': // models
                         column.render = function(data, _, row) {
-                            var r = data;
-                            var uploadedIndex = r.toLowerCase().indexOf('uploaded');
-                            if (uploadedIndex > -1) {
-                                // 8 being the number of characters in "uploaded"
-                                r = r.substring(0, uploadedIndex + 8) + ' ("' + row.uploadedDescriptorType + '") ' +
-                                    r.substring(uploadedIndex + 8);
-                            }
+                            var r = data.replace(Chembench.Constants.UPLOADED, '*' + row.uploadedDescriptorType);
                             return Chembench.formatAvailableDescriptors(r);
                         };
                         break;

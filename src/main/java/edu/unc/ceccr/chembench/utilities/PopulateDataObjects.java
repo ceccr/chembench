@@ -652,9 +652,12 @@ public class PopulateDataObjects {
                 String[] predictorIds = p.getPredictorIds().split("\\s+");
                 for (int i = 0; i < predictorIds.length; i++) {
                     Predictor predictor = getPredictorById(Long.parseLong(predictorIds[i]), session);
-                    predictorNameSet
-                            .add(String.format("%s (%s,%s)", predictor.getName(), predictor.getDescriptorGeneration(),
-                                            predictor.getModelMethod()));
+                    String descriptorSet = predictor.getDescriptorGeneration();
+                    if (predictor.getDescriptorGeneration().equals(Constants.UPLOADED)) {
+                        descriptorSet = "*" + predictor.getUploadedDescriptorType();
+                    }
+                    predictorNameSet.add(String
+                            .format("%s (%s,%s)", predictor.getName(), descriptorSet, predictor.getModelMethod()));
                 }
                 String predictorNames = Joiner.on(";").join(predictorNameSet);
                 p.setPredictorNames(predictorNames);
@@ -938,8 +941,12 @@ public class PopulateDataObjects {
             Long predictorId = Long.parseLong(predictorIds[i]);
             Predictor p = getPredictorById(predictorId, session);
             if (p != null) {
+                String descriptorSet = p.getDescriptorGeneration();
+                if (p.getDescriptorGeneration().equals(Constants.UPLOADED)) {
+                    descriptorSet = "*" + p.getUploadedDescriptorType();
+                }
                 predictorNameSet
-                        .add(String.format("%s (%s,%s)", p.getName(), p.getDescriptorGeneration(), p.getModelMethod()));
+                        .add(String.format("%s (%s,%s)", p.getName(), descriptorSet, p.getModelMethod()));
             } else {
                 logger.warn(String.format("Expected predictor %d for prediction %d " + "does not exist", predictorId,
                         predictionId));
@@ -972,8 +979,12 @@ public class PopulateDataObjects {
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
             Predictor p = getPredictorById(Long.parseLong(predictorIds[i]), session);
+            String descriptorSet = p.getDescriptorGeneration();
+            if (p.getDescriptorGeneration().equals(Constants.UPLOADED)) {
+                descriptorSet = "*" + p.getUploadedDescriptorType();
+            }
             predictorNameSet
-                    .add(String.format("%s (%s,%s)", p.getName(), p.getDescriptorGeneration(), p.getModelMethod()));
+                    .add(String.format("%s (%s,%s)", p.getName(), descriptorSet, p.getModelMethod()));
         }
         String predictorNames = Joiner.on(";").join(predictorNameSet);
         prediction.setPredictorNames(predictorNames);

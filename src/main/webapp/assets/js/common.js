@@ -61,34 +61,16 @@
         return text.replace('RANDOMFOREST', 'Random Forest');
     };
 
+    Chembench.formatDescriptorType = function(text) {
+        return text.replace('DRAGON', 'Dragon').replace('NOH', 'NoH').replace('MOLCONNZ',
+                'MolconnZ').replace(Chembench.Constants.UPLOADED, 'Uploaded');
+    };
+
     Chembench.formatAvailableDescriptors = function(text) {
         var descriptorList = text.trim().split(/\s+/);
-        var newDescriptorList = [];
-        var dragonsPresent = false;
-        if (descriptorList.contains('DRAGONNOH') && descriptorList.contains('DRAGONH')) {
-            newDescriptorList.push('Dragon');
-            dragonsPresent = true;
-        }
-
-        var curr, toAdd;
-        for (var i = 0; i < descriptorList.length; i++) {
-            curr = descriptorList[i];
-            if (curr === 'UPLOADED') {
-                toAdd = ['Uploaded descriptors'];
-                while (!(/\)$/).test(toAdd[toAdd.length - 1]) && i < descriptorList.length) {
-                    toAdd.push(descriptorList[++i]);
-                }
-                newDescriptorList.push(toAdd.join(' '));
-            } else if (curr === 'MOLCONNZ') {
-                newDescriptorList.push('MolconnZ');
-            } else if (curr === 'DRAGONH' || curr === 'DRAGONNOH') {
-                if (dragonsPresent === false) {
-                    newDescriptorList.push(curr.replace('DRAGON', 'Dragon').replace('NOH', 'NoH'));
-                }
-            } else {
-                newDescriptorList.push(curr);
-            }
-        }
+        var newDescriptorList = descriptorList.map(function(d) {
+            return Chembench.formatDescriptorType(d);
+        });
         return newDescriptorList.join(', ');
     };
 
