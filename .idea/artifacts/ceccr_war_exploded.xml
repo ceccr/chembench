@@ -4,7 +4,7 @@
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="ceccr" />
+          <element id="module-output" name="chembench" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.apache.struts:struts2-core:2.3.20" />
@@ -56,7 +56,7 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/target/chembench-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="ceccr/web/Web" />
+      <element id="javaee-facet-resources" facet="chembench/web/Web" />
     </root>
   </artifact>
 </component>
