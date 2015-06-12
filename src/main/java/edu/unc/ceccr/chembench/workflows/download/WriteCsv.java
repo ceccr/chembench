@@ -141,6 +141,7 @@ public class WriteCsv {
                                 p.getName() + " Total Folds"));
                     }
                     predictionHeader.add(p.getName() + " σ");
+                    predictionHeader.add("In cutoff?");
                 }
                 out.write(Joiner.on(",").join(predictionHeader));
                 out.newLine();
@@ -152,18 +153,16 @@ public class WriteCsv {
 
                     List<Object> predictionValues = Lists.newArrayList();
                     for (PredictionValue pv : cp.getPredictionValues()) {
-                        if (pv.getZScore() != null && pv.getZScore() > prediction.getSimilarityCutoff()) {
-                            predictionValues.add("Above cutoff");
-                        } else {
-                            predictionValues.add(pv.getPredictedValue());
-                        }
+                        predictionValues.add(pv.getPredictedValue());
                         predictionValues.add(pv.getStandardDeviation());
                         predictionValues.add(pv.getNumModelsUsed());
                         predictionValues.add(pv.getNumTotalModels());
                         if (pv.getZScore() != null) {
                             predictionValues.add(pv.getZScore());
+                            predictionValues.add((pv.getZScore() < prediction.getSimilarityCutoff()) ? "Yes" : "No");
                         } else {
-                            predictionValues.add("N/A");
+                            predictionValues.add("N/A"); // app. domain column
+                            predictionValues.add("N/A"); // "in cutoff?" column
                         }
                     }
                     out.write(Joiner.on(",").join(predictionValues));
