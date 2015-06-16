@@ -77,10 +77,7 @@
             </td>
             <td><s:select name="selectionNextTrainPt" id="selectionNextTrainPt"
                           list="#{'0':'Random Selection','1':'Expand Outwards from Already Selected Points','2':'Even Coverage of Descriptor Space','3':'Work Inwards from Boundaries of Descriptor Space'}"
-                          theme="simple" /> <!--<option value="0">Random Selection</option> -->
-              <!--<option value="1">Expand Outwards from Already Selected Points</option>  SUM-MIN, tumor-like -->
-              <!--<option value="2">Even Coverage of Descriptor Space</option>  MIN_MAX, lattice-like -->
-              <!--<option value="3">Work Inwards from Boundaries of Descriptor Space</option> SUM-MAX -->
+                          theme="simple" />
             </td>
           </tr>
 

@@ -52,15 +52,6 @@
             <td align="left" valign="top"><s:textfield name="randomSplitMaxTestSize" id="randomSplitMaxTestSize"
                                                        size="5" theme="simple" /></td>
           </tr>
-          <!--
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Sample With Replacement (Random Forest Only):</b></div>
-					</td>
-					<td align="left" valign="top"><s:checkbox name="randomSplitSampleWithReplacement" id="randomSplitSampleWithReplacement" theme="simple"/></td>
-				</tr>
-				-->
-
         </table>
       </td>
     </tr>

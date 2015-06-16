@@ -125,13 +125,6 @@
         <td width="250" align="left"></td>
       </tr>
 
-      <!-- 
-<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Work Bench</td>
-<td width="250"><s:radio name="workBench" list="#{'cchem':'CHEM','ctox':'TOX'}" /></td>
- -->
-      <!-- The idea of having a separate workbench for tox people and for chem people may come back someday. Removed it for now. -->
-      <s:hidden name="workbench" value="cchem" />
-
       <tr height="20">
         <td width="180" class="StandardTextDarkGray"></td>
         <td width="250">

@@ -212,12 +212,4 @@
   <!-- end svm specific parameters -->
 </s:if>
 
-<!--
-<br />
-<p class="StandardTextDarkGray">To create a new modeling job based on these parameters, use the New Predictor
-button. You will be taken to the Modeling page, where you can modify the parameters
-before resubmitting the job.</p>
-<input type="submit" value="New Predictor..." />
--->
-
 <br />

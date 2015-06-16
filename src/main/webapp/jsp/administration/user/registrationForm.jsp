@@ -161,30 +161,12 @@
     <td width="250" align="left"><span id="messageDiv12"></span></td>
   </tr>
 
-  <!--
-<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Work Bench</td>
-<td width="250"><s:radio name="workBench" list="#{'cchem':'CHEM','ctox':'TOX'}" /></td>
- -->
-  <!-- The idea of having a separate workbench for tox people and for chem people may come back someday. Removed it for now. -->
-  <s:hidden name="workbench" value="cchem" />
-
   <tr height="20">
     <td align="right" width="180" class="StandardTextDarkGray">User Name *</td>
     <td width="250"><s:textfield name="newUserName" size="30" /></td>
     <td width="250" align="left"><span id="messageDiv13"></span></td>
   </tr>
 
-  <!-- CAPTCHA -->
-
-  <!--
-<%! String image()
-{
-  java.util.Random generator=new java.util.Random();
-  String imgNum=Integer.toString(generator.nextInt(4));
-return imgNum;
-}
-%>
--->
   <tr height="50">
     <td align="right" width="180"></td>
     <td width="250"></td>
@@ -241,7 +223,6 @@ return imgNum;
     <td width="250">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input
         type="button" name="userAction" id="userAction" onclick="if(true){ this.form.submit() }"
         value="Submit" />
-      <!-- <html:submit property="userAction" onclick="return submitForm1(this,document.getElementById('textarea'));" value="Submit" />  -->
     </td>
     <td width="250" align="left"><span id="textarea"></span></td>
   </tr>

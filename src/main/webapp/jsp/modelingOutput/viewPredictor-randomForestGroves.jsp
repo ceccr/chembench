@@ -91,7 +91,6 @@
   <p class="StandardTextDarkGray">
     <b><u>Descriptor Frequencies</u></b>
   </p>
-  <!--<p class="StandardTextDarkGray"><s:property value="mostFrequentDescriptors" /></p>-->
 </s:if>
 
 <!-- End Groves Page -->

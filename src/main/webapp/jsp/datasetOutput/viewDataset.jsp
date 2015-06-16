@@ -95,12 +95,7 @@
     }
 
   </script>
-  <!-- FIXME jQuery test stuff -->
   <script type="text/javascript">
-    function getURLParameter(name) {
-      return decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, null])[1]);
-    }
-
     $(function() {
       // set links with id
       var id = getURLParameter("id");
@@ -130,7 +125,6 @@
     <%@include file="/jsp/main/centralNavigationBar.jsp" %>
   </div>
 
-  <span class="Errors"><b><!-- errors go here..? --></b></span>
   <span class="StandardTextDarkGray"></span>
     <span id="maincontent">
 	<table width="924" align="center">
