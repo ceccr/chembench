@@ -25,7 +25,7 @@
           </tr>
           <tr>
             <td><s:textarea name="externalCompoundList" id="externalCompoundList" align="left"
-                            style="height: 50px; width: 100%" /></td>
+                            cssStyle="height: 50px; width: 100%" /></td>
           </tr>
         </table>
       </td>
