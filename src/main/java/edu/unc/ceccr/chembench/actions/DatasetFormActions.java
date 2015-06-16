@@ -158,21 +158,11 @@ public class DatasetFormActions extends ActionSupport {
     }
 
     public String execute() throws Exception {
-
         String emailOnCompletion = "false"; //for now
-
         String result = INPUT;
-
-        ActionContext context = ActionContext.getContext();
         String userName = user.getUserName();
         if (datasetName != null) {
-            datasetName = datasetName.replaceAll("\\s+", "_");
-            datasetName = datasetName.replaceAll("\\(", "_");
-            datasetName = datasetName.replaceAll("\\)", "_");
-            datasetName = datasetName.replaceAll("\\[", "_");
-            datasetName = datasetName.replaceAll("\\]", "_");
-            datasetName = datasetName.replaceAll("/", "_");
-            datasetName = datasetName.replaceAll("&", "_");
+            datasetName = datasetName.replaceAll("\\W", "_");
         }
 
         logger.debug("Starting dataset task");
@@ -217,10 +207,8 @@ public class DatasetFormActions extends ActionSupport {
                             .uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, actFileModeling,
                                     actFileModelingFileName, null, "", datasetName, dataTypeModeling, datasetType,
                                     externalCompoundList);
-                    sdfFileModelingFileName =
-                            sdfFileModelingFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-                    actFileModelingFileName =
-                            actFileModelingFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
+                    sdfFileModelingFileName = sdfFileModelingFileName.replaceAll("\\W", "_");
+                    actFileModelingFileName = actFileModelingFileName.replaceAll("\\W", "_");
                 } catch (Exception ex) {
                     logger.error(ex);
                     result = ERROR;
@@ -297,11 +285,10 @@ public class DatasetFormActions extends ActionSupport {
             if (result.equalsIgnoreCase(INPUT)) {
                 //verify uploaded files and copy them to the dataset dir
                 try {
+                    sdfFilePredictionFileName = sdfFilePredictionFileName.replaceAll("\\W", "_");
                     msgs = DatasetFileOperations
                             .uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, "", null, "",
                                     datasetName, dataTypeModeling, datasetType, externalCompoundList);
-                    sdfFilePredictionFileName = sdfFilePredictionFileName.replaceAll(" ", "_").replaceAll("\\(", "_")
-                            .replaceAll("\\)", "_");
                 } catch (Exception ex) {
                     logger.error(ex);
                     result = ERROR;
@@ -360,8 +347,7 @@ public class DatasetFormActions extends ActionSupport {
             if (result.equalsIgnoreCase(INPUT)) {
                 //verify uploaded files and copy them to the dataset dir
                 try {
-                    actFileModDescFileName =
-                            actFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
+                    actFileModDescFileName = actFileModDescFileName.replaceAll("\\W", "_");
                     if (actFileModDescFileName.endsWith(".a")) {
                         actFileModDescFileName =
                                 actFileModDescFileName.substring(0, actFileModDescFileName.length() - 2) + ".act";
@@ -376,12 +362,9 @@ public class DatasetFormActions extends ActionSupport {
                             .uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc,
                                     actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName,
                                     dataTypeModeling, datasetType, externalCompoundList);
-                    sdfFileModDescFileName =
-                            sdfFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-                    actFileModDescFileName =
-                            actFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-                    xFileModDescFileName =
-                            xFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
+                    sdfFileModDescFileName = sdfFileModDescFileName.replaceAll("\\W", "_");
+                    actFileModDescFileName = actFileModDescFileName.replaceAll("\\W", "_");
+                    xFileModDescFileName = xFileModDescFileName.replaceAll("\\W", "_");
                     descriptorTypeModDesc =
                             descriptorNewName.trim().isEmpty() ? selectedDescriptorUsedName : descriptorNewName;
 
@@ -447,10 +430,8 @@ public class DatasetFormActions extends ActionSupport {
                             .uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", xFilePredDesc,
                                     xFilePredDescFileName, datasetName, dataTypeModeling, datasetType,
                                     externalCompoundList);
-                    sdfFilePredDescFileName =
-                            sdfFilePredDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-                    xFilePredDescFileName =
-                            xFilePredDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
+                    sdfFilePredDescFileName = sdfFilePredDescFileName.replaceAll("\\W", "_");
+                    xFilePredDescFileName = xFilePredDescFileName.replaceAll("\\W", "_");
                     descriptorTypePredDesc =
                             descriptorNewNameD.trim().isEmpty() ? selectedDescriptorUsedNameD : descriptorNewNameD;
                 } catch (Exception ex) {

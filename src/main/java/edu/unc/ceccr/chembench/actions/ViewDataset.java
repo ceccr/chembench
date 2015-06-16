@@ -495,12 +495,12 @@ public class ViewDataset extends ViewAction {
             //that should not be displayed. Remove it.
             //Sample of stuff we don't want to show:
             /*
-			 * dragonX version 1.4 - Command line version for Linux - v.1.4.2 - built on: 2007-12-04
-			 * License file (/usr/local/ceccr/dragon/2010-12-31_drgx_license_UNC.txt) is a valid license file
-			 * User: ceccr (). Date: 2010/02/17 - 00:56:10 Licensed to: UNC-Chapel Hill - License type: Academic
-			 * (Single Workstation) - Expiration Date: 2010/12/31 - MAC address: 00:14:5E:3D:75:24
-			 * Decimal Separator set to: '.' - Thousands Separator set to: ','
-			 */
+             * dragonX version 1.4 - Command line version for Linux - v.1.4.2 - built on: 2007-12-04
+             * License file (/usr/local/ceccr/dragon/2010-12-31_drgx_license_UNC.txt) is a valid license file
+             * User: ceccr (). Date: 2010/02/17 - 00:56:10 Licensed to: UNC-Chapel Hill - License type: Academic
+             * (Single Workstation) - Expiration Date: 2010/12/31 - MAC address: 00:14:5E:3D:75:24
+             * Decimal Separator set to: '.' - Thousands Separator set to: ','
+             */
             if (dragonErrStr.contains("Thousands")) {
                 dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
                 dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
