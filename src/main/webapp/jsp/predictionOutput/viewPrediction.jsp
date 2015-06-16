@@ -139,10 +139,18 @@
 
       <sx:div href="%{predictionsLink}" id="predictionValuesDiv" label="Prediction Values" theme="ajax"
               loadingText="Loading predictions..." showLoadingText="true" preload="false"></sx:div>
+      <!--
+      <s:url id="warningsLink" value="/viewPredictionWarningsSection" includeParams="none">
+        <s:param name="predictionId" value='predictionId' />
+      </s:url>
+      <sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading warnings..."
+              showLoadingText="true">
+      </sx:div>
+      -->
     </sx:tabbedpanel>
     <!-- end load tabs -->
     </span>
-  
+
   <div id="image_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute"><img src=""
                                                                                                                   width="300"
                                                                                                                   height="300" />

@@ -200,6 +200,16 @@
             <td align="left" valign="top"><s:textfield id="svmWeight" name="svmWeight" size="5" theme="simple" />
             </td>
           </tr>
+          <!--
+				Removed option for cross-validation. Why? LibSVM doesn't generate models
+				when you specify cross-validation! It just gives you some nice info about
+				your dataset and exits. Not what we want. May be useful in calculating q^2
+				someday, but aside from that there's no reason to use it.
+
+				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of cross-validations (e.g. 5 for 5-fold):</b></div></td>
+				<td align="left" valign="top"><s:textfield id="svmCrossValidation" name="svmCrossValidation" size="5" theme="simple"/>
+				</td></tr>
+				-->
           <tr>
             <td>
               <div class="StandardTextDarkGrayParagraph">

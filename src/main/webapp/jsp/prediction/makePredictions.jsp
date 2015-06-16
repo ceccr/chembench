@@ -81,6 +81,18 @@
   <div class="includesNavbar">
     <%@ include file="/jsp/main/centralNavigationBar.jsp" %>
   </div>
+  <!--
+      <div class="StandardTextDarkGrayParagraph predictionBackground benchAlign"> <div class="homeLeft"> <br /> <br />
+      <p style="margin-left:20px"> <b>Chembench Predictor Selection</b> <br /> <br /> Here you may use predictors to
+      identify computational hits in external compound libraries. Predictors generated and validated by UNC's
+      Molecular Modeling Laboratory are available under <b>Drug Discovery Predictors</b>, <b>ADME Predictors</b>, and
+      <b>Toxicity Predictors</b>. Predictors you create using the MODELING tab appear under <b>Private Predictors</b>.
+      <br /> <br />For more information about making predictions, see the <a href="/help-prediction">Prediction help
+      page</a>. <br /> <br />Click the checkboxes to the left of each predictor you want to use, and hit the "Select
+      Predictors" button. Then you may predict the activity of a dataset, a SMILES string, or a molecule sketch. <br
+      /> <br /> If you wish to share predictors you have developed with the Chembench community, please contact us at
+      <a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a>. </p> </div> </div>
+    -->
   <div>
     <table style="border: 0px solid black">
       <tbody>

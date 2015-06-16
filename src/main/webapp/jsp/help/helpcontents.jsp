@@ -8,5 +8,10 @@
     <li><a href="help-prediction">Prediction</a></li>
     <li><a href="help-fileformats">Chembench File Formats</a></li>
     <li><a href="help-versions">Version History</a></li>
+    <!-- 
+<li><a href="help-mybench">My Bench</a></li>
+<li><a href="help-knn">kNN Parameters</a></li>
+<li><a href="help-faq">Frequently Asked Questions</a></li>
+ -->
   </ul>
 </div>

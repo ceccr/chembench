@@ -385,7 +385,7 @@
           </s:url>
           <td><s:a href="%{predictorLink}">
             <s:property value="name" />
-          </s:a> <br /> <a
+          </s:a> <br /> <!--<a href="selectPredictor" name="predictorCheckBoxes" value="%{id}">Predict</a>--> <a
               href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling"><img
               alt="download" width="18" height="18" src="theme/img/download.png" /></a> <s:if
               test="userName=='all-users'"></s:if> <s:else>
