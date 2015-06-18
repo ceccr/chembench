@@ -1,3 +1,9 @@
+/* hide the datatable until ajax loading completes */
+/* (the draw event will check if there are any rows and show the table if so) */
+.dataTables_wrapper {
+    display: none;
+}
+
 table[data-object-type="job"] {
     table-layout: fixed;
 }
