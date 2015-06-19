@@ -22,7 +22,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
-        <module name="ceccr" />
       </profile>
       <profile default="false" name="Annotation profile for chembench" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -33,7 +32,6 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="ceccr" target="1.7" />
       <module name="chembench" target="1.7" />
     </bytecodeTargetLevel>
   </component>
