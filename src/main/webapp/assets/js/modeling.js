@@ -1,7 +1,7 @@
 (function() {
     'use strict';
 
-    function datasetSelectedCallback(dataset) {
+    function updateModelingForm(dataset) {
         showSections();
         $('input[name="uploaded-descriptors-scaled"]').val(dataset.hasBeenScaled);
 
@@ -165,7 +165,7 @@
             $(this).find('input[type="radio"]').change(function() {
                 var rowSelector = $(this).closest('tr');
                 var dataset = rowSelector.closest('table').DataTable().row(rowSelector).data();
-                datasetSelectedCallback(dataset);
+                updateModelingForm(dataset);
             });
         }).on('draw', function() {
             var modified = false;
