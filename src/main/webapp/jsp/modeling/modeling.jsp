@@ -175,7 +175,7 @@
               <li><a href="#ga-knn" data-toggle="tab">GA-kNN</a></li>
               <li><a href="#sa-knn" data-toggle="tab">SA-kNN</a></li>
             </ul>
-            <s:hidden id="modelingType" name="modelingType" />
+            <input type="hidden" id="modelingType" name="modelingType" />
 
             <div class="tab-content">
               <div id="random-forest" class="tab-pane active">
@@ -737,19 +737,21 @@
           </div>
         </div>
 
-        <div id="internal-split-type-section" class="panel panel-primary">
+        <div class="panel panel-primary">
           <div class="panel-heading">
             <h3 class="panel-title">Choose Internal Data Split Method</h3>
           </div>
-          <div class="panel-body">
+          <div id="internal-split-type-section" class="panel-body">
             <ul class="nav nav-pills">
               <li class="active"><a href="#sphere-exclusion" data-toggle="tab">Sphere Exclusion</a></li>
               <li><a href="#random-split" data-toggle="tab">Random Split</a></li>
             </ul>
+            <input type="hidden" id="splitType" name="trainTestSplitType" />
 
             <div class="tab-content">
               <div id="sphere-exclusion" class="tab-pane active">
                 <h4>Sphere Exclusion</h4>
+                <input type="hidden" name="splitTypeConstant" value="SPHEREEXCLUSION">
 
                 <p class="margin-below bg-warning">Recommended for datasets with
                   <strong>fewer than 300 compounds.</strong></p>
@@ -801,6 +803,7 @@
 
               <div id="random-split" class="tab-pane">
                 <h4>Random Split</h4>
+                <input type="hidden" name="splitTypeConstant" value="RANDOM">
 
                 <p class="margin-below bg-warning">Recommended for datasets with <strong>300 or more
                   compounds.</strong></p>

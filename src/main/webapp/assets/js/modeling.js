@@ -52,7 +52,7 @@
             $('a[href="#random-split"]').tab('show');
         }
 
-        var internalSplitSection = $('#internal-split-type-section');
+        var internalSplitSection = $('#internal-split-type-section').closest('.panel');
         // ... but hide the div containing internal split options if random forest is selected
         // (random forest doesn't use internal splitting)
         if ($('#model-type-section').find('.nav').children('.active').children('a').attr('href') === '#random-forest') {
@@ -84,15 +84,29 @@
         hideSections();
         $('#degree-settings, #gamma-settings').hide();
 
-        $('#model-type-section').find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        var modelTypeSection = $('#model-type-section');
+        var splitTypeSection = $('#internal-split-type-section');
+        var activeModelType = $(modelTypeSection.find('.active').children('a').attr('href')).find('input[name="modelingTypeConstant"]').val();
+        var activeSplitType = $(splitTypeSection.find('.active').children('a').attr('href')).find('input[name="splitTypeConstant"]').val();
+        $('#modelingType').val(activeModelType);
+        $('#splitType').val(activeSplitType);
+
+        modelTypeSection.find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
             var tab = $($(e.target).attr('href'));
-            var tabId = tab.find('input[type="hidden"][name="modelingTypeConstant"]').val();
+            var tabId = tab.find('input[name="modelingTypeConstant"]').val();
+            var splitTypeSection = $('#internal-split-type-section').closest('.panel');
             if (tabId === 'RANDOMFOREST') {
-                $('#internal-split-type-section').hide();
+                splitTypeSection.hide();
             } else {
-                $('#internal-split-type-section').show();
+                splitTypeSection.show();
             }
-            $('input[name="modelingType"]').val(tabId);
+            $('#modelingType').val(tabId);
+        });
+
+        splitTypeSection.find('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+            var tab = $($(e.target).attr('href'));
+            var tabId = tab.find('input[name="splitTypeConstant"]').val();
+            $('#splitType').val(tabId);
         });
 
         $('input[name="svmKernel"]').change(function(e) {
