@@ -186,8 +186,8 @@
             var api = $(this).DataTable();
             api.rows().every(function() {
                 var row = this.data();
-                if (!(row.datasetType === Chembench.Constants.MODELING) ||
-                    row.datasetType === Chembench.Constants.MODELINGWITHDESCRIPTORS) {
+                if (row && (!(row.datasetType === Chembench.Constants.MODELING) ||
+                            row.datasetType === Chembench.Constants.MODELINGWITHDESCRIPTORS)) {
                     this.remove();
                     modified = true;
                 }
