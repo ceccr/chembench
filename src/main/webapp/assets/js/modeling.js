@@ -21,14 +21,15 @@
             if (descSteps > 0) {
                 numDifferentDescriptors += Math.floor((maxDesc - minDesc) / descSteps);
             }
+            var baseFactor = numCompounds * numSplits * numDifferentDescriptors;
 
             if (modelType === 'KNN-GA') {
-                moment.add(numCompounds * numSplits * 0.05, 'minutes');
+                moment.add(baseFactor * 0.05, 'minutes');
             } else { // KNN-SA
                 // depends on numRuns and needs a factor for convergence parameters (temperature etc).
                 var numRuns = $('#saNumRuns').val();
                 var numBest = $('#saNumBestModels').val();
-                moment.add(numSplits * numRuns * numBest * numDifferentDescriptors * numCompounds * 0.018, 'minutes');
+                moment.add(baseFactor * numRuns * numBest * 0.018, 'minutes');
             }
         } else if (modelType === 'SVM') {
             var numDifferentCosts = 1 + Math.floor(($('#svmCostTo').val() - $('#svmCostFrom').val()) /
