@@ -73,6 +73,7 @@
         $('#uploaded-descriptors-scaled').val(dataset.hasBeenScaled);
         $('#num-compounds').val(dataset.numCompound);
         $('#activity-type').val(dataset.modelType);
+        $('input[name="selectedDatasetId"]').val(dataset.id);
 
         var availableDescriptors = dataset.availableDescriptors.trim().split(/\s+/);
         if (availableDescriptors.contains(Chembench.Constants.UPLOADED)) {

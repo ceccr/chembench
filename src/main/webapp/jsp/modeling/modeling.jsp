@@ -56,6 +56,7 @@
             <div class="radio-table">
               <%@ include file="/jsp/jobs/datasets.jsp" %>
             </div>
+            <input type="hidden" name="selectedDatasetId">
             <input type="hidden" id="num-compounds">
             <input type="hidden" id="activity-type">
 
