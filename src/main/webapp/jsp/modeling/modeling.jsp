@@ -56,6 +56,8 @@
             <div class="radio-table">
               <%@ include file="/jsp/jobs/datasets.jsp" %>
             </div>
+            <input type="hidden" id="num-compounds">
+            <input type="hidden" id="activity-type">
 
             <p id="small-dataset-warning" class="bg-danger">
               <span class="text-danger"><strong>Warning:</strong></span> The dataset you have selected has <strong>fewer
@@ -127,7 +129,7 @@
 
             <h4>Scaling Type</h4>
 
-            <input type="hidden" name="uploaded-descriptors-scaled">
+            <input type="hidden" id="uploaded-descriptors-scaled">
             <s:hidden id="defaultScalingType" value="%{scalingType}" />
             <div id="scaling-types" class="form-group">
               <div class="inline-radio-group col-xs-12">
@@ -845,6 +847,7 @@
             <h3 class="panel-title">Add Model Metadata</h3>
           </div>
           <div class="panel-body">
+            <p id="time-estimate"></p>
             <div class="form-group">
               <label class="control-label col-xs-3">Model name:</label>
 
@@ -868,5 +871,6 @@
 
 <%@ include file="/jsp/main/tail.jsp" %>
 <script src="${pageContext.request.contextPath}/assets/js/modeling.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/moment.min.js"></script>
 </body>
 </html>
