@@ -178,9 +178,8 @@
                   <s:param name="projectType" value="'dataset'" />
                   <s:param name="compoundId" value="%{compoundId}" />
                   <s:param name="datasetName" value="%{dataset.name}" />
-                </s:url> <img src=""
-                  <s:property value="imageUrl" /> class="img-thumbnail" width="125" height="125"
-                              alt="Compound structure"></td>
+                </s:url><img src="<s:property value="imageUrl" />" class="img-thumbnail" width="125" height="125"
+                             alt="Compound structure"></td>
               </s:if>
               <s:if test="dataset.hasActivities()">
                 <td><s:property value="activityValue" /></td>
