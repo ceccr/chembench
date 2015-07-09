@@ -1,6 +1,7 @@
 package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
@@ -257,7 +258,13 @@ public class ModelingFormActions extends ActionSupport {
         }
 
         if (jobName != null) {
-            jobName = jobName.replaceAll("\\W", "_");
+            jobName = jobName.replaceAll(" ", "_");
+            jobName = jobName.replaceAll("\\(", "_");
+            jobName = jobName.replaceAll("\\)", "_");
+            jobName = jobName.replaceAll("\\[", "_");
+            jobName = jobName.replaceAll("\\]", "_");
+            jobName = jobName.replaceAll("/", "_");
+            jobName = jobName.replaceAll("&", "_");
         }
 
         logger.info("Submitting modeling job with dataset id: " + selectedDatasetId);

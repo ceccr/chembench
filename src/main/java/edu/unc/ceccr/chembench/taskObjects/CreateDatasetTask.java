@@ -99,9 +99,9 @@ public class CreateDatasetTask extends WorkflowTask {
 
         this.userName = userName;
         this.datasetType = datasetType;
-        this.sdfFileName = sdfFileName.replaceAll("\\W", "_");
-        this.actFileName = actFileName.replaceAll("\\W", "_");
-        this.xFileName = xFileName.replaceAll("\\W", "_");
+        this.sdfFileName = sdfFileName.replaceAll(" ", "_");
+        this.actFileName = actFileName.replaceAll(" ", "_");
+        this.xFileName = xFileName.replaceAll(" ", "_");
         this.descriptorType = descriptorType;
         this.actFileDataType = actFileDataType;
         this.standardize = standardize;
@@ -122,10 +122,10 @@ public class CreateDatasetTask extends WorkflowTask {
         try {
             if (!sdfFileName.equals("")) {
                 this.numCompounds =
-                        DatasetFileOperations.getSDFCompoundNames(path + sdfFileName.replaceAll("\\W", "_")).size();
+                        DatasetFileOperations.getSDFCompoundNames(path + sdfFileName.replaceAll(" ", "_")).size();
             } else if (!xFileName.equals("")) {
                 this.numCompounds =
-                        DatasetFileOperations.getXCompoundNames(path + xFileName.replaceAll("\\W", "_")).size();
+                        DatasetFileOperations.getXCompoundNames(path + xFileName.replaceAll(" ", "_")).size();
             }
         } catch (Exception ex) {
             logger.error("User: " + userName + "Job: " + jobName + " " + ex);
