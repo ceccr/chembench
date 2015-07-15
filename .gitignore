@@ -14,6 +14,7 @@ target/
 *.ear
 *.tar*
 *.tgz
+*.box
 
 ######################
 # Windows
@@ -54,6 +55,7 @@ local.properties
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/libraries/
+.idea/vagrant.xml
 
 ######################
 # Python
@@ -65,4 +67,9 @@ local.properties
 ######################
 *.sdf
 *.act
+
+######################
+# Vagrant
+######################
+.vagrant
 
