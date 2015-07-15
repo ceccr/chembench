@@ -1,0 +1,53 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+    config.vm.box = "ubuntu/trusty64"
+
+    # don't insert the basebox creator's ssh key
+    # (otherwise this will cause "Warning. Authentication failure. Retrying...")
+    config.ssh.insert_key = false
+
+    # fix for "stdin: is not a tty" issue during shell provisioning
+    config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
+    # forward 9090 -> 9090 for Jetty
+    config.vm.network "forwarded_port", guest: 9090, host: 9090
+
+    config.vm.provider "virtualbox" do |vb|
+        vb.memory = "1024"
+
+        # fix DNS resolution issues in VM
+        vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+    end
+
+    # map packaged files as /vagrant/include
+    config.vm.synced_folder File.expand_path("../", __FILE__),
+                            "/vagrant/include"
+
+    config.vm.provision "shell", inline: <<-SHELL
+        sudo dpkg --add-architecture i386
+        sudo echo "precedence ::ffff:0:0/96  100" >> /etc/gai.conf
+        sudo apt-get update
+        sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            mysql-server \
+            r-base \
+            r-cran-randomforest \
+            python2.7 \
+            gcc-multilib \
+            openjdk-7-jdk \
+            maven
+
+        sudo mkdir -p /opt/chembench/logs
+        sudo chown -R vagrant:vagrant /opt/chembench
+        tar -Jxvf /vagrant/include/basebox.tar.xz -C /opt/chembench
+
+        mysql -u root -e "CREATE DATABASE cbprod"
+        mysql -u root cbprod < /opt/chembench/cbprod.sql
+        rm /opt/chembench/cbprod.sql
+
+        sudo cp /vagrant/include/chembench_env.sh /etc/profile.d
+        sudo ln -s /opt/chembench /CHEMBENCH
+    SHELL
+end
+
