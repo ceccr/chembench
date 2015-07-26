@@ -3,7 +3,6 @@ package edu.unc.ceccr.chembench.actions;
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.User;
@@ -12,18 +11,19 @@ import edu.unc.ceccr.chembench.utilities.Utility;
 import net.tanesha.recaptcha.ReCaptcha;
 import net.tanesha.recaptcha.ReCaptchaFactory;
 import net.tanesha.recaptcha.ReCaptchaResponse;
-
 import org.apache.log4j.Logger;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
 // struts2
 
-public class UserRegistrationAndProfileActions extends ActionSupport {
+public class UserRegistrationAndProfileActions extends ActionSupport implements ServletRequestAware {
     /**
      *
      */
@@ -70,6 +70,11 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
     private String showAdvancedKnnModeling;
     private boolean userIsAdmin = false;
 
+    private String recaptcha_challenge_field;
+    private String recaptcha_response_field;
+
+    private HttpServletRequest request;
+
     public String loadUserRegistration() throws Exception {
         String result = SUCCESS;
         organizationType = "Academia";
@@ -115,16 +120,17 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
             errorMessages.add("Your username may not contain a space.");
             result = ERROR;
         }
-        // logger.debug("Check captcha now....");
-        // logger.debug("Public Key : " + Constants.RECAPTCHA_PUBLICKEY);
-        // logger.debug("Private Key : " + Constants.RECAPTCHA_PRIVATEKEY);
+
         // check CAPTCHA
-        ReCaptcha captcha =
-                ReCaptchaFactory.newReCaptcha(Constants.RECAPTCHA_PUBLICKEY, Constants.RECAPTCHA_PRIVATEKEY, false);
-        // logger.debug(captcha.toString());
-        ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1",
-                ((String[]) context.getParameters().get("recaptcha_challenge_field"))[0],
-                ((String[]) context.getParameters().get("recaptcha_response_field"))[0]);
+        ReCaptcha captcha;
+        if (request.isSecure()) {
+            captcha = ReCaptchaFactory
+                    .newSecureReCaptcha(Constants.RECAPTCHA_PUBLICKEY, Constants.RECAPTCHA_PRIVATEKEY, false);
+        } else {
+            captcha =
+                    ReCaptchaFactory.newReCaptcha(Constants.RECAPTCHA_PUBLICKEY, Constants.RECAPTCHA_PRIVATEKEY, false);
+        }
+        ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1", recaptcha_challenge_field, recaptcha_response_field);
 
         if (!resp.isValid()) {
             errorMessages.add("The text you typed for the CAPTCHA test" + " did not match the picture. Try again.");
@@ -657,6 +663,19 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         this.userIsAdmin = userIsAdmin;
     }
     /* End Variables used in password changes and user options */
+
+    public void setRecaptcha_challenge_field(String recaptcha_challenge_field) {
+        this.recaptcha_challenge_field = recaptcha_challenge_field;
+    }
+
+    public void setRecaptcha_response_field(String recaptcha_response_field) {
+        this.recaptcha_response_field = recaptcha_response_field;
+    }
+
+    @Override
+    public void setServletRequest(HttpServletRequest request) {
+        this.request = request;
+    }
 
     /* END DATA OBJECTS, GETTERS, AND SETTERS */
 }
