@@ -557,7 +557,7 @@ public class QsarPredictionTask extends WorkflowTask {
                 predValues = RandomForest.readPredictionOutput(predictionDir, predictor.getId());
             }
 
-            //Apply applicability domian
+            //Apply applicability domain
             String execstr = "";
             String predictionXFile = predictionDir + sdfile + ".renorm.x";
             File predictionFile = new File(predictionXFile);
@@ -565,7 +565,9 @@ public class QsarPredictionTask extends WorkflowTask {
                 predictionXFile = predictionDir + "RF_" + sdfile + ".renorm.x";
             }
 
-            execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + predictionDir + "train_0.x " + "-4PRED=" +
+            String predictorXFile = predictor.getModelMethod().equals(Constants.RANDOMFOREST) ? "RF_train_0.x" :
+                    "train_0.x";
+            execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + predictionDir + predictorXFile + "-4PRED=" +
                     predictionXFile + " -OUT=" + predictionDir + "PRE_AD";
             RunExternalProgram.runCommandAndLogOutput(execstr, predictionDir, "getAD");
 
