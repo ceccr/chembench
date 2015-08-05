@@ -567,8 +567,8 @@ public class QsarPredictionTask extends WorkflowTask {
 
             String predictorXFile = predictor.getModelMethod().equals(Constants.RANDOMFOREST) ? "RF_train_0.x" :
                     "train_0.x";
-            execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + predictionDir + predictorXFile + "-4PRED=" +
-                    predictionXFile + " -OUT=" + predictionDir + "PRE_AD";
+            execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + predictionDir + predictorXFile + " " +
+                    "-4PRED=" + predictionXFile + " -OUT=" + predictionDir + "PRE_AD";
             RunExternalProgram.runCommandAndLogOutput(execstr, predictionDir, "getAD");
 
             //Read AD results
