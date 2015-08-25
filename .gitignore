@@ -63,10 +63,11 @@ local.properties
 *.pyc
 
 ######################
-# Input files
+# Dataset/predictor files
 ######################
 *.sdf
 *.act
+*.RData
 
 ######################
 # Vagrant
