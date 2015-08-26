@@ -15,5 +15,7 @@ if (is.na(file)) {
 
 # RData file contains single object with the same name as the filename
 load(file)
-eval(parse(text = paste("rf", "<-", sub(".RData", "", file))))
+varname <- sub(".RData", "", tail(strsplit(file, "/")[[1]], n = 1))
+eval(parse(text = paste("rf", "<-", varname)))
 write.csv(rf$importance)
+
