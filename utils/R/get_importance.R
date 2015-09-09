@@ -17,5 +17,5 @@ if (is.na(file)) {
 load(file)
 varname <- sub(".RData", "", tail(strsplit(file, "/")[[1]], n = 1))
 eval(parse(text = paste("rf", "<-", varname)))
-write.csv(rf$importance)
+write.table(rf$importance, quote = FALSE, sep = "\t", col.names = NA)
 

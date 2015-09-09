@@ -150,6 +150,12 @@
           <s:param name="isYRandomPage" value="'YES'" />
         </s:url>
         <sj:tab href="%{treesYRandomLink}" label="Y-Randomized Trees" />
+
+        <s:url id="descriptorImportanceLink" action="viewPredictorRandomForestDescriptorImportanceSection"
+               escapeAmp="false">
+          <s:param name="id" value="selectedPredictor.id" />
+        </s:url>
+        <sj:tab href="%{descriptorImportanceLink}" label="Descriptor Importance" />
       </s:elseif>
 
       <s:elseif test="selectedPredictor.modelMethod=='SVM'">

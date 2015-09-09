@@ -385,6 +385,12 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
+        <action name="viewPredictorRandomForestDescriptorImportanceSection"
+                class="edu.unc.ceccr.chembench.actions.ViewPredictor.RandomForestDescriptorImportancePage">
+            <result name="success">/jsp/modelingOutput/viewPredictor-randomForestDescriptorImportance.jsp</result>
+            <result name="error">/jsp/main/error.jsp</result>
+        </action>
+
         <!-- end random forest -->
 
         <!-- svm -->

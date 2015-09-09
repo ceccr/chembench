@@ -3,8 +3,16 @@ package edu.unc.ceccr.chembench.persistence;
 // default package
 // Generated Jun 20, 2006 1:22:16 PM by Hibernate Tools 3.1.0.beta5
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+
 import javax.persistence.*;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "cbench_predictor")
@@ -111,6 +119,24 @@ public class Predictor implements java.io.Serializable {
         this.sdFileName = sdFileName;
         this.actFileName = actFileName;
         this.userName = userName;
+    }
+
+    @Transient
+    public List<Predictor> getChildren() {
+        Session session = null;
+        try {
+            session = HibernateUtil.getSession();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException("Failed to get db session", e);
+        }
+        if (session == null) {
+            throw new RuntimeException("Received null when db session requested");
+        }
+        Transaction tx = session.beginTransaction();
+        List<?> rawResult = session.createCriteria(Predictor.class).add(Restrictions.eq("parentId", id)).list();
+        tx.commit();
+        session.close();
+        return Lists.newArrayList(Iterables.filter(rawResult, Predictor.class));
     }
 
     @Id
