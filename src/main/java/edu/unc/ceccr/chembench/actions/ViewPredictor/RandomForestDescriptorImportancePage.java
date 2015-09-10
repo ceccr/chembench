@@ -80,20 +80,26 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
         Arrays.sort(filenames);
 
         File outFile = basePath.resolve("importance.csv").toFile();
+        int exitValue = 0;
         if (outFile.length() == 0) {
             try {
                 ProcessBuilder pb = new ProcessBuilder("Rscript",
                         Paths.get(Constants.CECCR_BASE_PATH, Constants.SCRIPTS_PATH, "get_importance.R").toString(),
                         basePath.resolve(filenames[0]).toString());
                 pb.redirectOutput(outFile);
-                pb.start().waitFor();
+                exitValue = pb.start().waitFor();
             } catch (IOException e) {
                 throw new RuntimeException("R descriptor importance extraction failed", e);
             } catch (InterruptedException e) {
                 throw new RuntimeException("Interrupted while waiting for descriptor importance extraction", e);
             }
 
-            // TODO error checking: outFile.length() == 0 or proc exitcode != 0
+            if (outFile.length() == 0) {
+                throw new RuntimeException("Descriptor importance extraction produced no output");
+            } else if (exitValue != 0) {
+                throw new RuntimeException("Descriptor importance extraction exited with non-zero exit code: " +
+                        exitValue);
+            }
         }
 
         Splitter splitter = Splitter.on('\t');
