@@ -79,21 +79,22 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
         });
         Arrays.sort(filenames);
 
-        File outFile;
-        try {
-            outFile = File.createTempFile("importance", ".csv", basePath.toFile());
-            ProcessBuilder pb = new ProcessBuilder("Rscript",
-                    Paths.get(Constants.CECCR_BASE_PATH, Constants.SCRIPTS_PATH, "get_importance.R").toString(),
-                    basePath.resolve(filenames[0]).toString());
-            pb.redirectOutput(outFile);
-            pb.start().waitFor();
-        } catch (IOException e) {
-            throw new RuntimeException("R descriptor importance extraction failed", e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException("Interrupted while waiting for descriptor importance extraction", e);
-        }
+        File outFile = basePath.resolve("importance.csv").toFile();
+        if (outFile.length() == 0) {
+            try {
+                ProcessBuilder pb = new ProcessBuilder("Rscript",
+                        Paths.get(Constants.CECCR_BASE_PATH, Constants.SCRIPTS_PATH, "get_importance.R").toString(),
+                        basePath.resolve(filenames[0]).toString());
+                pb.redirectOutput(outFile);
+                pb.start().waitFor();
+            } catch (IOException e) {
+                throw new RuntimeException("R descriptor importance extraction failed", e);
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Interrupted while waiting for descriptor importance extraction", e);
+            }
 
-        // TODO error checking: outFile.length() == 0 or proc exitcode != 0
+            // TODO error checking: outFile.length() == 0 or proc exitcode != 0
+        }
 
         Splitter splitter = Splitter.on('\t');
         Map<String, Double> data = Maps.newHashMap();
@@ -120,7 +121,6 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
         } catch (IOException e) {
             throw new RuntimeException("Couldn't read descriptor importance output", e);
         }
-        //outFile.delete();
         return data;
     }
 
