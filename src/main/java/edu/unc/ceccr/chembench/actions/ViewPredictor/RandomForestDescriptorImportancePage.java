@@ -109,6 +109,7 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
             if (outFile.length() == 0) {
                 throw new RuntimeException("Descriptor importance extraction produced no output");
             } else if (exitValue != 0) {
+                outFile.delete();
                 throw new RuntimeException("Descriptor importance extraction exited with non-zero exit code: " +
                         exitValue);
             }
