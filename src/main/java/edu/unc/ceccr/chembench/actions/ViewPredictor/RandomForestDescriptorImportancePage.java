@@ -25,6 +25,7 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
     private static Logger logger = Logger.getLogger(RandomForestDescriptorImportancePage.class.getName());
     private ImmutableSortedMap<String, Double> importance;
     private String importanceMeasure;
+    private int foldNumber = 0;
 
     public String execute() throws Exception {
         String result = getBasicParameters();
@@ -35,28 +36,39 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
         Map<String, Double> rawImportance = Maps.newHashMap();
         if (selectedPredictor.getChildType().equals(Constants.NFOLD)) {
             List<Predictor> children = selectedPredictor.getChildren();
-            Map<String, Double> averagedImportance = Maps.newHashMap();
-            for (Predictor p : children) {
-                Map<String, Double> childImportance = getDescriptorImportance(p, selectedPredictor);
-                for (String key : childImportance.keySet()) {
-                    Double childValue = childImportance.get(key);
-                    Double totalValue = averagedImportance.get(key);
-                    if (totalValue == null) {
-                        totalValue = 0d;
-                    }
-                    averagedImportance.put(key, childValue + totalValue);
+            if (foldNumber > 0) {
+                if (foldNumber > children.size()) {
+                    throw new IllegalArgumentException(String.format("Invalid fold number: requested %d but only %d "
+                            + "folds exist", foldNumber, children.size()));
                 }
+                rawImportance = getDescriptorImportance(children.get(foldNumber + 1), selectedPredictor);
+            } else {
+                Map<String, Double> averagedImportance = Maps.newHashMap();
+                for (Predictor p : children) {
+                    Map<String, Double> childImportance = getDescriptorImportance(p, selectedPredictor);
+                    for (String key : childImportance.keySet()) {
+                        Double childValue = childImportance.get(key);
+                        Double totalValue = averagedImportance.get(key);
+                        if (totalValue == null) {
+                            totalValue = 0d;
+                        }
+                        averagedImportance.put(key, childValue + totalValue);
+                    }
+                }
+                for (String key : averagedImportance.keySet()) {
+                    averagedImportance.put(key, averagedImportance.get(key) / children.size());
+                }
+                rawImportance = averagedImportance;
             }
-            for (String key : averagedImportance.keySet()) {
-                averagedImportance.put(key, averagedImportance.get(key) / children.size());
-            }
-            rawImportance = averagedImportance;
         } else {
             rawImportance = getDescriptorImportance(selectedPredictor, null);
         }
 
-        Ordering<String> valueComparator = Ordering.natural().onResultOf(Functions.forMap(rawImportance)).reverse();
-        importance = ImmutableSortedMap.copyOf(rawImportance, valueComparator);
+        // XXX the ...compound(Ordering.natural()) is needed to break ties when values are equal. this adds
+        // secondary sorting by key alphabetically
+        Ordering<String> descValueComparator = Ordering.natural().onResultOf(Functions.forMap(rawImportance)).reverse()
+                .compound(Ordering.natural());
+        importance = ImmutableSortedMap.copyOf(rawImportance, descValueComparator);
         return SUCCESS;
     }
 
@@ -136,5 +148,13 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
 
     public String getImportanceMeasure() {
         return importanceMeasure;
+    }
+
+    public int getFoldNumber() {
+        return foldNumber;
+    }
+
+    public void setFoldNumber(int foldNumber) {
+        this.foldNumber = foldNumber;
     }
 }
