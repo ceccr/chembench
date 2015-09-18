@@ -186,7 +186,7 @@ for(model in 1:nrow(dataSplitsList))
             sampsize=nrow(x),
             #nodesize=nodesize, FIXME should use default if not provided
             maxnodes=maxnodes,
-            importance=FALSE,
+            importance=TRUE,
             localImp=FALSE,
             nPerm=1,
             proximity=FALSE,
