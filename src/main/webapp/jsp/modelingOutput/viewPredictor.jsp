@@ -186,5 +186,6 @@
 
 <script src="javascript/chembench.js"></script>
 <script src="javascript/sortableTable-delay.js"></script>
+<script src="javascript/folds.js"></script>
 </body>
 </html>

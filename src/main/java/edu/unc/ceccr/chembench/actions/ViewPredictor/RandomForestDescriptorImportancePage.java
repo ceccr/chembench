@@ -26,6 +26,7 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
     private ImmutableSortedMap<String, Double> importance;
     private String importanceMeasure;
     private int foldNumber = 0;
+    private int totalFolds = 0;
 
     public String execute() throws Exception {
         String result = getBasicParameters();
@@ -35,16 +36,18 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
 
         Map<String, Double> rawImportance = Maps.newHashMap();
         if (selectedPredictor.getChildType().equals(Constants.NFOLD)) {
-            List<Predictor> children = selectedPredictor.getChildren();
+            childPredictors = selectedPredictor.getChildren();
+            totalFolds = childPredictors.size();
             if (foldNumber > 0) {
-                if (foldNumber > children.size()) {
-                    throw new IllegalArgumentException(String.format("Invalid fold number: requested %d but only %d "
-                            + "folds exist", foldNumber, children.size()));
+                if (foldNumber > totalFolds) {
+                    throw new IllegalArgumentException(String.format(
+                            "Invalid fold number: requested %d but only %d " + "folds exist", foldNumber,
+                            totalFolds));
                 }
-                rawImportance = getDescriptorImportance(children.get(foldNumber + 1), selectedPredictor);
+                rawImportance = getDescriptorImportance(childPredictors.get(foldNumber - 1), selectedPredictor);
             } else {
                 Map<String, Double> averagedImportance = Maps.newHashMap();
-                for (Predictor p : children) {
+                for (Predictor p : childPredictors) {
                     Map<String, Double> childImportance = getDescriptorImportance(p, selectedPredictor);
                     for (String key : childImportance.keySet()) {
                         Double childValue = childImportance.get(key);
@@ -56,7 +59,7 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
                     }
                 }
                 for (String key : averagedImportance.keySet()) {
-                    averagedImportance.put(key, averagedImportance.get(key) / children.size());
+                    averagedImportance.put(key, averagedImportance.get(key) / totalFolds);
                 }
                 rawImportance = averagedImportance;
             }
@@ -157,5 +160,9 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
 
     public void setFoldNumber(int foldNumber) {
         this.foldNumber = foldNumber;
+    }
+
+    public int getTotalFolds() {
+        return totalFolds;
     }
 }
