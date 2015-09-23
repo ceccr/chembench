@@ -39,8 +39,8 @@ Vagrant.configure(2) do |config|
             maven
 
         sudo mkdir -p /opt/chembench/logs
-        sudo chown -R vagrant:vagrant /opt/chembench
         tar -Jxvf /vagrant/include/basebox.tar.xz -C /opt/chembench
+        sudo chown -R vagrant:vagrant /opt/chembench
 
         mysql -u root -e "CREATE DATABASE cbprod"
         mysql -u root cbprod < /opt/chembench/cbprod.sql
