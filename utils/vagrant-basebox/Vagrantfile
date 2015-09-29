@@ -45,6 +45,7 @@ Vagrant.configure(2) do |config|
             'https://www.chemaxon.com/download.php?d=/data/download/jchem/15.9.14.0/jchem-15.9.14.0.zip&dl=true'
         unzip /tmp/jchem.zip -d /opt/chembench
         rm /tmp/jchem.zip
+        cp /vagrant/utils/R/* /opt/chembench/bin
         sudo chown -R vagrant:vagrant /opt/chembench
 
         mysql -u root -e "CREATE DATABASE cbprod"
