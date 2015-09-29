@@ -59,4 +59,5 @@ local.properties
 
 # Vagrant
 .vagrant
+jchem.cookie
 

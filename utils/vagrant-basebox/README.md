@@ -10,12 +10,16 @@ To create the base box:
 3. Run the following commands:
 
         $ vagrant package --base <name-of-VM> \
-            --include basebox.tar.xz,chembench_env.sh \
+            --include basebox.tgz,jchem.cookie,chembench_env.sh \
             --vagrantfile Vagrantfile
         $ vagrant box add chembench package.box
 
-**Note**: The file `basebox.tar.xz` is required to build the base box and
-contains essential binaries, licenses, and configuration. Due to software
-licensing issues, it is not included. If you need the file and you are a
-Chembench developer, contact another team member to acquire it.
+**Note**: The files `basebox.tgz` and `jchem.cookie` are required to build
+the base box. The file `basebox.tgz` contains essential binaries, licenses,
+and configuration. Due to software licensing issues, it is not included. The
+file `jchem.cookie` is a login cookie that is necessary to download the JChem
+software which cannot be included for security reasons.
+
+If you need these files and you are a Chembench developer, contact another team
+member.
 
