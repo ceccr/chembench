@@ -2,9 +2,11 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 
 <html>
 <head>
+  <sj:head />
   <title>CHEMBENCH | My Bench</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
@@ -17,18 +19,9 @@
   <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
   <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
   <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
   <script src="javascript/chembench.js"></script>
   <script src="javascript/dataset.js"></script>
-  <link rel="stylesheet" type="text/css"
-        href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css"></link>
   <script language="JavaScript" src="javascript/sortableTable.js"></script>
-  <script>
-    $(function() {
-      $("#tabs").tabs();
-    });
-  </script>
 </head>
 <body onload="setTabToMyBench();">
 
@@ -53,13 +46,11 @@
     </div>
   </div>
 
-  <div id="tabs">
-    <ul>
-      <li><a href="#jobQueue">Job Queue</a></li>
-      <li><a href="#datasets">Datasets</a></li>
-      <li><a href="#predictors">Predictors</a></li>
-      <li><a href="#predictions">Predictions</a></li>
-    </ul>
+  <sj:tabbedpanel id="tabs">
+    <sj:tab target="jobQueue" label="Job Queue" />
+    <sj:tab target="datasets" label="Datasets" />
+    <sj:tab target="predictors" label="Predictors" />
+    <sj:tab target="predictions" label="Predictions" />
 
     <!-- Queued, Local, and LSF Jobs -->
     <div id="jobQueue" class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
@@ -475,7 +466,7 @@
         </table>
       </s:if>
     </div>
-  </div>
+  </sj:tabbedpanel>
   <div class="includes">
     <%@include file="/jsp/main/footer.jsp" %>
   </div>
