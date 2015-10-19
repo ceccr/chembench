@@ -64,7 +64,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
                     ev.setNumTotalModels(numTotalModels);
                 }
 
-                if (currentFoldNumber.equals("0") || currentFoldNumber.equals("" + (i + 1))) {
+                if (currentFoldNumber == 0 || currentFoldNumber == (i + 1)) {
                     externalValValues.addAll(childExtVals);
                 }
                 // calculate mean absolute error for this child

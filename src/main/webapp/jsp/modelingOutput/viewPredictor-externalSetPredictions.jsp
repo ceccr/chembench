@@ -77,7 +77,7 @@
         activity rounded to the nearest whole number.</p>
       <table>
         <tr>
-          <td></td>
+          <td><!-- spacer --></td>
           <s:iterator value="confusionMatrix.uniqueObservedValues">
             <td class="TableRowText01">Predicted <s:property /></td>
           </s:iterator>
@@ -93,7 +93,7 @@
         </s:iterator>
       </table>
 
-      <s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber=='0'">
+      <s:if test="dataset.splitType == 'NFOLD' && currentFoldNumber == 0">
         <p class="StandardTextDarkGray">
           Overall CCR for compounds in all external sets: <b><s:property
             value="selectedPredictor.externalPredictionAccuracy" /></b>

@@ -24,7 +24,7 @@ public class ViewPredictorAction extends ViewAction {
     private static Logger logger = Logger.getLogger(ViewPredictorAction.class.getName());
     protected Predictor selectedPredictor;
     protected Dataset dataset;
-    protected String currentFoldNumber = "0";
+    protected int currentFoldNumber = 0;
     // End basic parameters
 
     // used by ext validation and models pages.
@@ -57,9 +57,6 @@ public class ViewPredictorAction extends ViewAction {
         dataset = PopulateDataObjects.getDataSetById(datasetId, session);
 
         childPredictors = PopulateDataObjects.getChildPredictors(selectedPredictor, session);
-        if (context.getParameters().get("currentFoldNumber") != null) {
-            currentFoldNumber = ((String[]) context.getParameters().get("currentFoldNumber"))[0];
-        }
         session.close();
         return SUCCESS;
     }
@@ -140,11 +137,11 @@ public class ViewPredictorAction extends ViewAction {
         this.sortDirection = sortDirection;
     }
 
-    public Integer getCurrentFoldNumber() {
-        return Integer.parseInt(currentFoldNumber);
+    public int getCurrentFoldNumber() {
+        return currentFoldNumber;
     }
 
-    public void setCurrentFoldNumber(String currentFoldNumber) {
+    public void setCurrentFoldNumber(int currentFoldNumber) {
         this.currentFoldNumber = currentFoldNumber;
     }
 
