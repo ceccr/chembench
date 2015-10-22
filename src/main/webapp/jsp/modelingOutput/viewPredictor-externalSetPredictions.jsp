@@ -75,23 +75,71 @@
 
       <p class="StandardTextDarkGray">Predicted category is based on the consensus prediction of the compound's
         activity rounded to the nearest whole number.</p>
-      <table>
-        <tr>
-          <td><!-- spacer --></td>
-          <s:iterator value="confusionMatrix.uniqueObservedValues">
-            <td class="TableRowText01">Predicted <s:property /></td>
-          </s:iterator>
-        </tr>
-        <s:iterator value="confusionMatrix.matrixValues" status="confusionMatrixStatus">
+
+      <s:if test="confusionMatrix.isBinary">
+        <table>
           <tr>
-            <td class="TableRowText01">Observed <s:property
-                value="confusionMatrix.uniqueObservedValues[#confusionMatrixStatus.index]" /></td>
-            <s:iterator value="confusionMatrix.matrixValues[#confusionMatrixStatus.index]">
-              <td class="TableRowText02"><s:property /></td>
+            <td><!-- spacer --></td>
+            <td class="TableRowText01">Predicted 0</td>
+            <td class="TableRowText01">Predicted 1</td>
+            <td><!-- spacer --></td>
+          <tr>
+            <td class="TableRowText01">Observed 0</td>
+            <td
+                class="TableRowText02"><abbr title="True Negatives">TN</abbr>:&nbsp;
+              <s:property value="confusionMatrix.trueNegatives" /></td>
+            <td class="TableRowText02"><abbr title="False Positives">FP</abbr>:&nbsp;
+              <s:property value="confusionMatrix.falsePositives" /></td>
+
+            <td class="TableRowText01"><abbr title="Negative Predictive Value">NPV</abbr>:&nbsp;
+              <s:property value="confusionMatrix.npvAsString" /></td>
+          </tr>
+          <tr>
+            <td class="TableRowText01">Observed 1</td>
+            <td class="TableRowText02"><abbr title="False Negatives">FN</abbr>:&nbsp;
+              <s:property value="confusionMatrix.falseNegatives" /></td>
+            <td class="TableRowText02"><abbr title="True Positives">TP</abbr>:&nbsp;
+              <s:property value="confusionMatrix.truePositives" /></td>
+
+            <td class="TableRowText01"><abbr title="Positive Predictive Value">PPV</abbr>:&nbsp;
+              <s:property value="confusionMatrix.ppvAsString" /></td>
+          </tr>
+          <tr>
+            <td><!-- spacer --></td>
+            <td class="TableRowText01">Specificity:
+              <b><s:property value="confusionMatrix.specificityAsString" /></b></td>
+            <td class="TableRowText01">Sensitivity:
+              <b><s:property value="confusionMatrix.sensitivityAsString" /></b></td>
+            <td><!-- spacer --></td>
+          </tr>
+        </table>
+      </s:if>
+      <s:else>
+        <table>
+          <tr>
+            <td><!-- spacer --></td>
+            <s:iterator value="confusionMatrix.uniqueObservedValues">
+              <td class="TableRowText01">Predicted <s:property /></td>
             </s:iterator>
           </tr>
-        </s:iterator>
-      </table>
+
+          <s:iterator value="confusionMatrix.matrix" var="row" status="i">
+            <tr>
+              <td class="TableRowText01">Observed <s:property value="#i.index" /></td>
+              <s:iterator value="row">
+                <td class="TableRowText02"><s:property /></td>
+              </s:iterator>
+            </tr>
+          </s:iterator>
+        </table>
+      </s:else>
+
+      <p class="StandardTextDarkGray">Total number of predictions:
+        <b><s:property value="confusionMatrix.totalCorrect + confusionMatrix.totalIncorrect" /></b></p>
+      <p class="StandardTextDarkGray">Total number of correct predictions:
+        <b><s:property value="confusionMatrix.totalCorrect" /></b></p>
+      <p class="StandardTextDarkGray">Total number of incorrect predictions:
+        <b><s:property value="confusionMatrix.totalIncorrect" /></b></p>
 
       <s:if test="dataset.splitType == 'NFOLD' && currentFoldNumber == 0">
         <p class="StandardTextDarkGray">
