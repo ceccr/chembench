@@ -593,9 +593,9 @@ public class QsarModelingTask extends WorkflowTask {
                 ModelingUtilities.SetUpYRandomization(userName, jobName);
                 ModelingUtilities.YRandomization(userName, jobName);
             } else if (modelType.equals(Constants.RANDOMFOREST)) {
-                RandomForest.makeRandomForestXFiles(scalingType,
+                LegacyRandomForest.makeRandomForestXFiles(scalingType,
                         Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
-                RandomForest.SetUpYRandomization(userName, jobName);
+                LegacyRandomForest.SetUpYRandomization(userName, jobName);
             } else if (modelType.equals(Constants.SVM)) {
                 ModelingUtilities.SetUpYRandomization(userName, jobName);
                 ModelingUtilities.YRandomization(userName, jobName);
@@ -669,17 +669,19 @@ public class QsarModelingTask extends WorkflowTask {
         } else if (modelType.equals(Constants.RANDOMFOREST)) {
             step = Constants.YRANDOMSETUP;
             logger.debug("making X files for job, " + jobName + " submitted by " + "user, " + userName + ".");
-            RandomForest.makeRandomForestXFiles(scalingType,
+            LegacyRandomForest.makeRandomForestXFiles(scalingType,
                     Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
             logger.debug("setting up y-randomization, " + jobName + " submitted by " + "user, " + userName + ".");
-            RandomForest.SetUpYRandomization(userName, jobName);
+            LegacyRandomForest.SetUpYRandomization(userName, jobName);
 
             step = Constants.MODELS;
             logger.debug("building models, " + jobName + " submitted by " + "user, " + userName + ".");
-            RandomForest.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights,
+            LegacyRandomForest
+                    .buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights,
                     path, jobName);
             logger.debug("building y-random models, " + jobName + " submitted by " + "user, " + userName + ".");
-            RandomForest.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights,
+            LegacyRandomForest
+                    .buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights,
                     path + "yRandom/", jobName);
             logger.debug("modeling phase done, " + jobName + " submitted by " + "user, " + userName + ".");
         }
@@ -745,7 +747,7 @@ public class QsarModelingTask extends WorkflowTask {
             }
         } else if (modelType.equals(Constants.RANDOMFOREST)) {
             // read in models and associate them with the predictor
-            randomForestGroves = RandomForest.readRandomForestGroves(filePath, predictor, Constants.NO);
+            randomForestGroves = LegacyRandomForest.readRandomForestGroves(filePath, predictor, Constants.NO);
 
             // commit models to database so we get the model id back so we can
             // use it in the trees
@@ -765,14 +767,14 @@ public class QsarModelingTask extends WorkflowTask {
             randomForestTrees = Lists.newArrayList();
             for (RandomForestGrove grove : randomForestGroves) {
                 randomForestTrees
-                        .addAll(RandomForest.readRandomForestTrees(filePath, predictor, grove, actFileDataType));
+                        .addAll(LegacyRandomForest.readRandomForestTrees(filePath, predictor, grove, actFileDataType));
             }
 
             // now do the same for the yRandom run
             // read in models for yRandom and associate them with the
             // predictor
             randomForestYRandomGroves =
-                    RandomForest.readRandomForestGroves(filePath + "yRandom/", predictor, Constants.YES);
+                    LegacyRandomForest.readRandomForestGroves(filePath + "yRandom/", predictor, Constants.YES);
 
             // commit models to database so we get the model id back so we can
             // use it in the trees
@@ -790,13 +792,13 @@ public class QsarModelingTask extends WorkflowTask {
 
             // read in yRandom trees and associate them with each model
             for (RandomForestGrove grove : randomForestYRandomGroves) {
-                randomForestTrees.addAll(RandomForest
+                randomForestTrees.addAll(LegacyRandomForest
                         .readRandomForestTrees(filePath + "yRandom/", predictor, grove, actFileDataType));
             }
 
             // read external set predictions
             if (numExternalCompounds > 0) {
-                externalSetPredictions = RandomForest.readExternalSetPredictionOutput(filePath, predictor);
+                externalSetPredictions = LegacyRandomForest.readExternalSetPredictionOutput(filePath, predictor);
             } else {
                 logger.debug("No external compounds; " + "skipping external set prediction!");
             }
@@ -899,7 +901,7 @@ public class QsarModelingTask extends WorkflowTask {
 
         // clean up dirs
         if (modelType.equals(Constants.RANDOMFOREST)) {
-            RandomForest.cleanUpExcessFiles(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
+            LegacyRandomForest.cleanUpExcessFiles(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
         }
 
         // calculate outputs based on ext set predictions and save

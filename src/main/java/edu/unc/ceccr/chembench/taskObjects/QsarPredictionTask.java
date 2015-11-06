@@ -537,7 +537,7 @@ public class QsarPredictionTask extends WorkflowTask {
                     .equals(Constants.KNNSA)) {
                 KnnPlus.runKnnPlusPrediction(predictionDir, sdfile);
             } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-                RandomForest.runRandomForestPrediction(predictionDir, jobName, sdfile, predictor);
+                LegacyRandomForest.runRandomForestPrediction(predictionDir, jobName, sdfile, predictor);
             }
             // done with 4. (make predictions in jobDir/predictorDir)
 
@@ -554,7 +554,7 @@ public class QsarPredictionTask extends WorkflowTask {
                     .equals(Constants.KNNSA)) {
                 predValues = KnnPlus.readPredictionOutput(predictionDir, predictor.getId(), sdfile + ".renorm.x");
             } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-                predValues = RandomForest.readPredictionOutput(predictionDir, predictor.getId());
+                predValues = LegacyRandomForest.readPredictionOutput(predictionDir, predictor.getId());
             }
 
             //Apply applicability domain

@@ -118,7 +118,7 @@ public class RunSmilesPrediction {
             // run prediction
             String xFile = "smiles.sdf.renorm.x";
             String newXFile = "RF_" + xFile;
-            RandomForest.preProcessXFile(predictor.getScalingType(), xFile, newXFile, workingDir);
+            LegacyRandomForest.preProcessXFile(predictor.getScalingType(), xFile, newXFile, workingDir);
 
             String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
             String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
