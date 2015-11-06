@@ -15,6 +15,7 @@ target/
 *.tar*
 *.tgz
 *.box
+*.gz
 
 # Windows
 Thumbs.db
@@ -48,6 +49,7 @@ local.properties
 .idea/tasks.xml
 .idea/libraries/
 .idea/vagrant.xml
+/utils/scikit-rf/.idea
 
 # Python
 *.pyc
@@ -55,7 +57,12 @@ local.properties
 # Dataset/predictor files
 *.sdf
 *.act
+*.csv
 *.RData
+*.p
+*.pkl
+*.pickle
+/utils/scikit-rf/*.json
 
 # Vagrant
 .vagrant
