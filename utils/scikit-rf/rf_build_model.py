@@ -62,7 +62,7 @@ if __name__ == '__main__':
     logging.info('Model building complete.')
     logging.info('Pickling forest classifier object...')
     archive_outfilepath = utils.save_model(forest, outfilepath)
-    logging.info('Forest written to "{}"'.format(archive_outfilepath))
+    logging.info('Forest written to "%s"', archive_outfilepath)
 
     metadata = {
         'descriptor_matrix': args.X_FILE,
