@@ -91,8 +91,8 @@
             <td class="TableRowText02"><abbr title="False Positives">FP</abbr>:&nbsp;
               <s:property value="confusionMatrix.falsePositives" /></td>
 
-            <td class="TableRowText01"><abbr title="Negative Predictive Value">NPV</abbr>:&nbsp;
-              <s:property value="confusionMatrix.npvAsString" /></td>
+            <td class="TableRowText01">Specificity:
+              <b><s:property value="confusionMatrix.specificityAsString" /></b></td>
           </tr>
           <tr>
             <td class="TableRowText01">Observed 1</td>
@@ -100,16 +100,15 @@
               <s:property value="confusionMatrix.falseNegatives" /></td>
             <td class="TableRowText02"><abbr title="True Positives">TP</abbr>:&nbsp;
               <s:property value="confusionMatrix.truePositives" /></td>
-
-            <td class="TableRowText01"><abbr title="Positive Predictive Value">PPV</abbr>:&nbsp;
-              <s:property value="confusionMatrix.ppvAsString" /></td>
+            <td class="TableRowText01">Sensitivity:
+              <b><s:property value="confusionMatrix.sensitivityAsString" /></b></td>
           </tr>
           <tr>
             <td><!-- spacer --></td>
-            <td class="TableRowText01">Specificity:
-              <b><s:property value="confusionMatrix.specificityAsString" /></b></td>
-            <td class="TableRowText01">Sensitivity:
-              <b><s:property value="confusionMatrix.sensitivityAsString" /></b></td>
+            <td class="TableRowText01"><abbr title="Negative Predictive Value">NPV</abbr>:&nbsp;
+              <s:property value="confusionMatrix.npvAsString" /></td>
+            <td class="TableRowText01"><abbr title="Positive Predictive Value">PPV</abbr>:&nbsp;
+              <s:property value="confusionMatrix.ppvAsString" /></td>
             <td><!-- spacer --></td>
           </tr>
         </table>
@@ -136,8 +135,10 @@
 
       <p class="StandardTextDarkGray">Total number of predictions:
         <b><s:property value="confusionMatrix.totalCorrect + confusionMatrix.totalIncorrect" /></b></p>
+
       <p class="StandardTextDarkGray">Total number of correct predictions:
         <b><s:property value="confusionMatrix.totalCorrect" /></b></p>
+
       <p class="StandardTextDarkGray">Total number of incorrect predictions:
         <b><s:property value="confusionMatrix.totalIncorrect" /></b></p>
 
