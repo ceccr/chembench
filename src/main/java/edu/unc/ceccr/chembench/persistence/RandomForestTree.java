@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "cbench_randomForestTree")
-public class RandomForestTree implements java.io.Serializable {
+public class RandomForestTree extends Persistable implements java.io.Serializable {
 
     /**
      *
