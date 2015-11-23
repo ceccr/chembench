@@ -70,8 +70,10 @@ if __name__ == '__main__':
     forest = grow_forest(X_train, y_train, args.ACTIVITY_TYPE, num_trees=args.n, seed=args.seed, quiet=args.quiet)
     logging.info('Model building complete.')
 
+    descriptor_importance = dict(zip(X_train.columns.values.tolist(), forest.feature_importances_.tolist()))
     metadata = {
         'seed': forest.get_params()['random_state'],
+        'descriptor_importance': descriptor_importance,
         'numpy_version': np.__version__,
         'scipy_version': scipy.__version__,
         'working_directory': os.getcwd(),
