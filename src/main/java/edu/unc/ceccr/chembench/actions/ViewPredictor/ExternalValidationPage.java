@@ -179,19 +179,19 @@ public class ExternalValidationPage extends ViewPredictorAction {
         this.mae = mae;
     }
 
-    public String getrSquared() {
+    public String getRSquared() {
         return rSquared;
     }
 
-    public void setrSquared(String rSquared) {
+    public void setRSquared(String rSquared) {
         this.rSquared = rSquared;
     }
 
-    public String getrSquaredAverageAndStddev() {
+    public String getRSquaredAverageAndStddev() {
         return rSquaredAverageAndStddev;
     }
 
-    public void setrSquaredAverageAndStddev(String rSquaredAverageAndStddev) {
+    public void setRSquaredAverageAndStddev(String rSquaredAverageAndStddev) {
         this.rSquaredAverageAndStddev = rSquaredAverageAndStddev;
     }
 
