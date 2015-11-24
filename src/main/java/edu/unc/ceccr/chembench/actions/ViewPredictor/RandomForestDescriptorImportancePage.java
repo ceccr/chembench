@@ -7,6 +7,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Predictor;
+import edu.unc.ceccr.chembench.workflows.modelingPrediction.RandomForest;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -83,66 +84,71 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
         }
         basePath = basePath.resolve(p.getName());
 
-        // XXX new models will never generate more than one RData file (named "RF_rand_sets_0_trn0.RData")
-        // however, old models may have more than one RData file due to how splitting was implemented for legacy RF.
-        // (in the past we allowed RF models to have more than one split.)
-        // in these cases the descriptor importance table will only show the importance data for the first split.
-        String[] filenames = basePath.toFile().list(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.toLowerCase().endsWith(".rdata");
-            }
-        });
-        Arrays.sort(filenames);
-
-        File outFile = basePath.resolve("importance.csv").toFile();
-        int exitValue = 0;
-        if (outFile.length() == 0) {
-            try {
-                ProcessBuilder pb = new ProcessBuilder("Rscript",
-                        Paths.get(Constants.CECCR_BASE_PATH, Constants.SCRIPTS_PATH, "get_importance.R").toString(),
-                        basePath.resolve(filenames[0]).toString());
-                pb.redirectOutput(outFile);
-                exitValue = pb.start().waitFor();
-            } catch (IOException e) {
-                throw new RuntimeException("R descriptor importance extraction failed", e);
-            } catch (InterruptedException e) {
-                throw new RuntimeException("Interrupted while waiting for descriptor importance extraction", e);
-            }
-
-            if (outFile.length() == 0) {
-                throw new RuntimeException("Descriptor importance extraction produced no output");
-            } else if (exitValue != 0) {
-                outFile.delete();
-                throw new RuntimeException("Descriptor importance extraction exited with non-zero exit code: " +
-                        exitValue);
-            }
-        }
-
-        Splitter splitter = Splitter.on('\t');
         Map<String, Double> data = Maps.newHashMap();
-        try (BufferedReader reader = Files.newBufferedReader(outFile.toPath(), StandardCharsets.UTF_8)) {
-            List<String> headerFields = splitter.splitToList(reader.readLine());
-            // XXX if the RF call has importance = FALSE (the default), only IncNodePurity (continuous) or
-            // MeanDecreaseGini (category) is generated. If importance = TRUE, then %IncMse (continuous)
-            // or MeanDecreaseAccuracy (category) are also generated. ideally we'd report both measures, but for now,
-            // report IncNodePurity / MeanDecreaseGini as that'll always be there
-            int importanceMeasureIndex = -1;
-            for (int i = 0; i < headerFields.size(); i++) {
-                String currField = headerFields.get(i);
-                if (currField.equals("IncNodePurity") || currField.equals("MeanDecreaseGini")) {
-                    importanceMeasureIndex = i;
-                    importanceMeasure = currField;
-                    break;
+        if (RandomForest.isNewModel(basePath)) {
+            importanceMeasure = "Relative Importance";
+            data = RandomForest.getDescriptorImportance(basePath);
+        } else {
+            // XXX new models will never generate more than one RData file (named "RF_rand_sets_0_trn0.RData")
+            // however, old models may have more than one RData file due to how splitting was implemented for legacy RF.
+            // (in the past we allowed RF models to have more than one split.)
+            // in these cases the descriptor importance table will only show the importance data for the first split.
+            String[] filenames = basePath.toFile().list(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.toLowerCase().endsWith(".rdata");
+                }
+            });
+            Arrays.sort(filenames);
+
+            File outFile = basePath.resolve("importance.csv").toFile();
+            int exitValue = 0;
+            if (outFile.length() == 0) {
+                try {
+                    ProcessBuilder pb = new ProcessBuilder("Rscript",
+                            Paths.get(Constants.CECCR_BASE_PATH, Constants.SCRIPTS_PATH, "get_importance.R").toString(),
+                            basePath.resolve(filenames[0]).toString());
+                    pb.redirectOutput(outFile);
+                    exitValue = pb.start().waitFor();
+                } catch (IOException e) {
+                    throw new RuntimeException("R descriptor importance extraction failed", e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException("Interrupted while waiting for descriptor importance extraction", e);
+                }
+
+                if (outFile.length() == 0) {
+                    throw new RuntimeException("Descriptor importance extraction produced no output");
+                } else if (exitValue != 0) {
+                    outFile.delete();
+                    throw new RuntimeException(
+                            "Descriptor importance extraction exited with non-zero exit code: " + exitValue);
                 }
             }
-            String line;
-            while ((line = reader.readLine()) != null) {
-                List<String> fields = splitter.splitToList(line);
-                data.put(fields.get(0), Double.parseDouble(fields.get(importanceMeasureIndex)));
+
+            Splitter splitter = Splitter.on('\t');
+            try (BufferedReader reader = Files.newBufferedReader(outFile.toPath(), StandardCharsets.UTF_8)) {
+                List<String> headerFields = splitter.splitToList(reader.readLine());
+                // XXX if the RF call has importance = FALSE (the default), only IncNodePurity (continuous) or
+                // MeanDecreaseGini (category) is generated. If importance = TRUE, then %IncMse (continuous)
+                // or MeanDecreaseAccuracy (category) are also generated. ideally we'd report both measures, but for now,
+                // report IncNodePurity / MeanDecreaseGini as that'll always be there
+                int importanceMeasureIndex = -1;
+                for (int i = 0; i < headerFields.size(); i++) {
+                    String currField = headerFields.get(i);
+                    if (currField.equals("IncNodePurity") || currField.equals("MeanDecreaseGini")) {
+                        importanceMeasureIndex = i;
+                        importanceMeasure = currField;
+                        break;
+                    }
+                }
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    List<String> fields = splitter.splitToList(line);
+                    data.put(fields.get(0), Double.parseDouble(fields.get(importanceMeasureIndex)));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Couldn't read descriptor importance output", e);
             }
-        } catch (IOException e) {
-            throw new RuntimeException("Couldn't read descriptor importance output", e);
         }
         return data;
     }

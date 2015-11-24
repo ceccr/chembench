@@ -15,14 +15,16 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class RunSmilesPrediction {
     private static Logger logger = Logger.getLogger(RunSmilesPrediction.class.getName());
 
-    public static String[] PredictSmilesSDF(String workingDir, String username, Predictor predictor) throws Exception {
+    public static String[] predictSmilesSDF(String workingDir, String username, Predictor predictor) throws Exception {
         Path wd = new File(workingDir).toPath();
         if (!Files.exists(wd)) {
             logger.info("Working directory doesn't exist, creating it: " + wd.toString());
@@ -30,7 +32,7 @@ public class RunSmilesPrediction {
         }
 
         String sdfile = workingDir + "smiles.sdf";
-        logger.debug("Running PredictSmilesSDF in dir " + workingDir);
+        logger.debug("Running predictSmilesSDF in dir " + workingDir);
 
         /* copy the predictor to the workingDir. */
         String predictorUsername = predictor.getUserName();
@@ -64,143 +66,54 @@ public class RunSmilesPrediction {
 
         /* read prediction output */
         List<String> predValueArray = Lists.newArrayList();
-        if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants.KNNSA)
-                || predictor.getModelMethod().equals(Constants.KNN)) {
-
-            /*
-             * write a dummy .a file because knn+ needs it or it fails
-             * bizarrely... X_X
-             */
-            String actfile = sdfile + ".renorm.a";
-
-            BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
-            aout.write("1 0");
-            aout.close();
-
-            // Run prediction
-            logger.debug("Running prediction.");
-            String preddir = workingDir;
-
-            String execstr = "";
-            if (predictor.getModelMethod().equals(Constants.KNN)) {
-                execstr = "knn+ knn-output.list -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + 99999 + "_avd -OUT=" +
-                        Constants.PRED_OUTPUT_FILE;
-            } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod()
-                    .equals(Constants.KNNSA)) {
-                execstr = "knn+ models.tbl -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + 99999 + "_avd -OUT=" +
-                        Constants.PRED_OUTPUT_FILE;
-            }
-
-            RunExternalProgram.runCommandAndLogOutput(execstr, preddir, "runSmilesPrediction");
-
-            String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_smiles.sdf.renorm.preds";
-            logger.debug("Reading file: " + workingDir + outputFile);
-            BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
-            String inputString;
-
-            /* Skip the first four lines (header data) */
-            in.readLine();
-            in.readLine();
-            in.readLine();
-            in.readLine();
-
-            /* get output for each model */
-            while ((inputString = in.readLine()) != null && !inputString.equals("")) {
-                String[] predValues = inputString.split("\\s+");
-                if (predValues != null && predValues.length > 2 && !predValues[2].equals("NA")) {
-                    // logger.debug(predValues[1] + " " + predValues[2]);
-                    predValueArray.add(predValues[2]);
+        if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
+            Path predictorDir = predictor.getDirectoryPath();
+            if (RandomForest.isNewModel(predictorDir)) {
+                ScikitRandomForestPrediction pred =
+                        RandomForest.predict(predictorDir, Paths.get(workingDir), "smiles.sdf" + ".renorm.x");
+                Map<String, Double> predictions = pred.getPredictions();
+                for (String key : predictions.keySet()) {
+                    predValueArray.add(predictions.get(key).toString());
                 }
-            }
-            in.close();
-            logger.debug("numModels: " + predValueArray.size());
-        } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-            // run prediction
-            String xFile = "smiles.sdf.renorm.x";
-            String newXFile = "RF_" + xFile;
-            LegacyRandomForest.preProcessXFile(predictor.getScalingType(), xFile, newXFile, workingDir);
+            } else {
+                // run prediction
+                String xFile = "smiles.sdf.renorm.x";
+                String newXFile = "RF_" + xFile;
+                LegacyRandomForest.preProcessXFile(predictor.getScalingType(), xFile, newXFile, workingDir);
 
-            String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
-            String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
-            String modelsListFile = "models.list";
-            String command = "Rscript --vanilla " + predictScript + " --scriptsDir " + scriptDir + " --workDir " +
-                    workingDir + " --modelsListFile " + modelsListFile + " --xFile " + newXFile;
+                String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
+                String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
+                String modelsListFile = "models.list";
+                String command = "Rscript --vanilla " + predictScript + " --scriptsDir " + scriptDir + " --workDir " +
+                        workingDir + " --modelsListFile " + modelsListFile + " --xFile " + newXFile;
 
-            RunExternalProgram.runCommandAndLogOutput(command, workingDir, "randomForestPredict");
+                RunExternalProgram.runCommandAndLogOutput(command, workingDir, "randomForestPredict");
 
-            // get output
-            String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
-            logger.debug("Reading consensus prediction file: " + workingDir + outputFile);
-            BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
-            String inputString;
+                // get output
+                String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
+                logger.debug("Reading consensus prediction file: " + workingDir + outputFile);
+                BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
+                String inputString;
             /* first line is the header with the model names */
-            in.readLine();
-            while ((inputString = in.readLine()) != null && !inputString.equals("")) {
+                in.readLine();
+                while ((inputString = in.readLine()) != null && !inputString.equals("")) {
                 /*
                  * Note: [0] is the compound name and the following are the
                  * predicted values.
                  */
-                String[] data = inputString.split("\\s+");
+                    String[] data = inputString.split("\\s+");
 
-                for (int i = 1; i < data.length; i++) {
-                    predValueArray.add(data[i]);
-                }
-            }
-            in.close();
-        } else if (predictor.getModelMethod().equals(Constants.SVM)) {
-            // TODO "smiles.sdf" + ".renorm.x" filepath is a magic string --
-            // codify or parameterize this somewhere
-            File xFile = new File(workingDir, "smiles.sdf.renorm.x");
-            logger.info(String.format("running SMILES prediction: FILE=%s, METHOD=%s", xFile.getAbsolutePath(),
-                    Constants.SVM));
-            if (!xFile.exists()) {
-                logger.warn(String.format("X file doesn't exist: LOCATION=%s", xFile.getAbsolutePath()));
-            } else {
-                Svm.runSvmPrediction(workingDir, xFile.getName());
-                logger.info(String.format("reading predicted values: FILE=%s, METHOD=%s", xFile.getAbsolutePath(),
-                        Constants.SVM));
-                // since we have common mean/stddev calculation code in
-                // RunSmilesPrediction, we'll parse the files ourselves
-                // TODO prediction output file extension ".pred" should be a
-                // const
-                File dir = new File(workingDir);
-                String[] predictionFiles = dir.list(new FilenameFilter() {
-                    public boolean accept(File arg0, String arg1) {
-                        return arg1.endsWith(".pred");
-                    }
-                });
-                for (String filename : predictionFiles) {
-                    String filepath = new File(workingDir, filename).getAbsolutePath();
-                    try {
-                        BufferedReader br = new BufferedReader(new FileReader(filepath));
-                        // because this is a SMILES prediction,
-                        // there should only be one line of prediction output
-                        String predLine = br.readLine();
-                        if (predLine == null || predLine.isEmpty()) {
-                            logger.warn(String.format("prediction line was null or empty, FILE=%s", filepath));
-                        } else {
-                            predLine.trim();
-                            logger.info(String.format("adding prediction: VALUE=%s, FILE=%s", predLine, filepath));
-                            predValueArray.add(predLine);
-
-                            // assert that there's nothing more in the file
-                            String secondLine = br.readLine();
-                            if (secondLine != null && !secondLine.isEmpty()) {
-                                logger.warn(String.format("unexpected prediction: VALUE=%s, FILE=%s", secondLine.trim(),
-                                        filepath));
-                            }
-                        }
-                        br.close();
-                    } catch (IOException e) {
-                        logger.warn(String.format("couldn't read prediction file: FILE=%s", filepath), e);
+                    for (int i = 1; i < data.length; i++) {
+                        predValueArray.add(data[i]);
                     }
                 }
+                in.close();
             }
         } else {
             // unsupported modeling type
             String logString =
-                    String.format("Model method not recognized: PREDICTOR=%s, METHOD=%s", predictor.getName(),
-                            predictor.getModelMethod());
+                    String.format("Model method not supported for SMILES predictions: PREDICTOR=%s, METHOD=%s",
+                            predictor.getName(), predictor.getModelMethod());
             logger.warn(logString);
         }
 

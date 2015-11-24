@@ -6,24 +6,24 @@
 <body>
 <p class="StandardTextDarkGray">
   SMILES String:
-  <s:property value="smilesString" />
+  <s:property value="smiles" />
 </p>
 
 <p class="StandardTextDarkGray">
   Similarity Cutoff:
-  <s:if test="%{smilesCutoff == 'N/A'}">
+  <s:if test="%{cutoff == 'N/A'}">
     N/A
   </s:if>
-  <s:elseif test="%{smilesCutoff == 0}">
+  <s:elseif test="%{cutoff == 0}">
     0&sigma;
   </s:elseif>
-  <s:elseif test="%{smilesCutoff == 1}">
+  <s:elseif test="%{cutoff == 1}">
     1&sigma;
   </s:elseif>
-  <s:elseif test="%{smilesCutoff == 2}">
+  <s:elseif test="%{cutoff == 2}">
     2&sigma;
   </s:elseif>
-  <s:elseif test="%{smilesCutoff == 3}">
+  <s:elseif test="%{cutoff == 3}">
     3&sigma;
   </s:elseif>
 </p>
@@ -40,7 +40,7 @@
   <s:iterator value="smilesPredictions">
     <tr>
       <td class="TableRowText02"><s:property value="predictorName" /></td>
-      <td class="TableRowText02"><s:if test="%{smilesCutoff>zScore || smilesCutoff=='N/A'}">
+      <td class="TableRowText02"><s:if test="%{cutoff>zScore || cutoff=='N/A'}">
         <s:property value="predictedValue" />
         <s:if test="stdDeviation!='N/A'"> &plusmn; <s:property value="stdDeviation" />
         </s:if>

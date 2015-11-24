@@ -1,6 +1,9 @@
 package edu.unc.ceccr.chembench.taskObjects;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import edu.unc.ceccr.chembench.actions.ModelingFormActions;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
@@ -14,15 +17,24 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 // logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
 public class QsarModelingTask extends WorkflowTask {
     private static Logger logger = Logger.getLogger(QsarModelingTask.class.getName());
     // predicted external set values
     List<ExternalValidation> externalSetPredictions = Lists.newArrayList();
+    Path baseDir;
+    Path yRandomDir;
     // job details
     private String sdFileName;
     private String actFileName;
@@ -63,7 +75,6 @@ public class QsarModelingTask extends WorkflowTask {
     // predictor object created during task
     private Predictor predictor;
     private int numExternalCompounds = 0;
-
     private String step = Constants.SETUP;
 
     public QsarModelingTask(Predictor predictor) throws Exception {
@@ -137,6 +148,7 @@ public class QsarModelingTask extends WorkflowTask {
         }
         s.close();
 
+        baseDir = Paths.get(Constants.CECCR_USER_BASE_PATH, userName, jobName);
     }
 
     public QsarModelingTask(String userName, ModelingFormActions ModelingForm) throws Exception {
@@ -295,6 +307,8 @@ public class QsarModelingTask extends WorkflowTask {
         datasetPath = Constants.CECCR_USER_BASE_PATH;
         datasetPath += dataset.getUserName();
         datasetPath += "/DATASETS/" + datasetName + "/";
+
+        baseDir = Paths.get(Constants.CECCR_USER_BASE_PATH, userName, jobName);
     }
 
     // stores what step we're on
@@ -575,12 +589,14 @@ public class QsarModelingTask extends WorkflowTask {
         DataSplit.splitModelingExternalGivenList(filePath, actFileName, xFileName, externalCompoundIdString);
 
         // make internal training / test sets for each model
-        if (trainTestSplitType.equals(Constants.RANDOM)) {
-            DataSplit.SplitTrainTestRandom(userName, jobName, numSplits, randomSplitMinTestSize, randomSplitMaxTestSize,
-                    randomSplitSampleWithReplacement);
-        } else if (trainTestSplitType.equals(Constants.SPHEREEXCLUSION)) {
-            DataSplit.SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax,
-                    sphereSplitMinTestSize, selectionNextTrainPt);
+        if (!modelType.equals(Constants.RANDOMFOREST)) {
+            if (trainTestSplitType.equals(Constants.RANDOM)) {
+                DataSplit.SplitTrainTestRandom(userName, jobName, numSplits, randomSplitMinTestSize,
+                        randomSplitMaxTestSize, randomSplitSampleWithReplacement);
+            } else if (trainTestSplitType.equals(Constants.SPHEREEXCLUSION)) {
+                DataSplit.SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax,
+                        sphereSplitMinTestSize, selectionNextTrainPt);
+            }
         }
 
         if (jobList.equals(Constants.LSF)) {
@@ -592,10 +608,6 @@ public class QsarModelingTask extends WorkflowTask {
             if (modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)) {
                 ModelingUtilities.SetUpYRandomization(userName, jobName);
                 ModelingUtilities.YRandomization(userName, jobName);
-            } else if (modelType.equals(Constants.RANDOMFOREST)) {
-                LegacyRandomForest.makeRandomForestXFiles(scalingType,
-                        Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
-                LegacyRandomForest.SetUpYRandomization(userName, jobName);
             } else if (modelType.equals(Constants.SVM)) {
                 ModelingUtilities.SetUpYRandomization(userName, jobName);
                 ModelingUtilities.YRandomization(userName, jobName);
@@ -669,20 +681,16 @@ public class QsarModelingTask extends WorkflowTask {
         } else if (modelType.equals(Constants.RANDOMFOREST)) {
             step = Constants.YRANDOMSETUP;
             logger.debug("making X files for job, " + jobName + " submitted by " + "user, " + userName + ".");
-            LegacyRandomForest.makeRandomForestXFiles(scalingType,
-                    Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
+            RandomForest.preprocessXFiles(baseDir, Constants.ScalingType.valueOf(scalingType));
             logger.debug("setting up y-randomization, " + jobName + " submitted by " + "user, " + userName + ".");
-            LegacyRandomForest.SetUpYRandomization(userName, jobName);
+            yRandomDir = RandomForest.setUpYRandomization(baseDir);
 
             step = Constants.MODELS;
+            Constants.ActivityType activityType = Constants.ActivityType.valueOf(actFileDataType);
             logger.debug("building models, " + jobName + " submitted by " + "user, " + userName + ".");
-            LegacyRandomForest
-                    .buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights,
-                    path, jobName);
+            RandomForest.growForest(baseDir, activityType);
             logger.debug("building y-random models, " + jobName + " submitted by " + "user, " + userName + ".");
-            LegacyRandomForest
-                    .buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights,
-                    path + "yRandom/", jobName);
+            RandomForest.growForest(yRandomDir, activityType);
             logger.debug("modeling phase done, " + jobName + " submitted by " + "user, " + userName + ".");
         }
         logger.info("Finished local execution for " + jobName);
@@ -720,12 +728,10 @@ public class QsarModelingTask extends WorkflowTask {
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
 
-        List<KnnPlusModel> knnPlusModels = null;
-        List<SvmModel> svmModels = null;
-        List<RandomForestGrove> randomForestGroves = null;
-        List<RandomForestTree> randomForestTrees = null;
-        List<RandomForestGrove> randomForestYRandomGroves = null;
-        List<RandomForestTree> randomForestYRandomTrees = null;
+        List<KnnPlusModel> knnPlusModels = Lists.newArrayList();
+        List<SvmModel> svmModels = Lists.newArrayList();
+        List<RandomForestTree> randomForestTrees = Lists.newArrayList();
+        List<RandomForestTree> randomForestYRandomTrees = Lists.newArrayList();
 
         if (modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)) {
             // read external set predictions
@@ -746,69 +752,43 @@ public class QsarModelingTask extends WorkflowTask {
                 knnPlusModels.addAll(knnPlusYRandomModels);
             }
         } else if (modelType.equals(Constants.RANDOMFOREST)) {
-            // read in models and associate them with the predictor
-            randomForestGroves = LegacyRandomForest.readRandomForestGroves(filePath, predictor, Constants.NO);
-
-            // commit models to database so we get the model id back so we can
-            // use it in the trees
-            try {
-                tx = session.beginTransaction();
-                for (RandomForestGrove m : randomForestGroves) {
-                    session.saveOrUpdate(m);
+            Map<String, Double> groundTruth = Maps.newHashMap();
+            try (BufferedReader br = Files
+                    .newBufferedReader(baseDir.resolve(Constants.EXTERNAL_SET_A_FILE), StandardCharsets.UTF_8)) {
+                String line;
+                Splitter splitter = Splitter.on(CharMatcher.WHITESPACE);
+                while ((line = br.readLine()) != null) {
+                    List<String> items = splitter.splitToList(line);
+                    String key = items.get(0);
+                    double value = Double.parseDouble(items.get(1));
+                    groundTruth.put(key, value);
                 }
-                tx.commit();
-            } catch (Exception ex) {
-                logger.error(
-                        "Error while executing job, " + jobName + " submitted by " + userName + ".\n" + ex.toString());
-                tx.rollback();
+            } catch (IOException e) {
+                logger.error("Couldn't read external set activities", e);
+                throw e;
             }
 
-            // read in trees and associate them with each model
-            randomForestTrees = Lists.newArrayList();
-            for (RandomForestGrove grove : randomForestGroves) {
-                randomForestTrees
-                        .addAll(LegacyRandomForest.readRandomForestTrees(filePath, predictor, grove, actFileDataType));
-            }
+            for (Path dir : new Path[]{baseDir, yRandomDir}) {
+                ScikitRandomForestPrediction pred = RandomForest.readPrediction(dir);
+                RandomForestGrove grove = pred.getGrove(predictor, dir == yRandomDir);
+                grove.save();
 
-            // now do the same for the yRandom run
-            // read in models for yRandom and associate them with the
-            // predictor
-            randomForestYRandomGroves =
-                    LegacyRandomForest.readRandomForestGroves(filePath + "yRandom/", predictor, Constants.YES);
-
-            // commit models to database so we get the model id back so we can
-            // use it in the trees
-            try {
-                tx = session.beginTransaction();
-                for (RandomForestGrove m : randomForestYRandomGroves) {
-                    session.saveOrUpdate(m);
+                if (dir == baseDir) {
+                    randomForestTrees.addAll(pred.getTrees(grove));
+                    if (numExternalCompounds > 0) {
+                        externalSetPredictions.addAll(pred.getExternalSetPredictions(groundTruth, predictor.getId()));
+                    } else {
+                        logger.debug("No external compounds; skipping external set prediction!");
+                    }
+                } else {
+                    randomForestYRandomTrees.addAll(pred.getTrees(grove));
                 }
-                tx.commit();
-            } catch (Exception ex) {
-                logger.error(
-                        "Error while executing job, " + jobName + " submitted by " + userName + ".\n" + ex.toString());
-                tx.rollback();
             }
 
-            // read in yRandom trees and associate them with each model
-            for (RandomForestGrove grove : randomForestYRandomGroves) {
-                randomForestTrees.addAll(LegacyRandomForest
-                        .readRandomForestTrees(filePath + "yRandom/", predictor, grove, actFileDataType));
-            }
-
-            // read external set predictions
-            if (numExternalCompounds > 0) {
-                externalSetPredictions = LegacyRandomForest.readExternalSetPredictionOutput(filePath, predictor);
-            } else {
-                logger.debug("No external compounds; " + "skipping external set prediction!");
-            }
-
+            // numTotalModels is what's displayed for numTestModels on the output webpage;
+            // reason is, we may decide to discard some of the models so they will not be used in external set
+            // prediction. hence, numTestModels may not equal numTotalModels in the future.
             predictor.setNumTotalModels(getNumTotalModels());
-
-            // numTestModels is what's displayed on the output webpage
-            // reason is, we may decide to discard some of the models so they
-            // will not be used in external set prediction
-            // hence, numTestModels may not equal numTotalModels in future.
             predictor.setNumTestModels(getNumTotalModels());
         } else if (modelType.equals(Constants.SVM)) {
             // read in models and associate them with the predictor
@@ -871,20 +851,19 @@ public class QsarModelingTask extends WorkflowTask {
             tx = session.beginTransaction();
             session.saveOrUpdate(predictor);
 
-            if (knnPlusModels != null) {
-                for (KnnPlusModel m : knnPlusModels) {
-                    m.setPredictorId(predictor.getId());
-                    session.saveOrUpdate(m);
-                }
-            } else if (svmModels != null) {
-                for (SvmModel m : svmModels) {
-                    m.setPredictorId(predictor.getId());
-                    session.saveOrUpdate(m);
-                }
-            } else if (randomForestTrees != null) {
-                for (RandomForestTree t : randomForestTrees) {
-                    session.saveOrUpdate(t);
-                }
+            for (KnnPlusModel m : knnPlusModels) {
+                m.setPredictorId(predictor.getId());
+                session.saveOrUpdate(m);
+            }
+            for (SvmModel m : svmModels) {
+                m.setPredictorId(predictor.getId());
+                session.saveOrUpdate(m);
+            }
+            for (RandomForestTree t : randomForestTrees) {
+                session.saveOrUpdate(t);
+            }
+            for (RandomForestTree t : randomForestYRandomTrees) {
+                session.saveOrUpdate(t);
             }
             for (ExternalValidation ev : externalSetPredictions) {
                 session.saveOrUpdate(ev);
@@ -901,7 +880,7 @@ public class QsarModelingTask extends WorkflowTask {
 
         // clean up dirs
         if (modelType.equals(Constants.RANDOMFOREST)) {
-            LegacyRandomForest.cleanUpExcessFiles(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
+            RandomForest.cleanUp(baseDir);
         }
 
         // calculate outputs based on ext set predictions and save

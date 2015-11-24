@@ -1,14 +1,12 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
 import com.google.common.collect.Lists;
-
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -124,36 +122,13 @@ public class LegacyRandomForest {
         // build model script parameter
         String type = actFileDataType.equals(Constants.CATEGORY) ? "classification" : "regression";
         String ntree = randomForestParameters.getNumTrees().trim();
-
-        /*
-         * FIXME mtry & nodesize currently disabled because defaults should be
-         * used in most cases instead. Eventually, add these to an "advanced
-         * options" section in the RF modeling form and then conditionally set
-         * them to form values, if those values are not null.
-         *
-         * XXX that change needs to be made in randomForestBuildModel.R as well!
-         *
-        //String nodesize = randomForestParameters.getMinTerminalNodeSize();
-        String mtry = randomForestParameters.getDescriptorsPerTree();
-        if (mtry != null) {
-            mtry = mtry.trim();
-        }
-        */
-        //String nodesize = randomForestParameters.getMinTerminalNodeSize();
-
-        // String classwt = categoryWeights;
         String classwt = "NULL";
-
-        //String nodesize = randomForestParameters.getMinTerminalNodeSize();
         String maxnodes = randomForestParameters.getMaxNumTerminalNodes();
 
         String externalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
         if (DatasetFileOperations.getXCompoundNames(workingDir + "RF_" + Constants.EXTERNAL_SET_X_FILE).size() == 0) {
-            // Random Forest will not run without a non-empty x file.
-            // (facepalm)
-            // workaround: use the training set X file in this case. The
-            // external
-            // prediction results will be ignored.
+            // Random Forest will not run without a non-empty x file. (facepalm)
+            // workaround: use the training set X file in this case. The external prediction results will be ignored.
             externalXFile = "RF_" + Constants.MODELING_SET_X_FILE;
         }
 
@@ -163,34 +138,20 @@ public class LegacyRandomForest {
         command = "Rscript --vanilla " + buildModelScript + " --scriptsDir " + scriptDir + " --workDir " + workingDir
                 + " --externalXFile " + externalXFile + " --dataSplitsListFile " + "RF_RAND_sets.list" + " --type "
                 + type + " --ntree " + ntree + " --classwt " + classwt + " --maxnodes " + maxnodes;
-        /*
-         * FIXME disabled until default-if-not-provided is implemented
-        if (mtry != null) {
-            command += " --mtry" + mtry;
-        }
-        if (nodesize != null) {
-            command += " --nodesize " + nodesize;
-        }
-        */
-
         RunExternalProgram.runCommandAndLogOutput(command, workingDir, "randomForestBuildModel");
     }
 
     public static List<ExternalValidation> readExternalSetPredictionOutput(String workingDir, Predictor predictor)
             throws Exception {
-        // note that in Random Forest, making external predictions is done
-        // automatically
-        // as part of the modeling process.
+        // note that in Random Forest, making external predictions is done automatically as part of the modeling
+        // process.
 
         List<ExternalValidation> allExternalValues = Lists.newArrayList();
         BufferedReader in = new BufferedReader(new FileReader(workingDir + Constants.EXTERNAL_SET_A_FILE));
         String inputString;
 
         while ((inputString = in.readLine()) != null && !inputString.equals("")) {
-            String data[] = inputString.split("\\s+"); // Note: [0] is the
-            // compound name and
-            // [1] is the activity
-            // value.
+            String data[] = inputString.split("\\s+"); // Note: [0] is the compound name and [1] is the activity value.
             ExternalValidation externalValidationValue = new ExternalValidation();
             externalValidationValue.setPredictorId(predictor.getId());
             externalValidationValue.setCompoundId(data[0]);
@@ -207,12 +168,8 @@ public class LegacyRandomForest {
             inputString = in.readLine();
             if (inputString != null && !inputString.trim().isEmpty()) {
 
-                String[] data = inputString.split("\\s+"); // Note: [0] is the
-                // compound name
-                // and the
-                // following are
-                // the predicted
-                // values.
+                String[] data = inputString.split("\\s+"); // Note: [0] is the compound name and the following are
+                // the predicted values.
 
                 Float[] compoundPredictedValues = new Float[data.length - 1];
 
@@ -249,16 +206,12 @@ public class LegacyRandomForest {
         String inputString;
         while ((inputString = in.readLine()) != null && !inputString.equals("")) {
             // for each model
-            String[] data = inputString.split("\t"); // [0] is the grove name,
-            // [1] is the list of
-            // descriptors used in
-            // this grove
+            String[] data = inputString.split("\t"); // [0] is the grove name, [1] is the list of
+            // descriptors used in this grove
             RandomForestGrove m = new RandomForestGrove();
             m.setPredictorId(predictor.getId());
             m.setName(data[0]);
-            if (data.length > 1) { // sometimes R code doesn't print
-                // descriptors right. Not a big deal, just
-                // move along.
+            if (data.length > 1) { // sometimes R code doesn't print descriptors right. Not a big deal, just move along.
                 m.setDescriptorsUsed(data[1]);
             }
             m.setIsYRandomModel(isYRandomModel);
@@ -335,8 +288,7 @@ public class LegacyRandomForest {
                 RandomForestTree t = new RandomForestTree();
                 t.setRandomForestGroveId(grove.getId());
                 t.setTreeFileName(treeFileName.get(i));
-                if (i < treeDescriptorsUsed.size()) { // if no descriptors,
-                    // not a big deal
+                if (i < treeDescriptorsUsed.size()) { // if no descriptors, not a big deal
                     t.setDescriptorsUsed(treeDescriptorsUsed.get(i));
                 }
                 randomForestTrees.add(t);
@@ -429,11 +381,7 @@ public class LegacyRandomForest {
     }
 
     public static List<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception {
-        List<PredictionValue> predictionValues = Lists.newArrayList(); // holds
-        // objects
-        // to
-        // be
-        // returned
+        List<PredictionValue> predictionValues = Lists.newArrayList(); // holds objects to be returned
 
         // Get the predicted values of the forest
         String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
@@ -443,11 +391,8 @@ public class LegacyRandomForest {
 
         in.readLine(); // first line is the header with the model name
         while ((inputString = in.readLine()) != null && !inputString.equals("")) {
-            String[] data = inputString.split("\\s+"); // Note: [0] is the
-            // compound name and
-            // the following are
-            // the predicted
-            // values.
+            // Note: [0] is the compound name and the following are the predicted values.
+            String[] data = inputString.split("\\s+");
 
             PredictionValue p = new PredictionValue();
             p.setPredictorId(predictorId);

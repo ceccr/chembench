@@ -163,13 +163,6 @@ public class RandomForestModelsPage extends ViewPredictorAction {
                 }
             }
         }
-        for (RandomForestTree rfTree : randomForestTrees) {
-            String splitNumber = rfTree.getTreeFileName();
-            if (splitNumber.split("_").length > 2) {
-                splitNumber = splitNumber.split("_")[3];
-            }
-            rfTree.setTreeFileName(splitNumber);
-        }
         session.close();
         return result;
     }

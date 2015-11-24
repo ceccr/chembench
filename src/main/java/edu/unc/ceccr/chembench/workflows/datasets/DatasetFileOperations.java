@@ -17,6 +17,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.*;
 
 /*
@@ -1029,14 +1030,18 @@ public class DatasetFileOperations {
         return "";
     }
 
-    public static void randomizeActivityFile(String filePath, String outFilePath) throws Exception {
+    public static void randomizeActivityFile(Path filePath, Path outFilePath) throws IOException {
+        randomizeActivityFile(filePath.toString(), outFilePath.toString());
+    }
+
+    public static void randomizeActivityFile(String filePath, String outFilePath) throws IOException {
         List<String> actFileCompounds = getACTCompoundNames(filePath);
         HashMap<String, String> actFileIdsAndValues = getActFileIdsAndValues(filePath);
         List<String> actFileValues = Lists.newArrayList(actFileIdsAndValues.values());
         Collections.shuffle(actFileValues);
 
         if (actFileValues.size() != actFileCompounds.size()) {
-            throw new Exception(
+            throw new RuntimeException(
                     "Error: act file value array is size " + actFileValues.size() + " and compound names array is size "
                             + actFileCompounds.size());
         }

@@ -31,7 +31,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -47,28 +47,7 @@
     <orderEntry type="library" name="Maven: org.jfree:jcommon:1.0.23" level="project" />
     <orderEntry type="library" name="Maven: net.tanesha.recaptcha4j:recaptcha4j:0.0.7" level="project" />
     <orderEntry type="library" name="jQuery-2.0.0" level="application" />
-    <orderEntry type="library" name="Maven: com.jgeppert.struts2.jquery:struts2-jquery-plugin:3.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.velocity:velocity:1.5" level="project" />
-    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.1" level="project" />
-    <orderEntry type="library" name="Maven: oro:oro:2.0.8" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.struts:struts2-dojo-plugin-fixed:2.3.20" level="project" />
-    <orderEntry type="library" name="Maven: com.jgeppert.struts2.jquery:struts2-jquery-plugin:3.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.velocity:velocity:1.5" level="project" />
-    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.1" level="project" />
-    <orderEntry type="library" name="Maven: oro:oro:2.0.8" level="project" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:17.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.struts:struts2-dojo-plugin-fixed:2.3.20" level="project" />
-    <orderEntry type="library" name="Maven: com.jgeppert.struts2.jquery:struts2-jquery-plugin:3.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.velocity:velocity:1.5" level="project" />
-    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.1" level="project" />
-    <orderEntry type="library" name="Maven: oro:oro:2.0.8" level="project" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:17.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.struts:struts2-dojo-plugin-fixed:2.3.20" level="project" />
-    <orderEntry type="library" name="Maven: com.jgeppert.struts2.jquery:struts2-jquery-plugin:3.7.1" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.velocity:velocity:1.5" level="project" />
-    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.1" level="project" />
-    <orderEntry type="library" name="Maven: oro:oro:2.0.8" level="project" />
-    <orderEntry type="library" name="Maven: com.google.guava:guava:17.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.4" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:3.8.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.servlet.jsp:jsp-api:2.1" level="project" />
@@ -104,6 +83,7 @@
     <orderEntry type="library" name="Maven: c3p0:c3p0:0.9.1" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.31" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:17.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.4" level="project" />
     <orderEntry type="library" name="Maven: jfree:jfreechart:1.0.7" level="project" />
     <orderEntry type="library" name="Maven: jfree:jcommon:1.0.12" level="project" />
     <orderEntry type="library" name="Maven: commons-validator:commons-validator:1.4.0" level="project" />

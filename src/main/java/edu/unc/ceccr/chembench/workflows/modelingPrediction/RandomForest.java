@@ -1,0 +1,201 @@
+package edu.unc.ceccr.chembench.workflows.modelingPrediction;
+
+import com.google.common.collect.Lists;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import edu.unc.ceccr.chembench.global.Constants;
+import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
+import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
+import org.apache.log4j.Logger;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.GZIPOutputStream;
+
+public class RandomForest {
+    private static final String RF_X_FILE_PREFIX = "RF_";
+    private static final String BUILD_SCRIPT = "rf_build_model.py";
+    private static final String PREDICT_SCRIPT = "rf_predict.py";
+    private static final String MODEL_PICKLE_RAW = "forest.pkl";
+    private static final String MODEL_PICKLE = "forest.pkl.gz";
+    private static final String MODEL_METADATA = "forest.json";
+    private static final String EXTERNAL_SET_PREDICTION_OUTPUT = "external_set_predictions.json";
+    private static final String PREDICTION_OUTPUT = "predictions.json";
+    private static final String Y_RANDOM_DIRECTORY = "yRandom";
+    public static Logger logger = Logger.getLogger(RandomForest.class.getName());
+
+    // usual task progression:
+    // preprocessing: preprocessXFiles, setUpYRandomization
+    // model building: growForest
+    // postprocessing: readPrediction
+
+    public static void preprocessXFiles(Path predictorDir, Constants.ScalingType scalingType) {
+        if (scalingType == Constants.ScalingType.NOSCALING) {
+            return;
+        }
+
+        // if scaling was applied, the last 2 lines of a .x file will contain the scaling ranges.
+        // remove these before sending the .x files to the build script.
+        String[] filenames = {Constants.EXTERNAL_SET_X_FILE, Constants.MODELING_SET_X_FILE};
+        for (String filename : filenames) {
+            preprocessXFile(predictorDir, filename);
+        }
+    }
+
+    private static void preprocessXFile(Path predictorDir, String filename) {
+        try (BufferedReader in = Files.newBufferedReader(predictorDir.resolve(filename), Charset.defaultCharset());
+             BufferedWriter out = Files
+                     .newBufferedWriter(predictorDir.resolve(RF_X_FILE_PREFIX + filename), Charset.defaultCharset())) {
+            List<String> lines = Lists.newArrayList();
+            String line;
+            while ((line = in.readLine()) != null) {
+                lines.add(line);
+            }
+
+            for (int i = 0; i < lines.size(); i++) {
+                if (i < lines.size() - 2) {
+                    out.write(lines.get(i));
+                    out.newLine();
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("X file preprocessing failed", e);
+        }
+    }
+
+    public static Path setUpYRandomization(Path predictorDir) {
+        Path yRandomDir;
+        try {
+            yRandomDir = Files.createDirectories(predictorDir.resolve(Y_RANDOM_DIRECTORY));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to create y-random directory", e);
+        }
+
+        String[] filesToCopy = new String[]{RF_X_FILE_PREFIX + Constants.MODELING_SET_X_FILE,
+                RF_X_FILE_PREFIX + Constants.EXTERNAL_SET_X_FILE, Constants.MODELING_SET_A_FILE,
+                Constants.EXTERNAL_SET_A_FILE};
+        try {
+            for (String filename : filesToCopy) {
+                Files.copy(predictorDir.resolve(filename), yRandomDir.resolve(filename),
+                        StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't copy original modeling .x/.act files to y-random directory", e);
+        }
+
+        Path yRandomActFile = yRandomDir.resolve(Constants.MODELING_SET_A_FILE);
+        try {
+            DatasetFileOperations.randomizeActivityFile(yRandomActFile, yRandomActFile);
+        } catch (IOException e) {
+            throw new RuntimeException("Activity randomization failed", e);
+        }
+        return yRandomDir;
+    }
+
+    public static void growForest(Path predictorDir, Constants.ActivityType activityType) {
+        String command = String.format("%s %s %s %s --output %s", BUILD_SCRIPT,
+                predictorDir.resolve(RF_X_FILE_PREFIX + Constants.MODELING_SET_X_FILE),
+                predictorDir.resolve(Constants.MODELING_SET_A_FILE), activityType.toString().toLowerCase(),
+                predictorDir.resolve(MODEL_PICKLE_RAW));
+        int exitcode = RunExternalProgram.runCommandAndLogOutput(command, predictorDir, BUILD_SCRIPT);
+        if (exitcode != 0) {
+            throw new RuntimeException("Model generation failed, exit code " + exitcode);
+        }
+
+        command = String.format("%s %s %s --activity %s %s --output %s", PREDICT_SCRIPT,
+                predictorDir.resolve(MODEL_PICKLE),
+                predictorDir.resolve(RF_X_FILE_PREFIX + Constants.EXTERNAL_SET_X_FILE),
+                predictorDir.resolve(Constants.EXTERNAL_SET_A_FILE), activityType.toString().toLowerCase(),
+                predictorDir.resolve(EXTERNAL_SET_PREDICTION_OUTPUT));
+        exitcode = RunExternalProgram.runCommandAndLogOutput(command, predictorDir, PREDICT_SCRIPT);
+        if (exitcode != 0) {
+            throw new RuntimeException("External set prediction failed, exit code " + exitcode);
+        }
+    }
+
+    public static ScikitRandomForestPrediction readPrediction(Path predictorDir) {
+        Path externalSetPredictionsPath = predictorDir.resolve(EXTERNAL_SET_PREDICTION_OUTPUT);
+        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+        ScikitRandomForestPrediction pred;
+        try (BufferedReader reader = Files.newBufferedReader(externalSetPredictionsPath, StandardCharsets.UTF_8)) {
+            pred = gson.fromJson(reader, ScikitRandomForestPrediction.class);
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't read external set predictions", e);
+        }
+        return pred;
+    }
+
+    public static Map<String, Double> getDescriptorImportance(Path predictorDir) {
+        Path metadataPath = predictorDir.resolve(MODEL_METADATA);
+        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+        ScikitRandomForest rf;
+        try (BufferedReader reader = Files.newBufferedReader(metadataPath, StandardCharsets.UTF_8)) {
+            rf = gson.fromJson(reader, ScikitRandomForest.class);
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't read model metadata", e);
+        }
+        return rf.getDescriptorImportance();
+    }
+
+    public static ScikitRandomForestPrediction predict(Path predictorDir, Path predictionDir, String sdfFile) {
+        preprocessXFile(predictionDir, sdfFile);
+        Path targetSdf = predictionDir.resolve(RF_X_FILE_PREFIX + sdfFile);
+
+        String command = String.format("%s %s %s --output %s", PREDICT_SCRIPT, predictorDir.resolve(MODEL_PICKLE),
+                predictionDir.resolve(targetSdf), predictionDir.resolve(PREDICTION_OUTPUT));
+        int exitcode = RunExternalProgram.runCommandAndLogOutput(command, predictionDir, PREDICT_SCRIPT);
+        if (exitcode != 0) {
+            throw new RuntimeException("Prediction failed, exit code " + exitcode);
+        }
+
+        ScikitRandomForestPrediction pred;
+        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
+        try (BufferedReader reader = Files
+                .newBufferedReader(predictionDir.resolve(PREDICTION_OUTPUT), StandardCharsets.UTF_8)) {
+            pred = gson.fromJson(reader, ScikitRandomForestPrediction.class);
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't read prediction output", e);
+        }
+        return pred;
+    }
+
+    public static void cleanUp(Path basePredictorDir) {
+        Path[] dirs = new Path[]{basePredictorDir, basePredictorDir.resolve(Y_RANDOM_DIRECTORY)};
+        for (Path predictorDir : dirs) {
+            Path externalPredictions = predictorDir.resolve(EXTERNAL_SET_PREDICTION_OUTPUT);
+            Path gzippedExternalPredictions = predictorDir.resolve(EXTERNAL_SET_PREDICTION_OUTPUT + ".gz");
+            try (InputStream in = Files.newInputStream(externalPredictions);
+                 GZIPOutputStream out = new GZIPOutputStream(Files.newOutputStream(gzippedExternalPredictions))) {
+                byte[] buf = new byte[1024 * 4];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                Files.delete(externalPredictions);
+            } catch (IOException e) {
+                // compression failed, but this is non-essential
+                logger.warn("gzipping of external set predictions failed", e);
+                try {
+                    Files.deleteIfExists(gzippedExternalPredictions);
+                } catch (IOException e1) {
+                    // give up
+                    logger.warn("Failed to delete residual .gz", e1);
+                }
+            }
+        }
+    }
+
+    public static boolean isNewModel(Path predictorDir) {
+        return Files.exists(predictorDir.resolve(MODEL_PICKLE));
+    }
+}

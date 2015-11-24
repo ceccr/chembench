@@ -315,6 +315,10 @@ public class Utility {
         return ret;
     }
 
+    public static String roundSignificantFigures(double number, int numFigs) {
+        return roundSignificantFigures("" + number, numFigs);
+    }
+
     public static String roundSignificantFigures(String number, int numFigs) {
         //outputs a numerical string
         //e.g., 12345 to 2 significant figures is 12000, not 1.2*10^4

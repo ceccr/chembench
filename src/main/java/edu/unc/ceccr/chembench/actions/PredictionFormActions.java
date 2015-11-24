@@ -50,8 +50,8 @@ public class PredictionFormActions extends ActionSupport {
     private boolean isMixDescriptors;
     private List<Predictor> selectedPredictors = Lists.newArrayList();
     private List<SmilesPrediction> smilesPredictions;
-    private String smilesString;
-    private String smilesCutoff;
+    private String smiles;
+    private String cutoff;
     // populated by the JSP form
     private Long selectedDatasetId;
     private String cutOff = "0.5";
@@ -80,10 +80,6 @@ public class PredictionFormActions extends ActionSupport {
 
         /* use the same session for all data requests */
         Session session = HibernateUtil.getSession();
-        String smiles = ((String[]) context.getParameters().get("smiles"))[0];
-        smilesString = smiles;
-        String cutoff = ((String[]) context.getParameters().get("cutoff"))[0];
-        smilesCutoff = cutoff;
         String predictorIds = ((String[]) context.getParameters().get("predictorIds"))[0];
         logger.debug(" 1: " + smiles + " 2: " + cutoff + " 3: " + predictorIds);
         logger.debug(user.getUserName());
@@ -91,19 +87,19 @@ public class PredictionFormActions extends ActionSupport {
         String[] selectedPredictorIdArray = predictorIds.split("\\s+");
         List<Predictor> predictors = Lists.newArrayList();
         Set<String> descriptorTypes = new HashSet<String>();
-        for (int i = 0; i < selectedPredictorIdArray.length; i++) {
+        for (String predictorId : selectedPredictorIdArray) {
             Predictor predictor =
-                    PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), session);
+                    PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+            if (!predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
+                throw new RuntimeException("Non-random forest predictors cannot be used for SMILES predictions");
+            }
+
             String descriptorType = predictor.getDescriptorGeneration();
             // skip predictors with uploaded descriptors, since we can't
             // generate them for the SDF generated from the SMILES string
             if (!descriptorType.equals(Constants.UPLOADED)) {
                 predictors.add(predictor);
                 descriptorTypes.add(descriptorType);
-            }
-
-            if (predictor.getModelMethod().startsWith(Constants.KNN)) {
-                logger.warn("SMILES prediction attempted on KNN predictor");
             }
         }
         /* we don't need the session again */
@@ -113,8 +109,7 @@ public class PredictionFormActions extends ActionSupport {
         smilesPredictions = Lists.newArrayList();
         int numPredictors = predictors.size();
 
-        for (int i = 0; i < predictors.size(); i++) {
-            Predictor predictor = predictors.get(i);
+        for (Predictor predictor : predictors) {
             String zScore = "";
 
             /* make smiles dir */
@@ -142,9 +137,9 @@ public class PredictionFormActions extends ActionSupport {
                 String[] ids = predictor.getChildIds().split("\\s+");
                 logger.info("Predictor is n-folded.");
                 List<String[]> tempPred = Lists.newArrayList();
-                for (int j = 0; j < ids.length; j++) {
+                for (String id : ids) {
                     session = HibernateUtil.getSession();
-                    Predictor tempP = PopulateDataObjects.getPredictorById(Long.parseLong(ids[j]), session);
+                    Predictor tempP = PopulateDataObjects.getPredictorById(Long.parseLong(id), session);
                     session.close();
 
                     // since predictions are made per-fold, each fold needs
@@ -152,8 +147,8 @@ public class PredictionFormActions extends ActionSupport {
                     new File(smilesDir, tempP.getName()).mkdirs();
                     for (String s : new File(smilesDir).list()) {
                         if (!(new File(s)).isDirectory() && s.startsWith("smiles")) {
-                            Path target = new File(smilesDir, s).toPath();
-                            Path link = new File(new File(smilesDir, tempP.getName()), s).toPath();
+                            Path target = Paths.get(smilesDir, s);
+                            Path link = Paths.get(smilesDir, tempP.getName(), s);
                             try {
                                 Files.createSymbolicLink(link, target);
                             } catch (FileAlreadyExistsException e) {
@@ -163,7 +158,7 @@ public class PredictionFormActions extends ActionSupport {
                     }
 
                     tempPred.add(RunSmilesPrediction
-                            .PredictSmilesSDF(smilesDir + tempP.getName() + "/", user.getUserName(), tempP));
+                            .predictSmilesSDF(smilesDir + tempP.getName() + "/", user.getUserName(), tempP));
 
                     totalModels += tempP.getNumTestModels();
                     logger.debug("Calculating predictions for " + tempP.getName());
@@ -205,14 +200,14 @@ public class PredictionFormActions extends ActionSupport {
 
                 int predictingModels = 0;
                 double predictedValue = 0d;
-                double standartDeviation = 0d;
+                double standardDeviation = 0d;
 
                 /* getting average values */
                 for (String[] s : tempPred) {
                     predictingModels += Integer.parseInt(s[0]);
                     predictedValue += Double.parseDouble(s[1]);
                     try {
-                        standartDeviation += Double.parseDouble(s[2]);
+                        standardDeviation += Double.parseDouble(s[2]);
                     } catch (NumberFormatException e) {
                         // pass (e.g. if only one model, stddev is N/A)
                     }
@@ -224,7 +219,7 @@ public class PredictionFormActions extends ActionSupport {
                 predValues[0] = String.valueOf(predictingModels);
                 predValues[1] = Utility.roundSignificantFigures(String.valueOf(predictedValue / ids.length),
                         Constants.REPORTED_SIGNIFICANT_FIGURES);
-                predValues[2] = Utility.roundSignificantFigures(String.valueOf(standartDeviation / ids.length),
+                predValues[2] = Utility.roundSignificantFigures(String.valueOf(standardDeviation / ids.length),
                         Constants.REPORTED_SIGNIFICANT_FIGURES);
             }
             /*
@@ -232,7 +227,7 @@ public class PredictionFormActions extends ActionSupport {
              * prediction
              */
             else {
-                predValues = RunSmilesPrediction.PredictSmilesSDF(smilesDir, user.getUserName(), predictor);
+                predValues = RunSmilesPrediction.predictSmilesSDF(smilesDir, user.getUserName(), predictor);
 
                 // Calculate applicability domian
                 String execstr = "";
@@ -766,20 +761,20 @@ public class PredictionFormActions extends ActionSupport {
         this.smilesPredictions = smilesPredictions;
     }
 
-    public String getSmilesString() {
-        return smilesString;
+    public String getSmiles() {
+        return smiles;
     }
 
-    public void setSmilesString(String smilesString) {
-        this.smilesString = smilesString;
+    public void setSmiles(String smiles) {
+        this.smiles = smiles;
     }
 
-    public String getSmilesCutoff() {
-        return smilesCutoff;
+    public String getCutoff() {
+        return cutoff;
     }
 
-    public void setSmilesCutoff(String smilesCutoff) {
-        this.smilesCutoff = smilesCutoff;
+    public void setCutoff(String cutoff) {
+        this.cutoff = cutoff;
     }
 
     public List<String> getErrorStrings() {

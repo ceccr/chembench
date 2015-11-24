@@ -15,6 +15,8 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.*;
 
@@ -412,7 +414,7 @@ public class QsarPredictionTask extends WorkflowTask {
     private List<PredictionValue> makePredictions(Predictor predictor, String sdfile, String basePath,
                                                   String datasetPath) throws Exception {
 
-        List<PredictionValue> predValues = null;
+        List<PredictionValue> predValues = Lists.newArrayList();
         String predictionDir = basePath + predictor.getName() + "/";
 
         Session s = HibernateUtil.getSession();
@@ -528,7 +530,8 @@ public class QsarPredictionTask extends WorkflowTask {
 
             step = Constants.PREDICTING;
             logger.debug("User: " + userName + "Job: " + jobName + " ExecutePredictor: Making predictions");
-
+            Path predictorDir = predictor.getDirectoryPath();
+            ScikitRandomForestPrediction scikitPred = new ScikitRandomForestPrediction();
             if (predictor.getModelMethod().equals(Constants.KNN)) {
                 KnnPrediction.runKnnPlusPredictionForKnnPredictors(userName, jobName, predictionDir, sdfile);
             } else if (predictor.getModelMethod().equals(Constants.SVM)) {
@@ -537,7 +540,12 @@ public class QsarPredictionTask extends WorkflowTask {
                     .equals(Constants.KNNSA)) {
                 KnnPlus.runKnnPlusPrediction(predictionDir, sdfile);
             } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-                LegacyRandomForest.runRandomForestPrediction(predictionDir, jobName, sdfile, predictor);
+                if (RandomForest.isNewModel(predictorDir)) {
+                    scikitPred = RandomForest
+                            .predict(predictorDir, Paths.get(predictionDir), sdfile + ".renorm" + ".x");
+                } else {
+                    LegacyRandomForest.runRandomForestPrediction(predictionDir, jobName, sdfile, predictor);
+                }
             }
             // done with 4. (make predictions in jobDir/predictorDir)
 
@@ -554,7 +562,20 @@ public class QsarPredictionTask extends WorkflowTask {
                     .equals(Constants.KNNSA)) {
                 predValues = KnnPlus.readPredictionOutput(predictionDir, predictor.getId(), sdfile + ".renorm.x");
             } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-                predValues = LegacyRandomForest.readPredictionOutput(predictionDir, predictor.getId());
+                if (RandomForest.isNewModel(predictorDir)) {
+                    Map<String, Double> predictions = scikitPred.getPredictions();
+                    for (String key : predictions.keySet()) {
+                        PredictionValue pv = new PredictionValue();
+                        pv.setPredictorId(predictor.getId());
+                        pv.setCompoundName(key);
+                        pv.setNumTotalModels(1);
+                        pv.setNumModelsUsed(1);
+                        pv.setPredictedValue((float) ((double) predictions.get(key)));
+                        predValues.add(pv);
+                    }
+                } else {
+                    predValues = LegacyRandomForest.readPredictionOutput(predictionDir, predictor.getId());
+                }
             }
 
             //Apply applicability domain
@@ -565,8 +586,8 @@ public class QsarPredictionTask extends WorkflowTask {
                 predictionXFile = predictionDir + "RF_" + sdfile + ".renorm.x";
             }
 
-            String predictorXFile = predictor.getModelMethod().equals(Constants.RANDOMFOREST) ? "RF_train_0.x" :
-                    "train_0.x";
+            String predictorXFile =
+                    predictor.getModelMethod().equals(Constants.RANDOMFOREST) ? "RF_train_0.x" : "train_0.x";
             execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + predictionDir + predictorXFile + " " +
                     "-4PRED=" + predictionXFile + " -OUT=" + predictionDir + "PRE_AD";
             RunExternalProgram.runCommandAndLogOutput(execstr, predictionDir, "getAD");
