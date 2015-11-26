@@ -45,7 +45,7 @@ if __name__ == '__main__':
     parser.add_argument('ACTIVITY_TYPE', metavar='ACTIVITY_TYPE', choices=('continuous', 'category'),
                         help="activity type: 'continuous' or 'category'")
 
-    parser.add_argument('-n', metavar='NUM_TREES', type=int,
+    parser.add_argument('-n', '--num-trees', type=int,
                         help='number of trees to grow (default: {})'.format(DEFAULT_TREE_COUNT))
     parser.add_argument('-o', '--output',
                         help='where to save the pickled random forest classifier object (default: "{}")'.format(
@@ -67,7 +67,8 @@ if __name__ == '__main__':
     logging.info('Activity series has length %s', str(y_train.size))
 
     logging.info('Growing forest...')
-    forest = grow_forest(X_train, y_train, args.ACTIVITY_TYPE, num_trees=args.n, seed=args.seed, quiet=args.quiet)
+    forest = grow_forest(X_train, y_train, args.ACTIVITY_TYPE, num_trees=args.num_trees, seed=args.seed,
+                         quiet=args.quiet)
     logging.info('Model building complete.')
 
     descriptor_importance = dict(zip(X_train.columns.values.tolist(), forest.feature_importances_.tolist()))
