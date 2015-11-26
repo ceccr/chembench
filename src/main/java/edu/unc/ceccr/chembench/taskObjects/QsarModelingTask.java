@@ -688,9 +688,9 @@ public class QsarModelingTask extends WorkflowTask {
             step = Constants.MODELS;
             Constants.ActivityType activityType = Constants.ActivityType.valueOf(actFileDataType);
             logger.debug("building models, " + jobName + " submitted by " + "user, " + userName + ".");
-            RandomForest.growForest(baseDir, activityType);
+            RandomForest.growForest(baseDir, activityType, randomForestParameters);
             logger.debug("building y-random models, " + jobName + " submitted by " + "user, " + userName + ".");
-            RandomForest.growForest(yRandomDir, activityType);
+            RandomForest.growForest(yRandomDir, activityType, randomForestParameters);
             logger.debug("modeling phase done, " + jobName + " submitted by " + "user, " + userName + ".");
         }
         logger.info("Finished local execution for " + jobName);
