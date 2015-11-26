@@ -1,5 +1,6 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -112,7 +113,9 @@ public class RandomForest {
                 params.getNumTrees());
         int exitcode = RunExternalProgram.runCommandAndLogOutput(command, predictorDir, BUILD_SCRIPT);
         if (exitcode != 0) {
-            throw new RuntimeException("Model generation failed, exit code " + exitcode);
+            String baseMessage = "Model generation failed, exit code " + exitcode;
+            Path logFilePath = predictorDir.resolve("Logs").resolve(BUILD_SCRIPT + ".err");
+            throw new RuntimeException(getExceptionMessage(baseMessage, logFilePath));
         }
 
         command = String.format("%s %s %s --activity %s %s --output %s", PREDICT_SCRIPT,
@@ -122,7 +125,9 @@ public class RandomForest {
                 predictorDir.resolve(EXTERNAL_SET_PREDICTION_OUTPUT));
         exitcode = RunExternalProgram.runCommandAndLogOutput(command, predictorDir, PREDICT_SCRIPT);
         if (exitcode != 0) {
-            throw new RuntimeException("External set prediction failed, exit code " + exitcode);
+            String baseMessage = "External set prediction failed, exit code " + exitcode;
+            Path logFilePath = predictorDir.resolve("Logs").resolve(PREDICT_SCRIPT + ".err");
+            throw new RuntimeException(getExceptionMessage(baseMessage, logFilePath));
         }
     }
 
@@ -200,5 +205,19 @@ public class RandomForest {
 
     public static boolean isNewModel(Path predictorDir) {
         return Files.exists(predictorDir.resolve(MODEL_PICKLE));
+    }
+
+    public static String getExceptionMessage(String baseMessage, Path logFilePath) {
+        List<String> lines = Lists.newArrayList();
+        lines.add(0, baseMessage);
+        try (BufferedReader br = Files.newBufferedReader(logFilePath, StandardCharsets.UTF_8)) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            // pass
+        }
+        return Joiner.on("\n").join(lines);
     }
 }
