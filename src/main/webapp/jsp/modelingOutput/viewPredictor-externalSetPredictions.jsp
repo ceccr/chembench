@@ -31,7 +31,7 @@
           WIDTH="650" HEIGHT="650" BORDER="0" ISMAP="ISMAP" USEMAP="#mychart" />
       </p>
       <s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber==0">
-        <p class="StandardTextDarkGray">
+         <p class="StandardTextDarkGray">
           Overall R<sup>2</sup> for compounds in all external sets: <b><s:property
             value="selectedPredictor.externalPredictionAccuracy" /></b>
         </p>

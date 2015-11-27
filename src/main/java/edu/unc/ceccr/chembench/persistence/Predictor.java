@@ -5,11 +5,15 @@ package edu.unc.ceccr.chembench.persistence;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import edu.unc.ceccr.chembench.global.Constants;
+import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -138,6 +142,41 @@ public class Predictor implements java.io.Serializable {
         session.close();
         return Lists.newArrayList(Iterables.filter(rawResult, Predictor.class));
     }
+
+    @Transient
+    public Path getDirectoryPath() {
+        Path basePath = Paths.get(Constants.CECCR_USER_BASE_PATH, userName);
+        if (jobCompleted.equals(Constants.YES)) {
+            basePath = basePath.resolve("PREDICTORS");
+        }
+        if (parentId != null) {
+            Predictor parent = Predictor.get(parentId);
+            if (parent != null) {
+                basePath = basePath.resolve(parent.getName());
+            }
+        }
+        return basePath.resolve(name);
+    }
+
+    @Transient
+    public static Predictor get(long predictorId) {
+        // TODO quick and dirty impl, lots of improvements to be made here
+        Session session = null;
+        try {
+            session = HibernateUtil.getSession();
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException("Failed to get db session", e);
+        }
+        if (session == null) {
+            throw new RuntimeException("Received null when db session requested");
+        }
+        try {
+            return PopulateDataObjects.getPredictorById(predictorId, session);
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,28 +1,12 @@
 package edu.unc.ceccr.chembench.persistence;
 
-import java.io.BufferedWriter;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+import edu.unc.ceccr.chembench.global.Constants;
+import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
+import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import weka.classifiers.Evaluation;
 import weka.classifiers.lazy.IBk;
 import weka.core.Attribute;
@@ -31,18 +15,21 @@ import weka.core.Instances;
 import weka.core.converters.CSVLoader;
 import weka.core.neighboursearch.KDTree;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
-
-import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
+import javax.persistence.*;
+import java.io.BufferedWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "cbench_dataset")
-public class Dataset implements java.io.Serializable {
+public class Dataset extends Persistable implements java.io.Serializable {
     private static Logger logger = Logger.getLogger(Dataset.class.getName());
 
     private Long id;
@@ -184,26 +171,6 @@ public class Dataset implements java.io.Serializable {
     @Transient
     public boolean isContinuous() {
         return modelType.equalsIgnoreCase(Constants.CONTINUOUS);
-    }
-
-    public void save() {
-        Session session = null;
-        Transaction tx = null;
-        try {
-            session = HibernateUtil.getSession();
-            tx = session.beginTransaction();
-            session.saveOrUpdate(this);
-            tx.commit();
-        } catch (RuntimeException | ClassNotFoundException | SQLException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error(e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
     }
 
     @Id

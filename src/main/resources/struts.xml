@@ -251,7 +251,7 @@
 
         <action name="makeSmilesPrediction" class="edu.unc.ceccr.chembench.actions.PredictionFormActions"
                 method="makeSmilesPrediction">
-            <result>//jsp/prediction/predictionResults.jsp</result>
+            <result>/jsp/prediction/predictionResults.jsp</result>
         </action>
         <!-- End Make Predictions Pages -->
 

@@ -4,6 +4,7 @@ import edu.unc.ceccr.chembench.global.Constants;
 import org.apache.log4j.Logger;
 
 import java.io.*;
+import java.nio.file.Path;
 
 // Java suuure is dumb sometimes. Needs me to write it a whole class just to
 // run a program and capture its output without bleeding file handles
@@ -79,7 +80,15 @@ public class RunExternalProgram {
         }
     }
 
-    public static void runCommandAndLogOutput(String cmd, String workingDir, String logFileName) {
+    public static int runCommandAndLogOutput(String cmd, Path workingDir, String logFileName) {
+        String wd = workingDir.toString();
+        if (!wd.endsWith("/")) {
+            wd += "/";
+        }
+        return runCommandAndLogOutput(cmd, wd, logFileName);
+    }
+
+    public static int runCommandAndLogOutput(String cmd, String workingDir, String logFileName) {
         // runs an external program and writes user info to logfile
 
         try {
@@ -117,10 +126,10 @@ public class RunExternalProgram {
             }
 
             p = Runtime.getRuntime().exec(workingDir + "temp-script.sh", null, new File(workingDir));
-            p.waitFor();
-
+            return p.waitFor();
         } catch (Exception e) {
             logger.error("Error executing external program", e);
+            return -1;
         }
     }
 
