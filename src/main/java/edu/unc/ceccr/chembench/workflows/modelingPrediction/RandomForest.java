@@ -163,7 +163,9 @@ public class RandomForest {
                 predictionDir.resolve(targetSdf), predictionDir.resolve(PREDICTION_OUTPUT));
         int exitcode = RunExternalProgram.runCommandAndLogOutput(command, predictionDir, PREDICT_SCRIPT);
         if (exitcode != 0) {
-            throw new RuntimeException("Prediction failed, exit code " + exitcode);
+            String baseMessage = "Prediction failed, exit code " + exitcode;
+            Path logFilePath = predictorDir.resolve("Logs").resolve(PREDICT_SCRIPT + ".err");
+            throw new RuntimeException(getExceptionMessage(baseMessage, logFilePath));
         }
 
         ScikitRandomForestPrediction pred;
