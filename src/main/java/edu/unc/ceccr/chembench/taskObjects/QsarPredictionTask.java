@@ -539,13 +539,10 @@ public class QsarPredictionTask extends WorkflowTask {
             } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod()
                     .equals(Constants.KNNSA)) {
                 KnnPlus.runKnnPlusPrediction(predictionDir, sdfile);
+            } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST_R)) {
+                LegacyRandomForest.runRandomForestPrediction(predictionDir, jobName, sdfile, predictor);
             } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-                if (RandomForest.isNewModel(predictorDir)) {
-                    scikitPred = RandomForest
-                            .predict(predictorDir, Paths.get(predictionDir), sdfile + ".renorm" + ".x");
-                } else {
-                    LegacyRandomForest.runRandomForestPrediction(predictionDir, jobName, sdfile, predictor);
-                }
+                scikitPred = RandomForest.predict(predictorDir, Paths.get(predictionDir), sdfile + ".renorm" + ".x");
             }
             // done with 4. (make predictions in jobDir/predictorDir)
 
@@ -561,20 +558,18 @@ public class QsarPredictionTask extends WorkflowTask {
             } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod()
                     .equals(Constants.KNNSA)) {
                 predValues = KnnPlus.readPredictionOutput(predictionDir, predictor.getId(), sdfile + ".renorm.x");
+            } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST_R)) {
+                predValues = LegacyRandomForest.readPredictionOutput(predictionDir, predictor.getId());
             } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-                if (RandomForest.isNewModel(predictorDir)) {
-                    Map<String, Double> predictions = scikitPred.getPredictions();
-                    for (String key : predictions.keySet()) {
-                        PredictionValue pv = new PredictionValue();
-                        pv.setPredictorId(predictor.getId());
-                        pv.setCompoundName(key);
-                        pv.setNumTotalModels(1);
-                        pv.setNumModelsUsed(1);
-                        pv.setPredictedValue((float) ((double) predictions.get(key)));
-                        predValues.add(pv);
-                    }
-                } else {
-                    predValues = LegacyRandomForest.readPredictionOutput(predictionDir, predictor.getId());
+                Map<String, Double> predictions = scikitPred.getPredictions();
+                for (String key : predictions.keySet()) {
+                    PredictionValue pv = new PredictionValue();
+                    pv.setPredictorId(predictor.getId());
+                    pv.setCompoundName(key);
+                    pv.setNumTotalModels(1);
+                    pv.setNumModelsUsed(1);
+                    pv.setPredictedValue((float) ((double) predictions.get(key)));
+                    predValues.add(pv);
                 }
             }
 
@@ -587,7 +582,7 @@ public class QsarPredictionTask extends WorkflowTask {
             }
 
             String predictorXFile =
-                    predictor.getModelMethod().equals(Constants.RANDOMFOREST) ? "RF_train_0.x" : "train_0.x";
+                    predictor.getModelMethod().startsWith(Constants.RANDOMFOREST) ? "RF_train_0.x" : "train_0.x";
             execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + predictionDir + predictorXFile + " " +
                     "-4PRED=" + predictionXFile + " -OUT=" + predictionDir + "PRE_AD";
             RunExternalProgram.runCommandAndLogOutput(execstr, predictionDir, "getAD");

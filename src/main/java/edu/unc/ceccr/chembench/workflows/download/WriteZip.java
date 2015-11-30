@@ -353,7 +353,7 @@ public class WriteZip {
                     modelingFiles.add(cp.getName() + "/yRandom/svm-results.txt");
                 }
             }
-        } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
+        } else if (predictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
             modelingFiles.add("RF_ext_0.pred");
             if (childPredictors != null && !childPredictors.isEmpty()) {
                 for (Predictor cp : childPredictors) {

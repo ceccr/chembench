@@ -203,10 +203,6 @@ public class RandomForest {
         }
     }
 
-    public static boolean isNewModel(Path predictorDir) {
-        return Files.exists(predictorDir.resolve(MODEL_PICKLE));
-    }
-
     public static String getExceptionMessage(String baseMessage, Path logFilePath) {
         List<String> lines = Lists.newArrayList();
         lines.add(0, baseMessage);

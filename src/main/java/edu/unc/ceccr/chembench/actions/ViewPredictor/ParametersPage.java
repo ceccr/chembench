@@ -23,7 +23,7 @@ public class ParametersPage extends ViewPredictorAction {
 
         session = HibernateUtil.getSession();
 
-        if (selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
+        if (selectedPredictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
             randomForestParameters = PopulateDataObjects
                     .getRandomForestParametersById(selectedPredictor.getModelingParametersId(), session);
         } else if (selectedPredictor.getModelMethod().equals(Constants.KNNGA) || selectedPredictor.getModelMethod()

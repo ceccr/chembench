@@ -90,7 +90,7 @@ public class PredictionFormActions extends ActionSupport {
         for (String predictorId : selectedPredictorIdArray) {
             Predictor predictor =
                     PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
-            if (!predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
+            if (!predictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
                 throw new RuntimeException("Non-random forest predictors cannot be used for SMILES predictions");
             }
 

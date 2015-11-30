@@ -68,47 +68,45 @@ public class RunSmilesPrediction {
         List<String> predValueArray = Lists.newArrayList();
         if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
             Path predictorDir = predictor.getDirectoryPath();
-            if (RandomForest.isNewModel(predictorDir)) {
-                ScikitRandomForestPrediction pred =
-                        RandomForest.predict(predictorDir, Paths.get(workingDir), "smiles.sdf" + ".renorm.x");
-                Map<String, Double> predictions = pred.getPredictions();
-                for (String key : predictions.keySet()) {
-                    predValueArray.add(predictions.get(key).toString());
-                }
-            } else {
-                // run prediction
-                String xFile = "smiles.sdf.renorm.x";
-                String newXFile = "RF_" + xFile;
-                LegacyRandomForest.preProcessXFile(predictor.getScalingType(), xFile, newXFile, workingDir);
-
-                String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
-                String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
-                String modelsListFile = "models.list";
-                String command = "Rscript --vanilla " + predictScript + " --scriptsDir " + scriptDir + " --workDir " +
-                        workingDir + " --modelsListFile " + modelsListFile + " --xFile " + newXFile;
-
-                RunExternalProgram.runCommandAndLogOutput(command, workingDir, "randomForestPredict");
-
-                // get output
-                String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
-                logger.debug("Reading consensus prediction file: " + workingDir + outputFile);
-                BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
-                String inputString;
-            /* first line is the header with the model names */
-                in.readLine();
-                while ((inputString = in.readLine()) != null && !inputString.equals("")) {
-                /*
-                 * Note: [0] is the compound name and the following are the
-                 * predicted values.
-                 */
-                    String[] data = inputString.split("\\s+");
-
-                    for (int i = 1; i < data.length; i++) {
-                        predValueArray.add(data[i]);
-                    }
-                }
-                in.close();
+            ScikitRandomForestPrediction pred =
+                    RandomForest.predict(predictorDir, Paths.get(workingDir), "smiles.sdf" + ".renorm.x");
+            Map<String, Double> predictions = pred.getPredictions();
+            for (String key : predictions.keySet()) {
+                predValueArray.add(predictions.get(key).toString());
             }
+        } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST_R)) {
+            // run prediction
+            String xFile = "smiles.sdf.renorm.x";
+            String newXFile = "RF_" + xFile;
+            LegacyRandomForest.preProcessXFile(predictor.getScalingType(), xFile, newXFile, workingDir);
+
+            String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
+            String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
+            String modelsListFile = "models.list";
+            String command = "Rscript --vanilla " + predictScript + " --scriptsDir " + scriptDir + " --workDir " +
+                    workingDir + " --modelsListFile " + modelsListFile + " --xFile " + newXFile;
+
+            RunExternalProgram.runCommandAndLogOutput(command, workingDir, "randomForestPredict");
+
+            // get output
+            String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
+            logger.debug("Reading consensus prediction file: " + workingDir + outputFile);
+            BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
+            String inputString;
+        /* first line is the header with the model names */
+            in.readLine();
+            while ((inputString = in.readLine()) != null && !inputString.equals("")) {
+            /*
+             * Note: [0] is the compound name and the following are the
+             * predicted values.
+             */
+                String[] data = inputString.split("\\s+");
+
+                for (int i = 1; i < data.length; i++) {
+                    predValueArray.add(data[i]);
+                }
+            }
+            in.close();
         } else {
             // unsupported modeling type
             String logString =

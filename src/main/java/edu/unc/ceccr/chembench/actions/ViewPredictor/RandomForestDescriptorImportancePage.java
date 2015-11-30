@@ -85,10 +85,10 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
         basePath = basePath.resolve(p.getName());
 
         Map<String, Double> data = Maps.newHashMap();
-        if (RandomForest.isNewModel(basePath)) {
+        if (p.getModelMethod().equals(Constants.RANDOMFOREST)) {
             importanceMeasure = "Relative Importance";
             data = RandomForest.getDescriptorImportance(basePath);
-        } else {
+        } else if (p.getModelMethod().equals(Constants.RANDOMFOREST_R)) {
             // XXX new models will never generate more than one RData file (named "RF_rand_sets_0_trn0.RData")
             // however, old models may have more than one RData file due to how splitting was implemented for legacy RF.
             // (in the past we allowed RF models to have more than one split.)

@@ -81,6 +81,7 @@ public class Constants {
     public static final String KNNPLUS = "KNNPLUS";
     public static final String SVM = "SVM";
     public static final String RANDOMFOREST = "RANDOMFOREST";
+    public static final String RANDOMFOREST_R = "RANDOMFOREST-R";
     public static final String SIMULATEDANNEALING = "SIMULATEDANNEALING";
     public static final String GENETICALGORITHM = "GENETICALGORITHM";
     public static final String AUTOSCALING = "AUTOSCALING";

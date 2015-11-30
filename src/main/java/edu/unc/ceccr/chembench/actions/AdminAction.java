@@ -608,7 +608,7 @@ public class AdminAction extends ActionSupport {
             session = HibernateUtil.getSession();
             Predictor oldPredictor = PopulateDataObjects.getPredictorById(predictorId, session);
 
-            if (oldPredictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
+            if (oldPredictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
                 logger.debug("------//RANDOMFOREST");
                 RandomForestParameters randomForestParameters = PopulateDataObjects
                         .getRandomForestParametersById(oldPredictor.getModelingParametersId(), session);
@@ -689,7 +689,7 @@ public class AdminAction extends ActionSupport {
                         }
 
                         session = HibernateUtil.getSession();
-                        if (child.getModelMethod().equals(Constants.RANDOMFOREST)) {
+                        if (child.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
                             RandomForestParameters randomForestParameters = PopulateDataObjects
                                     .getRandomForestParametersById(child.getModelingParametersId(), session);
                             session.evict(randomForestParameters);
