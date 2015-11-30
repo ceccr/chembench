@@ -403,9 +403,11 @@
               NA
             </s:else></td>
           </s:else>
-          <td><s:if test="modelMethod=='RANDOMFOREST'">RF</s:if> <s:else>
-            <s:property value="modelMethod" />
-          </s:else></td>
+          <td>
+            <s:if test="modelMethod=='RANDOMFOREST'">RF</s:if>
+            <s:elseif test="modelMethod=='RANDOMFOREST-R'">RF-R</s:elseif>
+            <s:else><s:property value="modelMethod" /></s:else>
+          </td>
           <s:if test="descriptorGeneration=='UPLOADED'">
             <td>*<s:property value="uploadedDescriptorType" /></td>
           </s:if>
