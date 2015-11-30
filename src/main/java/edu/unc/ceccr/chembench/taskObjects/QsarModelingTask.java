@@ -351,27 +351,9 @@ public class QsarModelingTask extends WorkflowTask {
                     }
                     percent = " (" + Math.round(p) + "%)";
                 } else if (modelType.equals(Constants.RANDOMFOREST)) {
-                    File dir = new File(workingDir);
-                    // get num of trees produced so far
-                    float p = (dir.list(new FilenameFilter() {
-                        public boolean accept(File arg0, String arg1) {
-                            return arg1.endsWith(".tree");
-                        }
-                    }).length);
-                    dir = new File(workingDir + "yRandom/");
-                    p += (dir.list(new FilenameFilter() {
-                        public boolean accept(File arg0, String arg1) {
-                            return arg1.endsWith(".tree");
-                        }
-                    }).length);
-                    // divide by (number of models * trees per model * 2
-                    // because of yRandom)
-                    p /= (getNumTotalModels() * Integer.parseInt(randomForestParameters.getNumTrees()) * 2);
-                    p *= 100;
-                    if (p > 100) {
-                        p = 100;
-                    }
-                    percent = " (" + Math.round(p) + "%)";
+                    double ratio = RandomForest.getProgress(baseDir);
+                    int p = (int) (ratio * 100);
+                    percent = String.format(" (%d%%)", p);
                 } else if (modelType.equals(Constants.SVM)) {
                     // get num of models produced so far
                     float p = 0;

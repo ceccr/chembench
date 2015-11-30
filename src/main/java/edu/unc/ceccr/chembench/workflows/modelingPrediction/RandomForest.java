@@ -216,4 +216,15 @@ public class RandomForest {
         }
         return Joiner.on("\n").join(lines);
     }
+
+    public static double getProgress(Path predictorDir) {
+        Path[] dirs = new Path[]{predictorDir, predictorDir.resolve(Y_RANDOM_DIRECTORY)};
+        int dirsCompleted = 0;
+        for (Path dir : dirs) {
+            if (Files.exists(dir.resolve(EXTERNAL_SET_PREDICTION_OUTPUT))) {
+                dirsCompleted++;
+            }
+        }
+        return (double) dirsCompleted / dirs.length;
+    }
 }
