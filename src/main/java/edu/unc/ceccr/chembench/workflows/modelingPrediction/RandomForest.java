@@ -17,9 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPOutputStream;
@@ -180,28 +179,45 @@ public class RandomForest {
         return pred;
     }
 
-    public static void cleanUp(Path basePredictorDir) {
-        Path[] dirs = new Path[]{basePredictorDir, basePredictorDir.resolve(Y_RANDOM_DIRECTORY)};
-        for (Path predictorDir : dirs) {
-            Path externalPredictions = predictorDir.resolve(EXTERNAL_SET_PREDICTION_OUTPUT);
-            Path gzippedExternalPredictions = predictorDir.resolve(EXTERNAL_SET_PREDICTION_OUTPUT + ".gz");
-            try (InputStream in = Files.newInputStream(externalPredictions);
-                 GZIPOutputStream out = new GZIPOutputStream(Files.newOutputStream(gzippedExternalPredictions))) {
-                byte[] buf = new byte[1024 * 4];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
+    public static void cleanUp(Path predictorDir) {
+        // once we have prediction stats for y-random models, we don't need any of the files anymore, so delete them
+        try {
+            Files.walkFileTree(predictorDir.resolve(Y_RANDOM_DIRECTORY), new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.delete(file);
+                    return FileVisitResult.CONTINUE;
                 }
-                Files.delete(externalPredictions);
-            } catch (IOException e) {
-                // compression failed, but this is non-essential
-                logger.warn("gzipping of external set predictions failed", e);
-                try {
-                    Files.deleteIfExists(gzippedExternalPredictions);
-                } catch (IOException e1) {
-                    // give up
-                    logger.warn("Failed to delete residual .gz", e1);
+
+                @Override
+                public FileVisitResult postVisitDirectory(Path dir, IOException e) throws IOException {
+                    Files.delete(dir);
+                    return FileVisitResult.CONTINUE;
                 }
+            });
+        } catch (IOException e) {
+            // warn, but don't worry about it
+            logger.warn("Failed to delete y-random file or directory", e);
+        }
+
+        Path externalPredictions = predictorDir.resolve(EXTERNAL_SET_PREDICTION_OUTPUT);
+        Path gzippedExternalPredictions = predictorDir.resolve(EXTERNAL_SET_PREDICTION_OUTPUT + ".gz");
+        try (InputStream in = Files.newInputStream(externalPredictions);
+             GZIPOutputStream out = new GZIPOutputStream(Files.newOutputStream(gzippedExternalPredictions))) {
+            byte[] buf = new byte[1024 * 4];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            Files.delete(externalPredictions);
+        } catch (IOException e) {
+            // compression failed, but this is non-essential
+            logger.warn("gzipping of external set predictions failed", e);
+            try {
+                Files.deleteIfExists(gzippedExternalPredictions);
+            } catch (IOException e1) {
+                // give up
+                logger.warn("Failed to delete residual .gz", e1);
             }
         }
     }
