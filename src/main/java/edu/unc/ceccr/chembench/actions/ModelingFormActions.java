@@ -1,7 +1,6 @@
 package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
@@ -11,6 +10,7 @@ import edu.unc.ceccr.chembench.persistence.Predictor;
 import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.utilities.PositiveRandom;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -160,11 +160,7 @@ public class ModelingFormActions extends ActionSupport {
     private String svmCutoff = "0.6";
     // Random Forest parameters
     private String numTrees = "1000";
-    private String minTerminalNodeSize;//               = "1";
-
-    // end knn+ parameters
-    private String maxNumTerminalNodes = "0";
-    private String descriptorsPerTree;//                = "25";
+    private int seed = -1;
     // end Random Forest parameters
     private String jobName;
     private String textValue;
@@ -361,6 +357,13 @@ public class ModelingFormActions extends ActionSupport {
             }
 
             if (ds.getSplitType().equals(Constants.NFOLD)) {
+                // generate random seed for RF if none given
+                // (we need to do this here, not in Python, because the seed needs to stay the same across every fold)
+                if (modelingType.equals(Constants.RANDOMFOREST) && seed < 0) {
+                    PositiveRandom random = new PositiveRandom();
+                    seed = random.nextPositiveInt(); // in interval [0, Integer.MAX_VALUE]
+                }
+
                 // start n jobs, 1 for each fold.
                 int numExternalFolds = Integer.parseInt(ds.getNumExternalFolds());
                 String baseJobName = jobName;
@@ -1383,31 +1386,13 @@ public class ModelingFormActions extends ActionSupport {
         this.numTrees = numTrees;
     }
 
-    public String getMinTerminalNodeSize() {
-        return minTerminalNodeSize;
+    public int getSeed() {
+        return seed;
     }
 
-    public void setMinTerminalNodeSize(String minTerminalNodeSize) {
-        this.minTerminalNodeSize = minTerminalNodeSize;
+    public void setSeed(int seed) {
+        this.seed = seed;
     }
-
-    public String getMaxNumTerminalNodes() {
-        return maxNumTerminalNodes;
-    }
-
-    public void setMaxNumTerminalNodes(String maxNumTerminalNodes) {
-        this.maxNumTerminalNodes = maxNumTerminalNodes;
-    }
-
-    public String getDescriptorsPerTree() {
-        return descriptorsPerTree;
-    }
-
-    public void setDescriptorsPerTree(String descriptorsPerTree) {
-        this.descriptorsPerTree = descriptorsPerTree;
-    }
-
-    // end RF
 
     public Long getSelectedPredictorId() {
         return selectedPredictorId;

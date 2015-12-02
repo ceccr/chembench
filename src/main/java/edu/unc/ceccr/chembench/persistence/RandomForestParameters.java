@@ -11,6 +11,7 @@ public class RandomForestParameters {
     private String descriptorsPerTree;
     private String minTerminalNodeSize;
     private String maxNumTerminalNodes;
+    private int seed = -1;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -57,5 +58,13 @@ public class RandomForestParameters {
 
     public void setMaxNumTerminalNodes(String maxNumTerminalNodes) {
         this.maxNumTerminalNodes = maxNumTerminalNodes;
+    }
+
+    public int getSeed() {
+        return seed;
+    }
+
+    public void setSeed(int seed) {
+        this.seed = seed;
     }
 }
