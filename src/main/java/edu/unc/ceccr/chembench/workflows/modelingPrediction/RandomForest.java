@@ -158,6 +158,8 @@ public class RandomForest {
     }
 
     public static ScikitRandomForestPrediction predict(Path predictorDir, Path predictionDir, String sdfFile) {
+        // caution, hic sunt dracones: don't confuse the predictorDir and predictionDir paths! note the names!
+
         preprocessXFile(predictionDir, sdfFile);
         Path targetSdf = predictionDir.resolve(RF_X_FILE_PREFIX + sdfFile);
 
