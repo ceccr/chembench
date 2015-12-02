@@ -24,16 +24,18 @@ import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
 public class RandomForest {
+    public static Logger logger = Logger.getLogger(RandomForest.class.getName());
+
+    public static final String MODEL_METADATA = "forest.json";
+    public static final String EXTERNAL_SET_PREDICTION_OUTPUT = "external_set_predictions.json";
+
     private static final String RF_X_FILE_PREFIX = "RF_";
     private static final String BUILD_SCRIPT = "rf_build_model.py";
     private static final String PREDICT_SCRIPT = "rf_predict.py";
     private static final String MODEL_PICKLE_RAW = "forest.pkl";
     private static final String MODEL_PICKLE = "forest.pkl.gz";
-    private static final String MODEL_METADATA = "forest.json";
-    private static final String EXTERNAL_SET_PREDICTION_OUTPUT = "external_set_predictions.json";
     private static final String PREDICTION_OUTPUT = "predictions.json";
     private static final String Y_RANDOM_DIRECTORY = "yRandom";
-    public static Logger logger = Logger.getLogger(RandomForest.class.getName());
 
     // usual task progression:
     // preprocessing: preprocessXFiles, setUpYRandomization

@@ -1,5 +1,6 @@
 package edu.unc.ceccr.chembench.workflows.download;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.HibernateUtil;
@@ -8,6 +9,7 @@ import edu.unc.ceccr.chembench.persistence.Predictor;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.Utility;
+import edu.unc.ceccr.chembench.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.chembench.workflows.visualization.ExternalValidationChart;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -353,7 +355,20 @@ public class WriteZip {
                     modelingFiles.add(cp.getName() + "/yRandom/svm-results.txt");
                 }
             }
-        } else if (predictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
+        } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
+            if (childPredictors != null && !childPredictors.isEmpty()) {
+                for (Predictor cp : childPredictors) {
+                    Joiner joiner = Joiner.on('/');
+                    modelingFiles.add(joiner.join(cp.getName(), RandomForest.MODEL_METADATA));
+                    modelingFiles.add(joiner.join(cp.getName(), RandomForest.EXTERNAL_SET_PREDICTION_OUTPUT));
+                    modelingFiles.add(joiner.join(cp.getName(), RandomForest.EXTERNAL_SET_PREDICTION_OUTPUT + ".gz"));
+                }
+            } else {
+                modelingFiles.add(RandomForest.MODEL_METADATA);
+                modelingFiles.add(RandomForest.EXTERNAL_SET_PREDICTION_OUTPUT);
+                modelingFiles.add(RandomForest.EXTERNAL_SET_PREDICTION_OUTPUT + ".gz");
+            }
+        } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST_R)) {
             modelingFiles.add("RF_ext_0.pred");
             if (childPredictors != null && !childPredictors.isEmpty()) {
                 for (Predictor cp : childPredictors) {
