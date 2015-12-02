@@ -164,7 +164,7 @@ public class RandomForest {
         int exitcode = RunExternalProgram.runCommandAndLogOutput(command, predictionDir, PREDICT_SCRIPT);
         if (exitcode != 0) {
             String baseMessage = "Prediction failed, exit code " + exitcode;
-            Path logFilePath = predictorDir.resolve("Logs").resolve(PREDICT_SCRIPT + ".err");
+            Path logFilePath = predictionDir.resolve("Logs").resolve(PREDICT_SCRIPT + ".err");
             throw new RuntimeException(getExceptionMessage(baseMessage, logFilePath));
         }
 
