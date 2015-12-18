@@ -37,21 +37,23 @@ public class RandomForest {
     private static final String PREDICTION_OUTPUT = "predictions.json";
     private static final String Y_RANDOM_DIRECTORY = "yRandom";
 
-    // usual task progression:
-    // preprocessing: preprocessXFiles, setUpYRandomization
-    // model building: growForest
-    // postprocessing: readPrediction
-
     public static void preprocessXFiles(Path predictorDir, Constants.ScalingType scalingType) {
-        if (scalingType == Constants.ScalingType.NOSCALING) {
-            return;
-        }
-
-        // if scaling was applied, the last 2 lines of a .x file will contain the scaling ranges.
-        // remove these before sending the .x files to the build script.
         String[] filenames = {Constants.EXTERNAL_SET_X_FILE, Constants.MODELING_SET_X_FILE};
-        for (String filename : filenames) {
-            preprocessXFile(predictorDir, filename);
+        if (scalingType == Constants.ScalingType.NOSCALING) {
+            // just rename the files to contain the RF prefix
+            try {
+                for (String filename : filenames) {
+                    Files.move(predictorDir.resolve(filename), predictorDir.resolve(RF_X_FILE_PREFIX + filename));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to rename X file", e);
+            }
+        } else {
+            // if scaling was applied, the last 2 lines of a .x file will contain the scaling ranges.
+            // remove these before sending the .x files to the build script.
+            for (String filename : filenames) {
+                preprocessXFile(predictorDir, filename);
+            }
         }
     }
 
