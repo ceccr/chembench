@@ -67,7 +67,8 @@ if __name__ == '__main__':
     logging.info('Activity series has length %s', str(y_train.size))
 
     logging.info('Growing forest...')
-    forest = grow_forest(X_train, y_train, args.ACTIVITY_TYPE, num_trees=args.num_trees, seed=args.seed,
+    seed = args.seed if args.seed >= 0 else None
+    forest = grow_forest(X_train, y_train, args.ACTIVITY_TYPE, num_trees=args.num_trees, seed=seed,
                          quiet=args.quiet)
     logging.info('Model building complete.')
 
