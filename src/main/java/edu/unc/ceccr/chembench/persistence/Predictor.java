@@ -14,7 +14,6 @@ import org.hibernate.criterion.Restrictions;
 import javax.persistence.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
@@ -127,15 +126,7 @@ public class Predictor implements java.io.Serializable {
 
     @Transient
     public List<Predictor> getChildren() {
-        Session session = null;
-        try {
-            session = HibernateUtil.getSession();
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException("Failed to get db session", e);
-        }
-        if (session == null) {
-            throw new RuntimeException("Received null when db session requested");
-        }
+        Session session = HibernateUtil.getSession();
         Transaction tx = session.beginTransaction();
         List<?> rawResult = session.createCriteria(Predictor.class).add(Restrictions.eq("parentId", id)).list();
         tx.commit();
@@ -160,21 +151,10 @@ public class Predictor implements java.io.Serializable {
 
     @Transient
     public static Predictor get(long predictorId) {
-        // TODO quick and dirty impl, lots of improvements to be made here
-        Session session = null;
-        try {
-            session = HibernateUtil.getSession();
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException("Failed to get db session", e);
-        }
-        if (session == null) {
-            throw new RuntimeException("Received null when db session requested");
-        }
-        try {
-            return PopulateDataObjects.getPredictorById(predictorId, session);
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        }
+        Session session = HibernateUtil.getSession();
+        Predictor p = PopulateDataObjects.getPredictorById(predictorId, session);
+        session.close();
+        return p;
     }
 
 

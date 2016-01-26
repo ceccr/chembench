@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Restrictions;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -391,8 +391,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
         User userInfo = null;
         try {
             tx = s.beginTransaction();
-            user = (User) s.createCriteria(User.class).add(Expression.eq("userName", userName)).uniqueResult();
-            userInfo = (User) s.createCriteria(User.class).add(Expression.eq("userName", userName)).uniqueResult();
+            user = (User) s.createCriteria(User.class).add(Restrictions.eq("userName", userName)).uniqueResult();
+            userInfo = (User) s.createCriteria(User.class).add(Restrictions.eq("userName", userName)).uniqueResult();
             tx.commit();
         } catch (RuntimeException e) {
             if (tx != null) {
