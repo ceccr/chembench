@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.global;
 
-import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.utilities.ParseConfigurationXML;
 import org.apache.log4j.Logger;
@@ -8,10 +7,6 @@ import org.apache.log4j.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.nio.file.Paths;
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Enumeration;
 import java.util.Set;
 
 public class ChembenchServletContextListener implements ServletContextListener {
@@ -39,25 +34,9 @@ public class ChembenchServletContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        try {
-            AbandonedConnectionCleanupThread.shutdown();
-        } catch (InterruptedException e) {
-            logger.error("Shutdown of MySQL abandoned connection cleanup thread failed", e);
-        }
-
         Set<Thread> jobThreads = CentralDogma.getInstance().getThreads();
         for (Thread t : jobThreads) {
-            t.stop();
-        }
-
-        Enumeration<Driver> drivers = DriverManager.getDrivers();
-        while (drivers.hasMoreElements()) {
-            Driver driver = drivers.nextElement();
-            try {
-                DriverManager.deregisterDriver(driver);
-            } catch (SQLException e) {
-                logger.error("Driver deregistration failed", e);
-            }
+            t.interrupt();
         }
     }
 }
