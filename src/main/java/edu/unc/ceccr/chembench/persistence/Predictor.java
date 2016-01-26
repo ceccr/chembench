@@ -3,8 +3,19 @@ package edu.unc.ceccr.chembench.persistence;
 // default package
 // Generated Jun 20, 2006 1:22:16 PM by Hibernate Tools 3.1.0.beta5
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import edu.unc.ceccr.chembench.global.Constants;
+import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
+
 import javax.persistence.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "cbench_predictor")
@@ -112,6 +123,40 @@ public class Predictor implements java.io.Serializable {
         this.actFileName = actFileName;
         this.userName = userName;
     }
+
+    @Transient
+    public List<Predictor> getChildren() {
+        Session session = HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        List<?> rawResult = session.createCriteria(Predictor.class).add(Restrictions.eq("parentId", id)).list();
+        tx.commit();
+        session.close();
+        return Lists.newArrayList(Iterables.filter(rawResult, Predictor.class));
+    }
+
+    @Transient
+    public Path getDirectoryPath() {
+        Path basePath = Paths.get(Constants.CECCR_USER_BASE_PATH, userName);
+        if (jobCompleted.equals(Constants.YES)) {
+            basePath = basePath.resolve("PREDICTORS");
+        }
+        if (parentId != null) {
+            Predictor parent = Predictor.get(parentId);
+            if (parent != null) {
+                basePath = basePath.resolve(parent.getName());
+            }
+        }
+        return basePath.resolve(name);
+    }
+
+    @Transient
+    public static Predictor get(long predictorId) {
+        Session session = HibernateUtil.getSession();
+        Predictor p = PopulateDataObjects.getPredictorById(predictorId, session);
+        session.close();
+        return p;
+    }
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

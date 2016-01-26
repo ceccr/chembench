@@ -9,7 +9,7 @@ import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Restrictions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,7 +92,7 @@ public class SynchronizedJobList {
         try {
             s = HibernateUtil.getSession();
             tx = s.beginTransaction();
-            job = (Job) s.createCriteria(Job.class).add(Expression.eq("id", jobId)).uniqueResult();
+            job = (Job) s.createCriteria(Job.class).add(Restrictions.eq("id", jobId)).uniqueResult();
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
@@ -153,7 +153,7 @@ public class SynchronizedJobList {
 		try {
 			s = HibernateUtil.getSession();
 			freshJobList = (ArrayList<Job>) s.createCriteria(Job.class)
-			.add(Expression.eq("jobList", name))
+			.add(Restrictions.eq("jobList", name))
 			.addOrder(Order.asc("id"))
 			.list();
 		} catch (Exception e) {

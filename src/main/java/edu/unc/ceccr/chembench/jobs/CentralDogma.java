@@ -16,7 +16,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -56,7 +55,7 @@ public class CentralDogma {
             // Fill job lists from the database
             Session s = HibernateUtil.getSession();
 
-            ArrayList<Job> jobs = PopulateDataObjects.populateClass(Job.class, s);
+            List<Job> jobs = (List<Job>) PopulateDataObjects.populateClass(Job.class, s);
             if (jobs == null) {
                 jobs = Lists.newArrayList();
             }

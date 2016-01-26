@@ -12,7 +12,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Restrictions;
 
 import java.io.*;
 import java.sql.SQLException;
@@ -128,7 +128,7 @@ public class QsarPredictionTask extends WorkflowTask {
         try {
             tx = session.beginTransaction();
             pred = (Predictor) session.createCriteria(Predictor.class)
-                    .add(Expression.eq("predictorId", selectedPredictorId)).uniqueResult();
+                    .add(Restrictions.eq("predictorId", selectedPredictorId)).uniqueResult();
             tx.commit();
         } catch (RuntimeException e) {
             if (tx != null) {
