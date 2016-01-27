@@ -32,6 +32,9 @@ public class PopulateDataObjects {
             list = session.createCriteria(c).list();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return list;
@@ -49,6 +52,9 @@ public class PopulateDataObjects {
             list = session.createCriteria(c).setFirstResult(chunkSize * chunkIndex).setMaxResults(chunkSize).list();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         if (list == null || list.isEmpty()) {
@@ -68,6 +74,9 @@ public class PopulateDataObjects {
             list = s.createCriteria(c).add(Restrictions.eq("userName", userName)).list();
             tx.commit();
         } catch (RuntimeException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         logger.info("found " + list.size() + " " + c.getName() + " objects for user name " + userName);
@@ -78,12 +87,16 @@ public class PopulateDataObjects {
                                                                                       Long predictorId, Session session)
             throws Exception {
         PredictionValue predictionValue = null;
+        Transaction tx = session.beginTransaction();
         try {
-            session.beginTransaction();
             predictionValue = (PredictionValue) session.createCriteria(PredictionValue.class)
                     .add(Restrictions.eq("predictionId", predictionId)).add(Restrictions.eq("predictorId", predictorId))
                     .setMaxResults(1).uniqueResult();
+            tx.commit();
         } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(ex);
         }
 
@@ -99,16 +112,19 @@ public class PopulateDataObjects {
                                                                                         Session session)
             throws SQLException, ClassNotFoundException {
         List<PredictionValue> predictionValues = Lists.newArrayList();
+        Transaction tx = session.beginTransaction();
         try {
-            session.beginTransaction();
             Iterator<?> tempIter =
                     session.createCriteria(PredictionValue.class).add(Restrictions.eq("predictionId", predictionId))
                             .add(Restrictions.eq("predictorId", predictorId)).list().iterator();
             while (tempIter.hasNext()) {
                 predictionValues.add((PredictionValue) tempIter.next());
             }
-
+            tx.commit();
         } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(ex);
         }
 
@@ -130,10 +146,9 @@ public class PopulateDataObjects {
         List<PredictionValue> predictionValues = Lists.newArrayList();
         Prediction prediction = getPredictionById(predictionId, session);
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
-
+        Transaction tx = session.beginTransaction();
         for (String predictorId : predictorIds) {
             try {
-                session.beginTransaction();
                 List<PredictionValue> predictorPredictionValues = Lists.newArrayList();
                 Iterator<?> tempIter =
                         session.createCriteria(PredictionValue.class).add(Restrictions.eq("predictionId", predictionId))
@@ -155,8 +170,11 @@ public class PopulateDataObjects {
                 }
 
                 predictionValues.addAll(predictorPredictionValues);
-
+                tx.commit();
             } catch (Exception ex) {
+                if (tx != null) {
+                    tx.rollback();
+                }
                 logger.error(ex);
             }
         }
@@ -288,6 +306,9 @@ public class PopulateDataObjects {
             }
 
         } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(ex);
         }
 
@@ -335,6 +356,9 @@ public class PopulateDataObjects {
                 datasets.addAll(usersDataset);
             }
         } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(ex);
         }
         Collections.reverse(datasets);
@@ -376,6 +400,9 @@ public class PopulateDataObjects {
             }
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -397,6 +424,9 @@ public class PopulateDataObjects {
                 }
             }
         } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(ex);
         }
 
@@ -447,6 +477,9 @@ public class PopulateDataObjects {
 
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -468,6 +501,9 @@ public class PopulateDataObjects {
                 }
             }
         } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(ex);
         }
 
@@ -515,6 +551,9 @@ public class PopulateDataObjects {
             }
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -536,6 +575,9 @@ public class PopulateDataObjects {
                 }
             }
         } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(ex);
         }
 
@@ -573,6 +615,9 @@ public class PopulateDataObjects {
             }
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         predictors.addAll(privatePredictors);
@@ -604,6 +649,9 @@ public class PopulateDataObjects {
 
                 tx.commit();
             } catch (Exception e) {
+                if (tx != null) {
+                    tx.rollback();
+                }
                 logger.error(e);
             }
             predictors.addAll(publicPredictors);
@@ -641,6 +689,9 @@ public class PopulateDataObjects {
 
                 tx.commit();
             } catch (Exception e) {
+                if (tx != null) {
+                    tx.rollback();
+                }
                 logger.error(e);
             }
 
@@ -704,6 +755,9 @@ public class PopulateDataObjects {
             }
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -735,6 +789,9 @@ public class PopulateDataObjects {
                 }
             }
         } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(ex);
         }
 
@@ -810,6 +867,9 @@ public class PopulateDataObjects {
 
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         if (allUserDatasets != null) {
@@ -826,6 +886,9 @@ public class PopulateDataObjects {
             job = (Job) session.createCriteria(Job.class).add(Restrictions.eq("id", jobId)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return job;
@@ -841,6 +904,9 @@ public class PopulateDataObjects {
 
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return job;
@@ -856,6 +922,9 @@ public class PopulateDataObjects {
 
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -871,6 +940,9 @@ public class PopulateDataObjects {
                     .add(Restrictions.eq("userName", userName)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return dataset;
@@ -884,6 +956,9 @@ public class PopulateDataObjects {
             dataset = (Dataset) session.createCriteria(Dataset.class).add(Restrictions.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -899,6 +974,9 @@ public class PopulateDataObjects {
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -921,6 +999,9 @@ public class PopulateDataObjects {
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -956,6 +1037,9 @@ public class PopulateDataObjects {
                             .add(Restrictions.eq("name", jobName)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -983,6 +1067,9 @@ public class PopulateDataObjects {
             user = (User) session.createCriteria(User.class).add(Restrictions.eq("userName", userName)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -1009,6 +1096,9 @@ public class PopulateDataObjects {
                 }
             });
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return users;
@@ -1027,6 +1117,9 @@ public class PopulateDataObjects {
             }
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -1046,6 +1139,9 @@ public class PopulateDataObjects {
 
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -1065,6 +1161,9 @@ public class PopulateDataObjects {
             }
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -1087,6 +1186,9 @@ public class PopulateDataObjects {
 
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -1108,6 +1210,9 @@ public class PopulateDataObjects {
             }
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -1128,6 +1233,9 @@ public class PopulateDataObjects {
 
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -1152,6 +1260,9 @@ public class PopulateDataObjects {
 
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -1177,6 +1288,9 @@ public class PopulateDataObjects {
             }
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -1203,6 +1317,9 @@ public class PopulateDataObjects {
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -1215,6 +1332,9 @@ public class PopulateDataObjects {
                 }
             }
         } catch (Exception ex) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(ex);
         }
         return predictor;
@@ -1243,6 +1363,9 @@ public class PopulateDataObjects {
                 }
             }
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return childPredictors;
@@ -1264,6 +1387,9 @@ public class PopulateDataObjects {
             }
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
 
@@ -1286,6 +1412,9 @@ public class PopulateDataObjects {
                 }
                 tx.commit();
             } catch (Exception e) {
+                if (tx != null) {
+                    tx.rollback();
+                }
                 logger.error(e);
             }
 
@@ -1338,6 +1467,9 @@ public class PopulateDataObjects {
 
                 tx.commit();
             } catch (Exception e) {
+                if (tx != null) {
+                    tx.rollback();
+                }
                 logger.error(e);
             }
 
@@ -1357,6 +1489,9 @@ public class PopulateDataObjects {
             task = (Job) session.createCriteria(Job.class).add(Restrictions.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return task;
@@ -1376,6 +1511,9 @@ public class PopulateDataObjects {
 
                 tx.commit();
             } catch (Exception e) {
+                if (tx != null) {
+                    tx.rollback();
+                }
                 logger.error(e);
             }
 
@@ -1401,6 +1539,9 @@ public class PopulateDataObjects {
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return sl;
@@ -1415,6 +1556,9 @@ public class PopulateDataObjects {
                     .add(Restrictions.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return params;
@@ -1429,6 +1573,9 @@ public class PopulateDataObjects {
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return params;
@@ -1443,6 +1590,9 @@ public class PopulateDataObjects {
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return params;
@@ -1457,6 +1607,9 @@ public class PopulateDataObjects {
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             logger.error(e);
         }
         return params;
