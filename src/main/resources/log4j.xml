@@ -19,9 +19,17 @@
         <level value="info" />
     </logger>
 
+    <logger name="org.springframework">
+        <level value="info" />
+    </logger>
+
+    <logger name="com.zaxxer">
+        <level value="info" />
+    </logger>
+
     <!-- default logging -->
     <root>
-        <priority value="error" />
+        <level value="warn" />
         <appender-ref ref="chembench" />
     </root>
 
