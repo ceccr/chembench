@@ -93,6 +93,7 @@ public class SynchronizedJobList {
             s = HibernateUtil.getSession();
             tx = s.beginTransaction();
             job = (Job) s.createCriteria(Job.class).add(Restrictions.eq("id", jobId)).uniqueResult();
+            tx.commit();
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
@@ -124,7 +125,7 @@ public class SynchronizedJobList {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("Error deleting job from DB", e);
         } finally {
             s.close();
         }
