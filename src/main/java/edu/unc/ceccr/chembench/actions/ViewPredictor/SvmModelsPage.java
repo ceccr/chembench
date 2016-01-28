@@ -2,12 +2,10 @@ package edu.unc.ceccr.chembench.actions.ViewPredictor;
 
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.persistence.SvmModel;
-import edu.unc.ceccr.chembench.persistence.SvmParameters;
+import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +21,9 @@ public class SvmModelsPage extends ViewPredictorAction {
     private List<SvmModel> svmModels;
     private SvmParameters svmParameters;
 
+    @Autowired
+    private SvmParametersRepository svmParametersRepository;
+
     public String load() throws Exception {
         // get models associated with predictor
         String result = getBasicParameters();
@@ -35,7 +36,7 @@ public class SvmModelsPage extends ViewPredictorAction {
         // not all columns are relevant for all SVM types. allows us to select
         // only those needed
         session = HibernateUtil.getSession();
-        svmParameters = PopulateDataObjects.getSvmParametersById(selectedPredictor.getModelingParametersId(), session);
+        svmParameters = svmParametersRepository.findOne(selectedPredictor.getModelingParametersId());
         session.close();
         if (childPredictors.size() == 0) {
             result = loadModels();
@@ -108,5 +109,9 @@ public class SvmModelsPage extends ViewPredictorAction {
 
     public void setSvmParameters(SvmParameters svmParameters) {
         this.svmParameters = svmParameters;
+    }
+
+    public void setSvmParametersRepository(SvmParametersRepository svmParametersRepository) {
+        this.svmParametersRepository = svmParametersRepository;
     }
 }

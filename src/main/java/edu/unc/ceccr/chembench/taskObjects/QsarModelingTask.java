@@ -16,6 +16,7 @@ import edu.unc.ceccr.chembench.workflows.modelingPrediction.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -77,6 +78,15 @@ public class QsarModelingTask extends WorkflowTask {
     private int numExternalCompounds = 0;
     private String step = Constants.SETUP;
 
+    @Autowired
+    private RandomForestParametersRepository randomForestParametersRepository;
+    @Autowired
+    private SvmParametersRepository svmParametersRepository;
+    @Autowired
+    private KnnParametersRepository knnParametersRepository;
+    @Autowired
+    private KnnPlusParametersRepository knnPlusParametersRepository;
+
     public QsarModelingTask(Predictor predictor) throws Exception {
         logger.info("Recovering job, " + jobName + " from predictor: " + predictor.getName() + " submitted by user, "
                 + userName + ".");
@@ -136,15 +146,14 @@ public class QsarModelingTask extends WorkflowTask {
 
         // modeling params
         if (predictor.getModelMethod().equals(Constants.KNN)) {
-            knnParameters = PopulateDataObjects.getKnnParametersById(predictor.getModelingParametersId(), s);
+            knnParameters = knnParametersRepository.findOne(predictor.getModelingParametersId());
         } else if (predictor.getModelMethod().equals(Constants.SVM)) {
-            svmParameters = PopulateDataObjects.getSvmParametersById(predictor.getModelingParametersId(), s);
+            svmParameters = svmParametersRepository.findOne(predictor.getModelingParametersId());
         } else if (predictor.getModelMethod().equals(Constants.KNNSA) || predictor.getModelMethod()
                 .equals(Constants.KNNGA)) {
-            knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(predictor.getModelingParametersId(), s);
+            knnPlusParameters = knnPlusParametersRepository.findOne(predictor.getModelingParametersId());
         } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-            randomForestParameters =
-                    PopulateDataObjects.getRandomForestParametersById(predictor.getModelingParametersId(), s);
+            randomForestParameters = randomForestParametersRepository.findOne(predictor.getModelingParametersId());
         }
         s.close();
 
@@ -1046,4 +1055,19 @@ public class QsarModelingTask extends WorkflowTask {
         this.modelType = modelType;
     }
 
+    public void setRandomForestParametersRepository(RandomForestParametersRepository randomForestParametersRepository) {
+        this.randomForestParametersRepository = randomForestParametersRepository;
+    }
+
+    public void setKnnPlusParametersRepository(KnnPlusParametersRepository knnPlusParametersRepository) {
+        this.knnPlusParametersRepository = knnPlusParametersRepository;
+    }
+
+    public void setKnnParametersRepository(KnnParametersRepository knnParametersRepository) {
+        this.knnParametersRepository = knnParametersRepository;
+    }
+
+    public void setSvmParametersRepository(SvmParametersRepository svmParametersRepository) {
+        this.svmParametersRepository = svmParametersRepository;
+    }
 }

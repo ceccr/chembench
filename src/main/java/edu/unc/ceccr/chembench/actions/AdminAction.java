@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -35,6 +36,13 @@ public class AdminAction extends ActionSupport {
     String emailSubject;
     String sendTo;
     private List<String> errorStrings = Lists.newArrayList();
+
+    @Autowired
+    private RandomForestParametersRepository randomForestParametersRepository;
+    @Autowired
+    private SvmParametersRepository svmParametersRepository;
+    @Autowired
+    private KnnPlusParametersRepository knnPlusParametersRepository;
 
     public String loadPage() throws Exception {
         if (!user.getIsAdmin().equals(Constants.YES)) {
@@ -610,8 +618,8 @@ public class AdminAction extends ActionSupport {
 
             if (oldPredictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
                 logger.debug("------//RANDOMFOREST");
-                RandomForestParameters randomForestParameters = PopulateDataObjects
-                        .getRandomForestParametersById(oldPredictor.getModelingParametersId(), session);
+                RandomForestParameters randomForestParameters =
+                        randomForestParametersRepository.findOne(oldPredictor.getModelingParametersId());
                 session.evict(randomForestParameters);
                 randomForestParameters.setId(null);
                 session.save(randomForestParameters);
@@ -621,7 +629,7 @@ public class AdminAction extends ActionSupport {
                     .equals(Constants.KNNSA)) {
                 logger.debug("------//KNN+");
                 KnnPlusParameters knnPlusParameters =
-                        PopulateDataObjects.getKnnPlusParametersById(oldPredictor.getModelingParametersId(), session);
+                        knnPlusParametersRepository.findOne(oldPredictor.getModelingParametersId());
                 session.evict(knnPlusParameters);
                 knnPlusParameters.setId(null);
                 session.save(knnPlusParameters);
@@ -640,8 +648,7 @@ public class AdminAction extends ActionSupport {
             }*/
             else if (oldPredictor.getModelMethod().equals(Constants.SVM)) {
                 logger.debug("------//SVM");
-                SvmParameters svmParameters =
-                        PopulateDataObjects.getSvmParametersById(oldPredictor.getModelingParametersId(), session);
+                SvmParameters svmParameters = svmParametersRepository.findOne(oldPredictor.getModelingParametersId());
                 session.evict(svmParameters);
                 svmParameters.setId(null);
                 session.save(svmParameters);
@@ -690,8 +697,8 @@ public class AdminAction extends ActionSupport {
 
                         session = HibernateUtil.getSession();
                         if (child.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
-                            RandomForestParameters randomForestParameters = PopulateDataObjects
-                                    .getRandomForestParametersById(child.getModelingParametersId(), session);
+                            RandomForestParameters randomForestParameters =
+                                    randomForestParametersRepository.findOne(child.getModelingParametersId());
                             session.evict(randomForestParameters);
                             randomForestParameters.setId(null);
                             session.save(randomForestParameters);
@@ -699,8 +706,8 @@ public class AdminAction extends ActionSupport {
                             child.setModelingParametersId(randomForestParameters.getId());
                         } else if (child.getModelMethod().equals(Constants.KNNGA) || child.getModelMethod()
                                 .equals(Constants.KNNSA)) {
-                            KnnPlusParameters knnPlusParameters = PopulateDataObjects
-                                    .getKnnPlusParametersById(child.getModelingParametersId(), session);
+                            KnnPlusParameters knnPlusParameters =
+                                    knnPlusParametersRepository.findOne(child.getModelingParametersId());
                             session.evict(knnPlusParameters);
                             knnPlusParameters.setId(null);
                             session.save(knnPlusParameters);
@@ -718,7 +725,7 @@ public class AdminAction extends ActionSupport {
                             }*/
                         else if (child.getModelMethod().equals(Constants.SVM)) {
                             SvmParameters svmParameters =
-                                    PopulateDataObjects.getSvmParametersById(child.getModelingParametersId(), session);
+                                    svmParametersRepository.findOne(child.getModelingParametersId());
                             session.evict(svmParameters);
                             svmParameters.setId(null);
                             session.save(svmParameters);
@@ -932,4 +939,15 @@ public class AdminAction extends ActionSupport {
         this.errorStrings = errorStrings;
     }
 
+    public void setRandomForestParametersRepository(RandomForestParametersRepository randomForestParametersRepository) {
+        this.randomForestParametersRepository = randomForestParametersRepository;
+    }
+
+    public void setSvmParametersRepository(SvmParametersRepository svmParametersRepository) {
+        this.svmParametersRepository = svmParametersRepository;
+    }
+
+    public void setKnnPlusParametersRepository(KnnPlusParametersRepository knnPlusParametersRepository) {
+        this.knnPlusParametersRepository = knnPlusParametersRepository;
+    }
 }
