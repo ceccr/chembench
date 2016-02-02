@@ -4,7 +4,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
-@ComponentScan("kim.ian.springtest")
+@ComponentScan("edu.unc.ceccr.chembench")
 @Import(PersistenceContext.class)
 public class ApplicationContext {
 
