@@ -46,7 +46,7 @@ public class DatasetFilesServlet extends HttpServlet {
                 writer.write("An ERROR occured, can not download the dataset file.");
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
     }
 

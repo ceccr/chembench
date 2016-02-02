@@ -132,7 +132,7 @@ public class GenerateDescriptors {
             srcSVM.close();
             finSVM.close();
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
     }
 
@@ -230,7 +230,7 @@ public class GenerateDescriptors {
             finSVM.close();
 
         } catch (Exception e) {//Catch exception if any
-            logger.error(e);
+            logger.error("", e);
         }
     }
 
@@ -296,7 +296,7 @@ public class GenerateDescriptors {
             fout.close();
 
         } catch (IOException e) {
-            logger.error(e);
+            logger.error("", e);
         }
         try {
             fout = new FileOutputStream(workingDir + "molfile");
@@ -307,7 +307,7 @@ public class GenerateDescriptors {
             fout.close();
 
         } catch (IOException e) {
-            logger.error(e);
+            logger.error("", e);
         }
     }
 
@@ -352,7 +352,7 @@ public class GenerateDescriptors {
             fout.close();
 
         } catch (IOException e) {
-            logger.error(e);
+            logger.error("", e);
         }
         try {
             fout = new FileOutputStream(workingDir + "molfile");
@@ -363,7 +363,7 @@ public class GenerateDescriptors {
             fout.close();
 
         } catch (IOException e) {
-            logger.error(e);
+            logger.error("", e);
         }
     }
 

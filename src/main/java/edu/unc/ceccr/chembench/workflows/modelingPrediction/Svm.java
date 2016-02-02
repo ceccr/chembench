@@ -260,7 +260,7 @@ public class Svm {
             }
             in.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 

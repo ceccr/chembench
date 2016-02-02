@@ -68,7 +68,7 @@ public class SdfToJpg {
                         fout.write(sb.toString());
                         fout.close();
                     } catch (Exception ex) {
-                        logger.error(ex);
+                        logger.error("", ex);
                     }
                     break;
                 }

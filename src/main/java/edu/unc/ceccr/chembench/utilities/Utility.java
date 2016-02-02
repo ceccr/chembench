@@ -221,7 +221,7 @@ public class Utility {
                 return false;
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             return false;
         }
     }
@@ -237,7 +237,7 @@ public class Utility {
                 return false;
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             return false;
         }
     }

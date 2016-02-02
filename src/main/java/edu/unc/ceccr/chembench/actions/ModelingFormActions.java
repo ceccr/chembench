@@ -428,7 +428,7 @@ public class ModelingFormActions extends ActionSupport {
                     if (tx != null) {
                         tx.rollback();
                     }
-                    logger.error(ex);
+                    logger.error("", ex);
                 }
 
                 if (closeSessionAtEnd) {
@@ -457,7 +457,7 @@ public class ModelingFormActions extends ActionSupport {
 
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             if (closeSessionAtEnd) {
                 executeSession.close();
             }

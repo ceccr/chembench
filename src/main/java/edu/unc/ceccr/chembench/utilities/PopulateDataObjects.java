@@ -35,7 +35,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         return list;
     }
@@ -55,7 +55,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         if (list == null || list.isEmpty()) {
             list = null;
@@ -77,7 +77,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         logger.info("found " + list.size() + " " + c.getName() + " objects for user name " + userName);
         return list;
@@ -97,7 +97,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         if (predictionValue != null) {
@@ -125,7 +125,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         for (PredictionValue pv : predictionValues) {
@@ -175,7 +175,7 @@ public class PopulateDataObjects {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
 
@@ -309,7 +309,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         return datasets;
@@ -359,7 +359,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(ex);
+            logger.error("", ex);
         }
         Collections.reverse(datasets);
         return datasets;
@@ -403,7 +403,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         List<String> datasetNames = Lists.newArrayList();
@@ -427,7 +427,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         Collections.reverse(datasetNames);
@@ -480,7 +480,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         List<String> predictorNames = Lists.newArrayList();
@@ -504,7 +504,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         Collections.reverse(predictorNames);
@@ -554,7 +554,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         List<String> predictionNames = Lists.newArrayList();
@@ -578,7 +578,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         Collections.reverse(predictionNames);
@@ -618,7 +618,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         predictors.addAll(privatePredictors);
 
@@ -652,7 +652,7 @@ public class PopulateDataObjects {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
             }
             predictors.addAll(publicPredictors);
         }
@@ -692,7 +692,7 @@ public class PopulateDataObjects {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
             }
 
             if (predictions != null) {
@@ -709,7 +709,7 @@ public class PopulateDataObjects {
                 }
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
 
         Collections.reverse(predictions);
@@ -758,7 +758,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         List<String> datasetdescriptorsNames = Lists.newArrayList();
@@ -792,7 +792,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         return datasetdescriptorsNames;
@@ -870,7 +870,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         if (allUserDatasets != null) {
             usersDataset.addAll(allUserDatasets);
@@ -889,7 +889,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         return job;
     }
@@ -907,7 +907,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         return job;
     }
@@ -925,7 +925,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         return dataset.getSdfFile();
@@ -943,7 +943,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         return dataset;
     }
@@ -959,7 +959,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         return dataset;
@@ -977,7 +977,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         if (predictor != null && predictor.getDatasetId() != null) {
@@ -1002,7 +1002,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         String predictorNames = "";
@@ -1040,7 +1040,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         String predictorNames = "";
@@ -1070,7 +1070,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         return user;
@@ -1099,7 +1099,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         return users;
     }
@@ -1120,7 +1120,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         return users;
@@ -1142,7 +1142,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         return jobStats;
@@ -1164,7 +1164,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         return jobStats;
@@ -1189,7 +1189,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         return groves;
@@ -1213,7 +1213,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         return trees;
@@ -1236,7 +1236,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         return models;
@@ -1263,7 +1263,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         return models;
@@ -1291,7 +1291,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         // if the model type is continuous,
@@ -1320,7 +1320,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         try {
@@ -1335,7 +1335,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(ex);
+            logger.error("", ex);
         }
         return predictor;
     }
@@ -1366,7 +1366,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         return childPredictors;
     }
@@ -1390,7 +1390,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         return externalValValues;
@@ -1415,11 +1415,11 @@ public class PopulateDataObjects {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
             }
 
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
         try {
             if (tasks != null) {
@@ -1434,7 +1434,7 @@ public class PopulateDataObjects {
                 }
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         return taskNames;
@@ -1470,11 +1470,11 @@ public class PopulateDataObjects {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
             }
 
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
 
         return tasks;
@@ -1492,7 +1492,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         return task;
     }
@@ -1514,11 +1514,11 @@ public class PopulateDataObjects {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
             }
 
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
 
         Collections.sort(softwareLinks, new Comparator<SoftwareLink>() {
@@ -1542,7 +1542,7 @@ public class PopulateDataObjects {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
         return sl;
     }

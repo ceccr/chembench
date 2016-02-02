@@ -291,7 +291,7 @@ public class ViewPredictionAction extends ViewAction {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
             }
         }
 

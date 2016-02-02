@@ -99,7 +99,7 @@ public class FileServlet extends HttpServlet {
                 writer.write("An error occured, can not download the project file.");
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 }

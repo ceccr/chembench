@@ -50,7 +50,7 @@ public class PredictorPage extends ViewPredictorAction {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
             } finally {
                 session.close();
             }
@@ -84,7 +84,7 @@ public class PredictorPage extends ViewPredictorAction {
                 session.saveOrUpdate(selectedPredictor);
                 tx.commit();
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             } finally {
                 session.close();
             }

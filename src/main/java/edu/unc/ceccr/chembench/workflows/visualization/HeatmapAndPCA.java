@@ -33,7 +33,7 @@ public class HeatmapAndPCA {
             }
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 
@@ -45,7 +45,7 @@ public class HeatmapAndPCA {
                 RunExternalProgram.runCommandAndLogOutput(cmd, "", "run_PCA_ScatterPlot.sh");
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 }

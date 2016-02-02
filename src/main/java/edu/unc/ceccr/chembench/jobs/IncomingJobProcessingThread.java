@@ -89,14 +89,14 @@ public class IncomingJobProcessingThread extends Thread {
                             if (tx != null) {
                                 tx.rollback();
                             }
-                            logger.error(e);
+                            logger.error("", e);
                         } finally {
                             s.close();
                         }
                     }
                 }
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
     }

@@ -42,7 +42,7 @@ public class ProjectFilesServlet extends HttpServlet {
                 WriteZip.ZipPredictionResults(userName, projectUserName, projectName, zipFile);
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
         if (filePath.exists()) {
             try {
@@ -61,7 +61,7 @@ public class ProjectFilesServlet extends HttpServlet {
                 filePath.delete();
 
             } catch (Exception e) {
-                logger.error(e);
+                logger.error("", e);
             }
 
         } else {

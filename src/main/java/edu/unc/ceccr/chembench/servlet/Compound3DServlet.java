@@ -94,7 +94,7 @@ public class Compound3DServlet extends HttpServlet {
                 out.println(" ERROR : Can not find SD file: " + id);
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         } finally {
             out.close();
         }

@@ -109,7 +109,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
             runningJobs = "Running Jobs: " + numJobs;
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             showStatistics = "NO";
         }
         return SUCCESS;
@@ -192,7 +192,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
                     tx.rollback();
                 }
                 loginFailed = Constants.YES;
-                logger.error(e);
+                logger.error("", e);
             } finally {
                 s.close();
             }
@@ -259,7 +259,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
                         if (tx != null) {
                             tx.rollback();
                         }
-                        logger.error(e);
+                        logger.error("", e);
                     } finally {
                         s.close();
                     }
@@ -361,7 +361,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
                                 if (tx != null) {
                                     tx.rollback();
                                 }
-                                logger.error(e);
+                                logger.error("", e);
                             } finally {
                                 session.close();
                             }
@@ -374,7 +374,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
                         session.delete(p);
                         tx.commit();
                     } catch (RuntimeException e) {
-                        logger.error(e);
+                        logger.error("", e);
                     } finally {
                         session.close();
                     }
@@ -412,7 +412,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
                         }
                         tx.commit();
                     } catch (RuntimeException e) {
-                        logger.error(e);
+                        logger.error("", e);
                     } finally {
                         session.close();
                     }
@@ -443,7 +443,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
                     tx.commit();
 
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                 }
 
                 //last, delete all the files that user has
@@ -453,7 +453,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
                 logger.debug("Delete GUEST:::ALL DATA FROM FILES SHOULD BE DELETED:" + flag);
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
             return false;
         }
         return true;

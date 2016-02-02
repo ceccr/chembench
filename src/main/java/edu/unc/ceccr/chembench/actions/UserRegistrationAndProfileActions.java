@@ -190,7 +190,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         } finally {
             s.close();
         }
@@ -264,7 +264,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         } finally {
             s.close();
         }
@@ -330,7 +330,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         } finally {
             s.close();
         }
@@ -374,7 +374,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         } finally {
             s.close();
         }
@@ -398,7 +398,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         } finally {
             s.close();
         }

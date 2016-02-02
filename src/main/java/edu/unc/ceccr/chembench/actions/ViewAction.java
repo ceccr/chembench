@@ -41,7 +41,7 @@ public abstract class ViewAction extends ActionSupport {
                 return ERROR;
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
             errorStrings.add(e.getMessage());
             return ERROR;
         }

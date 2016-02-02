@@ -59,7 +59,7 @@ public class ImageServlet extends HttpServlet {
                 }
 
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         } else if (projectType.equals("dataset")) {
             imageFileName = userName + "/DATASETS/" + datasetName + "/Visualization/Sketches/" + compoundId + ".jpg";
@@ -103,20 +103,20 @@ public class ImageServlet extends HttpServlet {
 
             output.flush();
         } catch (IOException e) {
-            logger.error(e);
+            logger.error("", e);
         } finally {
             if (input != null) {
                 try {
                     input.close();
                 } catch (IOException e) {
-                    logger.error(e);
+                    logger.error("", e);
                 }
             }
             if (output != null) {
                 try {
                     output.close();
                 } catch (IOException e) {
-                    logger.error(e);
+                    logger.error("", e);
                 }
             }
         }

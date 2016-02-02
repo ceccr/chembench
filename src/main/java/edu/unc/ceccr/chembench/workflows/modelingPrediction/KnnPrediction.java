@@ -134,7 +134,7 @@ public class KnnPrediction {
                 predictionValues.add(p);
 
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
         in.close();

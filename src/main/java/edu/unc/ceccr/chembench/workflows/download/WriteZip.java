@@ -70,7 +70,7 @@ public class WriteZip {
                 out.closeEntry();
                 in.close();
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
         out.close();
@@ -192,7 +192,7 @@ public class WriteZip {
                     in.close();
                 }
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
         out.close();
@@ -403,7 +403,7 @@ public class WriteZip {
                     //don't worry about missing files
                 }
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
         out.close();
@@ -513,7 +513,7 @@ public class WriteZip {
                 out.closeEntry();
                 in.close();
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
         out.close();

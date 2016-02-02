@@ -222,7 +222,7 @@ public class DatasetFormActions extends ActionSupport {
                     actFileModelingFileName =
                             actFileModelingFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
                 }
@@ -282,7 +282,7 @@ public class DatasetFormActions extends ActionSupport {
                             emailOnCompletion);
 
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                 }
             }
         } else if (datasetType.equalsIgnoreCase(Constants.PREDICTION)) {
@@ -303,7 +303,7 @@ public class DatasetFormActions extends ActionSupport {
                     sdfFilePredictionFileName = sdfFilePredictionFileName.replaceAll(" ", "_").replaceAll("\\(", "_")
                             .replaceAll("\\)", "_");
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
                 }
@@ -344,7 +344,7 @@ public class DatasetFormActions extends ActionSupport {
                             emailOnCompletion);
 
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
                 }
@@ -386,7 +386,7 @@ public class DatasetFormActions extends ActionSupport {
                             descriptorNewName.trim().isEmpty() ? selectedDescriptorUsedName : descriptorNewName;
 
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
                 }
@@ -424,7 +424,7 @@ public class DatasetFormActions extends ActionSupport {
                     centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels,
                             emailOnCompletion);
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
                 }
@@ -454,7 +454,7 @@ public class DatasetFormActions extends ActionSupport {
                     descriptorTypePredDesc =
                             descriptorNewNameD.trim().isEmpty() ? selectedDescriptorUsedNameD : descriptorNewNameD;
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
                 }
@@ -495,7 +495,7 @@ public class DatasetFormActions extends ActionSupport {
 
                     //Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
                 }

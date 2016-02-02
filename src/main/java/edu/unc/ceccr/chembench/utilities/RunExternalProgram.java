@@ -76,7 +76,7 @@ public class RunExternalProgram {
             p.destroy();
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 

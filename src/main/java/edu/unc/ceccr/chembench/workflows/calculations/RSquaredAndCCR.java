@@ -244,7 +244,7 @@ public class RSquaredAndCCR {
                 selectedPredictor.setExternalPredictionAccuracy(rSquared);
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
         return;
     }

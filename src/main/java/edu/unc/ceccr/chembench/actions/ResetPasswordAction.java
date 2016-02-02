@@ -46,7 +46,7 @@ public class ResetPasswordAction extends ActionSupport {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         } finally {
             s.close();
         }

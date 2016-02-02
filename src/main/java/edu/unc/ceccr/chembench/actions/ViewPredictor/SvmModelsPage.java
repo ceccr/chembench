@@ -77,7 +77,7 @@ public class SvmModelsPage extends ViewPredictorAction {
                 }
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             errorStrings.add(ex.getMessage());
             return ERROR;
         }

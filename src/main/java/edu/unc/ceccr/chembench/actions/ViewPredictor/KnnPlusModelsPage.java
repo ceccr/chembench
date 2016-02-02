@@ -96,7 +96,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 
             return result;
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             errorStrings.add(ex.getMessage());
             return ERROR;
         }
@@ -122,7 +122,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
                 }
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             errorStrings.add(ex.getMessage());
             return ERROR;
         }

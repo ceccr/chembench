@@ -114,7 +114,7 @@ public class CentralDogma {
             threads.add(inThread);
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 
@@ -156,7 +156,7 @@ public class CentralDogma {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         } finally {
             s.close();
         }
@@ -260,7 +260,7 @@ public class CentralDogma {
                     }
                 }
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             } finally {
                 s.close();
             }

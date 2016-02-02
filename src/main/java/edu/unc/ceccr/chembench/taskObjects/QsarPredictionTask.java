@@ -136,7 +136,7 @@ public class QsarPredictionTask extends WorkflowTask {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         } finally {
             session.close();
         }
@@ -192,7 +192,7 @@ public class QsarPredictionTask extends WorkflowTask {
             } while ((inputString = in.readLine()) != null);
             in.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             ;
         }
 

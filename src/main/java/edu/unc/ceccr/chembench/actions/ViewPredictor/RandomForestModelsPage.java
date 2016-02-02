@@ -103,7 +103,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 
             logger.debug("Done loading trees page for predictor id" + objectId);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
          return result;
     }

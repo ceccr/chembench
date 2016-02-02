@@ -68,7 +68,7 @@ public class XMLTreeBuilder {
                 }
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
 
         return key;

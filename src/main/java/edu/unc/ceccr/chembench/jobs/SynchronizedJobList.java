@@ -98,7 +98,7 @@ public class SynchronizedJobList {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         JobStats js = new JobStats();
@@ -113,7 +113,7 @@ public class SynchronizedJobList {
             js.setTimeStartedByLsf(job.getTimeStartedByLsf());
             js.setUserName(job.getUserName());
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         try {
@@ -158,7 +158,7 @@ public class SynchronizedJobList {
 			.addOrder(Order.asc("id"))
 			.list();
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("", e);
 		} finally {
 			s.close();
 		}
@@ -180,7 +180,7 @@ public class SynchronizedJobList {
                 //return a copy of it
                 jobListCopy.addAll(jobList);
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
             return jobListCopy;
         }
@@ -259,7 +259,7 @@ public class SynchronizedJobList {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         } finally {
             session.close();
         }

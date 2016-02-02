@@ -47,7 +47,7 @@ public class DatasetFileOperations {
             }
             fis.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         return idsAndValues;
@@ -562,7 +562,7 @@ public class DatasetFileOperations {
                         // second thing isn't a number -- line was a header!
                         logger.debug(
                                 "Activity file contains a header: " + temp + " {" + temp.split("\\s+")[1].trim() + "}");
-                        logger.error(ex);
+                        logger.error("", ex);
                         firstLineContainsHeader = true;
                     }
                 } else {
@@ -660,7 +660,7 @@ public class DatasetFileOperations {
                 result.add(temp);
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
 
         return result;

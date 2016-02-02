@@ -317,7 +317,7 @@ public class ExternalValidationChart {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
-                logger.error(e);
+                logger.error("", e);
             }
             list.add(url);
         }

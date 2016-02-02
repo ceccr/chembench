@@ -330,7 +330,7 @@ public class LegacyRandomForest {
             }
             in.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         int treeFilesDeleted = 0;

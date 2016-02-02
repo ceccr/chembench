@@ -114,7 +114,7 @@ public class SoftwareLinksAction extends ActionSupport {
                     if (tx != null) {
                         tx.rollback();
                     }
-                    logger.error(e);
+                    logger.error("", e);
                 } finally {
                     s.close();
                 }
@@ -156,7 +156,7 @@ public class SoftwareLinksAction extends ActionSupport {
                     if (tx != null) {
                         tx.rollback();
                     }
-                    logger.error(e);
+                    logger.error("", e);
                     return ERROR;
                 } finally {
                     s.close();

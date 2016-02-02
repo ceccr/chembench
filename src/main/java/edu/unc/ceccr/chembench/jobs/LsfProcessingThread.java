@@ -115,7 +115,7 @@ public class LsfProcessingThread extends Thread {
                                         logger.warn("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
                                         CentralDogma.getInstance().moveJobToErrorList(j.getId());
                                         CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
-                                        logger.error(ex);
+                                        logger.error("", ex);
 
                                         // send an email to the site
                                         // administrator
@@ -208,7 +208,7 @@ public class LsfProcessingThread extends Thread {
                                 logger.warn("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
                                 CentralDogma.getInstance().moveJobToErrorList(j.getId());
                                 CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
-                                logger.error(ex);
+                                logger.error("", ex);
 
                                 // prepare a nice HTML-formatted readable
                                 // version of the exception
@@ -269,7 +269,7 @@ public class LsfProcessingThread extends Thread {
                 }
 
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
     }

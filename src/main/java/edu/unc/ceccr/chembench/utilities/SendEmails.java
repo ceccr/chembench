@@ -64,7 +64,7 @@ public class SendEmails {
 
             logger.debug("Email sent!");
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
         /*
          * //The old way

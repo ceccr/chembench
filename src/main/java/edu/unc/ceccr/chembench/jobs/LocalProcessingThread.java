@@ -91,7 +91,7 @@ public class LocalProcessingThread extends Thread {
                             } else {
                                 CentralDogma.getInstance().moveJobToErrorList(j.getId());
                                 CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
-                                logger.error(ex);
+                                logger.error("", ex);
 
                                 // prepare a nice HTML-formatted readable
                                 // version of the exception
@@ -129,7 +129,7 @@ public class LocalProcessingThread extends Thread {
                 }
 
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
     }

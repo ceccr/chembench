@@ -599,7 +599,7 @@ public class ViewDataset extends ViewAction {
                 session.saveOrUpdate(dataset);
                 tx.commit();
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             } finally {
                 session.close();
             }
@@ -632,7 +632,7 @@ public class ViewDataset extends ViewAction {
                 session.saveOrUpdate(dataset);
                 tx.commit();
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             } finally {
                 session.close();
             }
@@ -693,7 +693,7 @@ public class ViewDataset extends ViewAction {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
             }
         }
         if (dataset.getDatasetType().equals(Constants.MODELING) || dataset.getDatasetType()

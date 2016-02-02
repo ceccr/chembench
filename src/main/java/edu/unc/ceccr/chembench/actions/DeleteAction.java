@@ -165,7 +165,7 @@ public class DeleteAction extends ActionSupport {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
             return ERROR;
         }
 
@@ -259,7 +259,7 @@ public class DeleteAction extends ActionSupport {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
     }
 
@@ -311,7 +311,7 @@ public class DeleteAction extends ActionSupport {
                     if (tx != null) {
                         tx.rollback();
                     }
-                    logger.error(e);
+                    logger.error("", e);
                 }
             }
         }
@@ -326,7 +326,7 @@ public class DeleteAction extends ActionSupport {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         }
 
         session.close();
@@ -382,7 +382,7 @@ public class DeleteAction extends ActionSupport {
                             } catch (Exception ex) {
                                 // if some siblings are missing, don't
                                 // crash, just keep deleting things
-                                logger.error(ex);
+                                logger.error("", ex);
                             }
                         }
                         // cancel this job
@@ -400,7 +400,7 @@ public class DeleteAction extends ActionSupport {
             s.close();
         } catch (Exception ex) {
             // if it failed, no big deal - just write out the exception.
-            logger.error(ex);
+            logger.error("", ex);
         }
         return SUCCESS;
     }
@@ -497,7 +497,7 @@ public class DeleteAction extends ActionSupport {
             tx.commit();
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         // last, delete all the files that user has
@@ -522,7 +522,7 @@ public class DeleteAction extends ActionSupport {
                     if (tx != null) {
                         tx.rollback();
                     }
-                    logger.error(e);
+                    logger.error("", e);
                 }
             }
             session.close();

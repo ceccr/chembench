@@ -137,7 +137,7 @@ public class AdminAction extends ActionSupport {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         } finally {
             s.close();
         }
@@ -176,7 +176,7 @@ public class AdminAction extends ActionSupport {
             if (tx != null) {
                 tx.rollback();
             }
-            logger.error(e);
+            logger.error("", e);
         } finally {
             s.close();
         }
@@ -282,7 +282,7 @@ public class AdminAction extends ActionSupport {
                         if (tx != null) {
                             tx.rollback();
                         }
-                        logger.error(e);
+                        logger.error("", e);
                     }
                 }
             }
@@ -297,7 +297,7 @@ public class AdminAction extends ActionSupport {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
             }
 
             session.close();
@@ -375,7 +375,7 @@ public class AdminAction extends ActionSupport {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
                 return ERROR;
             }
             session.close();
@@ -773,7 +773,7 @@ public class AdminAction extends ActionSupport {
                             if (tx != null) {
                                 tx.rollback();
                             }
-                            logger.error(e);
+                            logger.error("", e);
                         } finally {
                             session.close();
                         }
@@ -795,13 +795,13 @@ public class AdminAction extends ActionSupport {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
             } finally {
                 session.close();
             }
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             return ERROR;
         }
 
@@ -875,13 +875,13 @@ public class AdminAction extends ActionSupport {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error(e);
+                logger.error("", e);
             } finally {
                 session.close();
             }
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             return ERROR;
         }
 

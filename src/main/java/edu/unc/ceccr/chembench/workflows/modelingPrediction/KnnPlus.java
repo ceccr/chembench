@@ -162,7 +162,7 @@ public class KnnPlus {
                 FileAndDirOperations.deleteFile(workingDir + "yRandom/" + "models.tbl");
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         String knnPlusCommand = getKnnPlusCommandFromParams(knnPlusParameters, actFileDataType, modelType);
@@ -343,7 +343,7 @@ public class KnnPlus {
                 predictionValues.add(ev);
 
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
 
@@ -369,7 +369,7 @@ public class KnnPlus {
                 return -1;
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             return -1;
         }
 
@@ -394,7 +394,7 @@ public class KnnPlus {
                 return -1;
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             return -1;
         }
 
@@ -512,7 +512,7 @@ public class KnnPlus {
             }
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
         return knnPlusModels;
     }
@@ -655,7 +655,7 @@ public class KnnPlus {
                 predictionValues.add(p);
 
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
 

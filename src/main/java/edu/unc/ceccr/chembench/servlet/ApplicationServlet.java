@@ -45,7 +45,7 @@ public class ApplicationServlet extends HttpServlet {
 
             output.flush();
         } catch (IOException e) {
-            logger.error(e);
+            logger.error("", e);
         } finally {
             input.close();
         }
