@@ -28,6 +28,9 @@ public class AdminAction extends ActionSupport {
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(AdminAction.class.getName());
+    private final RandomForestParametersRepository randomForestParametersRepository;
+    private final SvmParametersRepository svmParametersRepository;
+    private final KnnPlusParametersRepository knnPlusParametersRepository;
     User user = User.getCurrentUser();
     String buildDate;
     List<User> users;
@@ -38,11 +41,13 @@ public class AdminAction extends ActionSupport {
     private List<String> errorStrings = Lists.newArrayList();
 
     @Autowired
-    private RandomForestParametersRepository randomForestParametersRepository;
-    @Autowired
-    private SvmParametersRepository svmParametersRepository;
-    @Autowired
-    private KnnPlusParametersRepository knnPlusParametersRepository;
+    public AdminAction(RandomForestParametersRepository randomForestParametersRepository,
+                       SvmParametersRepository svmParametersRepository,
+                       KnnPlusParametersRepository knnPlusParametersRepository) {
+        this.randomForestParametersRepository = randomForestParametersRepository;
+        this.svmParametersRepository = svmParametersRepository;
+        this.knnPlusParametersRepository = knnPlusParametersRepository;
+    }
 
     public String loadPage() throws Exception {
         if (!user.getIsAdmin().equals(Constants.YES)) {
@@ -937,17 +942,5 @@ public class AdminAction extends ActionSupport {
 
     public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
-    }
-
-    public void setRandomForestParametersRepository(RandomForestParametersRepository randomForestParametersRepository) {
-        this.randomForestParametersRepository = randomForestParametersRepository;
-    }
-
-    public void setSvmParametersRepository(SvmParametersRepository svmParametersRepository) {
-        this.svmParametersRepository = svmParametersRepository;
-    }
-
-    public void setKnnPlusParametersRepository(KnnPlusParametersRepository knnPlusParametersRepository) {
-        this.knnPlusParametersRepository = knnPlusParametersRepository;
     }
 }

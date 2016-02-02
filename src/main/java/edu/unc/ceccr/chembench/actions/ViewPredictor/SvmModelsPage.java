@@ -17,12 +17,14 @@ public class SvmModelsPage extends ViewPredictorAction {
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(SvmModelsPage.class.getName());
-
+    private final SvmParametersRepository svmParametersRepository;
     private List<SvmModel> svmModels;
     private SvmParameters svmParameters;
 
     @Autowired
-    private SvmParametersRepository svmParametersRepository;
+    public SvmModelsPage(SvmParametersRepository svmParametersRepository) {
+        this.svmParametersRepository = svmParametersRepository;
+    }
 
     public String load() throws Exception {
         // get models associated with predictor
@@ -111,7 +113,4 @@ public class SvmModelsPage extends ViewPredictorAction {
         this.svmParameters = svmParameters;
     }
 
-    public void setSvmParametersRepository(SvmParametersRepository svmParametersRepository) {
-        this.svmParametersRepository = svmParametersRepository;
-    }
 }

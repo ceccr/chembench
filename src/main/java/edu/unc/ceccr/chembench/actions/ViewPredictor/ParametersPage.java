@@ -9,20 +9,25 @@ public class ParametersPage extends ViewPredictorAction {
      *
      */
     private static final long serialVersionUID = 1L;
-
+    private final RandomForestParametersRepository randomForestParametersRepository;
+    private final SvmParametersRepository svmParametersRepository;
+    private final KnnParametersRepository knnParametersRepository;
+    private final KnnPlusParametersRepository knnPlusParametersRepository;
     private KnnParameters knnParameters;
     private KnnPlusParameters knnPlusParameters;
     private SvmParameters svmParameters;
     private RandomForestParameters randomForestParameters;
 
     @Autowired
-    private RandomForestParametersRepository randomForestParametersRepository;
-    @Autowired
-    private SvmParametersRepository svmParametersRepository;
-    @Autowired
-    private KnnParametersRepository knnParametersRepository;
-    @Autowired
-    private KnnPlusParametersRepository knnPlusParametersRepository;
+    public ParametersPage(RandomForestParametersRepository randomForestParametersRepository,
+                          SvmParametersRepository svmParametersRepository,
+                          KnnParametersRepository knnParametersRepository,
+                          KnnPlusParametersRepository knnPlusParametersRepository) {
+        this.randomForestParametersRepository = randomForestParametersRepository;
+        this.svmParametersRepository = svmParametersRepository;
+        this.knnParametersRepository = knnParametersRepository;
+        this.knnPlusParametersRepository = knnPlusParametersRepository;
+    }
 
     public String load() throws Exception {
         String result = getBasicParameters();
@@ -73,7 +78,8 @@ public class ParametersPage extends ViewPredictorAction {
                     svmParameters.setSvmProbability("YES");
                 }
             }
-        } session.close();
+        }
+        session.close();
         return result;
     }
 
@@ -110,22 +116,5 @@ public class ParametersPage extends ViewPredictorAction {
     public void setRandomForestParameters(RandomForestParameters randomForestParameters) {
         this.randomForestParameters = randomForestParameters;
     }
-
-    public void setRandomForestParametersRepository(RandomForestParametersRepository randomForestParametersRepository) {
-        this.randomForestParametersRepository = randomForestParametersRepository;
-    }
-
-    public void setSvmParametersRepository(SvmParametersRepository svmParametersRepository) {
-        this.svmParametersRepository = svmParametersRepository;
-    }
-
-    public void setKnnParametersRepository(KnnParametersRepository knnParametersRepository) {
-        this.knnParametersRepository = knnParametersRepository;
-    }
-
-    public void setKnnPlusParametersRepository(KnnPlusParametersRepository knnPlusParametersRepository) {
-        this.knnPlusParametersRepository = knnPlusParametersRepository;
-    }
-
     // end getters and setters
 }
