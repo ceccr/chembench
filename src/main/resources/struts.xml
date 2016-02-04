@@ -256,11 +256,8 @@
         <!-- End Make Predictions Pages -->
 
         <!-- Jobs Page -->
-        <action name="jobs" class="edu.unc.ceccr.chembench.actions.JobsActions" method="loadPage">
+        <action name="jobs" class="edu.unc.ceccr.chembench.actions.JobsActions">
             <result>/jsp/jobs/jobs.jsp</result>
-        </action>
-        <action name="jobs2" class="edu.unc.ceccr.chembench.actions.JobsActions" method="loadPage">
-            <result>/jsp/jobs/jobs2.jsp</result>
         </action>
 
         <!-- End Jobs Page -->
