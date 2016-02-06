@@ -8,9 +8,10 @@ import java.util.Set;
 public class ConfusionMatrix {
     private Set<Integer> uniqueObservedValues;
     private int[][] matrix;
-    private double ccr;
     private double totalCorrect;
     private double totalIncorrect;
+    private double ccr;
+    private double accuracy;
 
     private boolean isBinary;
     private double ppv;
@@ -26,6 +27,10 @@ public class ConfusionMatrix {
 
     private String getDoubleVarAsString(double var) {
         return Utility.roundSignificantFigures("" + var, Constants.REPORTED_SIGNIFICANT_FIGURES);
+    }
+
+    public String getAccuracyAsString() {
+        return getDoubleVarAsString(accuracy);
     }
 
     public String getCcrAsString() {
@@ -174,5 +179,13 @@ public class ConfusionMatrix {
 
     public void setIsBinary(boolean isBinary) {
         this.isBinary = isBinary;
+    }
+
+    public double getAccuracy() {
+        return accuracy;
+    }
+
+    public void setAccuracy(double accuracy) {
+        this.accuracy = accuracy;
     }
 }
