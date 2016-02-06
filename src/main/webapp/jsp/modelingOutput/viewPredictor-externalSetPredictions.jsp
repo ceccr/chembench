@@ -142,6 +142,9 @@
       <p class="StandardTextDarkGray">Total number of incorrect predictions:
         <b><s:property value="confusionMatrix.totalIncorrect" /></b></p>
 
+      <p class="StandardTextDarkGray">Accuracy (total correct / total predictions):
+        <b><s:property value="confusionMatrix.accuracyAsString" /></b></p>
+
       <s:if test="dataset.splitType == 'NFOLD' && currentFoldNumber == 0">
         <p class="StandardTextDarkGray">
           Overall CCR for compounds in all external sets: <b><s:property

@@ -548,6 +548,10 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
+        <action name="regenerateCcr" class="edu.unc.ceccr.chembench.actions.AdminAction" method="regenerateCcr">
+            <result name="success" type="redirect">admin</result>
+            <result name="error">/jsp/main/error.jsp</result>
+        </action>
         <!-- End Admin Actions -->
 
         <!-- API endpoints -->

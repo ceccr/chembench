@@ -107,13 +107,26 @@ public class RSquaredAndCCR {
             totalCorrect += matrix[i][i];
         }
         int totalIncorrect = total - totalCorrect;
-        double ccr = totalCorrect / (double) total;
+        double accuracy = totalCorrect / (double) total;
 
         ConfusionMatrix cm = new ConfusionMatrix();
         cm.setMatrix(matrix);
         cm.setUniqueObservedValues(classes);
         cm.setTotalCorrect(totalCorrect);
         cm.setTotalIncorrect(totalIncorrect);
+        cm.setAccuracy(accuracy);
+
+        // ccr = balanced accuracy = average of accuracy for each class across all classes
+        double classAccuracies = 0d;
+        for (int i = 0; i < numClasses; i++) {
+            int correctClass = matrix[i][i];
+            int totalClass = 0;
+            for (int j = 0; j < numClasses; j++) {
+                totalClass += matrix[i][j];
+            }
+            classAccuracies += (correctClass / (double) totalClass);
+        }
+        double ccr = classAccuracies / numClasses;
         cm.setCcr(ccr);
 
         // for binary datasets with active (1) and inactive (0) categories, calculate additional stats
@@ -246,6 +259,5 @@ public class RSquaredAndCCR {
         } catch (Exception ex) {
             logger.error("", ex);
         }
-        return;
     }
 }

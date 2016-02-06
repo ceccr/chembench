@@ -9,6 +9,7 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
+import edu.unc.ceccr.chembench.workflows.calculations.RSquaredAndCCR;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -19,14 +20,9 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.*;
-//struts2
 
 public class AdminAction extends ActionSupport {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(AdminAction.class.getName());
     private final RandomForestParametersRepository randomForestParametersRepository;
     private final SvmParametersRepository svmParametersRepository;
@@ -885,6 +881,41 @@ public class AdminAction extends ActionSupport {
             return ERROR;
         }
 
+        return SUCCESS;
+    }
+
+    public String regenerateCcr() throws Exception {
+        if (!user.getIsAdmin().equals(Constants.YES)) {
+            return "forbidden";
+        }
+
+        Session session = HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+        logger.info("Starting regeneration of CCR for all category predictors");
+        try {
+            for (User user : PopulateDataObjects.getUsers(session)) {
+                logger.debug("Regenerating CCR for predictors owned by " + user.getUserName());
+                for (Predictor p : PopulateDataObjects.populatePredictors(user.getUserName(), false, true, session)) {
+                    if (p.getActivityType().equals(Constants.CATEGORY)) {
+                        logger.debug("Regenerating predictor " + p.getName());
+                        RSquaredAndCCR.addRSquaredAndCCRToPredictor(p, session);
+                        session.save(p);
+                    }
+                }
+            }
+            if (!tx.wasCommitted()) {
+                tx.commit();
+            }
+        } catch (Exception e) {
+            if (tx != null) {
+                logger.warn("An error occurred during regeneration, rolling back: ", e);
+                tx.rollback();
+                return ERROR;
+            }
+        } finally {
+            session.close();
+        }
+        logger.info("CCR regeneration complete.");
         return SUCCESS;
     }
 
