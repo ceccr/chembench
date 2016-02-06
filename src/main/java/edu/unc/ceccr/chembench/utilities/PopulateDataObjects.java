@@ -6,14 +6,12 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -84,8 +82,8 @@ public class PopulateDataObjects {
     }
 
     public static PredictionValue getFirstPredictionValueByPredictionIdAndPredictorId(Long predictionId,
-                                                                                      Long predictorId, Session session)
-            throws Exception {
+                                                                                      Long predictorId,
+                                                                                      Session session) {
         PredictionValue predictionValue = null;
         Transaction tx = session.beginTransaction();
         try {
@@ -109,8 +107,7 @@ public class PopulateDataObjects {
 
     public static List<PredictionValue> getPredictionValuesByPredictionIdAndPredictorId(Long predictionId,
                                                                                         Long predictorId,
-                                                                                        Session session)
-            throws SQLException, ClassNotFoundException {
+                                                                                        Session session) {
         List<PredictionValue> predictionValues = Lists.newArrayList();
         Transaction tx = session.beginTransaction();
         try {
@@ -141,8 +138,7 @@ public class PopulateDataObjects {
         return predictionValues;
     }
 
-    public static List<PredictionValue> getPredictionValuesByPredictionId(Long predictionId, Session session)
-            throws SQLException, ClassNotFoundException {
+    public static List<PredictionValue> getPredictionValuesByPredictionId(Long predictionId, Session session) {
         List<PredictionValue> predictionValues = Lists.newArrayList();
         Prediction prediction = getPredictionById(predictionId, session);
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
@@ -183,8 +179,7 @@ public class PopulateDataObjects {
     }
 
     public static List<CompoundPredictions> populateCompoundPredictionValues(Long datasetId, Long predictionId,
-                                                                             Session session)
-            throws SQLException, ClassNotFoundException, IOException {
+                                                                             Session session) throws IOException {
         Dataset dataset = getDataSetById(datasetId, session);
 
         // get compounds from SDF
@@ -259,8 +254,7 @@ public class PopulateDataObjects {
     }
 
     public static List<Dataset> populateDatasetsForPrediction(String userName, boolean isAllUserIncludes,
-                                                              Session session)
-            throws HibernateException, ClassNotFoundException, SQLException {
+                                                              Session session) {
         List<Dataset> datasets = Lists.newArrayList();
         List<Dataset> usersDataset = Lists.newArrayList();
         Transaction tx = null;
@@ -316,8 +310,7 @@ public class PopulateDataObjects {
     }
 
     public static List<Dataset> populateDataset(String userName, String modelType, boolean isAllUserIncludes,
-                                                Session session)
-            throws HibernateException, ClassNotFoundException, SQLException {
+                                                Session session) {
         // returns a list of datasets.
         // Used to populate the dropdowns on the Modeling and Dataset pages.
 
@@ -365,8 +358,7 @@ public class PopulateDataObjects {
         return datasets;
     }
 
-    public static List<String> populateDatasetNames(String userName, boolean isAllUserIncludes, Session session)
-            throws HibernateException, ClassNotFoundException, SQLException {
+    public static List<String> populateDatasetNames(String userName, boolean isAllUserIncludes, Session session) {
 
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
@@ -434,8 +426,7 @@ public class PopulateDataObjects {
         return datasetNames;
     }
 
-    public static List<String> populatePredictorNames(String userName, boolean isAllUserIncludes, Session session)
-            throws HibernateException, ClassNotFoundException, SQLException {
+    public static List<String> populatePredictorNames(String userName, boolean isAllUserIncludes, Session session) {
 
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
@@ -511,8 +502,7 @@ public class PopulateDataObjects {
         return predictorNames;
     }
 
-    public static List<String> populatePredictionNames(String userName, boolean isAllUserIncludes, Session session)
-            throws HibernateException, ClassNotFoundException, SQLException {
+    public static List<String> populatePredictionNames(String userName, boolean isAllUserIncludes, Session session) {
 
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
@@ -586,8 +576,7 @@ public class PopulateDataObjects {
     }
 
     public static List<Predictor> populatePredictors(String userName, boolean includePublic, boolean onlyCompleted,
-                                                     Session session)
-            throws HibernateException, ClassNotFoundException, SQLException {
+                                                     Session session) {
 
         List<Predictor> predictors = Lists.newArrayList();
         List<Predictor> privatePredictors = Lists.newArrayList();
@@ -717,8 +706,7 @@ public class PopulateDataObjects {
     }
 
     public static List<String> populateDatasetUploadedDescriptorTypes(String userName, boolean isAllUserIncludes,
-                                                                      Session session)
-            throws HibernateException, ClassNotFoundException, SQLException {
+                                                                      Session session) {
 
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
@@ -799,8 +787,7 @@ public class PopulateDataObjects {
     }
 
     public static List<Dataset> populateDatasetNamesForUploadedPredicors(String userName, String descriptorTypeName,
-                                                                         boolean isAllUserIncludes, Session session)
-            throws HibernateException, ClassNotFoundException, SQLException {
+                                                                         boolean isAllUserIncludes, Session session) {
 
         List<Dataset> usersDataset = Lists.newArrayList();
         List<Dataset> allUserDatasets = Lists.newArrayList();
@@ -989,8 +976,7 @@ public class PopulateDataObjects {
         return predictor;
     }
 
-    public static Prediction getPredictionById(Long predictionId, Session session)
-            throws SQLException, ClassNotFoundException {
+    public static Prediction getPredictionById(Long predictionId, Session session) {
         Prediction prediction = null;
         Transaction tx = null;
         try {
@@ -1027,7 +1013,7 @@ public class PopulateDataObjects {
         return prediction;
     }
 
-    public static Prediction getPredictionByName(String jobName, String userName, Session session) throws Exception {
+    public static Prediction getPredictionByName(String jobName, String userName, Session session) {
         Prediction prediction = null;
         Transaction tx = null;
         try {
@@ -1170,8 +1156,7 @@ public class PopulateDataObjects {
         return jobStats;
     }
 
-    public static List<RandomForestGrove> getRandomForestGrovesByPredictorId(Long predictorId, Session session)
-            throws Exception {
+    public static List<RandomForestGrove> getRandomForestGrovesByPredictorId(Long predictorId, Session session) {
 
         List<RandomForestGrove> groves = Lists.newArrayList();
         Transaction tx = null;
@@ -1195,7 +1180,7 @@ public class PopulateDataObjects {
         return groves;
     }
 
-    public static List<RandomForestTree> getRandomForestTreesByGroveId(Long groveId, Session session) throws Exception {
+    public static List<RandomForestTree> getRandomForestTreesByGroveId(Long groveId, Session session) {
 
         List<RandomForestTree> trees = Lists.newArrayList();
         Transaction tx = null;
@@ -1480,8 +1465,7 @@ public class PopulateDataObjects {
         return tasks;
     }
 
-    public static Job getTaskById(Long id, Session session)
-            throws HibernateException, ClassNotFoundException, SQLException {
+    public static Job getTaskById(Long id, Session session) {
         Job task = null;
         Transaction tx = null;
         try {
@@ -1529,8 +1513,7 @@ public class PopulateDataObjects {
         return softwareLinks;
     }
 
-    public static SoftwareLink getSoftwareLinkById(Long id, Session session)
-            throws HibernateException, ClassNotFoundException, SQLException {
+    public static SoftwareLink getSoftwareLinkById(Long id, Session session) {
         SoftwareLink sl = null;
         Transaction tx = null;
         try {
