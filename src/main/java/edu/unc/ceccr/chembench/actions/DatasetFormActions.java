@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.actions;
 
-import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.opensymphony.xwork2.ActionContext;
@@ -9,6 +8,7 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.CreateDatasetTask;
+import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +24,6 @@ public class DatasetFormActions extends ActionSupport {
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;
     private final JobRepository jobRepository;
-    private final Function<Object, String> NAME_TRANSFORM = new Function<Object, String>() {
-        @Override
-        public String apply(Object o) {
-            if (o instanceof Dataset) {
-                return ((Dataset) o).getName();
-            } else if (o instanceof Predictor) {
-                return ((Predictor) o).getName();
-            } else if (o instanceof Prediction) {
-                return ((Prediction) o).getName();
-            } else if (o instanceof Job) {
-                return ((Job) o).getJobName();
-            } else {
-                throw new RuntimeException("Unrecognized object type: " + o);
-            }
-        }
-    };
     private List<String> errorStrings = Lists.newArrayList();
     private String datasetName = "";
     private String datasetType = Constants.MODELING;
@@ -166,11 +150,12 @@ public class DatasetFormActions extends ActionSupport {
         //set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
         List<Dataset> datasets = datasetRepository.findByUserName(user.getUserName());
         datasets.addAll(datasetRepository.findAllPublicDatasets());
-        userDatasetNames = Lists.transform(datasets, NAME_TRANSFORM);
+        userDatasetNames = Lists.transform(datasets, Utility.NAME_TRANSFORM);
         userPredictorList = predictorRepository.findByUserName(user.getUserName());
-        userPredictorNames = Lists.transform(userPredictorList, NAME_TRANSFORM);
-        userPredictionNames = Lists.transform(predictionRepository.findByUserName(user.getUserName()), NAME_TRANSFORM);
-        userTaskNames = Lists.transform(jobRepository.findByUserName(user.getUserName()), NAME_TRANSFORM);
+        userPredictorNames = Lists.transform(userPredictorList, Utility.NAME_TRANSFORM);
+        userPredictionNames =
+                Lists.transform(predictionRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
+        userTaskNames = Lists.transform(jobRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
         return SUCCESS;
     }
 

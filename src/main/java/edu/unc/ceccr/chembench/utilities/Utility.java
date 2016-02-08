@@ -1,8 +1,8 @@
 package edu.unc.ceccr.chembench.utilities;
 
+import com.google.common.base.Function;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.*;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
@@ -23,10 +23,23 @@ public class Utility {
 
     private static Integer debug_counter = 0;
 
-    public Utility() {
-    }
+    public static final Function<Object, String> NAME_TRANSFORM = new Function<Object, String>() {
+        @Override
+        public String apply(Object o) {
+            if (o instanceof Dataset) {
+                return ((Dataset) o).getName();
+            } else if (o instanceof Predictor) {
+                return ((Predictor) o).getName();
+            } else if (o instanceof Prediction) {
+                return ((Prediction) o).getName();
+            } else if (o instanceof Job) {
+                return ((Job) o).getJobName();
+            } else {
+                throw new RuntimeException("Unrecognized object type: " + o);
+            }
+        }
+    };
 
-    ;
 
     public static String encrypt(String str) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
