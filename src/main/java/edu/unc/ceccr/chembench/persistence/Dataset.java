@@ -106,8 +106,9 @@ public class Dataset extends Persistable implements java.io.Serializable {
             Joiner joiner = Joiner.on("\t");
             writer.write(joiner.join(header));
             writer.newLine();
+            Splitter splitter = Splitter.on(' ');
             for (Descriptors d : descriptorValueMatrix) {
-                List<String> values = Lists.newArrayList(Splitter.on(' ').omitEmptyStrings()
+                List<String> values = Lists.newArrayList(splitter.omitEmptyStrings()
                         .splitToList(d.getDescriptorValues()));
                 values.add(0, activityMap.get(d.getCompoundName()));
                 writer.write(joiner.join(values));

@@ -1,36 +1,52 @@
 package edu.unc.ceccr.chembench.actions;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
-import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.CreateDatasetTask;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.util.List;
-//struts2
+import java.util.Set;
 
-
-@SuppressWarnings("serial")
 public class DatasetFormActions extends ActionSupport {
 
     private static Logger logger = Logger.getLogger(DatasetFormActions.class.getName());
+    private final DatasetRepository datasetRepository;
+    private final PredictorRepository predictorRepository;
+    private final PredictionRepository predictionRepository;
+    private final JobRepository jobRepository;
+    private final Function<Object, String> NAME_TRANSFORM = new Function<Object, String>() {
+        @Override
+        public String apply(Object o) {
+            if (o instanceof Dataset) {
+                return ((Dataset) o).getName();
+            } else if (o instanceof Predictor) {
+                return ((Predictor) o).getName();
+            } else if (o instanceof Prediction) {
+                return ((Prediction) o).getName();
+            } else if (o instanceof Job) {
+                return ((Job) o).getJobName();
+            } else {
+                throw new RuntimeException("Unrecognized object type: " + o);
+            }
+        }
+    };
     private List<String> errorStrings = Lists.newArrayList();
     private String datasetName = "";
     private String datasetType = Constants.MODELING;
     private long id;
     private double modi;
     private String splitType = Constants.NFOLD;
-    private String dataTypeModeling = Constants.NONE;
+    private String dataTypeModeling = Constants.CONTINUOUS;
     private String dataTypeModDesc = Constants.NONE;
     private String dataSetDescription = "";
     private String externalCompoundList = "";
@@ -94,6 +110,28 @@ public class DatasetFormActions extends ActionSupport {
     private String selectedDescriptorUsedNameD = "";
     private String descriptorNewNameD = "";
 
+    @Autowired
+    public DatasetFormActions(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
+                              PredictionRepository predictionRepository, JobRepository jobRepository) {
+        this.datasetRepository = datasetRepository;
+        this.predictorRepository = predictorRepository;
+        this.predictionRepository = predictionRepository;
+        this.jobRepository = jobRepository;
+    }
+
+    private List<String> getUploadedDescriptorTypes() {
+        Set<String> uploadedTypes = Sets.newHashSet();
+        List<Dataset> datasets = datasetRepository.findByUserName(user.getUserName());
+        datasets.addAll(datasetRepository.findAllPublicDatasets());
+        for (Dataset d : datasets) {
+            String uploadedDescriptorType = d.getUploadedDescriptorType();
+            if (uploadedDescriptorType != null && !uploadedDescriptorType.isEmpty()) {
+                uploadedTypes.add(uploadedDescriptorType);
+            }
+        }
+        return Lists.newArrayList(uploadedTypes);
+    }
+
     public String ajaxLoadModeling() throws Exception {
         return SUCCESS;
     }
@@ -103,18 +141,12 @@ public class DatasetFormActions extends ActionSupport {
     }
 
     public String ajaxLoadModelingWithDescriptors() throws Exception {
-        ActionContext context = ActionContext.getContext();
-        Session session = HibernateUtil.getSession();
-        userUploadedDescriptorTypes =
-                PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
+        userUploadedDescriptorTypes = getUploadedDescriptorTypes();
         return SUCCESS;
     }
 
     public String ajaxLoadPredictionWithDescriptors() throws Exception {
-        ActionContext context = ActionContext.getContext();
-        Session session = HibernateUtil.getSession();
-        userUploadedDescriptorTypes =
-                PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
+        userUploadedDescriptorTypes = getUploadedDescriptorTypes();
         return SUCCESS;
     }
 
@@ -131,30 +163,15 @@ public class DatasetFormActions extends ActionSupport {
     }
 
     public String loadPage() throws Exception {
-        String result = SUCCESS;
-
         //set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
-
-        Session session = HibernateUtil.getSession();
-
-        userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
-        userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
-        userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
-        userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
-        userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
-
-        session.close();
-        //log the results
-        if (result.equals(SUCCESS)) {
-            logger.debug("Forwarding user " + user.getUserName() + " to dataset page.");
-        } else {
-            logger.warn("Cannot load page.");
-        }
-
-        dataTypeModeling = Constants.CONTINUOUS;
-
-        //go to the page
-        return result;
+        List<Dataset> datasets = datasetRepository.findByUserName(user.getUserName());
+        datasets.addAll(datasetRepository.findAllPublicDatasets());
+        userDatasetNames = Lists.transform(datasets, NAME_TRANSFORM);
+        userPredictorList = predictorRepository.findByUserName(user.getUserName());
+        userPredictorNames = Lists.transform(userPredictorList, NAME_TRANSFORM);
+        userPredictionNames = Lists.transform(predictionRepository.findByUserName(user.getUserName()), NAME_TRANSFORM);
+        userTaskNames = Lists.transform(jobRepository.findByUserName(user.getUserName()), NAME_TRANSFORM);
+        return SUCCESS;
     }
 
     public String execute() throws Exception {
@@ -506,8 +523,7 @@ public class DatasetFormActions extends ActionSupport {
     }
 
     public String generateModi() throws Exception {
-        Session session = HibernateUtil.getSession();
-        Dataset dataset = PopulateDataObjects.getDataSetById(id, session);
+        Dataset dataset = datasetRepository.findOne(id);
         if (dataset == null || !dataset.canGenerateModi()) {
             return "badrequest";
         } else {
