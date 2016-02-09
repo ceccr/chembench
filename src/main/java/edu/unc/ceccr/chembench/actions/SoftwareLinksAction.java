@@ -19,7 +19,6 @@ import java.util.List;
 
 public class SoftwareLinksAction extends ActionSupport {
 
-    private static final long serialVersionUID = 1L;
 
     private static final Logger logger = Logger.getLogger(SoftwareLinksAction.class.getName());
 

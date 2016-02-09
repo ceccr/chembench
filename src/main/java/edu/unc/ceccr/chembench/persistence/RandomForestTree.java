@@ -11,7 +11,7 @@ public class RandomForestTree extends Persistable implements java.io.Serializabl
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     /*
 create table cbench_randomForestTree (
 id INT(12) UNSIGNED auto_increment PRIMARY KEY,

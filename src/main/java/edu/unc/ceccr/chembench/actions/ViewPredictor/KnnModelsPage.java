@@ -14,7 +14,7 @@ public class KnnModelsPage extends ViewPredictorAction {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
 
     private List<KnnModel> models;
 

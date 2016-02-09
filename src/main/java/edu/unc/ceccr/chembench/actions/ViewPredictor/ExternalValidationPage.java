@@ -20,7 +20,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     // used in creation of confusion matrix (category modeling only)
     ConfusionMatrix confusionMatrix;
     String rSquared = "";

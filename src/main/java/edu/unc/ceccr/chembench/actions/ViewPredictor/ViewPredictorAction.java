@@ -18,7 +18,7 @@ public class ViewPredictorAction extends ViewAction {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
 
     // Basic parameters. Inherited by all subclasses.
     private static final Logger logger = Logger.getLogger(ViewPredictorAction.class.getName());

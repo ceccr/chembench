@@ -19,7 +19,7 @@ public class ViewPredictionAction extends ViewAction {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     private static final Logger logger = Logger.getLogger(ViewPredictionAction.class.getName());
     List<CompoundPredictions> compoundPredictionValues = Lists.newArrayList();
     private Prediction prediction;

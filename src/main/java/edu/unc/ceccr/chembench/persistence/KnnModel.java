@@ -14,7 +14,7 @@ public class KnnModel implements java.io.Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     private static final Logger logger = Logger.getLogger(KnnModel.class.getName());
     // Fields
     private Long id;

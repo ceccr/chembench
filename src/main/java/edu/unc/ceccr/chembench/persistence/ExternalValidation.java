@@ -9,7 +9,7 @@ public class ExternalValidation implements java.io.Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     int numTotalModels = 0;
     private int externalValId;
     private Long predictorId;

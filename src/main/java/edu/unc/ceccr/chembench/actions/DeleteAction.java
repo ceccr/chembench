@@ -25,7 +25,7 @@ public class DeleteAction extends ActionSupport {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     private static final Logger logger = Logger.getLogger(DeleteAction.class.getName());
     private List<String> errorStrings = Lists.newArrayList();
 

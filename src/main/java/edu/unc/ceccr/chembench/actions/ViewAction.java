@@ -11,7 +11,6 @@ import java.util.List;
 
 public abstract class ViewAction extends ActionSupport {
 
-    private static final long serialVersionUID = 1L;
 
     private static final Logger logger = Logger.getLogger(ViewAction.class.getName());
     protected List<String> errorStrings = Lists.newArrayList();

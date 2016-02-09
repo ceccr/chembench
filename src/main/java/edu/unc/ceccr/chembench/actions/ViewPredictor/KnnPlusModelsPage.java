@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import java.util.*;
 
 public class KnnPlusModelsPage extends ViewPredictorAction {
-    private static final long serialVersionUID = 1L;
+
     private static final Logger logger = Logger.getLogger(KnnPlusModelsPage.class.getName());
     private List<KnnPlusModel> knnPlusModels;
 

@@ -8,7 +8,7 @@ public class ParametersPage extends ViewPredictorAction {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     private final RandomForestParametersRepository randomForestParametersRepository;
     private final SvmParametersRepository svmParametersRepository;
     private final KnnParametersRepository knnParametersRepository;
