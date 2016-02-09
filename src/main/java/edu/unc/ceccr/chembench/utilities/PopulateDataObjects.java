@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class PopulateDataObjects {
-    private static Logger logger = Logger.getLogger(PopulateDataObjects.class.getName());
+    private static final Logger logger = Logger.getLogger(PopulateDataObjects.class.getName());
 
     // Every time we need to get an object or set of objects from the database
     // we do it from here.

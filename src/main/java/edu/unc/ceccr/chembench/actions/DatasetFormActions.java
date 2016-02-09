@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class DatasetFormActions extends ActionSupport {
 
-    private static Logger logger = Logger.getLogger(DatasetFormActions.class.getName());
+    private static final Logger logger = Logger.getLogger(DatasetFormActions.class.getName());
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;

@@ -11,7 +11,7 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class IncomingJobProcessingThread extends Thread {
-    private static Logger logger = Logger.getLogger(IncomingJobProcessingThread.class.getName());
+    private static final Logger logger = Logger.getLogger(IncomingJobProcessingThread.class.getName());
     // this takes jobs off the incomingJobs joblist and sends them to lsfJobs
     // and localJobs.
     // You should only ever have one of these threads running - don't start a

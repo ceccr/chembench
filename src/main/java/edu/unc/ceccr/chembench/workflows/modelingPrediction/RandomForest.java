@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
 public class RandomForest {
-    public static Logger logger = Logger.getLogger(RandomForest.class.getName());
+    public static final Logger logger = Logger.getLogger(RandomForest.class.getName());
 
     public static final String MODEL_METADATA = "forest.json";
     public static final String EXTERNAL_SET_PREDICTION_OUTPUT = "external_set_predictions.json";

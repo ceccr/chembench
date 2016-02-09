@@ -19,7 +19,7 @@ import java.util.Random;
 
 public class Utility {
 
-    private static Logger logger = Logger.getLogger(Utility.class.getName());
+    private static final Logger logger = Logger.getLogger(Utility.class.getName());
 
     private static Integer debug_counter = 0;
 

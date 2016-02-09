@@ -12,7 +12,7 @@ import java.util.*;
 
 public class KnnPlusModelsPage extends ViewPredictorAction {
     private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(KnnPlusModelsPage.class.getName());
+    private static final Logger logger = Logger.getLogger(KnnPlusModelsPage.class.getName());
     private List<KnnPlusModel> knnPlusModels;
 
     public String load() throws Exception {

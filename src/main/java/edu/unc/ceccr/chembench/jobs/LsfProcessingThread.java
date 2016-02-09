@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class LsfProcessingThread extends Thread {
-    private static Logger logger = Logger.getLogger(LsfProcessingThread.class.getName());
+    private static final Logger logger = Logger.getLogger(LsfProcessingThread.class.getName());
     // this works on the LSFJobs joblist.
     // You should only ever have one of these threads running - don't start a
     // second one!

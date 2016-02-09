@@ -26,7 +26,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 public class ViewDataset extends ViewAction {
 
-    private static Logger logger = Logger.getLogger(ViewDataset.class.getName());
+    private static final Logger logger = Logger.getLogger(ViewDataset.class.getName());
     private Dataset dataset;
     private List<Compound> datasetCompounds;
     private List<Compound> externalCompounds;

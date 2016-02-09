@@ -29,7 +29,7 @@ import java.util.List;
 @SuppressWarnings("serial")
 
 public class HomeAction extends ActionSupport implements ServletResponseAware, ServletRequestAware {
-    private static Logger logger = Logger.getLogger(HomeAction.class.getName());
+    private static final Logger logger = Logger.getLogger(HomeAction.class.getName());
     protected HttpServletResponse servletResponse;
 
     //loads home page

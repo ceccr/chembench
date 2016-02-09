@@ -18,7 +18,7 @@ import java.util.*;
 
 
 public class WriteDescriptors {
-    private static Logger logger = Logger.getLogger(WriteDescriptors.class.getName());
+    private static final Logger logger = Logger.getLogger(WriteDescriptors.class.getName());
     // using a set of Descriptors objects, create output files for kNN or SVM
     // containing the descriptors for a dataset.
     // Performs operations on data matrices as well (e.g. range-scaling).

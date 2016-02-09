@@ -30,7 +30,7 @@ import java.util.Random;
 @Entity
 @Table(name = "cbench_dataset")
 public class Dataset extends Persistable implements java.io.Serializable {
-    private static Logger logger = Logger.getLogger(Dataset.class.getName());
+    private static final Logger logger = Logger.getLogger(Dataset.class.getName());
 
     private Long id;
     private String name;

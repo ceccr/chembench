@@ -16,7 +16,7 @@ import java.io.*;
 @SuppressWarnings("serial")
 public class ImageServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(ImageServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(ImageServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 

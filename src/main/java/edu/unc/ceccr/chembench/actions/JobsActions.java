@@ -31,7 +31,7 @@ public class JobsActions extends ActionSupport {
             }
         }
     };
-    private static Logger logger = Logger.getLogger(JobsActions.class.getName());
+    private static final Logger logger = Logger.getLogger(JobsActions.class.getName());
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;

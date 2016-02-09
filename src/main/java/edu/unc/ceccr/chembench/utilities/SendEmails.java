@@ -14,7 +14,7 @@ import java.util.Iterator;
 
 public class SendEmails {
 
-    private static Logger logger = Logger.getLogger(SendEmails.class.getName());
+    private static final Logger logger = Logger.getLogger(SendEmails.class.getName());
 
     public static boolean isValidEmail(String email) {
         // FIXME don't roll your own email address validator

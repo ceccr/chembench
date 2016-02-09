@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSessionListener;
 
 public class ActiveUser implements HttpSessionListener {
 
-    private static Logger logger = Logger.getLogger(ActiveUser.class.getName());
+    private static final Logger logger = Logger.getLogger(ActiveUser.class.getName());
 
     private static int activeSessions = 0;
 

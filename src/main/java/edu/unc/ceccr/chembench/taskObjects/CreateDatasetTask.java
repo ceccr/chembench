@@ -22,7 +22,7 @@ import java.io.FileWriter;
 import java.util.Date;
 
 public class CreateDatasetTask extends WorkflowTask {
-    private static Logger logger = Logger.getLogger(CreateDatasetTask.class.getName());
+    private static final Logger logger = Logger.getLogger(CreateDatasetTask.class.getName());
     private String userName = null;
     private String datasetType;
     private String sdfFileName;

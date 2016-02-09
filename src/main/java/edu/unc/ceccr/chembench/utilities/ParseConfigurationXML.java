@@ -14,7 +14,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 
 public class ParseConfigurationXML {
-    private static Logger logger = Logger.getLogger(ParseConfigurationXML.class.getName());
+    private static final Logger logger = Logger.getLogger(ParseConfigurationXML.class.getName());
 
     public static void initializeConstants(String filePath) {
         try {

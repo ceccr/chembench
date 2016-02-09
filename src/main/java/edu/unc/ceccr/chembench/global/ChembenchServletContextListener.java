@@ -11,7 +11,7 @@ import java.nio.file.Paths;
 import java.util.Set;
 
 public class ChembenchServletContextListener implements ServletContextListener {
-    private static Logger logger = Logger.getLogger(ChembenchServletContextListener.class.getName());
+    private static final Logger logger = Logger.getLogger(ChembenchServletContextListener.class.getName());
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {

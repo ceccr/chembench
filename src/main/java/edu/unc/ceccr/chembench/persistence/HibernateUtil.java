@@ -11,7 +11,7 @@ import org.hibernate.service.ServiceRegistry;
 public class HibernateUtil {
 
     private static final SessionFactory sessionFactory;
-    private static Logger logger = Logger.getLogger(HibernateUtil.class.getName());
+    private static final Logger logger = Logger.getLogger(HibernateUtil.class.getName());
 
     static {
         final String DATABASENAME = Constants.CECCR_DATABASE_NAME;

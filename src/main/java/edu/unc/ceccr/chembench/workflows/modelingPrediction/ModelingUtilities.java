@@ -13,7 +13,7 @@ import java.nio.channels.FileChannel;
 
 public class ModelingUtilities {
 
-    private static Logger logger = Logger.getLogger(ModelingUtilities.class.getName());
+    private static final Logger logger = Logger.getLogger(ModelingUtilities.class.getName());
 
     public static void SetUpYRandomization(String userName, String jobName) throws Exception {
         String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";

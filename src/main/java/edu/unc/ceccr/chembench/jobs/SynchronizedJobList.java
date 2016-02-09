@@ -17,7 +17,7 @@ import java.util.List;
 
 public class SynchronizedJobList {
 
-    private static Logger logger = Logger.getLogger(SynchronizedJobList.class.getName());
+    private static final Logger logger = Logger.getLogger(SynchronizedJobList.class.getName());
 
     //stores a concurrent-access arraylist of jobs
     //In Chembench, one instance of this class holds all locally-running jobs

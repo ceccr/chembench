@@ -36,7 +36,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ExternalValidationChart {
-    private static Logger logger = Logger.getLogger(ExternalValidationChart.class.getName());
+    private static final Logger logger = Logger.getLogger(ExternalValidationChart.class.getName());
 
     public static void createChart(Predictor predictor, String currentFoldNumber) throws Exception {
         /*

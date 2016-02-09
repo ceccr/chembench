@@ -11,7 +11,7 @@ import java.io.*;
 @SuppressWarnings("serial")
 public class ApplicationServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(ApplicationServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(ApplicationServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

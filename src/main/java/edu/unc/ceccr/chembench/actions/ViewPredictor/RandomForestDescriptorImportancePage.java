@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
-    private static Logger logger = Logger.getLogger(RandomForestDescriptorImportancePage.class.getName());
+    private static final Logger logger = Logger.getLogger(RandomForestDescriptorImportancePage.class.getName());
     private ImmutableSortedMap<String, Double> importance;
     private String importanceMeasure;
     private int foldNumber = 0;

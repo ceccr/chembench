@@ -28,7 +28,7 @@ public class CentralDogma {
     // processing jobs list. Initiates the threads that work on these
     // data structures.
 
-    private static Logger logger = Logger.getLogger(CentralDogma.class.getName());
+    private static final Logger logger = Logger.getLogger(CentralDogma.class.getName());
     private static CentralDogma instance = new CentralDogma();
 
     private final int numLocalThreads = 9;  // as many as you want; tune it based on server load.

@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class LegacyRandomForest {
-    private static Logger logger = Logger.getLogger(LegacyRandomForest.class.getName());
+    private static final Logger logger = Logger.getLogger(LegacyRandomForest.class.getName());
 
     // MODELING WORKFLOW FUNCTIONS
     public static void SetUpYRandomization(String userName, String jobName) throws Exception {

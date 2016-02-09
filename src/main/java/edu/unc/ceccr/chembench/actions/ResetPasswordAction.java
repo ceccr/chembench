@@ -16,7 +16,7 @@ import org.hibernate.Transaction;
 public class ResetPasswordAction extends ActionSupport {
 
     private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(ResetPasswordAction.class.getName());
+    private static final Logger logger = Logger.getLogger(ResetPasswordAction.class.getName());
     String userName;
     String email;
     String errorMessage;

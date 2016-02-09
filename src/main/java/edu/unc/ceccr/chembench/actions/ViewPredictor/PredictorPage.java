@@ -15,7 +15,7 @@ public class PredictorPage extends ViewPredictorAction {
      *
      */
     private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(PredictorPage.class.getName());
+    private static final Logger logger = Logger.getLogger(PredictorPage.class.getName());
 
     private String predictorDescription = "";
     private String predictorReference = "";

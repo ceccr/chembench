@@ -23,7 +23,7 @@ import java.util.*;
 
 public class QsarPredictionTask extends WorkflowTask {
 
-    private static Logger logger = Logger.getLogger(QsarPredictionTask.class.getName());
+    private static final Logger logger = Logger.getLogger(QsarPredictionTask.class.getName());
     // for internal use only
     List<Predictor> selectedPredictors = null;
     private String filePath;

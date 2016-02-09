@@ -29,7 +29,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
      */
     private static final long serialVersionUID = 1L;
 
-    private static Logger logger = Logger.getLogger(UserRegistrationAndProfileActions.class.getName());
+    private static final Logger logger = Logger.getLogger(UserRegistrationAndProfileActions.class.getName());
 
     /* USER FUNCTIONS */
     private User user = User.getCurrentUser();

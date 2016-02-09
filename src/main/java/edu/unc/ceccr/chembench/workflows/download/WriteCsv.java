@@ -26,7 +26,7 @@ public class WriteCsv {
     //of no use to humans. These functions generate downloadable results
     //files that give job results in a more readable form.
 
-    private static Logger logger = Logger.getLogger(WriteCsv.class.getName());
+    private static final Logger logger = Logger.getLogger(WriteCsv.class.getName());
 
     public static void writeExternalPredictionsAsCSV(Long predictorId) throws Exception {
         Session s = HibernateUtil.getSession();

@@ -25,7 +25,7 @@ import java.util.zip.ZipOutputStream;
 
 public class WriteZip {
 
-    private static Logger logger = Logger.getLogger(WriteZip.class.getName());
+    private static final Logger logger = Logger.getLogger(WriteZip.class.getName());
 
     public static void ZipEntireDirectory(String workingDir, String projectDir, String zipFile) throws Exception {
         //will be used for MML members - they can access all files on every project type

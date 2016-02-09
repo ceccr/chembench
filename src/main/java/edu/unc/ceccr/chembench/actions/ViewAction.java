@@ -13,7 +13,7 @@ public abstract class ViewAction extends ActionSupport {
 
     private static final long serialVersionUID = 1L;
 
-    private static Logger logger = Logger.getLogger(ViewAction.class.getName());
+    private static final Logger logger = Logger.getLogger(ViewAction.class.getName());
     protected List<String> errorStrings = Lists.newArrayList();
     protected Session session;
     protected ActionContext context;

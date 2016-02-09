@@ -23,7 +23,7 @@ import java.util.*;
 
 public class AdminAction extends ActionSupport {
 
-    private static Logger logger = Logger.getLogger(AdminAction.class.getName());
+    private static final Logger logger = Logger.getLogger(AdminAction.class.getName());
     private final RandomForestParametersRepository randomForestParametersRepository;
     private final SvmParametersRepository svmParametersRepository;
     private final KnnPlusParametersRepository knnPlusParametersRepository;

@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class ModelingFormActions extends ActionSupport {
 
-    private static Logger logger = Logger.getLogger(ModelingFormActions.class.getName());
+    private static final Logger logger = Logger.getLogger(ModelingFormActions.class.getName());
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;

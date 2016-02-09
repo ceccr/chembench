@@ -27,7 +27,7 @@ import java.util.*;
 
 public class PredictionFormActions extends ActionSupport {
     private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(PredictionFormActions.class.getName());
+    private static final Logger logger = Logger.getLogger(PredictionFormActions.class.getName());
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;

@@ -16,7 +16,7 @@ public class SvmModelsPage extends ViewPredictorAction {
      *
      */
     private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(SvmModelsPage.class.getName());
+    private static final Logger logger = Logger.getLogger(SvmModelsPage.class.getName());
     private final SvmParametersRepository svmParametersRepository;
     private List<SvmModel> svmModels;
     private SvmParameters svmParameters;

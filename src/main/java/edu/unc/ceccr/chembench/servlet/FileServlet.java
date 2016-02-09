@@ -20,7 +20,7 @@ import java.io.*;
 public class FileServlet extends HttpServlet {
     //used to download individual files, e.g., a job result summary.
 
-    private static Logger logger = Logger.getLogger(FileServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(FileServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {

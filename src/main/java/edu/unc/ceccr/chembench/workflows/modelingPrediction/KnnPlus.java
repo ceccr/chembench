@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 public class KnnPlus {
-    private static Logger logger = Logger.getLogger(KnnPlus.class.getName());
+    private static final Logger logger = Logger.getLogger(KnnPlus.class.getName());
 
     private static String getKnnPlusCommandFromParams(KnnPlusParameters knnPlusParameters, String actFileDataType,
                                                       String modelType) {

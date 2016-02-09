@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class RunSmilesPrediction {
-    private static Logger logger = Logger.getLogger(RunSmilesPrediction.class.getName());
+    private static final Logger logger = Logger.getLogger(RunSmilesPrediction.class.getName());
 
     public static String[] predictSmilesSDF(String workingDir, String username, Predictor predictor) throws Exception {
         Path wd = new File(workingDir).toPath();

@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class GenerateDescriptors {
 
-    private static Logger logger = Logger.getLogger(GenerateDescriptors.class.getName());
+    private static final Logger logger = Logger.getLogger(GenerateDescriptors.class.getName());
 
     public static void GenerateMolconnZDescriptors(String sdfile, String outfile) throws Exception {
         //Given an SD file, run MolconnZ to get the chemical descriptors for each compound.

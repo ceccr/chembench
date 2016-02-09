@@ -31,7 +31,7 @@ import java.util.Map;
 // logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
 public class QsarModelingTask extends WorkflowTask {
-    private static Logger logger = Logger.getLogger(QsarModelingTask.class.getName());
+    private static final Logger logger = Logger.getLogger(QsarModelingTask.class.getName());
     // predicted external set values
     List<ExternalValidation> externalSetPredictions = Lists.newArrayList();
     Path baseDir;

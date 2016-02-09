@@ -11,7 +11,7 @@ import java.io.*;
 @SuppressWarnings("serial")
 public class DescriptorMatrixServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(DescriptorMatrixServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(DescriptorMatrixServlet.class.getName());
 
     //serves up files for use with the dataset visualization Flash app
 

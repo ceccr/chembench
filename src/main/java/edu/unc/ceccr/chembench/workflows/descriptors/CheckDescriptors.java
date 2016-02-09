@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CheckDescriptors {
-    private static Logger logger = Logger.getLogger(CheckDescriptors.class.getName());
+    private static final Logger logger = Logger.getLogger(CheckDescriptors.class.getName());
     // Read in the output of a descriptor generation program (molconnZ,
     // dragon, etc.)
     // Look for any errors that would make the output unusable in modeling

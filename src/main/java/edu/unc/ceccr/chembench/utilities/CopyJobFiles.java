@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 public class CopyJobFiles {
 
-    private static Logger logger = Logger.getLogger(CopyJobFiles.class.getName());
+    private static final Logger logger = Logger.getLogger(CopyJobFiles.class.getName());
 
     public static void getDatasetFiles(String userName, Dataset dataset, String jobType, String toDir)
             throws Exception {

@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class RSquaredAndCCR {
 
-    private static Logger logger = Logger.getLogger(RSquaredAndCCR.class.getName());
+    private static final Logger logger = Logger.getLogger(RSquaredAndCCR.class.getName());
 
     public static List<Double> calculateResiduals(List<ExternalValidation> externalValidationList) {
         List<Double> residuals = Lists.newArrayList();

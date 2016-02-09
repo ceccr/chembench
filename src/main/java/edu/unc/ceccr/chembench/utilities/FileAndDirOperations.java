@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 public class FileAndDirOperations {
-    private static Logger logger = Logger.getLogger(FileAndDirOperations.class.getName());
+    private static final Logger logger = Logger.getLogger(FileAndDirOperations.class.getName());
 
     public static int countFilesInDirMatchingPattern(String dir, String pattern) {
         int count = 0;
