@@ -1,23 +1,21 @@
 package edu.unc.ceccr.chembench.actions;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
-import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.QsarPredictionTask;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.RunSmilesPrediction;
 import org.apache.commons.collections.ListUtils;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.io.FileReader;
@@ -26,14 +24,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-// struts2
 
 public class PredictionFormActions extends ActionSupport {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(PredictionFormActions.class.getName());
+    private final DatasetRepository datasetRepository;
+    private final PredictorRepository predictorRepository;
+    private final PredictionRepository predictionRepository;
+    private final JobRepository jobRepository;
     List<String> errorStrings = Lists.newArrayList();
     // variables used for JSP display
     private User user = User.getCurrentUser();
@@ -58,19 +56,25 @@ public class PredictionFormActions extends ActionSupport {
     private String jobName;
     private String selectedPredictorIds;
 
+    @Autowired
+    public PredictionFormActions(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
+                                 PredictionRepository predictionRepository, JobRepository jobRepository) {
+        this.datasetRepository = datasetRepository;
+        this.predictorRepository = predictorRepository;
+        this.predictionRepository = predictionRepository;
+        this.jobRepository = jobRepository;
+    }
+
     public String loadSelectPredictorPage() throws Exception {
-        String result = SUCCESS;
-        Session session = HibernateUtil.getSession();
-        /* get predictors */
+        userPredictors = predictorRepository.findByUserName(user.getUserName());
         if (user.getShowPublicPredictors().equals(Constants.ALL)) {
-            /* get the user's predictors and all public ones */
-            userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
-        } else {
-            /* just get the user's predictors */
-            userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), false, true, session);
+            userPredictors.addAll(predictorRepository.findPublicPredictors());
         }
-        session.close();
-        return result;
+        for (Predictor p : userPredictors) {
+            Dataset d = datasetRepository.findOne(p.getDatasetId());
+            p.setDatasetDisplay(d.getName());
+        }
+        return SUCCESS;
     }
 
     public String makeSmilesPrediction() throws Exception {
@@ -78,18 +82,15 @@ public class PredictionFormActions extends ActionSupport {
         ActionContext context = ActionContext.getContext();
         User user = User.getCurrentUser();
 
-        /* use the same session for all data requests */
-        Session session = HibernateUtil.getSession();
         String predictorIds = ((String[]) context.getParameters().get("predictorIds"))[0];
         logger.debug(" 1: " + smiles + " 2: " + cutoff + " 3: " + predictorIds);
         logger.debug(user.getUserName());
         logger.debug("SMILES predids: " + predictorIds);
         String[] selectedPredictorIdArray = predictorIds.split("\\s+");
         List<Predictor> predictors = Lists.newArrayList();
-        Set<String> descriptorTypes = new HashSet<String>();
+        Set<String> descriptorTypes = Sets.newHashSet();
         for (String predictorId : selectedPredictorIdArray) {
-            Predictor predictor =
-                    PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+            Predictor predictor = predictorRepository.findOne(Long.parseLong(predictorId));
             if (!predictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
                 throw new RuntimeException("Non-random forest predictors cannot be used for SMILES predictions");
             }
@@ -102,8 +103,6 @@ public class PredictionFormActions extends ActionSupport {
                 descriptorTypes.add(descriptorType);
             }
         }
-        /* we don't need the session again */
-        session.close();
 
         /* stores results */
         smilesPredictions = Lists.newArrayList();
@@ -138,9 +137,7 @@ public class PredictionFormActions extends ActionSupport {
                 logger.info("Predictor is n-folded.");
                 List<String[]> tempPred = Lists.newArrayList();
                 for (String id : ids) {
-                    session = HibernateUtil.getSession();
-                    Predictor tempP = PopulateDataObjects.getPredictorById(Long.parseLong(id), session);
-                    session.close();
+                    Predictor tempP = predictorRepository.findOne(Long.parseLong(id));
 
                     // since predictions are made per-fold, each fold needs
                     // access to the SDF file as well as any descriptor matrices
@@ -284,9 +281,6 @@ public class PredictionFormActions extends ActionSupport {
         this.loadSelectPredictorPage();
         String result = SUCCESS;
 
-        // use the same session for all data requests
-        Session session = HibernateUtil.getSession();
-
         // get list of predictor IDs from the checked checkboxes
         if (predictorCheckBoxes == null || predictorCheckBoxes.trim().isEmpty()) {
             logger.debug("no predictor chosen!");
@@ -303,14 +297,14 @@ public class PredictionFormActions extends ActionSupport {
         HashSet<String> predictorsModelDescriptors = new HashSet<String>();
 
         for (int i = 0; i < predictorIds.length; i++) {
-            Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session);
+            Predictor p = predictorRepository.findOne(Long.parseLong(predictorIds[i]));
 
             if (p.getChildType() != null && p.getChildType().equals(Constants.NFOLD)) {
                 /* check if *any* child predictor has models */
                 String[] childIds = p.getChildIds().split("\\s+");
                 boolean childHasModels = false;
                 for (String pChildId : childIds) {
-                    Predictor pChild = PopulateDataObjects.getPredictorById(Long.parseLong(pChildId), session);
+                    Predictor pChild = predictorRepository.findOne(Long.parseLong(pChildId));
                     if (pChild.getNumTestModels() > 0) {
                         childHasModels = true;
                     }
@@ -359,48 +353,28 @@ public class PredictionFormActions extends ActionSupport {
             }
         }
 
-        if (isMixDescriptors && isUploadedDescriptors) {
-            isMixDescriptors = true;
-        } else {
-            isMixDescriptors = false;
-        }
+        isMixDescriptors = isMixDescriptors && isUploadedDescriptors;
 
         if (result.equals(ERROR)) {
             return result;
+        }
+
+        userDatasets = datasetRepository.findByUserName(user.getUserName());
+        if (user.getShowPublicDatasets().equals(Constants.ALL)) {
+            userDatasets.addAll(datasetRepository.findAllPublicDatasets());
+        } else if (user.getShowPublicDatasets().equals(Constants.SOME)) {
+            userDatasets.addAll(datasetRepository.findSomePublicDatasets());
         }
 
         /*
          * set up any values that need to be populated onto the page
          * (dropdowns, lists, display stuff)
          */
-        userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
-        userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
-        userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
-        userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
-
-        if (user.getShowPublicDatasets().equals(Constants.ALL)) {
-            /* get user and public datasets */
-            userDatasets = PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true, session);
-        } else if (user.getShowPublicDatasets().equals(Constants.NONE)) {
-            /* just get user datasets */
-            userDatasets = PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), false, session);
-        } else if (user.getShowPublicDatasets().equals(Constants.SOME)) {
-            /*
-             * get all datasets and filter out all the public ones that aren't
-             * "show by default"
-             */
-            userDatasets = PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true, session);
-
-            if (userDatasets != null) {
-                for (int i = 0; i < userDatasets.size(); i++) {
-                    String s = userDatasets.get(i).getShowByDefault();
-                    if (s != null && s.equals(Constants.NO)) {
-                        userDatasets.remove(i);
-                        i--;
-                    }
-                }
-            }
-        }
+        userDatasetNames = Lists.transform(userDatasets, Utility.NAME_TRANSFORM);
+        userPredictorNames = Lists.transform(userPredictors, Utility.NAME_TRANSFORM);
+        userPredictionNames =
+                Lists.transform(predictionRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
+        userTaskNames = Lists.transform(jobRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
 
         /*
          * filtering userDatasets leaving only datasets that has same modeling
@@ -443,22 +417,19 @@ public class PredictionFormActions extends ActionSupport {
         if (isUploadedDescriptors) {
             userDatasets.clear();
             boolean hasMultiUploadedDescriptors = false;
-            String DescriptorTypeTest = null;
+            String descriptorTypeTest = null;
             int times = 0;
-            // for(Iterator<Predictor>
-            // i=selectedPredictors.iterator();i.hasNext();){
             for (Predictor prdctr : selectedPredictors) {
-                // Predictor p = i.next();
                 if (times == 0) {
-                    DescriptorTypeTest = prdctr.getUploadedDescriptorType();
+                    descriptorTypeTest = prdctr.getUploadedDescriptorType();
                     times = 1;
                 }
 
-                if (DescriptorTypeTest != null && prdctr.getUploadedDescriptorType() != null) {
-                    if (!prdctr.getUploadedDescriptorType().equals(DescriptorTypeTest)) {
+                if (descriptorTypeTest != null && prdctr.getUploadedDescriptorType() != null) {
+                    if (!prdctr.getUploadedDescriptorType().equals(descriptorTypeTest)) {
                         hasMultiUploadedDescriptors = true;
                     }
-                } else if (DescriptorTypeTest == null && prdctr.getUploadedDescriptorType() == null) {
+                } else if (descriptorTypeTest == null && prdctr.getUploadedDescriptorType() == null) {
                     hasMultiUploadedDescriptors = false;
                 } else {
                     hasMultiUploadedDescriptors = true;
@@ -466,14 +437,23 @@ public class PredictionFormActions extends ActionSupport {
                 }
 
             }
-            // if (prdctr.getDescriptorGeneration().equals(
-            // Constants.UPLOADED)) {
             if (!hasMultiUploadedDescriptors) {
-                List<Dataset> dss = PopulateDataObjects
-                        .populateDatasetNamesForUploadedPredicors(user.getUserName(), DescriptorTypeTest, true,
-                                session);
-                for (Iterator<Dataset> j = dss.iterator(); j.hasNext(); ) {
-                    Dataset ds = j.next();
+                List<Dataset> datasets = datasetRepository.findByUserName(user.getUserName());
+                datasets.addAll(datasetRepository.findAllPublicDatasets());
+                for (Iterator<Dataset> iterator = datasets.iterator(); iterator.hasNext(); ) {
+                    Dataset d = iterator.next();
+                    if (Strings.isNullOrEmpty(descriptorTypeTest)) {
+                        if (!Strings.isNullOrEmpty(d.getUploadedDescriptorType()) || !d.getAvailableDescriptors()
+                                .contains(Constants.UPLOADED)) {
+                            iterator.remove();
+                        }
+                    } else {
+                        if (!d.getUploadedDescriptorType().equals(descriptorTypeTest)) {
+                            iterator.remove();
+                        }
+                    }
+                }
+                for (Dataset ds : datasets) {
                     if (!userDatasets.contains(ds)) {
                         userDatasets.add(ds);
                     }
@@ -484,8 +464,6 @@ public class PredictionFormActions extends ActionSupport {
         if (isMixDescriptors) {
             userDatasets.clear();
         }
-        // give back the session at the end
-        session.close();
         return result;
     }
 
@@ -495,10 +473,7 @@ public class PredictionFormActions extends ActionSupport {
          * it
          */
         User user = User.getCurrentUser();
-        /* use the same session for all data requests */
-        Session session = HibernateUtil.getSession();
-
-        Dataset predictionDataset = PopulateDataObjects.getDataSetById(selectedDatasetId, session);
+        Dataset predictionDataset = datasetRepository.findOne(selectedDatasetId);
         String sdf = predictionDataset.getSdfFile();
 
         if (jobName != null) {
@@ -525,13 +500,13 @@ public class PredictionFormActions extends ActionSupport {
 
         List<Predictor> selectedPredictors = Lists.newArrayList();
 
-        for (int i = 0; i < ids.length; i++) {
-            Predictor sp = PopulateDataObjects.getPredictorById(Long.parseLong(ids[i]), session);
+        for (String id : ids) {
+            Predictor sp = predictorRepository.findOne(Long.parseLong(id));
             selectedPredictors.add(sp);
             if (sp.getChildType() != null && sp.getChildType().equals(Constants.NFOLD)) {
                 String[] childIds = sp.getChildIds().split("\\s+");
                 for (String childId : childIds) {
-                    Predictor cp = PopulateDataObjects.getPredictorById(Long.parseLong(childId), session);
+                    Predictor cp = predictorRepository.findOne(Long.parseLong(childId));
                     numModels += cp.getNumTestModels();
                 }
             } else {
@@ -563,7 +538,7 @@ public class PredictionFormActions extends ActionSupport {
                             ReadDescriptors.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
 
                     // get the uploaded descriptors for the predictor
-                    Dataset predictorDataset = PopulateDataObjects.getDataSetById(sp.getDatasetId(), session);
+                    Dataset predictorDataset = datasetRepository.findOne(sp.getDatasetId());
                     String predictorDatasetDir =
                             Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + "/DATASETS/"
                                     + predictorDataset.getName() + "/";
@@ -639,9 +614,6 @@ public class PredictionFormActions extends ActionSupport {
 
         logger.info("making prediction run on dataset " + predictionDataset.getName() + " with predictors "
                 + selectedPredictorIds + " for " + user.getUserName());
-
-        // give back the session at the end
-        session.close();
         return SUCCESS;
     }
 
