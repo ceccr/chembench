@@ -21,19 +21,12 @@ public class DeleteAction extends ActionSupport {
     private Long id;
     private String userToDelete;
 
-    @Autowired
     private DatasetRepository datasetRepository;
-    @Autowired
     private PredictorRepository predictorRepository;
-    @Autowired
     private PredictionRepository predictionRepository;
-    @Autowired
     private JobRepository jobRepository;
-    @Autowired
     private ExternalValidationRepository externalValidationRepository;
-    @Autowired
     private PredictionValueRepository predictionValueRepository;
-    @Autowired
     private UserRepository userRepository;
 
     private void checkDatasetDependencies(Dataset ds) {
@@ -378,30 +371,37 @@ public class DeleteAction extends ActionSupport {
         this.userToDelete = userToDelete;
     }
 
+    @Autowired
     public void setDatasetRepository(DatasetRepository datasetRepository) {
         this.datasetRepository = datasetRepository;
     }
 
+    @Autowired
     public void setPredictorRepository(PredictorRepository predictorRepository) {
         this.predictorRepository = predictorRepository;
     }
 
+    @Autowired
     public void setPredictionRepository(PredictionRepository predictionRepository) {
         this.predictionRepository = predictionRepository;
     }
 
+    @Autowired
     public void setJobRepository(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
     }
 
+    @Autowired
     public void setExternalValidationRepository(ExternalValidationRepository externalValidationRepository) {
         this.externalValidationRepository = externalValidationRepository;
     }
 
+    @Autowired
     public void setPredictionValueRepository(PredictionValueRepository predictionValueRepository) {
         this.predictionValueRepository = predictionValueRepository;
     }
 
+    @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
