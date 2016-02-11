@@ -4,8 +4,8 @@ import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.UserRepository;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import net.tanesha.recaptcha.ReCaptcha;
@@ -13,27 +13,17 @@ import net.tanesha.recaptcha.ReCaptchaFactory;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
-// struts2
-
 public class UserRegistrationAndProfileActions extends ActionSupport implements ServletRequestAware {
-    /**
-     *
-     */
-
 
     private static final Logger logger = Logger.getLogger(UserRegistrationAndProfileActions.class.getName());
 
-    /* USER FUNCTIONS */
     private User user = User.getCurrentUser();
-    /* Variables used for user registration and updates */
     private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
     private List<String> errorMessages = Lists.newArrayList();
     private List<String> errorStrings = Lists.newArrayList();
@@ -74,6 +64,13 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
     private String recaptcha_response_field;
 
     private HttpServletRequest request;
+
+    private UserRepository userRepository;
+
+    @Autowired
+    public UserRegistrationAndProfileActions(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public String loadUserRegistration() throws Exception {
         String result = SUCCESS;
@@ -176,24 +173,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
         user.setPassword(Utility.encrypt(password));
 
         user.setStatus("agree");
-
-        Session s = HibernateUtil.getSession();
-        Transaction tx = null;
-
-        // commit user to DB
-
-        try {
-            tx = s.beginTransaction();
-            s.saveOrUpdate(user);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("", e);
-        } finally {
-            s.close();
-        }
+        userRepository.save(user);
 
         // user is auto-approved; email them a temp password
 
@@ -226,8 +206,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
     /* End Variables used for user registration and updates */
 
     public String loadChangePassword() throws Exception {
-        String result = SUCCESS;
-        return result;
+        return SUCCESS;
     }
 
     public String changePassword() throws Exception {
@@ -252,23 +231,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
         user.setPassword(Utility.encrypt(newPassword));
 
         // Commit changes
-
-        Session s = HibernateUtil.getSession();
-        Transaction tx = null;
-
-        try {
-            tx = s.beginTransaction();
-            s.saveOrUpdate(user);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("", e);
-        } finally {
-            s.close();
-        }
-
+        userRepository.save(user);
         errorMessages.add("Password change successful!");
         return result;
     }
@@ -320,21 +283,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
         user.setWorkbench(workBench);
 
         // Commit changes
-        Session s = HibernateUtil.getSession();
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
-            s.saveOrUpdate(user);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("", e);
-        } finally {
-            s.close();
-        }
-
+        userRepository.save(user);
         errorMessages.add("Your information has been updated!");
 
         return result;
@@ -364,49 +313,14 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
         user.setShowAdvancedKnnModeling(showAdvancedKnnModeling);
 
         // Commit changes
-        Session s = HibernateUtil.getSession();
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
-            s.saveOrUpdate(user);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("", e);
-        } finally {
-            s.close();
-        }
-
+        userRepository.save(user);
         errorMessages.add("Your settings have been saved!");
 
         return result;
     }
 
     private boolean userExists(String userName) throws Exception {
-        Session s = HibernateUtil.getSession();// query
-        Transaction tx = null;
-        User user = null;
-        User userInfo = null;
-        try {
-            tx = s.beginTransaction();
-            user = (User) s.createCriteria(User.class).add(Restrictions.eq("userName", userName)).uniqueResult();
-            userInfo = (User) s.createCriteria(User.class).add(Restrictions.eq("userName", userName)).uniqueResult();
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("", e);
-        } finally {
-            s.close();
-        }
-        if (user == null && userInfo == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return userRepository.findByUserName(userName) != null;
     }
 
     public void validateUserInfo() {

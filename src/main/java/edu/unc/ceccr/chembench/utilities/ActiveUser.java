@@ -1,6 +1,6 @@
 package edu.unc.ceccr.chembench.utilities;
 
-import edu.unc.ceccr.chembench.actions.HomeAction;
+import edu.unc.ceccr.chembench.actions.DeleteAction;
 import edu.unc.ceccr.chembench.persistence.User;
 import org.apache.log4j.Logger;
 
@@ -30,7 +30,11 @@ public class ActiveUser implements HttpSessionListener {
                 String type = (String) se.getSession().getAttribute("userType");
                 if (user != null && user.getUserName() != null && user.getUserName().contains("guest") && type != null
                         && type.equals("guest")) {
-                    new HomeAction().deleteGuest(user);
+                    try {
+                        (new DeleteAction()).deleteUser(user.getUserName());
+                    } catch (Exception e) {
+                        logger.warn("Failed to delete guest user: " + user.getUserName(), e);
+                    }
                     logger.debug("GUEST USER DELETED on SESSION TIMEOUT:" + user.getUserName());
                 }
             }

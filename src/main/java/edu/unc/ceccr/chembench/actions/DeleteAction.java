@@ -317,7 +317,7 @@ public class DeleteAction extends ActionSupport {
     }
 
     @Transactional
-    private void deleteUser(String userName) throws Exception {
+    public void deleteUser(String userName) throws Exception {
         List<Dataset> datasets = datasetRepository.findByUserName(userName);
         List<Predictor> predictors = predictorRepository.findByUserName(userName);
         List<Prediction> predictions = predictionRepository.findByUserName(userName);
