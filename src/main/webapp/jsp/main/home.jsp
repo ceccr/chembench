@@ -150,8 +150,7 @@
         <br> <span class="ccbLoginBoxHeading">New Users</span> <br> Please <a href="loadRegistrationPage">register
         here</a> <br> <br> <span class="ccbLoginBoxHeading">Help &amp; Links</span> <br> <a
           href="help-overview" target="_blank">Chembench Overview</a> <br> <a href="help-workflows" target="_blank">Chembench
-        Workflows &amp; Methodology</a> <br> <a href="softwareList" target="_blank">Links to More Cheminformatics
-        Tools</a> <br> <br>
+        Workflows &amp; Methodology</a><br><br>
         <s:if test="showStatistics!=null || showStatistics=='NO'">
       <div class="ccbLoginBoxHeading">Statistics</div>
       <s:property value="visitors" />

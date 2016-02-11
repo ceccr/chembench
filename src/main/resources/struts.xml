@@ -74,20 +74,6 @@
             <result name="error">/jsp/administration/user/resetPassword.jsp</result>
         </action>
 
-        <!-- Free Software List page -->
-        <action name="softwareList" class="edu.unc.ceccr.chembench.actions.SoftwareLinksAction" method="loadPage">
-            <result name="success">/jsp/main/softwareLinks.jsp</result>
-        </action>
-
-        <action name="addSoftware" class="edu.unc.ceccr.chembench.actions.SoftwareLinksAction" method="addSoftware">
-            <result type="redirect">softwareList</result>
-        </action>
-
-        <action name="deleteSoftwareLink" class="edu.unc.ceccr.chembench.actions.SoftwareLinksAction"
-                method="deleteSoftwareLink">
-            <result type="redirect">softwareList</result>
-        </action>
-
         <!-- User Registration and Edit Profile Pages -->
         <action name="editProfile" class="edu.unc.ceccr.chembench.actions.UserRegistrationAndProfileActions"
                 method="loadEditProfilePage">
