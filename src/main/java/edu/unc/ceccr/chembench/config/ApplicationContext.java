@@ -6,6 +6,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @Configuration
 @ComponentScan("edu.unc.ceccr.chembench")
 @Import(PersistenceContext.class)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class ApplicationContext {
 
     @Configuration

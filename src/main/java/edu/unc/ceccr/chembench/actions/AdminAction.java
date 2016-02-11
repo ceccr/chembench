@@ -215,7 +215,7 @@ public class AdminAction extends ActionSupport {
                 return ERROR;
             }
 
-            (new DeleteAction()).deletePredictor(predictor, session);
+            (new DeleteAction()).deletePredictor(predictor);
             session.close();
         } catch (Exception ex) {
             errorStrings.add(ex.getMessage());
