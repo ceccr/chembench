@@ -389,8 +389,12 @@ public class ViewDataset extends ViewAction {
         if (vizFiles.length == 0) {
             logger.info(String.format("Detected missing heatmap files for dataset id=%d. Regenerating...",
                     dataset.getId()));
-            HeatmapAndPCA.performHeatMapAndTreeCreation(vizPath, dataset.getSdfFile(), "mahalanobis");
-            HeatmapAndPCA.performHeatMapAndTreeCreation(vizPath, dataset.getSdfFile(), "tanimoto");
+            String vizPathString = vizPath.toString() + "/";
+            HeatmapAndPCA.performXCreation(
+                    datasetPath.resolve("Descriptors").resolve(dataset.getSdfFile() + ".maccs").toString(),
+                    dataset.getSdfFile() + ".x", vizPathString);
+            HeatmapAndPCA.performHeatMapAndTreeCreation(vizPathString, dataset.getSdfFile(), "mahalanobis");
+            HeatmapAndPCA.performHeatMapAndTreeCreation(vizPathString, dataset.getSdfFile(), "tanimoto");
             logger.info(String.format("Regeneration complete for dataset id=%d.", dataset.getId()));
         }
 

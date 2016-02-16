@@ -4,8 +4,6 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import org.apache.log4j.Logger;
 
-import java.nio.file.Path;
-
 
 public class HeatmapAndPCA {
 
@@ -14,10 +12,6 @@ public class HeatmapAndPCA {
     public static void performXCreation(String maccsFilePath, String outputXFileName, String workingDir) {
         String cmd = "convert_maccs_to_X2.pl " + maccsFilePath + " " + workingDir + outputXFileName;
         RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "convert_maccs_to_X2");
-    }
-
-    public static void performHeatMapAndTreeCreation(Path workingDir, String sdfName, String method) {
-        performHeatMapAndTreeCreation(workingDir.toString() + "/", sdfName, method);
     }
 
     public static void performHeatMapAndTreeCreation(String workingDir, String sdfName, String method) {
