@@ -382,22 +382,24 @@ public class ViewDataset extends ViewAction {
         }
         session.close();
 
-        Path datasetPath = dataset.getDirectoryPath();
-        Path vizPath = datasetPath.resolve("Visualization");
-        File[] vizFiles = vizPath.toFile().listFiles(visualizationFilter);
+        // regenerate distance measures if missing (some old, broken datasets need this)
+        if (dataset.getAvailableDescriptors().contains(Constants.MACCS)) { // need maccs for heatmap distance
+            Path datasetPath = dataset.getDirectoryPath();
+            Path vizPath = datasetPath.resolve("Visualization");
+            File[] vizFiles = vizPath.toFile().listFiles(visualizationFilter);
 
-        if (vizFiles.length == 0) {
-            logger.info(String.format("Detected missing heatmap files for dataset id=%d. Regenerating...",
-                    dataset.getId()));
-            String vizPathString = vizPath.toString() + "/";
-            HeatmapAndPCA.performXCreation(
-                    datasetPath.resolve("Descriptors").resolve(dataset.getSdfFile() + ".maccs").toString(),
-                    dataset.getSdfFile() + ".x", vizPathString);
-            HeatmapAndPCA.performHeatMapAndTreeCreation(vizPathString, dataset.getSdfFile(), "mahalanobis");
-            HeatmapAndPCA.performHeatMapAndTreeCreation(vizPathString, dataset.getSdfFile(), "tanimoto");
-            logger.info(String.format("Regeneration complete for dataset id=%d.", dataset.getId()));
+            if (vizFiles.length == 0) {
+                logger.info(String.format("Detected missing heatmap files for dataset id=%d. Regenerating...",
+                        dataset.getId()));
+                String vizPathString = vizPath.toString() + "/";
+                HeatmapAndPCA.performXCreation(
+                        datasetPath.resolve("Descriptors").resolve(dataset.getSdfFile() + ".maccs").toString(),
+                        dataset.getSdfFile() + ".x", vizPathString);
+                HeatmapAndPCA.performHeatMapAndTreeCreation(vizPathString, dataset.getSdfFile(), "mahalanobis");
+                HeatmapAndPCA.performHeatMapAndTreeCreation(vizPathString, dataset.getSdfFile(), "tanimoto");
+                logger.info(String.format("Regeneration complete for dataset id=%d.", dataset.getId()));
+            }
         }
-
         return result;
     }
 
