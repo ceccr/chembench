@@ -27,6 +27,14 @@ import java.util.regex.Pattern;
 
 public class ViewDataset extends ViewAction {
 
+    private static final FilenameFilter visualizationFilter = new FilenameFilter() {
+        private final Pattern MAT_TAN_FILENAME_REGEX = Pattern.compile(".*_(mah|tan)\\.(mat|xml)");
+
+        @Override
+        public boolean accept(File file, String s) {
+            return MAT_TAN_FILENAME_REGEX.matcher(s).matches();
+        }
+    };
     private static Logger logger = Logger.getLogger(ViewDataset.class.getName());
     private Dataset dataset;
     private List<Compound> datasetCompounds;
@@ -45,15 +53,6 @@ public class ViewDataset extends ViewAction {
     private String datasetTypeDisplay = "";
     private String webAddress = Constants.WEBADDRESS;
     private List<DescriptorGenerationResult> descriptorGenerationResults;
-
-    private static final FilenameFilter visualizationFilter = new FilenameFilter() {
-        private final Pattern MAT_TAN_FILENAME_REGEX = Pattern.compile(".*_(mah|tan)\\.(mat|xml)");
-
-        @Override
-        public boolean accept(File file, String s) {
-            return MAT_TAN_FILENAME_REGEX.matcher(s).matches();
-        }
-    };
 
     public String loadCompoundsSection() throws Exception {
         //check that the user is logged in
@@ -388,8 +387,11 @@ public class ViewDataset extends ViewAction {
         File[] vizFiles = vizPath.toFile().listFiles(visualizationFilter);
 
         if (vizFiles.length == 0) {
+            logger.info(String.format("Detected missing heatmap files for dataset id=%d. Regenerating...",
+                    dataset.getId()));
             HeatmapAndPCA.performHeatMapAndTreeCreation(vizPath.toString(), dataset.getSdfFile(), "mahalanobis");
             HeatmapAndPCA.performHeatMapAndTreeCreation(vizPath.toString(), dataset.getSdfFile(), "tanimoto");
+            logger.info(String.format("Regeneration complete for dataset id=%d.", dataset.getId()));
         }
 
         return result;
