@@ -17,13 +17,14 @@ import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-//struts2
+import java.util.regex.Pattern;
 
-@SuppressWarnings("serial")
 public class ViewDataset extends ViewAction {
 
     private static Logger logger = Logger.getLogger(ViewDataset.class.getName());
@@ -44,6 +45,15 @@ public class ViewDataset extends ViewAction {
     private String datasetTypeDisplay = "";
     private String webAddress = Constants.WEBADDRESS;
     private List<DescriptorGenerationResult> descriptorGenerationResults;
+
+    private static final FilenameFilter visualizationFilter = new FilenameFilter() {
+        private final Pattern MAT_TAN_FILENAME_REGEX = Pattern.compile(".*_(mah|tan)\\.(mat|xml)");
+
+        @Override
+        public boolean accept(File file, String s) {
+            return MAT_TAN_FILENAME_REGEX.matcher(s).matches();
+        }
+    };
 
     public String loadCompoundsSection() throws Exception {
         //check that the user is logged in
@@ -372,6 +382,16 @@ public class ViewDataset extends ViewAction {
             return result;
         }
         session.close();
+
+        Path datasetPath = dataset.getDirectoryPath();
+        Path vizPath = datasetPath.resolve("Visualization");
+        File[] vizFiles = vizPath.toFile().listFiles(visualizationFilter);
+
+        if (vizFiles.length == 0) {
+            HeatmapAndPCA.performHeatMapAndTreeCreation(vizPath.toString(), dataset.getSdfFile(), "mahalanobis");
+            HeatmapAndPCA.performHeatMapAndTreeCreation(vizPath.toString(), dataset.getSdfFile(), "tanimoto");
+        }
+
         return result;
     }
 
