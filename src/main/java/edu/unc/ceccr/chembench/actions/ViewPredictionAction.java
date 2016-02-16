@@ -1,26 +1,25 @@
 package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.Utility;
+import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.text.DecimalFormat;
+import java.util.*;
 
 public class ViewPredictionAction extends ViewAction {
-
-
-    /**
-     *
-     */
-
     private static final Logger logger = Logger.getLogger(ViewPredictionAction.class.getName());
+    private final DatasetRepository datasetRepository;
+    private final PredictorRepository predictorRepository;
+    private final PredictionRepository predictionRepository;
+    private final PredictionValueRepository predictionValueRepository;
     List<CompoundPredictions> compoundPredictionValues = Lists.newArrayList();
     private Prediction prediction;
     private List<Predictor> predictors; //put these in order by predictorId
@@ -30,6 +29,16 @@ public class ViewPredictionAction extends ViewAction {
     private String sortDirection;
     private ArrayList<String> pageNums;
     private Float cutoff;
+
+    @Autowired
+    public ViewPredictionAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
+                                PredictionRepository predictionRepository,
+                                PredictionValueRepository predictionValueRepository) {
+        this.datasetRepository = datasetRepository;
+        this.predictorRepository = predictorRepository;
+        this.predictionRepository = predictionRepository;
+        this.predictionValueRepository = predictionValueRepository;
+    }
 
     public String loadPredictionsSection() throws Exception {
 
@@ -67,32 +76,28 @@ public class ViewPredictionAction extends ViewAction {
 
         //get prediction
         logger.debug("prediction id: " + objectId);
-        session = HibernateUtil.getSession();
-        prediction = PopulateDataObjects.getPredictionById(Long.parseLong(objectId), session);
+        prediction = predictionRepository.findOne(Long.parseLong(objectId));
         if (prediction == null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(prediction.getUserName()))) {
             logger.debug("No prediction was found in the DB with provided ID.");
             super.errorStrings.add("Invalid prediction ID supplied.");
             result = ERROR;
-            session.close();
             return result;
         }
-        prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getName());
+        dataset = datasetRepository.findOne(prediction.getDatasetId());
+        prediction.setDatasetDisplay(dataset.getName());
 
         //get predictors for this prediction. Order them by predictor ID, increasing.
         predictors = Lists.newArrayList();
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
-            predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));
+            predictors.add(predictorRepository.findOne(Long.parseLong(predictorIds[i])));
         }
         Collections.sort(predictors, new Comparator<Predictor>() {
             public int compare(Predictor p1, Predictor p2) {
                 return p1.getId().compareTo(p2.getId());
             }
         });
-
-        //get dataset
-        dataset = PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session);
 
         //define which compounds will appear on page
         int pagenum, limit, offset;
@@ -107,8 +112,7 @@ public class ViewPredictionAction extends ViewAction {
         }
 
         //get prediction values
-        compoundPredictionValues = PopulateDataObjects
-                .populateCompoundPredictionValues(prediction.getDatasetId(), Long.parseLong(objectId), session);
+        compoundPredictionValues = findCompoundPredictions(dataset, prediction);
 
         //sort the compoundPrediction array
         logger.debug("Sorting compound predictions");
@@ -204,8 +208,6 @@ public class ViewPredictionAction extends ViewAction {
             return result;
         }
 
-        session = HibernateUtil.getSession();
-
         if (context == null) {
             logger.debug("No ActionContext available");
         } else {
@@ -214,13 +216,12 @@ public class ViewPredictionAction extends ViewAction {
             }
             //get prediction
             logger.debug("[ext_compounds] dataset id: " + objectId);
-            prediction = PopulateDataObjects.getPredictionById(Long.parseLong(objectId), session);
+            prediction = predictionRepository.findOne(Long.parseLong(objectId));
             if (prediction == null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user
                     .getUserName().equals(prediction.getUserName()))) {
                 logger.debug("No prediction was found in the DB with provided ID.");
                 super.errorStrings.add("Invalid prediction ID supplied.");
                 result = ERROR;
-                session.close();
                 return result;
             }
         }
@@ -254,48 +255,33 @@ public class ViewPredictionAction extends ViewAction {
         }
 
         logger.debug("prediction id: " + objectId);
-        session = HibernateUtil.getSession();
-        prediction = PopulateDataObjects.getPredictionById(Long.parseLong(objectId), session);
-
+        prediction = predictionRepository.findOne(Long.parseLong(objectId));
         if (prediction == null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(prediction.getUserName()))) {
             logger.debug("No prediction was found in the DB with provided ID.");
             super.errorStrings.add("Invalid prediction ID supplied.");
             result = ERROR;
-            session.close();
             return result;
         }
 
 
-        prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getName());
+        prediction.setDatasetDisplay(datasetRepository.findOne(prediction.getDatasetId()).getName());
 
         //get predictors for this prediction
         predictors = Lists.newArrayList();
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
-            predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));
+            predictors.add(predictorRepository.findOne(Long.parseLong(predictorIds[i])));
         }
 
         //get dataset
-        dataset = PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session);
+        dataset = datasetRepository.findOne(prediction.getDatasetId());
 
         //the prediction has now been viewed. Update DB accordingly.
         if (!prediction.getHasBeenViewed().equals(Constants.YES)) {
             prediction.setHasBeenViewed(Constants.YES);
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
-                session.saveOrUpdate(prediction);
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error("", e);
-            }
+            predictionRepository.save(prediction);
         }
-
-        session.close();
 
         //log the results
         if (result.equals(SUCCESS)) {
@@ -305,6 +291,68 @@ public class ViewPredictionAction extends ViewAction {
         }
 
         return result;
+    }
+
+    private List<CompoundPredictions> findCompoundPredictions(Dataset dataset, Prediction prediction)
+            throws IOException {
+        Path datasetPath = dataset.getDirectoryPath();
+        List<String> compounds = null;
+
+        if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
+            compounds = DatasetFileOperations.getXCompoundNames(datasetPath.resolve(dataset.getXFile()));
+            logger.info("" + compounds.size() + " compounds found in X file.");
+        } else {
+            compounds = DatasetFileOperations.getSDFCompoundNames(datasetPath.resolve(dataset.getSdfFile()));
+            logger.info("" + compounds.size() + " compounds found in SDF.");
+        }
+        List<PredictionValue> predictorPredictionValues =
+                predictionValueRepository.findByPredictionId(prediction.getId());
+
+        Collections.sort(predictorPredictionValues, new Comparator<PredictionValue>() {
+            public int compare(PredictionValue p1, PredictionValue p2) {
+                return p1.getPredictorId().compareTo(p2.getPredictorId());
+            }
+        });
+
+        Map<String, List<PredictionValue>> predictionValueMap = Maps.newHashMap();
+        for (PredictionValue pv : predictorPredictionValues) {
+            List<PredictionValue> compoundPredValues = predictionValueMap.get(pv.getCompoundName());
+            if (compoundPredValues == null) {
+                compoundPredValues = Lists.newArrayList();
+            }
+            compoundPredValues.add(pv);
+            predictionValueMap.put(pv.getCompoundName(), compoundPredValues);
+        }
+
+        // get prediction values for each compound
+        List<CompoundPredictions> cps = Lists.newArrayList();
+        for (String compound : compounds) {
+            CompoundPredictions cp = new CompoundPredictions();
+            cp.setCompound(compound);
+
+            // get the prediction values for this compound
+            cp.setPredictionValues(predictionValueMap.get(cp.getCompound()));
+
+            // round them to a reasonable number of significant figures
+            if (cp.getPredictionValues() != null) {
+                for (PredictionValue pv : cp.getPredictionValues()) {
+                    int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
+                    if (pv.getPredictedValue() != null) {
+                        String predictedValue =
+                                DecimalFormat.getInstance().format(pv.getPredictedValue()).replaceAll(",", "");
+                        pv.setPredictedValue(
+                                Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
+                    }
+                    if (pv.getStandardDeviation() != null) {
+                        String stddev =
+                                DecimalFormat.getInstance().format(pv.getStandardDeviation()).replaceAll(",", "");
+                        pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
+                    }
+                }
+            }
+            cps.add(cp);
+        }
+        return cps;
     }
 
     public Prediction getPrediction() {

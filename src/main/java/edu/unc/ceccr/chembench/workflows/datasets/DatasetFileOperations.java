@@ -667,6 +667,10 @@ public class DatasetFileOperations {
 
     }
 
+    public static List<String> getXCompoundNames(Path fileLocation) throws IOException {
+        return getXCompoundNames(fileLocation.toString());
+    }
+
     public static List<String> getXCompoundNames(String fileLocation) throws IOException {
         List<String> x_compounds = Lists.newArrayList();
         File file = new File(fileLocation);
@@ -717,6 +721,10 @@ public class DatasetFileOperations {
             fin.close();
         }
         return act_compounds;
+    }
+
+    public static List<String> getSDFCompoundNames(Path sdfPath) throws IOException {
+        return getSDFCompoundNames(sdfPath.toString());
     }
 
     public static List<String> getSDFCompoundNames(String sdfPath) throws IOException {

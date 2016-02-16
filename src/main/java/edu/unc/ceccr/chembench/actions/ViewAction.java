@@ -17,6 +17,7 @@ public abstract class ViewAction extends ActionSupport {
     protected Session session;
     protected ActionContext context;
     protected User user = User.getCurrentUser();
+    protected String id;
     protected String objectId;
 
     public String checkBasicParams() {
@@ -27,14 +28,10 @@ public abstract class ViewAction extends ActionSupport {
                 return ERROR;
             }
 
-            if (context.getParameters().get("id") != null) {
-                objectId = ((String[]) context.getParameters().get("id"))[0];
-            } else {
-                logger.debug("No ID supplied.");
-                errorStrings.add("No ID supplied.");
-                return ERROR;
+            if (id != null) {
+                objectId = id;
             }
-            if (objectId.trim().isEmpty() || !objectId.matches("^\\d*$")) {
+            if (objectId == null || objectId.trim().isEmpty() || !objectId.matches("^\\d*$")) {
                 logger.debug("No ID supplied.");
                 errorStrings.add("No ID supplied.");
                 return ERROR;
@@ -56,8 +53,20 @@ public abstract class ViewAction extends ActionSupport {
         this.errorStrings = errorStrings;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getObjectId() {
         return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
     public void setObject(String objectId) {

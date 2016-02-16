@@ -5,25 +5,22 @@ import com.opensymphony.xwork2.ActionContext;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Compound;
 import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
+import edu.unc.ceccr.chembench.persistence.DatasetRepository;
 import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.visualization.ActivityHistogram;
 import edu.unc.ceccr.chembench.workflows.visualization.HeatmapAndPCA;
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-//struts2
 
-@SuppressWarnings("serial")
 public class ViewDataset extends ViewAction {
 
     private static final Logger logger = Logger.getLogger(ViewDataset.class.getName());
@@ -44,6 +41,12 @@ public class ViewDataset extends ViewAction {
     private String datasetTypeDisplay = "";
     private String webAddress = Constants.WEBADDRESS;
     private List<DescriptorGenerationResult> descriptorGenerationResults;
+    private final DatasetRepository datasetRepository;
+
+    @Autowired
+    public ViewDataset(DatasetRepository datasetRepository) {
+        this.datasetRepository = datasetRepository;
+    }
 
     public String loadCompoundsSection() throws Exception {
         //check that the user is logged in
@@ -71,17 +74,14 @@ public class ViewDataset extends ViewAction {
 
         //get dataset
         logger.debug("dataset id: " + objectId);
-        session = HibernateUtil.getSession();
-        dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+        dataset = datasetRepository.findOne(Long.parseLong(objectId));
         if (dataset == null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(dataset.getUserName()))) {
             logger.debug("No dataset was found in the DB with provided ID.");
             errorStrings.add("Invalid datset ID supplied.");
             result = ERROR;
-            session.close();
             return result;
         }
-
 
         //define which compounds will appear on page
         int pagenum, limit, offset;
@@ -171,7 +171,6 @@ public class ViewDataset extends ViewAction {
             pageNums.add(page);
             j++;
         }
-        session.close();
         return result;
     }
 
@@ -194,17 +193,14 @@ public class ViewDataset extends ViewAction {
         }
         //get dataset
         logger.debug("[ext_compounds] dataset id: " + objectId);
-        session = HibernateUtil.getSession();
-        dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+        dataset = datasetRepository.findOne(Long.parseLong(objectId));
         if (dataset == null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(dataset.getUserName()))) {
             logger.debug("No dataset was found in the DB with provided ID.");
             errorStrings.add("Invalid datset ID supplied.");
             result = ERROR;
-            session.close();
             return result;
         }
-        session.close();
 
         //load external compounds from file
         externalCompounds = Lists.newArrayList();
@@ -282,17 +278,14 @@ public class ViewDataset extends ViewAction {
         }
         //get dataset
         logger.debug("[ext_compounds] dataset id: " + objectId);
-        session = HibernateUtil.getSession();
-        dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+        dataset = datasetRepository.findOne(Long.parseLong(objectId));
         if (dataset == null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(dataset.getUserName()))) {
             logger.debug("No dataset was found in the DB with provided ID.");
             errorStrings.add("Invalid datset ID supplied.");
             result = ERROR;
-            session.close();
             return result;
         }
-        session.close();
         if (objectId == null) {
             logger.debug("Invalid dataset ID supplied.");
         }
@@ -361,17 +354,14 @@ public class ViewDataset extends ViewAction {
         }
 
         //get dataset
-        session = HibernateUtil.getSession();
-        dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+        dataset = datasetRepository.findOne(Long.parseLong(objectId));
         if (dataset == null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(dataset.getUserName()))) {
             logger.debug("No dataset was found in the DB with provided ID.");
             errorStrings.add("Invalid datset ID supplied.");
             result = ERROR;
-            session.close();
             return result;
         }
-        session.close();
         return result;
     }
 
@@ -384,17 +374,14 @@ public class ViewDataset extends ViewAction {
 
         //get dataset
         logger.debug("[ext_compounds] dataset id: " + objectId);
-        session = HibernateUtil.getSession();
-        dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+        dataset = datasetRepository.findOne(Long.parseLong(objectId));
         if (dataset == null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(dataset.getUserName()))) {
             logger.debug("No dataset was found in the DB with provided ID.");
             errorStrings.add("Invalid datset ID supplied.");
             result = ERROR;
-            session.close();
             return result;
         }
-        session.close();
         //create activity chart
         ActivityHistogram.createChart(objectId);
 
@@ -410,17 +397,14 @@ public class ViewDataset extends ViewAction {
 
         //get dataset
         logger.debug("[ext_compounds] dataset id: " + objectId);
-        session = HibernateUtil.getSession();
-        dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+        dataset = datasetRepository.findOne(Long.parseLong(objectId));
         if (dataset == null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(dataset.getUserName()))) {
             logger.debug("No dataset was found in the DB with provided ID.");
             errorStrings.add("Invalid datset ID supplied.");
             result = ERROR;
-            session.close();
             return result;
         }
-        session.close();
         descriptorGenerationResults = Lists.newArrayList();
         String descriptorsDir = Constants.CECCR_USER_BASE_PATH;
         descriptorsDir += dataset.getUserName() + "/";
@@ -588,21 +572,10 @@ public class ViewDataset extends ViewAction {
             datasetDescription = ((String[]) context.getParameters().get("datasetDescription"))[0];
             datasetReference = ((String[]) context.getParameters().get("datasetReference"))[0];
 
-            session = HibernateUtil.getSession();
-            dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
-
+            dataset = datasetRepository.findOne(Long.parseLong(objectId));
             dataset.setDescription(datasetDescription);
             dataset.setPaperReference(datasetReference);
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
-                session.saveOrUpdate(dataset);
-                tx.commit();
-            } catch (Exception ex) {
-                logger.error("", ex);
-            } finally {
-                session.close();
-            }
+            datasetRepository.save(dataset);
         }
         return load();
     }
@@ -618,24 +591,14 @@ public class ViewDataset extends ViewAction {
             datasetIdAsStringArray[0] = objectId;
             context.getParameters().put("id", datasetIdAsStringArray);
 
-            session = HibernateUtil.getSession();
-            dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+            dataset = datasetRepository.findOne(Long.parseLong(objectId));
             String vis_path = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/DATASETS/" + dataset.getName()
                     + "/Visualization/";
             logger.debug("MAHALANOBIS STARTED: " + vis_path);
             HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path, dataset.getSdfFile(), "mahalanobis");
             logger.debug("MAHALANOBIS DONE: " + dataset.getSdfFile());
             dataset.setHasVisualization(1);
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
-                session.saveOrUpdate(dataset);
-                tx.commit();
-            } catch (Exception ex) {
-                logger.error("", ex);
-            } finally {
-                session.close();
-            }
+            datasetRepository.save(dataset);
         }
         return load();
     }
@@ -646,19 +609,14 @@ public class ViewDataset extends ViewAction {
         if (!result.equals(SUCCESS)) {
             return result;
         }
-        session = HibernateUtil.getSession();
-        dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
-
-
+        dataset = datasetRepository.findOne(Long.parseLong(objectId));
         if (dataset == null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(dataset.getUserName()))) {
             logger.debug("No dataset was found in the DB with provided ID.");
             super.errorStrings.add("Invalid datset ID supplied.");
             result = ERROR;
-            session.close();
             return result;
         }
-
 
         if (context.getParameters().get("editable") != null && objectId != null) {
             if (user.getIsAdmin().equals(Constants.YES) || user.getUserName().equals(dataset.getUserName())) {
@@ -684,17 +642,7 @@ public class ViewDataset extends ViewAction {
         //the dataset has now been viewed. Update DB accordingly.
         if (!dataset.getHasBeenViewed().equals(Constants.YES)) {
             dataset.setHasBeenViewed(Constants.YES);
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
-                session.saveOrUpdate(dataset);
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error("", e);
-            }
+            datasetRepository.save(dataset);
         }
         if (dataset.getDatasetType().equals(Constants.MODELING) || dataset.getDatasetType()
                 .equals(Constants.MODELINGWITHDESCRIPTORS)) {
@@ -753,8 +701,6 @@ public class ViewDataset extends ViewAction {
 		String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/";
 		datasetDir += "DATASETS/" + dataset.getName() + "/";
 		*/
-
-        session.close();
 
         //log the results
         if (result.equals(SUCCESS)) {
