@@ -56,6 +56,9 @@ Vagrant.configure(2) do |config|
 
         sudo cp /vagrant/include/chembench_env.sh /etc/profile.d
         sudo ln -s /opt/chembench /CHEMBENCH
+
+        cd /vagrant
+        mvn clean
     SHELL
 end
 
