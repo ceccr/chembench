@@ -2,18 +2,24 @@ package edu.unc.ceccr.chembench.actions.ViewPredictor;
 
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.KnnPlusModel;
+import edu.unc.ceccr.chembench.persistence.KnnPlusModelRepository;
 import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
 public class KnnPlusModelsPage extends ViewPredictorAction {
 
     private static final Logger logger = Logger.getLogger(KnnPlusModelsPage.class.getName());
+    private final KnnPlusModelRepository knnPlusModelRepository;
     private List<KnnPlusModel> knnPlusModels;
+
+    @Autowired
+    public KnnPlusModelsPage(KnnPlusModelRepository knnPlusModelRepository) {
+        this.knnPlusModelRepository = knnPlusModelRepository;
+    }
 
     public String load() throws Exception {
         try {
@@ -106,10 +112,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
         String result = SUCCESS;
         try {
             knnPlusModels = Lists.newArrayList();
-            session = HibernateUtil.getSession();
-            List<KnnPlusModel> temp =
-                    PopulateDataObjects.getKnnPlusModelsByPredictorId(Long.parseLong(objectId), session);
-            session.close();
+            List<KnnPlusModel> temp = knnPlusModelRepository.findByPredictorId(Long.parseLong(objectId));
             if (temp != null) {
                 Iterator<KnnPlusModel> it = temp.iterator();
                 while (it.hasNext()) {
@@ -129,7 +132,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
         return result;
     }
 
-    @SuppressWarnings("unused")
     private String loadModelSets() {
         String result = SUCCESS;
         for (Predictor childPredictor : childPredictors) {

@@ -5,16 +5,12 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.persistence.User;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 
 import java.util.List;
 
 public abstract class ViewAction extends ActionSupport {
-
-
     private static final Logger logger = Logger.getLogger(ViewAction.class.getName());
     protected List<String> errorStrings = Lists.newArrayList();
-    protected Session session;
     protected ActionContext context;
     protected User user = User.getCurrentUser();
     protected String id;

@@ -3,7 +3,6 @@ package edu.unc.ceccr.chembench.actions.ViewPredictor;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,18 +10,15 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SvmModelsPage extends ViewPredictorAction {
-
-    /**
-     *
-     */
-
     private static final Logger logger = Logger.getLogger(SvmModelsPage.class.getName());
+    private final SvmModelRepository svmModelRepository;
     private final SvmParametersRepository svmParametersRepository;
     private List<SvmModel> svmModels;
     private SvmParameters svmParameters;
 
     @Autowired
-    public SvmModelsPage(SvmParametersRepository svmParametersRepository) {
+    public SvmModelsPage(SvmModelRepository svmModelRepository, SvmParametersRepository svmParametersRepository) {
+        this.svmModelRepository = svmModelRepository;
         this.svmParametersRepository = svmParametersRepository;
     }
 
@@ -37,9 +33,7 @@ public class SvmModelsPage extends ViewPredictorAction {
 
         // not all columns are relevant for all SVM types. allows us to select
         // only those needed
-        session = HibernateUtil.getSession();
         svmParameters = svmParametersRepository.findOne(selectedPredictor.getModelingParametersId());
-        session.close();
         if (childPredictors.size() == 0) {
             result = loadModels();
         } else {
@@ -62,9 +56,7 @@ public class SvmModelsPage extends ViewPredictorAction {
 
         try {
             svmModels = Lists.newArrayList();
-            session = HibernateUtil.getSession();
-            List<SvmModel> temp = PopulateDataObjects.getSvmModelsByPredictorId(Long.parseLong(objectId), session);
-            session.close();
+            List<SvmModel> temp = svmModelRepository.findByPredictorId(Long.parseLong(objectId));
             if (temp != null) {
                 Iterator<SvmModel> it = temp.iterator();
                 while (it.hasNext()) {
@@ -84,7 +76,6 @@ public class SvmModelsPage extends ViewPredictorAction {
         return result;
     }
 
-    @SuppressWarnings("unused")
     private String loadModelSets() {
         String result = SUCCESS;
         for (Predictor childPredictor : childPredictors) {

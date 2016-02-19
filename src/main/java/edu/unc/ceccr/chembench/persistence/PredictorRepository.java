@@ -18,4 +18,6 @@ public interface PredictorRepository extends BaseRepository<Predictor, Long> {
             + "and p.predictorType <> edu.unc.ceccr.chembench.global.Constants.HIDDEN "
             + "and p.name = :name and p.userName = :userName")
     Predictor findByNameAndUserName(@Param("name") String name, @Param("userName") String userName);
+
+    List<Predictor> findByParentId(Long parentId);
 }

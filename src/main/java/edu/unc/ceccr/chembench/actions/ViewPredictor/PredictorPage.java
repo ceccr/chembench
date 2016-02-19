@@ -1,25 +1,22 @@
 package edu.unc.ceccr.chembench.actions.ViewPredictor;
 
-// struts2
-
 import com.opensymphony.xwork2.ActionContext;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class PredictorPage extends ViewPredictorAction {
-
-    /**
-     *
-     */
-
     private static final Logger logger = Logger.getLogger(PredictorPage.class.getName());
-
+    private final PredictorRepository predictorRepository;
     private String predictorDescription = "";
     private String predictorReference = "";
     private String editable = "";
+
+    @Autowired
+    public PredictorPage(PredictorRepository predictorRepository) {
+        this.predictorRepository = predictorRepository;
+    }
 
     public String load() throws Exception {
         String result = getBasicParameters();
@@ -40,23 +37,8 @@ public class PredictorPage extends ViewPredictorAction {
         // the predictor has now been viewed. Update DB accordingly.
         if (!selectedPredictor.getHasBeenViewed().equals(Constants.YES)) {
             selectedPredictor.setHasBeenViewed(Constants.YES);
-            Transaction tx = null;
-            try {
-                session = HibernateUtil.getSession();
-                tx = session.beginTransaction();
-                session.saveOrUpdate(selectedPredictor);
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error("", e);
-            } finally {
-                session.close();
-            }
+            predictorRepository.save(selectedPredictor);
         }
-
-        // go to the page
         return result;
     }
 
@@ -72,22 +54,10 @@ public class PredictorPage extends ViewPredictorAction {
             context.getParameters().put("id", predictorIdAsStringArray);
             predictorDescription = ((String[]) context.getParameters().get("predictorDescription"))[0];
             predictorReference = ((String[]) context.getParameters().get("predictorReference"))[0];
-            session = HibernateUtil.getSession();
-            selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(objectId), session);
-            session.close();
+            predictorRepository.findOne(Long.parseLong(objectId));
             selectedPredictor.setDescription(predictorDescription);
             selectedPredictor.setPaperReference(predictorReference);
-            Transaction tx = null;
-            try {
-                session = HibernateUtil.getSession();
-                tx = session.beginTransaction();
-                session.saveOrUpdate(selectedPredictor);
-                tx.commit();
-            } catch (Exception ex) {
-                logger.error("", ex);
-            } finally {
-                session.close();
-            }
+            predictorRepository.save(selectedPredictor);
         }
         return load();
     }

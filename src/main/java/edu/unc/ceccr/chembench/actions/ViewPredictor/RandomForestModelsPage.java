@@ -2,25 +2,25 @@ package edu.unc.ceccr.chembench.actions.ViewPredictor;
 
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.persistence.RandomForestGrove;
-import edu.unc.ceccr.chembench.persistence.RandomForestTree;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.persistence.*;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
 public class RandomForestModelsPage extends ViewPredictorAction {
-
-    /**
-     *
-     */
-
     private static final Logger logger = Logger.getLogger(RandomForestModelsPage.class.getName());
-
+    private final RandomForestGroveRepository randomForestGroveRepository;
+    private final RandomForestTreeRepository randomForestTreeRepository;
     private List<RandomForestGrove> randomForestGroves;
     private List<RandomForestTree> randomForestTrees;
+
+    @Autowired
+    public RandomForestModelsPage(RandomForestGroveRepository randomForestGroveRepository,
+                                  RandomForestTreeRepository randomForestTreeRepository) {
+        this.randomForestGroveRepository = randomForestGroveRepository;
+        this.randomForestTreeRepository = randomForestTreeRepository;
+    }
 
     public String load() {
         String result = null;
@@ -105,7 +105,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
         } catch (Exception e) {
             logger.error("", e);
         }
-         return result;
+        return result;
     }
 
     public String loadGrovesPage() throws Exception {
@@ -124,11 +124,8 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 
     private String loadGroves() throws Exception {
         String result = SUCCESS;
-        session = HibernateUtil.getSession();
-        List<RandomForestGrove> rfGroves =
-                PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(objectId), session);
+        List<RandomForestGrove> rfGroves = randomForestGroveRepository.findByPredictorId(Long.parseLong(objectId));
         randomForestGroves = Lists.newArrayList();
-
         if (rfGroves != null) {
             for (RandomForestGrove rfg : rfGroves) {
                 if (isYRandomPage.equals(Constants.YES) && rfg.getIsYRandomModel().equals(Constants.YES)) {
@@ -138,22 +135,17 @@ public class RandomForestModelsPage extends ViewPredictorAction {
                 }
             }
         }
-        session.close();
         return result;
     }
 
     private String loadTrees() throws Exception {
         String result = SUCCESS;
         logger.debug("getting trees for " + objectId);
-        session = HibernateUtil.getSession();
-        List<RandomForestGrove> rfGroves =
-                PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(objectId), session);
-
+        List<RandomForestGrove> rfGroves = randomForestGroveRepository.findByPredictorId(Long.parseLong(objectId));
         randomForestTrees = Lists.newArrayList();
         if (rfGroves != null) {
             for (RandomForestGrove rfg : rfGroves) {
-                ArrayList<RandomForestTree> rfTrees = (ArrayList<RandomForestTree>) PopulateDataObjects
-                        .getRandomForestTreesByGroveId(rfg.getId(), session);
+                List<RandomForestTree> rfTrees = randomForestTreeRepository.findByRandomForestGroveId(rfg.getId());
                 if (isYRandomPage.equals(Constants.YES) && rfg.getIsYRandomModel().equals(Constants.YES)
                         && rfTrees != null) {
                     randomForestTrees.addAll(rfTrees);
@@ -163,11 +155,9 @@ public class RandomForestModelsPage extends ViewPredictorAction {
                 }
             }
         }
-        session.close();
         return result;
     }
 
-    @SuppressWarnings("unused")
     private String loadTreeSets() throws Exception {
         String result = SUCCESS;
         String parentPredictorId = objectId;

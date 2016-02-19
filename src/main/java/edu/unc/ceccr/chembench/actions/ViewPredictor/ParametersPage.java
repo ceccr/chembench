@@ -35,8 +35,6 @@ public class ParametersPage extends ViewPredictorAction {
             return result;
         }
 
-        session = HibernateUtil.getSession();
-
         if (selectedPredictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
             randomForestParameters =
                     randomForestParametersRepository.findOne(selectedPredictor.getModelingParametersId());
@@ -79,7 +77,6 @@ public class ParametersPage extends ViewPredictorAction {
                 }
             }
         }
-        session.close();
         return result;
     }
 
