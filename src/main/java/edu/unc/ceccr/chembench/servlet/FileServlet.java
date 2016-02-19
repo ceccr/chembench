@@ -1,26 +1,33 @@
 package edu.unc.ceccr.chembench.servlet;
 
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.Prediction;
-import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.persistence.User;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.workflows.download.WriteCsv;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 
-@SuppressWarnings("serial")
 public class FileServlet extends HttpServlet {
     //used to download individual files, e.g., a job result summary.
 
     private static final Logger logger = Logger.getLogger(FileServlet.class.getName());
+    @Autowired
+    private PredictorRepository predictorRepository;
+    @Autowired
+    private PredictionRepository predictionRepository;
+
+    public void init(ServletConfig servletConfig) throws ServletException {
+        super.init(servletConfig);
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, servletConfig.getServletContext());
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -36,7 +43,6 @@ public class FileServlet extends HttpServlet {
 
             String dirName = Constants.CECCR_USER_BASE_PATH;
             String fileName = "";
-            Session s = HibernateUtil.getSession();
             if (jobType.equalsIgnoreCase(Constants.DATASET)) {
                 //Dataset dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
                 dirName += user_mol + "/DATASETS/";
@@ -50,7 +56,7 @@ public class FileServlet extends HttpServlet {
                 }
 
             } else if (jobType.equalsIgnoreCase(Constants.MODELING)) {
-                Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
+                Predictor predictor = predictorRepository.findOne(Long.parseLong(id));
                 dirName += predictor.getUserName() + "/PREDICTORS/";
                 dirName += predictor.getName() + "/";
 
@@ -60,7 +66,7 @@ public class FileServlet extends HttpServlet {
                     fileName = predictor.getName() + "-external-set-predictions.csv";
                 }
             } else if (jobType.equalsIgnoreCase(Constants.PREDICTION)) {
-                Prediction prediction = PopulateDataObjects.getPredictionById(Long.parseLong(id), s);
+                Prediction prediction = predictionRepository.findOne(Long.parseLong(id));
                 dirName += prediction.getUserName() + "/PREDICTIONS/";
                 dirName += prediction.getName() + "/";
 
@@ -71,10 +77,8 @@ public class FileServlet extends HttpServlet {
                     }
                 }
             }
-            s.close();
 
             //Now we know what file to send the user. Send it!
-
             // Prepare streams
             File filePath = new File(dirName + fileName);
 
