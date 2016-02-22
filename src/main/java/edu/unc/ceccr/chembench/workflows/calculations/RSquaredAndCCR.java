@@ -4,22 +4,26 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.ExternalValidation;
+import edu.unc.ceccr.chembench.persistence.ExternalValidationRepository;
 import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+@Component
 public class RSquaredAndCCR {
 
     private static final Logger logger = Logger.getLogger(RSquaredAndCCR.class.getName());
+    private static PredictorRepository predictorRepository;
+    private static ExternalValidationRepository externalValidationRepository;
 
     public static List<Double> calculateResiduals(List<ExternalValidation> externalValidationList) {
         List<Double> residuals = Lists.newArrayList();
@@ -157,14 +161,14 @@ public class RSquaredAndCCR {
         return cm;
     }
 
-    public static void addRSquaredAndCCRToPredictor(Predictor selectedPredictor, Session session) {
+    public static void addRSquaredAndCCRToPredictor(Predictor selectedPredictor) {
         try {
             ConfusionMatrix confusionMatrix;
             String rSquared = "";
             String rSquaredAverageAndStddev = "";
             String ccrAverageAndStddev = "";
             List<ExternalValidation> externalValValues = null;
-            List<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(selectedPredictor, session);
+            List<Predictor> childPredictors = predictorRepository.findByParentId(selectedPredictor.getParentId());
 
             //get external validation compounds of predictor
             if (childPredictors.size() != 0) {
@@ -175,8 +179,7 @@ public class RSquaredAndCCR {
 
                 for (int i = 0; i < childPredictors.size(); i++) {
                     Predictor cp = childPredictors.get(i);
-                    List<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects
-                            .getExternalValidationValues(cp.getId(), session);
+                    List<ExternalValidation> childExtVals = externalValidationRepository.findByPredictorId(cp.getId());
 
                     //calculate r^2 / ccr for this child
                     if (childExtVals.size() > 0) {
@@ -216,8 +219,7 @@ public class RSquaredAndCCR {
                     selectedPredictor.setExternalPredictionAccuracyAvg(ccrAverageAndStddev);
                 }
             } else {
-                externalValValues = (ArrayList<ExternalValidation>) PopulateDataObjects
-                        .getExternalValidationValues(selectedPredictor.getId(), session);
+                externalValValues = externalValidationRepository.findByPredictorId(selectedPredictor.getId());
             }
 
             if (externalValValues == null || externalValValues.isEmpty()) {
@@ -259,5 +261,15 @@ public class RSquaredAndCCR {
         } catch (Exception ex) {
             logger.error("", ex);
         }
+    }
+
+    @Autowired
+    public void setPredictorRepository(PredictorRepository predictorRepository) {
+        RSquaredAndCCR.predictorRepository = predictorRepository;
+    }
+
+    @Autowired
+    public void setExternalValidationRepository(ExternalValidationRepository externalValidationRepository) {
+        RSquaredAndCCR.externalValidationRepository = externalValidationRepository;
     }
 }

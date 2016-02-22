@@ -571,8 +571,9 @@ public class QsarModelingTask extends WorkflowTask {
                 DataSplit.SplitTrainTestRandom(userName, jobName, numSplits, randomSplitMinTestSize,
                         randomSplitMaxTestSize, randomSplitSampleWithReplacement);
             } else if (trainTestSplitType.equals(Constants.SPHEREEXCLUSION)) {
-                DataSplit.SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax,
-                        sphereSplitMinTestSize, selectionNextTrainPt);
+                DataSplit
+                        .SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax,
+                                sphereSplitMinTestSize, selectionNextTrainPt);
             }
         }
 
@@ -861,7 +862,7 @@ public class QsarModelingTask extends WorkflowTask {
         }
 
         // calculate outputs based on ext set predictions and save
-        RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor, session);
+        RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor);
         try {
             tx = session.beginTransaction();
             session.saveOrUpdate(predictor);
@@ -901,7 +902,7 @@ public class QsarModelingTask extends WorkflowTask {
             predictor.setParentId(parentPredictor.getId());
 
             // calc r^2 etc for parent as well
-            RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor, session);
+            RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor);
 
             // save
             try {
