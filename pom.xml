@@ -251,9 +251,16 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                     <httpConnector>
                         <port>9090</port>
                     </httpConnector>
+                    <webAppConfig implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
+                        <sessionHandler implementation="org.eclipse.jetty.server.session.SessionHandler">
+                            <sessionManager implementation="org.eclipse.jetty.server.session.HashSessionManager">
+                                <storeDirectory>${project.basedir}/target/jetty-sessions</storeDirectory>
+                                <idleSavePeriod>1</idleSavePeriod>
+                            </sessionManager>
+                        </sessionHandler>
+                    </webAppConfig>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 </project>
-
