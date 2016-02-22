@@ -439,8 +439,7 @@ public class QsarModelingTask extends WorkflowTask {
                 tx.rollback();
             }
             logger.error("Runtime Exception encountered for job, " +
-                    jobName + " submitted by user, " + userName + ".\n" +
-                    e.toString());
+                    jobName + " submitted by user, " + userName + ".\n", e);
         }
 
         // set modeling params id in predictor
