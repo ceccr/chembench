@@ -40,4 +40,6 @@ public interface DatasetRepository extends BaseRepository<Dataset, Long> {
             + "and d.showByDefault <> edu.unc.ceccr.chembench.global.Constants.NO and d.modelType = edu.unc.ceccr"
             + ".chembench.global.Constants.CATEGORY")
     List<Dataset> findSomePublicCategoryDatasets();
+
+    Dataset findByNameAndUserName(String name, String userName);
 }

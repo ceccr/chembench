@@ -6,27 +6,41 @@ import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
 import edu.unc.ceccr.chembench.workflows.calculations.RSquaredAndCCR;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class AdminAction extends ActionSupport {
 
     private static final Logger logger = Logger.getLogger(AdminAction.class.getName());
+    private final UserRepository userRepository;
+    private final DatasetRepository datasetRepository;
+    private final PredictorRepository predictorRepository;
+    private final PredictionRepository predictionRepository;
+
+    private final PredictionValueRepository predictionValueRepository;
+    private final ExternalValidationRepository externalValidationRepository;
+
+    private final KnnPlusModelRepository knnPlusModelRepository;
+    private final SvmModelRepository svmModelRepository;
+    private final RandomForestGroveRepository randomForestGroveRepository;
+    private final RandomForestTreeRepository randomForestTreeRepository;
+
     private final RandomForestParametersRepository randomForestParametersRepository;
     private final SvmParametersRepository svmParametersRepository;
     private final KnnPlusParametersRepository knnPlusParametersRepository;
+
     User user = User.getCurrentUser();
     String buildDate;
     List<User> users;
@@ -37,9 +51,26 @@ public class AdminAction extends ActionSupport {
     private List<String> errorStrings = Lists.newArrayList();
 
     @Autowired
-    public AdminAction(RandomForestParametersRepository randomForestParametersRepository,
+    public AdminAction(UserRepository userRepository, DatasetRepository datasetRepository,
+                       PredictorRepository predictorRepository, PredictionRepository predictionRepository,
+                       PredictionValueRepository predictionValueRepository,
+                       ExternalValidationRepository externalValidationRepository,
+                       KnnPlusModelRepository knnPlusModelRepository, SvmModelRepository svmModelRepository,
+                       RandomForestGroveRepository randomForestGroveRepository,
+                       RandomForestTreeRepository randomForestTreeRepository,
+                       RandomForestParametersRepository randomForestParametersRepository,
                        SvmParametersRepository svmParametersRepository,
                        KnnPlusParametersRepository knnPlusParametersRepository) {
+        this.userRepository = userRepository;
+        this.datasetRepository = datasetRepository;
+        this.predictorRepository = predictorRepository;
+        this.predictionRepository = predictionRepository;
+        this.predictionValueRepository = predictionValueRepository;
+        this.externalValidationRepository = externalValidationRepository;
+        this.knnPlusModelRepository = knnPlusModelRepository;
+        this.svmModelRepository = svmModelRepository;
+        this.randomForestGroveRepository = randomForestGroveRepository;
+        this.randomForestTreeRepository = randomForestTreeRepository;
         this.randomForestParametersRepository = randomForestParametersRepository;
         this.svmParametersRepository = svmParametersRepository;
         this.knnPlusParametersRepository = knnPlusParametersRepository;
@@ -49,10 +80,8 @@ public class AdminAction extends ActionSupport {
         if (!user.getIsAdmin().equals(Constants.YES)) {
             return "forbidden";
         }
-        Session session = HibernateUtil.getSession();
         buildDate = Constants.BUILD_DATE;
-        users = PopulateDataObjects.getAllUsers(session);
-        session.close();
+        users = userRepository.findAll();
         return SUCCESS;
     }
 
@@ -86,9 +115,7 @@ public class AdminAction extends ActionSupport {
         if (!user.getIsAdmin().equals(Constants.YES)) {
             return "forbidden";
         }
-        Session s = HibernateUtil.getSession();
-        List<User> userList = PopulateDataObjects.getAllUsers(s);
-        s.close();
+        List<User> userList = userRepository.findAll();
 
         if (sendTo.equals("ALLUSERS") && !emailMessage.trim().isEmpty() && !emailSubject.trim().isEmpty()) {
             Iterator<User> it = userList.iterator();
@@ -108,36 +135,21 @@ public class AdminAction extends ActionSupport {
         }
         //get the current user and the username of the user to be altered
         ActionContext context = ActionContext.getContext();
-        String userToChange = ((String[]) context.getParameters().get("userToChange"))[0];
+        String userNameToChange = ((String[]) context.getParameters().get("userToChange"))[0];
 
-        Session s = HibernateUtil.getSession();
-        User toChange = null;
-        if (userToChange.equals(user.getUserName())) {
-            toChange = user;
+        User userToChange = null;
+        if (userNameToChange.equals(user.getUserName())) {
+            userToChange = user;
         } else {
-            toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
+            userToChange = userRepository.findByUserName(userNameToChange);
         }
 
-        if (toChange.getIsAdmin().equals(Constants.YES)) {
-            toChange.setIsAdmin(Constants.NO);
+        if (userToChange.getIsAdmin().equals(Constants.YES)) {
+            userToChange.setIsAdmin(Constants.NO);
         } else {
-            toChange.setIsAdmin(Constants.YES);
+            userToChange.setIsAdmin(Constants.YES);
         }
-
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
-            s.saveOrUpdate(toChange);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("", e);
-        } finally {
-            s.close();
-        }
-
+        userRepository.save(userToChange);
         return SUCCESS;
     }
 
@@ -147,36 +159,20 @@ public class AdminAction extends ActionSupport {
         }
         //get the current user and the username of the user to be altered
         ActionContext context = ActionContext.getContext();
-        String userToChange = ((String[]) context.getParameters().get("userToChange"))[0];
-
-        Session s = HibernateUtil.getSession();
-        User toChange = null;
-        if (userToChange.equals(user.getUserName())) {
-            toChange = user;
+        String userNameToChange = ((String[]) context.getParameters().get("userToChange"))[0];
+        User userToChange = null;
+        if (userNameToChange.equals(user.getUserName())) {
+            userToChange = user;
         } else {
-            toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
+            userToChange = userRepository.findByUserName(userNameToChange);
         }
 
-        if (toChange.getCanDownloadDescriptors().equals(Constants.YES)) {
-            toChange.setCanDownloadDescriptors(Constants.NO);
+        if (userToChange.getCanDownloadDescriptors().equals(Constants.YES)) {
+            userToChange.setCanDownloadDescriptors(Constants.NO);
         } else {
-            toChange.setCanDownloadDescriptors(Constants.YES);
+            userToChange.setCanDownloadDescriptors(Constants.YES);
         }
-
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
-            s.saveOrUpdate(toChange);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("", e);
-        } finally {
-            s.close();
-        }
-
+        userRepository.save(userToChange);
         return SUCCESS;
     }
 
@@ -199,8 +195,7 @@ public class AdminAction extends ActionSupport {
                 return ERROR;
             }
 
-            Session session = HibernateUtil.getSession();
-            Predictor predictor = PopulateDataObjects.getPredictorByName(predictorName, userName, session);
+            Predictor predictor = predictorRepository.findByNameAndUserName(predictorName, userName);
             if (predictor == null) {
                 String error;
                 if (userName.equals(Constants.ALL_USERS_USERNAME)) {
@@ -216,7 +211,6 @@ public class AdminAction extends ActionSupport {
             }
 
             (new DeleteAction()).deletePredictor(predictor);
-            session.close();
         } catch (Exception ex) {
             errorStrings.add(ex.getMessage());
             return ERROR;
@@ -248,8 +242,8 @@ public class AdminAction extends ActionSupport {
                 errorStrings.add("You can only delete public prediction here!");
                 return ERROR;
             }
-            Session session = HibernateUtil.getSession();
-            Prediction prediction = PopulateDataObjects.getPredictionById(Long.parseLong(predictionID), session);
+
+            Prediction prediction = predictionRepository.findOne(Long.parseLong(predictionID));
             if (prediction == null) {
                 errorStrings.add("No prediction with ID " + predictionID + " was found in the database!");
                 return ERROR;
@@ -264,40 +258,15 @@ public class AdminAction extends ActionSupport {
             }
 
             //delete the prediction values associated with the prediction
-            List<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects
-                    .getPredictionValuesByPredictionId(prediction.getId(), session);
-
+            List<PredictionValue> pvs = predictionValueRepository.findByPredictionId(prediction.getId());
             if (pvs != null) {
                 for (PredictionValue pv : pvs) {
-                    Transaction tx = null;
-                    try {
-                        tx = session.beginTransaction();
-                        session.delete(pv);
-                        tx.commit();
-                    } catch (RuntimeException e) {
-                        if (tx != null) {
-                            tx.rollback();
-                        }
-                        logger.error("", e);
-                    }
+                    predictionValueRepository.delete(pv);
                 }
             }
 
             //delete the database entry for the prediction
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
-                session.delete(prediction);
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error("", e);
-            }
-
-            session.close();
-
+            predictionRepository.delete(prediction);
         } catch (Exception ex) {
             errorStrings.add(ex.getMessage());
             return ERROR;
@@ -327,8 +296,7 @@ public class AdminAction extends ActionSupport {
                 return ERROR;
             }
 
-            Session session = HibernateUtil.getSession();
-            Dataset dataset = PopulateDataObjects.getDataSetByName(datasetName, userName, session);
+            Dataset dataset = datasetRepository.findByNameAndUserName(datasetName, userName);
             if (dataset == null) {
                 String error;
                 if (userName.equals(Constants.ALL_USERS_USERNAME)) {
@@ -362,19 +330,7 @@ public class AdminAction extends ActionSupport {
             }
 
             //delete the database entry for the dataset
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
-                session.delete(dataset);
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error("", e);
-                return ERROR;
-            }
-            session.close();
+            datasetRepository.delete(dataset);
 
         } catch (Exception ex) {
             errorStrings.add(ex.getMessage());
@@ -389,11 +345,10 @@ public class AdminAction extends ActionSupport {
         logger.debug("checking dataset dependencies");
 
         List<String> dependencies = Lists.newArrayList();
-        Session session = HibernateUtil.getSession();
-        List<Predictor> userPredictors =
-                (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName, true, false, session);
-        List<Prediction> userPredictions =
-                (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false, session);
+
+        List<Predictor> userPredictors = predictorRepository.findByUserName(userName);
+        userPredictors.addAll(predictorRepository.findPublicPredictors());
+        List<Prediction> userPredictions = predictionRepository.findByUserName(userName);
 
         //check each predictor
         for (int i = 0; i < userPredictors.size(); i++) {
@@ -439,8 +394,8 @@ public class AdminAction extends ActionSupport {
 
             logger.debug("++++++++++++++++++Predictor name:" + predictorName + " User name=" + userName);
 
-            Session session = HibernateUtil.getSession();
-            Predictor predictor = PopulateDataObjects.getPredictorByName(predictorName, userName, session);
+
+            Predictor predictor = predictorRepository.findByNameAndUserName(predictorName, userName);
             if (predictor == null) {
                 return ERROR;
             }
@@ -453,16 +408,15 @@ public class AdminAction extends ActionSupport {
             //prevent duplication of names
             //if(PopulateDataObjects.getPredictorByName(predictorName, Constants.ALL_USERS_USERNAME,
             // session)!=null) return SUCCESS;
-            if (PopulateDataObjects.getPredictorByName(predictorName, Constants.ALL_USERS_USERNAME, session) != null) {
+            if (predictorRepository.findByNameAndUserName(predictorName, Constants.ALL_USERS_USERNAME) != null) {
                 errorStrings.add("There has already been a public predictor with" + predictorName);
                 return ERROR;
             }
 
-            Dataset dataset = PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session);
+            Dataset dataset = datasetRepository.findOne(predictor.getDatasetId());
             if (dataset == null) {
                 return ERROR;
             }
-            session.close();
 
             //check if predictor is based on the public dataset
             boolean isDatasetPublic = false;
@@ -472,10 +426,9 @@ public class AdminAction extends ActionSupport {
             }
 
             //check if any other dataset with the same name is already public
-            session = HibernateUtil.getSession();
+
             Dataset checkPublicDataset =
-                    PopulateDataObjects.getDataSetByName(dataset.getName(), Constants.ALL_USERS_USERNAME, session);
-            session.close();
+                    datasetRepository.findByNameAndUserName(dataset.getName(), Constants.ALL_USERS_USERNAME);
             if (checkPublicDataset != null) {
                 isDatasetPublic = true;
                 dataset = checkPublicDataset;
@@ -504,13 +457,9 @@ public class AdminAction extends ActionSupport {
             if (!isDatasetPublic) {
                 //duplicating dataset record
                 logger.debug("------DB: Duplicating dataset record for dataset: " + dataset.getName());
-                session = HibernateUtil.getSession();
-                session.evict(dataset);
                 dataset.setId(null);
                 dataset.setUserName(Constants.ALL_USERS_USERNAME);
-                session.save(dataset);
-                session.flush();
-                session.close();
+                datasetRepository.save(dataset);
             }
 
 
@@ -518,142 +467,73 @@ public class AdminAction extends ActionSupport {
             Long newPredictorId = null;
             //duplicating predictor record
             logger.debug("------DB: Duplicating predictor record for predictor: " + predictor.getName());
-            session = HibernateUtil.getSession();
-            session.evict(predictor);
             predictor.setId(null);
             predictor.setUserName(Constants.ALL_USERS_USERNAME);
             predictor.setPredictorType(predictorType);
             predictor.setDatasetId(dataset.getId());
-            session.save(predictor);
-            session.flush();
+            predictorRepository.save(predictor);
             newPredictorId = predictor.getId();
-            session.close();
 
             //taking care of external validation table
             logger.debug("------//taking care of external validation table");
-            session = HibernateUtil.getSession();
-            List<ExternalValidation> extValidation =
-                    PopulateDataObjects.getExternalValidationValues(predictorId, session);
-            session.close();
-            for (ExternalValidation exVal : extValidation) {
-                session = HibernateUtil.getSession();
-                session.evict(exVal);
-                exVal.setExternalValId(-1);
-                exVal.setPredictorId(newPredictorId);
-                session.save(exVal);
-                session.close();
-            }
 
-            /*
-            //taking care of knnModel table
-            logger.debug("------//taking care of knnModel table");
-            session = HibernateUtil.getSession();
-            List<KnnModel> knnModels = PopulateDataObjects.getModelsByPredictorId(predictorId, session);
-            session.close();
-            for(KnnModel knnModel:knnModels){
-                session = HibernateUtil.getSession();
-                session.evict(knnModel);
-                knnModel.setId(null);
-                knnModel.setPredictorId(newPredictorId);
-                session.save(knnModel);
-                session.close();
+            List<ExternalValidation> extValidation = externalValidationRepository.findByPredictorId(predictorId);
+            for (ExternalValidation exVal : extValidation) {
+                exVal.setPredictorId(newPredictorId);
+                externalValidationRepository.save(exVal);
             }
-            */
 
             //taking care of knnPlusModel table
             logger.debug("------//taking care of knnPlusModel table");
-            session = HibernateUtil.getSession();
-            List<KnnPlusModel> knnPlusModels = PopulateDataObjects.getKnnPlusModelsByPredictorId(predictorId, session);
-            session.close();
+            List<KnnPlusModel> knnPlusModels = knnPlusModelRepository.findByPredictorId(predictorId);
             for (KnnPlusModel knnPlusModel : knnPlusModels) {
-                session = HibernateUtil.getSession();
-                session.evict(knnPlusModel);
-                knnPlusModel.setId(null);
                 knnPlusModel.setPredictorId(newPredictorId);
-                session.save(knnPlusModel);
-                session.close();
+                knnPlusModelRepository.save(knnPlusModel);
             }
 
             //taking care of SVM table
             logger.debug("------//taking care of SVM table");
-            session = HibernateUtil.getSession();
-            List<SvmModel> svmModels = PopulateDataObjects.getSvmModelsByPredictorId(predictorId, session);
-            session.close();
+            List<SvmModel> svmModels = svmModelRepository.findByPredictorId(predictorId);
             for (SvmModel svmModel : svmModels) {
-                session = HibernateUtil.getSession();
-                session.evict(svmModel);
-                svmModel.setId(null);
                 svmModel.setPredictorId(newPredictorId);
-                session.save(svmModel);
-                session.close();
+                svmModelRepository.save(svmModel);
             }
 
             //taking care of RandomForest table
             logger.debug("------//taking care of RandomForest table");
-            session = HibernateUtil.getSession();
-            List<RandomForestGrove> randomForests =
-                    PopulateDataObjects.getRandomForestGrovesByPredictorId(predictorId, session);
-            session.close();
-            for (RandomForestGrove randomForest : randomForests) {
-                session = HibernateUtil.getSession();
-                Long oldId = randomForest.getId();
-                session.evict(randomForest);
-                randomForest.setId(null);
-                randomForest.setPredictorId(newPredictorId);
-                session.save(randomForest);
-                session.flush();
-                List<RandomForestTree> trees = PopulateDataObjects.getRandomForestTreesByGroveId(oldId, session);
+            List<RandomForestGrove> groves = randomForestGroveRepository.findByPredictorId(predictorId);
+            for (RandomForestGrove grove : groves) {
+                Long oldGroveId = grove.getId();
+                grove.setPredictorId(newPredictorId);
+                randomForestGroveRepository.save(grove);
+                List<RandomForestTree> trees = randomForestTreeRepository.findByRandomForestGroveId(oldGroveId);
                 for (RandomForestTree tree : trees) {
-                    session.evict(tree);
-                    tree.setId(null);
-                    tree.setRandomForestGroveId(randomForest.getId());
-                    session.save(tree);
+                    tree.setRandomForestGroveId(grove.getId());
+                    randomForestTreeRepository.save(tree);
                 }
-                session.close();
             }
 
             //taking care of modeling parameters
             logger.debug("------//taking care of modeling parameters");
-            session = HibernateUtil.getSession();
-            Predictor oldPredictor = PopulateDataObjects.getPredictorById(predictorId, session);
 
+            Predictor oldPredictor = predictorRepository.findOne(predictorId);
             if (oldPredictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
                 logger.debug("------//RANDOMFOREST");
                 RandomForestParameters randomForestParameters =
                         randomForestParametersRepository.findOne(oldPredictor.getModelingParametersId());
-                session.evict(randomForestParameters);
-                randomForestParameters.setId(null);
-                session.save(randomForestParameters);
-                session.flush();
+                randomForestParametersRepository.save(randomForestParameters);
                 predictor.setModelingParametersId(randomForestParameters.getId());
             } else if (oldPredictor.getModelMethod().equals(Constants.KNNGA) || oldPredictor.getModelMethod()
                     .equals(Constants.KNNSA)) {
                 logger.debug("------//KNN+");
                 KnnPlusParameters knnPlusParameters =
                         knnPlusParametersRepository.findOne(oldPredictor.getModelingParametersId());
-                session.evict(knnPlusParameters);
-                knnPlusParameters.setId(null);
-                session.save(knnPlusParameters);
-                session.flush();
+                knnPlusParametersRepository.save(knnPlusParameters);
                 predictor.setModelingParametersId(knnPlusParameters.getId());
-            }
-            /*else if(oldPredictor.getModelMethod().equals(Constants.KNN)){
-                logger.debug("------//KNN");
-                KnnParameters params = PopulateDataObjects.getKnnParametersById(oldPredictor.getModelingParametersId
-                (),session);
-                session.evict(params);
-                params.setId(null);
-                session.save(params);
-                session.flush();
-                predictor.setModelingParametersId(params.getId());
-            }*/
-            else if (oldPredictor.getModelMethod().equals(Constants.SVM)) {
+            } else if (oldPredictor.getModelMethod().equals(Constants.SVM)) {
                 logger.debug("------//SVM");
                 SvmParameters svmParameters = svmParametersRepository.findOne(oldPredictor.getModelingParametersId());
-                session.evict(svmParameters);
-                svmParameters.setId(null);
-                session.save(svmParameters);
-                session.flush();
+                svmParametersRepository.save(svmParameters);
                 predictor.setModelingParametersId(svmParameters.getId());
             }
 
@@ -664,143 +544,72 @@ public class AdminAction extends ActionSupport {
             String newChildIds = null;
             if (predictor.getChildIds() != null) {
                 logger.debug("--------Child predictor IDs=" + predictor.getChildIds());
-                newChildIds = new String();
+                newChildIds = "";
                 predictorChildren = predictor.getChildIds().split("\\s+");
                 for (String id : predictorChildren) {
                     logger.debug("--------Child predictor ID=" + id + " longId=" + Long.parseLong(id));
-                    session = HibernateUtil.getSession();
-                    Predictor child = PopulateDataObjects.getPredictorById(Long.parseLong(id), session);
+                    Predictor child = predictorRepository.findOne(Long.parseLong(id));
                     if (child != null) {
-                        session.evict(child);
-                        child.setId(null);
                         child.setUserName(Constants.ALL_USERS_USERNAME);
                         child.setPredictorType("Hidden");
                         child.setDatasetId(dataset.getId());
                         child.setParentId(newPredictorId);
-                        session.save(child);
-                        session.flush();
+                        predictorRepository.save(child);
                         Long newId = child.getId();
                         newChildIds += newId.toString() + " ";
-                        session.close();
 
                         //taking care of external validation table
-                        session = HibernateUtil.getSession();
-                        extValidation = PopulateDataObjects.getExternalValidationValues(Long.parseLong(id), session);
-                        session.close();
+                        extValidation = externalValidationRepository.findByPredictorId(Long.parseLong(id));
                         for (ExternalValidation exVal : extValidation) {
-                            session = HibernateUtil.getSession();
-                            session.evict(exVal);
-                            exVal.setExternalValId(-1);
                             exVal.setPredictorId(newId);
-                            session.save(exVal);
-                            session.close();
+                            externalValidationRepository.save(exVal);
                         }
 
-                        session = HibernateUtil.getSession();
+
                         if (child.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
                             RandomForestParameters randomForestParameters =
                                     randomForestParametersRepository.findOne(child.getModelingParametersId());
-                            session.evict(randomForestParameters);
-                            randomForestParameters.setId(null);
-                            session.save(randomForestParameters);
-                            session.flush();
+                            randomForestParametersRepository.save(randomForestParameters);
                             child.setModelingParametersId(randomForestParameters.getId());
                         } else if (child.getModelMethod().equals(Constants.KNNGA) || child.getModelMethod()
                                 .equals(Constants.KNNSA)) {
                             KnnPlusParameters knnPlusParameters =
                                     knnPlusParametersRepository.findOne(child.getModelingParametersId());
-                            session.evict(knnPlusParameters);
-                            knnPlusParameters.setId(null);
-                            session.save(knnPlusParameters);
-                            session.flush();
+                            knnPlusParametersRepository.save(knnPlusParameters);
                             child.setModelingParametersId(knnPlusParameters.getId());
-                        }
-                            /*else if(child.getModelMethod().equals(Constants.KNN)){
-                                KnnParameters params = PopulateDataObjects.getKnnParametersById(child
-                                .getModelingParametersId(),session);
-                                session.evict(params);
-                                params.setId(null);
-                                session.save(params);
-                                session.flush();
-                                child.setModelingParametersId(params.getId());
-                            }*/
-                        else if (child.getModelMethod().equals(Constants.SVM)) {
+                        } else if (child.getModelMethod().equals(Constants.SVM)) {
                             SvmParameters svmParameters =
                                     svmParametersRepository.findOne(child.getModelingParametersId());
-                            session.evict(svmParameters);
-                            svmParameters.setId(null);
-                            session.save(svmParameters);
-                            session.flush();
+                            svmParametersRepository.save(svmParameters);
                             child.setModelingParametersId(svmParameters.getId());
                         }
-
-                        session.close();
                         //taking care of RandomForest table
                         logger.debug("------//taking care of RandomForest table");
-                        session = HibernateUtil.getSession();
-                        randomForests =
-                                PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(id), session);
-                        session.close();
-                        for (RandomForestGrove randomForest : randomForests) {
-                            session = HibernateUtil.getSession();
-                            Long oldId = randomForest.getId();
-                            session.evict(randomForest);
-                            randomForest.setId(null);
-                            randomForest.setPredictorId(newId);
-                            session.save(randomForest);
-                            session.flush();
-                            List<RandomForestTree> trees =
-                                    PopulateDataObjects.getRandomForestTreesByGroveId(oldId, session);
+
+                        groves = randomForestGroveRepository.findByPredictorId(Long.parseLong(id));
+                        for (RandomForestGrove grove : groves) {
+                            Long oldId = grove.getId();
+                            grove.setPredictorId(newId);
+                            randomForestGroveRepository.save(grove);
+                            List<RandomForestTree> trees = randomForestTreeRepository.findByRandomForestGroveId(oldId);
                             for (RandomForestTree tree : trees) {
-                                session.evict(tree);
-                                tree.setId(null);
-                                tree.setRandomForestGroveId(randomForest.getId());
-                                session.save(tree);
+                                tree.setRandomForestGroveId(grove.getId());
+                                randomForestTreeRepository.save(tree);
                             }
-                            session.close();
                         }
-                        session = HibernateUtil.getSession();
-                        Transaction tx = null;
-                        try {
-                            tx = session.beginTransaction();
-                            session.saveOrUpdate(child);
-                            tx.commit();
-                        } catch (RuntimeException e) {
-                            if (tx != null) {
-                                tx.rollback();
-                            }
-                            logger.error("", e);
-                        } finally {
-                            session.close();
-                        }
+                        predictorRepository.save(child);
                     }
                 }
-
             }
 
             //updating newly created predictor with new child ids
             predictor.setChildIds(newChildIds);
             logger.debug("--------New child predictor IDs=" + newChildIds);
-            session = HibernateUtil.getSession();
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
-                session.saveOrUpdate(predictor);
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error("", e);
-            } finally {
-                session.close();
-            }
-
+            predictorRepository.save(predictor);
         } catch (Exception ex) {
             logger.error("", ex);
             return ERROR;
         }
-
         return SUCCESS;
     }
 
@@ -819,8 +628,7 @@ public class AdminAction extends ActionSupport {
 
             logger.debug("++++++++++++++++++Dataset name:" + datasetName + " User name=" + userName);
 
-            Session session = HibernateUtil.getSession();
-            Dataset dataset = PopulateDataObjects.getDataSetByName(datasetName, userName, session);
+            Dataset dataset = datasetRepository.findByNameAndUserName(datasetName, userName);
             if (dataset == null) {
                 errorStrings.add("User " + userName + " does not have a dataset with Name " + datasetName);
                 return ERROR;
@@ -834,7 +642,7 @@ public class AdminAction extends ActionSupport {
             //prevent duplication of names
             //if(PopulateDataObjects.getDataSetByName(datasetName, Constants.ALL_USERS_USERNAME,
             // session)!=null) return SUCCESS;
-            if (PopulateDataObjects.getDataSetByName(datasetName, Constants.ALL_USERS_USERNAME, session) != null) {
+            if (datasetRepository.findByNameAndUserName(datasetName, Constants.ALL_USERS_USERNAME) != null) {
                 errorStrings.add("There has already been a public Dataset with the same name" + datasetName);
                 return ERROR;
             }
@@ -853,29 +661,8 @@ public class AdminAction extends ActionSupport {
 
             //duplicating dataset record
             logger.debug("------DB: Duplicating dataset record for dataset: " + dataset.getName());
-            session = HibernateUtil.getSession();
-            session.evict(dataset);
-            dataset.setId(null);
             dataset.setUserName(Constants.ALL_USERS_USERNAME);
-            session.save(dataset);
-            session.flush();
-            session.close();
-
-            session = HibernateUtil.getSession();
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
-                session.saveOrUpdate(dataset);
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error("", e);
-            } finally {
-                session.close();
-            }
-
+            datasetRepository.save(dataset);
         } catch (Exception ex) {
             logger.error("", ex);
             return ERROR;
@@ -889,31 +676,21 @@ public class AdminAction extends ActionSupport {
             return "forbidden";
         }
 
-        Session session = HibernateUtil.getSession();
-        Transaction tx = session.beginTransaction();
         logger.info("Starting regeneration of CCR for all category predictors");
         try {
-            for (User user : PopulateDataObjects.getUsers(session)) {
+            for (User user : userRepository.findAll()) {
                 logger.debug("Regenerating CCR for predictors owned by " + user.getUserName());
-                for (Predictor p : PopulateDataObjects.populatePredictors(user.getUserName(), false, true, session)) {
+                for (Predictor p : predictorRepository.findByUserName(user.getUserName())) {
                     if (p.getActivityType().equals(Constants.CATEGORY)) {
                         logger.debug("Regenerating predictor " + p.getName());
-                        RSquaredAndCCR.addRSquaredAndCCRToPredictor(p, session);
-                        session.save(p);
+                        RSquaredAndCCR.addRSquaredAndCCRToPredictor(p);
+                        predictorRepository.save(p);
                     }
                 }
             }
-            if (!tx.wasCommitted()) {
-                tx.commit();
-            }
         } catch (Exception e) {
-            if (tx != null) {
-                logger.warn("An error occurred during regeneration, rolling back: ", e);
-                tx.rollback();
-                return ERROR;
-            }
-        } finally {
-            session.close();
+            logger.warn("An error occurred during regeneration, rolling back: ", e);
+            return ERROR;
         }
         logger.info("CCR regeneration complete.");
         return SUCCESS;
