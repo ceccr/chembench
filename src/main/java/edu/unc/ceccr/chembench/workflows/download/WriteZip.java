@@ -3,16 +3,17 @@ package edu.unc.ceccr.chembench.workflows.download;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.Prediction;
+import edu.unc.ceccr.chembench.persistence.PredictionRepository;
 import edu.unc.ceccr.chembench.persistence.Predictor;
+import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.chembench.workflows.visualization.ExternalValidationChart;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,9 +24,12 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+@Component
 public class WriteZip {
 
     private static final Logger logger = Logger.getLogger(WriteZip.class.getName());
+    private static PredictorRepository predictorRepository;
+    private static PredictionRepository predictionRepository;
 
     public static void ZipEntireDirectory(String workingDir, String projectDir, String zipFile) throws Exception {
         //will be used for MML members - they can access all files on every project type
@@ -229,11 +233,8 @@ public class WriteZip {
         }
         String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
 
-
-        Session session = HibernateUtil.getSession();
-        Predictor predictor = PopulateDataObjects.getPredictorByName(jobName, predictorUserName, session);
-        List<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, session);
-        session.close();
+        Predictor predictor = predictorRepository.findByNameAndUserName(jobName, predictorUserName);
+        List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
 
         //get external predictions
         WriteCsv.writeExternalPredictionsAsCSV(predictor.getId());
@@ -418,10 +419,7 @@ public class WriteZip {
             return;
         }
         String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
-
-        Session session = HibernateUtil.getSession();
-        Prediction prediction = PopulateDataObjects.getPredictionByName(jobName, predictionUserName, session);
-        session.close();
+        Prediction prediction = predictionRepository.findByNameAndUserName(jobName, predictionUserName);
         if (!new File(prediction.getName() + "-prediction-values.csv").exists()) {
             WriteCsv.writePredictionValuesAsCSV(prediction.getId());
         }
@@ -519,4 +517,13 @@ public class WriteZip {
         out.close();
     }
 
+    @Autowired
+    public void setPredictorRepository(PredictorRepository predictorRepository) {
+        WriteZip.predictorRepository = predictorRepository;
+    }
+
+    @Autowired
+    public void setPredictionRepository(PredictionRepository predictionRepository) {
+        WriteZip.predictionRepository = predictionRepository;
+    }
 }

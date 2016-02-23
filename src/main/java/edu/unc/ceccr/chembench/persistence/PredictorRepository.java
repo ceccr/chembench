@@ -14,10 +14,7 @@ public interface PredictorRepository extends BaseRepository<Predictor, Long> {
             + "and p.userName = edu.unc.ceccr.chembench.global.Constants.ALL_USERS_USERNAME")
     List<Predictor> findPublicPredictors();
 
-    @Query("select p from Predictor p where p.jobCompleted = edu.unc.ceccr.chembench.global.Constants.YES "
-            + "and p.predictorType <> edu.unc.ceccr.chembench.global.Constants.HIDDEN "
-            + "and p.name = :name and p.userName = :userName")
-    Predictor findByNameAndUserName(@Param("name") String name, @Param("userName") String userName);
+    Predictor findByNameAndUserName(String name, String userName);
 
     List<Predictor> findByParentId(Long parentId);
 }

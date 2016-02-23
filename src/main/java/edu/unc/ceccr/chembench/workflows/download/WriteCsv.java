@@ -11,43 +11,44 @@ import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Component
 public class WriteCsv {
     //In most cases, the files generated during the running of a job are
     //of no use to humans. These functions generate downloadable results
     //files that give job results in a more readable form.
 
     private static final Logger logger = Logger.getLogger(WriteCsv.class.getName());
+    private static PredictorRepository predictorRepository;
+    private static ExternalValidationRepository externalValidationRepository;
 
     public static void writeExternalPredictionsAsCSV(Long predictorId) throws Exception {
-        Session s = HibernateUtil.getSession();
-        Predictor predictor = PopulateDataObjects.getPredictorById(predictorId, s);
+        Predictor predictor = predictorRepository.findOne(predictorId);
         List<ExternalValidation> externalValidationValues = Lists.newArrayList();
 
         String outfileName = Constants.CECCR_USER_BASE_PATH + predictor.getUserName() + "/PREDICTORS/" +
                 predictor.getName() + "/" + predictor.getName() + "-external-set-predictions.csv";
         BufferedWriter out = new BufferedWriter(new FileWriter(outfileName));
 
-        List<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, s);
+        List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
         if (childPredictors.isEmpty()) {
-            externalValidationValues = (ArrayList<ExternalValidation>) PopulateDataObjects
-                    .getExternalValidationValues(predictor.getId(), s);
+            externalValidationValues = externalValidationRepository.findByPredictorId(predictor.getId());
             for (ExternalValidation ev : externalValidationValues) {
                 ev.setNumTotalModels(predictor.getNumTestModels());
             }
         } else {
             for (Predictor cp : childPredictors) {
-                List<ExternalValidation> childExtVals =
-                        (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), s);
+                List<ExternalValidation> childExtVals = externalValidationRepository.findByPredictorId(cp.getId());
                 for (ExternalValidation ev : childExtVals) {
                     ev.setNumTotalModels(cp.getNumTestModels());
                     externalValidationValues.add(ev);
@@ -169,5 +170,15 @@ public class WriteCsv {
             logger.error("Failed to write prediction to CSV", e);
         }
         s.close();
+    }
+
+    @Autowired
+    public void setPredictorRepository(PredictorRepository predictorRepository) {
+        WriteCsv.predictorRepository = predictorRepository;
+    }
+
+    @Autowired
+    public void setExternalValidationRepository(ExternalValidationRepository externalValidationRepository) {
+        WriteCsv.externalValidationRepository = externalValidationRepository;
     }
 }
