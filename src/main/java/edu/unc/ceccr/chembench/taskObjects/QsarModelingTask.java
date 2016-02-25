@@ -7,16 +7,19 @@ import com.google.common.collect.Maps;
 import edu.unc.ceccr.chembench.actions.ModelingFormActions;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
-import edu.unc.ceccr.chembench.utilities.*;
+import edu.unc.ceccr.chembench.utilities.CopyJobFiles;
+import edu.unc.ceccr.chembench.utilities.CreateJobDirectories;
+import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
+import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.*;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,8 +31,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-// logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
+@Configurable(autowire = Autowire.BY_TYPE)
 public class QsarModelingTask extends WorkflowTask {
     private static final Logger logger = Logger.getLogger(QsarModelingTask.class.getName());
     // predicted external set values
@@ -86,6 +89,20 @@ public class QsarModelingTask extends WorkflowTask {
     private KnnParametersRepository knnParametersRepository;
     @Autowired
     private KnnPlusParametersRepository knnPlusParametersRepository;
+    @Autowired
+    private RandomForestGroveRepository randomForestGroveRepository;
+    @Autowired
+    private DatasetRepository datasetRepository;
+    @Autowired
+    private PredictorRepository predictorRepository;
+    @Autowired
+    private KnnPlusModelRepository knnPlusModelRepository;
+    @Autowired
+    private SvmModelRepository svmModelRepository;
+    @Autowired
+    private RandomForestTreeRepository randomForestTreeRepository;
+    @Autowired
+    private ExternalValidationRepository externalValidationRepository;
 
     public QsarModelingTask(Predictor predictor) throws Exception {
         logger.info("Recovering job, " + jobName + " from predictor: " + predictor.getName() + " submitted by user, "
@@ -93,9 +110,7 @@ public class QsarModelingTask extends WorkflowTask {
         this.predictor = predictor;
 
         // get dataset
-        datasetID = predictor.getDatasetId();
-        Session s = HibernateUtil.getSession();
-        dataset = PopulateDataObjects.getDataSetById(datasetID, s);
+        dataset = datasetRepository.findOne(predictor.getDatasetId());
         categoryWeights = predictor.getCategoryWeights();
         datasetName = dataset.getName();
         sdFileName = dataset.getSdfFile();
@@ -155,8 +170,6 @@ public class QsarModelingTask extends WorkflowTask {
         } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
             randomForestParameters = randomForestParametersRepository.findOne(predictor.getModelingParametersId());
         }
-        s.close();
-
         baseDir = Paths.get(Constants.CECCR_USER_BASE_PATH, userName, jobName);
     }
 
@@ -173,10 +186,7 @@ public class QsarModelingTask extends WorkflowTask {
 
         stdDevCutoff = ModelingForm.getStdDevCutoff();
         correlationCutoff = ModelingForm.getCorrelationCutoff();
-
-        Session session = HibernateUtil.getSession();
-        dataset = PopulateDataObjects.getDataSetById(ModelingForm.getSelectedDatasetId(), session);
-        session.close();
+        dataset = datasetRepository.findOne(ModelingForm.getSelectedDatasetId());
 
         this.userName = userName;
         jobName = ModelingForm.getJobName();
@@ -416,30 +426,17 @@ public class QsarModelingTask extends WorkflowTask {
         predictor.setSelectionNextTrainPt(selectionNextTrainPt);
 
         // save modeling params to database
-        Session session = HibernateUtil.getSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            if (knnParameters != null) {
-                session.saveOrUpdate(knnParameters);
-            }
-            if (svmParameters != null) {
-                session.saveOrUpdate(svmParameters);
-            }
-            if (knnPlusParameters != null) {
-                session.saveOrUpdate(knnPlusParameters);
-            }
-            if (randomForestParameters != null) {
-                session.saveOrUpdate(randomForestParameters);
-            }
-
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("Runtime Exception encountered for job, " +
-                    jobName + " submitted by user, " + userName + ".\n", e);
+        if (knnParameters != null) {
+            knnParametersRepository.save(knnParameters);
+        }
+        if (svmParameters != null) {
+            svmParametersRepository.save(svmParameters);
+        }
+        if (knnPlusParameters != null) {
+            knnPlusParametersRepository.save(knnPlusParameters);
+        }
+        if (randomForestParameters != null) {
+            randomForestParametersRepository.save(randomForestParameters);
         }
 
         // set modeling params id in predictor
@@ -452,21 +449,7 @@ public class QsarModelingTask extends WorkflowTask {
         }
 
         // save predictor to DB
-        try {
-            tx = session.beginTransaction();
-            session.saveOrUpdate(predictor);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("Runtime Exception encountered for job, " +
-                    jobName + " submitted by user, " + userName + ".\n" +
-                    e.toString());
-        } finally {
-            session.close();
-        }
-
+        predictorRepository.save(predictor);
         lookupId = predictor.getId();
         jobType = Constants.MODELING;
 
@@ -488,13 +471,8 @@ public class QsarModelingTask extends WorkflowTask {
         List<String> descriptorNames = Lists.newArrayList();
         List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
         List<String> chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
-
-        Session session = HibernateUtil.getSession();
-        Dataset dataset = PopulateDataObjects.getDataSetById(datasetID, session);
-        session.close();
-
+        Dataset dataset = datasetRepository.findOne(datasetID);
         String xFileName = "";
-
         // read in descriptors from the dataset
         step = Constants.PROCDESCRIPTORS;
         if (descriptorGenerationType.equals(Constants.MOLCONNZ)) {
@@ -703,9 +681,6 @@ public class QsarModelingTask extends WorkflowTask {
         // the next step is to read in the results from the modeling program,
         // getting data about the models and external prediction values so we
         // can save it to the database.
-        Session session = HibernateUtil.getSession();
-        Transaction tx = null;
-
         List<KnnPlusModel> knnPlusModels = Lists.newArrayList();
         List<SvmModel> svmModels = Lists.newArrayList();
         List<RandomForestTree> randomForestTrees = Lists.newArrayList();
@@ -749,7 +724,7 @@ public class QsarModelingTask extends WorkflowTask {
             for (Path dir : new Path[]{baseDir, yRandomDir}) {
                 ScikitRandomForestPrediction pred = RandomForest.readPrediction(dir);
                 RandomForestGrove grove = pred.getGrove(predictor, dir == yRandomDir);
-                grove.save();
+                randomForestGroveRepository.save(grove);
 
                 if (dir == baseDir) {
                     randomForestTrees.addAll(pred.getTrees(grove));
@@ -825,35 +800,21 @@ public class QsarModelingTask extends WorkflowTask {
         predictor.setJobCompleted(Constants.YES);
 
         // commit the predictor, models, and external set predictions
-        try {
-            tx = session.beginTransaction();
-            session.saveOrUpdate(predictor);
-
-            for (KnnPlusModel m : knnPlusModels) {
-                m.setPredictorId(predictor.getId());
-                session.saveOrUpdate(m);
-            }
-            for (SvmModel m : svmModels) {
-                m.setPredictorId(predictor.getId());
-                session.saveOrUpdate(m);
-            }
-            for (RandomForestTree t : randomForestTrees) {
-                session.saveOrUpdate(t);
-            }
-            for (RandomForestTree t : randomForestYRandomTrees) {
-                session.saveOrUpdate(t);
-            }
-            for (ExternalValidation ev : externalSetPredictions) {
-                session.saveOrUpdate(ev);
-            }
-            tx.commit();
-        } catch (RuntimeException e) {
-            logger.error("Runtime Exception encountered for job, " +
-                    jobName + " submitted by user, " + userName + ".\n" +
-                    e.toString());
-            if (tx != null) {
-                tx.rollback();
-            }
+        predictorRepository.save(predictor);
+        for (KnnPlusModel m : knnPlusModels) {
+            m.setPredictorId(predictor.getId());
+            knnPlusModelRepository.save(m);
+        }
+        for (SvmModel m : svmModels) {
+            m.setPredictorId(predictor.getId());
+            svmModelRepository.save(m);
+        }
+        randomForestTrees.addAll(randomForestYRandomTrees);
+        for (RandomForestTree t : randomForestTrees) {
+            randomForestTreeRepository.save(t);
+        }
+        for (ExternalValidation ev : externalSetPredictions) {
+            externalValidationRepository.save(ev);
         }
 
         // clean up dirs
@@ -863,27 +824,20 @@ public class QsarModelingTask extends WorkflowTask {
 
         // calculate outputs based on ext set predictions and save
         RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor);
-        try {
-            tx = session.beginTransaction();
-            session.saveOrUpdate(predictor);
-            tx.commit();
-        } catch (Exception ex) {
-            logger.error("Error while executing job, " + jobName + " submitted by " + userName + ".\n" + ex.toString());
-            tx.rollback();
-        }
+        predictorRepository.save(predictor);
 
         if (dataset.getSplitType().equals(Constants.NFOLD)) {
             // find parent predictor
             String parentPredictorName = jobName.substring(0, jobName.lastIndexOf("_fold"));
             Predictor parentPredictor =
-                    PopulateDataObjects.getPredictorByName(parentPredictorName, predictor.getUserName(), session);
+                    predictorRepository.findByNameAndUserName(parentPredictorName, predictor.getUserName());
             if (parentPredictor != null && parentPredictor.getJobCompleted() != null) {
                 // check if all its other children are completed.
                 String[] childIdArray = parentPredictor.getChildIds().split("\\s+");
                 int finishedChildPredictors = 0;
                 int numTotalModelsTotal = 0;
                 for (String childId : childIdArray) {
-                    Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId), session);
+                    Predictor childPredictor = predictorRepository.findOne(Long.parseLong(childId));
                     if (childPredictor.getJobCompleted().equals(Constants.YES)) {
                         numTotalModelsTotal += childPredictor.getNumTotalModels();
                         finishedChildPredictors++;
@@ -905,21 +859,12 @@ public class QsarModelingTask extends WorkflowTask {
             RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor);
 
             // save
-            try {
-                tx = session.beginTransaction();
-                session.saveOrUpdate(parentPredictor);
-                session.saveOrUpdate(predictor);
-                tx.commit();
-            } catch (Exception ex) {
-                logger.error(
-                        "Error while executing job, " + jobName + " submitted by " + userName + ".\n" + ex.toString());
-            }
-
+            predictorRepository.save(parentPredictor);
+            predictorRepository.save(predictor);
             ModelingUtilities.MoveToPredictorsDir(userName, jobName, parentPredictorName);
         } else {
             ModelingUtilities.MoveToPredictorsDir(userName, jobName, "");
         }
-        session.close();
         logger.info("Finished post-processing for " + jobName);
     }
 

@@ -3,12 +3,8 @@ package edu.unc.ceccr.chembench.workflows.download;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.Prediction;
-import edu.unc.ceccr.chembench.persistence.PredictionRepository;
-import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.persistence.PredictorRepository;
+import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.chembench.workflows.visualization.ExternalValidationChart;
 import org.apache.log4j.Logger;
@@ -30,6 +26,7 @@ public class WriteZip {
     private static final Logger logger = Logger.getLogger(WriteZip.class.getName());
     private static PredictorRepository predictorRepository;
     private static PredictionRepository predictionRepository;
+    private static UserRepository userRepository;
 
     public static void ZipEntireDirectory(String workingDir, String projectDir, String zipFile) throws Exception {
         //will be used for MML members - they can access all files on every project type
@@ -91,8 +88,8 @@ public class WriteZip {
             return;
         }
         String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
-
-        if (Utility.canDownloadDescriptors(userName)) {
+        User user = userRepository.findByUserName(userName);
+        if (user.getCanDownloadDescriptors().equals(Constants.YES)) {
             //this is a special user - just give them the whole damn directory
             String workingDir = Constants.CECCR_USER_BASE_PATH + datasetUserName + "/DATASETS/";
             String subDir = datasetName + "/";
@@ -238,8 +235,8 @@ public class WriteZip {
 
         //get external predictions
         WriteCsv.writeExternalPredictionsAsCSV(predictor.getId());
-
-        if (Utility.canDownloadDescriptors(userName)) {
+        User user = userRepository.findByUserName(userName);
+        if (user.getCanDownloadDescriptors().equals(Constants.YES)) {
             //this is a special user - just give them the whole damn directory
             String workingDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/PREDICTORS/";
             String subDir = jobName + "/";
@@ -423,8 +420,8 @@ public class WriteZip {
         if (!new File(prediction.getName() + "-prediction-values.csv").exists()) {
             WriteCsv.writePredictionValuesAsCSV(prediction.getId());
         }
-
-        if (Utility.canDownloadDescriptors(userName)) {
+        User user = userRepository.findByUserName(userName);
+        if (user.getCanDownloadDescriptors().equals(Constants.YES)) {
             //this is a special user - just give them the whole damn directory
             String workingDir = Constants.CECCR_USER_BASE_PATH + predictionUserName + "/PREDICTIONS/";
             String subDir = jobName + "/";
@@ -525,5 +522,10 @@ public class WriteZip {
     @Autowired
     public void setPredictionRepository(PredictionRepository predictionRepository) {
         WriteZip.predictionRepository = predictionRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        WriteZip.userRepository = userRepository;
     }
 }

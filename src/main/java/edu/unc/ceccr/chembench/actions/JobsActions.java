@@ -10,7 +10,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
-import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -54,7 +53,7 @@ public class JobsActions extends ActionSupport {
     }
 
     public String execute() throws Exception {
-        adminUser = Utility.isAdmin(user.getUserName());
+        adminUser = user.getIsAdmin().equals(Constants.YES);
 
         // get datasets
         userDatasets = datasetRepository.findByUserName(user.getUserName());

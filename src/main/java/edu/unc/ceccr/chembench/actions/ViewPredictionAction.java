@@ -1,25 +1,24 @@
 package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.Utility;
-import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class ViewPredictionAction extends ViewAction {
     private static final Logger logger = Logger.getLogger(ViewPredictionAction.class.getName());
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;
-    private final PredictionValueRepository predictionValueRepository;
+    private final CompoundPredictionsRepository compoundPredictionsRepository;
     List<CompoundPredictions> compoundPredictionValues = Lists.newArrayList();
     private Prediction prediction;
     private List<Predictor> predictors; //put these in order by predictorId
@@ -33,11 +32,12 @@ public class ViewPredictionAction extends ViewAction {
     @Autowired
     public ViewPredictionAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
                                 PredictionRepository predictionRepository,
-                                PredictionValueRepository predictionValueRepository) {
+                                @Qualifier("compoundPredictionsRepositoryImpl") CompoundPredictionsRepository
+                                            compoundPredictionsRepository) {
         this.datasetRepository = datasetRepository;
         this.predictorRepository = predictorRepository;
         this.predictionRepository = predictionRepository;
-        this.predictionValueRepository = predictionValueRepository;
+        this.compoundPredictionsRepository = compoundPredictionsRepository;
     }
 
     public String loadPredictionsSection() throws Exception {
@@ -112,7 +112,8 @@ public class ViewPredictionAction extends ViewAction {
         }
 
         //get prediction values
-        compoundPredictionValues = findCompoundPredictions(dataset, prediction);
+        compoundPredictionValues =
+                compoundPredictionsRepository.findByDatasetIdAndPredictionId(dataset.getId(), prediction.getId());
 
         //sort the compoundPrediction array
         logger.debug("Sorting compound predictions");
@@ -133,13 +134,6 @@ public class ViewPredictionAction extends ViewAction {
                     logger.debug(pv.getZScore());
                 }
             }
-            /*
-            Collections.sort(compoundPredictionValues, new Comparator<CompoundPredictions>() {
-                public int compare(CompoundPredictions o1, CompoundPredictions o2) {
-                    return Utility.naturalSortCompare(o1.getZScore(), o2.getZScore());
-                }
-            });
-            */
         } else {
             //check if orderBy equals one of the predictor names,
             //and order by those values if so.
@@ -291,68 +285,6 @@ public class ViewPredictionAction extends ViewAction {
         }
 
         return result;
-    }
-
-    private List<CompoundPredictions> findCompoundPredictions(Dataset dataset, Prediction prediction)
-            throws IOException {
-        Path datasetPath = dataset.getDirectoryPath();
-        List<String> compounds = null;
-
-        if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
-            compounds = DatasetFileOperations.getXCompoundNames(datasetPath.resolve(dataset.getXFile()));
-            logger.info("" + compounds.size() + " compounds found in X file.");
-        } else {
-            compounds = DatasetFileOperations.getSDFCompoundNames(datasetPath.resolve(dataset.getSdfFile()));
-            logger.info("" + compounds.size() + " compounds found in SDF.");
-        }
-        List<PredictionValue> predictorPredictionValues =
-                predictionValueRepository.findByPredictionId(prediction.getId());
-
-        Collections.sort(predictorPredictionValues, new Comparator<PredictionValue>() {
-            public int compare(PredictionValue p1, PredictionValue p2) {
-                return p1.getPredictorId().compareTo(p2.getPredictorId());
-            }
-        });
-
-        Map<String, List<PredictionValue>> predictionValueMap = Maps.newHashMap();
-        for (PredictionValue pv : predictorPredictionValues) {
-            List<PredictionValue> compoundPredValues = predictionValueMap.get(pv.getCompoundName());
-            if (compoundPredValues == null) {
-                compoundPredValues = Lists.newArrayList();
-            }
-            compoundPredValues.add(pv);
-            predictionValueMap.put(pv.getCompoundName(), compoundPredValues);
-        }
-
-        // get prediction values for each compound
-        List<CompoundPredictions> cps = Lists.newArrayList();
-        for (String compound : compounds) {
-            CompoundPredictions cp = new CompoundPredictions();
-            cp.setCompound(compound);
-
-            // get the prediction values for this compound
-            cp.setPredictionValues(predictionValueMap.get(cp.getCompound()));
-
-            // round them to a reasonable number of significant figures
-            if (cp.getPredictionValues() != null) {
-                for (PredictionValue pv : cp.getPredictionValues()) {
-                    int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
-                    if (pv.getPredictedValue() != null) {
-                        String predictedValue =
-                                DecimalFormat.getInstance().format(pv.getPredictedValue()).replaceAll(",", "");
-                        pv.setPredictedValue(
-                                Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
-                    }
-                    if (pv.getStandardDeviation() != null) {
-                        String stddev =
-                                DecimalFormat.getInstance().format(pv.getStandardDeviation()).replaceAll(",", "");
-                        pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
-                    }
-                }
-            }
-            cps.add(cp);
-        }
-        return cps;
     }
 
     public Prediction getPrediction() {

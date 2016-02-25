@@ -3,29 +3,33 @@ package edu.unc.ceccr.chembench.taskObjects;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
-import edu.unc.ceccr.chembench.utilities.*;
+import edu.unc.ceccr.chembench.utilities.CopyJobFiles;
+import edu.unc.ceccr.chembench.utilities.CreateJobDirectories;
+import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
+import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.workflows.descriptors.ConvertDescriptorsToXAndScale;
 import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.chembench.workflows.download.WriteCsv;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.*;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.*;
 
-
+@Configurable(autowire = Autowire.BY_TYPE)
 public class QsarPredictionTask extends WorkflowTask {
 
     private static final Logger logger = Logger.getLogger(QsarPredictionTask.class.getName());
     // for internal use only
     List<Predictor> selectedPredictors = null;
+    private boolean wasRecovered = false;
     private String filePath;
     private String jobName;
     private String sdf;
@@ -33,20 +37,19 @@ public class QsarPredictionTask extends WorkflowTask {
     private String userName;
     private String selectedPredictorIds;
     private Dataset predictionDataset;
-    private String step = Constants.SETUP;        // stores
-    // what
-    // step
-    // we're
-    // on
-    private int allPredsTotalModels = -1;                     // used
-    // by
-    // getProgress
-    // function
-    private List<String> selectedPredictorNames = Lists.newArrayList(); // used
-    // by
-    // getProgress
-    // function
+    private String step = Constants.SETUP; // stores what step we're on
+    private int allPredsTotalModels = -1; // used by getProgress function
+    private List<String> selectedPredictorNames = Lists.newArrayList(); // used by getProgress function
     private Prediction prediction;
+
+    @Autowired
+    private DatasetRepository datasetRepository;
+    @Autowired
+    private PredictorRepository predictorRepository;
+    @Autowired
+    private PredictionRepository predictionRepository;
+    @Autowired
+    private PredictionValueRepository predictionValueRepository;
 
     public QsarPredictionTask(String userName, String jobName, String sdf, String cutoff, String selectedPredictorIds,
                               Dataset predictionDataset) throws Exception {
@@ -57,59 +60,33 @@ public class QsarPredictionTask extends WorkflowTask {
         this.cutoff = cutoff;
         this.selectedPredictorIds = selectedPredictorIds;
         this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-        prediction = new Prediction();
-
-        Session s = HibernateUtil.getSession();
-
-        selectedPredictors = Lists.newArrayList();
-        String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
-
-        for (int i = 0; i < selectedPredictorIdArray.length; i++) {
-            Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
-            selectedPredictors.add(p);
-        }
-        Collections.sort(selectedPredictors, new Comparator<Predictor>() {
-            public int compare(Predictor p1, Predictor p2) {
-                return p1.getId().compareTo(p2.getId());
-            }
-        });
-
-        s.close();
+        prediction = null;
     }
 
     public QsarPredictionTask(Prediction prediction) throws Exception {
         // used when job is recovered on server restart
-
+        wasRecovered = true;
         this.prediction = prediction;
-        Long datasetId = prediction.getDatasetId();
-        try {
-            Session session = HibernateUtil.getSession();
-            this.predictionDataset = PopulateDataObjects.getDataSetById(datasetId, session);
-        } catch (Exception ex) {
-            logger.error("User: " + userName + "Job: " + jobName + " " + ex);
-        }
         this.jobName = prediction.getName();
         this.userName = prediction.getUserName();
-        if (predictionDataset.getSdfFile() != null) {
-            this.sdf = predictionDataset.getSdfFile();
-        }
         this.cutoff = "" + prediction.getSimilarityCutoff().toString();
         this.selectedPredictorIds = prediction.getPredictorIds();
         this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+    }
 
-        Session s = HibernateUtil.getSession();
-
+    @PostConstruct
+    public void init() {
         selectedPredictors = Lists.newArrayList();
         String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
 
-        // load list of predictors. Remove any predictors that have already
-        // completed their predictions.
-        for (int i = 0; i < selectedPredictorIdArray.length; i++) {
-            Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
-
-            PredictionValue pvalue = PopulateDataObjects
-                    .getFirstPredictionValueByPredictionIdAndPredictorId(prediction.getId(), p.getId(), s);
-            if (pvalue == null) {
+        for (String selectedPredictorId : selectedPredictorIdArray) {
+            Predictor p = predictorRepository.findOne(Long.parseLong(selectedPredictorId));
+            if (wasRecovered) {
+                long count = predictionValueRepository.countByPredictionIdAndPredictorId(prediction.getId(), p.getId());
+                if (count > 0) {
+                    selectedPredictors.add(p);
+                }
+            } else {
                 selectedPredictors.add(p);
             }
         }
@@ -119,28 +96,12 @@ public class QsarPredictionTask extends WorkflowTask {
             }
         });
 
-        s.close();
-    }
-
-    protected static Predictor getPredictor(Long selectedPredictorId) throws ClassNotFoundException, SQLException {
-
-        Predictor pred = null;
-        Session session = HibernateUtil.getSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            pred = (Predictor) session.createCriteria(Predictor.class)
-                    .add(Restrictions.eq("predictorId", selectedPredictorId)).uniqueResult();
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
+        if (wasRecovered) {
+            this.predictionDataset = datasetRepository.findOne(prediction.getDatasetId());
+            if (predictionDataset.getSdfFile() != null) {
+                this.sdf = predictionDataset.getSdfFile();
             }
-            logger.error("", e);
-        } finally {
-            session.close();
         }
-        return pred;
     }
 
     private static PredictionValue createPredObject(String[] extValues) {
@@ -211,19 +172,18 @@ public class QsarPredictionTask extends WorkflowTask {
                     // we haven't read the needed predictor data yet
                     // get the number of models in all predictors, and their
                     // names
-                    Session s = HibernateUtil.getSession();
                     allPredsTotalModels = 0;
                     String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
                     List<String> selectedPredictorIds = Lists.newArrayList(Arrays.asList(selectedPredictorIdArray));
                     Collections.sort(selectedPredictorIds);
                     for (int i = 0; i < selectedPredictorIds.size(); i++) {
                         Predictor sp =
-                                PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIds.get(i)), s);
+                                predictorRepository.findOne(Long.parseLong(selectedPredictorIds.get(i)));
 
                         if (sp.getChildType() != null && sp.getChildType().equals(Constants.NFOLD)) {
                             String[] childIds = sp.getChildIds().split("\\s+");
                             for (String childId : childIds) {
-                                Predictor cp = PopulateDataObjects.getPredictorById(Long.parseLong(childId), s);
+                                Predictor cp = predictorRepository.findOne(Long.parseLong(childId));
                                 allPredsTotalModels += cp.getNumTestModels();
                                 selectedPredictorNames.add(sp.getName() + "/" + cp.getName());
                             }
@@ -233,8 +193,6 @@ public class QsarPredictionTask extends WorkflowTask {
 
                         selectedPredictorNames.add(sp.getName());
                     }
-
-                    s.close();
                 }
 
                 float modelsPredictedSoFar = 0;
@@ -308,22 +266,7 @@ public class QsarPredictionTask extends WorkflowTask {
         prediction.setDatasetId(predictionDataset.getId());
         prediction.setHasBeenViewed(Constants.NO);
         prediction.setJobCompleted(Constants.NO);
-
-        Session session = HibernateUtil.getSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
-            session.saveOrUpdate(prediction);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("User: " + userName + "Job: " + jobName + " " + e);
-        } finally {
-            session.close();
-        }
-
+        predictionRepository.save(prediction);
         lookupId = prediction.getId();
         jobType = Constants.PREDICTION;
 
@@ -367,29 +310,12 @@ public class QsarPredictionTask extends WorkflowTask {
     }
 
     public void preProcess() throws Exception {
-
-        Session s = HibernateUtil.getSession();
-
         for (int i = 0; i < selectedPredictors.size(); i++) {
+            // We're keeping a count of how many times each predictor was used.
+            // So, increment number of times used on each and save each predictor object.
             Predictor selectedPredictor = selectedPredictors.get(i);
-
-            // We're keeping a count of how many times each predictor was
-            // used.
-            // So, increment number of times used on each and save each
-            // predictor object.
-
             selectedPredictor.setNumPredictions(selectedPredictor.getNumPredictions() + 1);
-            Transaction tx = null;
-            try {
-                tx = s.beginTransaction();
-                s.saveOrUpdate(selectedPredictor);
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error("User: " + userName + "Job: " + jobName + " " + e);
-            }
+            predictorRepository.save(selectedPredictor);
         }
 
         // Now, make the prediction with each predictor.
@@ -416,14 +342,10 @@ public class QsarPredictionTask extends WorkflowTask {
 
         List<PredictionValue> predValues = Lists.newArrayList();
         String predictionDir = basePath + predictor.getName() + "/";
-
-        Session s = HibernateUtil.getSession();
-        List<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, s);
-        s.close();
+        List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
 
         if (childPredictors.size() > 0) {
-            // recurse. Call this function for each childPredictor (if there
-            // are any).
+            // recurse. Call this function for each childPredictor (if there are any).
             List<List<PredictionValue>> childResults = Lists.newArrayList();
             for (Predictor childPredictor : childPredictors) {
                 List<PredictionValue> results = makePredictions(childPredictor, sdfile, predictionDir, datasetPath);
@@ -462,28 +384,15 @@ public class QsarPredictionTask extends WorkflowTask {
                     }
                 }
                 if (!Double.isNaN(compoundPredictedValues.getMean())) {
-                    predValues.get(i).setPredictedValue(new Float(compoundPredictedValues.getMean()));
-                    predValues.get(i).setStandardDeviation(new Float(compoundPredictedValues.getStandardDeviation()));
+                    predValues.get(i).setPredictedValue((float) compoundPredictedValues.getMean());
+                    predValues.get(i).setStandardDeviation((float) compoundPredictedValues.getStandardDeviation());
                 }
             }
 
             // commit predValues to DB
-            s = HibernateUtil.getSession();
-            Transaction tx = null;
-            try {
-                tx = s.beginTransaction();
-                for (PredictionValue pv : predValues) {
-                    pv.setPredictionId(prediction.getId());
-                    s.saveOrUpdate(pv);
-                }
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error("User: " + userName + "Job: " + jobName + " " + e);
-            } finally {
-                s.close();
+            for (PredictionValue pv : predValues) {
+                pv.setPredictionId(prediction.getId());
+                predictionValueRepository.save(pv);
             }
             return predValues;
         } else {
@@ -530,7 +439,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
             step = Constants.PREDICTING;
             logger.debug("User: " + userName + "Job: " + jobName + " ExecutePredictor: Making predictions");
-            Path predictorDir = predictor.getDirectoryPath();
+            Path predictorDir = predictor.getDirectoryPath(predictorRepository);
             ScikitRandomForestPrediction scikitPred = new ScikitRandomForestPrediction();
             if (predictor.getModelMethod().equals(Constants.KNN)) {
                 KnnPrediction.runKnnPlusPredictionForKnnPredictors(userName, jobName, predictionDir, sdfile);
@@ -616,23 +525,9 @@ public class QsarPredictionTask extends WorkflowTask {
                 logger.error("User: " + userName + "Job: " + jobName + " " + e);
             }
 
-
-            s = HibernateUtil.getSession();
-            Transaction tx = null;
-            try {
-                tx = s.beginTransaction();
-                for (PredictionValue pv : predValues) {
-                    pv.setPredictionId(prediction.getId());
-                    s.saveOrUpdate(pv);
-                }
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error("User: " + userName + "Job: " + jobName + " " + e);
-            } finally {
-                s.close();
+            for (PredictionValue pv : predValues) {
+                pv.setPredictionId(prediction.getId());
+                predictionValueRepository.save(pv);
             }
 
             // done with 5. (get output, put it into predictionValue objects
@@ -697,33 +592,13 @@ public class QsarPredictionTask extends WorkflowTask {
         }
 
         PredictionUtilities.MoveToPredictionsDir(userName, jobName);
-
-        try {
-
-            prediction.setJobCompleted(Constants.YES);
-            prediction.setComputeZscore(Constants.YES);
-            prediction.setStatus("saved");
-
-            Session session = HibernateUtil.getSession();
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
-                session.saveOrUpdate(prediction);
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error("User: " + userName + "Job: " + jobName + " " + e);
-            }
-
-            File dir = new File(Constants.CECCR_USER_BASE_PATH + this.userName + "/" + this.jobName + "/");
-            FileAndDirOperations.deleteDir(dir);
-            WriteCsv.writePredictionValuesAsCSV(prediction.getId());
-
-        } catch (Exception ex) {
-            logger.error("User: " + userName + "Job: " + jobName + " " + ex);
-        }
+        prediction.setJobCompleted(Constants.YES);
+        prediction.setComputeZscore(Constants.YES);
+        prediction.setStatus("saved");
+        predictionRepository.save(prediction);
+        File dir = new File(Constants.CECCR_USER_BASE_PATH + this.userName + "/" + this.jobName + "/");
+        FileAndDirOperations.deleteDir(dir);
+        WriteCsv.writePredictionValuesAsCSV(prediction.getId());
     }
 
     public void delete() throws Exception {

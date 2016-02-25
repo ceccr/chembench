@@ -1,20 +1,23 @@
 package edu.unc.ceccr.chembench.utilities;
 
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.Job;
 import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.UserRepository;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Date;
 import java.util.Iterator;
 
+@Component
 public class SendEmails {
 
     private static final Logger logger = Logger.getLogger(SendEmails.class.getName());
+    private static UserRepository userRepository;
 
     public static boolean isValidEmail(String email) {
         // FIXME don't roll your own email address validator
@@ -23,8 +26,7 @@ public class SendEmails {
     }
 
     public static void sendJobCompletedEmail(Job j) throws Exception {
-        Session s = HibernateUtil.getSession();
-        User user = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
+        User user = userRepository.findByUserName(j.getUserName());
         String subject = "Chembench Job Completed: " + j.getJobName();
         String message =
                 user.getFirstName() + "," + "<br /> Your " + j.getJobType().toLowerCase() + " job, '" + j.getJobName()
@@ -90,5 +92,10 @@ public class SendEmails {
             String adminAddress = (String) it.next();
             sendEmail(adminAddress, "", "", subject, message);
         }
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        SendEmails.userRepository = userRepository;
     }
 }

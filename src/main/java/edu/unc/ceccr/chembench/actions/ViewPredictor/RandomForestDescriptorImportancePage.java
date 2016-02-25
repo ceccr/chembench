@@ -38,7 +38,7 @@ public class RandomForestDescriptorImportancePage extends ViewPredictorAction {
         Map<String, Double> rawImportance = Maps.newHashMap();
         String childType = selectedPredictor.getChildType();
         if (childType != null && childType.equals(Constants.NFOLD)) {
-            childPredictors = selectedPredictor.getChildren();
+            childPredictors = predictorRepository.findByParentId(selectedPredictor.getId());
             totalFolds = childPredictors.size();
             if (foldNumber > 0) {
                 if (foldNumber > totalFolds) {

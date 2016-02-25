@@ -81,9 +81,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
     public String loadEditProfilePage() throws Exception {
         String result = SUCCESS;
         // check that the user is logged in
-        if (Utility.isAdmin(user.getUserName())) {
-            userIsAdmin = true;
-        }
+        userIsAdmin = user.getIsAdmin().equals(Constants.YES);
         if (user.getUserName().equals("guest")) {
             errorStrings.add("Error: You may not change the guest" + " profile settings.");
             return ERROR;
@@ -211,9 +209,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport implements 
 
     public String changePassword() throws Exception {
         String result = SUCCESS;
-        if (Utility.isAdmin(user.getUserName())) {
-            userIsAdmin = true;
-        }
+        userIsAdmin = user.getIsAdmin().equals(Constants.YES);
 
         String realPasswordHash = user.getPassword();
         if (!(Utility.encrypt(oldPassword).equals(realPasswordHash))) {

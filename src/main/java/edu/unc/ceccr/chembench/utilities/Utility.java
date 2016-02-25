@@ -2,9 +2,11 @@ package edu.unc.ceccr.chembench.utilities;
 
 import com.google.common.base.Function;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.*;
+import edu.unc.ceccr.chembench.persistence.Dataset;
+import edu.unc.ceccr.chembench.persistence.Job;
+import edu.unc.ceccr.chembench.persistence.Prediction;
+import edu.unc.ceccr.chembench.persistence.Predictor;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 
 import java.io.*;
 import java.security.MessageDigest;
@@ -222,39 +224,6 @@ public class Utility {
         f.setGroupingUsed(false);
         return f.format(num);
     }
-
-    public static boolean isAdmin(String userName) {
-        try {
-            Session s = HibernateUtil.getSession();
-            User u = PopulateDataObjects.getUserByUserName(userName, s);
-
-            if (u.getIsAdmin().equals(Constants.YES)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception ex) {
-            logger.error("", ex);
-            return false;
-        }
-    }
-
-    public static boolean canDownloadDescriptors(String userName) {
-        try {
-            Session s = HibernateUtil.getSession();
-            User u = PopulateDataObjects.getUserByUserName(userName, s);
-
-            if (u.getCanDownloadDescriptors().equals(Constants.YES)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception ex) {
-            logger.error("", ex);
-            return false;
-        }
-    }
-
 
     public static Long checkExpiration(int year, int month, int day) {
         Calendar cal1 = Calendar.getInstance();

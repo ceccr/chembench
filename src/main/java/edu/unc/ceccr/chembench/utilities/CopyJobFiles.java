@@ -2,22 +2,26 @@ package edu.unc.ceccr.chembench.utilities;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.Predictor;
+import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Component
 public class CopyJobFiles {
 
     private static final Logger logger = Logger.getLogger(CopyJobFiles.class.getName());
+    private static PredictorRepository predictorRepository;
 
     public static void getDatasetFiles(String userName, Dataset dataset, String jobType, String toDir)
             throws Exception {
@@ -99,12 +103,10 @@ public class CopyJobFiles {
         }
 
         if (predictor.getParentId() != null) {
-            Session s = HibernateUtil.getSession();
-            Predictor parentPredictor = PopulateDataObjects.getPredictorById(predictor.getParentId(), s);
-            String parentPredictorName = parentPredictor.getName();
-            fromDir = new File(new File(fromDir, parentPredictorName), predictorName).getAbsolutePath();
+            Predictor parentPredictor = predictorRepository.findOne(predictor.getParentId());
+            fromDir = Paths.get(fromDir, parentPredictor.getName(), predictorName).toString();
         } else {
-            fromDir = new File(fromDir, predictorName).getAbsolutePath();
+            fromDir = Paths.get(fromDir, predictorName).toString();
         }
 
         logger.info(String.format("Copying predictor: USER=%s, SOURCE=%s, DESTINATION=%s", userName, fromDir, toDir));
@@ -138,5 +140,10 @@ public class CopyJobFiles {
 
         logger.info(
                 String.format("Deep-copied %d files, symlinked %d files.", deepCopiedFileCount, symlinkedFileCount));
+    }
+
+    @Autowired
+    public void setPredictorRepository(PredictorRepository predictorRepository) {
+        CopyJobFiles.predictorRepository = predictorRepository;
     }
 }

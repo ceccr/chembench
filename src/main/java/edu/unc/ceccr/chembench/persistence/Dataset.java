@@ -29,7 +29,7 @@ import java.util.Random;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "cbench_dataset")
-public class Dataset extends Persistable implements java.io.Serializable {
+public class Dataset implements java.io.Serializable {
     private static final Logger logger = Logger.getLogger(Dataset.class.getName());
 
     private Long id;
@@ -71,7 +71,7 @@ public class Dataset extends Persistable implements java.io.Serializable {
                 && (availableDescriptors.contains(Constants.DRAGONH) || availableDescriptors.contains(Constants.CDK));
     }
 
-    public void generateModi() throws Exception {
+    public void generateModi(DatasetRepository datasetRepository) throws Exception {
         if (modiGenerated) {
             return;
         }
@@ -148,7 +148,7 @@ public class Dataset extends Persistable implements java.io.Serializable {
                 this.modi = evaluation.correlationCoefficient();
             }
             this.modiGenerated = true;
-            save();
+            datasetRepository.save(this);
         } else {
             throw new IllegalStateException("MODI cannot be generated for this dataset");
         }

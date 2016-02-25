@@ -7,11 +7,10 @@ import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
@@ -30,7 +29,9 @@ public class WriteCsv {
 
     private static final Logger logger = Logger.getLogger(WriteCsv.class.getName());
     private static PredictorRepository predictorRepository;
+    private static PredictionRepository predictionRepository;
     private static ExternalValidationRepository externalValidationRepository;
+    private static CompoundPredictionsRepository compoundPredictionsRepository;
 
     public static void writeExternalPredictionsAsCSV(Long predictorId) throws Exception {
         Predictor predictor = predictorRepository.findOne(predictorId);
@@ -91,8 +92,7 @@ public class WriteCsv {
 
     public static void writePredictionValuesAsCSV(Long predictionId) {
         logger.debug(String.format("Writing out prediction %d as CSV", predictionId));
-        Session s = HibernateUtil.getSession();
-        Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
+        Prediction prediction = predictionRepository.findOne(predictionId);
 
         String outfileName =
                 Paths.get(Constants.CECCR_USER_BASE_PATH, prediction.getUserName(), "PREDICTIONS", prediction.getName(),
@@ -103,8 +103,8 @@ public class WriteCsv {
 
         List<Predictor> predictors = Lists.newArrayList();
         String[] predictorIdArray = prediction.getPredictorIds().split("\\s+");
-        for (String aPredictorIdArray : predictorIdArray) {
-            predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(aPredictorIdArray), s));
+        for (String predictorId : predictorIdArray) {
+            predictors.add(predictorRepository.findOne(Long.parseLong(predictorId)));
         }
 
         String predictorNames = Joiner.on(" ").join(Iterables.transform(predictors, new Function<Predictor, String>() {
@@ -128,7 +128,7 @@ public class WriteCsv {
             // Option 1: Show everything in a big horizontal table
             List<String> predictionHeader = Lists.newArrayList("Compound ID");
             for (Predictor p : predictors) {
-                List<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(p, s);
+                List<Predictor> childPredictors = predictorRepository.findByParentId(p.getId());
                 if (childPredictors.isEmpty()) {
                     predictionHeader.addAll(Lists
                             .newArrayList(p.getName() + " Predicted Value", p.getName() + " Standard Deviation",
@@ -144,8 +144,8 @@ public class WriteCsv {
             out.write(Joiner.on(",").join(predictionHeader));
             out.newLine();
 
-            List<CompoundPredictions> compoundPredictionValues =
-                    PopulateDataObjects.populateCompoundPredictionValues(prediction.getDatasetId(), predictionId, s);
+            List<CompoundPredictions> compoundPredictionValues = compoundPredictionsRepository
+                    .findByDatasetIdAndPredictionId(prediction.getDatasetId(), predictionId);
             for (CompoundPredictions cp : compoundPredictionValues) {
                 out.write(cp.getCompound().replaceAll(",", "_") + ",");
 
@@ -169,7 +169,11 @@ public class WriteCsv {
         } catch (IOException e) {
             logger.error("Failed to write prediction to CSV", e);
         }
-        s.close();
+    }
+
+    @Autowired
+    public void setPredictionRepository(PredictionRepository predictionRepository) {
+        WriteCsv.predictionRepository = predictionRepository;
     }
 
     @Autowired
@@ -180,5 +184,11 @@ public class WriteCsv {
     @Autowired
     public void setExternalValidationRepository(ExternalValidationRepository externalValidationRepository) {
         WriteCsv.externalValidationRepository = externalValidationRepository;
+    }
+
+    @Autowired
+    @Qualifier("compoundPredictionsRepositoryImpl")
+    public void setCompoundPredictionsRepository(CompoundPredictionsRepository compoundPredictionsRepository) {
+        WriteCsv.compoundPredictionsRepository = compoundPredictionsRepository;
     }
 }

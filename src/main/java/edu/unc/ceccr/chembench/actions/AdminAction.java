@@ -406,8 +406,6 @@ public class AdminAction extends ActionSupport {
             }
 
             //prevent duplication of names
-            //if(PopulateDataObjects.getPredictorByName(predictorName, Constants.ALL_USERS_USERNAME,
-            // session)!=null) return SUCCESS;
             if (predictorRepository.findByNameAndUserName(predictorName, Constants.ALL_USERS_USERNAME) != null) {
                 errorStrings.add("There has already been a public predictor with" + predictorName);
                 return ERROR;
@@ -640,8 +638,6 @@ public class AdminAction extends ActionSupport {
             }
 
             //prevent duplication of names
-            //if(PopulateDataObjects.getDataSetByName(datasetName, Constants.ALL_USERS_USERNAME,
-            // session)!=null) return SUCCESS;
             if (datasetRepository.findByNameAndUserName(datasetName, Constants.ALL_USERS_USERNAME) != null) {
                 errorStrings.add("There has already been a public Dataset with the same name" + datasetName);
                 return ERROR;

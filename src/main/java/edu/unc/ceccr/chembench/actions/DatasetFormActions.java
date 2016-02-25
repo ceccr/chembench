@@ -513,7 +513,7 @@ public class DatasetFormActions extends ActionSupport {
             return "badrequest";
         } else {
             if (!dataset.isModiGenerated()) {
-                dataset.generateModi();
+                dataset.generateModi(datasetRepository);
             }
             this.modi = dataset.getModi();
             return SUCCESS;

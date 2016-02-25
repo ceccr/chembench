@@ -9,19 +9,19 @@ import edu.unc.ceccr.chembench.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.chembench.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.chembench.taskObjects.WorkflowTask;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-// logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
-
+@Configurable(autowire = Autowire.BY_TYPE)
 public class CentralDogma {
     // singleton.
     // Holds the LSF jobs list, the incoming jobs list, and the local
@@ -45,7 +45,20 @@ public class CentralDogma {
 
     private Set<Thread> threads = Sets.newHashSet();
 
+    @Autowired
+    private JobRepository jobRepository;
+    @Autowired
+    private DatasetRepository datasetRepository;
+    @Autowired
+    private PredictorRepository predictorRepository;
+    @Autowired
+    private PredictionRepository predictionRepository;
+
     private CentralDogma() {
+    }
+
+    @PostConstruct
+    public void init() {
         try {
             lsfJobs = new SynchronizedJobList(Constants.LSF);
             incomingJobs = new SynchronizedJobList(Constants.INCOMING);
@@ -53,9 +66,7 @@ public class CentralDogma {
             errorJobs = new SynchronizedJobList(Constants.ERROR);
 
             // Fill job lists from the database
-            Session s = HibernateUtil.getSession();
-
-            List<Job> jobs = (List<Job>) PopulateDataObjects.populateClass(Job.class, s);
+            List<Job> jobs = jobRepository.findAll();
             if (jobs == null) {
                 jobs = Lists.newArrayList();
             }
@@ -66,15 +77,15 @@ public class CentralDogma {
                         logger.info("Restoring job: " + j.getJobName());
                         if (j.getJobType().equals(Constants.DATASET)) {
                             Long datasetId = j.getLookupId();
-                            Dataset dataset = PopulateDataObjects.getDataSetById(datasetId, s);
+                            Dataset dataset = datasetRepository.findOne(datasetId);
                             wt = new CreateDatasetTask(dataset);
                         } else if (j.getJobType().equals(Constants.MODELING)) {
                             Long modelingId = j.getLookupId();
-                            Predictor predictor = PopulateDataObjects.getPredictorById(modelingId, s);
+                            Predictor predictor = predictorRepository.findOne(modelingId);
                             wt = new QsarModelingTask(predictor);
                         } else if (j.getJobType().equals(Constants.PREDICTION)) {
                             Long predictionId = j.getLookupId();
-                            Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
+                            Prediction prediction = predictionRepository.findOne(predictionId);
                             wt = new QsarPredictionTask(prediction);
                         }
                         wt.jobList = j.getJobList();
@@ -91,7 +102,7 @@ public class CentralDogma {
                             errorJobs.addJob(j);
                         }
                     } catch (Exception ex) {
-                        logger.error("Error restoring job with id: " + j.getLookupId() + "\n" + ex);
+                        logger.error("Error restoring job with id: " + j.getLookupId() + "\n", ex);
                     }
                 }
             }
@@ -144,26 +155,9 @@ public class CentralDogma {
         j.setJobType(wt.jobType);
         j.setLookupId(wt.lookupId);
         j.workflowTask = wt;
-
-        // commit job to DB
-        Session s = HibernateUtil.getSession();
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
-            s.save(j);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("", e);
-        } finally {
-            s.close();
-        }
-
+        jobRepository.save(j);
         // put into incoming queue
         incomingJobs.addJob(j);
-
     }
 
     public void cancelJob(Long jobId) throws Exception {
@@ -228,41 +222,17 @@ public class CentralDogma {
 
             // delete corresponding workflowTask object (Dataset, Predictor,
             // or Prediction)
-            Session s = null;
-            Transaction tx = null;
-
-            try {
-                s = HibernateUtil.getSession();
-
-                if (j.getJobType().equals(Constants.DATASET)) {
-                    // delete corresponding Dataset in DB
-                    Dataset ds = PopulateDataObjects.getDataSetById(j.getLookupId(), s);
-                    if (ds != null) {
-                        tx = s.beginTransaction();
-                        s.delete(ds);
-                        tx.commit();
-                    }
-                } else if (j.getJobType().equals(Constants.MODELING)) {
-                    // delete corresponding Predictor in DB
-                    Predictor p = PopulateDataObjects.getPredictorById(j.getLookupId(), s);
-                    if (p != null) {
-                        tx = s.beginTransaction();
-                        s.delete(p);
-                        tx.commit();
-                    }
-                } else if (j.getJobType().equals(Constants.PREDICTION)) {
-                    // delete corresponding Prediction in DB
-                    Prediction p = PopulateDataObjects.getPredictionById(j.getLookupId(), s);
-                    if (p != null) {
-                        tx = s.beginTransaction();
-                        s.delete(p);
-                        tx.commit();
-                    }
-                }
-            } catch (Exception ex) {
-                logger.error("", ex);
-            } finally {
-                s.close();
+            if (j.getJobType().equals(Constants.DATASET)) {
+                // delete corresponding Dataset in DB
+                Dataset ds = datasetRepository.findOne(j.getLookupId());
+                datasetRepository.delete(ds);
+            } else if (j.getJobType().equals(Constants.MODELING)) {
+                // delete corresponding Predictor in DB
+                Predictor p = predictorRepository.findOne(j.getLookupId());
+                predictorRepository.delete(p);
+            } else if (j.getJobType().equals(Constants.PREDICTION)) {
+                Prediction p = predictionRepository.findOne(j.getLookupId());
+                predictionRepository.delete(p);
             }
         }
 

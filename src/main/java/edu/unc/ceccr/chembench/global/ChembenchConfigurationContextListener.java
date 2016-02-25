@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.global;
 
-import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.log4j.Logger;
 
@@ -8,10 +7,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.Set;
 
-public class ChembenchServletContextListener implements ServletContextListener {
-    private static final Logger logger = Logger.getLogger(ChembenchServletContextListener.class.getName());
+public class ChembenchConfigurationContextListener implements ServletContextListener {
+    private static final Logger logger = Logger.getLogger(ChembenchConfigurationContextListener.class.getName());
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -32,16 +30,9 @@ public class ChembenchServletContextListener implements ServletContextListener {
         } catch (IOException e) {
             throw new RuntimeException("Couldn't parse system config", e);
         }
-
-        // start up the job queues
-        CentralDogma.getInstance();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        Set<Thread> jobThreads = CentralDogma.getInstance().getThreads();
-        for (Thread t : jobThreads) {
-            t.interrupt();
-        }
     }
 }

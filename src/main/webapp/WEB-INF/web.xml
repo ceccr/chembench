@@ -96,11 +96,15 @@
     </listener>
 
     <listener>
-        <listener-class>edu.unc.ceccr.chembench.global.ChembenchServletContextListener</listener-class>
+        <listener-class>edu.unc.ceccr.chembench.global.ChembenchConfigurationContextListener</listener-class>
     </listener>
 
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>edu.unc.ceccr.chembench.global.CentralDogmaContextListener</listener-class>
     </listener>
 
     <filter>

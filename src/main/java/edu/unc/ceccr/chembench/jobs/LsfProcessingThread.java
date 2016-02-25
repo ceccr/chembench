@@ -2,21 +2,23 @@ package edu.unc.ceccr.chembench.jobs;
 
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.Job;
 import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.UserRepository;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+@Configurable(autowire = Autowire.BY_TYPE)
 public class LsfProcessingThread extends Thread {
     private static final Logger logger = Logger.getLogger(LsfProcessingThread.class.getName());
     // this works on the LSFJobs joblist.
@@ -25,6 +27,9 @@ public class LsfProcessingThread extends Thread {
 
     // used to determine when a job goes from PEND to RUN.
     HashMap<String, String> oldLsfStatuses = new HashMap<String, String>();
+
+    @Autowired
+    private UserRepository userRepository;
 
     public static boolean lsfHasFreePendSlots() {
         // check how many pending jobs there are
@@ -119,9 +124,7 @@ public class LsfProcessingThread extends Thread {
 
                                         // send an email to the site
                                         // administrator
-                                        Session s = HibernateUtil.getSession();
-                                        User sadUser = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
-                                        s.close();
+                                        User sadUser = userRepository.findByUserName(j.getUserName());
 
                                         // prepare a nice HTML-formatted
                                         // readable version of the exception
@@ -220,10 +223,7 @@ public class LsfProcessingThread extends Thread {
                                 logger.error(exceptionAsString);
 
                                 // send an email to the site administrator
-                                Session s = HibernateUtil.getSession();
-                                User sadUser = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
-                                s.close();
-
+                                User sadUser = userRepository.findByUserName(j.getUserName());
                                 String message = "Heya, <br />" + j.getUserName() + "'s job \"" + j.getJobName() +
                                         "\" failed. You might want" + " to look into that. Their " + "email is " +
                                         sadUser.getEmail() + " and their name is " + sadUser.getFirstName() + " " +

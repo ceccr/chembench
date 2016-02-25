@@ -44,7 +44,6 @@ public class FileServlet extends HttpServlet {
             String dirName = Constants.CECCR_USER_BASE_PATH;
             String fileName = "";
             if (jobType.equalsIgnoreCase(Constants.DATASET)) {
-                //Dataset dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
                 dirName += user_mol + "/DATASETS/";
                 dirName += datasetName + "/";
 
