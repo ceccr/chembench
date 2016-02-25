@@ -14,7 +14,7 @@ public class HibernateUtil {
 
     private static final SessionFactory sessionFactory;
     private static String PASSWORD;
-    private static String URL;
+    private static String RAW_URL;
     private static String USERNAME;
     private static String DATABASENAME;
 
@@ -37,16 +37,16 @@ public class HibernateUtil {
 
         USERNAME = Constants.DATABASE_USERNAME;
         PASSWORD = Constants.CECCR_DATABASE_PASSWORD;
-        URL = Constants.DATABASE_URL;
+        RAW_URL = Constants.DATABASE_URL;
         DATABASENAME = Constants.CECCR_DATABASE_NAME;
-
+        String URL = RAW_URL.endsWith(DATABASENAME) ? RAW_URL : RAW_URL + DATABASENAME;
         try {
             //IMPORTANT: If you get a "too many connections" error
             //use this debug output to help trace where the wasteful connections are getting made!
             //count++;
             //logger.debug("Making connection number: " + count);
             Class.forName(Constants.DATABASE_DRIVER);
-            java.sql.Connection con = DriverManager.getConnection(URL + DATABASENAME, USERNAME, PASSWORD);
+            java.sql.Connection con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             Session s = sessionFactory.openSession(con);
             return s;
         } catch (Exception ex) {
