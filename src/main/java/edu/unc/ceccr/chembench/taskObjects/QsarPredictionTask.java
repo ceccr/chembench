@@ -722,7 +722,7 @@ public class QsarPredictionTask extends WorkflowTask {
             WriteCsv.writePredictionValuesAsCSV(prediction.getId());
 
         } catch (Exception ex) {
-            logger.error("User: " + userName + "Job: " + jobName + " " + ex);
+            logger.error("User: " + userName + "Job: " + jobName + " ", ex);
         }
     }
 
