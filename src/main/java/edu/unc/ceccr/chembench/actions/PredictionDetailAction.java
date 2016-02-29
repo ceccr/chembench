@@ -3,10 +3,10 @@ package edu.unc.ceccr.chembench.actions;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,8 +14,11 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PredictionDetailAction extends DetailAction {
-    private static Logger logger = Logger.getLogger(PredictionDetailAction.class.getName());
-
+    private static final Logger logger = Logger.getLogger(PredictionDetailAction.class.getName());
+    private final DatasetRepository datasetRepository;
+    private final PredictorRepository predictorRepository;
+    private final PredictionRepository predictionRepository;
+    private final CompoundPredictionsRepository compoundPredictionsRepository;
     List<CompoundPredictions> compoundPredictionValues = Lists.newArrayList();
     private Prediction prediction;
     private List<Predictor> predictors; //put these in order by predictorId
@@ -25,6 +28,17 @@ public class PredictionDetailAction extends DetailAction {
     private String sortDirection;
     private ArrayList<String> pageNums;
     private Float cutoff;
+
+    @Autowired
+    public PredictionDetailAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
+                                  PredictionRepository predictionRepository,
+                                  @Qualifier("compoundPredictionsRepositoryImpl") CompoundPredictionsRepository
+                                            compoundPredictionsRepository) {
+        this.datasetRepository = datasetRepository;
+        this.predictorRepository = predictorRepository;
+        this.predictionRepository = predictionRepository;
+        this.compoundPredictionsRepository = compoundPredictionsRepository;
+    }
 
     public String loadPredictionsSection() throws Exception {
 
@@ -62,32 +76,28 @@ public class PredictionDetailAction extends DetailAction {
 
         //get prediction
         logger.debug("prediction id: " + objectId);
-        session = HibernateUtil.getSession();
-        prediction = PopulateDataObjects.getPredictionById(Long.parseLong(objectId), session);
+        prediction = predictionRepository.findOne(Long.parseLong(objectId));
         if (prediction == null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(prediction.getUserName()))) {
             logger.debug("No prediction was found in the DB with provided ID.");
             super.errorStrings.add("Invalid prediction ID supplied.");
             result = ERROR;
-            session.close();
             return result;
         }
-        prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getName());
+        dataset = datasetRepository.findOne(prediction.getDatasetId());
+        prediction.setDatasetDisplay(dataset.getName());
 
         //get predictors for this prediction. Order them by predictor ID, increasing.
         predictors = Lists.newArrayList();
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
-            predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));
+            predictors.add(predictorRepository.findOne(Long.parseLong(predictorIds[i])));
         }
         Collections.sort(predictors, new Comparator<Predictor>() {
             public int compare(Predictor p1, Predictor p2) {
                 return p1.getId().compareTo(p2.getId());
             }
         });
-
-        //get dataset
-        dataset = PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session);
 
         //define which compounds will appear on page
         int pagenum, limit, offset;
@@ -102,8 +112,8 @@ public class PredictionDetailAction extends DetailAction {
         }
 
         //get prediction values
-        compoundPredictionValues = PopulateDataObjects
-                .populateCompoundPredictionValues(prediction.getDatasetId(), Long.parseLong(objectId), session);
+        compoundPredictionValues =
+                compoundPredictionsRepository.findByDatasetIdAndPredictionId(dataset.getId(), prediction.getId());
 
         //sort the compoundPrediction array
         logger.debug("Sorting compound predictions");
@@ -124,13 +134,6 @@ public class PredictionDetailAction extends DetailAction {
                     logger.debug(pv.getZScore());
                 }
             }
-            /*
-            Collections.sort(compoundPredictionValues, new Comparator<CompoundPredictions>() {
-                public int compare(CompoundPredictions o1, CompoundPredictions o2) {
-                    return Utility.naturalSortCompare(o1.getZScore(), o2.getZScore());
-                }
-            });
-            */
         } else {
             //check if orderBy equals one of the predictor names,
             //and order by those values if so.
@@ -199,8 +202,6 @@ public class PredictionDetailAction extends DetailAction {
             return result;
         }
 
-        session = HibernateUtil.getSession();
-
         if (context == null) {
             logger.debug("No ActionContext available");
         } else {
@@ -209,13 +210,12 @@ public class PredictionDetailAction extends DetailAction {
             }
             //get prediction
             logger.debug("[ext_compounds] dataset id: " + objectId);
-            prediction = PopulateDataObjects.getPredictionById(Long.parseLong(objectId), session);
+            prediction = predictionRepository.findOne(Long.parseLong(objectId));
             if (prediction == null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user
                     .getUserName().equals(prediction.getUserName()))) {
                 logger.debug("No prediction was found in the DB with provided ID.");
                 super.errorStrings.add("Invalid prediction ID supplied.");
                 result = ERROR;
-                session.close();
                 return result;
             }
         }
@@ -249,48 +249,33 @@ public class PredictionDetailAction extends DetailAction {
         }
 
         logger.debug("prediction id: " + objectId);
-        session = HibernateUtil.getSession();
-        prediction = PopulateDataObjects.getPredictionById(Long.parseLong(objectId), session);
-
+        prediction = predictionRepository.findOne(Long.parseLong(objectId));
         if (prediction == null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(prediction.getUserName()))) {
             logger.debug("No prediction was found in the DB with provided ID.");
             super.errorStrings.add("Invalid prediction ID supplied.");
             result = ERROR;
-            session.close();
             return result;
         }
 
 
-        prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getName());
+        prediction.setDatasetDisplay(datasetRepository.findOne(prediction.getDatasetId()).getName());
 
         //get predictors for this prediction
         predictors = Lists.newArrayList();
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
-            predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));
+            predictors.add(predictorRepository.findOne(Long.parseLong(predictorIds[i])));
         }
 
         //get dataset
-        dataset = PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session);
+        dataset = datasetRepository.findOne(prediction.getDatasetId());
 
         //the prediction has now been viewed. Update DB accordingly.
         if (!prediction.getHasBeenViewed().equals(Constants.YES)) {
             prediction.setHasBeenViewed(Constants.YES);
-            Transaction tx = null;
-            try {
-                tx = session.beginTransaction();
-                session.saveOrUpdate(prediction);
-                tx.commit();
-            } catch (RuntimeException e) {
-                if (tx != null) {
-                    tx.rollback();
-                }
-                logger.error(e);
-            }
+            predictionRepository.save(prediction);
         }
-
-        session.close();
 
         //log the results
         if (result.equals(SUCCESS)) {

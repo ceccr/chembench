@@ -11,7 +11,7 @@ import java.io.*;
 
 public class DescriptorMatrixServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(DescriptorMatrixServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(DescriptorMatrixServlet.class.getName());
 
     //serves up files for use with the dataset visualization Flash app
 
@@ -43,20 +43,20 @@ public class DescriptorMatrixServlet extends HttpServlet {
 
                 output.flush();
             } catch (IOException e) {
-                logger.error(e);
+                logger.error("", e);
             } finally {
                 if (input != null) {
                     try {
                         input.close();
                     } catch (IOException e) {
-                        logger.error(e);
+                        logger.error("", e);
                     }
                 }
                 if (output != null) {
                     try {
                         output.close();
                     } catch (IOException e) {
-                        logger.error(e);
+                        logger.error("", e);
                     }
                 }
             }

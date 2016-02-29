@@ -14,7 +14,7 @@ import java.io.*;
 
 public class DatasetFilesServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(DatasetFilesServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(DatasetFilesServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String BASE = Constants.CECCR_USER_BASE_PATH;
@@ -46,7 +46,7 @@ public class DatasetFilesServlet extends HttpServlet {
                 writer.write("An ERROR occured, can not download the dataset file.");
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
     }
 

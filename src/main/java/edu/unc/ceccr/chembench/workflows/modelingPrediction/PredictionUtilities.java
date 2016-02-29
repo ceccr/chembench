@@ -5,7 +5,7 @@ import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import org.apache.log4j.Logger;
 
 public class PredictionUtilities {
-    private static Logger logger = Logger.getLogger(PredictionUtilities.class.getName());
+    private static final Logger logger = Logger.getLogger(PredictionUtilities.class.getName());
     //Execute external programs to generate a prediction for a given molecule set.
     // Used for legacy models that were created using Sasha's kNN code.
 

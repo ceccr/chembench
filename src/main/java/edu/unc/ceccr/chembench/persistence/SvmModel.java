@@ -9,7 +9,7 @@ public class SvmModel implements java.io.Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     private Long id;
     private Long predictorId;
     private String isYRandomModel;

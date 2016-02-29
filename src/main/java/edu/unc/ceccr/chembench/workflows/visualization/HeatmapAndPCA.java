@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 public class HeatmapAndPCA {
 
-    private static Logger logger = Logger.getLogger(HeatmapAndPCA.class.getName());
+    private static final Logger logger = Logger.getLogger(HeatmapAndPCA.class.getName());
 
     public static void performXCreation(String maccsFilePath, String outputXFileName, String workingDir) {
         String cmd = "convert_maccs_to_X2.pl " + maccsFilePath + " " + workingDir + outputXFileName;
@@ -33,7 +33,7 @@ public class HeatmapAndPCA {
             }
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 
@@ -45,7 +45,7 @@ public class HeatmapAndPCA {
                 RunExternalProgram.runCommandAndLogOutput(cmd, "", "run_PCA_ScatterPlot.sh");
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 }

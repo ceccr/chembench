@@ -1,48 +1,56 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 
 <!-- Trees Page -->
-<br />
-
-<p class="StandardTextDarkGray">
-  <b><u>Random Forest Trees</u></b>
-</p>
-
-<p class="StandardTextDarkGray">
-<s:if test="randomForestTrees.size()==0">
-  No random forest trees were generated.<br />
+<s:if test="isYRandomPage == 'NO'">
+<div id="treesDiv">
 </s:if>
-<s:elseif test="selectedPredictor.userName=='all-users'">
-  <br />Model information is not available for public predictors.<br />
-</s:elseif>
 <s:else>
-  <s:if test="isYRandomPage=='NO'">
-    <p class="StandardTextDarkGray">To generate the random forest predictor, a random forest is generated for each
-      train-test split, and the trees from each forest are combined together. This page shows the trees from each of
-      the train-test splits.</p>
+<div id="randomTreesDiv">
+</s:else>
+  <p class="StandardTextDarkGray">
+    <b><u>Random Forest Trees</u></b>
+  </p>
 
-    <s:if test="dataset.splitType=='NFOLD'">
-      <p class="StandardTextDarkGray">
-        View Fold:
-        <s:iterator value="foldNums" status="foldNumsStatus">
-          <s:if test="#foldNumsStatus.index+1==currentFoldNumber">
-            <b><s:property /></b>
-          </s:if>
-          <s:else>
-            <a href="#tabs" onclick=replaceTabContents(
-            "treesDiv","viewPredictorRandomForestTreesSection?id=<s:property value="selectedPredictor.id" />
-            &isYRandomPage=<s:property value="isYRandomPage" />
-            &currentFoldNumber=<s:property value="%{#foldNumsStatus.index}" />")><s:property /></a>
-          </s:else>
-        </s:iterator>
-      </p>
-
-      <p class="StandardTextDarkGray">
-        Trees for fold
-        <s:property value="currentFoldNumber" />
-        :
-      </p>
+  <p class="StandardTextDarkGray">
+    <s:if test="randomForestTrees.size()==0">
+    No random forest trees were generated.<br />
     </s:if>
+    <s:elseif test="selectedPredictor.userName=='all-users'">
+    <br />Model information is not available for public predictors.<br />
+    </s:elseif>
+    <s:else>
+    <s:if test="isYRandomPage=='NO'">
+
+  <p class="StandardTextDarkGray">To generate the random forest predictor, a random forest is generated for each
+    train-test split, and the trees from each forest are combined together. This page shows the trees from each of
+    the train-test splits.</p>
+
+  <s:if test="dataset.splitType=='NFOLD'">
+    <p class="StandardTextDarkGray">
+      View Fold:
+      <s:iterator value="foldNums" status="foldNumsStatus">
+        <s:if test="#foldNumsStatus.count == currentFoldNumber">
+          <b><s:property /></b>
+        </s:if>
+        <s:else>
+          <s:url var="foldUrl" action="viewPredictorRandomForestTreesSection" escapeAmp="false">
+            <s:param name="id" value="selectedPredictor.id" />
+            <s:param name="isYRandomPage" value="isYRandomPage" />
+            <s:param name="currentFoldNumber" value="#foldNumsStatus.index" />
+          </s:url>
+          <sj:a href="%{foldUrl}" targets="treesDiv"><s:property /></sj:a>
+        </s:else>
+      </s:iterator>
+    </p>
+
+    <p class="StandardTextDarkGray">
+      Trees for fold
+      <s:property value="currentFoldNumber" />
+      :
+    </p>
+  </s:if>
   </s:if>
   <s:else>
     <p class="StandardTextDarkGray">
@@ -60,14 +68,16 @@
       <p class="StandardTextDarkGray">
         View Fold:
         <s:iterator value="foldNums" status="foldNumsStatus">
-          <s:if test="#foldNumsStatus.index+1==currentFoldNumber">
+          <s:if test="#foldNumsStatus.count == currentFoldNumber">
             <b><s:property /></b>
           </s:if>
           <s:else>
-            <a href="#tabs" onclick=replaceTabContents(
-            "randomTreesDiv","viewPredictorRandomForestTreesSection?id=<s:property value="selectedPredictor.id" />
-            &isYRandomPage=<s:property value="isYRandomPage" />
-            &currentFoldNumber=<s:property value="%{#foldNumsStatus.index}" />")><s:property /></a>
+            <s:url var="foldUrl" action="viewPredictorRandomForestTreesSection" escapeAmp="false">
+              <s:param name="id" value="selectedPredictor.id" />
+              <s:param name="isYRandomPage" value="isYRandomPage" />
+              <s:param name="currentFoldNumber" value="#foldNumsStatus.index" />
+            </s:url>
+            <sj:a href="%{foldUrl}" targets="randomTreesDiv"><s:property /></sj:a>
           </s:else>
         </s:iterator>
       </p>
@@ -79,60 +89,64 @@
       </p>
     </s:if>
   </s:else>
-</s:else>
-</p>
+  </s:else>
+  </p>
 
-<!-- Table of Trees -->
-<table width="100%" align="center" class="sortable" id="randomForestTreesTable">
-  <s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-    <s:if test="randomForestTrees.size!=0">
-      <tr>
-        <th class="TableRowText01narrow">Split Number</th>
-        <th class="TableRowText01narrow">R<sup>2</sup></th>
-        <th class="TableRowText01narrow">MSE</sup></th>
-        <th class="TableRowText01narrow_unsortable" colspan="2">Descriptors Chosen</th>
-      </tr>
+  <!-- Table of Trees -->
+  <table width="100%" align="center" class="sortable" id="randomForestTreesTable">
+    <s:if test="selectedPredictor.activityType=='CONTINUOUS'">
+      <s:if test="randomForestTrees.size!=0">
+        <tr>
+          <th class="TableRowText01narrow">R<sup>2</sup></th>
+          <th class="TableRowText01narrow">MSE</th>
+          <th class="TableRowText01narrow_unsortable" colspan="2">Descriptors Chosen</th>
+        </tr>
+      </s:if>
+
+      <s:iterator value="randomForestTrees" status="treesStatus">
+        <tr>
+          <td class="TableRowText02narrow"><s:property value="r2" /></td>
+          <td class="TableRowText02narrow"><s:property value="mse" /></td>
+          <td class="TableRowText02narrow" colspan="2"><s:property value="descriptorsUsed" /></td>
+        </tr>
+      </s:iterator>
     </s:if>
 
-    <s:iterator value="randomForestTrees" status="treesStatus">
-      <tr>
-        <td class="TableRowText02narrow"><s:property value="treeFileName" /></td>
-        <td class="TableRowText02narrow"><s:property value="r2" /></td>
-        <td class="TableRowText02narrow"><s:property value="mse" /></td>
-        <td class="TableRowText02narrow" colspan="2"><s:property value="descriptorsUsed" /></td>
-      </tr>
-    </s:iterator>
+    <s:elseif test="selectedPredictor.activityType=='CATEGORY'">
+      <s:if test="randomForestTrees.size!=0">
+        <tr>
+          <th class="TableRowText01narrow">Split Number</th>
+          <th class="TableRowText01narrow_unsortable" colspan="3">Descriptors Chosen</th>
+        </tr>
+      </s:if>
+
+      <s:iterator value="randomForestTrees" status="treesStatus">
+        <tr>
+          <td class="TableRowText02narrow"><s:property value="treeFileName" /></td>
+          <td class="TableRowText02narrow" colspan="3"><s:property value="descriptorsUsed" /></td>
+        </tr>
+      </s:iterator>
+
+    </s:elseif>
+  </table>
+  <!-- End Table of Trees -->
+
+  <s:if test="mostFrequentDescriptors!=''">
+    <br />
+
+    <p class="StandardTextDarkGray">
+      <b><u>Descriptor Frequencies</u></b>
+    </p>
+
+    <p class="StandardTextDarkGray">
+      <s:property value="mostFrequentDescriptors" />
+    </p>
   </s:if>
-
-  <s:elseif test="selectedPredictor.activityType=='CATEGORY'">
-    <s:if test="randomForestTrees.size!=0">
-      <tr>
-        <th class="TableRowText01narrow">Split Number</th>
-        <th class="TableRowText01narrow_unsortable" colspan="3">Descriptors Chosen</th>
-      </tr>
-    </s:if>
-
-    <s:iterator value="randomForestTrees" status="treesStatus">
-      <tr>
-        <td class="TableRowText02narrow"><s:property value="treeFileName" /></td>
-        <td class="TableRowText02narrow" colspan="3"><s:property value="descriptorsUsed" /></td>
-      </tr>
-    </s:iterator>
-
-  </s:elseif>
-</table>
-<!-- End Table of Trees -->
-
-<s:if test="mostFrequentDescriptors!=''">
-  <br />
-
-  <p class="StandardTextDarkGray">
-    <b><u>Descriptor Frequencies</u></b>
-  </p>
-
-  <p class="StandardTextDarkGray">
-    <s:property value="mostFrequentDescriptors" />
-  </p>
-</s:if>
-
+</div>
 <!-- End Trees Page -->
+
+<script>
+  $(document).ready(function() {
+    sortables_init();
+  });
+</script>

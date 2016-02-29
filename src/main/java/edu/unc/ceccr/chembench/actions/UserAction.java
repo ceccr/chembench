@@ -4,34 +4,26 @@ import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.UserRepository;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import net.tanesha.recaptcha.ReCaptcha;
 import net.tanesha.recaptcha.ReCaptchaFactory;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
-// struts2
+public class UserAction extends ActionSupport implements ServletRequestAware {
 
-public class UserAction extends ActionSupport {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger(UserAction.class.getName());
 
-    private static Logger logger = Logger.getLogger(UserAction.class.getName());
-
-    /* USER FUNCTIONS */
     private User user = User.getCurrentUser();
-    /* Variables used for user registration and updates */
     private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
     private List<String> errorMessages = Lists.newArrayList();
     private List<String> errorStrings = Lists.newArrayList();
@@ -68,6 +60,18 @@ public class UserAction extends ActionSupport {
     private String showAdvancedKnnModeling;
     private boolean userIsAdmin = false;
 
+    private String recaptcha_challenge_field;
+    private String recaptcha_response_field;
+
+    private HttpServletRequest request;
+
+    private UserRepository userRepository;
+
+    @Autowired
+    public UserAction(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public String loadUserRegistration() throws Exception {
         String result = SUCCESS;
         organizationType = "Academia";
@@ -77,11 +81,9 @@ public class UserAction extends ActionSupport {
     public String loadEditProfilePage() throws Exception {
         String result = SUCCESS;
         // check that the user is logged in
-        if (Utility.isAdmin(user.getUserName())) {
-            userIsAdmin = true;
-        }
-        if (user.getUserName().startsWith("guest")) {
-            errorStrings.add("You may not change the guest profile settings.");
+        userIsAdmin = user.getIsAdmin().equals(Constants.YES);
+        if (user.getUserName().equals("guest")) {
+            errorStrings.add("Error: You may not change the guest" + " profile settings.");
             return ERROR;
         }
 
@@ -136,16 +138,17 @@ public class UserAction extends ActionSupport {
             errorMessages.add("Your username may not contain a space.");
             result = ERROR;
         }
-        // logger.debug("Check captcha now....");
-        // logger.debug("Public Key : " + Constants.RECAPTCHA_PUBLICKEY);
-        // logger.debug("Private Key : " + Constants.RECAPTCHA_PRIVATEKEY);
+
         // check CAPTCHA
-        ReCaptcha captcha =
-                ReCaptchaFactory.newReCaptcha(Constants.RECAPTCHA_PUBLICKEY, Constants.RECAPTCHA_PRIVATEKEY, false);
-        // logger.debug(captcha.toString());
-        ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1",
-                ((String[]) context.getParameters().get("recaptcha_challenge_field"))[0],
-                ((String[]) context.getParameters().get("recaptcha_response_field"))[0]);
+        ReCaptcha captcha;
+        if (request.isSecure()) {
+            captcha = ReCaptchaFactory
+                    .newSecureReCaptcha(Constants.RECAPTCHA_PUBLICKEY, Constants.RECAPTCHA_PRIVATEKEY, false);
+        } else {
+            captcha =
+                    ReCaptchaFactory.newReCaptcha(Constants.RECAPTCHA_PUBLICKEY, Constants.RECAPTCHA_PRIVATEKEY, false);
+        }
+        ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1", recaptcha_challenge_field, recaptcha_response_field);
 
         if (!resp.isValid()) {
             errorMessages.add("The text you typed for the CAPTCHA test" + " did not match the picture. Try again.");
@@ -191,24 +194,7 @@ public class UserAction extends ActionSupport {
         user.setPassword(Utility.encrypt(password));
 
         user.setStatus("agree");
-
-        Session s = HibernateUtil.getSession();
-        Transaction tx = null;
-
-        // commit user to DB
-
-        try {
-            tx = s.beginTransaction();
-            s.saveOrUpdate(user);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error(e);
-        } finally {
-            s.close();
-        }
+        userRepository.save(user);
 
         // user is auto-approved; email them a temp password
 
@@ -240,11 +226,13 @@ public class UserAction extends ActionSupport {
     }
     /* End Variables used for user registration and updates */
 
+    public String loadChangePassword() throws Exception {
+        return SUCCESS;
+    }
+
     public String changePassword() throws Exception {
         String result = SUCCESS;
-        if (Utility.isAdmin(user.getUserName())) {
-            userIsAdmin = true;
-        }
+        userIsAdmin = user.getIsAdmin().equals(Constants.YES);
 
         String realPasswordHash = user.getPassword();
         if (!(Utility.encrypt(oldPassword).equals(realPasswordHash))) {
@@ -262,24 +250,27 @@ public class UserAction extends ActionSupport {
         user.setPassword(Utility.encrypt(newPassword));
 
         // Commit changes
-
-        Session s = HibernateUtil.getSession();
-        Transaction tx = null;
-
-        try {
-            tx = s.beginTransaction();
-            s.saveOrUpdate(user);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error(e);
-        } finally {
-            s.close();
-        }
-
+        userRepository.save(user);
         addActionMessage("Password change successful!");
+        return result;
+    }
+
+    public String loadUpdateUserInformation() throws Exception {
+        String result = SUCCESS;
+        ActionContext context = ActionContext.getContext();
+        address = user.getAddress();
+        city = user.getCity();
+        country = user.getCountry();
+        email = user.getEmail();
+        firstName = user.getFirstName();
+        lastName = user.getLastName();
+        organizationName = user.getOrgName();
+        organizationType = user.getOrgType();
+        organizationPosition = user.getOrgType();
+        phoneNumber = user.getPhone();
+        stateOrProvince = user.getState();
+        zipCode = user.getZipCode();
+        workBench = user.getWorkbench();
         return result;
     }
 
@@ -310,22 +301,21 @@ public class UserAction extends ActionSupport {
         user.setWorkbench(workBench);
 
         // Commit changes
-        Session s = HibernateUtil.getSession();
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
-            s.saveOrUpdate(user);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error(e);
-        } finally {
-            s.close();
-        }
-
+        userRepository.save(user);
         errorMessages.add("Your information has been updated!");
+
+        return result;
+    }
+
+    public String loadUpdateUserOptions() throws Exception {
+        String result = SUCCESS;
+        // check that the user is logged in
+        ActionContext context = ActionContext.getContext();
+        showPublicDatasets = user.getShowPublicDatasets();
+        showPublicPredictors = user.getShowPublicPredictors();
+        viewDatasetCompoundsPerPage = user.getViewDatasetCompoundsPerPage();
+        viewPredictionCompoundsPerPage = user.getViewPredictionCompoundsPerPage();
+        showAdvancedKnnModeling = user.getShowAdvancedKnnModeling();
 
         return result;
     }
@@ -341,49 +331,14 @@ public class UserAction extends ActionSupport {
         user.setShowAdvancedKnnModeling(showAdvancedKnnModeling);
 
         // Commit changes
-        Session s = HibernateUtil.getSession();
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
-            s.saveOrUpdate(user);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error(e);
-        } finally {
-            s.close();
-        }
-
+        userRepository.save(user);
         errorMessages.add("Your settings have been saved!");
 
         return result;
     }
 
     private boolean userExists(String userName) throws Exception {
-        Session s = HibernateUtil.getSession();// query
-        Transaction tx = null;
-        User user = null;
-        User userInfo = null;
-        try {
-            tx = s.beginTransaction();
-            user = (User) s.createCriteria(User.class).add(Restrictions.eq("userName", userName)).uniqueResult();
-            userInfo = (User) s.createCriteria(User.class).add(Restrictions.eq("userName", userName)).uniqueResult();
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error(e);
-        } finally {
-            s.close();
-        }
-        if (user == null && userInfo == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return userRepository.findByUserName(userName) != null;
     }
 
     public void validateUserInfo() {
@@ -640,6 +595,19 @@ public class UserAction extends ActionSupport {
         this.userIsAdmin = userIsAdmin;
     }
     /* End Variables used in password changes and user options */
+
+    public void setRecaptcha_challenge_field(String recaptcha_challenge_field) {
+        this.recaptcha_challenge_field = recaptcha_challenge_field;
+    }
+
+    public void setRecaptcha_response_field(String recaptcha_response_field) {
+        this.recaptcha_response_field = recaptcha_response_field;
+    }
+
+    @Override
+    public void setServletRequest(HttpServletRequest request) {
+        this.request = request;
+    }
 
     /* END DATA OBJECTS, GETTERS, AND SETTERS */
 }

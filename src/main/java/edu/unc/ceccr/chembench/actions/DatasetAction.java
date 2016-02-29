@@ -1,34 +1,36 @@
 package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
-import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.CreateDatasetTask;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.util.List;
-//struts2
-
+import java.util.Set;
 
 public class DatasetAction extends ActionSupport {
 
-    private static Logger logger = Logger.getLogger(DatasetAction.class.getName());
+    private static final Logger logger = Logger.getLogger(DatasetAction.class.getName());
+    private final DatasetRepository datasetRepository;
+    private final PredictorRepository predictorRepository;
+    private final PredictionRepository predictionRepository;
+    private final JobRepository jobRepository;
     private List<String> errorStrings = Lists.newArrayList();
     private String datasetName = "";
     private String datasetType = Constants.MODELING;
     private long id;
     private double modi;
     private String splitType = Constants.NFOLD;
-    private String dataTypeModeling = Constants.NONE;
+    private String dataTypeModeling = Constants.CONTINUOUS;
     private String dataTypeModDesc = Constants.NONE;
     private String dataSetDescription = "";
     private String externalCompoundList = "";
@@ -92,34 +94,69 @@ public class DatasetAction extends ActionSupport {
     private String selectedDescriptorUsedNameD = "";
     private String descriptorNewNameD = "";
 
-    public String loadPage() throws Exception {
-        String result = SUCCESS;
+    @Autowired
+    public DatasetAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
+                         PredictionRepository predictionRepository, JobRepository jobRepository) {
+        this.datasetRepository = datasetRepository;
+        this.predictorRepository = predictorRepository;
+        this.predictionRepository = predictionRepository;
+        this.jobRepository = jobRepository;
+    }
 
-        //set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
-
-        Session session = HibernateUtil.getSession();
-
-        userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
-        userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
-        userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
-        userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
-        userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
-        userUploadedDescriptorTypes =
-                PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
-
-        session.close();
-        //log the results
-        if (result.equals(SUCCESS)) {
-            logger.debug("Forwarding user " + user.getUserName() + " to dataset page.");
-        } else {
-            logger.warn("Cannot load page.");
+    private List<String> getUploadedDescriptorTypes() {
+        Set<String> uploadedTypes = Sets.newHashSet();
+        List<Dataset> datasets = datasetRepository.findByUserName(user.getUserName());
+        datasets.addAll(datasetRepository.findAllPublicDatasets());
+        for (Dataset d : datasets) {
+            String uploadedDescriptorType = d.getUploadedDescriptorType();
+            if (uploadedDescriptorType != null && !uploadedDescriptorType.isEmpty()) {
+                uploadedTypes.add(uploadedDescriptorType);
+            }
         }
+        return Lists.newArrayList(uploadedTypes);
+    }
 
-        dataTypeModeling = Constants.CONTINUOUS;
-        dataTypeModDesc = Constants.CONTINUOUS;
+    public String ajaxLoadModeling() throws Exception {
+        return SUCCESS;
+    }
 
-        //go to the page
-        return result;
+    public String ajaxLoadPrediction() throws Exception {
+        return SUCCESS;
+    }
+
+    public String ajaxLoadModelingWithDescriptors() throws Exception {
+        userUploadedDescriptorTypes = getUploadedDescriptorTypes();
+        return SUCCESS;
+    }
+
+    public String ajaxLoadPredictionWithDescriptors() throws Exception {
+        userUploadedDescriptorTypes = getUploadedDescriptorTypes();
+        return SUCCESS;
+    }
+
+    public String ajaxLoadAutoSplit() throws Exception {
+        return SUCCESS;
+    }
+
+    public String ajaxLoadManualSplit() throws Exception {
+        return SUCCESS;
+    }
+
+    public String ajaxLoadNFoldSplit() throws Exception {
+        return SUCCESS;
+    }
+
+    public String loadPage() throws Exception {
+        //set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
+        List<Dataset> datasets = datasetRepository.findByUserName(user.getUserName());
+        datasets.addAll(datasetRepository.findAllPublicDatasets());
+        userDatasetNames = Lists.transform(datasets, Utility.NAME_TRANSFORM);
+        userPredictorList = predictorRepository.findByUserName(user.getUserName());
+        userPredictorNames = Lists.transform(userPredictorList, Utility.NAME_TRANSFORM);
+        userPredictionNames =
+                Lists.transform(predictionRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
+        userTaskNames = Lists.transform(jobRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
+        return SUCCESS;
     }
 
     public String execute() throws Exception {
@@ -128,6 +165,7 @@ public class DatasetAction extends ActionSupport {
 
         String result = INPUT;
 
+        ActionContext context = ActionContext.getContext();
         String userName = user.getUserName();
         if (datasetName != null) {
             datasetName = datasetName.replaceAll("\\s+", "_");
@@ -186,7 +224,7 @@ public class DatasetAction extends ActionSupport {
                     actFileModelingFileName =
                             actFileModelingFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
                 }
@@ -246,7 +284,7 @@ public class DatasetAction extends ActionSupport {
                             emailOnCompletion);
 
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                 }
             }
         } else if (datasetType.equalsIgnoreCase(Constants.PREDICTION)) {
@@ -267,7 +305,7 @@ public class DatasetAction extends ActionSupport {
                     sdfFilePredictionFileName = sdfFilePredictionFileName.replaceAll(" ", "_").replaceAll("\\(", "_")
                             .replaceAll("\\)", "_");
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
                 }
@@ -308,7 +346,7 @@ public class DatasetAction extends ActionSupport {
                             emailOnCompletion);
 
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
                 }
@@ -350,7 +388,7 @@ public class DatasetAction extends ActionSupport {
                             descriptorNewName.trim().isEmpty() ? selectedDescriptorUsedName : descriptorNewName;
 
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
                 }
@@ -388,7 +426,7 @@ public class DatasetAction extends ActionSupport {
                     centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels,
                             emailOnCompletion);
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
                 }
@@ -418,7 +456,7 @@ public class DatasetAction extends ActionSupport {
                     descriptorTypePredDesc =
                             descriptorNewNameD.trim().isEmpty() ? selectedDescriptorUsedNameD : descriptorNewNameD;
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
                 }
@@ -459,7 +497,7 @@ public class DatasetAction extends ActionSupport {
 
                     //Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
                 } catch (Exception ex) {
-                    logger.error(ex);
+                    logger.error("", ex);
                     result = ERROR;
                     msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
                 }
@@ -470,13 +508,12 @@ public class DatasetAction extends ActionSupport {
     }
 
     public String generateModi() throws Exception {
-        Session session = HibernateUtil.getSession();
-        Dataset dataset = PopulateDataObjects.getDataSetById(id, session);
+        Dataset dataset = datasetRepository.findOne(id);
         if (dataset == null || !dataset.canGenerateModi()) {
             return "badrequest";
         } else {
             if (!dataset.isModiGenerated()) {
-                dataset.generateModi();
+                dataset.generateModi(datasetRepository);
             }
             this.modi = dataset.getModi();
             return SUCCESS;

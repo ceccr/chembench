@@ -1,16 +1,17 @@
 package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Compound;
 import edu.unc.ceccr.chembench.persistence.Dataset;
+import edu.unc.ceccr.chembench.persistence.DatasetRepository;
 import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.visualization.ActivityHistogram;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -22,7 +23,8 @@ import java.util.Map;
 
 public class DatasetDetailAction extends ActionSupport {
 
-    private static Logger logger = Logger.getLogger(DatasetDetailAction.class.getName());
+    private static final Logger logger = Logger.getLogger(DatasetDetailAction.class.getName());
+    private final DatasetRepository datasetRepository;
 
     private long id;
     private Dataset dataset;
@@ -39,9 +41,14 @@ public class DatasetDetailAction extends ActionSupport {
     private String datasetDescription;
     private String datasetReference;
 
+    @Autowired
+    public DatasetDetailAction(DatasetRepository datasetRepository) {
+        this.datasetRepository = datasetRepository;
+    }
+
     public String load() throws Exception {
         User user = User.getCurrentUser();
-        this.dataset = Dataset.get(id);
+        this.dataset = datasetRepository.findOne(id);
         if (dataset == null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
                 .equals(dataset.getUserName()))) {
             super.addActionError("Invalid dataset ID.");
@@ -55,7 +62,7 @@ public class DatasetDetailAction extends ActionSupport {
         // the dataset has now been viewed. Update DB accordingly.
         if (!dataset.getHasBeenViewed().equals(Constants.YES)) {
             dataset.setHasBeenViewed(Constants.YES);
-            dataset.save();
+            datasetRepository.save(dataset);
         }
 
         Path datasetDirPath =
@@ -268,18 +275,18 @@ public class DatasetDetailAction extends ActionSupport {
     }
 
     public String updateDataset() throws Exception {
-        dataset = Dataset.get(id);
+        dataset = datasetRepository.findOne(id);
         if (dataset != null) {
             dataset.setDescription(datasetDescription);
             dataset.setPaperReference(datasetReference);
-            dataset.save();
+            datasetRepository.save(dataset);
             return SUCCESS;
         }
         return ERROR;
     }
 
     public String getFold() {
-        dataset = Dataset.get(id);
+        dataset = datasetRepository.findOne(id);
         if (dataset == null) {
             return "badrequest";
         }

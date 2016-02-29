@@ -15,7 +15,7 @@ import java.util.List;
 
 public class KnnPrediction {
 
-    private static Logger logger = Logger.getLogger(KnnPrediction.class.getName());
+    private static final Logger logger = Logger.getLogger(KnnPrediction.class.getName());
 
     // Execute external programs to generate a prediction for a given molecule
     // set.
@@ -134,7 +134,7 @@ public class KnnPrediction {
                 predictionValues.add(p);
 
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
         in.close();

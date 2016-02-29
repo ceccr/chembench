@@ -86,15 +86,6 @@
             <result name="error">/jsp/administration/user/editProfile.jsp</result>
         </action>
 
-        <action name="forgotPassword">
-            <result>/jsp/administration/user/resetPassword.jsp</result>
-        </action>
-
-        <action name="resetPassword" class="edu.unc.ceccr.chembench.actions.ResetPasswordAction" method="execute">
-            <result name="success">/jsp/administration/user/resetPasswordSent.jsp</result>
-            <result name="error">/jsp/administration/user/resetPassword.jsp</result>
-        </action>
-
         <!-- Dataset Page -->
         <action name="dataset" class="edu.unc.ceccr.chembench.actions.DatasetAction" method="loadPage">
             <result name="success">/jsp/dataset/dataset.jsp</result>
@@ -218,6 +209,12 @@
         <action name="viewPredictorRandomForestTreesSection"
                 class="edu.unc.ceccr.chembench.actions.ViewPredictor.RandomForestModelsPage" method="load">
             <result name="success">/jsp/modelingOutput/viewPredictor-randomForestTrees.jsp</result>
+            <result name="error">/jsp/main/error.jsp</result>
+        </action>
+
+        <action name="viewPredictorRandomForestDescriptorImportanceSection"
+                class="edu.unc.ceccr.chembench.actions.ViewPredictor.RandomForestDescriptorImportancePage">
+            <result name="success">/jsp/modelingOutput/viewPredictor-randomForestDescriptorImportance.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
@@ -373,6 +370,11 @@
         <action name="deletePublicPredictionAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
                 method="deletePublicPrediction">
             <result name="success" type="redirect">home</result>
+            <result name="error">/jsp/main/error.jsp</result>
+        </action>
+
+        <action name="regenerateCcr" class="edu.unc.ceccr.chembench.actions.AdminAction" method="regenerateCcr">
+            <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
         <!-- End Admin Actions -->

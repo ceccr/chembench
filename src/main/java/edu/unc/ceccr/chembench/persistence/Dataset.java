@@ -4,12 +4,9 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import weka.classifiers.Evaluation;
 import weka.classifiers.lazy.IBk;
 import weka.core.Attribute;
@@ -24,17 +21,15 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-
 @Entity
 @Table(name = "cbench_dataset")
 public class Dataset implements java.io.Serializable {
-    private static Logger logger = Logger.getLogger(Dataset.class.getName());
+    private static final Logger logger = Logger.getLogger(Dataset.class.getName());
 
     private Long id;
     private String name;
@@ -67,51 +62,12 @@ public class Dataset implements java.io.Serializable {
     private double modi;
     private boolean modiGenerated = false;
 
-    public Dataset() {
-    }
-
-    public static Dataset get(long id) {
-        Dataset dataset = null;
-        Session session = null;
-        try {
-            session = HibernateUtil.getSession();
-            dataset = PopulateDataObjects.getDataSetById(id, session);
-        } catch (RuntimeException | ClassNotFoundException | SQLException e) {
-
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-        return dataset;
-    }
-
-    public void save() {
-        Session session = null;
-        Transaction tx = null;
-        try {
-            session = HibernateUtil.getSession();
-            tx = session.beginTransaction();
-            session.saveOrUpdate(this);
-            tx.commit();
-        } catch (RuntimeException | ClassNotFoundException | SQLException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error(e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-    }
-
     public boolean canGenerateModi() {
         return actFile != null && !actFile.isEmpty() && (availableDescriptors.contains(Constants.DRAGONH)
                 || availableDescriptors.contains(Constants.CDK));
     }
 
-    public void generateModi() throws Exception {
+    public void generateModi(DatasetRepository datasetRepository) throws Exception {
         if (modiGenerated) {
             return;
         }
@@ -146,9 +102,10 @@ public class Dataset implements java.io.Serializable {
             Joiner joiner = Joiner.on("\t");
             writer.write(joiner.join(header));
             writer.newLine();
+            Splitter splitter = Splitter.on(' ');
             for (Descriptors d : descriptorValueMatrix) {
-                List<String> values =
-                        Lists.newArrayList(Splitter.on(' ').omitEmptyStrings().splitToList(d.getDescriptorValues()));
+                List<String> values = Lists.newArrayList(splitter.omitEmptyStrings()
+                        .splitToList(d.getDescriptorValues()));
                 values.add(0, activityMap.get(d.getCompoundName()));
                 writer.write(joiner.join(values));
                 writer.newLine();
@@ -187,7 +144,7 @@ public class Dataset implements java.io.Serializable {
                 this.modi = evaluation.correlationCoefficient();
             }
             this.modiGenerated = true;
-            save();
+            datasetRepository.save(this);
         } else {
             throw new IllegalStateException("MODI cannot be generated for this dataset");
         }

@@ -6,6 +6,14 @@ import java.util.List;
 
 public class Constants {
 
+    public enum ActivityType {
+        CATEGORY, CONTINUOUS
+    }
+
+    public enum ScalingType {
+        AUTOSCALING, RANGESCALING, NOSCALING
+    }
+
     //After submitting around 250 jobs, LSF won't let you submit more, it just returns an error.
     //Cap the number of jobs that can be added to the LSF queue at any given time.
     public static final int MAXLSFJOBS = 200;
@@ -73,6 +81,7 @@ public class Constants {
     public static final String KNNPLUS = "KNNPLUS";
     public static final String SVM = "SVM";
     public static final String RANDOMFOREST = "RANDOMFOREST";
+    public static final String RANDOMFOREST_R = "RANDOMFOREST-R";
     public static final String SIMULATEDANNEALING = "SIMULATEDANNEALING";
     public static final String GENETICALGORITHM = "GENETICALGORITHM";
     public static final String AUTOSCALING = "AUTOSCALING";

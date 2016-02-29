@@ -15,7 +15,7 @@ import java.util.List;
 public class DataSplit {
 
 
-    private static Logger logger = Logger.getLogger(DataSplit.class.getName());
+    private static final Logger logger = Logger.getLogger(DataSplit.class.getName());
 
     public static void SplitModelingExternal(String workingdir, String actFile, String xFile,
                                              String numCompoundsExternalSet, String useActivityBinning)

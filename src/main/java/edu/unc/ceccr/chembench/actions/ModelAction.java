@@ -6,36 +6,26 @@ import com.google.common.collect.Ordering;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
-import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.QsarModelingTask;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.utilities.PositiveRandom;
+import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-// struts2
 
 public class ModelAction extends ActionSupport {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-
-    private static Logger logger = Logger.getLogger(ModelAction.class.getName());
-    Session executeSession = null; // specialized session variable used
-    // only in this function
-    boolean closeSessionAtEnd = true;
-    // errors (for error page)
+    private static final Logger logger = Logger.getLogger(ModelAction.class.getName());
+    private final DatasetRepository datasetRepository;
+    private final PredictorRepository predictorRepository;
+    private final PredictionRepository predictionRepository;
+    private final JobRepository jobRepository;
     List<String> errorStrings = Lists.newArrayList();
-    // ====== variables used for display on the JSP =====//
     private User user = User.getCurrentUser();
     private List<String> userDatasetNames;
     private List<String> userPredictorNames;
@@ -79,7 +69,6 @@ public class ModelAction extends ActionSupport {
     private String maxNumDescriptors = "30";
     private String stepSize = "5";
     private String numCycles = "100";
-
     // ====== variables populated by the forms on the JSP =====//
     private String nearest_Neighbors = "5";
     private String pseudo_Neighbors = "100";
@@ -88,7 +77,6 @@ public class ModelAction extends ActionSupport {
     private String T1 = "100";
     private String T2 = "-5.0";
     private String mu = "0.9";
-
     // end dataset selection parameters
     private String TcOverTb = "-6.0";
     private String cutoff = "0.5";
@@ -106,7 +94,6 @@ public class ModelAction extends ActionSupport {
     private String knnMaxNumDescriptors = "45";
     private String knnDescriptorStepSize = "4";
     private String knnMinNearestNeighbors = "1";
-
     // end train-test split parameters
     private String knnMaxNearestNeighbors = "9";
     private String saNumRuns = "2";
@@ -162,11 +149,7 @@ public class ModelAction extends ActionSupport {
     private String svmCutoff = "0.6";
     // Random Forest parameters
     private String numTrees = "1000";
-    private String minTerminalNodeSize;//               = "1";
-
-    // end knn+ parameters
-    private String maxNumTerminalNodes = "0";
-    private String descriptorsPerTree;//                = "25";
+    private int seed = -1;
     // end Random Forest parameters
     private String jobName;
     private String textValue;
@@ -174,14 +157,27 @@ public class ModelAction extends ActionSupport {
     private String message;
     private String emailOnCompletion = "false";
 
+    @Autowired
+    public ModelAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
+                       PredictionRepository predictionRepository, JobRepository jobRepository) {
+        this.datasetRepository = datasetRepository;
+        this.predictorRepository = predictorRepository;
+        this.predictionRepository = predictionRepository;
+        this.jobRepository = jobRepository;
+    }
+
     public String loadPage() throws Exception {
         String result = SUCCESS;
 
         // set up any values that need to be populated onto the page
         // (dropdowns, lists, display stuff)
-        Session session = HibernateUtil.getSession();
-        userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
-        userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
+        List<Dataset> userDatasets = datasetRepository.findByUserName(user.getUserName());
+        userDatasets.addAll(datasetRepository.findAllPublicDatasets());
+        userPredictorList = predictorRepository.findByUserName(user.getUserName());
+        userPredictorList.addAll(predictorRepository.findPublicPredictors());
+
+        userDatasetNames = Lists.transform(userDatasets, Utility.NAME_TRANSFORM);
+        userPredictorNames = Lists.transform(userPredictorList, Utility.NAME_TRANSFORM);
 
         // also get the base names for nfold predictors. if a user has
         // "mypredictor_fold_1_of_5",
@@ -195,54 +191,21 @@ public class ModelAction extends ActionSupport {
         }
         userPredictorNames.addAll(foldedPredictorNames);
 
-        userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
-        userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
+        userPredictionNames =
+                Lists.transform(predictionRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
+        userTaskNames = Lists.transform(jobRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
 
-        userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
 
+        userContinuousDatasets =
+                datasetRepository.findByUserNameAndActivityType(user.getUserName(), Constants.CONTINUOUS);
+        userCategoryDatasets = datasetRepository.findByUserNameAndActivityType(user.getUserName(), Constants.CATEGORY);
         if (user.getShowPublicDatasets().equals(Constants.ALL)) {
             // get user and public datasets
-            userContinuousDatasets =
-                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
-            userCategoryDatasets =
-                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session);
-        } else if (user.getShowPublicDatasets().equals(Constants.NONE)) {
-            // just get user datasets
-            userContinuousDatasets =
-                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, false, session);
-            userCategoryDatasets =
-                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, false, session);
+            userContinuousDatasets.addAll(datasetRepository.findAllPublicContinuousDatasets());
+            userCategoryDatasets.addAll(datasetRepository.findAllPublicCategoryDatasets());
         } else if (user.getShowPublicDatasets().equals(Constants.SOME)) {
-            // get all datasets and filter out all the public ones that aren't
-            // "show by default"
-            userContinuousDatasets =
-                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
-            userCategoryDatasets =
-                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session);
-
-            for (int i = 0; i < userContinuousDatasets.size(); i++) {
-                String s = userContinuousDatasets.get(i).getShowByDefault();
-                if (s != null && s.equals(Constants.NO)) {
-                    userContinuousDatasets.remove(i);
-                    i--;
-                }
-            }
-
-            for (int i = 0; i < userCategoryDatasets.size(); i++) {
-                String s = userCategoryDatasets.get(i).getShowByDefault();
-                if (s != null && s.equals(Constants.NO)) {
-                    userCategoryDatasets.remove(i);
-                    i--;
-                }
-            }
-        }
-        session.close();
-
-        // log the results
-        if (result.equals(SUCCESS)) {
-            logger.debug("Forwarding user " + user.getUserName() + " to modeling page.");
-        } else {
-            logger.warn("Cannot load page.");
+            userContinuousDatasets.addAll(datasetRepository.findSomePublicContinuousDatasets());
+            userCategoryDatasets.addAll(datasetRepository.findSomePublicCategoryDatasets());
         }
 
         // load default tab selections
@@ -257,11 +220,6 @@ public class ModelAction extends ActionSupport {
 
     public String execute() throws Exception {
         // form has been submitted
-
-        if (executeSession == null) {
-            executeSession = HibernateUtil.getSession();
-        }
-
         if (jobName != null) {
             jobName = jobName.replaceAll(" ", "_");
             jobName = jobName.replaceAll("\\(", "_");
@@ -273,39 +231,28 @@ public class ModelAction extends ActionSupport {
         }
 
         logger.info("Submitting modeling job with dataset id: " + selectedDatasetId);
-        if (selectedDatasetId == null || PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession) == null
-                || PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getName() == null
-                || PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getJobCompleted()
+        Dataset ds = datasetRepository.findOne(selectedDatasetId);
+        if (selectedDatasetId == null || ds == null || ds.getName() == null || ds.getJobCompleted()
                 .equals(Constants.NO)) {
             return ERROR;
         }
 
-        Dataset ds = PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession);
         if ((ds.getName().equals("all-datasets"))) {
-            // Launch modeling on every dataset the user owns (except for this
-            // one).
-            closeSessionAtEnd = false;
+            // Launch modeling on every dataset the user owns (except for this one).
             List<Dataset> datasetList = Lists.newArrayList();
-            datasetList.addAll(PopulateDataObjects
-                    .populateDataset(user.getUserName(), Constants.CONTINUOUS, false, executeSession));
-            datasetList.addAll(PopulateDataObjects
-                    .populateDataset(user.getUserName(), Constants.CATEGORY, false, executeSession));
+            datasetList.addAll(datasetRepository.findByUserName(user.getUserName()));
 
             Long allDatasetsId = selectedDatasetId;
             String originalJobName = jobName;
 
-            for (int i = 0; i < datasetList.size(); i++) {
-                if (!datasetList.get(i).getId().equals(allDatasetsId) && !datasetList.get(i).getName()
-                        .equals("all-datasets")) {
-                    actFileDataType = datasetList.get(i).getModelType();
-                    selectedDatasetId = datasetList.get(i).getId();
-                    jobName = originalJobName + datasetList.get(i).getName();
-                    logger.info("launching modeling on dataset " + datasetList.get(i).getName());
+            for (Dataset dataset : datasetList) {
+                if (!dataset.getId().equals(allDatasetsId) && !dataset.getName().equals("all-datasets")) {
+                    actFileDataType = dataset.getModelType();
+                    selectedDatasetId = dataset.getId();
+                    jobName = originalJobName + dataset.getName();
+                    logger.info("launching modeling on dataset " + dataset.getName());
                     execute();
                 }
-            }
-            if (executeSession.isOpen()) {
-                executeSession.close();
             }
             return SUCCESS;
         }
@@ -314,7 +261,7 @@ public class ModelAction extends ActionSupport {
         String s = "";
         s += "\n Job Name: " + jobName;
         s += "\n Dataset ID: " + selectedDatasetId;
-        s += "\n Dataset Name: " + PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getName();
+        s += "\n Dataset Name: " + ds.getName();
         s += "\n Descriptor Type: " + descriptorGenerationType;
         s += "\n (Sphere Exclusion) Split Includes Min: " + splitIncludesMin;
         s += "\n (Random Internal Split) Max. Test Set Size: " + randomSplitMaxTestSize;
@@ -357,14 +304,20 @@ public class ModelAction extends ActionSupport {
                 int numMaxDesc = Integer.parseInt(knnMaxNumDescriptors);
                 if (numDescriptors < numMaxDesc) {
                     errorStrings.add("Your uploaded dataset contains only " + numDescriptors
-                                    + " descriptors, but you requested " + "that each model contain up to " + numMaxDesc
-                                    + " descriptors. Please return to the " + "Modeling page and "
-                                    + "fix your parameters.");
+                            + " descriptors, but you requested " + "that each model contain up to " + numMaxDesc
+                            + " descriptors. Please return to the " + "Modeling page and " + "fix your parameters.");
                     return ERROR;
                 }
             }
 
             if (ds.getSplitType().equals(Constants.NFOLD)) {
+                // generate random seed for RF if none given
+                // (we need to do this here, not in Python, because the seed needs to stay the same across every fold)
+                if (modelingType.equals(Constants.RANDOMFOREST) && seed < 0) {
+                    PositiveRandom random = new PositiveRandom();
+                    seed = random.nextPositiveInt(); // in interval [0, Integer.MAX_VALUE]
+                }
+
                 // start n jobs, 1 for each fold.
                 int numExternalFolds = Integer.parseInt(ds.getNumExternalFolds());
                 String baseJobName = jobName;
@@ -420,29 +373,11 @@ public class ModelAction extends ActionSupport {
                 }
                 logger.debug("TYPE::" + ds.getUploadedDescriptorType() + ":::" + p.getUploadedDescriptorType());
 
-                Transaction tx = null;
-                try {
-                    tx = executeSession.beginTransaction();
-                    executeSession.save(p);
-                    tx.commit();
-                } catch (Exception ex) {
-                    if (tx != null) {
-                        tx.rollback();
-                    }
-                    logger.error(ex);
-                }
-
-                if (closeSessionAtEnd) {
-                    executeSession.close();
-                }
+                predictorRepository.save(p);
             } else {
                 QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
                 modelingTask.setUp();
                 int numCompounds = ds.getNumCompound();
-
-                if (closeSessionAtEnd) {
-                    executeSession.close();
-                }
 
                 // count the number of models that will be generated
                 int numModels = getNumModels();
@@ -458,10 +393,7 @@ public class ModelAction extends ActionSupport {
 
             }
         } catch (Exception ex) {
-            logger.error(ex);
-            if (closeSessionAtEnd) {
-                executeSession.close();
-            }
+            logger.error("", ex);
         }
         return SUCCESS;
     }
@@ -1387,31 +1319,13 @@ public class ModelAction extends ActionSupport {
         this.numTrees = numTrees;
     }
 
-    public String getMinTerminalNodeSize() {
-        return minTerminalNodeSize;
+    public int getSeed() {
+        return seed;
     }
 
-    public void setMinTerminalNodeSize(String minTerminalNodeSize) {
-        this.minTerminalNodeSize = minTerminalNodeSize;
+    public void setSeed(int seed) {
+        this.seed = seed;
     }
-
-    public String getMaxNumTerminalNodes() {
-        return maxNumTerminalNodes;
-    }
-
-    public void setMaxNumTerminalNodes(String maxNumTerminalNodes) {
-        this.maxNumTerminalNodes = maxNumTerminalNodes;
-    }
-
-    public String getDescriptorsPerTree() {
-        return descriptorsPerTree;
-    }
-
-    public void setDescriptorsPerTree(String descriptorsPerTree) {
-        this.descriptorsPerTree = descriptorsPerTree;
-    }
-
-    // end RF
 
     public Long getSelectedPredictorId() {
         return selectedPredictorId;

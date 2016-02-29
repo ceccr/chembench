@@ -25,7 +25,7 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     private Long id;
     private Long predictorId;
     private String name;

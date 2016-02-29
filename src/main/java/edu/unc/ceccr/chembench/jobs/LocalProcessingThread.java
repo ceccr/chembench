@@ -1,14 +1,13 @@
 package edu.unc.ceccr.chembench.jobs;
 
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.Job;
-import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -16,12 +15,17 @@ import java.io.StringWriter;
 import java.util.Date;
 import java.util.List;
 
+@Configurable(autowire = Autowire.BY_TYPE)
 public class LocalProcessingThread extends Thread {
 
-    private static Logger logger = Logger.getLogger(LocalProcessingThread.class.getName());
-
+    private static final Logger logger = Logger.getLogger(LocalProcessingThread.class.getName());
     // this thread will work on the localJobs joblist.
     // There can be any number of these threads.
+
+    @Autowired
+    private JobRepository jobRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public void run() {
         while (true) {
@@ -59,15 +63,13 @@ public class LocalProcessingThread extends Thread {
                             // if job was started by guest check if he still
                             // exists
                             if (j.getUserName().contains("guest")) {
-                                Session session = HibernateUtil.getSession();
                                 // removing all quest data if guest time on
                                 // site was out
                                 if (!j.getUserName().isEmpty()
-                                        && PopulateDataObjects.getUserByUserName(j.getUserName(), session) == null) {
+                                        && userRepository.findByUserName(j.getUserName()) == null) {
                                     FileAndDirOperations
                                             .deleteDir(new File(Constants.CECCR_USER_BASE_PATH + j.getUserName()));
                                 }
-                                session.close();
                             }
                             // finished; remove job object
                             CentralDogma.getInstance().localJobs.removeJob(j.getId());
@@ -76,22 +78,17 @@ public class LocalProcessingThread extends Thread {
                             // Job failed or threw an exception
                             logger.error("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
                             if (j.getUserName().contains("guest")) {
-                                Session session = HibernateUtil.getSession();
-                                // removing all quest data if guest time on
-                                // site was out
-                                logger.error("JOB FAILED REMOVING GUEST: " + j.getUserName() + " " +
-                                        PopulateDataObjects.getUserByUserName(j.getUserName(), session));
+                                // removing all quest data if guest time on site was out
                                 if (!j.getUserName().isEmpty()
-                                        && PopulateDataObjects.getUserByUserName(j.getUserName(), session) == null) {
+                                        && userRepository.findByUserName(j.getUserName()) == null) {
                                     FileAndDirOperations
                                             .deleteDir(new File(Constants.CECCR_USER_BASE_PATH + j.getUserName()));
                                     logger.error("JOB FAILED REMOVING FOR SURE GUEST: " + j.getUserName());
                                 }
-                                session.close();
                             } else {
                                 CentralDogma.getInstance().moveJobToErrorList(j.getId());
                                 CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
-                                logger.error(ex);
+                                logger.error("", ex);
 
                                 // prepare a nice HTML-formatted readable
                                 // version of the exception
@@ -103,10 +100,7 @@ public class LocalProcessingThread extends Thread {
                                 logger.error(exceptionAsString);
 
                                 // send an email to the site administrator
-                                Session s = HibernateUtil.getSession();
-                                User sadUser = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
-                                s.close();
-
+                                User sadUser = userRepository.findByUserName(j.getUserName());
                                 String message = "Heya, <br />" + j.getUserName() + "'s job \"" + j.getJobName() +
                                         "\" failed. You might wanna look into that. Their email is " + sadUser
                                         .getEmail() + " and their name is " + sadUser.getFirstName() + " " + sadUser
@@ -129,7 +123,7 @@ public class LocalProcessingThread extends Thread {
                 }
 
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
     }

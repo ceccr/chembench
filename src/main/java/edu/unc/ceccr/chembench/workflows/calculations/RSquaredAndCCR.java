@@ -1,21 +1,29 @@
 package edu.unc.ceccr.chembench.workflows.calculations;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.ExternalValidation;
+import edu.unc.ceccr.chembench.persistence.ExternalValidationRepository;
 import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.DecimalFormat;
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
+@Component
 public class RSquaredAndCCR {
 
-    private static Logger logger = Logger.getLogger(RSquaredAndCCR.class.getName());
+    private static final Logger logger = Logger.getLogger(RSquaredAndCCR.class.getName());
+    private static PredictorRepository predictorRepository;
+    private static ExternalValidationRepository externalValidationRepository;
 
     public static List<Double> calculateResiduals(List<ExternalValidation> externalValidationList) {
         List<Double> residuals = Lists.newArrayList();
@@ -78,86 +86,89 @@ public class RSquaredAndCCR {
     public static ConfusionMatrix calculateConfusionMatrix(List<ExternalValidation> externalValidationList) {
 
         //scan through to find the unique observed values
-        List<String> uniqueObservedValues = Lists.newArrayList();
+        Set<Integer> classes = Sets.newTreeSet();
         for (ExternalValidation ev : externalValidationList) {
             int observedValue = Math.round(ev.getActualValue());
             int predictedValue = Math.round(ev.getPredictedValue());
-            if (!uniqueObservedValues.contains("" + observedValue)) {
-                uniqueObservedValues.add("" + observedValue);
-            }
+            classes.add(observedValue);
             //if a value is predicted but not observed, we still need
             //a spot in the matrix for that, so make a spot for those too.
-            if (!uniqueObservedValues.contains("" + predictedValue)) {
-                uniqueObservedValues.add("" + predictedValue);
-            }
+            classes.add(predictedValue);
         }
-        Collections.sort(uniqueObservedValues);
 
         //set up a confusion matrix to store counts of each (observed, predicted) possibility
-        List<List<Integer>> matrix = Lists.newArrayList();
-
-        //make a matrix of zeros
-        for (int i = 0; i < uniqueObservedValues.size(); i++) {
-            List<Integer> row = Lists.newArrayList();
-            for (int j = 0; j < uniqueObservedValues.size(); j++) {
-                row.add(0);
-            }
-            matrix.add(row);
-        }
-
-        double CCR = 0.0;
-        HashMap<Integer, Integer> correctPredictionCounts = new HashMap<Integer, Integer>();
-        HashMap<Integer, Integer> observedValueCounts = new HashMap<Integer, Integer>();
-
-        //populate the confusion matrix and count values needed to calculate CCR
+        int numClasses = classes.size();
+        int[][] matrix = new int[numClasses][numClasses]; // ...[observed][predicted] indexing
         for (ExternalValidation ev : externalValidationList) {
-            //for each observed-predicted pair, update
-            //the confusion matrix accordingly
             int observedValue = Math.round(ev.getActualValue());
             int predictedValue = Math.round(ev.getPredictedValue());
-            int observedValueIndex = uniqueObservedValues.indexOf("" + observedValue);
-            int predictedValueIndex = uniqueObservedValues.indexOf("" + predictedValue);
-            int previousCount = matrix.get(observedValueIndex).get(predictedValueIndex);
-            matrix.get(observedValueIndex).set(predictedValueIndex, previousCount + 1);
-
-            if (observedValueCounts.containsKey(observedValue)) {
-                observedValueCounts.put(observedValue, observedValueCounts.get(observedValue) + 1);
-            } else {
-                observedValueCounts.put(observedValue, 1);
-            }
-
-            if (predictedValue == observedValue) {
-                if (correctPredictionCounts.containsKey(observedValue)) {
-                    correctPredictionCounts.put(observedValue, correctPredictionCounts.get(observedValue) + 1);
-                } else {
-                    correctPredictionCounts.put(observedValue, 1);
-                }
-            }
-
+            matrix[observedValue][predictedValue]++;
         }
 
-        Double ccrDouble = 0.0;
-        for (Integer d : correctPredictionCounts.keySet()) {
-            ccrDouble += new Double(correctPredictionCounts.get(d)) / new Double(observedValueCounts.get(d));
+        int total = externalValidationList.size();
+        int totalCorrect = 0;
+        for (int i = 0; i < numClasses; i++) {
+            totalCorrect += matrix[i][i];
         }
-        ccrDouble = ccrDouble / new Double(observedValueCounts.keySet().size());
+        int totalIncorrect = total - totalCorrect;
+        double accuracy = totalCorrect / (double) total;
 
         ConfusionMatrix cm = new ConfusionMatrix();
-        cm.setCcr(ccrDouble);
-        cm.setUniqueObservedValues(uniqueObservedValues);
-        cm.setMatrixValues(matrix);
+        cm.setMatrix(matrix);
+        cm.setUniqueObservedValues(classes);
+        cm.setTotalCorrect(totalCorrect);
+        cm.setTotalIncorrect(totalIncorrect);
+        cm.setAccuracy(accuracy);
+
+        // ccr = balanced accuracy = average of accuracy for each class across all classes
+        double classAccuracies = 0d;
+        for (int i = 0; i < numClasses; i++) {
+            int correctClass = matrix[i][i];
+            int totalClass = 0;
+            for (int j = 0; j < numClasses; j++) {
+                totalClass += matrix[i][j];
+            }
+            classAccuracies += (correctClass / (double) totalClass);
+        }
+        double ccr = classAccuracies / numClasses;
+        cm.setCcr(ccr);
+
+        // for binary datasets with active (1) and inactive (0) categories, calculate additional stats
+        if (classes.size() == 2 && classes.contains(0) && classes.contains(1)) {
+            cm.setIsBinary(true);
+            int trueNegatives = matrix[0][0];
+            int truePositives = matrix[1][1];
+            int falseNegatives = matrix[1][0];
+            int falsePositives = matrix[0][1];
+            int totalPositives = falsePositives + truePositives;
+            int totalNegatives = falseNegatives + trueNegatives;
+
+            double ppv = truePositives / (double) totalPositives;
+            double npv = trueNegatives / (double) totalNegatives;
+            double sensitivity = truePositives / (double) (truePositives + falseNegatives);
+            double specificity = trueNegatives / (double) (trueNegatives + falsePositives);
+
+            cm.setTrueNegatives(trueNegatives);
+            cm.setTruePositives(truePositives);
+            cm.setFalseNegatives(falseNegatives);
+            cm.setFalsePositives(falsePositives);
+            cm.setPpv(ppv);
+            cm.setNpv(npv);
+            cm.setSensitivity(sensitivity);
+            cm.setSpecificity(specificity);
+        }
 
         return cm;
     }
 
-    public static void addRSquaredAndCCRToPredictor(Predictor selectedPredictor, Session session) {
+    public static void addRSquaredAndCCRToPredictor(Predictor selectedPredictor) {
         try {
             ConfusionMatrix confusionMatrix;
             String rSquared = "";
             String rSquaredAverageAndStddev = "";
             String ccrAverageAndStddev = "";
             List<ExternalValidation> externalValValues = null;
-            List<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(selectedPredictor, session);
+            List<Predictor> childPredictors = predictorRepository.findByParentId(selectedPredictor.getParentId());
 
             //get external validation compounds of predictor
             if (childPredictors.size() != 0) {
@@ -168,8 +179,7 @@ public class RSquaredAndCCR {
 
                 for (int i = 0; i < childPredictors.size(); i++) {
                     Predictor cp = childPredictors.get(i);
-                    List<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects
-                            .getExternalValidationValues(cp.getId(), session);
+                    List<ExternalValidation> childExtVals = externalValidationRepository.findByPredictorId(cp.getId());
 
                     //calculate r^2 / ccr for this child
                     if (childExtVals.size() > 0) {
@@ -209,8 +219,7 @@ public class RSquaredAndCCR {
                     selectedPredictor.setExternalPredictionAccuracyAvg(ccrAverageAndStddev);
                 }
             } else {
-                externalValValues = (ArrayList<ExternalValidation>) PopulateDataObjects
-                        .getExternalValidationValues(selectedPredictor.getId(), session);
+                externalValValues = externalValidationRepository.findByPredictorId(selectedPredictor.getId());
             }
 
             if (externalValValues == null || externalValValues.isEmpty()) {
@@ -250,8 +259,17 @@ public class RSquaredAndCCR {
                 selectedPredictor.setExternalPredictionAccuracy(rSquared);
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
-        return;
+    }
+
+    @Autowired
+    public void setPredictorRepository(PredictorRepository predictorRepository) {
+        RSquaredAndCCR.predictorRepository = predictorRepository;
+    }
+
+    @Autowired
+    public void setExternalValidationRepository(ExternalValidationRepository externalValidationRepository) {
+        RSquaredAndCCR.externalValidationRepository = externalValidationRepository;
     }
 }

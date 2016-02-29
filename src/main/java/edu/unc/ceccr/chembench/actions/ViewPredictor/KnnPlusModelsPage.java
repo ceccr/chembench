@@ -2,18 +2,24 @@ package edu.unc.ceccr.chembench.actions.ViewPredictor;
 
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.KnnPlusModel;
+import edu.unc.ceccr.chembench.persistence.KnnPlusModelRepository;
 import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
-public class KnnPlusModelsPage extends ViewPredictorAction {
-    private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(KnnPlusModelsPage.class.getName());
+public class KnnPlusModelsPage extends DetailPredictorAction {
+
+    private static final Logger logger = Logger.getLogger(KnnPlusModelsPage.class.getName());
+    private final KnnPlusModelRepository knnPlusModelRepository;
     private List<KnnPlusModel> knnPlusModels;
+
+    @Autowired
+    public KnnPlusModelsPage(KnnPlusModelRepository knnPlusModelRepository) {
+        this.knnPlusModelRepository = knnPlusModelRepository;
+    }
 
     public String load() throws Exception {
         try {
@@ -27,10 +33,10 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
             if (childPredictors.size() == 0) {
                 result = loadModels();
             } else {
-                currentFoldNumber = "" + (Integer.parseInt(currentFoldNumber) + 1);
+                currentFoldNumber = currentFoldNumber + 1;
                 for (int i = 0; i < childPredictors.size(); i++) {
                     foldNums.add("" + (i + 1));
-                    if (currentFoldNumber.equals("" + (i + 1))) {
+                    if (currentFoldNumber == (i + 1)) {
                         String parentId = objectId;
                         objectId = "" + childPredictors.get(i).getId();
                         result = loadModels();
@@ -96,7 +102,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 
             return result;
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             errorStrings.add(ex.getMessage());
             return ERROR;
         }
@@ -106,10 +112,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
         String result = SUCCESS;
         try {
             knnPlusModels = Lists.newArrayList();
-            session = HibernateUtil.getSession();
-            List<KnnPlusModel> temp =
-                    PopulateDataObjects.getKnnPlusModelsByPredictorId(Long.parseLong(objectId), session);
-            session.close();
+            List<KnnPlusModel> temp = knnPlusModelRepository.findByPredictorId(Long.parseLong(objectId));
             if (temp != null) {
                 Iterator<KnnPlusModel> it = temp.iterator();
                 while (it.hasNext()) {
@@ -122,13 +125,12 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
                 }
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             errorStrings.add(ex.getMessage());
             return ERROR;
         }
         return result;
     }
-
 
     private String loadModelSets() {
         String result = SUCCESS;

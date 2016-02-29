@@ -2,18 +2,29 @@ package edu.unc.ceccr.chembench.actions.api;
 
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
-import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
-import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class MyBenchAction extends ActionSupport {
+    private static final Logger logger = Logger.getLogger(MyBenchAction.class.getName());
+    private final DatasetRepository datasetRepository;
+    private final PredictorRepository predictorRepository;
+    private final PredictionRepository predictionRepository;
+
     private User user = User.getCurrentUser();
     private List<?> data = Lists.newArrayList();
+
+    @Autowired
+    public MyBenchAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
+                         PredictionRepository predictionRepository) {
+        this.datasetRepository = datasetRepository;
+        this.predictorRepository = predictorRepository;
+        this.predictionRepository = predictionRepository;
+    }
 
     public String getLocalJobs() {
         if (user == null) {
@@ -60,54 +71,34 @@ public class MyBenchAction extends ActionSupport {
         return SUCCESS;
     }
 
-    public String getDatasets() throws SQLException, ClassNotFoundException {
-        Session session = HibernateUtil.getSession();
+    public String getDatasets() {
         List<Dataset> datasets = Lists.newArrayList();
+        datasets.addAll(datasetRepository.findAllPublicDatasets());
         if (user != null) {
             // return user's datasets and public datasets
-            datasets.addAll(
-                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session));
-            datasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
-            datasets.addAll(
-                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.PREDICTION, true, session));
-        } else {
-            // return public datasets only
-            datasets.addAll(PopulateDataObjects.populateDataset("", Constants.CONTINUOUS, true, session));
-            datasets.addAll(PopulateDataObjects.populateDataset("", Constants.CATEGORY, true, session));
-            datasets.addAll(PopulateDataObjects.populateDataset("", Constants.PREDICTION, true, session));
+            datasets.addAll(datasetRepository.findByUserName(user.getUserName()));
         }
         this.data = datasets;
-        if (session != null) {
-            session.close();
-        }
         return SUCCESS;
     }
 
-    public String getModels() throws SQLException, ClassNotFoundException {
-        Session session = HibernateUtil.getSession();
+    public String getModels() {
         List<Predictor> predictors = Lists.newArrayList();
+        predictors.addAll(predictorRepository.findPublicPredictors());
         if (user != null) {
             // return user's models and public models
-            predictors.addAll(PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session));
-        } else {
-            // return public models only
-            predictors.addAll(PopulateDataObjects.populatePredictors("", true, true, session));
+            predictors.addAll(predictorRepository.findByUserName(user.getUserName()));
         }
         this.data = predictors;
-        if (session != null) {
-            session.close();
-        }
         return SUCCESS;
     }
 
-    public String getPredictions() throws SQLException, ClassNotFoundException {
+    public String getPredictions() {
         if (user == null) {
             return SUCCESS;
         }
-
-        Session session = HibernateUtil.getSession();
         List<Prediction> predictions = Lists.newArrayList();
-        predictions.addAll(PopulateDataObjects.populatePredictions(user.getUserName(), false, session));
+        predictions.addAll(predictionRepository.findByUserName(user.getUserName()));
         data = predictions;
         return SUCCESS;
     }

@@ -274,11 +274,10 @@
         $(".reset-user-password").each(function() {
           var username = $(this).parents("tr").find(".username").html();
           var email = $(this).parents("tr").find(".email").html();
-          $.post("/resetPassword",
-              {
-                userName: username,
-                email: email
-              });
+          $.post("/resetPassword", {
+            userName: username,
+            email: email
+          });
           console.log(username + " / " + email);
         });
       }

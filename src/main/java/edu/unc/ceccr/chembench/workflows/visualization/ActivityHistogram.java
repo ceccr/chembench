@@ -2,11 +2,9 @@ package edu.unc.ceccr.chembench.workflows.visualization;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.persistence.DatasetRepository;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import org.apache.commons.validator.GenericValidator;
-import org.hibernate.Session;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -18,34 +16,31 @@ import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.io.File;
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
-
+@Component
 public class ActivityHistogram {
 
     public final static double MAXIMUM = -1000.0;
     public final static double MINIMUM = 1000.0;
+    private static DatasetRepository datasetRepository;
 
-    public static void createChart(long datasetID) throws Exception {
+    public static void createChart(long datasetId) throws Exception {
         //given a datasetId, get the dataset's actFile and make a chart out of it
         //(assumes the dataset is a modeling dataset and that it has an actfile.)
-
-        Session s = HibernateUtil.getSession();
-        Dataset selectedDataset = PopulateDataObjects.getDataSetById(datasetID, s);
-        s.close();
-
+        Dataset selectedDataset = datasetRepository.findOne(datasetId);
         String fullPath = Constants.CECCR_USER_BASE_PATH;
-
-        String userDir;
-        userDir = selectedDataset.getUserName();
+        String userDir = selectedDataset.getUserName();
         fullPath += userDir + "/DATASETS/" + selectedDataset.getName() + "/" + selectedDataset.getActFile();
 
-        HashMap<String, String> dataMap = DatasetFileOperations.parseActFile(fullPath);
+        Map<String, String> dataMap = DatasetFileOperations.parseActFile(fullPath);
         IntervalXYDataset dataset = new HistogramDataset();
         dataset = createDataset(dataMap);
 
@@ -85,7 +80,7 @@ public class ActivityHistogram {
         ChartUtilities.saveChartAsPNG(new File(outputFileStr), chart, 550, 550);
     }
 
-    public static HistogramDataset createDataset(HashMap<String, String> map) {
+    public static HistogramDataset createDataset(Map<String, String> map) {
         double[] values;
         double min, max;
 
@@ -99,7 +94,7 @@ public class ActivityHistogram {
         return dataset;
     }
 
-    public static double[] getValues(HashMap<String, String> map) {
+    public static double[] getValues(Map<String, String> map) {
 
         int i = 0;
 
@@ -147,5 +142,9 @@ public class ActivityHistogram {
         return max;
     }
 
+    @Autowired
+    public void setDatasetRepository(DatasetRepository datasetRepository) {
+        ActivityHistogram.datasetRepository = datasetRepository;
+    }
 }
 

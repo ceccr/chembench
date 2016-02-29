@@ -17,6 +17,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.*;
 
 /*
@@ -26,7 +27,7 @@ import java.util.*;
  */
 
 public class DatasetFileOperations {
-    private static Logger logger = Logger.getLogger(DatasetFileOperations.class.getName());
+    private static final Logger logger = Logger.getLogger(DatasetFileOperations.class.getName());
 
     public static HashMap<String, String> getActFileIdsAndValues(String filePath) {
         HashMap<String, String> idsAndValues = new HashMap<String, String>();
@@ -46,7 +47,7 @@ public class DatasetFileOperations {
             }
             fis.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         return idsAndValues;
@@ -561,7 +562,7 @@ public class DatasetFileOperations {
                         // second thing isn't a number -- line was a header!
                         logger.debug(
                                 "Activity file contains a header: " + temp + " {" + temp.split("\\s+")[1].trim() + "}");
-                        logger.error(ex);
+                        logger.error("", ex);
                         firstLineContainsHeader = true;
                     }
                 } else {
@@ -659,11 +660,15 @@ public class DatasetFileOperations {
                 result.add(temp);
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
 
         return result;
 
+    }
+
+    public static List<String> getXCompoundNames(Path fileLocation) throws IOException {
+        return getXCompoundNames(fileLocation.toString());
     }
 
     public static List<String> getXCompoundNames(String fileLocation) throws IOException {
@@ -716,6 +721,10 @@ public class DatasetFileOperations {
             fin.close();
         }
         return act_compounds;
+    }
+
+    public static List<String> getSDFCompoundNames(Path sdfPath) throws IOException {
+        return getSDFCompoundNames(sdfPath.toString());
     }
 
     public static List<String> getSDFCompoundNames(String sdfPath) throws IOException {
@@ -1029,14 +1038,18 @@ public class DatasetFileOperations {
         return "";
     }
 
-    public static void randomizeActivityFile(String filePath, String outFilePath) throws Exception {
+    public static void randomizeActivityFile(Path filePath, Path outFilePath) throws IOException {
+        randomizeActivityFile(filePath.toString(), outFilePath.toString());
+    }
+
+    public static void randomizeActivityFile(String filePath, String outFilePath) throws IOException {
         List<String> actFileCompounds = getACTCompoundNames(filePath);
         HashMap<String, String> actFileIdsAndValues = getActFileIdsAndValues(filePath);
         List<String> actFileValues = Lists.newArrayList(actFileIdsAndValues.values());
         Collections.shuffle(actFileValues);
 
         if (actFileValues.size() != actFileCompounds.size()) {
-            throw new Exception(
+            throw new RuntimeException(
                     "Error: act file value array is size " + actFileValues.size() + " and compound names array is size "
                             + actFileCompounds.size());
         }

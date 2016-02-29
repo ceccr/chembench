@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 public class FileAndDirOperations {
-    private static Logger logger = Logger.getLogger(FileAndDirOperations.class.getName());
+    private static final Logger logger = Logger.getLogger(FileAndDirOperations.class.getName());
 
     public static int countFilesInDirMatchingPattern(String dir, String pattern) {
         int count = 0;
@@ -51,7 +51,7 @@ public class FileAndDirOperations {
             }
             is.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             return 0;
         }
         return count;
@@ -72,7 +72,7 @@ public class FileAndDirOperations {
             br.close();
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
         return fileContents.toString();
     }
@@ -83,7 +83,7 @@ public class FileAndDirOperations {
             out.write(text);
             out.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 
@@ -103,7 +103,7 @@ public class FileAndDirOperations {
                 x++;
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 
@@ -146,7 +146,7 @@ public class FileAndDirOperations {
             }
             logger.debug("Copied " + x + " file from " + fromDir + " to " + toDir);
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 
@@ -247,7 +247,7 @@ public class FileAndDirOperations {
             /*FIXME: commenting out the logging. This exception gets thrown several times
                      till, we look into why, better prevent logs from be flooded.
              */
-            //logger.error(ex);
+            //logger.error("", ex);
         }
     }
 
@@ -276,7 +276,7 @@ public class FileAndDirOperations {
                 x++;
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 

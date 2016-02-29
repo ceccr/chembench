@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 public class XMLTreeBuilder {
-    private static Logger logger = Logger.getLogger(XMLTreeBuilder.class.getName());
+    private static final Logger logger = Logger.getLogger(XMLTreeBuilder.class.getName());
     private Vector<Vector<String>> data;
     private String xml;
     private String file_path;
@@ -68,7 +68,7 @@ public class XMLTreeBuilder {
                 }
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
 
         return key;

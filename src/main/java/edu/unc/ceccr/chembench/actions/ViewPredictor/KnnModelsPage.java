@@ -2,21 +2,21 @@ package edu.unc.ceccr.chembench.actions.ViewPredictor;
 
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.KnnModel;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.persistence.KnnModelRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class KnnModelsPage extends ViewPredictorAction {
-
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-
+public class KnnModelsPage extends DetailPredictorAction {
+    private final KnnModelRepository knnModelRepository;
     private List<KnnModel> models;
+
+    @Autowired
+    public KnnModelsPage(KnnModelRepository knnModelRepository) {
+        this.knnModelRepository = knnModelRepository;
+    }
 
     public String load() throws Exception {
         // get models associated with predictor
@@ -28,9 +28,7 @@ public class KnnModelsPage extends ViewPredictorAction {
 
         models = Lists.newArrayList();
         List<KnnModel> allModels = Lists.newArrayList();
-        session = HibernateUtil.getSession();
-        List<KnnModel> temp = PopulateDataObjects.getModelsByPredictorId(Long.parseLong(objectId), session);
-        session.close();
+        List<KnnModel> temp = knnModelRepository.findByPredictorId(Long.parseLong(objectId));
         if (temp != null) {
             allModels.addAll(temp);
 

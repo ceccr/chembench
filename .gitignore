@@ -15,16 +15,13 @@ target/
 *.tar*
 *.tgz
 *.box
+*.gz
 
-######################
 # Windows
-######################
 Thumbs.db
 Desktop.ini
 
-######################
 # OSX
-######################
 .DS_Store
 .svn
 ._*  # Thumbnails
@@ -33,9 +30,7 @@ Desktop.ini
 .Spotlight-V100
 .Trashes
 
-######################
 # Eclipse
-######################
 *.pydevproject
 .project
 .metadata
@@ -49,27 +44,27 @@ local.properties
 .loadpath
 *.launch
 
-######################
 # IDEA
-######################
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/libraries/
 .idea/vagrant.xml
+/utils/scikit-rf/.idea
 
-######################
 # Python
-######################
 *.pyc
 
-######################
-# Input files
-######################
+# Dataset/predictor files
 *.sdf
 *.act
+*.csv
+*.RData
+*.p
+*.pkl
+*.pickle
+/utils/scikit-rf/*.json
 
-######################
 # Vagrant
-######################
 .vagrant
+jchem.cookie
 

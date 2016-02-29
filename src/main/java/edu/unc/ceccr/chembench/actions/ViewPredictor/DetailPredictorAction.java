@@ -3,28 +3,18 @@ package edu.unc.ceccr.chembench.actions.ViewPredictor;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.actions.DetailAction;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.persistence.User;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.persistence.*;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-// struts2
-
-public class ViewPredictorAction extends DetailAction {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-
+public class DetailPredictorAction extends DetailAction {
     // Basic parameters. Inherited by all subclasses.
-    private static Logger logger = Logger.getLogger(ViewPredictorAction.class.getName());
+    private static final Logger logger = Logger.getLogger(DetailPredictorAction.class.getName());
     protected Predictor selectedPredictor;
     protected Dataset dataset;
-    protected String currentFoldNumber = "0";
+    protected int currentFoldNumber = 0;
     // End basic parameters
 
     // used by ext validation and models pages.
@@ -37,30 +27,29 @@ public class ViewPredictorAction extends DetailAction {
     List<Predictor> childPredictors;
     List<String> foldNums = Lists.newArrayList();
 
+    @Autowired
+    protected DatasetRepository datasetRepository;
+    @Autowired
+    protected PredictorRepository predictorRepository;
+
     public String getBasicParameters() throws Exception {
         // this function gets params that all subclasses will need.
         String basic = checkBasicParams();
         if (!basic.equals(SUCCESS)) {
             return basic;
         }
-        session = HibernateUtil.getSession();
-        selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(objectId), session);
+        selectedPredictor = predictorRepository.findOne(Long.parseLong(objectId));
         if (selectedPredictor == null || (!selectedPredictor.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user
                 .getUserName().equals(selectedPredictor.getUserName()))) {
             logger.debug("Invalid predictor ID supplied. ");
             errorStrings.add("Invalid predictor ID supplied.");
-            session.close();
             return ERROR;
         }
 
         Long datasetId = selectedPredictor.getDatasetId();
-        dataset = PopulateDataObjects.getDataSetById(datasetId, session);
-
-        childPredictors = PopulateDataObjects.getChildPredictors(selectedPredictor, session);
-        if (context.getParameters().get("currentFoldNumber") != null) {
-            currentFoldNumber = ((String[]) context.getParameters().get("currentFoldNumber"))[0];
-        }
-        session.close();
+        dataset = datasetRepository.findOne(datasetId);
+        selectedPredictor.setDatasetDisplay(dataset.getName());
+        childPredictors = predictorRepository.findByParentId(selectedPredictor.getId());
         return SUCCESS;
     }
 
@@ -140,11 +129,11 @@ public class ViewPredictorAction extends DetailAction {
         this.sortDirection = sortDirection;
     }
 
-    public Integer getCurrentFoldNumber() {
-        return Integer.parseInt(currentFoldNumber);
+    public int getCurrentFoldNumber() {
+        return currentFoldNumber;
     }
 
-    public void setCurrentFoldNumber(String currentFoldNumber) {
+    public void setCurrentFoldNumber(int currentFoldNumber) {
         this.currentFoldNumber = currentFoldNumber;
     }
 
@@ -175,6 +164,14 @@ public class ViewPredictorAction extends DetailAction {
         public void setNumOccs(int numOccs) {
             this.numOccs = numOccs;
         }
+    }
+
+    public void setDatasetRepository(DatasetRepository datasetRepository) {
+        this.datasetRepository = datasetRepository;
+    }
+
+    public void setPredictorRepository(PredictorRepository predictorRepository) {
+        this.predictorRepository = predictorRepository;
     }
 
     // End getters and setters

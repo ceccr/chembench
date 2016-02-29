@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <%@ include file="/jsp/help/helpheader.jsp" %>
+=======
+<%@include file="/jsp/help/helpheader.jsp" %>
+>>>>>>> spring
 
 <div class="outer">
   <div class="ccbHomeStandard">
@@ -57,11 +61,19 @@
 
     </p>
 
+<<<<<<< HEAD
     <%@ include file="/jsp/help/helpcontents.jsp" %>
 
   </div>
   <div class="includes">
     <%@ include file="/jsp/main/footer.jsp" %>
+=======
+    <%@include file="/jsp/help/helpcontents.jsp" %>
+
+  </div>
+  <div class="includes">
+    <%@include file="/jsp/main/footer.jsp" %>
+>>>>>>> spring
   </div>
 </div>
 

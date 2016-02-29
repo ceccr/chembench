@@ -2,18 +2,32 @@ package edu.unc.ceccr.chembench.actions.ViewPredictor;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public class ParametersPage extends ViewPredictorAction {
+public class ParametersPage extends DetailPredictorAction {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
 
+    private final RandomForestParametersRepository randomForestParametersRepository;
+    private final SvmParametersRepository svmParametersRepository;
+    private final KnnParametersRepository knnParametersRepository;
+    private final KnnPlusParametersRepository knnPlusParametersRepository;
     private KnnParameters knnParameters;
     private KnnPlusParameters knnPlusParameters;
     private SvmParameters svmParameters;
     private RandomForestParameters randomForestParameters;
+
+    @Autowired
+    public ParametersPage(RandomForestParametersRepository randomForestParametersRepository,
+                          SvmParametersRepository svmParametersRepository,
+                          KnnParametersRepository knnParametersRepository,
+                          KnnPlusParametersRepository knnPlusParametersRepository) {
+        this.randomForestParametersRepository = randomForestParametersRepository;
+        this.svmParametersRepository = svmParametersRepository;
+        this.knnParametersRepository = knnParametersRepository;
+        this.knnPlusParametersRepository = knnPlusParametersRepository;
+    }
 
     public String load() throws Exception {
         String result = getBasicParameters();
@@ -21,21 +35,16 @@ public class ParametersPage extends ViewPredictorAction {
             return result;
         }
 
-        session = HibernateUtil.getSession();
-
-        if (selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-            randomForestParameters = PopulateDataObjects
-                    .getRandomForestParametersById(selectedPredictor.getModelingParametersId(), session);
+        if (selectedPredictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
+            randomForestParameters =
+                    randomForestParametersRepository.findOne(selectedPredictor.getModelingParametersId());
         } else if (selectedPredictor.getModelMethod().equals(Constants.KNNGA) || selectedPredictor.getModelMethod()
                 .equals(Constants.KNNSA)) {
-            knnPlusParameters =
-                    PopulateDataObjects.getKnnPlusParametersById(selectedPredictor.getModelingParametersId(), session);
+            knnPlusParameters = knnPlusParametersRepository.findOne(selectedPredictor.getModelingParametersId());
         } else if (selectedPredictor.getModelMethod().equals(Constants.KNN)) {
-            knnParameters =
-                    PopulateDataObjects.getKnnParametersById(selectedPredictor.getModelingParametersId(), session);
+            knnParameters = knnParametersRepository.findOne(selectedPredictor.getModelingParametersId());
         } else if (selectedPredictor.getModelMethod().equals(Constants.SVM)) {
-            svmParameters =
-                    PopulateDataObjects.getSvmParametersById(selectedPredictor.getModelingParametersId(), session);
+            svmParameters = svmParametersRepository.findOne(selectedPredictor.getModelingParametersId());
             if (svmParameters != null) {
                 if (svmParameters.getSvmTypeCategory().equals("0")) {
                     svmParameters.setSvmTypeCategory("C-SVC");
@@ -68,7 +77,6 @@ public class ParametersPage extends ViewPredictorAction {
                 }
             }
         }
-        session.close();
         return result;
     }
 
@@ -105,7 +113,5 @@ public class ParametersPage extends ViewPredictorAction {
     public void setRandomForestParameters(RandomForestParameters randomForestParameters) {
         this.randomForestParameters = randomForestParameters;
     }
-
     // end getters and setters
-
 }

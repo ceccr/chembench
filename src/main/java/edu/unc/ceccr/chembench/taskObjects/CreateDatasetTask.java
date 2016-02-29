@@ -2,7 +2,7 @@ package edu.unc.ceccr.chembench.taskObjects;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
+import edu.unc.ceccr.chembench.persistence.DatasetRepository;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.StandardizeSdfFormat;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
@@ -13,16 +13,18 @@ import edu.unc.ceccr.chembench.workflows.modelingPrediction.DataSplit;
 import edu.unc.ceccr.chembench.workflows.visualization.HeatmapAndPCA;
 import edu.unc.ceccr.chembench.workflows.visualization.SdfToJpg;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Date;
 
+@Configurable(autowire = Autowire.BY_TYPE)
 public class CreateDatasetTask extends WorkflowTask {
-    private static Logger logger = Logger.getLogger(CreateDatasetTask.class.getName());
+    private static final Logger logger = Logger.getLogger(CreateDatasetTask.class.getName());
     private String userName = null;
     private String datasetType;
     private String sdfFileName;
@@ -44,16 +46,11 @@ public class CreateDatasetTask extends WorkflowTask {
     private String availableDescriptors = "";
     private String generateMahalanobis;
     private int numCompounds;
-    private Dataset dataset;                               // contains pretty
-    // much all the
-    // member
-    // variables. This
-    // is dumb but
-    // hopefully
-    // temporary.
+    private Dataset dataset; // contains pretty much all the member variables. This is dumb but hopefully temporary.
+    private String step = Constants.SETUP; // stores what step we're on
 
-    private String step = Constants.SETUP; // stores what
-    // step we're on
+    @Autowired
+    private DatasetRepository datasetRepository;
 
     public CreateDatasetTask(Dataset dataset) {
         this.dataset = dataset;
@@ -133,32 +130,11 @@ public class CreateDatasetTask extends WorkflowTask {
     }
 
     public String getProgress(String userName) {
-        String percent = "";
-
-        if (step.equals(Constants.SKETCHES)) {
-            // count the number of *.jpg files in the working directory
-
-            // Since we're generating images using milconvert script we don't
-            // need to display that progress as it's really quick
-            /*
-             * String workingDir = ""; if(jobList.equals(Constants.LSF)){ }
-             * else{ workingDir = Constants.CECCR_USER_BASE_PATH + userName +
-             * "/DATASETS/" + jobName + "/Visualization/Sketches/"; } float p
-             * =
-             * FileAndDirOperations.countFilesInDirMatchingPattern(workingDir,
-             * ".*jpg"); //divide by the number of compounds in the dataset p
-             * /= numCompounds; p *= 100; //it's a percent percent = " (" +
-             * Math.round(p) + "%)";
-             */
-        }
-
-        return step + percent;
+        return step;
     }
 
     public Long setUp() throws Exception {
-        // create Dataset object in DB to allow for recovery of this job if it
-        // fails.
-
+        // create Dataset object in DB to allow for recovery of this job if it fails.
         dataset.setName(jobName);
         dataset.setUserName(userName);
         dataset.setDatasetType(datasetType);
@@ -183,26 +159,9 @@ public class CreateDatasetTask extends WorkflowTask {
         dataset.setUseActivityBinning(useActivityBinning);
         dataset.setExternalCompoundList(externalCompoundList);
         dataset.setHasVisualization((generateMahalanobis.equals("true")) ? 1 : 0);
-
-        Session session = HibernateUtil.getSession();
-        Transaction tx = null;
-
-        try {
-            tx = session.beginTransaction();
-            session.saveOrUpdate(dataset);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("User: " + userName + "Job: " + jobName + " " + e);
-        } finally {
-            session.close();
-        }
-
+        datasetRepository.save(dataset);
         lookupId = dataset.getId();
         jobType = Constants.DATASET;
-
         return lookupId;
     }
 
@@ -519,24 +478,9 @@ public class CreateDatasetTask extends WorkflowTask {
         dataset.setJobCompleted(Constants.YES);
         dataset.setAvailableDescriptors(availableDescriptors);
         if (dataset.canGenerateModi()) {
-            dataset.generateModi();
+            dataset.generateModi(datasetRepository);
         }
-
-        Session session = HibernateUtil.getSession();
-        Transaction tx = null;
-
-        try {
-            tx = session.beginTransaction();
-            session.saveOrUpdate(dataset);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error("User: " + userName + "Job: " + jobName + e);
-        } finally {
-            session.close();
-        }
+        datasetRepository.save(dataset);
     }
 
     public void delete() throws Exception {

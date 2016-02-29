@@ -11,7 +11,7 @@ import java.io.*;
 
 public class ApplicationServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(ApplicationServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(ApplicationServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -45,7 +45,7 @@ public class ApplicationServlet extends HttpServlet {
 
             output.flush();
         } catch (IOException e) {
-            logger.error(e);
+            logger.error("", e);
         } finally {
             input.close();
         }

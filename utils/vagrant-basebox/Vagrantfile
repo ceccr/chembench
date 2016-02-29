@@ -8,11 +8,13 @@ Vagrant.configure(2) do |config|
     # (otherwise this will cause "Warning. Authentication failure. Retrying...")
     config.ssh.insert_key = false
 
-    # fix for "stdin: is not a tty" issue during shell provisioning
-    config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
-
     # forward 9090 -> 9090 for Jetty
     config.vm.network "forwarded_port", guest: 9090, host: 9090
+    # Maven debug port
+    config.vm.network "forwarded_port", guest: 8000, host: 8000
+
+    # fix for "stdin: is not a tty" issue during shell provisioning
+    config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
     config.vm.provider "virtualbox" do |vb|
         vb.memory = "1024"
@@ -31,16 +33,22 @@ Vagrant.configure(2) do |config|
         sudo apt-get update
         sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
             mysql-server \
-            r-base \
-            r-cran-randomforest \
+            r-base r-cran-randomforest \
             python2.7 \
+            python-pandas python-sklearn \
             gcc-multilib \
             openjdk-7-jdk \
-            maven
+            maven \
+            unzip
 
         sudo mkdir -p /opt/chembench/logs
+        tar -zxvf /vagrant/include/basebox.tgz -C /opt/chembench
+        wget --load-cookies=/vagrant/include/jchem.cookie -O /tmp/jchem.zip \
+            'https://www.chemaxon.com/download.php?d=/data/download/jchem/15.9.14.0/jchem-15.9.14.0.zip&dl=true'
+        unzip /tmp/jchem.zip -d /opt/chembench
+        rm /tmp/jchem.zip
+        cp /vagrant/utils/R/* /opt/chembench/bin
         sudo chown -R vagrant:vagrant /opt/chembench
-        tar -Jxvf /vagrant/include/basebox.tar.xz -C /opt/chembench
 
         mysql -u root -e "CREATE DATABASE cbprod"
         mysql -u root cbprod < /opt/chembench/cbprod.sql
@@ -48,6 +56,9 @@ Vagrant.configure(2) do |config|
 
         sudo cp /vagrant/include/chembench_env.sh /etc/profile.d
         sudo ln -s /opt/chembench /CHEMBENCH
+
+        cd /vagrant
+        mvn clean
     SHELL
 end
 

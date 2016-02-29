@@ -1,10 +1,12 @@
 package edu.unc.ceccr.chembench.utilities;
 
+import com.google.common.base.Function;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.Dataset;
+import edu.unc.ceccr.chembench.persistence.Job;
+import edu.unc.ceccr.chembench.persistence.Prediction;
+import edu.unc.ceccr.chembench.persistence.Predictor;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 
 import java.io.*;
 import java.security.MessageDigest;
@@ -19,7 +21,26 @@ import java.util.Random;
 
 public class Utility {
 
-    private static Logger logger = Logger.getLogger(Utility.class.getName());
+    private static final Logger logger = Logger.getLogger(Utility.class.getName());
+
+    private static Integer debug_counter = 0;
+
+    public static final Function<Object, String> NAME_TRANSFORM = new Function<Object, String>() {
+        @Override
+        public String apply(Object o) {
+            if (o instanceof Dataset) {
+                return ((Dataset) o).getName();
+            } else if (o instanceof Predictor) {
+                return ((Predictor) o).getName();
+            } else if (o instanceof Prediction) {
+                return ((Prediction) o).getName();
+            } else if (o instanceof Job) {
+                return ((Job) o).getJobName();
+            } else {
+                throw new RuntimeException("Unrecognized object type: " + o);
+            }
+        }
+    };
 
     public static String encrypt(String str) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
@@ -67,39 +88,6 @@ public class Utility {
         f.setGroupingUsed(false);
         return f.format(num);
     }
-
-    public static boolean isAdmin(String userName) {
-        try {
-            Session s = HibernateUtil.getSession();
-            User u = PopulateDataObjects.getUserByUserName(userName, s);
-
-            if (u.getIsAdmin().equals(Constants.YES)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception ex) {
-            logger.error(ex);
-            return false;
-        }
-    }
-
-    public static boolean canDownloadDescriptors(String userName) {
-        try {
-            Session s = HibernateUtil.getSession();
-            User u = PopulateDataObjects.getUserByUserName(userName, s);
-
-            if (u.getCanDownloadDescriptors().equals(Constants.YES)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception ex) {
-            logger.error(ex);
-            return false;
-        }
-    }
-
 
     public static Long checkExpiration(int year, int month, int day) {
         Calendar cal1 = Calendar.getInstance();
@@ -159,6 +147,10 @@ public class Utility {
             }
         }
         return ret;
+    }
+
+    public static String roundSignificantFigures(double number, int numFigs) {
+        return roundSignificantFigures("" + number, numFigs);
     }
 
     public static String roundSignificantFigures(String number, int numFigs) {

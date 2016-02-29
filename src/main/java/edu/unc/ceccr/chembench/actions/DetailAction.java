@@ -5,19 +5,15 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.persistence.User;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 
 import java.util.List;
 
 public abstract class DetailAction extends ActionSupport {
-
-    private static final long serialVersionUID = 1L;
-
-    private static Logger logger = Logger.getLogger(DetailAction.class.getName());
+    private static final Logger logger = Logger.getLogger(DetailAction.class.getName());
     protected List<String> errorStrings = Lists.newArrayList();
-    protected Session session;
     protected ActionContext context;
     protected User user = User.getCurrentUser();
+    protected String id;
     protected String objectId;
 
     public String checkBasicParams() {
@@ -28,20 +24,16 @@ public abstract class DetailAction extends ActionSupport {
                 return ERROR;
             }
 
-            if (context.getParameters().get("id") != null) {
-                objectId = ((String[]) context.getParameters().get("id"))[0];
-            } else {
-                logger.debug("No ID supplied.");
-                errorStrings.add("No ID supplied.");
-                return ERROR;
+            if (id != null) {
+                objectId = id;
             }
-            if (objectId.trim().isEmpty() || !objectId.matches("^\\d*$")) {
+            if (objectId == null || objectId.trim().isEmpty() || !objectId.matches("^\\d*$")) {
                 logger.debug("No ID supplied.");
                 errorStrings.add("No ID supplied.");
                 return ERROR;
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
             errorStrings.add(e.getMessage());
             return ERROR;
         }
@@ -57,8 +49,20 @@ public abstract class DetailAction extends ActionSupport {
         this.errorStrings = errorStrings;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getObjectId() {
         return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
     public void setObject(String objectId) {

@@ -13,7 +13,7 @@ import java.io.*;
 
 public class Compound3DServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(Compound3DServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(Compound3DServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -94,7 +94,7 @@ public class Compound3DServlet extends HttpServlet {
                 out.println(" ERROR : Can not find SD file: " + id);
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         } finally {
             out.close();
         }

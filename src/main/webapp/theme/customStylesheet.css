@@ -147,3 +147,35 @@ img.ajax-loading {
 th.modi-header {
     width: 120px;
 }
+
+table.descriptor-importance {
+    table-layout: fixed;
+}
+
+.fold-selection-section {
+    margin-bottom: 1em;
+}
+
+ul.fold-selection {
+    display: inline;
+    padding: 0 0 1em 0;
+}
+
+ul.fold-selection > li {
+    display: inline-block;
+    padding-left: 12px;
+    margin-left: 10px;
+    line-height: 15px;
+}
+
+ul.fold-selection > li ~ li {
+    border-left: 1px solid #ccc;
+}
+
+ul.fold-selection > li.active {
+    font-weight: bold;
+}
+
+.faded {
+    opacity: 0.5;
+}

@@ -4,28 +4,29 @@ package edu.unc.ceccr.chembench.actions;
 
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.User;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.persistence.UserRepository;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ResetPasswordAction extends ActionSupport {
 
-    private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(ResetPasswordAction.class.getName());
-    String userName;
-    String email;
-    String errorMessage;
+    private static final Logger logger = Logger.getLogger(ResetPasswordAction.class.getName());
+    private String userName;
+    private String email;
+    private String errorMessage;
+    private UserRepository userRepository;
+
+    @Autowired
+    public ResetPasswordAction(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public String execute() throws Exception {
-
         // set up session to check user name and email
-        Session s = HibernateUtil.getSession();
-        User user = PopulateDataObjects.getUserByUserName(userName, s);
+        User user = userRepository.findByUserName(userName);
         if (user == null || !user.getEmail().equals(email)) {
             errorMessage = "Invalid username or email!";
             return ERROR;
@@ -34,23 +35,7 @@ public class ResetPasswordAction extends ActionSupport {
         //email matches
         String randomPassword = Utility.randomPassword();
         user.setPassword(Utility.encrypt(randomPassword));
-
-        // Commit changes
-        Transaction tx = null;
-
-        try {
-            tx = s.beginTransaction();
-            s.saveOrUpdate(user);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error(e);
-        } finally {
-            s.close();
-        }
-
+        userRepository.save(user);
         // message to user
 
         //email
