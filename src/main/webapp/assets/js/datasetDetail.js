@@ -1,6 +1,16 @@
 (function() {
     'use strict';
 
+    function resetForm() {
+        // reset form values
+        var originalDescription = $('#description-wrapper').find('.value').text();
+        var originalPaperReference = $('#paper-reference-wrapper').find('.value').html();
+        var updateDatasetForm = $('form#updateDataset');
+
+        updateDatasetForm.find('textarea[name="datasetDescription"]').val(originalDescription);
+        updateDatasetForm.find('textarea[name="datasetReference"]').val(originalPaperReference);
+    }
+
     function toggleForm() {
         $('form#updateDataset, #description-reference-buttons').toggle();
         $('#description-reference-text, button#edit-description-reference').toggle();
@@ -51,9 +61,19 @@
 
         $('form#updateDataset, #description-reference-buttons').hide();
 
+        var descriptionWrapper = $('#description-wrapper');
+        var description = descriptionWrapper.find('.value');
+        if (description.text()) {
+            descriptionWrapper.find('.placeholder').hide();
+        }
+
+        var paperReferenceWrapper = $('#paper-reference-wrapper');
+        var paperReference = paperReferenceWrapper.find('.value');
         // autolink urls within paper reference
-        var paperReference = $('#paper-reference');
-        paperReference.html(paperReference.text().autoLink({target: '_blank'}));
+        if (paperReference.text()) {
+            paperReference.html(paperReference.text().autoLink({target: '_blank'}));
+            paperReferenceWrapper.find('.placeholder').hide();
+        }
 
         $('td.name').each(function() {
             var cell = $(this);
@@ -65,14 +85,7 @@
         });
 
         $('button#cancel-changes').click(function() {
-            // reset form values
-            var originalDescription = $('input[type="hidden"]#description').val();
-            var originalPaperReference = $('input[type="hidden"]#paperReference').val();
-
-            var updateDatasetForm = $('form#updateDataset');
-            updateDatasetForm.find('textarea[name="datasetDescription"]').val(originalDescription);
-            updateDatasetForm.find('textarea[name="datasetReference"]').val(originalPaperReference);
-
+            resetForm();
             toggleForm();
         });
 
@@ -86,15 +99,17 @@
                 data: form.serialize()
             }).success(function() {
                 if (newDescription) {
-                    $('#description').text(newDescription);
+                    descriptionWrapper.find('.placeholder').hide();
+                    descriptionWrapper.text(newDescription);
                 } else {
-                    $('#description').text('(No description given.)');
+                    descriptionWrapper.find('.placeholder').show();
                 }
                 if (newPaperReference) {
                     // XXX needs html() and not text() for autoLink to work
-                    $('#paper-reference').html(newPaperReference.autoLink({target: '_blank'}));
+                    paperReferenceWrapper.find('.placeholder').hide();
+                    paperReferenceWrapper.html(newPaperReference.autoLink({target: '_blank'}));
                 } else {
-                    $('#paper-reference').text('(No paper reference given.)');
+                    paperReferenceWrapper.find('.placeholder').show();
                 }
 
                 toggleForm();

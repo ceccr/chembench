@@ -94,23 +94,19 @@
         </h4>
         <dl id="description-reference-text" class="properties-list">
           <dt>Description</dt>
-          <dd id="description">
-            <s:if test="dataset.description.isEmpty()">
-              (No description given.)
-            </s:if>
-            <s:else>
-              <s:property value="dataset.description" />
-            </s:else>
+          <dd id="description-wrapper">
+            <div class="value"><s:property value="dataset.description" /></div>
+            <div class="placeholder">
+              <span class="text-muted">(No description given.)</span>
+            </div>
           </dd>
 
           <dt>Paper reference</dt>
-          <dd id="paper-reference">
-            <s:if test="dataset.paperReference.isEmpty()">
-              (No paper reference given.)
-            </s:if>
-            <s:else>
-              <s:property value="dataset.paperReference" />
-            </s:else>
+          <dd id="paper-reference-wrapper">
+            <div class="value"><s:property value="dataset.paperReference" /></div>
+            <div class="placeholder">
+              <span class="text-muted">(No paper reference given.)</span>
+            </div>
           </dd>
         </dl>
 
