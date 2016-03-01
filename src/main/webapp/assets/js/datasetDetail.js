@@ -99,16 +99,20 @@
                 data: form.serialize()
             }).success(function() {
                 if (newDescription) {
+                    description.show();
                     descriptionWrapper.find('.placeholder').hide();
-                    descriptionWrapper.text(newDescription);
+                    description.text(newDescription);
                 } else {
+                    description.hide();
                     descriptionWrapper.find('.placeholder').show();
                 }
                 if (newPaperReference) {
-                    // XXX needs html() and not text() for autoLink to work
+                    paperReference.show();
                     paperReferenceWrapper.find('.placeholder').hide();
-                    paperReferenceWrapper.html(newPaperReference.autoLink({target: '_blank'}));
+                    // XXX needs html() and not text() for autoLink to work
+                    paperReference.html(newPaperReference.autoLink({target: '_blank'}));
                 } else {
+                    paperReference.hide();
                     paperReferenceWrapper.find('.placeholder').show();
                 }
 
