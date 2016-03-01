@@ -22,8 +22,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 @Entity
@@ -90,7 +90,7 @@ public class Dataset implements java.io.Serializable {
             }
 
             // read in activities so we can append them to the input file for Weka
-            HashMap<String, String> activityMap =
+            Map<String, String> activityMap =
                     DatasetFileOperations.getActFileIdsAndValues(baseDir.resolve(actFile).toString());
 
             // create a csv input file for Weka with activities included
@@ -178,6 +178,11 @@ public class Dataset implements java.io.Serializable {
     @Transient
     public boolean isContinuous() {
         return modelType.equalsIgnoreCase(Constants.CONTINUOUS);
+    }
+
+    @Transient
+    public boolean isPublic() {
+        return userName.equals(Constants.ALL_USERS_USERNAME);
     }
 
     @Id

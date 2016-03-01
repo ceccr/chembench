@@ -1,33 +1,30 @@
 package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
-import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Compound;
 import edu.unc.ceccr.chembench.persistence.Dataset;
 import edu.unc.ceccr.chembench.persistence.DatasetRepository;
-import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.visualization.ActivityHistogram;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class DatasetDetailAction extends ActionSupport {
+public class DatasetDetailAction extends DetailAction {
 
     private static final Logger logger = Logger.getLogger(DatasetDetailAction.class.getName());
     private final DatasetRepository datasetRepository;
 
-    private long id;
     private Dataset dataset;
+    private Path datasetPath;
     private boolean editable = false;
     private List<Compound> datasetCompounds;
     private List<DescriptorGenerationResult> descriptorGenerationResults;
@@ -46,17 +43,19 @@ public class DatasetDetailAction extends ActionSupport {
         this.datasetRepository = datasetRepository;
     }
 
-    public String load() throws Exception {
-        User user = User.getCurrentUser();
-        this.dataset = datasetRepository.findOne(id);
-        if (dataset == null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
-                .equals(dataset.getUserName()))) {
-            super.addActionError("Invalid dataset ID.");
-            return ERROR;
+    public String execute() throws Exception {
+        dataset = datasetRepository.findOne(id);
+        if (dataset == null) {
+            return "notfound";
+        }
+        datasetPath = dataset.getDirectoryPath();
+        editable = user.getIsAdmin().equals(Constants.YES) || user.getUserName().equals(dataset.getUserName());
+        if (!(editable || dataset.isPublic())) {
+            return "forbidden";
         }
 
-        if (user.getIsAdmin().equals(Constants.YES) || user.getUserName().equals(dataset.getUserName())) {
-            editable = true;
+        if (request.getMethod().equals("POST")) {
+            return updateDataset();
         }
 
         // the dataset has now been viewed. Update DB accordingly.
@@ -64,9 +63,6 @@ public class DatasetDetailAction extends ActionSupport {
             dataset.setHasBeenViewed(Constants.YES);
             datasetRepository.save(dataset);
         }
-
-        Path datasetDirPath =
-                Paths.get(Constants.CECCR_USER_BASE_PATH, dataset.getUserName(), "DATASETS", dataset.getName());
 
         if (dataset.getDatasetType().startsWith(Constants.MODELING)) {
             if (dataset.getSplitType().equals(Constants.NFOLD)) {
@@ -76,9 +72,8 @@ public class DatasetDetailAction extends ActionSupport {
                 int numFolds = Integer.parseInt(dataset.getNumExternalFolds());
                 for (int i = 1; i <= numFolds; i++) {
                     foldNumbers.add(i);
-                    Path foldFilePath = datasetDirPath.resolve(dataset.getActFile() + ".fold" + i);
-                    HashMap<String, String> actIdsAndValues =
-                            DatasetFileOperations.getActFileIdsAndValues(foldFilePath.toString());
+                    Path foldFilePath = datasetPath.resolve(dataset.getActFile() + ".fold" + i);
+                    Map<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(foldFilePath);
                     int numExternalInThisFold = actIdsAndValues.size();
                     if (largestFoldSize == 0 || largestFoldSize < numExternalInThisFold) {
                         largestFoldSize = numExternalInThisFold;
@@ -95,8 +90,8 @@ public class DatasetDetailAction extends ActionSupport {
             } else {
                 // load external compounds from file
                 externalCompounds = Lists.newArrayList();
-                HashMap<String, String> actIdsAndValues = DatasetFileOperations
-                        .getActFileIdsAndValues(datasetDirPath.resolve(Constants.EXTERNAL_SET_A_FILE).toString());
+                Map<String, String> actIdsAndValues = DatasetFileOperations
+                        .getActFileIdsAndValues(datasetPath.resolve(Constants.EXTERNAL_SET_A_FILE));
                 List<String> compoundIds = Lists.newArrayList(actIdsAndValues.keySet());
                 for (String compoundId : compoundIds) {
                     Compound c = new Compound();
@@ -104,26 +99,21 @@ public class DatasetDetailAction extends ActionSupport {
                     c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
                     externalCompounds.add(c);
                 }
-
                 externalCountDisplay = Integer.toString(externalCompounds.size());
             }
-
-            // create activity chart
             ActivityHistogram.createChart(id);
         }
 
         // load compounds
         datasetCompounds = Lists.newArrayList();
-        List<String> compoundIDs = null;
+        List<String> compoundIds = null;
         if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
-            compoundIDs =
-                    DatasetFileOperations.getXCompoundNames(datasetDirPath.resolve(dataset.getXFile()).toString());
+            compoundIds = DatasetFileOperations.getXCompoundNames(datasetPath.resolve(dataset.getXFile()));
         } else {
-            compoundIDs =
-                    DatasetFileOperations.getSDFCompoundNames(datasetDirPath.resolve(dataset.getSdfFile()).toString());
+            compoundIds = DatasetFileOperations.getSDFCompoundNames(datasetPath.resolve(dataset.getSdfFile()));
         }
 
-        for (String cid : compoundIDs) {
+        for (String cid : compoundIds) {
             Compound c = new Compound();
             c.setCompoundId(cid);
             datasetCompounds.add(c);
@@ -131,27 +121,30 @@ public class DatasetDetailAction extends ActionSupport {
 
         // get activity values (if applicable)
         if (dataset.getDatasetType().startsWith(Constants.MODELING)) {
-            HashMap<String, String> actIdsAndValues = DatasetFileOperations
-                    .getActFileIdsAndValues(datasetDirPath.resolve(dataset.getActFile()).toString());
+            Map<String, String> actIdsAndValues =
+                    DatasetFileOperations.getActFileIdsAndValues(datasetPath.resolve(dataset.getActFile()));
 
             for (Compound c : datasetCompounds) {
                 c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
             }
         }
 
-        descriptorGenerationResults = Lists.newArrayList();
-        String descriptorsDir = Constants.CECCR_USER_BASE_PATH;
-        descriptorsDir += dataset.getUserName() + "/";
-        descriptorsDir += "DATASETS/" + dataset.getName() + "/Descriptors/Logs/";
+        descriptorGenerationResults = readDescriptorGenerationResults();
+        return SUCCESS;
+    }
 
+    private List<DescriptorGenerationResult> readDescriptorGenerationResults() {
+        descriptorGenerationResults = Lists.newArrayList();
+        Path descriptorLogPath = datasetPath.resolve("Descriptors").resolve("Logs");
         // read descriptor program outputs
         DescriptorGenerationResult cdkResult = new DescriptorGenerationResult();
         cdkResult.setDescriptorType("CDK");
-        if ((new File(descriptorsDir + "cdk.out")).exists()) {
-            cdkResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "cdk.out"));
+        if (Files.exists(descriptorLogPath.resolve("cdk.out"))) {
+            cdkResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("cdk.out")));
         }
-        if ((new File(descriptorsDir + "cdk.err")).exists()) {
-            cdkResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "cdk.err"));
+        if (Files.exists(descriptorLogPath.resolve("cdk.err"))) {
+            cdkResult.setProgramErrorOutput(
+                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("cdk" + ".err")));
         }
         if (dataset.getAvailableDescriptors().contains(Constants.CDK)) {
             cdkResult.setGenerationResult("Successful");
@@ -162,11 +155,13 @@ public class DatasetDetailAction extends ActionSupport {
 
         DescriptorGenerationResult ISIDAResult = new DescriptorGenerationResult();
         ISIDAResult.setDescriptorType("ISIDA");
-        if ((new File(descriptorsDir + "ISIDA.out")).exists()) {
-            ISIDAResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "ISIDA.out"));
+        if (Files.exists(descriptorLogPath.resolve("ISIDA.out"))) {
+            ISIDAResult
+                    .setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("ISIDA.out")));
         }
-        if ((new File(descriptorsDir + "ISIDA.err")).exists()) {
-            ISIDAResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "ISIDA.err"));
+        if (Files.exists(descriptorLogPath.resolve("ISIDA.err"))) {
+            ISIDAResult.setProgramErrorOutput(
+                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("ISIDA.err")));
         }
         if (dataset.getAvailableDescriptors().contains(Constants.ISIDA)) {
             ISIDAResult.setGenerationResult("Successful");
@@ -177,11 +172,12 @@ public class DatasetDetailAction extends ActionSupport {
 
         DescriptorGenerationResult dragonHResult = new DescriptorGenerationResult();
         dragonHResult.setDescriptorType("Dragon (with hydrogens)");
-        if ((new File(descriptorsDir + "dragonH.out")).exists()) {
-            dragonHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.out"));
+        if (Files.exists(descriptorLogPath.resolve("dragonH.out"))) {
+            dragonHResult.setProgramOutput(
+                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragonH.out")));
         }
-        if ((new File(descriptorsDir + "dragonH.err")).exists()) {
-            String dragonErrStr = FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.err");
+        if (Files.exists(descriptorLogPath.resolve("dragonH.err"))) {
+            String dragonErrStr = FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragonH.err"));
             if (dragonErrStr.contains("error: license not valid on the computer in use")) {
                 dragonErrStr = "Dragon license invalid or expired.";
             }
@@ -215,11 +211,12 @@ public class DatasetDetailAction extends ActionSupport {
 
         DescriptorGenerationResult dragonNoHResult = new DescriptorGenerationResult();
         dragonNoHResult.setDescriptorType("Dragon (no hydrogens)");
-        if ((new File(descriptorsDir + "dragonNoH.out")).exists()) {
-            dragonNoHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.out"));
+        if (Files.exists(descriptorLogPath.resolve("dragonNoH.out"))) {
+            dragonNoHResult.setProgramOutput(
+                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragonNoH.out")));
         }
-        if ((new File(descriptorsDir + "dragonNoH.err")).exists()) {
-            String dragonErrStr = FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.err");
+        if (Files.exists(descriptorLogPath.resolve("dragonNoH.err"))) {
+            String dragonErrStr = FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragonNoH.err"));
             if (dragonErrStr.contains("error: license not valid on the computer in use")) {
                 dragonErrStr = "Dragon license invalid or expired.";
             }
@@ -243,11 +240,13 @@ public class DatasetDetailAction extends ActionSupport {
 
         DescriptorGenerationResult moe2DResult = new DescriptorGenerationResult();
         moe2DResult.setDescriptorType(Constants.MOE2D);
-        if ((new File(descriptorsDir + "moe2d.out")).exists()) {
-            moe2DResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2d.out"));
+        if (Files.exists(descriptorLogPath.resolve("moe2d.out"))) {
+            moe2DResult
+                    .setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("moe2d.out")));
         }
-        if ((new File(descriptorsDir + "moe2d.sh.err")).exists()) {
-            moe2DResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2d.sh.err"));
+        if (Files.exists(descriptorLogPath.resolve("moe2d.sh.err"))) {
+            moe2DResult.setProgramErrorOutput(
+                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("moe2d.sh.err")));
         }
         if (dataset.getAvailableDescriptors().contains(Constants.MOE2D)) {
             moe2DResult.setGenerationResult("Successful");
@@ -258,11 +257,13 @@ public class DatasetDetailAction extends ActionSupport {
 
         DescriptorGenerationResult maccsResult = new DescriptorGenerationResult();
         maccsResult.setDescriptorType(Constants.MACCS);
-        if ((new File(descriptorsDir + "maccs.out")).exists()) {
-            maccsResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.out"));
+        if (Files.exists(descriptorLogPath.resolve("maccs.out"))) {
+            maccsResult
+                    .setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("maccs.out")));
         }
-        if ((new File(descriptorsDir + "maccs.sh.err")).exists()) {
-            maccsResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.sh.err"));
+        if (Files.exists(descriptorLogPath.resolve("maccs.sh.err"))) {
+            maccsResult.setProgramErrorOutput(
+                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("maccs.sh.err")));
         }
         if (dataset.getAvailableDescriptors().contains(Constants.MOE2D)) {
             maccsResult.setGenerationResult("Successful");
@@ -270,13 +271,11 @@ public class DatasetDetailAction extends ActionSupport {
             maccsResult.setGenerationResult("Descriptor generation failed. See program output for details.");
         }
         descriptorGenerationResults.add(maccsResult);
-
-        return SUCCESS;
+        return descriptorGenerationResults;
     }
 
-    public String updateDataset() throws Exception {
-        dataset = datasetRepository.findOne(id);
-        if (dataset != null) {
+    private String updateDataset() {
+        if (dataset != null && datasetDescription != null && datasetReference != null) {
             dataset.setDescription(datasetDescription);
             dataset.setPaperReference(datasetReference);
             datasetRepository.save(dataset);
@@ -286,7 +285,6 @@ public class DatasetDetailAction extends ActionSupport {
     }
 
     public String getFold() {
-        dataset = datasetRepository.findOne(id);
         if (dataset == null) {
             return "badrequest";
         }
@@ -299,8 +297,7 @@ public class DatasetDetailAction extends ActionSupport {
         Path foldFilePath =
                 Paths.get(Constants.CECCR_USER_BASE_PATH, dataset.getUserName(), "DATASETS", dataset.getName(),
                         dataset.getActFile() + ".fold" + foldNumber);
-        Map<String, String> foldCompoundsAndActivities =
-                DatasetFileOperations.getActFileIdsAndValues(foldFilePath.toString());
+        Map<String, String> foldCompoundsAndActivities = DatasetFileOperations.getActFileIdsAndValues(foldFilePath);
         foldCompounds = Lists.newArrayList();
         for (String name : foldCompoundsAndActivities.keySet()) {
             Compound c = new Compound();
@@ -358,14 +355,6 @@ public class DatasetDetailAction extends ActionSupport {
 
     public void setEditable(boolean editable) {
         this.editable = editable;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getDatasetDescription() {

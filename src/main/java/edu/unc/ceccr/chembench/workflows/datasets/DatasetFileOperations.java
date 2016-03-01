@@ -29,7 +29,11 @@ import java.util.*;
 public class DatasetFileOperations {
     private static final Logger logger = Logger.getLogger(DatasetFileOperations.class.getName());
 
-    public static HashMap<String, String> getActFileIdsAndValues(String filePath) {
+    public static Map<String, String> getActFileIdsAndValues(Path filePath) {
+        return getActFileIdsAndValues(filePath.toString());
+    }
+
+    public static Map<String, String> getActFileIdsAndValues(String filePath) {
         HashMap<String, String> idsAndValues = new HashMap<String, String>();
 
         try {
@@ -1044,7 +1048,7 @@ public class DatasetFileOperations {
 
     public static void randomizeActivityFile(String filePath, String outFilePath) throws IOException {
         List<String> actFileCompounds = getACTCompoundNames(filePath);
-        HashMap<String, String> actFileIdsAndValues = getActFileIdsAndValues(filePath);
+        Map<String, String> actFileIdsAndValues = getActFileIdsAndValues(filePath);
         List<String> actFileValues = Lists.newArrayList(actFileIdsAndValues.values());
         Collections.shuffle(actFileValues);
 

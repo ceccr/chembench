@@ -5,6 +5,7 @@ import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,10 @@ public class FileAndDirOperations {
             return 0;
         }
         return count;
+    }
+
+    public static String readFileIntoString(Path filePath) {
+        return readFileIntoString(filePath.toString());
     }
 
     public static String readFileIntoString(String filePath) {

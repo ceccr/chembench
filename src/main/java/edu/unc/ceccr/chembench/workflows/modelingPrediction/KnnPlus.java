@@ -11,9 +11,9 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 public class KnnPlus {
     private static final Logger logger = Logger.getLogger(KnnPlus.class.getName());
@@ -284,7 +284,7 @@ public class KnnPlus {
 
         logger.debug("calculating nummodels, avg," + "and stddev for each compound");
         // get the actual (observed) values for each compound
-        HashMap<String, String> observedValues = DatasetFileOperations.getActFileIdsAndValues(workingDir + "ext_0.a");
+        Map<String, String> observedValues = DatasetFileOperations.getActFileIdsAndValues(workingDir + "ext_0.a");
 
         // for each compound, calculate nummodels, avg, and stddev
         int numCompounds = 0;

@@ -58,7 +58,7 @@ public class CentralDogma {
     }
 
     @PostConstruct
-    public void init() {
+    private void init() {
         try {
             lsfJobs = new SynchronizedJobList(Constants.LSF);
             incomingJobs = new SynchronizedJobList(Constants.INCOMING);

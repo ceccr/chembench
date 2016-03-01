@@ -139,7 +139,7 @@
         <!-- End Jobs Page -->
 
         <!-- View Dataset Page -->
-        <action name="datasetDetail" class="edu.unc.ceccr.chembench.actions.DatasetDetailAction" method="load">
+        <action name="datasetDetail" class="edu.unc.ceccr.chembench.actions.DatasetDetailAction">
             <result name="success">/jsp/dataset/datasetDetail.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
@@ -148,11 +148,6 @@
             <result name="success" type="json">
                 <param name="root">foldCompounds</param>
             </result>
-        </action>
-
-        <action name="updateDataset" class="edu.unc.ceccr.chembench.actions.DatasetDetailAction" method="updateDataset">
-            <result name="success">/jsp/dataset/datasetDetail.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
         <!-- End View Dataset Page -->
 
@@ -231,25 +226,6 @@
         <!-- end svm -->
 
         <!-- End View Predictor Page -->
-
-        <!-- View Prediction Page -->
-        <action name="viewPrediction" class="edu.unc.ceccr.chembench.actions.PredictionDetailAction" method="load">
-            <result name="success">/jsp/predictionOutput/viewPrediction.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <action name="viewPredictionPredictionsSection" class="edu.unc.ceccr.chembench.actions.PredictionDetailAction"
-                method="loadPredictionsSection">
-            <result name="success">/jsp/predictionOutput/viewPrediction-predictions.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <action name="viewPredictionWarningsSection" class="edu.unc.ceccr.chembench.actions.PredictionDetailAction"
-                method="loadWarningsSection">
-            <result name="success">/jsp/predictionOutput/viewPrediction-warnings.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-        <!-- End View Prediction Page -->
 
         <!-- Servlet forwards -->
         <!-- these will forward to a path defined in web.xml -->

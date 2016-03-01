@@ -5,14 +5,14 @@
         // reset form values
         var originalDescription = $('#description-wrapper').find('.value').text();
         var originalPaperReference = $('#paper-reference-wrapper').find('.value').html();
-        var updateDatasetForm = $('form#updateDataset');
+        var datasetForm = $('form#dataset-form');
 
-        updateDatasetForm.find('textarea[name="datasetDescription"]').val(originalDescription);
-        updateDatasetForm.find('textarea[name="datasetReference"]').val(originalPaperReference);
+        datasetForm.find('textarea[name="datasetDescription"]').val(originalDescription);
+        datasetForm.find('textarea[name="datasetReference"]').val(originalPaperReference);
     }
 
     function toggleForm() {
-        $('form#updateDataset, #description-reference-buttons').toggle();
+        $('form#dataset-form, #description-reference-buttons').toggle();
         $('#description-reference-text, button#edit-description-reference').toggle();
     }
 
@@ -59,7 +59,7 @@
         $('.nav-list li').removeClass('active');
         $('#nav-button-datasets').addClass('active');
 
-        $('form#updateDataset, #description-reference-buttons').hide();
+        $('form#dataset-form, #description-reference-buttons').hide();
 
         var descriptionWrapper = $('#description-wrapper');
         var description = descriptionWrapper.find('.value');
@@ -90,7 +90,7 @@
         });
 
         $('button#save-changes').click(function() {
-            var form = $('form#updateDataset');
+            var form = $('form#dataset-form');
             var newDescription = $('textarea[name="datasetDescription"]').val();
             var newPaperReference = $('textarea[name="datasetReference"]').val();
             $.ajax({

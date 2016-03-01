@@ -75,7 +75,7 @@ public class QsarPredictionTask extends WorkflowTask {
     }
 
     @PostConstruct
-    public void init() {
+    private void init() {
         selectedPredictors = Lists.newArrayList();
         String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
 
