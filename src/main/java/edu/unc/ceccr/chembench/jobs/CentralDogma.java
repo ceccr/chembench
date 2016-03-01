@@ -31,7 +31,7 @@ public class CentralDogma {
     private static final Logger logger = Logger.getLogger(CentralDogma.class.getName());
     private static CentralDogma instance = new CentralDogma();
 
-    private final int numLocalThreads = 9;  // as many as you want; tune it based on server load.
+    private final int numLocalThreads = 5;  // as many as you want; tune it based on server load.
     // Limiting factors on numLocalThreads: JVM memory size, number of file handles, number of database connections,
     // server processing power. Jobs will fail in weird ways if any of those isn't high enough.
 
