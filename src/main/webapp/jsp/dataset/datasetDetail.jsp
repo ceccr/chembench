@@ -169,7 +169,7 @@
             <tr>
               <td class="name"><s:property value="compoundId" /></td>
               <s:if test="!dataset.sdfFile.isEmpty()">
-                <td><s:url var="imageUrl" action="imageServlet" escapeAmp="false">
+                <td class="structure"><s:url var="imageUrl" action="imageServlet" escapeAmp="false">
                   <s:param name="user" value="%{dataset.userName}" />
                   <s:param name="projectType" value="'dataset'" />
                   <s:param name="compoundId" value="%{compoundId}" />

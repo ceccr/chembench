@@ -139,6 +139,10 @@ table.compound-list td.name {
     text-align: left;
 }
 
+table.compound-list td.structure {
+    width: 17%;
+}
+
 .popover-image {
     max-width: none;
 }
