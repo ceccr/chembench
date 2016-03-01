@@ -24,6 +24,10 @@ th[data-property="checkbox"] input[type="checkbox"] {
     text-overflow: ellipsis;
 }
 
+.object-name {
+    font-weight: bold;
+}
+
 .object-action-group .object-action {
     display: inline-block;
     padding: 0 0.5em;
