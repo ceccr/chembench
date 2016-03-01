@@ -184,20 +184,20 @@
                 <input type="hidden" name="modelingTypeConstant" value="RANDOMFOREST">
 
                 <div class="form-group">
-                  <label class="control-label col-xs-4">Number of Trees per Split:</label>
+                  <label class="control-label col-xs-4">Number of trees:</label>
 
                   <div class="col-xs-2">
                     <s:textfield id="numTrees" name="numTrees" cssClass="form-control" />
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="control-label col-xs-4">Maximum Number of Terminal Nodes:</label>
+                  <label class="control-label col-xs-4">Random seed to use for tree generation:</label>
 
                   <div class="col-xs-2">
-                    <s:textfield id="maxNumTerminalNodes" name="maxNumTerminalNodes" cssClass="form-control" />
+                    <s:textfield id="randomForestSeed" name="randomForestSeed" cssClass="form-control" />
                   </div>
                   <div class="col-xs-6">
-                    <span class="help-inline">(0 = no limit)</span>
+                    <span class="help-inline">(negative value = generate randomly)</span>
                   </div>
                 </div>
               </div>

@@ -149,7 +149,7 @@ public class ModelAction extends ActionSupport {
     private String svmCutoff = "0.6";
     // Random Forest parameters
     private String numTrees = "1000";
-    private int seed = -1;
+    private int randomForestSeed = -1;
     // end Random Forest parameters
     private String jobName;
     private String textValue;
@@ -311,11 +311,11 @@ public class ModelAction extends ActionSupport {
             }
 
             if (ds.getSplitType().equals(Constants.NFOLD)) {
-                // generate random seed for RF if none given
-                // (we need to do this here, not in Python, because the seed needs to stay the same across every fold)
-                if (modelingType.equals(Constants.RANDOMFOREST) && seed < 0) {
+                // generate random randomForestSeed for RF if none given
+                // (we need to do this here, not in Python, because the randomForestSeed needs to stay the same across every fold)
+                if (modelingType.equals(Constants.RANDOMFOREST) && randomForestSeed < 0) {
                     PositiveRandom random = new PositiveRandom();
-                    seed = random.nextPositiveInt(); // in interval [0, Integer.MAX_VALUE]
+                    randomForestSeed = random.nextPositiveInt(); // in interval [0, Integer.MAX_VALUE]
                 }
 
                 // start n jobs, 1 for each fold.
@@ -1319,12 +1319,12 @@ public class ModelAction extends ActionSupport {
         this.numTrees = numTrees;
     }
 
-    public int getSeed() {
-        return seed;
+    public int getRandomForestSeed() {
+        return randomForestSeed;
     }
 
-    public void setSeed(int seed) {
-        this.seed = seed;
+    public void setRandomForestSeed(int randomForestSeed) {
+        this.randomForestSeed = randomForestSeed;
     }
 
     public Long getSelectedPredictorId() {

@@ -302,7 +302,7 @@ public class QsarModelingTask extends WorkflowTask {
         } else if (modelingForm.getModelingType().equals(Constants.RANDOMFOREST)) {
             randomForestParameters = new RandomForestParameters();
             randomForestParameters.setNumTrees(modelingForm.getNumTrees());
-            randomForestParameters.setSeed(modelingForm.getSeed());
+            randomForestParameters.setSeed(modelingForm.getRandomForestSeed());
         }
 
         // end load modeling parameters from form
