@@ -115,3 +115,34 @@ p.bg-primary, p.bg-success, p.bg-info, p.bg-warning, p.bg-danger {
     margin-right: 5px;
 }
 /* end buttons with spinners */
+
+table.compound-list thead > tr > th.name {
+    text-align: left;
+    padding-left: 1em;
+}
+
+table.compound-list thead > tr > th {
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* needed for specificity issues */
+table.compound-list > tbody > tr > td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+table.compound-list td.name {
+    padding-left: 1em;
+    width: 50%;
+    text-align: left;
+}
+
+.popover-image {
+    max-width: none;
+}
+
+.popover-image .popover-content {
+    padding: 0;
+}

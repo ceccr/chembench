@@ -152,10 +152,10 @@
         <p class="margin-below">All compounds in your dataset are listed in the table below, including those in
           your external set.
         </p>
-        <table class="table table-hover compound-list datatable">
+        <table class="table table-hover table-bordered compound-list datatable">
           <thead>
           <tr>
-            <th>Compound Name</th>
+            <th class="name">Compound Name</th>
             <s:if test="dataset.hasStructures()">
               <th class="unsortable">Structure</th>
             </s:if>
