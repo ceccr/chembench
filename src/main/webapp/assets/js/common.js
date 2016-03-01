@@ -58,7 +58,7 @@
     };
 
     Chembench.formatModelingMethod = function(text) {
-        return text.replace('RANDOMFOREST', 'Random Forest');
+        return text.replace('RANDOMFOREST', 'RF');
     };
 
     Chembench.formatDescriptorType = function(text) {
