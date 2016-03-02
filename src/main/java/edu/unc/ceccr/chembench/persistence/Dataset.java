@@ -185,6 +185,16 @@ public class Dataset implements java.io.Serializable {
         return userName.equals(Constants.ALL_USERS_USERNAME);
     }
 
+    @Transient
+    public boolean isViewableBy(User user) {
+        return isEditableBy(user) || isPublic();
+    }
+
+    @Transient
+    public boolean isEditableBy(User user) {
+        return user.getIsAdmin().equals(Constants.YES) || userName.equals(user.getUserName());
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

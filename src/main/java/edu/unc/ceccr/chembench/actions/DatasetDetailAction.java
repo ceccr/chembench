@@ -45,14 +45,12 @@ public class DatasetDetailAction extends DetailAction {
 
     public String execute() throws Exception {
         dataset = datasetRepository.findOne(id);
-        if (dataset == null) {
-            return "notfound";
+        String result = validateObject(dataset);
+        if (!result.equals(SUCCESS)) {
+            return result;
         }
         datasetPath = dataset.getDirectoryPath();
-        editable = user.getIsAdmin().equals(Constants.YES) || user.getUserName().equals(dataset.getUserName());
-        if (!(editable || dataset.isPublic())) {
-            return "forbidden";
-        }
+        editable = dataset.isEditableBy(user);
 
         if (request.getMethod().equals("POST")) {
             return updateDataset();
