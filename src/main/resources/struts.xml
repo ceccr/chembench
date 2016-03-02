@@ -152,79 +152,10 @@
         <!-- End View Dataset Page -->
 
         <!-- View Predictor Page -->
-        <!-- common to all modeling methods -->
-        <action name="modelDetail" class="edu.unc.ceccr.chembench.actions.ViewPredictor.PredictorPage" method="load">
+        <action name="modelDetail" class="edu.unc.ceccr.chembench.actions.ModelDetailAction">
             <result name="success">/jsp/modeling/modelDetail.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
-
-        <action name="updatePredictor" class="edu.unc.ceccr.chembench.actions.ViewPredictor.PredictorPage"
-                method="update">
-            <result name="success">/jsp/modelingOutput/modelDetail.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <action name="viewPredictorExternalValidationSection"
-                class="edu.unc.ceccr.chembench.actions.ViewPredictor.ExternalValidationPage" method="load">
-            <result name="success">/jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <action name="viewPredictorParametersSection"
-                class="edu.unc.ceccr.chembench.actions.ViewPredictor.ParametersPage"
-                method="load">
-            <result name="success">/jsp/modelingOutput/viewPredictor-parameters.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <!-- end common to all modeling methods -->
-
-        <!-- knn -->
-
-        <action name="viewPredictorKnnModelsSection" class="edu.unc.ceccr.chembench.actions.ViewPredictor.KnnModelsPage"
-                method="load">
-            <result name="success">/jsp/modelingOutput/viewPredictor-knnModels.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <!-- end knn -->
-
-        <!-- knn+ -->
-
-        <action name="viewPredictorKnnPlusModelsSection"
-                class="edu.unc.ceccr.chembench.actions.ViewPredictor.KnnPlusModelsPage"
-                method="load">
-            <result name="success">/jsp/modelingOutput/viewPredictor-knnPlusModels.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <!-- end knn+ -->
-
-        <!-- random forest -->
-        <action name="viewPredictorRandomForestTreesSection"
-                class="edu.unc.ceccr.chembench.actions.ViewPredictor.RandomForestModelsPage" method="load">
-            <result name="success">/jsp/modelingOutput/viewPredictor-randomForestTrees.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <action name="viewPredictorRandomForestDescriptorImportanceSection"
-                class="edu.unc.ceccr.chembench.actions.ViewPredictor.RandomForestDescriptorImportancePage">
-            <result name="success">/jsp/modelingOutput/viewPredictor-randomForestDescriptorImportance.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <!-- end random forest -->
-
-        <!-- svm -->
-
-        <action name="viewPredictorSvmModelsSection" class="edu.unc.ceccr.chembench.actions.ViewPredictor.SvmModelsPage"
-                method="load">
-            <result name="success">/jsp/modelingOutput/viewPredictor-svmModels.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <!-- end svm -->
-
         <!-- End View Predictor Page -->
 
         <!-- Servlet forwards -->

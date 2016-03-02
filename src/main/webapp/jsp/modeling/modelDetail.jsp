@@ -4,14 +4,14 @@
 <html>
 <head>
   <%@ include file="/jsp/main/head.jsp" %>
-  <title>Chembench | Model: <s:property value="selectedPredictor.name" /></title>
+  <title>Chembench | Model: <s:property value="predictor.name" /></title>
 </head>
 <body>
 <div id="main" class="container">
   <%@ include file="/jsp/main/header.jsp" %>
 
   <section id="content">
-    <h2>Model Details: <s:property value="selectedPredictor.name" /></h2>
+    <h2>Model Details: <s:property value="predictor.name" /></h2>
 
     <div class="list-group">
       <div class="list-group-item">
@@ -20,20 +20,20 @@
           <dt>Modeling dataset</dt>
           <dd>
             <s:url var="modelingDatasetUrl" action="datasetDetail">
-              <s:param name="id" value="selectedPredictor.datasetId" />
+              <s:param name="id" value="predictor.datasetId" />
             </s:url>
             <a href="<s:property value="modelingDatasetUrl" />" target="_blank"><s:property
-                value="selectedPredictor.datasetDisplay" /></a>
+                value="predictor.datasetDisplay" /></a>
           </dd>
 
           <dt>Model type</dt>
-          <dd class="modeling-method"><s:property value="selectedPredictor.modelMethod" /></dd>
+          <dd class="modeling-method"><s:property value="predictor.modelMethod" /></dd>
 
           <dt>Descriptors used</dt>
-          <dd><s:property value="selectedPredictor.descriptorGeneration" /></dd>
+          <dd><s:property value="predictor.descriptorGeneration" /></dd>
 
           <dt>Date created</dt>
-          <dd><s:date name="selectedPredictor.dateCreated" format="yyyy-MM-dd HH:mm" /></dd>
+          <dd><s:date name="predictor.dateCreated" format="yyyy-MM-dd HH:mm" /></dd>
         </dl>
       </div>
 
@@ -41,8 +41,8 @@
         <h4 class="list-group-item-heading">External validation results</h4>
 
         <s:url var="externalValidationCsvUrl" action="fileServlet" escapeAmp="false">
-          <s:param name="id" value="selectedPredictor.id" />
-          <s:param name="user" value="selectedPredictor.userName" />
+          <s:param name="id" value="predictor.id" />
+          <s:param name="user" value="predictor.userName" />
           <s:param name="jobType" value="'MODELING'" />
           <s:param name="file" value="'externalPredictionsAsCSV'" />
         </s:url>
@@ -58,7 +58,7 @@
 
     <ul class="nav nav-tabs">
       <li class="active"><a href="#external-validation" data-toggle="tab">External Validation</a></li>
-      <s:if test="selectedPredictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST">
+      <s:if test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST">
         <li><a href="#trees" data-toggle="tab">Trees</a></li>
         <li><a href="#y-randomized-trees" data-toggle="tab">y-Randomized Trees</a></li>
       </s:if>
@@ -74,7 +74,7 @@
         <h3>External Validation</h3>
       </div>
 
-      <s:if test="selectedPredictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST">
+      <s:if test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST">
         <div id="trees" class="tab-pane">
           <h3>Trees</h3>
         </div>
