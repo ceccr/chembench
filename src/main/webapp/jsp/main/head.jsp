@@ -3,8 +3,7 @@
 
 <link rel="icon" href="${pageContext.request.contextPath}/assets/images/mml.ico" type="image/ico">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<link rel="stylesheet"
-      href="https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/t/bs-3.3.6/dt-1.10.11/datatables.min.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navigation.css">

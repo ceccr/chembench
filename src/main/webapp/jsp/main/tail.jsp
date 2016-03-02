@@ -34,8 +34,7 @@
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+<script src="https://cdn.datatables.net/t/bs-3.3.6/dt-1.10.11/datatables.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/bootbox.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/common.js"></script>
