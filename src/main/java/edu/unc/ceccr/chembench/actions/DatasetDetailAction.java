@@ -285,8 +285,9 @@ public class DatasetDetailAction extends DetailAction {
     }
 
     public String getFold() {
+        dataset = datasetRepository.findOne(id);
         if (dataset == null) {
-            return "badrequest";
+            return "notfound";
         }
 
         if (dataset.getModelType().equals(Constants.PREDICTION) || !dataset.getSplitType().equals(Constants.NFOLD)
