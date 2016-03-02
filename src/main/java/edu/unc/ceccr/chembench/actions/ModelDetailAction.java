@@ -1,6 +1,9 @@
 package edu.unc.ceccr.chembench.actions;
 
+import com.google.common.collect.ContiguousSet;
+import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Range;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import org.apache.log4j.Logger;
@@ -21,9 +24,10 @@ public class ModelDetailAction extends DetailAction {
     private List<?> yRandomModels;
     private Predictor predictor;
     private boolean editable;
-    private List<Integer> foldNumbers;
-    private List<List<?>> foldModels;
-    private List<List<?>> foldYRandomModels;
+    private Iterable<Integer> foldNumbers;
+    private boolean isYRandom;
+    private List<?> foldModels;
+    private int foldNumber;
 
     @Autowired
     public ModelDetailAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
@@ -50,19 +54,26 @@ public class ModelDetailAction extends DetailAction {
         Dataset modelingDataset = datasetRepository.findOne(predictor.getDatasetId());
         predictor.setDatasetDisplay(modelingDataset.getName());
         if (predictor.getChildType().equals(Constants.NFOLD)) {
-            foldNumbers = Lists.newArrayList();
-            foldModels = Lists.newArrayList();
-            foldYRandomModels = Lists.newArrayList();
-            int currentFoldNumber = 1;
-            for (Predictor childPredictor : predictorRepository.findByParentId(predictor.getId())) {
-                foldNumbers.add(currentFoldNumber++);
-                foldModels.add(readModels(childPredictor, false));
-                foldYRandomModels.add(readModels(childPredictor, true));
-            }
+            List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
+            foldNumbers = ContiguousSet.create(Range.closed(1, childPredictors.size()), DiscreteDomain.integers());
         } else {
             models = readModels(predictor, false);
             yRandomModels = readModels(predictor, true);
         }
+        return SUCCESS;
+    }
+
+    public String getFold() {
+        predictor = predictorRepository.findOne(id);
+        String result = validateObject(predictor);
+        if (!result.equals(SUCCESS)) {
+            return result;
+        }
+        List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
+        if (foldNumber < 1 || foldNumber > childPredictors.size()) {
+            return "badrequest";
+        }
+        foldModels = readModels(childPredictors.get(foldNumber - 1), isYRandom);
         return SUCCESS;
     }
 
@@ -86,22 +97,6 @@ public class ModelDetailAction extends DetailAction {
         return Lists.newArrayList();
     }
 
-    public Predictor getPredictor() {
-        return predictor;
-    }
-
-    public void setPredictor(Predictor predictor) {
-        this.predictor = predictor;
-    }
-
-    public boolean isEditable() {
-        return editable;
-    }
-
-    public void setEditable(boolean editable) {
-        this.editable = editable;
-    }
-
     public List<?> getModels() {
         return models;
     }
@@ -118,27 +113,51 @@ public class ModelDetailAction extends DetailAction {
         this.yRandomModels = yRandomModels;
     }
 
-    public List<Integer> getFoldNumbers() {
+    public Predictor getPredictor() {
+        return predictor;
+    }
+
+    public void setPredictor(Predictor predictor) {
+        this.predictor = predictor;
+    }
+
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
+    }
+
+    public Iterable<Integer> getFoldNumbers() {
         return foldNumbers;
     }
 
-    public void setFoldNumbers(List<Integer> foldNumbers) {
+    public void setFoldNumbers(Iterable<Integer> foldNumbers) {
         this.foldNumbers = foldNumbers;
     }
 
-    public List<List<?>> getFoldModels() {
+    public boolean getIsYRandom() {
+        return isYRandom;
+    }
+
+    public void setIsYRandom(boolean YRandom) {
+        isYRandom = YRandom;
+    }
+
+    public List<?> getFoldModels() {
         return foldModels;
     }
 
-    public void setFoldModels(List<List<?>> foldModels) {
+    public void setFoldModels(List<?> foldModels) {
         this.foldModels = foldModels;
     }
 
-    public List<List<?>> getFoldYRandomModels() {
-        return foldYRandomModels;
+    public int getFoldNumber() {
+        return foldNumber;
     }
 
-    public void setFoldYRandomModels(List<List<?>> foldYRandomModels) {
-        this.foldYRandomModels = foldYRandomModels;
+    public void setFoldNumber(int foldNumber) {
+        this.foldNumber = foldNumber;
     }
 }

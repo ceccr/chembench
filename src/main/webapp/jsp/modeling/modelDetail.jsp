@@ -77,10 +77,50 @@
       <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
         <div id="trees" class="tab-pane">
           <h3>Trees</h3>
+
+          <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
+            <nav class="text-center">
+              <ul class="pagination">
+                <li class="previous">
+                  <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <s:iterator value="foldNumbers">
+                  <li><a href="#"><s:property /></a></li>
+                </s:iterator>
+                <li class="next">
+                  <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </s:if>
         </div>
 
         <div id="y-randomized-trees" class="tab-pane">
           <h3><var>y</var>-Randomized Trees</h3>
+
+          <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
+            <nav class="text-center">
+              <ul class="pagination">
+                <li class="previous">
+                  <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <s:iterator value="foldNumbers">
+                  <li><a href="#"><s:property /></a></li>
+                </s:iterator>
+                <li class="next">
+                  <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </s:if>
         </div>
       </s:if>
       <s:else>
@@ -103,5 +143,6 @@
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
+<script src="${pageContext.request.contextPath}/assets/js/pagination.js"></script>
 </body>
 </html>

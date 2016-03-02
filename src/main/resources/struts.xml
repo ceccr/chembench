@@ -156,6 +156,12 @@
             <result name="success">/jsp/modeling/modelDetail.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
+
+        <action name="viewPredictorFold" class="edu.unc.ceccr.chembench.actions.ModelDetailAction" method="getFold">
+            <result name="success" type="json">
+                <param name="root">foldModels</param>
+            </result>
+        </action>
         <!-- End View Predictor Page -->
 
         <!-- Servlet forwards -->
