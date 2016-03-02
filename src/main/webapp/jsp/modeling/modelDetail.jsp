@@ -58,7 +58,7 @@
 
     <ul class="nav nav-tabs">
       <li class="active"><a href="#external-validation" data-toggle="tab">External Validation</a></li>
-      <s:if test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST">
+      <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
         <li><a href="#trees" data-toggle="tab">Trees</a></li>
         <li><a href="#y-randomized-trees" data-toggle="tab">y-Randomized Trees</a></li>
       </s:if>
@@ -74,7 +74,7 @@
         <h3>External Validation</h3>
       </div>
 
-      <s:if test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST">
+      <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
         <div id="trees" class="tab-pane">
           <h3>Trees</h3>
         </div>
