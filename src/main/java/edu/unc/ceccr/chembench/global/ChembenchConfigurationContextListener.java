@@ -8,7 +8,7 @@ import javax.servlet.ServletContextListener;
 import java.nio.file.Paths;
 
 public class ChembenchConfigurationContextListener implements ServletContextListener {
-    private static final Logger logger = Logger.getLogger(ChembenchConfigurationContextListener.class.getName());
+    private static final Logger logger = Logger.getLogger(ChembenchConfigurationContextListener.class);
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {

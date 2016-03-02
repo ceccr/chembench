@@ -26,7 +26,7 @@ import java.util.*;
 @Configurable(autowire = Autowire.BY_TYPE)
 public class QsarPredictionTask extends WorkflowTask {
 
-    private static final Logger logger = Logger.getLogger(QsarPredictionTask.class.getName());
+    private static final Logger logger = Logger.getLogger(QsarPredictionTask.class);
     // for internal use only
     List<Predictor> selectedPredictors = null;
     private boolean wasRecovered = false;

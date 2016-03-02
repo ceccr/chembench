@@ -15,7 +15,7 @@ public class KnnModel implements java.io.Serializable {
      *
      */
 
-    private static final Logger logger = Logger.getLogger(KnnModel.class.getName());
+    private static final Logger logger = Logger.getLogger(KnnModel.class);
     // Fields
     private Long id;
     private Long predictorId;

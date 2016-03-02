@@ -14,7 +14,7 @@ import java.io.*;
 
 public class ProjectFilesServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(ProjectFilesServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(ProjectFilesServlet.class);
 
     //provides zipfiles containing predictors and predictions
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

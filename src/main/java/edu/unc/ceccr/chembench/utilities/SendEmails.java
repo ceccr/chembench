@@ -16,7 +16,7 @@ import java.util.Iterator;
 @Component
 public class SendEmails {
 
-    private static final Logger logger = Logger.getLogger(SendEmails.class.getName());
+    private static final Logger logger = Logger.getLogger(SendEmails.class);
     private static UserRepository userRepository;
 
     public static boolean isValidEmail(String email) {

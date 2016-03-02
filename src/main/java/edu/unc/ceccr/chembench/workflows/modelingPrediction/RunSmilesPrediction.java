@@ -26,7 +26,7 @@ import java.util.Set;
 
 @Component
 public class RunSmilesPrediction {
-    private static final Logger logger = Logger.getLogger(RunSmilesPrediction.class.getName());
+    private static final Logger logger = Logger.getLogger(RunSmilesPrediction.class);
     private static PredictorRepository predictorRepository;
 
     public static String[] predictSmilesSDF(String workingDir, String username, Predictor predictor) throws Exception {

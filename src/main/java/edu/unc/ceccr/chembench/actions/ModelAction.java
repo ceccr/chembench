@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class ModelAction extends ActionSupport {
 
-    private static final Logger logger = Logger.getLogger(ModelAction.class.getName());
+    private static final Logger logger = Logger.getLogger(ModelAction.class);
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;

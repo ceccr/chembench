@@ -17,7 +17,7 @@ import java.io.*;
 
 public class ImageServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(ImageServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(ImageServlet.class);
     @Autowired
     private PredictorRepository predictorRepository;
 

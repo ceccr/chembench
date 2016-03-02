@@ -18,7 +18,7 @@ import java.util.List;
 @Configurable(autowire = Autowire.BY_TYPE)
 public class LocalProcessingThread extends Thread {
 
-    private static final Logger logger = Logger.getLogger(LocalProcessingThread.class.getName());
+    private static final Logger logger = Logger.getLogger(LocalProcessingThread.class);
     // this thread will work on the localJobs joblist.
     // There can be any number of these threads.
 

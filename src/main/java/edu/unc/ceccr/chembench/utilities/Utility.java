@@ -21,7 +21,7 @@ import java.util.Random;
 
 public class Utility {
 
-    private static final Logger logger = Logger.getLogger(Utility.class.getName());
+    private static final Logger logger = Logger.getLogger(Utility.class);
 
     private static Integer debug_counter = 0;
 

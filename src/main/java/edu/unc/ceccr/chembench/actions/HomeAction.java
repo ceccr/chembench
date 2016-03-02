@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 public class HomeAction extends ActionSupport implements ServletResponseAware, ServletRequestAware {
-    private static final Logger logger = Logger.getLogger(HomeAction.class.getName());
+    private static final Logger logger = Logger.getLogger(HomeAction.class);
     private final UserRepository userRepository;
     private final JobRepository jobRepository;
     private final JobStatsRepository jobStatsRepository;

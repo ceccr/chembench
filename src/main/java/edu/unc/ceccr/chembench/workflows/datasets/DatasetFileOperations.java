@@ -27,7 +27,7 @@ import java.util.*;
  */
 
 public class DatasetFileOperations {
-    private static final Logger logger = Logger.getLogger(DatasetFileOperations.class.getName());
+    private static final Logger logger = Logger.getLogger(DatasetFileOperations.class);
 
     public static Map<String, String> getActFileIdsAndValues(Path filePath) {
         return getActFileIdsAndValues(filePath.toString());

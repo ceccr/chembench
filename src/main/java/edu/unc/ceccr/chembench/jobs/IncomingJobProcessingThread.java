@@ -13,7 +13,7 @@ import java.util.List;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class IncomingJobProcessingThread extends Thread {
-    private static final Logger logger = Logger.getLogger(IncomingJobProcessingThread.class.getName());
+    private static final Logger logger = Logger.getLogger(IncomingJobProcessingThread.class);
     // this takes jobs off the incomingJobs joblist and sends them to lsfJobs
     // and localJobs.
     // You should only ever have one of these threads running - don't start a

@@ -34,7 +34,7 @@ import java.util.Map;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class QsarModelingTask extends WorkflowTask {
-    private static final Logger logger = Logger.getLogger(QsarModelingTask.class.getName());
+    private static final Logger logger = Logger.getLogger(QsarModelingTask.class);
     // predicted external set values
     List<ExternalValidation> externalSetPredictions = Lists.newArrayList();
     Path baseDir;

@@ -11,7 +11,7 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 public class LsfUtilities {
-    private static final Logger logger = Logger.getLogger(LsfUtilities.class.getName());
+    private static final Logger logger = Logger.getLogger(LsfUtilities.class);
 
     public static void retrieveCompletedPredictor(String filePath, String lsfPath) throws Exception {
         FileAndDirOperations.copyDirContents(lsfPath, filePath, true);

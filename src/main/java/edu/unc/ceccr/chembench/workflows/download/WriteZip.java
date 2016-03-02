@@ -23,7 +23,7 @@ import java.util.zip.ZipOutputStream;
 @Component
 public class WriteZip {
 
-    private static final Logger logger = Logger.getLogger(WriteZip.class.getName());
+    private static final Logger logger = Logger.getLogger(WriteZip.class);
     private static PredictorRepository predictorRepository;
     private static PredictionRepository predictionRepository;
     private static UserRepository userRepository;

@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class ConvertDescriptorsToXAndScale {
 
-    private static final Logger logger = Logger.getLogger(ConvertDescriptorsToXAndScale.class.getName());
+    private static final Logger logger = Logger.getLogger(ConvertDescriptorsToXAndScale.class);
     private static int compoundsPerChunk = 1000;
 
     /*

@@ -16,7 +16,7 @@ public class RunExternalProgram {
     // when they run. (For programs that execute many times in quick
     // succession.)
 
-    private static final Logger logger = Logger.getLogger(RunExternalProgram.class.getName());
+    private static final Logger logger = Logger.getLogger(RunExternalProgram.class);
     private static String[] runQuietly =
             {"bjobs.sh", "datasplit_train_test", "checkKnnSaProgress", "checkKnnGaProgress", "svm-train", "svm-predict",
                     "molconvert"};

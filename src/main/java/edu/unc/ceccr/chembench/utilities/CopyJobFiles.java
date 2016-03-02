@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 @Component
 public class CopyJobFiles {
 
-    private static final Logger logger = Logger.getLogger(CopyJobFiles.class.getName());
+    private static final Logger logger = Logger.getLogger(CopyJobFiles.class);
     private static PredictorRepository predictorRepository;
 
     public static void getDatasetFiles(String userName, Dataset dataset, String jobType, String toDir)

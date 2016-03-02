@@ -38,7 +38,7 @@ import java.util.List;
 
 @Component
 public class ExternalValidationChart {
-    private static final Logger logger = Logger.getLogger(ExternalValidationChart.class.getName());
+    private static final Logger logger = Logger.getLogger(ExternalValidationChart.class);
     private static PredictorRepository predictorRepository;
     private static ExternalValidationRepository externalValidationRepository;
 

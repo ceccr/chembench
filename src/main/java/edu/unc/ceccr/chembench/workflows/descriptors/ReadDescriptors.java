@@ -21,7 +21,7 @@ public class ReadDescriptors {
     // Create a Descriptors object for each compound.
     // puts results into descriptorNames and descriptorValueMatrix.
 
-    private static final Logger logger = Logger.getLogger(ReadDescriptors.class.getName());
+    private static final Logger logger = Logger.getLogger(ReadDescriptors.class);
 
     public static String[] readDescriptorNamesFromX(String xFile, String workingDir) throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(workingDir + xFile));

@@ -11,7 +11,7 @@ import java.io.*;
 
 public class ApplicationServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(ApplicationServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(ApplicationServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

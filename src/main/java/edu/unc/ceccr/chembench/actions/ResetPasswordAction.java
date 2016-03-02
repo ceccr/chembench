@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class ResetPasswordAction extends ActionSupport {
 
-    private static final Logger logger = Logger.getLogger(ResetPasswordAction.class.getName());
+    private static final Logger logger = Logger.getLogger(ResetPasswordAction.class);
     private String userName;
     private String email;
     private String errorMessage;

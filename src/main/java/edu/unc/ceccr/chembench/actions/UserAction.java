@@ -21,7 +21,7 @@ import java.util.List;
 
 public class UserAction extends ActionSupport implements ServletRequestAware {
 
-    private static final Logger logger = Logger.getLogger(UserAction.class.getName());
+    private static final Logger logger = Logger.getLogger(UserAction.class);
 
     private User user = User.getCurrentUser();
     private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeleteAction extends ActionSupport {
-    private static final Logger logger = Logger.getLogger(DeleteAction.class.getName());
+    private static final Logger logger = Logger.getLogger(DeleteAction.class);
     private List<String> errorStrings = Lists.newArrayList();
     private Long id;
     private String userToDelete;

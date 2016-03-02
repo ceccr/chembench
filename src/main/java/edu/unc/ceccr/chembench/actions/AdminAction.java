@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class AdminAction extends ActionSupport {
 
-    private static final Logger logger = Logger.getLogger(AdminAction.class.getName());
+    private static final Logger logger = Logger.getLogger(AdminAction.class);
     private final UserRepository userRepository;
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;

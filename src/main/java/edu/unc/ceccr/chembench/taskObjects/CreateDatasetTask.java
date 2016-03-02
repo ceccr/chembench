@@ -24,7 +24,7 @@ import java.util.Date;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class CreateDatasetTask extends WorkflowTask {
-    private static final Logger logger = Logger.getLogger(CreateDatasetTask.class.getName());
+    private static final Logger logger = Logger.getLogger(CreateDatasetTask.class);
     private String userName = null;
     private String datasetType;
     private String sdfFileName;

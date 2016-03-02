@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class DatasetDetailAction extends DetailAction {
 
-    private static final Logger logger = Logger.getLogger(DatasetDetailAction.class.getName());
+    private static final Logger logger = Logger.getLogger(DatasetDetailAction.class);
     private final DatasetRepository datasetRepository;
 
     private Dataset dataset;

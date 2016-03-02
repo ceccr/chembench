@@ -14,7 +14,7 @@ import java.io.*;
 
 public class DatasetFilesServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(DatasetFilesServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(DatasetFilesServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String BASE = Constants.CECCR_USER_BASE_PATH;

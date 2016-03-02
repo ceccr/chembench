@@ -27,7 +27,7 @@ import java.util.*;
 
 public class PredictionAction extends ActionSupport {
 
-    private static final Logger logger = Logger.getLogger(PredictionAction.class.getName());
+    private static final Logger logger = Logger.getLogger(PredictionAction.class);
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;

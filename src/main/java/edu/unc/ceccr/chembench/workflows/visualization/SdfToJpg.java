@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class SdfToJpg {
 
-    private static final Logger logger = Logger.getLogger(SdfToJpg.class.getName());
+    private static final Logger logger = Logger.getLogger(SdfToJpg.class);
 
     public static void makeSketchFiles(String filePath, String fileName, String structuresDir, String sketchesDir)
             throws Exception {

@@ -22,7 +22,7 @@ public class CompoundPredictionsRepositoryImpl implements CompoundPredictionsRep
     // not actually a Spring Data repository because CompoundPredictions is not persisted yet
     // however, our application code tries to fetch CompoundPredictions objects in multiple places, and it needs to
     // be refactored somewhere
-    private static final Logger logger = Logger.getLogger(CompoundPredictionsRepositoryImpl.class.getName());
+    private static final Logger logger = Logger.getLogger(CompoundPredictionsRepositoryImpl.class);
 
     private final DatasetRepository datasetRepository;
     private final PredictionRepository predictionRepository;

@@ -13,7 +13,7 @@ import java.io.*;
 
 public class Compound3DServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(Compound3DServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(Compound3DServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

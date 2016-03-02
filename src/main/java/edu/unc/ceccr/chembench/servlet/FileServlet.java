@@ -18,7 +18,7 @@ import java.io.*;
 public class FileServlet extends HttpServlet {
     //used to download individual files, e.g., a job result summary.
 
-    private static final Logger logger = Logger.getLogger(FileServlet.class.getName());
+    private static final Logger logger = Logger.getLogger(FileServlet.class);
     @Autowired
     private PredictorRepository predictorRepository;
     @Autowired

@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 public class StandardizeSdfFormat {
-    private static final Logger logger = Logger.getLogger(StandardizeSdfFormat.class.getName());
+    private static final Logger logger = Logger.getLogger(StandardizeSdfFormat.class);
 
     public static void addNameTag(String userName, String jobName, String sdfFile, String outputSdfFile) {
 

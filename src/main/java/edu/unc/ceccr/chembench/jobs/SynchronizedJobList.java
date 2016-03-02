@@ -18,7 +18,7 @@ import java.util.List;
 @Configurable(autowire = Autowire.BY_TYPE)
 public class SynchronizedJobList {
 
-    private static final Logger logger = Logger.getLogger(SynchronizedJobList.class.getName());
+    private static final Logger logger = Logger.getLogger(SynchronizedJobList.class);
 
     //stores a concurrent-access arraylist of jobs
     //In Chembench, one instance of this class holds all locally-running jobs

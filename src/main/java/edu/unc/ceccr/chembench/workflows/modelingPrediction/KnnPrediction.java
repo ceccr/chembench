@@ -15,7 +15,7 @@ import java.util.List;
 
 public class KnnPrediction {
 
-    private static final Logger logger = Logger.getLogger(KnnPrediction.class.getName());
+    private static final Logger logger = Logger.getLogger(KnnPrediction.class);
 
     // Execute external programs to generate a prediction for a given molecule
     // set.

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class MyBenchAction extends ActionSupport {
-    private static final Logger logger = Logger.getLogger(MyBenchAction.class.getName());
+    private static final Logger logger = Logger.getLogger(MyBenchAction.class);
     private final Splitter splitter = Splitter.on(CharMatcher.WHITESPACE);
     private final Joiner joiner = Joiner.on(';');
     private final DatasetRepository datasetRepository;

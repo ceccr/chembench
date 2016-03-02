@@ -21,7 +21,7 @@ import java.util.Set;
 @Component
 public class RSquaredAndCCR {
 
-    private static final Logger logger = Logger.getLogger(RSquaredAndCCR.class.getName());
+    private static final Logger logger = Logger.getLogger(RSquaredAndCCR.class);
     private static PredictorRepository predictorRepository;
     private static ExternalValidationRepository externalValidationRepository;
 

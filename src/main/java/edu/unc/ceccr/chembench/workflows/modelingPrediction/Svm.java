@@ -16,7 +16,7 @@ import java.io.*;
 import java.util.List;
 
 public class Svm {
-    private static final Logger logger = Logger.getLogger(Svm.class.getName());
+    private static final Logger logger = Logger.getLogger(Svm.class);
 
     public static void convertXtoSvm(String xFileName, String aFileName, String workingDir) throws Exception {
         // generates an SVM-compatible input descriptor file

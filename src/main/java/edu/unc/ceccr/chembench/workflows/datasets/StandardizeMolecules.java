@@ -9,7 +9,7 @@ import java.util.List;
 
 public class StandardizeMolecules {
 
-    private static final Logger logger = Logger.getLogger(StandardizeMolecules.class.getName());
+    private static final Logger logger = Logger.getLogger(StandardizeMolecules.class);
 
     public static void standardizeSdf(String sdfIn, String sdfOut, String workingDir) throws Exception {
         // Standardizes the molecules in this sdfile. Necessary to do this

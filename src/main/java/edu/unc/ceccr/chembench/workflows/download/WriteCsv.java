@@ -27,7 +27,7 @@ public class WriteCsv {
     //of no use to humans. These functions generate downloadable results
     //files that give job results in a more readable form.
 
-    private static final Logger logger = Logger.getLogger(WriteCsv.class.getName());
+    private static final Logger logger = Logger.getLogger(WriteCsv.class);
     private static PredictorRepository predictorRepository;
     private static PredictionRepository predictionRepository;
     private static ExternalValidationRepository externalValidationRepository;

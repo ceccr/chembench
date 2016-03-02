@@ -29,7 +29,7 @@ import java.util.Random;
 @Entity
 @Table(name = "cbench_dataset")
 public class Dataset implements java.io.Serializable {
-    private static final Logger logger = Logger.getLogger(Dataset.class.getName());
+    private static final Logger logger = Logger.getLogger(Dataset.class);
 
     private Long id;
     private String name;
