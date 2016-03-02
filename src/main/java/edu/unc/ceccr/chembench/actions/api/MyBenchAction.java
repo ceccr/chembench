@@ -7,10 +7,10 @@ import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 public class MyBenchAction extends ActionSupport {
     private static final Logger logger = Logger.getLogger(MyBenchAction.class);
