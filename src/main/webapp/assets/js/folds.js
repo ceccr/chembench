@@ -30,8 +30,12 @@
                 var nav = pagination.parent('nav');
                 var table = nav.siblings('table.datatable');
                 if (!table.attr('data-prepared')) {
-                    Chembench.prepareAjaxDatatable(table, {'processing': true, 'order': [[0, 'desc']]});
+                    Chembench.prepareAjaxDatatable(table, {'order': [[0, 'desc']]});
                 }
+                table.on('preXhr.dt', function(e) {
+                    var colspan = table.find('th').size();
+                    table.children('tbody').html('<tr><td class="text-center" colspan="' + colspan + '">Loading...</td></tr>');
+                });
                 var baseUrl = nav.siblings('.fold-base-url').val();
                 var currentFold = target.text();
                 var params = {
