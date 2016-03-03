@@ -27,6 +27,23 @@
                 } else {
                     pagination.children('.previous, .next').removeClass('disabled');
                 }
+                var nav = pagination.parent('nav');
+                var table = nav.siblings('table.datatable');
+                if (!table.attr('data-prepared')) {
+                    Chembench.prepareAjaxDatatable(table, {'processing': true, 'order': [[0, 'desc']]});
+                }
+                var baseUrl = nav.siblings('.fold-base-url').val();
+                var currentFold = target.text();
+                var params = {
+                    'id': nav.siblings('.object-id').val(),
+                    'foldNumber': currentFold
+                };
+                var isYRandomInput = nav.siblings('.is-y-random');
+                if (isYRandomInput.exists()) {
+                    params['isYRandom'] = isYRandomInput.val();
+                }
+                var foldUrl = nav.siblings('.fold-url');
+                foldUrl.val(baseUrl + '?' + $.param(params)).change();
             }
         });
 
@@ -36,6 +53,13 @@
                 var firstFold = pagination.children(':not(".previous, .next")').first();
                 firstFold.children('a').click();
             }
+        });
+
+        $('.fold-url').change(function(e) {
+            var foldUrlInput = $(this);
+            var dataTable = foldUrlInput.siblings().find('table.datatable').DataTable();
+            dataTable.clear();
+            dataTable.ajax.url(foldUrlInput.val()).load();
         });
     });
 })();

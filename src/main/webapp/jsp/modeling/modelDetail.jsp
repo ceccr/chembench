@@ -96,11 +96,24 @@
                 </li>
               </ul>
             </nav>
+
+            <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
+            <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
+            <input class="is-y-random" type="hidden" value="false" />
+            <input class="fold-url" type="hidden" />
+            <%@ include file="trees.jsp" %>
           </s:if>
         </div>
 
         <div id="y-randomized-trees" class="tab-pane">
           <h3><var>y</var>-Randomized Trees</h3>
+
+          <p>In <var>y</var>-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
+            data where the compound activities have been shuffled. Ideally, no trees with a high R<sup>2</sup> will be
+            produced. If the <var>y</var>-Randomized trees are similar to the real trees built on your data (see the <b>Trees</b>
+            tab), the predictor should be considered invalid and the dataset or parameters must be revised. <var>y</var>-randomized
+            trees are only created for validation purposes and are not used in predictions.
+          </p>
 
           <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
             <nav class="text-center">
@@ -120,6 +133,12 @@
                 </li>
               </ul>
             </nav>
+
+            <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
+            <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
+            <input class="is-y-random" type="hidden" value="true" />
+            <input class="fold-url" type="hidden" />
+            <%@ include file="trees.jsp" %>
           </s:if>
         </div>
       </s:if>
@@ -143,6 +162,7 @@
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
-<script src="${pageContext.request.contextPath}/assets/js/pagination.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/folds.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/modelDetail.js"></script>
 </body>
 </html>

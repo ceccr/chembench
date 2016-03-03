@@ -159,7 +159,7 @@
 
         <action name="viewPredictorFold" class="edu.unc.ceccr.chembench.actions.ModelDetailAction" method="getFold">
             <result name="success" type="json">
-                <param name="root">foldModels</param>
+                <param name="includeProperties">^data.*</param>
             </result>
         </action>
         <!-- End View Predictor Page -->
@@ -316,14 +316,7 @@
 
         <action name="get*" class="edu.unc.ceccr.chembench.actions.api.MyBenchAction" method="get{1}">
             <result name="success" type="json">
-                <param name="excludeProperties">
-                    datasets,
-                    models,
-                    predictions,
-                    localJobs,
-                    lsfJobs,
-                    errorJobs
-                </param>
+                <param name="includeProperties">^data.*</param>
             </result>
         </action>
     </package>

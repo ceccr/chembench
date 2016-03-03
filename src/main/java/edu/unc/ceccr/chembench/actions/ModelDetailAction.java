@@ -26,8 +26,8 @@ public class ModelDetailAction extends DetailAction {
     private boolean editable;
     private Iterable<Integer> foldNumbers;
     private boolean isYRandom;
-    private List<?> foldModels;
     private int foldNumber;
+    private List<?> data;
 
     @Autowired
     public ModelDetailAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
@@ -73,7 +73,7 @@ public class ModelDetailAction extends DetailAction {
         if (foldNumber < 1 || foldNumber > childPredictors.size()) {
             return "badrequest";
         }
-        foldModels = readModels(childPredictors.get(foldNumber - 1), isYRandom);
+        data = readModels(childPredictors.get(foldNumber - 1), isYRandom);
         return SUCCESS;
     }
 
@@ -145,19 +145,19 @@ public class ModelDetailAction extends DetailAction {
         isYRandom = YRandom;
     }
 
-    public List<?> getFoldModels() {
-        return foldModels;
-    }
-
-    public void setFoldModels(List<?> foldModels) {
-        this.foldModels = foldModels;
-    }
-
     public int getFoldNumber() {
         return foldNumber;
     }
 
     public void setFoldNumber(int foldNumber) {
         this.foldNumber = foldNumber;
+    }
+
+    public List<?> getData() {
+        return data;
+    }
+
+    public void setData(List<?> data) {
+        this.data = data;
     }
 }
