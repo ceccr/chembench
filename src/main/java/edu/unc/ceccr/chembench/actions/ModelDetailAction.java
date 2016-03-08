@@ -20,9 +20,15 @@ public class ModelDetailAction extends DetailAction {
     private final SvmModelRepository svmModelRepository;
     private final KnnModelRepository knnModelRepository;
     private final KnnPlusModelRepository knnPlusModelRepository;
+    private final RandomForestParametersRepository randomForestParametersRepository;
+    private final KnnParametersRepository knnParametersRepository;
+    private final KnnPlusParametersRepository knnPlusParametersRepository;
+    private final SvmParametersRepository svmParametersRepository;
     private List<?> models;
     private List<?> yRandomModels;
     private Predictor predictor;
+    private Dataset modelingDataset;
+    private Object modelParameters;
     private boolean editable;
     private Iterable<Integer> foldNumbers;
     private boolean isYRandom;
@@ -34,7 +40,11 @@ public class ModelDetailAction extends DetailAction {
                              RandomForestGroveRepository randomForestGroveRepository,
                              RandomForestTreeRepository randomForestTreeRepository,
                              SvmModelRepository svmModelRepository, KnnModelRepository knnModelRepository,
-                             KnnPlusModelRepository knnPlusModelRepository) {
+                             KnnPlusModelRepository knnPlusModelRepository,
+                             RandomForestParametersRepository randomForestParametersRepository,
+                             KnnParametersRepository knnParametersRepository,
+                             KnnPlusParametersRepository knnPlusParametersRepository,
+                             SvmParametersRepository svmParametersRepository) {
         this.datasetRepository = datasetRepository;
         this.predictorRepository = predictorRepository;
         this.randomForestGroveRepository = randomForestGroveRepository;
@@ -42,6 +52,10 @@ public class ModelDetailAction extends DetailAction {
         this.svmModelRepository = svmModelRepository;
         this.knnModelRepository = knnModelRepository;
         this.knnPlusModelRepository = knnPlusModelRepository;
+        this.randomForestParametersRepository = randomForestParametersRepository;
+        this.knnParametersRepository = knnParametersRepository;
+        this.knnPlusParametersRepository = knnPlusParametersRepository;
+        this.svmParametersRepository = svmParametersRepository;
     }
 
     public String execute() {
@@ -51,7 +65,7 @@ public class ModelDetailAction extends DetailAction {
             return result;
         }
         editable = predictor.isEditableBy(user);
-        Dataset modelingDataset = datasetRepository.findOne(predictor.getDatasetId());
+        modelingDataset = datasetRepository.findOne(predictor.getDatasetId());
         predictor.setDatasetDisplay(modelingDataset.getName());
         if (predictor.getChildType().equals(Constants.NFOLD)) {
             List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
@@ -59,6 +73,27 @@ public class ModelDetailAction extends DetailAction {
         } else {
             models = readModels(predictor, false);
             yRandomModels = readModels(predictor, true);
+        }
+        switch (predictor.getModelMethod()) {
+            case Constants.RANDOMFOREST:
+            case Constants.RANDOMFOREST_R:
+                modelParameters = randomForestParametersRepository.findOne(predictor.getModelingParametersId());
+                break;
+            case Constants.KNN: // legacy knn
+                modelParameters = knnParametersRepository.findOne(predictor.getModelingParametersId());
+                break;
+            case Constants.KNNGA: // knn+
+            case Constants.KNNSA:
+                modelParameters = knnPlusParametersRepository.findOne(predictor.getModelingParametersId());
+                break;
+            case Constants.SVM:
+                modelParameters = svmParametersRepository.findOne(predictor.getModelingParametersId());
+                break;
+            default:
+                logger.warn(
+                        String.format("Unrecognized model method %s for predictor id %d", predictor.getModelMethod(),
+                                predictor.getId()));
+                break;
         }
         return SUCCESS;
     }
@@ -159,5 +194,21 @@ public class ModelDetailAction extends DetailAction {
 
     public void setData(List<?> data) {
         this.data = data;
+    }
+
+    public Dataset getModelingDataset() {
+        return modelingDataset;
+    }
+
+    public void setModelingDataset(Dataset modelingDataset) {
+        this.modelingDataset = modelingDataset;
+    }
+
+    public Object getModelParameters() {
+        return modelParameters;
+    }
+
+    public void setModelParameters(Object modelParameters) {
+        this.modelParameters = modelParameters;
     }
 }

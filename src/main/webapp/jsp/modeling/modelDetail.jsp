@@ -26,6 +26,9 @@
                 value="predictor.datasetDisplay" /></a>
           </dd>
 
+          <dt>Dataset activity type</dt>
+          <dd class="activity-type"><s:property value="modelingDataset.modelType" /></dd>
+
           <dt>Model type</dt>
           <dd class="modeling-method"><s:property value="predictor.modelMethod" /></dd>
 
@@ -154,6 +157,23 @@
 
       <div id="modeling-parameters" class="tab-pane">
         <h3>Modeling Parameters</h3>
+
+        <p>These are the parameters you used to generate this model.</p>
+
+        <dl class="dl-horizontal properties-list">
+          <dt>Correlation cutoff</dt>
+          <dd><s:property value="predictor.correlationCutoff" /></dd>
+
+          <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
+            <dt>Number of trees</dt>
+            <dd><s:property value="modelParameters.numTrees" /></dd>
+
+            <s:if test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST">
+              <dt>Random seed used</dt>
+              <dd><s:property value="modelParameters.seed" /></dd>
+            </s:if>
+          </s:if>
+        </dl>
       </div>
     </div>
   </section>
