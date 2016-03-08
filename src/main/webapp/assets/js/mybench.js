@@ -48,15 +48,14 @@
         });
 
         var intervalSelect = $('#autorefresh-interval');
-        var interval = intervalSelect.find(':selected').val(); // in seconds
-        var refreshTask = setInterval(refreshJobQueues, interval * 1000);
-
+        var refreshTask = setInterval(refreshJobQueues, intervalSelect.val() * 1000);
         intervalSelect.change(function() {
+            var newInterval = parseInt($(this).val());
             if (refreshTask) {
                 clearInterval(refreshTask);
             }
-            if (interval !== 0) {
-                refreshTask = setInterval(refreshJobQueues, interval * 1000);
+            if (newInterval !== 0) {
+                refreshTask = setInterval(refreshJobQueues, newInterval * 1000);
             }
         });
     });
