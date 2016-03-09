@@ -8,8 +8,8 @@ import java.util.Set;
 public class ConfusionMatrix {
     private Set<Integer> uniqueObservedValues;
     private int[][] matrix;
-    private double totalCorrect;
-    private double totalIncorrect;
+    private int totalCorrect;
+    private int totalIncorrect;
     private double ccr;
     private double accuracy;
 
@@ -77,19 +77,19 @@ public class ConfusionMatrix {
         this.ccr = ccr;
     }
 
-    public double getTotalCorrect() {
+    public int getTotalCorrect() {
         return totalCorrect;
     }
 
-    public void setTotalCorrect(double totalCorrect) {
+    public void setTotalCorrect(int totalCorrect) {
         this.totalCorrect = totalCorrect;
     }
 
-    public double getTotalIncorrect() {
+    public int getTotalIncorrect() {
         return totalIncorrect;
     }
 
-    public void setTotalIncorrect(double totalIncorrect) {
+    public void setTotalIncorrect(int totalIncorrect) {
         this.totalIncorrect = totalIncorrect;
     }
 
