@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FilenameFilter;
@@ -35,6 +36,7 @@ import java.util.Map;
 @Configurable(autowire = Autowire.BY_TYPE)
 public class QsarModelingTask extends WorkflowTask {
     private static final Logger logger = Logger.getLogger(QsarModelingTask.class);
+    private boolean wasRecovered = false;
     // predicted external set values
     List<ExternalValidation> externalSetPredictions = Lists.newArrayList();
     Path baseDir;
@@ -105,25 +107,16 @@ public class QsarModelingTask extends WorkflowTask {
     private ExternalValidationRepository externalValidationRepository;
 
     public QsarModelingTask(Predictor predictor) throws Exception {
+        wasRecovered = true;
         logger.info("Recovering job, " + jobName + " from predictor: " + predictor.getName() + " submitted by user, "
                 + userName + ".");
         this.predictor = predictor;
-
-        // get dataset
-        dataset = datasetRepository.findOne(predictor.getDatasetId());
         categoryWeights = predictor.getCategoryWeights();
-        datasetName = dataset.getName();
-        sdFileName = dataset.getSdfFile();
-        actFileName = dataset.getActFile();
-        actFileDataType = dataset.getModelType();
-        datasetPath += dataset.getUserName();
-        datasetPath += "/DATASETS/" + datasetName + "/";
-
         userName = predictor.getUserName();
         jobName = predictor.getName();
         filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-
         modelType = predictor.getModelMethod();
+        datasetID = predictor.getDatasetId();
 
         // descriptors
         descriptorGenerationType = predictor.getDescriptorGeneration();
@@ -158,18 +151,6 @@ public class QsarModelingTask extends WorkflowTask {
                             + jobName + " submitted by user, " + userName + ".");
             numExternalCompounds = 0;
         }
-
-        // modeling params
-        if (predictor.getModelMethod().equals(Constants.KNN)) {
-            knnParameters = knnParametersRepository.findOne(predictor.getModelingParametersId());
-        } else if (predictor.getModelMethod().equals(Constants.SVM)) {
-            svmParameters = svmParametersRepository.findOne(predictor.getModelingParametersId());
-        } else if (predictor.getModelMethod().equals(Constants.KNNSA) || predictor.getModelMethod()
-                .equals(Constants.KNNGA)) {
-            knnPlusParameters = knnPlusParametersRepository.findOne(predictor.getModelingParametersId());
-        } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-            randomForestParameters = randomForestParametersRepository.findOne(predictor.getModelingParametersId());
-        }
         baseDir = Paths.get(Constants.CECCR_USER_BASE_PATH, userName, jobName);
     }
 
@@ -186,19 +167,12 @@ public class QsarModelingTask extends WorkflowTask {
 
         stdDevCutoff = modelingForm.getStdDevCutoff();
         correlationCutoff = modelingForm.getCorrelationCutoff();
-        dataset = datasetRepository.findOne(modelingForm.getSelectedDatasetId());
-
         this.userName = userName;
         jobName = modelingForm.getJobName();
-        actFileName = dataset.getActFile();
-        sdFileName = dataset.getSdfFile();
-        datasetName = dataset.getName();
         datasetID = modelingForm.getSelectedDatasetId();
-
         categoryWeights = modelingForm.getCategoryWeights();
         actFileDataType = modelingForm.getActFileDataType();
         descriptorGenerationType = modelingForm.getDescriptorGenerationType();
-        uploadedDescriptorType = dataset.getUploadedDescriptorType();
 
         // start datasplit parameters
         selectionNextTrainPt = modelingForm.getSelectionNextTrainPt();
@@ -224,7 +198,6 @@ public class QsarModelingTask extends WorkflowTask {
         // load modeling parameters from form
         if (modelingForm.getModelingType().equals(Constants.KNN)) {
             knnParameters = new KnnParameters();
-
             knnParameters.setT1(modelingForm.getT1());
             knnParameters.setT2(modelingForm.getT2());
             knnParameters.setTcOverTb(modelingForm.getTcOverTb());
@@ -274,7 +247,6 @@ public class QsarModelingTask extends WorkflowTask {
             svmParameters.setSvmCutoff(modelingForm.getSvmCutoff());
         } else if (modelingForm.getModelingType().equals(Constants.KNNSA) || modelingForm.getModelingType()
                 .equals(Constants.KNNGA)) {
-
             knnPlusParameters = new KnnPlusParameters();
             knnPlusParameters.setGaMaxNumGenerations(modelingForm.getGaMaxNumGenerations());
             knnPlusParameters.setGaMinFitnessDifference(modelingForm.getGaMinFitnessDifference());
@@ -304,17 +276,37 @@ public class QsarModelingTask extends WorkflowTask {
             randomForestParameters.setNumTrees(modelingForm.getNumTrees());
             randomForestParameters.setSeed(modelingForm.getRandomForestSeed());
         }
-
         // end load modeling parameters from form
 
         this.predictor = new Predictor();
-
         filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+        baseDir = Paths.get(Constants.CECCR_USER_BASE_PATH, userName, jobName);
+    }
+
+    @PostConstruct
+    private void init() {
+        dataset = datasetRepository.findOne(datasetID);
+        datasetName = dataset.getName();
+        actFileName = dataset.getActFile();
+        sdFileName = dataset.getSdfFile();
+        actFileDataType = dataset.getModelType();
+        uploadedDescriptorType = dataset.getUploadedDescriptorType();
         datasetPath = Constants.CECCR_USER_BASE_PATH;
         datasetPath += dataset.getUserName();
         datasetPath += "/DATASETS/" + datasetName + "/";
-
-        baseDir = Paths.get(Constants.CECCR_USER_BASE_PATH, userName, jobName);
+        if (wasRecovered) {
+            // modeling params
+            if (predictor.getModelMethod().equals(Constants.KNN)) {
+                knnParameters = knnParametersRepository.findOne(predictor.getModelingParametersId());
+            } else if (predictor.getModelMethod().equals(Constants.SVM)) {
+                svmParameters = svmParametersRepository.findOne(predictor.getModelingParametersId());
+            } else if (predictor.getModelMethod().equals(Constants.KNNSA) || predictor.getModelMethod()
+                    .equals(Constants.KNNGA)) {
+                knnPlusParameters = knnPlusParametersRepository.findOne(predictor.getModelingParametersId());
+            } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
+                randomForestParameters = randomForestParametersRepository.findOne(predictor.getModelingParametersId());
+            }
+        }
     }
 
     // stores what step we're on
