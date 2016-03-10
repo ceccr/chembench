@@ -175,14 +175,14 @@
         <tbody>
         <tr>
           <td><a href="http://www.chemcomp.com/"><img src="/theme/img/logos/CCG.jpg"></a></td>
-          <td><a href="http://www.talete.mi.it/"><img src="/theme/img/logos/Talete.jpg"></a></td>
+          <td><a href="http://www.sunsetmolecular.com/"><img src="/theme/img/logos/sunsetMolecularLogo.png"></a></td>
         </tr>
         <tr>
           <td><a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg"></a></td>
           <td><a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg"></a></td>
         </tr>
         <tr>
-          <td><a href="http://www.sunsetmolecular.com/"><img src="/theme/img/logos/sunsetMolecularLogo.png"></a></td>
+          <td><a href="http://chm.kode-solutions.net"><img src="/theme/img/logos/kode.png"></a></td>
         </tr>
         </tbody>
       </table>
