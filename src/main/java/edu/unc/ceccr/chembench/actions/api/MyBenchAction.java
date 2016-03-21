@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MyBenchAction extends ActionSupport {
     private static final Logger logger = Logger.getLogger(MyBenchAction.class);
-    private final Splitter splitter = Splitter.on(CharMatcher.WHITESPACE);
+    private final Splitter splitter = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
     private final Joiner joiner = Joiner.on(';');
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
