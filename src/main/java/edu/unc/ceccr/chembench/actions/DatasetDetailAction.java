@@ -35,8 +35,8 @@ public class DatasetDetailAction extends DetailAction {
     private int foldNumber;
     private List<Compound> foldCompounds;
 
-    private String datasetDescription;
-    private String datasetReference;
+    private String description;
+    private String paperReference;
 
     @Autowired
     public DatasetDetailAction(DatasetRepository datasetRepository) {
@@ -273,9 +273,9 @@ public class DatasetDetailAction extends DetailAction {
     }
 
     private String updateDataset() {
-        if (dataset != null && datasetDescription != null && datasetReference != null) {
-            dataset.setDescription(datasetDescription);
-            dataset.setPaperReference(datasetReference);
+        if (editable && dataset != null && description != null && paperReference != null) {
+            dataset.setDescription(description);
+            dataset.setPaperReference(paperReference);
             datasetRepository.save(dataset);
             return SUCCESS;
         }
@@ -356,20 +356,20 @@ public class DatasetDetailAction extends DetailAction {
         this.editable = editable;
     }
 
-    public String getDatasetDescription() {
-        return datasetDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDatasetDescription(String datasetDescription) {
-        this.datasetDescription = datasetDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getDatasetReference() {
-        return datasetReference;
+    public String getPaperReference() {
+        return paperReference;
     }
 
-    public void setDatasetReference(String datasetReference) {
-        this.datasetReference = datasetReference;
+    public void setPaperReference(String paperReference) {
+        this.paperReference = paperReference;
     }
 
     public int getFoldNumber() {

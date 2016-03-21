@@ -111,16 +111,16 @@
         </dl>
 
         <s:if test="editable">
-          <s:form id="dataset-form" action="datasetDetail" method="POST" theme="simple">
+          <s:form id="object-form" action="datasetDetail" method="POST" theme="simple">
             <div class="form-group">
-              <label for="datasetDescription">Description:</label>
-              <s:textarea id="datasetDescription" name="datasetDescription" value="%{dataset.description}"
+              <label for="description">Description:</label>
+              <s:textarea id="description" name="description" value="%{dataset.description}"
                           cssClass="form-control" />
             </div>
 
             <div class="form-group">
-              <label for="datasetReference">Paper reference:</label>
-              <s:textarea id="datasetReference" name="datasetReference" value="%{dataset.paperReference}"
+              <label for="paper-reference">Paper reference:</label>
+              <s:textarea id="paper-reference" name="paperReference" value="%{dataset.paperReference}"
                           cssClass="form-control" />
             </div>
 
@@ -399,6 +399,7 @@
 </script>
 <script src="${pageContext.request.contextPath}/assets/js/swfobject.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/autolink.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/editable.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/datasetDetail.js"></script>
 </body>
 </html>

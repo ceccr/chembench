@@ -35,6 +35,9 @@ public class ModelDetailAction extends DetailAction {
     private int foldNumber;
     private List<?> data;
 
+    private String description;
+    private String paperReference;
+
     @Autowired
     public ModelDetailAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
                              RandomForestGroveRepository randomForestGroveRepository,
@@ -65,6 +68,11 @@ public class ModelDetailAction extends DetailAction {
             return result;
         }
         editable = predictor.isEditableBy(user);
+
+        if (request.getMethod().equals("POST")) {
+            return updateModel();
+        }
+
         modelingDataset = datasetRepository.findOne(predictor.getDatasetId());
         predictor.setDatasetDisplay(modelingDataset.getName());
         if (predictor.getChildType().equals(Constants.NFOLD)) {
@@ -96,6 +104,16 @@ public class ModelDetailAction extends DetailAction {
                 break;
         }
         return SUCCESS;
+    }
+
+    private String updateModel() {
+        if (editable && predictor != null && description != null && paperReference != null) {
+            predictor.setDescription(description);
+            predictor.setPaperReference(paperReference);
+            predictorRepository.save(predictor);
+            return SUCCESS;
+        }
+        return ERROR;
     }
 
     public String getFold() {
@@ -210,5 +228,21 @@ public class ModelDetailAction extends DetailAction {
 
     public void setModelParameters(Object modelParameters) {
         this.modelParameters = modelParameters;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPaperReference() {
+        return paperReference;
+    }
+
+    public void setPaperReference(String paperReference) {
+        this.paperReference = paperReference;
     }
 }

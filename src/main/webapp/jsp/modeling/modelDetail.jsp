@@ -41,22 +41,58 @@
       </div>
 
       <div class="list-group-item">
-        <h4 class="list-group-item-heading">External validation results</h4>
+        <h4 class="list-group-item-heading">
+          Description and paper reference
+          <s:if test="editable">
+            <button id="edit-description-reference" class="btn btn-primary btn-xs">
+              <span class="glyphicon glyphicon-pencil"></span> Edit
+            </button>
+          </s:if>
+            <span id="description-reference-buttons">
+              <button id="cancel-changes" class="btn btn-default btn-xs">
+                <span class="glyphicon glyphicon-remove"></span> Cancel
+              </button>
+              <button id="save-changes" type="submit" class="btn btn-primary btn-xs">
+                <span class="glyphicon glyphicon-floppy-disk"></span> Save
+              </button>
+            </span>
+        </h4>
+        <dl id="description-reference-text" class="properties-list">
+          <dt>Description</dt>
+          <dd id="description-wrapper">
+            <div class="value"><s:property value="predictor.description" /></div>
+            <div class="placeholder">
+              <span class="text-muted">(No description given.)</span>
+            </div>
+          </dd>
 
-        <s:url var="externalValidationCsvUrl" action="fileServlet" escapeAmp="false">
-          <s:param name="id" value="predictor.id" />
-          <s:param name="user" value="predictor.userName" />
-          <s:param name="jobType" value="'MODELING'" />
-          <s:param name="file" value="'externalPredictionsAsCSV'" />
-        </s:url>
-        <s:a href="%{externalValidationCsvUrl}" cssClass="btn btn-sm btn-default" role="button">
-          <span class="glyphicon glyphicon-save"></span> Download (.csv)
-        </s:a>
+          <dt>Paper reference</dt>
+          <dd id="paper-reference-wrapper">
+            <div class="value"><s:property value="predictor.paperReference" /></div>
+            <div class="placeholder">
+              <span class="text-muted">(No paper reference given.)</span>
+            </div>
+          </dd>
+        </dl>
+
+        <s:if test="editable">
+          <s:form id="object-form" action="modelDetail" method="POST" theme="simple">
+            <div class="form-group">
+              <label for="description">Description:</label>
+              <s:textarea id="description" name="description" value="%{predictor.description}"
+                          cssClass="form-control" />
+            </div>
+
+            <div class="form-group">
+              <label for="paper-reference">Paper reference:</label>
+              <s:textarea id="paper-reference" name="paperReference" value="%{predictor.paperReference}"
+                          cssClass="form-control" />
+            </div>
+
+            <s:hidden name="id" value="%{id}" />
+          </s:form>
+        </s:if>
       </div>
-      <!-- TODO editable description and paper reference for models
-      <div class="list-group-item">
-        <h4 class="list-group-item-heading">Description and paper reference</h4>
-      </div>-->
     </div>
 
     <ul class="nav nav-tabs">
@@ -183,6 +219,8 @@
 
 <%@ include file="/jsp/main/tail.jsp" %>
 <script src="${pageContext.request.contextPath}/assets/js/folds.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/autolink.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/editable.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/modelDetail.js"></script>
 </body>
 </html>
