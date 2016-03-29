@@ -168,7 +168,7 @@ public class RSquaredAndCCR {
             String rSquaredAverageAndStddev = "";
             String ccrAverageAndStddev = "";
             List<ExternalValidation> externalValValues = null;
-            List<Predictor> childPredictors = predictorRepository.findByParentId(selectedPredictor.getParentId());
+            List<Predictor> childPredictors = predictorRepository.findByParentId(selectedPredictor.getId());
 
             //get external validation compounds of predictor
             if (childPredictors.size() != 0) {
