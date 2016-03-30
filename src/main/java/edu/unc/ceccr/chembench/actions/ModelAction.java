@@ -236,6 +236,7 @@ public class ModelAction extends ActionSupport {
                 .equals(Constants.NO)) {
             return ERROR;
         }
+        actFileDataType = ds.getModelType();
 
         if ((ds.getName().equals("all-datasets"))) {
             // Launch modeling on every dataset the user owns (except for this one).
