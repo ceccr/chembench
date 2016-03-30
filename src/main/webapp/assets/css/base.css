@@ -140,7 +140,8 @@ table.compound-list td.name {
 }
 
 table.compound-list td.structure {
-    width: 17%;
+    width: 140px;
+    height: 140px;
 }
 
 .popover-image {

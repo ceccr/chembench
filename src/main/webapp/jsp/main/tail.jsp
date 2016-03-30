@@ -5,22 +5,6 @@
     // Chembench-specific JS globals
     window.Chembench = {
       "MODI_MODELABLE": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE" />",
-      "DATATABLE_OPTIONS": {
-        "columnDefs": [{
-          orderable: false,
-          targets: "unsortable"
-        }],
-        "paging": false,
-        "dom": "lifrtp",
-        "infoCallback": function(settings, start, end, max, total) {
-          var totalNoun = (total === 1) ? "entry" : "entries";
-          var maxNoun = (max === 1) ? "entry" : "entries";
-          if (max !== total) {
-            return "Showing " + total + " " + totalNoun + " (filtered from " + max + " total " + maxNoun + ")";
-          }
-          return "Showing " + max + " " + maxNoun;
-        }
-      },
       "Constants": {
         "MODELING": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@MODELING" />",
         "MODELINGWITHDESCRIPTORS": "<s:property
