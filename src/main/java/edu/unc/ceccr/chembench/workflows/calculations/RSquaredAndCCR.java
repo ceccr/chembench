@@ -249,7 +249,9 @@ public class RSquaredAndCCR {
                 //if category model, create confusion matrix.
                 //round off the predicted values to nearest integer.
                 confusionMatrix = RSquaredAndCCR.calculateConfusionMatrix(externalValValues);
-                selectedPredictor.setExternalPredictionAccuracy(confusionMatrix.getCcrAsString());
+                selectedPredictor.setExternalPredictionAccuracy(
+                        Utility.roundSignificantFigures(confusionMatrix.getCcr(),
+                                Constants.REPORTED_SIGNIFICANT_FIGURES));
             } else if (selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)
                     && externalValValues.size() > 1) {
                 //if continuous, calculate overall r^2 and... r0^2? or something?

@@ -1,6 +1,23 @@
 (function() {
     'use strict';
 
+    Chembench.DATATABLE_OPTIONS = {
+        "columnDefs": [{
+            orderable: false,
+            targets: "unsortable"
+        }],
+        "paging": false,
+        "dom": "lifrtp",
+        "infoCallback": function(settings, start, end, max, total) {
+            var totalNoun = (total === 1) ? "entry" : "entries";
+            var maxNoun = (max === 1) ? "entry" : "entries";
+            if (max !== total) {
+                return "Showing " + total + " " + totalNoun + " (filtered from " + max + " total " + maxNoun + ")";
+            }
+            return "Showing " + max + " " + maxNoun;
+        }
+    };
+
     Chembench.prepareAjaxDatatable = function(node, overrideOptions) {
         var table = $(node);
         // mark as prepared (don't call this method on a table twice)
@@ -12,7 +29,8 @@
             checkboxHeader.prependTo(table.find('thead').find('tr'));
             checkboxHeader.find('input[type="checkbox"]').click(function() {
                 var checkAll = $(this);
-                checkAll.closest('.dataTables_scroll').find('.dataTables_scrollBody').find('input[type="checkbox"]').prop('checked',
+                checkAll.closest('.dataTables_scroll').find('.dataTables_scrollBody').find('input[type="checkbox"]').prop(
+                        'checked',
                         checkAll.prop('checked')).change();
             });
         } else if (table.closest('.radio-table').exists()) {
@@ -172,9 +190,8 @@
                     column.render = function(data, type, row) {
                         if (type === 'display') {
                             var nameDisplay = data.split('_').join('_<wbr>');
-                            return '<div class="name-cell"><a href="datasetDetail?' +
-                                   $.param({'id': row.datasetId}) + '" target="_blank">' + nameDisplay +
-                                   '</a></div>';
+                            return '<div class="name-cell"><a href="datasetDetail?' + $.param({'id': row.datasetId}) +
+                                   '" target="_blank">' + nameDisplay + '</a></div>';
                         }
                         return data;
                     };
@@ -275,8 +292,7 @@
                     e.preventDefault();
                     var link = $(this).blur();
                     var verb = (objectType === 'job' ? 'cancel' : 'delete');
-                    var message = 'Are you sure you want to ' + verb + ' the ' + objectType + ' "' + data.name +
-                                  '"?';
+                    var message = 'Are you sure you want to ' + verb + ' the ' + objectType + ' "' + data.name + '"?';
                     bootbox.confirm(message, function(response) {
                         if (response === true) {
                             $.post(link.attr('href'), function() {

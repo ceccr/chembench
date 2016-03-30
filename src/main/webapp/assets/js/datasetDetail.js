@@ -48,17 +48,7 @@
             cell.html(cell.text().split('_').join('_<wbr>'));
         });
 
-        var thumbnailPopoverConfig = {
-            html: true,
-            template: '<div class="popover popover-image" role="tooltip">' +
-                      '<div class="arrow"></div><div class="popover-content"></div></div>',
-            content: function() {
-                return '<img src="' + $(this).attr('src') + '">';
-            },
-            trigger: 'hover',
-            placement: 'right'
-        };
-        $('.img-thumbnail').popover(thumbnailPopoverConfig);
+        $('.img-thumbnail').popover(Chembench.THUMBNAIL_CONFIG);
 
         $('.modi-help').popover({
             html: true,

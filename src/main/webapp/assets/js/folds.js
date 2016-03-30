@@ -22,8 +22,10 @@
                 targetParent.addClass('active');
                 if (targetParent.index() === 1) {
                     pagination.children('.previous').addClass('disabled');
+                    pagination.children('.next').removeClass('disabled');
                 } else if (targetParent.index() === lastIndex - 1) {
                     pagination.children('.next').addClass('disabled');
+                    pagination.children('.previous').removeClass('disabled');
                 } else {
                     pagination.children('.previous, .next').removeClass('disabled');
                 }

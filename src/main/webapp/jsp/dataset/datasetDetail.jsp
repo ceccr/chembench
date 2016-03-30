@@ -114,8 +114,7 @@
           <s:form id="object-form" action="datasetDetail" method="POST" theme="simple">
             <div class="form-group">
               <label for="description">Description:</label>
-              <s:textarea id="description" name="description" value="%{dataset.description}"
-                          cssClass="form-control" />
+              <s:textarea id="description" name="description" value="%{dataset.description}" cssClass="form-control" />
             </div>
 
             <div class="form-group">
@@ -142,7 +141,9 @@
         <li><a href="#activity-histogram" data-toggle="tab">Activity Histogram</a></li>
       </s:if>
       <li><a href="#descriptors" data-toggle="tab">Descriptors</a></li>
-      <li><a href="#heatmap" data-toggle="tab">Heatmap</a></li>
+      <s:if test="dataset.datasetType.startsWith(@edu.unc.ceccr.chembench.global.Constants@MODELING)">
+        <li><a href="#heatmap" data-toggle="tab">Heatmap</a></li>
+      </s:if>
     </ul>
 
     <div class="tab-content">
@@ -328,46 +329,48 @@
         </s:iterator>
       </div>
 
-      <div id="heatmap" class="tab-pane">
-        <h3>Heatmap</h3>
+      <s:if test="dataset.datasetType.startsWith(@edu.unc.ceccr.chembench.global.Constants@MODELING)">
+        <div id="heatmap" class="tab-pane">
+          <h3>Heatmap</h3>
 
-        <p>
-          The <b>Heatmap</b> tool is useful for visualizing similarity between all pairs of compounds in your dataset.
-          MACCS keys are generated and compared to produce the heatmap. The similarity is based on Tanimoto similarity
-          or Mahalanobis distance; you can select either using the buttons on the Heatmap.
-        </p>
+          <p>
+            The <b>Heatmap</b> tool is useful for visualizing similarity between all pairs of compounds in your dataset.
+            MACCS keys are generated and compared to produce the heatmap. The similarity is based on Tanimoto similarity
+            or Mahalanobis distance; you can select either using the buttons on the Heatmap.
+          </p>
 
-        <p>
-          You can zoom in and out of the heatmap using the mouse wheel. Click and drag the top of a column to shift it
-          left or right. You may also drag rows up and down. To reset the rows and columns to their original
-          configuration, use the <b>Reset</b> button.
-        </p>
+          <p>
+            You can zoom in and out of the heatmap using the mouse wheel. Click and drag the top of a column to shift it
+            left or right. You may also drag rows up and down. To reset the rows and columns to their original
+            configuration, use the <b>Reset</b> button.
+          </p>
 
-        <p>
-          The <b>Keep Diagonal</b> button will shift rows and columns at the same time. Just below <b>Keep
-          Diagonal</b> are four arrow buttons. These four arrows sort the rows / columns based on the activity values of
-          the compounds. You can see the activity of each compound by hovering the mouse over a compound ID. The
-          activity of each compound is also represented by the blue shading under each compound; darker blues indicate
-          lower activity values.
-        </p>
+          <p>
+            The <b>Keep Diagonal</b> button will shift rows and columns at the same time. Just below <b>Keep
+            Diagonal</b> are four arrow buttons. These four arrows sort the rows / columns based on the activity values
+            of
+            the compounds. You can see the activity of each compound by hovering the mouse over a compound ID. The
+            activity of each compound is also represented by the blue shading under each compound; darker blues indicate
+            lower activity values.
+          </p>
 
-        <p>
-          <span class="text-danger"><b>Note:</b></span> For very large datasets (500 or more compounds), the heatmap
-          generation step will be skipped.
-        </p>
+          <p>
+            <span class="text-danger"><b>Note:</b></span> For very large datasets (500 or more compounds), the heatmap
+            generation step will be skipped.
+          </p>
 
-        <hr>
-        <div id="heatmapSwfWrapper" class="embed-responsive">
-          <div id="heatmapSwfContainer">
-            <div class="text-danger">
-              <h4>Adobe Flash Required</h4>
+          <hr>
+          <div id="heatmapSwfWrapper" class="embed-responsive">
+            <div id="heatmapSwfContainer">
+              <div class="text-danger">
+                <h4>Adobe Flash Required</h4>
 
-              <p>The Heatmap tool requires Adobe Flash Player. Please install Flash to use the Heatmap tool.</p>
+                <p>The Heatmap tool requires Adobe Flash Player. Please install Flash to use the Heatmap tool.</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
+      </s:if>
     </div>
   </section>
 

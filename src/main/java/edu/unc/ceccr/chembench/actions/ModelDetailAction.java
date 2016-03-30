@@ -6,6 +6,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
+import edu.unc.ceccr.chembench.workflows.calculations.ConfusionMatrix;
+import edu.unc.ceccr.chembench.workflows.calculations.RSquaredAndCCR;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,9 +15,9 @@ import java.util.List;
 
 public class ModelDetailAction extends DetailAction {
     private static final Logger logger = Logger.getLogger(ModelDetailAction.class);
+
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
-    private final RandomForestGroveRepository randomForestGroveRepository;
     private final RandomForestTreeRepository randomForestTreeRepository;
     private final SvmModelRepository svmModelRepository;
     private final KnnModelRepository knnModelRepository;
@@ -24,19 +26,26 @@ public class ModelDetailAction extends DetailAction {
     private final KnnParametersRepository knnParametersRepository;
     private final KnnPlusParametersRepository knnPlusParametersRepository;
     private final SvmParametersRepository svmParametersRepository;
-    private List<?> models;
-    private List<?> yRandomModels;
+    private final ExternalValidationRepository externalValidationRepository;
+    private final RandomForestGroveRepository randomForestGroveRepository;
+
     private Predictor predictor;
     private Dataset modelingDataset;
     private Object modelParameters;
     private boolean editable;
-    private Iterable<Integer> foldNumbers;
-    private boolean isYRandom;
-    private int foldNumber;
-    private List<?> data;
-
     private String description;
     private String paperReference;
+
+    // random split
+    private ExternalValidationGroup[] evGroups;
+    private List<?> models;
+    private List<?> yRandomModels;
+
+    // n-fold
+    private boolean isYRandom;
+    private int foldNumber = 0;
+    private Iterable<Integer> foldNumbers;
+    private List<?> data;
 
     @Autowired
     public ModelDetailAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
@@ -47,7 +56,8 @@ public class ModelDetailAction extends DetailAction {
                              RandomForestParametersRepository randomForestParametersRepository,
                              KnnParametersRepository knnParametersRepository,
                              KnnPlusParametersRepository knnPlusParametersRepository,
-                             SvmParametersRepository svmParametersRepository) {
+                             SvmParametersRepository svmParametersRepository,
+                             ExternalValidationRepository externalValidationRepository) {
         this.datasetRepository = datasetRepository;
         this.predictorRepository = predictorRepository;
         this.randomForestGroveRepository = randomForestGroveRepository;
@@ -59,6 +69,7 @@ public class ModelDetailAction extends DetailAction {
         this.knnParametersRepository = knnParametersRepository;
         this.knnPlusParametersRepository = knnPlusParametersRepository;
         this.svmParametersRepository = svmParametersRepository;
+        this.externalValidationRepository = externalValidationRepository;
     }
 
     public String execute() {
@@ -68,19 +79,25 @@ public class ModelDetailAction extends DetailAction {
             return result;
         }
         editable = predictor.isEditableBy(user);
-
         if (request.getMethod().equals("POST")) {
             return updateModel();
         }
-
         modelingDataset = datasetRepository.findOne(predictor.getDatasetId());
         predictor.setDatasetDisplay(modelingDataset.getName());
-        if (predictor.getChildType().equals(Constants.NFOLD)) {
+        if (predictor.getChildType() != null && predictor.getChildType().equals(Constants.NFOLD)) {
             List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
             foldNumbers = ContiguousSet.create(Range.closed(1, childPredictors.size()), DiscreteDomain.integers());
+            evGroups = new ExternalValidationGroup[childPredictors.size() + 1];
+            for (int i = 0; i < childPredictors.size(); i++) {
+                // XXX careful: evGroup is 1-indexed, childPredictors.get() is 0-indexed
+                evGroups[i + 1] = buildExternalValidationGroup(childPredictors.get(i));
+            }
+            evGroups[0] = ExternalValidationGroup.coalesce(predictor.getActivityType(), evGroups);
         } else {
             models = readModels(predictor, false);
             yRandomModels = readModels(predictor, true);
+            evGroups = new ExternalValidationGroup[1];
+            evGroups[0] = buildExternalValidationGroup(predictor);
         }
         switch (predictor.getModelMethod()) {
             case Constants.RANDOMFOREST:
@@ -128,6 +145,50 @@ public class ModelDetailAction extends DetailAction {
         }
         data = readModels(childPredictors.get(foldNumber - 1), isYRandom);
         return SUCCESS;
+    }
+
+    private List<DisplayedExternalValidationValue> buildDisplayedExternalValidationValues(
+            List<ExternalValidation> extVals, List<Double> residuals, boolean isRandomForest) {
+        List<DisplayedExternalValidationValue> displayedExtVals = Lists.newArrayList();
+        assert extVals.size() == residuals.size();
+        for (int i = 0; i < extVals.size(); i++) {
+            ExternalValidation extVal = extVals.get(i);
+            Double residual = residuals.get(i);
+            DisplayedExternalValidationValue displayedValue = new DisplayedExternalValidationValue();
+            displayedValue.compoundName = extVal.getCompoundId();
+            displayedValue.observedValue = extVal.getActualValue();
+            displayedValue.predictedValue = extVal.getPredictedValue();
+            displayedValue.residual = residual;
+            if (!predictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
+                displayedValue.predictingModels = extVal.getNumModels();
+                displayedValue.totalModels = extVal.getNumTotalModels();
+            }
+            displayedExtVals.add(displayedValue);
+        }
+        return displayedExtVals;
+    }
+
+    private ExternalValidationGroup buildExternalValidationGroup(Predictor predictor) {
+        ExternalValidationGroup evGroup = new ExternalValidationGroup();
+        List<ExternalValidation> extVals = externalValidationRepository.findByPredictorId(predictor.getId());
+        List<Double> residuals = RSquaredAndCCR.calculateResiduals(extVals);
+        evGroup.extVals = extVals;
+        evGroup.residuals = residuals;
+        List<DisplayedExternalValidationValue> displayedExtVals =
+                buildDisplayedExternalValidationValues(extVals, residuals,
+                        predictor.getModelMethod().startsWith(Constants.RANDOMFOREST));
+        ConfusionMatrix confusionMatrix = null;
+        ContinuousStatistics continuousStatistics = null;
+        if (modelingDataset.isCategory()) {
+            confusionMatrix = RSquaredAndCCR.calculateConfusionMatrix(extVals);
+        } else if (modelingDataset.isContinuous()) {
+            continuousStatistics = new ContinuousStatistics();
+            continuousStatistics.rSquared = RSquaredAndCCR.calculateRSquared(extVals, residuals);
+        }
+        evGroup.displayedExternalValidationValues = displayedExtVals;
+        evGroup.confusionMatrix = confusionMatrix;
+        evGroup.continuousStatistics = continuousStatistics;
+        return evGroup;
     }
 
     private List<?> readModels(Predictor predictor, boolean isYRandom) {
@@ -244,5 +305,133 @@ public class ModelDetailAction extends DetailAction {
 
     public void setPaperReference(String paperReference) {
         this.paperReference = paperReference;
+    }
+
+    public boolean isYRandom() {
+        return isYRandom;
+    }
+
+    public void setYRandom(boolean YRandom) {
+        isYRandom = YRandom;
+    }
+
+    public List<?> getyRandomModels() {
+        return yRandomModels;
+    }
+
+    public void setyRandomModels(List<?> yRandomModels) {
+        this.yRandomModels = yRandomModels;
+    }
+
+    public ExternalValidationGroup[] getEvGroups() {
+        return evGroups;
+    }
+
+    private static class ContinuousStatistics {
+        private Double rSquared;
+        private Double mae;
+        private Double stddev;
+        private Double rmse;
+
+        public Double getrSquared() {
+            return rSquared;
+        }
+
+        public Double getMae() {
+            return mae;
+        }
+
+        public Double getStddev() {
+            return stddev;
+        }
+
+        public Double getRmse() {
+            return rmse;
+        }
+    }
+
+    private static class ExternalValidationGroup {
+        private ContinuousStatistics continuousStatistics;
+        private ConfusionMatrix confusionMatrix;
+        private List<DisplayedExternalValidationValue> displayedExternalValidationValues;
+        private List<ExternalValidation> extVals; // for internal use only. needed to coalesce
+        private List<Double> residuals; // for internal use only. needed to coalesce
+
+        static ExternalValidationGroup coalesce(String activityType, ExternalValidationGroup... groups) {
+            ExternalValidationGroup combined = new ExternalValidationGroup();
+            List<DisplayedExternalValidationValue> allDisplayedExtVals = Lists.newArrayList();
+            List<ExternalValidation> allExtVals = Lists.newArrayList();
+            List<Double> allResiduals = Lists.newArrayList();
+            for (ExternalValidationGroup group : groups) {
+                if (group != null) {
+                    allExtVals.addAll(group.extVals);
+                    allResiduals.addAll(group.residuals);
+                    allDisplayedExtVals.addAll(group.displayedExternalValidationValues);
+                }
+            }
+            ConfusionMatrix confusionMatrix = null;
+            ContinuousStatistics continuousStatistics = null;
+            if (activityType.equals(Constants.CATEGORY)) {
+                confusionMatrix = RSquaredAndCCR.calculateConfusionMatrix(allExtVals);
+            } else if (activityType.equals(Constants.CONTINUOUS)) {
+                continuousStatistics = new ContinuousStatistics();
+                continuousStatistics.rSquared = RSquaredAndCCR.calculateRSquared(allExtVals, allResiduals);
+            }
+            combined.extVals = allExtVals;
+            combined.displayedExternalValidationValues = allDisplayedExtVals;
+            combined.confusionMatrix = confusionMatrix;
+            combined.continuousStatistics = continuousStatistics;
+            return combined;
+        }
+
+        public ContinuousStatistics getContinuousStatistics() {
+            return continuousStatistics;
+        }
+
+        public ConfusionMatrix getConfusionMatrix() {
+            return confusionMatrix;
+        }
+
+        public List<DisplayedExternalValidationValue> getDisplayedExternalValidationValues() {
+            return displayedExternalValidationValues;
+        }
+    }
+
+    private class DisplayedExternalValidationValue {
+        private String compoundName;
+        private float observedValue;
+        private float predictedValue;
+        private float predictedValueStandardDeviation;
+        private Double residual;
+        private int predictingModels;
+        private int totalModels;
+
+        public String getCompoundName() {
+            return compoundName;
+        }
+
+        public float getObservedValue() {
+            return observedValue;
+        }
+
+        public float getPredictedValue() {
+            return predictedValue;
+        }
+
+        public float getPredictedValueStandardDeviation() {
+            return predictedValueStandardDeviation;
+        }
+
+        public Double getResidual() {
+            return residual;
+        }
+
+        public int getPredictingModels() {
+            return predictingModels;
+        }
+
+        public int getTotalModels() {
+            return totalModels;
+        }
     }
 }

@@ -111,6 +111,205 @@
     <div class="tab-content">
       <div id="external-validation" class="tab-pane active">
         <h3>External Validation</h3>
+
+        <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
+          <nav class="text-center">
+            <button id="all-folds" class="btn btn-default active">
+              <a href="#">All</a>
+            </button>
+
+            <ul class="pagination">
+              <li class="previous disabled">
+                <a href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <s:iterator value="foldNumbers">
+                <li><a href="#"><s:property /></a></li>
+              </s:iterator>
+              <li class="next disabled">
+                <a href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </s:if>
+
+        <s:iterator value="evGroups" status="status">
+          <div data-fold-number="<s:property value="#status.index" />">
+            <div class="row">
+              <div class="col-xs-7">
+                <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
+                  <s:url var="imageUrl" action="imageServlet" escapeAmp="false">
+                    <s:param name="project" value="%{predictor.name}" />
+                    <s:param name="projectType" value="'modeling'" />
+                    <s:param name="user" value="%{predictor.userName}" />
+                    <s:param name="compoundId" value="'externalValidationChart'" />
+                    <s:param name="currentFoldNumber" value="#status.index" />
+                  </s:url>
+                  <img src="<s:property value="imageUrl" />" class="img-thumbnail" alt="External validation chart">
+                </s:if>
+                <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h4 class="panel-title">Confusion Matrix</h4>
+                    </div>
+                    <table id="confusion-matrix" class="table table-bordered">
+                      <thead>
+                      <tr>
+                        <th class="spacer"></th>
+                        <th>Predicted 0</th>
+                        <th>Predicted 1</th>
+                        <th class="spacer"></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <th>Observed 0</th>
+                        <td><abbr class="initialism" title="True Negatives">TN</abbr>:
+                          <s:property value="confusionMatrix.trueNegatives" /></td>
+                        <td><abbr class="initialism" title="False Positives">FP</abbr>:
+                          <s:property value="confusionMatrix.falsePositives" /></td>
+                        <td class="statistic">Specificity:
+                          <s:text name="format.double">
+                            <s:param value="confusionMatrix.specificity" />
+                          </s:text>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>Observed 1</th>
+                        <td><abbr class="initialism" title="False Negatives">FN</abbr>:
+                          <s:property value="confusionMatrix.falseNegatives" /></td>
+                        <td><abbr class="initialism" title="True Positives">TP</abbr>:
+                          <s:property value="confusionMatrix.truePositives" /></td>
+                        <td class="statistic">Sensitivity:
+                          <s:text name="format.double">
+                            <s:param value="confusionMatrix.sensitivity" />
+                          </s:text>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td class="statistic"><abbr class="initialism" title="Negative Predictive Value">NPV</abbr>:
+                          <s:text name="format.double">
+                            <s:param value="confusionMatrix.npv" />
+                          </s:text>
+                        </td>
+                        <td class="statistic"><abbr class="initialism" title="Positive Predictive Value">PPV</abbr>:
+                          <s:text name="format.double">
+                            <s:param value="confusionMatrix.ppv" />
+                          </s:text>
+                        </td>
+                        <td></td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </s:elseif>
+              </div>
+
+              <div class="col-xs-5">
+                <div class="list-group">
+                  <div class="list-group-item">
+                    <h4 class="list-group-item-heading">Statistics</h4>
+                    <dl class="dl-horizontal properties-list">
+                      <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
+                      </s:if>
+                      <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
+                        <dt>Total number of predictions</dt>
+                        <dd><s:property value="confusionMatrix.totalCorrect + confusionMatrix.totalIncorrect" /></dd>
+
+                        <dt>Total number of correct predictions</dt>
+                        <dd><s:property value="confusionMatrix.totalCorrect" /></dd>
+
+                        <dt>Total number of incorrect predictions</dt>
+                        <dd><s:property value="confusionMatrix.totalIncorrect" /></dd>
+
+                        <dt>Accuracy</dt>
+                        <dd><s:text name="format.double"><s:param value="confusionMatrix.accuracy" /></s:text></dd>
+
+                        <dt><abbr class="initialism" title="Correct Classification Rate">CCR</abbr></dt>
+                        <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
+                          <dd><s:property value="predictor.externalPredictionAccuracyAvg" /></dd>
+                        </s:if>
+                        <s:else>
+                          <dd><s:property value="predictor.externalPredictionAccuracy" /></dd>
+                        </s:else>
+                      </s:elseif>
+                    </dl>
+
+                  </div>
+                  <div class="list-group-item">
+                    <h4 class="list-group-item-heading">External validation results</h4>
+
+                    <s:url var="externalValidationCsvUrl" action="fileServlet" escapeAmp="false">
+                      <s:param name="id" value="predictor.id" />
+                      <s:param name="user" value="predictor.userName" />
+                      <s:param name="jobType" value="'MODELING'" />
+                      <s:param name="file" value="'externalPredictionsAsCSV'" />
+                    </s:url>
+                    <s:a href="%{externalValidationCsvUrl}" cssClass="btn btn-sm btn-default" role="button">
+                      <span class="glyphicon glyphicon-save"></span> Download (.csv)
+                    </s:a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </s:iterator>
+
+        <table class="compound-list table table-hover table-bordered datatable">
+          <thead>
+          <tr>
+            <th class="name" data-property="compoundName">Compound Name</th>
+            <th data-transient="data-transient">Structure</th>
+            <th data-property="observedValue">Observed Value</th>
+            <th data-property="predictedValue">Predicted Value</th>
+            <s:if test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
+              <th data-property="residual">Residual</th>
+              <th data-transient="data-transient">Predicting Models / Total Models</th>
+            </s:if>
+          </tr>
+          </thead>
+          <tbody>
+          <s:iterator value="evGroups" status="status">
+            <s:iterator value="displayedExternalValidationValues">
+              <tr data-fold-number="<s:property value="#status.index" />">
+                <td class="name"><s:property value="compoundName" /></td>
+                <td class="structure">
+                  <s:url var="imageUrl" action="imageServlet" escapeAmp="false">
+                    <s:param name="user" value="%{modelingDataset.userName}" />
+                    <s:param name="projectType" value="'dataset'" />
+                    <s:param name="compoundId" value="%{compoundName}" />
+                    <s:param name="datasetName" value="%{modelingDataset.name}" />
+                  </s:url>
+                  <img src="<s:property value="imageUrl" />" class="img-thumbnail" width="125" height="125"
+                       alt="Compound structure">
+                </td>
+                <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
+                  <td><s:property value="observedValue" /></td>
+                  <td><s:property value="predictedValue" /></td>
+                  <s:if
+                      test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
+                    <td><s:property value="residual" /></td>
+                    <td><s:property value="predictingModels" /> / <s:property value="totalModels" /></td>
+                  </s:if>
+                </s:if>
+                <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
+                  <td><s:text name="format.int"><s:param value="observedValue" /></s:text></td>
+                  <td><s:text name="format.int"><s:param value="predictedValue" /></s:text></td>
+                  <s:if
+                      test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
+                    <td><s:text name="format.int"><s:param value="residual" /></s:text></td>
+                    <td><s:property value="predictingModels" /> / <s:property value="totalModels" /></td>
+                  </s:if>
+                </s:elseif>
+              </tr>
+            </s:iterator>
+          </s:iterator>
+          </tbody>
+        </table>
       </div>
 
       <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">

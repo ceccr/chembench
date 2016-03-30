@@ -280,8 +280,27 @@ input[type="checkbox"], input[type="radio"] {
 }
 /* end prediction */
 
-/* viewDataset */
+/* datasetDetail */
 #heatmapSwfWrapper {
     padding-bottom: 100%;
 }
-/* end viewDataset */
+/* end datasetDetail */
+
+/* modelDetail */
+#all-folds {
+    vertical-align: top;
+    margin: 20px 5px 20px;
+}
+
+div[data-fold-number], tr[data-fold-number] {
+    display: none;
+}
+
+div[data-fold-number = "0"] {
+    display: block;
+}
+
+tr[data-fold-number = "0"] {
+    display: table-row;
+}
+/* end modelDetail */
