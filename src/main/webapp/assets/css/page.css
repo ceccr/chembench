@@ -287,9 +287,20 @@ input[type="checkbox"], input[type="radio"] {
 /* end datasetDetail */
 
 /* modelDetail */
-#all-folds {
+.all-folds {
     vertical-align: top;
     margin: 20px 5px 20px;
+    color: #337ab7;
+}
+
+.all-folds a:hover, .all-folds a:focus {
+    text-decoration: none;
+}
+
+.all-folds.active, .all-folds.active:hover, .all-folds.active:focus {
+    background-color: #337ab7;
+    border-color: #337ab7;
+    color: #ffffff;
 }
 
 div[data-fold-number], tr[data-fold-number] {

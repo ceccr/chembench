@@ -113,10 +113,8 @@
         <h3>External Validation</h3>
 
         <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
-          <nav class="text-center">
-            <button id="all-folds" class="btn btn-default active">
-              <a href="#">All</a>
-            </button>
+          <nav class="text-center fold-navigation">
+            <a href="#" class="btn btn-default all-folds active" role="button">All</a>
 
             <ul class="pagination">
               <li class="previous disabled">
@@ -317,7 +315,7 @@
           <h3>Trees</h3>
 
           <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
-            <nav class="text-center">
+            <nav class="text-center fold-navigation">
               <ul class="pagination">
                 <li class="previous">
                   <a href="#" aria-label="Previous">
@@ -338,7 +336,6 @@
             <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
             <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
             <input class="is-y-random" type="hidden" value="false" />
-            <input class="fold-url" type="hidden" />
             <%@ include file="trees.jsp" %>
           </s:if>
         </div>
@@ -354,7 +351,7 @@
           </p>
 
           <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
-            <nav class="text-center">
+            <nav class="text-center fold-navigation">
               <ul class="pagination">
                 <li class="previous">
                   <a href="#" aria-label="Previous">
@@ -375,7 +372,6 @@
             <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
             <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
             <input class="is-y-random" type="hidden" value="true" />
-            <input class="fold-url" type="hidden" />
             <%@ include file="trees.jsp" %>
           </s:if>
         </div>
@@ -417,9 +413,9 @@
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
-<script src="${pageContext.request.contextPath}/assets/js/folds.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/autolink.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/editable.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/paging.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/modelDetail.js"></script>
 </body>
 </html>
