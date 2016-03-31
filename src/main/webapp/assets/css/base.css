@@ -123,8 +123,6 @@ table.compound-list thead > tr > th.name {
 
 table.compound-list thead > tr > th {
     text-align: center;
-    padding-left: 0;
-    padding-right: 0;
 }
 
 /* needed for specificity issues */
@@ -135,8 +133,8 @@ table.compound-list > tbody > tr > td {
 
 table.compound-list td.name {
     padding-left: 1em;
-    width: 50%;
     text-align: left;
+    word-break: break-all;
 }
 
 table.compound-list td.structure {
