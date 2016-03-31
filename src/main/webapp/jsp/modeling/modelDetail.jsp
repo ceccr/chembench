@@ -146,7 +146,8 @@
                     <s:param name="compoundId" value="'externalValidationChart'" />
                     <s:param name="currentFoldNumber" value="#status.index" />
                   </s:url>
-                  <img src="<s:property value="imageUrl" />" class="img-thumbnail" alt="External validation chart">
+                  <img src="<s:property value="imageUrl" />" class="img-thumbnail" alt="External validation chart"
+                       width="500px" height="500px">
                 </s:if>
                 <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
                   <div class="panel panel-default">
@@ -282,8 +283,8 @@
                     <s:param name="compoundId" value="%{compoundName}" />
                     <s:param name="datasetName" value="%{modelingDataset.name}" />
                   </s:url>
-                  <img src="<s:property value="imageUrl" />" class="img-thumbnail" width="125" height="125"
-                       alt="Compound structure">
+                  <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
+                       height="125" alt="Compound structure">
                 </td>
                 <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
                   <td><s:property value="observedValue" /></td>

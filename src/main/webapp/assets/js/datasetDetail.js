@@ -9,7 +9,7 @@
             datasetName: $('input#dataset-name').val()
         };
         var image = '<img src="imageServlet?' + $.param(imageParams) +
-                    '" class="img-thumbnail" width="125" height="125" alt="Compound structure">';
+                    '" class="compound-structure img-thumbnail" width="125" height="125" alt="Compound structure">';
 
         return [object.compoundId, image, object.activityValue];
     }
@@ -48,7 +48,7 @@
             cell.html(cell.text().split('_').join('_<wbr>'));
         });
 
-        $('.img-thumbnail').popover(Chembench.THUMBNAIL_CONFIG);
+        $('.compound-structure').popover(Chembench.THUMBNAIL_CONFIG);
 
         $('.modi-help').popover({
             html: true,
@@ -76,7 +76,7 @@
                 for (var i = 0; i < data.length; i++) {
                     table.row.add(composeRow(data[i]));
                 }
-                table.$().find('.img-thumbnail').popover(thumbnailPopoverConfig);
+                table.$().find('.compound-structure').popover(Chembench.THUMBNAIL_CONFIG);
                 updatePages(clicked);
                 table.draw();
             }).fail(function() {
