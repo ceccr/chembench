@@ -149,3 +149,8 @@ table.compound-list td.structure {
 .popover-image .popover-content {
     padding: 0;
 }
+
+/* for dataset / model detail views */
+#object-form {
+    display: none;
+}
