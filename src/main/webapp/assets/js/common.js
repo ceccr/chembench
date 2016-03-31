@@ -133,10 +133,6 @@
             Chembench.CURRENT_USER = data;
         });
 
-        $('.nav-tabs li a').click(function() {
-            history.pushState(null, null, $(this).attr('href'));
-        });
-
         // navigation button handlers
         $('.nav-list li').mouseup(function(event) {
             if (event.which === 1) {
