@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css"
       href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/common.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navigation.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/tables.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/page.css">
