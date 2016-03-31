@@ -9,7 +9,16 @@
 
         var tabLinks = $('a[data-toggle="tab"]');
         tabLinks.on('shown.bs.tab', function(e) {
-            var foldLinks = $(e.currentTarget.hash).find('.fold-navigation');
+            var tab = $(e.currentTarget.hash);
+
+            // XXX datatable _must_ be initialized before click event is fired
+            var table = tab.find('table.datatable');
+            if (table.exists() && !table.attr('data-prepared')) {
+                var direction = (e.currentTarget.hash === "#external-validation") ? 'asc' : 'desc';
+                Chembench.prepareAjaxDatatable(table, {'order': [[0, direction]]});
+            }
+
+            var foldLinks = tab.find('.fold-navigation');
             var allFolds = foldLinks.find('.all-folds');
             if (allFolds.exists()) {
                 allFolds.click();
@@ -17,6 +26,7 @@
                 foldLinks.find('li:not(.previous,.next)').find('a').first().click();
             }
         });
+        tabLinks.first().trigger('shown.bs.tab');
 
         var externalValidationSection = $('#external-validation');
         externalValidationSection.find('.fold-navigation').find('a').click(function(e) {
@@ -46,14 +56,11 @@
             var newIndex = Chembench.updatePages(this);
             if (newIndex !== currentIndex) {
                 var table = nav.parent().find('table.datatable');
-                if (!table.attr('data-prepared')) {
-                    Chembench.prepareAjaxDatatable(table, {'order': [[0, 'desc']]});
-                    table.on('preXhr.dt', function(e) {
-                        var colspan = table.find('th').size();
-                        table.children('tbody').html('<tr><td class="text-center" colspan="' + colspan +
+                table.on('preXhr.dt', function(e) {
+                    var colspan = table.find('th').size();
+                    table.children('tbody').html('<tr><td class="text-center" colspan="' + colspan +
                                                      '">Loading...</td></tr>');
-                    });
-                }
+                });
                 var baseUrl = nav.siblings('.fold-base-url').val();
                 var params = {
                     'id': nav.siblings('.object-id').val(),
@@ -63,7 +70,6 @@
                 if (isYRandomInput.exists()) {
                     params['isYRandom'] = isYRandomInput.val();
                 }
-
                 var dataTable = table.DataTable();
                 dataTable.clear();
                 dataTable.ajax.url(baseUrl + '?' + $.param(params)).load();

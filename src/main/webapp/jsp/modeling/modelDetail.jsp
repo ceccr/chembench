@@ -258,11 +258,11 @@
           </div>
         </s:iterator>
 
-        <table class="compound-list table table-hover table-bordered datatable">
+        <table class="compound-list table table-hover table-bordered datatable" data-scroll="false">
           <thead>
           <tr>
             <th class="name" data-property="compoundName">Compound Name</th>
-            <th data-transient="data-transient">Structure</th>
+            <th data-transient="data-transient" class="unsortable">Structure</th>
             <th data-property="observedValue">Observed Value</th>
             <th data-property="predictedValue">Predicted Value</th>
             <s:if test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
@@ -339,6 +339,36 @@
             <input class="is-y-random" type="hidden" value="false" />
             <%@ include file="trees.jsp" %>
           </s:if>
+          <s:else>
+            <table class="table table-hover datatable" data-scroll="false">
+              <thead>
+              <tr>
+                <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
+                  <th><abbr title="Correct Classification Rate" class="initialism">CCR</abbr></th>
+                </s:if>
+                <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
+                  <th>R<sup>2</sup></th>
+                  <th><abbr title="Mean Squared Error" class="initialism">MSE</abbr></th>
+                </s:elseif>
+                <th>Descriptors Used</th>
+              </tr>
+              </thead>
+              <tbody>
+              <s:iterator value="models">
+                <tr>
+                  <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
+                  <td><s:property value="ccr" /></td>
+                  </s:if>
+                  <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
+                    <td><s:property value="r2" /></td>
+                    <td><s:property value="mse" /></td>
+                  </s:elseif>
+                  <td><s:property value="descriptorsUsed" /></td>
+                </tr>
+              </s:iterator>
+              </tbody>
+            </table>
+          </s:else>
         </div>
 
         <div id="y-randomized-trees" class="tab-pane">
@@ -375,6 +405,36 @@
             <input class="is-y-random" type="hidden" value="true" />
             <%@ include file="trees.jsp" %>
           </s:if>
+          <s:else>
+            <table class="table table-hover datatable" data-scroll="false">
+              <thead>
+              <tr>
+                <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
+                  <th><abbr title="Correct Classification Rate" class="initialism">CCR</abbr></th>
+                </s:if>
+                <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
+                  <th>R<sup>2</sup></th>
+                  <th><abbr title="Mean Squared Error" class="initialism">MSE</abbr></th>
+                </s:elseif>
+                <th>Descriptors Used</th>
+              </tr>
+              </thead>
+              <tbody>
+              <s:iterator value="yRandomModels">
+                <tr>
+                  <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
+                    <td><s:property value="ccr" /></td>
+                  </s:if>
+                  <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
+                    <td><s:property value="r2" /></td>
+                    <td><s:property value="mse" /></td>
+                  </s:elseif>
+                  <td><s:property value="descriptorsUsed" /></td>
+                </tr>
+              </s:iterator>
+              </tbody>
+            </table>
+          </s:else>
         </div>
       </s:if>
       <s:else>
