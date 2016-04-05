@@ -314,66 +314,52 @@
       <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
         <div id="trees" class="tab-pane">
           <h3>Trees</h3>
+      </s:if>
+      <s:else>
+        <div id="models" class="tab-pane">
+          <h3>Models</h3>
+      </s:else>
+          <nav class="text-center fold-navigation">
+            <ul class="pagination">
+              <li class="previous">
+                <a href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <s:iterator value="foldNumbers">
+                <li><a href="#"><s:property /></a></li>
+              </s:iterator>
+              <li class="next">
+                <a href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
 
-          <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
-            <nav class="text-center fold-navigation">
-              <ul class="pagination">
-                <li class="previous">
-                  <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <s:iterator value="foldNumbers">
-                  <li><a href="#"><s:property /></a></li>
-                </s:iterator>
-                <li class="next">
-                  <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-
-            <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
-            <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
-            <table class="table table-hover datatable" data-object-type="tree" data-scroll="false"
-                   data-is-y-random="false">
-              <%@ include file="modelDetail-tableHeader.jsp" %>
-              <tbody></tbody>
-            </table>
-          </s:if>
-          <s:else>
-            <table class="table table-hover datatable" data-scroll="false">
-              <thead>
+          <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
+          <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
+          <table class="table table-hover datatable" data-object-type="tree" data-scroll="false"
+                 data-is-y-random="false">
+            <%@ include file="modelDetail-tableHeader.jsp" %>
+            <tbody>
+            <s:iterator value="models">
               <tr>
                 <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
-                  <th><abbr title="Correct Classification Rate" class="initialism">CCR</abbr></th>
+                  <td><s:property value="ccr" /></td>
                 </s:if>
                 <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
-                  <th>R<sup>2</sup></th>
-                  <th><abbr title="Mean Squared Error" class="initialism">MSE</abbr></th>
+                  <td><s:property value="r2" /></td>
+                  <td><s:property value="mse" /></td>
                 </s:elseif>
-                <th>Descriptors Used</th>
+                <td><s:property value="descriptorsUsed" /></td>
               </tr>
-              </thead>
-              <tbody>
-              <s:iterator value="models">
-                <tr>
-                  <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
-                    <td><s:property value="ccr" /></td>
-                  </s:if>
-                  <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
-                    <td><s:property value="r2" /></td>
-                    <td><s:property value="mse" /></td>
-                  </s:elseif>
-                  <td><s:property value="descriptorsUsed" /></td>
-                </tr>
-              </s:iterator>
-              </tbody>
-            </table>
-          </s:else>
+            </s:iterator>
+            </tbody>
+          </table>
         </div>
 
+      <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
         <div id="y-randomized-trees" class="tab-pane">
           <h3><var>y</var>-Randomized Trees</h3>
 
@@ -383,75 +369,58 @@
             tab), the predictor should be considered invalid and the dataset or parameters must be revised. <var>y</var>-randomized
             trees are only created for validation purposes and are not used in predictions.
           </p>
-
-          <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
-            <nav class="text-center fold-navigation">
-              <ul class="pagination">
-                <li class="previous">
-                  <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <s:iterator value="foldNumbers">
-                  <li><a href="#"><s:property /></a></li>
-                </s:iterator>
-                <li class="next">
-                  <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-
-            <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
-            <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
-            <table class="table table-hover datatable" data-object-type="tree" data-scroll="false"
-                   data-is-y-random="true">
-              <%@ include file="modelDetail-tableHeader.jsp" %>
-              <tbody></tbody>
-            </table>
-          </s:if>
-          <s:else>
-            <table class="table table-hover datatable" data-scroll="false">
-              <thead>
-              <tr>
-                <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
-                  <th><abbr title="Correct Classification Rate" class="initialism">CCR</abbr></th>
-                </s:if>
-                <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
-                  <th>R<sup>2</sup></th>
-                  <th><abbr title="Mean Squared Error" class="initialism">MSE</abbr></th>
-                </s:elseif>
-                <th>Descriptors Used</th>
-              </tr>
-              </thead>
-              <tbody>
-              <s:iterator value="yRandomModels">
-                <tr>
-                  <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
-                    <td><s:property value="ccr" /></td>
-                  </s:if>
-                  <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
-                    <td><s:property value="r2" /></td>
-                    <td><s:property value="mse" /></td>
-                  </s:elseif>
-                  <td><s:property value="descriptorsUsed" /></td>
-                </tr>
-              </s:iterator>
-              </tbody>
-            </table>
-          </s:else>
-        </div>
       </s:if>
       <s:else>
-        <div id="models" class="tab-pane">
-          <h3>Models</h3>
-        </div>
-
         <div id="y-randomized-models" class="tab-pane">
           <h3><var>y</var>-Randomized Models</h3>
-        </div>
+
+          <p>In <var>y</var>-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
+            data where the compound activities have been shuffled. Ideally, no models with a high R<sup>2</sup> will be
+            produced. If the <var>y</var>-Randomized models are similar to the real models built on your data (see the <b>Models</b>
+            tab), the predictor should be considered invalid and the dataset or parameters must be revised. <var>y</var>-randomized
+            models are only created for validation purposes and are not used in predictions.
+          </p>
       </s:else>
+
+          <nav class="text-center fold-navigation">
+            <ul class="pagination">
+              <li class="previous">
+                <a href="#" aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <s:iterator value="foldNumbers">
+                <li><a href="#"><s:property /></a></li>
+              </s:iterator>
+              <li class="next">
+                <a href="#" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
+          <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
+          <table class="table table-hover datatable" data-object-type="tree" data-scroll="false"
+                 data-is-y-random="true">
+            <%@ include file="modelDetail-tableHeader.jsp" %>
+            <tbody>
+            <s:iterator value="models">
+              <tr>
+                <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
+                  <td><s:property value="ccr" /></td>
+                </s:if>
+                <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
+                  <td><s:property value="r2" /></td>
+                  <td><s:property value="mse" /></td>
+                </s:elseif>
+                <td><s:property value="descriptorsUsed" /></td>
+              </tr>
+            </s:iterator>
+            </tbody>
+          </table>
+      </div>
 
       <div id="modeling-parameters" class="tab-pane">
         <h3>Modeling Parameters</h3>
