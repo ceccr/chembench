@@ -27,6 +27,7 @@
             <result name="notfound" type="httpheader">
                 <param name="error">404</param>
             </result>
+            <result name="error">/jsp/main/error.jsp</result>
         </global-results>
 
         <!-- Main pages -->
@@ -43,7 +44,6 @@
         <action name="home" class="edu.unc.ceccr.chembench.actions.HomeAction" method="loadPage">
             <interceptor-ref name="defaultStack" />
             <result name="success">/jsp/main/home.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="error">
@@ -65,7 +65,6 @@
         <action name="editProfile" class="edu.unc.ceccr.chembench.actions.UserAction"
                 method="loadEditProfilePage">
             <result name="success">/jsp/administration/user/editProfile.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="changePassword" class="edu.unc.ceccr.chembench.actions.UserAction"
@@ -93,7 +92,6 @@
 
         <action name="submitDataset" class="edu.unc.ceccr.chembench.actions.DatasetAction" method="execute">
             <result name="input" type="redirect">jobs</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="generateModi" class="edu.unc.ceccr.chembench.actions.DatasetAction" method="generateModi">
@@ -110,20 +108,17 @@
 
         <action name="createModelingJob" class="edu.unc.ceccr.chembench.actions.ModelAction" method="execute">
             <result name="success" type="redirect">jobs</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
         <!-- End Modeling Page -->
 
         <!-- Make Predictions Pages -->
         <action name="prediction" class="edu.unc.ceccr.chembench.actions.PredictionAction">
             <result name="success">/jsp/prediction/prediction.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="makeDatasetPrediction" class="edu.unc.ceccr.chembench.actions.PredictionAction"
                 method="makeDatasetPrediction">
             <result name="success" type="redirect">jobs</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="makeSmilesPrediction" class="edu.unc.ceccr.chembench.actions.PredictionAction"
@@ -141,7 +136,6 @@
         <!-- View Dataset Page -->
         <action name="datasetDetail" class="edu.unc.ceccr.chembench.actions.DatasetDetailAction">
             <result name="success">/jsp/dataset/datasetDetail.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="viewDatasetFold" class="edu.unc.ceccr.chembench.actions.DatasetDetailAction" method="getFold">
@@ -154,7 +148,6 @@
         <!-- View Predictor Page -->
         <action name="modelDetail" class="edu.unc.ceccr.chembench.actions.ModelDetailAction">
             <result name="success">/jsp/modeling/modelDetail.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="viewPredictorFold" class="edu.unc.ceccr.chembench.actions.ModelDetailAction" method="getFold">
@@ -195,17 +188,14 @@
         <!-- Delete Actions -->
         <action name="deleteDataset" class="edu.unc.ceccr.chembench.actions.DeleteAction" method="deleteDataset">
             <result name="success" type="redirect">jobs</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="deletePredictor" class="edu.unc.ceccr.chembench.actions.DeleteAction" method="deletePredictor">
             <result name="success" type="redirect">jobs</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="deletePrediction" class="edu.unc.ceccr.chembench.actions.DeleteAction" method="deletePrediction">
             <result name="success" type="redirect">jobs</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="deleteJob" class="edu.unc.ceccr.chembench.actions.DeleteAction" method="deleteJob">
@@ -254,13 +244,11 @@
         <action name="makePredictorPublicAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
                 method="makePredictorPublic">
             <result name="success" type="redirect">admin</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="makeDatasetPublicAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
                 method="makeDatasetPublic">
             <result name="success" type="redirect">admin</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="renamePublicPredictorAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
@@ -271,24 +259,20 @@
 
         <action name="deleteDatasetAction" class="edu.unc.ceccr.chembench.actions.AdminAction" method="deleteDataset">
             <result name="success" type="redirect">admin</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="deletePredictorAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
                 method="deletePredictor">
             <result name="success" type="redirect">admin</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="deletePublicPredictionAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
                 method="deletePublicPrediction">
             <result name="success" type="redirect">home</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="regenerateCcr" class="edu.unc.ceccr.chembench.actions.AdminAction" method="regenerateCcr">
             <result name="success" type="redirect">admin</result>
-            <result name="error">/jsp/main/error.jsp</result>
         </action>
         <!-- End Admin Actions -->
     </package>
