@@ -314,10 +314,12 @@
       <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
         <div id="trees" class="tab-pane">
           <h3>Trees</h3>
+          <s:set var="objectType">tree</s:set>
       </s:if>
       <s:else>
         <div id="models" class="tab-pane">
           <h3>Models</h3>
+          <s:set var="objectType">model</s:set>
       </s:else>
           <nav class="text-center fold-navigation">
             <ul class="pagination">
@@ -339,24 +341,9 @@
 
           <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
           <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
-          <table class="table table-hover datatable" data-object-type="tree" data-scroll="false"
-                 data-is-y-random="false">
-            <%@ include file="modelDetail-tableHeader.jsp" %>
-            <tbody>
-            <s:iterator value="models">
-              <tr>
-                <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
-                  <td><s:property value="ccr" /></td>
-                </s:if>
-                <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
-                  <td><s:property value="r2" /></td>
-                  <td><s:property value="mse" /></td>
-                </s:elseif>
-                <td><s:property value="descriptorsUsed" /></td>
-              </tr>
-            </s:iterator>
-            </tbody>
-          </table>
+          <s:set var="staticTableData" value="models" />
+          <s:set var="isYRandom">false</s:set>
+          <%@ include file="modelDetail-modelTable.jsp" %>
         </div>
 
       <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
@@ -402,24 +389,9 @@
 
           <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
           <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
-          <table class="table table-hover datatable" data-object-type="tree" data-scroll="false"
-                 data-is-y-random="true">
-            <%@ include file="modelDetail-tableHeader.jsp" %>
-            <tbody>
-            <s:iterator value="models">
-              <tr>
-                <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
-                  <td><s:property value="ccr" /></td>
-                </s:if>
-                <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
-                  <td><s:property value="r2" /></td>
-                  <td><s:property value="mse" /></td>
-                </s:elseif>
-                <td><s:property value="descriptorsUsed" /></td>
-              </tr>
-            </s:iterator>
-            </tbody>
-          </table>
+          <s:set var="staticTableData" value="yRandomModels" />
+          <s:set var="isYRandom">true</s:set>
+          <%@ include file="modelDetail-modelTable.jsp" %>
       </div>
 
       <div id="modeling-parameters" class="tab-pane">
