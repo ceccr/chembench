@@ -321,6 +321,8 @@
           <h3>Models</h3>
           <s:set var="objectType">model</s:set>
       </s:else>
+
+        <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
           <nav class="text-center fold-navigation">
             <ul class="pagination">
               <li class="previous">
@@ -338,6 +340,7 @@
               </li>
             </ul>
           </nav>
+        </s:if>
 
           <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
           <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
@@ -369,6 +372,7 @@
           </p>
       </s:else>
 
+        <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
           <nav class="text-center fold-navigation">
             <ul class="pagination">
               <li class="previous">
@@ -386,6 +390,7 @@
               </li>
             </ul>
           </nav>
+        </s:if>
 
           <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
           <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
