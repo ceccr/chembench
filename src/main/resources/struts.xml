@@ -157,6 +157,12 @@
         </action>
         <!-- End View Predictor Page -->
 
+        <!-- View Prediction Page -->
+        <action name="predictionDetail" class="edu.unc.ceccr.chembench.actions.PredictionDetailAction">
+            <result name="success">/jsp/prediction/predictionDetail.jsp</result>
+        </action>
+        <!-- End View Prediction Page -->
+
         <!-- Servlet forwards -->
         <!-- these will forward to a path defined in web.xml -->
         <action name="imageServlet">

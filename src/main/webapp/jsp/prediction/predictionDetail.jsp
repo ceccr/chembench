@@ -20,9 +20,9 @@
           <dt>Dataset predicted</dt>
           <dd>
             <s:url var="predictionDatasetUrl">
-              <s:param name="id" value="prediction.datasetId" />
+              <s:param name="id" value="predictionDataset.id" />
             </s:url>
-            <s:a href="%{predictionDatasetUrl}"><s:property value="prediction.datasetDisplay" /></s:a>
+            <s:a href="%{predictionDatasetUrl}"><s:property value="predictionDataset.name" /></s:a>
           </dd>
 
           <dt>Date created</dt>
@@ -49,7 +49,8 @@
                 <s:param name="id" value="%{id}" />
               </s:url>
               <s:a href="%{predictorUrl}"><s:property value="name" /></s:a>
-              (<s:property value="descriptorGeneration" />, <s:property value="modelMethod" />)
+              (<span class="available-descriptors"><s:property value="descriptorGeneration" /></span>,
+              <span class="modeling-method"><s:property value="modelMethod" /></span>)
             </li>
           </s:iterator>
         </ul>
