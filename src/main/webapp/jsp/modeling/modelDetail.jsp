@@ -265,8 +265,10 @@
             <th data-transient="data-transient" class="unsortable">Structure</th>
             <th data-property="observedValue">Observed Value</th>
             <th data-property="predictedValue">Predicted Value</th>
-            <s:if test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
+            <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
               <th data-property="residual">Residual</th>
+            </s:if>
+            <s:if test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
               <th data-transient="data-transient">Predicting Models / Total Models</th>
             </s:if>
           </tr>
@@ -289,21 +291,16 @@
                 <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
                   <td><s:property value="observedValue" /></td>
                   <td><s:property value="predictedValue" /></td>
-                  <s:if
-                      test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
-                    <td><s:property value="residual" /></td>
-                    <td><s:property value="predictingModels" /> / <s:property value="totalModels" /></td>
-                  </s:if>
+                  <td><s:text name="format.double"><s:param value="residual" /></s:text></td>
                 </s:if>
                 <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
                   <td><s:text name="format.int"><s:param value="observedValue" /></s:text></td>
                   <td><s:text name="format.int"><s:param value="predictedValue" /></s:text></td>
-                  <s:if
-                      test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
-                    <td><s:text name="format.int"><s:param value="residual" /></s:text></td>
-                    <td><s:property value="predictingModels" /> / <s:property value="totalModels" /></td>
-                  </s:if>
                 </s:elseif>
+                <s:if
+                    test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
+                  <td><s:property value="predictingModels" /> / <s:property value="totalModels" /></td>
+                </s:if>
               </tr>
             </s:iterator>
           </s:iterator>
