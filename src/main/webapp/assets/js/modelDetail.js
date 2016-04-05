@@ -64,12 +64,9 @@
                 var baseUrl = nav.siblings('.fold-base-url').val();
                 var params = {
                     'id': nav.siblings('.object-id').val(),
-                    'foldNumber': newIndex
+                    'foldNumber': newIndex,
+                    'isYRandom': table.attr('data-is-y-random')
                 };
-                var isYRandomInput = nav.siblings('.is-y-random');
-                if (isYRandomInput.exists()) {
-                    params['isYRandom'] = isYRandomInput.val();
-                }
                 var dataTable = table.DataTable();
                 dataTable.clear();
                 dataTable.ajax.url(baseUrl + '?' + $.param(params)).load();
