@@ -342,8 +342,6 @@
           </nav>
         </s:if>
 
-          <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
-          <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
           <s:set var="staticTableData" value="models" />
           <s:set var="isYRandom">false</s:set>
           <%@ include file="modelDetail-modelTable.jsp" %>
@@ -392,8 +390,6 @@
           </nav>
         </s:if>
 
-          <input class="fold-base-url" type="hidden" value="<s:url action="viewPredictorFold" />" />
-          <input class="object-id" type="hidden" value="<s:property value="predictor.id" />" />
           <s:set var="staticTableData" value="yRandomModels" />
           <s:set var="isYRandom">true</s:set>
           <%@ include file="modelDetail-modelTable.jsp" %>

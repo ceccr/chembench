@@ -61,9 +61,9 @@
                     table.children('tbody').html('<tr><td class="text-center" colspan="' + colspan +
                                                      '">Loading...</td></tr>');
                 });
-                var baseUrl = nav.siblings('.fold-base-url').val();
+                var baseUrl = table.attr('data-fold-url');
                 var params = {
-                    'id': nav.siblings('.object-id').val(),
+                    'id': table.attr('data-object-id'),
                     'foldNumber': newIndex,
                     'isYRandom': table.attr('data-is-y-random')
                 };

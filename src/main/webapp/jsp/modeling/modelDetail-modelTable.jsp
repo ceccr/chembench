@@ -1,6 +1,8 @@
 <table class="table table-hover datatable" data-scroll="false"
        data-object-type="<s:property value="#objectType" />"
-       data-is-y-random="<s:property value="#isYRandom" />">
+       data-is-y-random="<s:property value="#isYRandom" />"
+       data-fold-url="<s:url action="viewPredictorFold" />"
+       data-object-id="<s:property value="predictor.id" />">
   <thead>
   <tr>
     <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
