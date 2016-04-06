@@ -84,13 +84,15 @@
       some of the models.
     </p>
 
-    <table class="table table-bordered compound-list datatable">
+    <table id="predictions" class="table table-bordered compound-list datatable" data-scroll="false">
       <thead>
       <tr>
-        <th><!-- spacer for compound name --></th>
         <s:if test="!predictionDataset.sdfFile.isEmpty()">
-          <th><!-- spacer for compound structure --></th>
+          <th colspan="2"><!-- spacer for compound name/structure --></th>
         </s:if>
+        <s:else>
+          <th><!-- spacer for compound name --></th>
+        </s:else>
         <s:iterator value="predictors">
           <th colspan="3"><s:property value="name" /></th>
         </s:iterator>
@@ -128,30 +130,48 @@
                    height="125" alt="Compound structure">
             </td>
           </s:if>
-          <s:iterator value="predictionValues">
-            <td>
-              <s:if test="predictedValue != null">
-                <s:property value="predictedValue" />
-                <s:if test="standardDeviation != null">
-                  &plusmn; <s:property value="standardDeviation" />
+          <s:if test="predictionValues != null && !predictionValues.isEmpty()">
+            <s:iterator value="predictionValues">
+              <td>
+                <s:if test="predictedValue != null">
+                  <s:property value="predictedValue" />
+                  <s:if test="standardDeviation != null">
+                    &plusmn; <s:property value="standardDeviation" />
+                  </s:if>
                 </s:if>
+                <s:else>
+                  <span class="text-muted">Not predicted</span>
+                </s:else>
+              </td>
+              <td>
+                <s:property value="numModelsUsed" /> / <s:property value="numTotalModels" />
+              </td>
+              <td>
+                <s:if
+                    test="prediction.computeZscore == @edu.unc.ceccr.chembench.global.Constants@YES && zScore != null">
+                  <s:property value="zScore" />&sigma;
+                </s:if>
+                <s:else>
+                  <span class="text-muted">N/A</span>
+                </s:else>
+              </td>
+            </s:iterator>
+          </s:if>
+          <s:else>
+            <!-- datatables has no tbody > td colspan support, so we have to add hidden td's -->
+            <s:iterator value="predictors" status="status">
+              <s:if test="#status.first">
+                <td class="text-muted">
+                  No predictions made for this compound.
+                </td>
               </s:if>
               <s:else>
-                <span class="text-muted">Not predicted</span>
+                <td class="datatables-spacer"></td>
               </s:else>
-            </td>
-            <td>
-              <s:property value="numModelsUsed" /> / <s:property value="numTotalModels" />
-            </td>
-            <td>
-              <s:if test="prediction.computeZscore == @edu.unc.ceccr.chembench.global.Constants@YES && zScore != null">
-                <s:property value="zScore" />&sigma;
-              </s:if>
-              <s:else>
-                <span class="text-muted">N/A</span>
-              </s:else>
-            </td>
-          </s:iterator>
+              <td class="datatables-spacer"></td>
+              <td class="datatables-spacer"></td>
+            </s:iterator>
+          </s:else>
         </tr>
       </s:iterator>
       </tbody>

@@ -315,3 +315,9 @@ tr[data-fold-number = "0"] {
     display: table-row;
 }
 /* end modelDetail */
+
+/* predictionDetail */
+th.datatables-spacer, td.datatables-spacer {
+    display: none;
+}
+/* end predictionDetail */
