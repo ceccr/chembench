@@ -15,13 +15,19 @@
                 return 'Showing ' + total + ' ' + totalNoun + ' (filtered from ' + max + ' total ' + maxNoun + ')';
             }
             return 'Showing ' + max + ' ' + maxNoun;
+        },
+        'initComplete': function(settings, json) {
+            $(this).attr('data-prepared', 'data-prepared');
+            console.log(this);
         }
     };
 
     Chembench.prepareAjaxDatatable = function(node, overrideOptions) {
         var table = $(node);
-        // mark as prepared (don't call this method on a table twice)
-        table.attr('data-prepared', 'data-prepared');
+        if (table.attr('data-prepared')) {
+            // don't re-initialize
+            return;
+        }
 
         if (table.closest('.checkbox-table').exists()) {
             var checkboxHeader = $('<th data-property="checkbox" data-transient="data-transient" class="unsortable">' +

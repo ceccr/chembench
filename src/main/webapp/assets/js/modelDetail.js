@@ -14,8 +14,11 @@
             // XXX datatable _must_ be initialized before click event is fired
             var table = tab.find('table.datatable');
             if (table.exists() && !table.attr('data-prepared')) {
-                var direction = (e.currentTarget.hash === "#external-validation") ? 'asc' : 'desc';
-                Chembench.prepareAjaxDatatable(table, {'order': [[0, direction]]});
+                if (e.currentTarget.hash === "#external-validation") {
+                    table.DataTable($.extend({'order': [[0, 'asc']]}, Chembench.DATATABLE_OPTIONS));
+                } else {
+                    Chembench.prepareAjaxDatatable(table, {'order': [[0, 'desc']]});
+                }
             }
 
             var foldLinks = tab.find('.fold-navigation');
