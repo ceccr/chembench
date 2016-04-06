@@ -41,7 +41,7 @@ public abstract class WorkflowTask {
     public abstract String getStatus() throws Exception;
     //returns a basic (one-word) status
 
-    public abstract String getProgress(String userName) throws Exception;
+    public abstract String getProgress(String userName);
     //returns a detailed status message (% progress, etc)
     //returns more info if userName is an admin or userName owns the task
 

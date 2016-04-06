@@ -41,6 +41,7 @@ public class MyBenchAction extends ActionSupport {
             if (!(user.getIsAdmin().equals("YES") || user.getUserName().equals(j.getUserName()))) {
                 iterator.remove();
             }
+            j.setMessage(j.workflowTask.getProgress(user.getUserName()));
         }
         data = jobList;
         return SUCCESS;
