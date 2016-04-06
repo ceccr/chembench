@@ -10,6 +10,7 @@ import edu.unc.ceccr.chembench.persistence.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class MyBenchAction extends ActionSupport {
@@ -31,49 +32,30 @@ public class MyBenchAction extends ActionSupport {
         this.predictionRepository = predictionRepository;
     }
 
-    public String getLocalJobs() {
+    private String getFilteredJobs(List<Job> jobList) {
         if (user == null) {
             return SUCCESS;
         }
-
-        List<Job> jobList = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
-        for (Job j : jobList) {
+        for (Iterator<Job> iterator = jobList.iterator(); iterator.hasNext(); ) {
+            Job j = iterator.next();
             if (!(user.getIsAdmin().equals("YES") || user.getUserName().equals(j.getUserName()))) {
-                jobList.remove(j);
+                iterator.remove();
             }
         }
         data = jobList;
         return SUCCESS;
+    }
+
+    public String getLocalJobs() {
+        return getFilteredJobs(CentralDogma.getInstance().localJobs.getReadOnlyCopy());
     }
 
     public String getLsfJobs() {
-        if (user == null) {
-            return SUCCESS;
-        }
-
-        List<Job> jobList = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
-        for (Job j : jobList) {
-            if (!(user.getIsAdmin().equals("YES") || user.getUserName().equals(j.getUserName()))) {
-                jobList.remove(j);
-            }
-        }
-        data = jobList;
-        return SUCCESS;
+        return getFilteredJobs(CentralDogma.getInstance().lsfJobs.getReadOnlyCopy());
     }
 
     public String getErrorJobs() {
-        if (user == null) {
-            return SUCCESS;
-        }
-
-        List<Job> jobList = CentralDogma.getInstance().errorJobs.getReadOnlyCopy();
-        for (Job j : jobList) {
-            if (!(user.getIsAdmin().equals("YES") || user.getUserName().equals(j.getUserName()))) {
-                jobList.remove(j);
-            }
-        }
-        data = jobList;
-        return SUCCESS;
+        return getFilteredJobs(CentralDogma.getInstance().errorJobs.getReadOnlyCopy());
     }
 
     public String getDatasets() {
