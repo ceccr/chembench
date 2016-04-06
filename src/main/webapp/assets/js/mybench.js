@@ -3,12 +3,12 @@
 
     function clearRefreshingState() {
         var button = $('#jobs-queue-refresh');
-        button.html(button.html().replace('Refreshing...', 'Refresh')).removeClass('active disabled').blur();
+        button.removeClass('active disabled').blur().find('#refresh-text').text('Refresh');
     }
 
     function refreshJobQueues() {
         var button = $('#jobs-queue-refresh');
-        button.addClass('active disabled').html(button.html().replace('Refresh', 'Refreshing...'));
+        button.addClass('active disabled').find('#refresh-text').text('Refreshing...');
 
         var xhrs = [];
         var start = Date.now();

@@ -37,8 +37,8 @@
 
           <div class="header-extras">
             <button id="jobs-queue-refresh" class="btn btn-sm btn-primary has-spinner">
-              <span class="spinner"><span class="glyphicon glyphicon-refresh fa-spin"></span></span>Refresh
-            </button>
+              <span class="spinner"><span class="glyphicon glyphicon-refresh fa-spin"></span></span><span
+                id="refresh-text">Refresh</span></button>
 
             <label for="autorefresh-interval">Auto-refresh every:</label>
             <select id="autorefresh-interval" class="form-control input-sm">
