@@ -4,7 +4,7 @@
     $(document).ready(function() {
         $('.nav-list li').removeClass('active');
         $('#nav-button-prediction').addClass('active');
-        $('.compound-structure').popover(Chembench.THUMBNAIL_CONFIG);
+        $('.compound-structure').popover(Chembench.POPOVER_CONFIG);
         $('#predictions').DataTable($.extend({'order': [[0, 'asc']]}, Chembench.DATATABLE_OPTIONS));
     });
 })();

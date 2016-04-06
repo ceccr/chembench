@@ -48,7 +48,7 @@
             cell.html(cell.text().split('_').join('_<wbr>'));
         });
 
-        $('.compound-structure').popover(Chembench.THUMBNAIL_CONFIG);
+        $('.compound-structure').popover(Chembench.POPOVER_CONFIG);
 
         $('.modi-help').popover({
             html: true,
@@ -76,7 +76,7 @@
                 for (var i = 0; i < data.length; i++) {
                     table.row.add(composeRow(data[i]));
                 }
-                table.$().find('.compound-structure').popover(Chembench.THUMBNAIL_CONFIG);
+                table.$().find('.compound-structure').popover(Chembench.POPOVER_CONFIG);
                 updatePages(clicked);
                 table.draw();
             }).fail(function() {

@@ -24,7 +24,7 @@
         return false;
     };
 
-    Chembench.THUMBNAIL_CONFIG = {
+    Chembench.POPOVER_CONFIG = {
         html: true,
         template: '<div class="popover popover-image" role="tooltip">' +
                   '<div class="arrow"></div><div class="popover-content"></div></div>',
