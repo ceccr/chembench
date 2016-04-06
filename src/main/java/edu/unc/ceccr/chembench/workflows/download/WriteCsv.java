@@ -144,26 +144,28 @@ public class WriteCsv {
             out.write(Joiner.on(",").join(predictionHeader));
             out.newLine();
 
-            List<CompoundPredictions> compoundPredictionValues = compoundPredictionsRepository
-                    .findByDatasetIdAndPredictionId(prediction.getDatasetId(), predictionId);
+            List<CompoundPredictions> compoundPredictionValues =
+                    compoundPredictionsRepository.findByPredictionId(predictionId);
             for (CompoundPredictions cp : compoundPredictionValues) {
                 out.write(cp.getCompound().replaceAll(",", "_") + ",");
 
-                List<Object> predictionValues = Lists.newArrayList();
-                for (PredictionValue pv : cp.getPredictionValues()) {
-                    predictionValues.add(pv.getPredictedValue());
-                    predictionValues.add(pv.getStandardDeviation());
-                    predictionValues.add(pv.getNumModelsUsed());
-                    predictionValues.add(pv.getNumTotalModels());
-                    if (pv.getZScore() != null) {
-                        predictionValues.add(pv.getZScore());
-                        predictionValues.add((pv.getZScore() < prediction.getSimilarityCutoff()) ? "Yes" : "No");
-                    } else {
-                        predictionValues.add("N/A"); // app. domain column
-                        predictionValues.add("N/A"); // "in cutoff?" column
+                if (cp.getPredictionValues() != null) {
+                    List<Object> predictionValues = Lists.newArrayList();
+                    for (PredictionValue pv : cp.getPredictionValues()) {
+                        predictionValues.add(pv.getPredictedValue());
+                        predictionValues.add(pv.getStandardDeviation());
+                        predictionValues.add(pv.getNumModelsUsed());
+                        predictionValues.add(pv.getNumTotalModels());
+                        if (pv.getZScore() != null) {
+                            predictionValues.add(pv.getZScore());
+                            predictionValues.add((pv.getZScore() < prediction.getSimilarityCutoff()) ? "Yes" : "No");
+                        } else {
+                            predictionValues.add("N/A"); // app. domain column
+                            predictionValues.add("N/A"); // "in cutoff?" column
+                        }
                     }
+                    out.write(Joiner.on(",").join(predictionValues));
                 }
-                out.write(Joiner.on(",").join(predictionValues));
                 out.newLine();
             }
         } catch (IOException e) {

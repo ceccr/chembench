@@ -5,6 +5,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -14,9 +15,14 @@ public class PredictionDetailAction extends DetailAction {
     private final PredictorRepository predictorRepository;
     private final Splitter splitter = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
 
+    @Autowired
+    @Qualifier("compoundPredictionsRepositoryImpl")
+    private CompoundPredictionsRepository compoundPredictionsRepository;
+
     private Prediction prediction;
     private Dataset predictionDataset;
     private List<Predictor> predictors;
+    private List<CompoundPredictions> compoundPredictionValues;
 
     @Autowired
     public PredictionDetailAction(PredictionRepository predictionRepository, DatasetRepository datasetRepository,
@@ -37,6 +43,7 @@ public class PredictionDetailAction extends DetailAction {
         for (String idString : splitter.split(prediction.getPredictorIds())) {
             predictors.add(predictorRepository.findOne(Long.parseLong(idString)));
         }
+        compoundPredictionValues = compoundPredictionsRepository.findByPredictionId(id);
         return SUCCESS;
     }
 
@@ -62,5 +69,13 @@ public class PredictionDetailAction extends DetailAction {
 
     public void setPredictors(List<Predictor> predictors) {
         this.predictors = predictors;
+    }
+
+    public List<CompoundPredictions> getCompoundPredictionValues() {
+        return compoundPredictionValues;
+    }
+
+    public void setCompoundPredictionValues(List<CompoundPredictions> compoundPredictionValues) {
+        this.compoundPredictionValues = compoundPredictionValues;
     }
 }

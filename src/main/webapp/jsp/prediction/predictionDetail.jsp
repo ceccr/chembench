@@ -19,7 +19,7 @@
         <dl class="dl-horizontal properties-list">
           <dt>Dataset predicted</dt>
           <dd>
-            <s:url var="predictionDatasetUrl">
+            <s:url var="predictionDatasetUrl" action="datasetDetail">
               <s:param name="id" value="predictionDataset.id" />
             </s:url>
             <s:a href="%{predictionDatasetUrl}"><s:property value="predictionDataset.name" /></s:a>
@@ -84,11 +84,84 @@
       some of the models.
     </p>
 
+    <table class="table table-bordered compound-list datatable">
+      <thead>
+      <tr>
+        <th><!-- spacer for compound name --></th>
+        <s:if test="!predictionDataset.sdfFile.isEmpty()">
+          <th><!-- spacer for compound structure --></th>
+        </s:if>
+        <s:iterator value="predictors">
+          <th colspan="3"><s:property value="name" /></th>
+        </s:iterator>
+      </tr>
+      <tr>
+        <th class="name">Compound Name</th>
+        <s:if test="!predictionDataset.sdfFile.isEmpty()">
+          <th class="unsortable">Structure</th>
+        </s:if>
+        <s:iterator value="predictors">
+          <th>Prediction</th>
+          <s:if test="childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
+            <th class="unsortable">Predicting Folds</th>
+          </s:if>
+          <s:else>
+            <th class="unsortable">Predicting Models</th>
+          </s:else>
+          <th>&sigma;</th>
+        </s:iterator>
+      </tr>
+      </thead>
+      <tbody>
+      <s:iterator value="compoundPredictionValues">
+        <tr>
+          <td class="name"><s:property value="compound" /></td>
+          <s:if test="!predictionDataset.sdfFile.isEmpty()">
+            <td class="structure">
+              <s:url var="imageUrl" action="imageServlet" escapeAmp="false">
+                <s:param name="user" value="%{predictionDataset.userName}" />
+                <s:param name="projectType" value="'dataset'" />
+                <s:param name="compoundId" value="%{compound}" />
+                <s:param name="datasetName" value="%{predictionDataset.name}" />
+              </s:url>
+              <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
+                   height="125" alt="Compound structure">
+            </td>
+          </s:if>
+          <s:iterator value="predictionValues">
+            <td>
+              <s:if test="predictedValue != null">
+                <s:property value="predictedValue" />
+                <s:if test="standardDeviation != null">
+                  &plusmn; <s:property value="standardDeviation" />
+                </s:if>
+              </s:if>
+              <s:else>
+                <span class="text-muted">Not predicted</span>
+              </s:else>
+            </td>
+            <td>
+              <s:property value="numModelsUsed" /> / <s:property value="numTotalModels" />
+            </td>
+            <td>
+              <s:if test="prediction.computeZscore == @edu.unc.ceccr.chembench.global.Constants@YES && zScore != null">
+                <s:property value="zScore" />&sigma;
+              </s:if>
+              <s:else>
+                <span class="text-muted">N/A</span>
+              </s:else>
+            </td>
+          </s:iterator>
+        </tr>
+      </s:iterator>
+      </tbody>
+    </table>
   </section>
 
   <%@ include file="/jsp/main/footer.jsp" %>
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
+<script src="${pageContext.request.contextPath}/assets/js/predictionDetail.js"></script>
 </body>
 </html>
