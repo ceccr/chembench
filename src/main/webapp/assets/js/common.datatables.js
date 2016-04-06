@@ -2,19 +2,19 @@
     'use strict';
 
     Chembench.DATATABLE_OPTIONS = {
-        "columnDefs": [{
+        'columnDefs': [{
             orderable: false,
-            targets: "unsortable"
+            targets: 'unsortable'
         }],
-        "paging": false,
-        "dom": "lifrtp",
-        "infoCallback": function(settings, start, end, max, total) {
-            var totalNoun = (total === 1) ? "entry" : "entries";
-            var maxNoun = (max === 1) ? "entry" : "entries";
+        'paging': false,
+        'dom': 'lifrtp',
+        'infoCallback': function(settings, start, end, max, total) {
+            var totalNoun = (total === 1) ? 'entry' : 'entries';
+            var maxNoun = (max === 1) ? 'entry' : 'entries';
             if (max !== total) {
-                return "Showing " + total + " " + totalNoun + " (filtered from " + max + " total " + maxNoun + ")";
+                return 'Showing ' + total + ' ' + totalNoun + ' (filtered from ' + max + ' total ' + maxNoun + ')';
             }
-            return "Showing " + max + " " + maxNoun;
+            return 'Showing ' + max + ' ' + maxNoun;
         }
     };
 
