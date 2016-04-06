@@ -161,7 +161,7 @@
             <!-- datatables has no tbody > td colspan support, so we have to add hidden td's -->
             <s:iterator value="predictors" status="status">
               <s:if test="#status.first">
-                <td class="text-muted">
+                <td class="text-muted" colspan="<s:property value="predictors.size() * 3" />">
                   No predictions made for this compound.
                 </td>
               </s:if>
