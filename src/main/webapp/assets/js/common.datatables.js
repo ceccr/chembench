@@ -18,7 +18,6 @@
         },
         'initComplete': function(settings, json) {
             $(this).attr('data-prepared', 'data-prepared');
-            console.log(this);
         }
     };
 
