@@ -56,3 +56,29 @@ th[data-property="checkbox"] input[type="checkbox"] {
 .dataTables_info {
     float: left;
 }
+
+table.compound-list thead > tr > th.name {
+    text-align: left;
+    padding-left: 1em;
+}
+
+table.compound-list thead > tr > th {
+    text-align: center;
+}
+
+/* needed for specificity issues */
+table.compound-list > tbody > tr > td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+table.compound-list td.name {
+    padding-left: 1em;
+    text-align: left;
+    word-break: break-all;
+}
+
+table.compound-list td.structure {
+    width: 140px;
+    height: 140px;
+}
