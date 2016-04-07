@@ -22,7 +22,7 @@
             <s:url var="predictionDatasetUrl" action="datasetDetail">
               <s:param name="id" value="predictionDataset.id" />
             </s:url>
-            <s:a href="%{predictionDatasetUrl}"><s:property value="predictionDataset.name" /></s:a>
+            <s:a href="%{predictionDatasetUrl}" target="_blank"><s:property value="predictionDataset.name" /></s:a>
           </dd>
 
           <dt>Date created</dt>
@@ -48,7 +48,7 @@
               <s:url var="predictorUrl" action="modelDetail">
                 <s:param name="id" value="%{id}" />
               </s:url>
-              <s:a href="%{predictorUrl}"><s:property value="name" /></s:a>
+              <s:a href="%{predictorUrl}" target="_blank"><s:property value="name" /></s:a>
               (<span class="descriptor-type"><s:property value="descriptorGeneration" /></span>,
               <span class="modeling-method"><s:property value="modelMethod" /></span>)
             </li>
