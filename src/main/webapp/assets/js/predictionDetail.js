@@ -5,6 +5,11 @@
         $('.nav-list li').removeClass('active');
         $('#nav-button-prediction').addClass('active');
         $('.compound-structure').popover(Chembench.POPOVER_CONFIG);
-        $('#predictions').DataTable($.extend({'order': [[0, 'asc']]}, Chembench.DATATABLE_OPTIONS));
+        var predictions = $('#predictions');
+        predictions.DataTable($.extend({
+            'order': [[0, 'asc']],
+            'scrollX': true
+        }, Chembench.DATATABLE_OPTIONS));
+        predictions.show().parents('.dataTables_scrollBody').doubleScroll();
     });
 })();

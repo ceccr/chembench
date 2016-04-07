@@ -182,6 +182,7 @@
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
+<script src="${pageContext.request.contextPath}/assets/js/jquery.doubleScroll.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/predictionDetail.js"></script>
 </body>
 </html>
