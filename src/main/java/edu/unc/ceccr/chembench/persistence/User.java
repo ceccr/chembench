@@ -15,6 +15,7 @@ import java.util.Date;
 @Table(name = "cbench_user")
 
 public class User implements java.io.Serializable {
+    private static final long serialVersionUID = 8888289270917362320L;
 
     //system-relevant stuff
     private String userName;
@@ -67,8 +68,7 @@ public class User implements java.io.Serializable {
     @Transient
     public static User getCurrentUser() {
         ActionContext context = ActionContext.getContext();
-        User user = (User) context.getSession().get("user");
-        return user;
+        return (User) context.getSession().get("user");
     }
 
     //system-relevant get-sets

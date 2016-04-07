@@ -17,6 +17,7 @@ import java.util.List;
 
 public class DeleteAction extends ActionSupport {
     private static final Logger logger = Logger.getLogger(DeleteAction.class);
+    private static final long serialVersionUID = 8940848615449675885L;
     private List<String> errorStrings = Lists.newArrayList();
     private Long id;
     private String userToDelete;
