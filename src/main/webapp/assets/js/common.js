@@ -161,7 +161,7 @@
         });
 
         // replace ugly capitalization for constants
-        $('.available-descriptors').each(function() {
+        $('.available-descriptors, .descriptor-type').each(function() {
             var element = $(this);
             element.text(Chembench.formatAvailableDescriptors(element.text()));
         });

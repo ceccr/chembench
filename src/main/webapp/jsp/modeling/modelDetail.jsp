@@ -33,7 +33,7 @@
           <dd class="modeling-method"><s:property value="predictor.modelMethod" /></dd>
 
           <dt>Descriptors used</dt>
-          <dd><s:property value="predictor.descriptorGeneration" /></dd>
+          <dd class="descriptor-type"><s:property value="predictor.descriptorGeneration" /></dd>
 
           <dt>Date created</dt>
           <dd><s:date name="predictor.dateCreated" format="yyyy-MM-dd HH:mm" /></dd>

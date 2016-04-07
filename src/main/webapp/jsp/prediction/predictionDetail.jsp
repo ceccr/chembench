@@ -49,7 +49,7 @@
                 <s:param name="id" value="%{id}" />
               </s:url>
               <s:a href="%{predictorUrl}"><s:property value="name" /></s:a>
-              (<span class="available-descriptors"><s:property value="descriptorGeneration" /></span>,
+              (<span class="descriptor-type"><s:property value="descriptorGeneration" /></span>,
               <span class="modeling-method"><s:property value="modelMethod" /></span>)
             </li>
           </s:iterator>
