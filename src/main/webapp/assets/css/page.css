@@ -320,4 +320,17 @@ tr[data-fold-number = "0"] {
 th.datatables-spacer, td.datatables-spacer {
     display: none;
 }
+
+#predictions_info {
+    padding-left: 1em;
+}
+
+#predictions_filter {
+    padding-right: 1em;
+}
+
+#predictions.compound-list td.structure {
+    width: auto;
+    height: auto;
+}
 /* end predictionDetail */

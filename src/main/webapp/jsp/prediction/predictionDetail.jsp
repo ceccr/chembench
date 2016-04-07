@@ -69,113 +69,121 @@
       </div>
     </div>
 
-    <p>The predicted values for the compounds in your dataset are below.</p>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Predictions</h3>
+      </div>
 
-    <p>
-      For each predictor, there are two columns. The first column
-      contains the prediction. If more than one of the predictor's models were used to make the prediction, the
-      average value across all models is displayed, &plusmn; the standard deviation.
-    </p>
+      <div class="panel-body">
+        <p>The predicted values for the compounds in your dataset are below.</p>
 
-    <p>
-      The second column for each predictor tells how many models'
-      predictions were used to calculate the value in the first column. It is often the case that not all of the
-      models in a predictor can be used to predict a compound, because the compounds lie outside the cutoff range of
-      some of the models.
-    </p>
+        <p>
+          For each predictor, there are two columns. The first column
+          contains the prediction. If more than one of the predictor's models were used to make the prediction, the
+          average value across all models is displayed, &plusmn; the standard deviation.
+        </p>
 
-    <table id="predictions" class="table table-bordered compound-list datatable" data-scroll="false">
-      <thead>
-      <tr>
-        <s:if test="!predictionDataset.sdfFile.isEmpty()">
-          <th colspan="2"><!-- spacer for compound name/structure --></th>
-        </s:if>
-        <s:else>
-          <th><!-- spacer for compound name --></th>
-        </s:else>
-        <s:iterator value="predictors">
-          <th colspan="3"><s:property value="name" /></th>
-        </s:iterator>
-      </tr>
-      <tr>
-        <th class="name">Compound Name</th>
-        <s:if test="!predictionDataset.sdfFile.isEmpty()">
-          <th class="unsortable">Structure</th>
-        </s:if>
-        <s:iterator value="predictors">
-          <th>Prediction</th>
-          <s:if test="childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
-            <th class="unsortable">Predicting Folds</th>
-          </s:if>
-          <s:else>
-            <th class="unsortable">Predicting Models</th>
-          </s:else>
-          <th>&sigma;</th>
-        </s:iterator>
-      </tr>
-      </thead>
-      <tbody>
-      <s:iterator value="compoundPredictionValues">
+        <p>
+          The second column for each predictor tells how many models'
+          predictions were used to calculate the value in the first column. It is often the case that not all of the
+          models in a predictor can be used to predict a compound, because the compounds lie outside the cutoff range of
+          some of the models.
+        </p>
+      </div>
+
+      <table id="predictions" class="table table-bordered compound-list datatable" data-scroll="false">
+        <thead>
         <tr>
-          <td class="name"><s:property value="compound" /></td>
           <s:if test="!predictionDataset.sdfFile.isEmpty()">
-            <td class="structure">
-              <s:url var="imageUrl" action="imageServlet" escapeAmp="false">
-                <s:param name="user" value="%{predictionDataset.userName}" />
-                <s:param name="projectType" value="'dataset'" />
-                <s:param name="compoundId" value="%{compound}" />
-                <s:param name="datasetName" value="%{predictionDataset.name}" />
-              </s:url>
-              <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
-                   height="125" alt="Compound structure">
-            </td>
-          </s:if>
-          <s:if test="predictionValues != null && !predictionValues.isEmpty()">
-            <s:iterator value="predictionValues">
-              <td>
-                <s:if test="predictedValue != null">
-                  <s:property value="predictedValue" />
-                  <s:if test="standardDeviation != null">
-                    &plusmn; <s:property value="standardDeviation" />
-                  </s:if>
-                </s:if>
-                <s:else>
-                  <span class="text-muted">Not predicted</span>
-                </s:else>
-              </td>
-              <td>
-                <s:property value="numModelsUsed" /> / <s:property value="numTotalModels" />
-              </td>
-              <td>
-                <s:if
-                    test="prediction.computeZscore == @edu.unc.ceccr.chembench.global.Constants@YES && zScore != null">
-                  <s:property value="zScore" />&sigma;
-                </s:if>
-                <s:else>
-                  <span class="text-muted">N/A</span>
-                </s:else>
-              </td>
-            </s:iterator>
+            <th colspan="2"><!-- spacer for compound name/structure --></th>
           </s:if>
           <s:else>
-            <!-- datatables has no tbody > td colspan support, so we have to add hidden td's -->
-            <s:iterator value="predictors" status="status">
-              <s:if test="#status.first">
-                <td class="text-muted" colspan="<s:property value="predictors.size() * 3" />">
-                  No predictions made for this compound.
-                </td>
-              </s:if>
-              <s:else>
-                <td class="datatables-spacer"></td>
-              </s:else>
-              <td class="datatables-spacer"></td>
-              <td class="datatables-spacer"></td>
-            </s:iterator>
+            <th><!-- spacer for compound name --></th>
           </s:else>
+          <s:iterator value="predictors">
+            <th colspan="3"><s:property value="name" /></th>
+          </s:iterator>
         </tr>
-      </s:iterator>
-      </tbody>
-    </table>
+        <tr>
+          <th class="name">Compound Name</th>
+          <s:if test="!predictionDataset.sdfFile.isEmpty()">
+            <th class="unsortable">Structure</th>
+          </s:if>
+          <s:iterator value="predictors">
+            <th>Prediction</th>
+            <s:if test="childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
+              <th class="unsortable">Predicting Folds</th>
+            </s:if>
+            <s:else>
+              <th class="unsortable">Predicting Models</th>
+            </s:else>
+            <th>&sigma;</th>
+          </s:iterator>
+        </tr>
+        </thead>
+        <tbody>
+        <s:iterator value="compoundPredictionValues">
+          <tr>
+            <td class="name"><s:property value="compound" /></td>
+            <s:if test="!predictionDataset.sdfFile.isEmpty()">
+              <td class="structure">
+                <s:url var="imageUrl" action="imageServlet" escapeAmp="false">
+                  <s:param name="user" value="%{predictionDataset.userName}" />
+                  <s:param name="projectType" value="'dataset'" />
+                  <s:param name="compoundId" value="%{compound}" />
+                  <s:param name="datasetName" value="%{predictionDataset.name}" />
+                </s:url>
+                <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
+                     height="125" alt="Compound structure">
+              </td>
+            </s:if>
+            <s:if test="predictionValues != null && !predictionValues.isEmpty()">
+              <s:iterator value="predictionValues">
+                <td>
+                  <s:if test="predictedValue != null">
+                    <s:property value="predictedValue" />
+                    <s:if test="standardDeviation != null">
+                      &plusmn; <s:property value="standardDeviation" />
+                    </s:if>
+                  </s:if>
+                  <s:else>
+                    <span class="text-muted">Not predicted</span>
+                  </s:else>
+                </td>
+                <td>
+                  <s:property value="numModelsUsed" /> / <s:property value="numTotalModels" />
+                </td>
+                <td>
+                  <s:if
+                      test="prediction.computeZscore == @edu.unc.ceccr.chembench.global.Constants@YES && zScore != null">
+                    <s:property value="zScore" />&sigma;
+                  </s:if>
+                  <s:else>
+                    <span class="text-muted">N/A</span>
+                  </s:else>
+                </td>
+              </s:iterator>
+            </s:if>
+            <s:else>
+              <!-- datatables has no tbody > td colspan support, so we have to add hidden td's -->
+              <s:iterator value="predictors" status="status">
+                <s:if test="#status.first">
+                  <td class="text-muted" colspan="<s:property value="predictors.size() * 3" />">
+                    No predictions made for this compound.
+                  </td>
+                </s:if>
+                <s:else>
+                  <td class="datatables-spacer"></td>
+                </s:else>
+                <td class="datatables-spacer"></td>
+                <td class="datatables-spacer"></td>
+              </s:iterator>
+            </s:else>
+          </tr>
+        </s:iterator>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <%@ include file="/jsp/main/footer.jsp" %>
