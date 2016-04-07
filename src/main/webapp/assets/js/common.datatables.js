@@ -64,7 +64,7 @@
         }
 
         var columns = [];
-        table.find('th').each(function() {
+        table.find('thead').find('tr').last().find('th').each(function() {
             var th = $(this);
             var column = {};
             var property = th.attr('data-property');
