@@ -321,15 +321,15 @@ th.datatables-spacer, td.datatables-spacer {
     display: none;
 }
 
-#predictions_info {
+#prediction-values_info {
     padding-left: 1em;
 }
 
-#predictions_filter {
+#prediction-values_filter {
     padding-right: 1em;
 }
 
-#predictions.compound-list td.structure {
+#prediction-values.compound-list td.structure {
     width: auto;
     height: auto;
 }
