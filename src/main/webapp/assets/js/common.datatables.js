@@ -330,31 +330,25 @@
         table.DataTable(options).on('draw', function() {
             var wrapper = table.closest('.dataTables_wrapper');
             var queue = table.attr('data-queue-name');
-            var isErrorJobQueue = (objectType === 'job' && queue === 'error');
-            if (!wrapper.siblings('.no-objects-message').exists()) {
-                if (!isErrorJobQueue) {
-                    var message;
-                    if (objectType === 'job') {
-                        message = '(The ' + queue + ' queue is empty.)';
-                    } else {
-                        message = '(There are no ' + objectType + 's to display.)';
-                    }
-                    var messageSpan = $('<span class="no-objects-message text-muted">' + message + '</span>');
-                    messageSpan.insertBefore(wrapper).hide();
+            if (objectType === 'job') {
+                if (!wrapper.siblings('.no-objects-message').exists() && queue !== 'error') {
+                    var message = '(The ' + queue + ' queue is empty.)';
+                    $('<span class="no-objects-message text-muted">' + message +
+                      '</span>').insertBefore(wrapper).hide();
                 }
-            }
 
-            if (wrapper.find('.dataTables_empty').exists()) {
-                if (isErrorJobQueue) {
-                    $('#jobs-with-errors').hide();
+                if (wrapper.find('.dataTables_empty').exists()) {
+                    if (queue === 'error') {
+                        $('#jobs-with-errors').hide();
+                    } else {
+                        wrapper.hide().siblings('.no-objects-message').show();
+                    }
                 } else {
-                    wrapper.hide().siblings('.no-objects-message').show();
-                }
-            } else {
-                if (isErrorJobQueue) {
-                    $('#jobs-with-errors').show();
-                } else {
-                    wrapper.show().siblings('.no-objects-message').hide();
+                    if (queue === 'error') {
+                        $('#jobs-with-errors').show();
+                    } else {
+                        wrapper.show().siblings('.no-objects-message').hide();
+                    }
                 }
             }
         });
