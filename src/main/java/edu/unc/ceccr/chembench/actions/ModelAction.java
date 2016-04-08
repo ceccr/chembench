@@ -25,7 +25,6 @@ public class ModelAction extends ActionSupport {
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;
     private final JobRepository jobRepository;
-    List<String> errorStrings = Lists.newArrayList();
     private User user = User.getCurrentUser();
     private List<String> userDatasetNames;
     private List<String> userPredictorNames;
@@ -304,7 +303,7 @@ public class ModelAction extends ActionSupport {
                 int numDescriptors = ReadDescriptors.readDescriptorNamesFromX(ds.getXFile(), datasetDir).length;
                 int numMaxDesc = Integer.parseInt(knnMaxNumDescriptors);
                 if (numDescriptors < numMaxDesc) {
-                    errorStrings.add("Your uploaded dataset contains only " + numDescriptors
+                    addActionError("Your uploaded dataset contains only " + numDescriptors
                             + " descriptors, but you requested " + "that each model contain up to " + numMaxDesc
                             + " descriptors. Please return to the " + "Modeling page and " + "fix your parameters.");
                     return ERROR;
@@ -1366,14 +1365,6 @@ public class ModelAction extends ActionSupport {
 
     public void setEmailOnCompletion(String emailOnCompletion) {
         this.emailOnCompletion = emailOnCompletion;
-    }
-
-    public List<String> getErrorStrings() {
-        return errorStrings;
-    }
-
-    public void setErrorStrings(List<String> errorStrings) {
-        this.errorStrings = errorStrings;
     }
 
     public List<Dataset> getUserDatasets() {

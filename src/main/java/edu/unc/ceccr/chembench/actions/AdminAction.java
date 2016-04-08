@@ -47,7 +47,6 @@ public class AdminAction extends ActionSupport {
     String emailMessage;
     String emailSubject;
     String sendTo;
-    private List<String> errorStrings = Lists.newArrayList();
 
     @Autowired
     public AdminAction(UserRepository userRepository, DatasetRepository datasetRepository,
@@ -189,7 +188,7 @@ public class AdminAction extends ActionSupport {
             }
 
             if (predictorName.isEmpty()) {
-                errorStrings.add("Please enter a predictor name.");
+                addActionError("Please enter a predictor name.");
                 return ERROR;
             }
 
@@ -204,13 +203,13 @@ public class AdminAction extends ActionSupport {
                             "No predictor belonging to user %s with name %s " + "was found in the database.", userName,
                             predictorName);
                 }
-                errorStrings.add(error);
+                addActionError(error);
                 return ERROR;
             }
 
             (new DeleteAction()).deletePredictor(predictor);
         } catch (Exception ex) {
-            errorStrings.add(ex.getMessage());
+            addActionError(ex.getMessage());
             return ERROR;
         }
 
@@ -232,18 +231,18 @@ public class AdminAction extends ActionSupport {
             String userName = ((String[]) context.getParameters().get("userName"))[0];
 
             if (predictionID.isEmpty() || userName.isEmpty()) {
-                errorStrings.add("Prediction ID and user name shouldn't be empty!");
+                addActionError("Prediction ID and user name shouldn't be empty!");
                 return ERROR;
             }
 
             if (!userName.trim().equals(Constants.ALL_USERS_USERNAME)) {
-                errorStrings.add("You can only delete public prediction here!");
+                addActionError("You can only delete public prediction here!");
                 return ERROR;
             }
 
             Prediction prediction = predictionRepository.findOne(Long.parseLong(predictionID));
             if (prediction == null) {
-                errorStrings.add("No prediction with ID " + predictionID + " was found in the database!");
+                addActionError("No prediction with ID " + predictionID + " was found in the database!");
                 return ERROR;
             }
 
@@ -251,7 +250,7 @@ public class AdminAction extends ActionSupport {
             String dir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/PREDICTIONS/" + prediction
                     .getName();
             if (!FileAndDirOperations.deleteDir(new File(dir))) {
-                errorStrings.add("Error deleting dir");
+                addActionError("Error deleting dir");
                 logger.error("error deleting dir: " + dir);
             }
 
@@ -266,10 +265,10 @@ public class AdminAction extends ActionSupport {
             //delete the database entry for the prediction
             predictionRepository.delete(prediction);
         } catch (Exception ex) {
-            errorStrings.add(ex.getMessage());
+            addActionError(ex.getMessage());
             return ERROR;
         }
-        if (!errorStrings.isEmpty()) {
+        if (!getActionErrors().isEmpty()) {
             return ERROR;
         }
         return SUCCESS;
@@ -290,7 +289,7 @@ public class AdminAction extends ActionSupport {
             }
 
             if (datasetName.isEmpty()) {
-                errorStrings.add("Please enter a dataset name.");
+                addActionError("Please enter a dataset name.");
                 return ERROR;
             }
 
@@ -305,14 +304,16 @@ public class AdminAction extends ActionSupport {
                             "No dataset belonging to user %s with name %s " + "was found in the database.", userName,
                             datasetName);
                 }
-                errorStrings.add(error);
+                addActionError(error);
                 return ERROR;
             }
 
             // check for predictors depending on this dataset
             List<String> dependencies = checkDatasetDependencies(dataset, userName);
             if (!dependencies.isEmpty()) {
-                errorStrings.addAll(dependencies);
+                for (String dependency : dependencies) {
+                    addActionError(dependency);
+                }
                 return ERROR;
             }
 
@@ -323,7 +324,7 @@ public class AdminAction extends ActionSupport {
                 if (!FileAndDirOperations.deleteDir(dir)) {
                     String error = "Failed to delete directory: " + dir.getAbsolutePath();
                     logger.error(error);
-                    errorStrings.add(error);
+                    addActionError(error);
                 }
             }
 
@@ -331,7 +332,7 @@ public class AdminAction extends ActionSupport {
             datasetRepository.delete(dataset);
 
         } catch (Exception ex) {
-            errorStrings.add(ex.getMessage());
+            addActionError(ex.getMessage());
             return ERROR;
         }
         return SUCCESS;
@@ -386,7 +387,7 @@ public class AdminAction extends ActionSupport {
             String predictorType = ((String[]) context.getParameters().get("predictorType"))[0];
 
             if (predictorName.isEmpty() || userName.isEmpty() || predictorType.isEmpty()) {
-                errorStrings.add("Predictor name, user name and predictor type shouldn't be empty!");
+                addActionError("Predictor name, user name and predictor type shouldn't be empty!");
                 return ERROR;
             }
 
@@ -405,7 +406,7 @@ public class AdminAction extends ActionSupport {
 
             //prevent duplication of names
             if (predictorRepository.findByNameAndUserName(predictorName, Constants.ALL_USERS_USERNAME) != null) {
-                errorStrings.add("There has already been a public predictor with" + predictorName);
+                addActionError("There has already been a public predictor with" + predictorName);
                 return ERROR;
             }
 
@@ -626,7 +627,7 @@ public class AdminAction extends ActionSupport {
 
             Dataset dataset = datasetRepository.findByNameAndUserName(datasetName, userName);
             if (dataset == null) {
-                errorStrings.add("User " + userName + " does not have a dataset with Name " + datasetName);
+                addActionError("User " + userName + " does not have a dataset with Name " + datasetName);
                 return ERROR;
             }
 
@@ -637,7 +638,7 @@ public class AdminAction extends ActionSupport {
 
             //prevent duplication of names
             if (datasetRepository.findByNameAndUserName(datasetName, Constants.ALL_USERS_USERNAME) != null) {
-                errorStrings.add("There has already been a public Dataset with the same name" + datasetName);
+                addActionError("There has already been a public Dataset with the same name" + datasetName);
                 return ERROR;
             }
 
@@ -730,11 +731,4 @@ public class AdminAction extends ActionSupport {
         this.sendTo = sendTo;
     }
 
-    public List<String> getErrorStrings() {
-        return errorStrings;
-    }
-
-    public void setErrorStrings(List<String> errorStrings) {
-        this.errorStrings = errorStrings;
-    }
 }

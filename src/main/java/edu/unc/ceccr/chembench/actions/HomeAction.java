@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.actions;
 
-import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
@@ -37,7 +36,6 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
     String username;
     String password;
     String showStatistics = Constants.YES;
-    private List<String> errorStrings = Lists.newArrayList();
     private HttpServletRequest request;
     private String ipAddress;
     private String savedUrl = (String) ActionContext.getContext().getSession().get("savedUrl");
@@ -116,14 +114,6 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
             showStatistics = "NO";
         }
         return SUCCESS;
-    }
-
-    public List<String> getErrorStrings() {
-        return errorStrings;
-    }
-
-    public void setErrorStrings(List<String> errorStrings) {
-        this.errorStrings = errorStrings;
     }
 
     public String execute() throws Exception {

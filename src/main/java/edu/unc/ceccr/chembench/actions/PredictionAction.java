@@ -32,7 +32,6 @@ public class PredictionAction extends ActionSupport {
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;
     private final JobRepository jobRepository;
-    List<String> errorStrings = Lists.newArrayList();
     // variables used for JSP display
     private User user = User.getCurrentUser();
     private List<Predictor> userPredictors;
@@ -284,7 +283,7 @@ public class PredictionAction extends ActionSupport {
         // get list of predictor IDs from the checked checkboxes
         if (predictorCheckBoxes == null || predictorCheckBoxes.trim().isEmpty()) {
             logger.debug("no predictor chosen!");
-            errorStrings.add("Please select at least one predictor.");
+            addActionError("Please select at least one predictor.");
             result = ERROR;
             return result;
         }
@@ -310,7 +309,7 @@ public class PredictionAction extends ActionSupport {
                     }
                 }
                 if (!childHasModels) {
-                    errorStrings.add("The predictor '" + p.getName() + "' cannot be used for prediction"
+                    addActionError("The predictor '" + p.getName() + "' cannot be used for prediction"
                             + " because it contains no usable models.");
                     result = ERROR;
                 }
@@ -320,7 +319,7 @@ public class PredictionAction extends ActionSupport {
                      * this predictor shouldn't be used for prediction. Error
                      * out.
                      */
-                    errorStrings.add("The predictor '" + p.getName() + "' cannot be used for prediction because"
+                    addActionError("The predictor '" + p.getName() + "' cannot be used for prediction because"
                             + " it contains no usable models.");
                     logger.warn("The predictor '" + p.getName() + "' cannot be used for prediction because"
                             + " it contains no usable models.");

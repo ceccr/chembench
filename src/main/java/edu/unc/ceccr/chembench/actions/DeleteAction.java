@@ -18,7 +18,6 @@ import java.util.List;
 public class DeleteAction extends ActionSupport {
     private static final Logger logger = Logger.getLogger(DeleteAction.class);
     private static final long serialVersionUID = 8940848615449675885L;
-    private List<String> errorStrings = Lists.newArrayList();
     private Long id;
     private String userToDelete;
 
@@ -44,7 +43,7 @@ public class DeleteAction extends ActionSupport {
         for (Predictor predictor : userPredictors) {
             logger.debug("predictor id: " + predictor.getDatasetId() + " dataset id: " + ds.getId());
             if (predictor.getDatasetId() != null && predictor.getDatasetId().equals(ds.getId())) {
-                errorStrings.add("The predictor '" + predictor.getName() + "' depends on this dataset. Please" +
+                addActionError("The predictor '" + predictor.getName() + "' depends on this dataset. Please" +
                         " delete it first.\n");
             }
         }
@@ -53,7 +52,7 @@ public class DeleteAction extends ActionSupport {
         for (Prediction prediction : userPredictions) {
             logger.debug("Prediction id: " + prediction.getDatasetId() + " dataset id: " + ds.getId());
             if (prediction.getDatasetId() != null && prediction.getDatasetId().equals(ds.getId())) {
-                errorStrings.add("The prediction '" + prediction.getName() + "' depends on this dataset. Please " +
+                addActionError("The prediction '" + prediction.getName() + "' depends on this dataset. Please " +
                         "delete it first.\n");
             }
         }
@@ -78,7 +77,7 @@ public class DeleteAction extends ActionSupport {
             String[] predictorIds = prediction.getPredictorIds().split("\\s+");
             for (String predictorId : predictorIds) {
                 if (Long.parseLong(predictorId) == p.getId()) {
-                    errorStrings.add("The prediction '" + prediction.getName() + "' depends on this predictor." +
+                    addActionError("The prediction '" + prediction.getName() + "' depends on this predictor." +
                             " Please delete it first.\n");
                 }
             }
@@ -108,25 +107,25 @@ public class DeleteAction extends ActionSupport {
 
     public String deleteDataset() throws Exception {
         if (id == null) {
-            errorStrings.add("No dataset ID supplied.");
+            addActionError("No dataset ID supplied.");
             return ERROR;
         }
         logger.debug("Deleting dataset with id: " + id);
 
         Dataset ds = datasetRepository.findOne(id);
         if (ds == null) {
-            errorStrings.add("Invalid dataset ID supplied.");
+            addActionError("Invalid dataset ID supplied.");
             return ERROR;
         }
 
         if (!checkPermissions(ds.getUserName())) {
-            errorStrings.add("Error: You do not have the permissions " + "needed to delete this dataset.");
+            addActionError("Error: You do not have the permissions " + "needed to delete this dataset.");
             return ERROR;
         }
 
         // make sure nothing else depends on this dataset existing
         checkDatasetDependencies(ds);
-        if (!errorStrings.isEmpty()) {
+        if (!getActionErrors().isEmpty()) {
             return ERROR;
         }
 
@@ -143,18 +142,18 @@ public class DeleteAction extends ActionSupport {
 
         Predictor p = predictorRepository.findOne(id);
         if (p == null) {
-            errorStrings.add("Invalid predictor ID supplied.");
+            addActionError("Invalid predictor ID supplied.");
             return ERROR;
         }
 
         if (!checkPermissions(p.getUserName())) {
-            errorStrings.add("You do not have the permissions " + "needed to delete this predictor.");
+            addActionError("You do not have the permissions " + "needed to delete this predictor.");
             return ERROR;
         }
 
         // make sure nothing else depends on this predictor existing
         checkPredictorDependencies(p);
-        if (!errorStrings.isEmpty()) {
+        if (!getActionErrors().isEmpty()) {
             return ERROR;
         }
 
@@ -205,18 +204,18 @@ public class DeleteAction extends ActionSupport {
         logger.debug("Deleting prediction with id: " + id);
 
         if (id == null) {
-            errorStrings.add("No prediction ID supplied.");
+            addActionError("No prediction ID supplied.");
             return ERROR;
         }
 
         Prediction p = predictionRepository.findOne(id);
         if (p == null) {
-            errorStrings.add("Invalid prediction ID.");
+            addActionError("Invalid prediction ID.");
             return ERROR;
         }
 
         if (!checkPermissions(p.getUserName())) {
-            errorStrings.add("You do not have the permissions " + "needed to delete this prediction.");
+            addActionError("You do not have the permissions " + "needed to delete this prediction.");
             return ERROR;
         }
 
@@ -297,12 +296,12 @@ public class DeleteAction extends ActionSupport {
 
     public String deleteJob() throws Exception {
         if (id == null) {
-            errorStrings.add("No id supplied.");
+            addActionError("No id supplied.");
             return ERROR;
         }
         Job j = jobRepository.findOne(id);
         if (j == null) {
-            errorStrings.add("Invalid job ID.");
+            addActionError("Invalid job ID.");
             return ERROR;
         }
         logger.debug("Deleting job with id: " + j.getId());
@@ -354,14 +353,6 @@ public class DeleteAction extends ActionSupport {
 
         deleteUser(userToDelete);
         return SUCCESS;
-    }
-
-    public List<String> getErrorStrings() {
-        return errorStrings;
-    }
-
-    public void setErrorStrings(List<String> errorStrings) {
-        this.errorStrings = errorStrings;
     }
 
     public void setId(Long id) {

@@ -26,7 +26,6 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
     private User user = User.getCurrentUser();
     private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
     private List<String> errorMessages = Lists.newArrayList();
-    private List<String> errorStrings = Lists.newArrayList();
     private String outputMessage;
     private String newUserName;
     private String address;
@@ -83,7 +82,7 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
         // check that the user is logged in
         userIsAdmin = user.getIsAdmin().equals(Constants.YES);
         if (user.getUserName().equals("guest")) {
-            errorStrings.add("Error: You may not change the guest" + " profile settings.");
+            addActionError("Error: You may not change the guest" + " profile settings.");
             return ERROR;
         }
 
@@ -390,14 +389,6 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
     public void setActionErrors(List<String> errorMessages) {
         this.errorMessages = errorMessages;
-    }
-
-    public List<String> getErrorStrings() {
-        return errorStrings;
-    }
-
-    public void setErrorStrings(List<String> errorStrings) {
-        this.errorStrings = errorStrings;
     }
 
     public String getOutputMessage() {

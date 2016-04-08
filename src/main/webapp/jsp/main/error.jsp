@@ -17,9 +17,6 @@
     <h2>Error</h2>
 
     <p id="errors" class="bg-danger">
-      <s:iterator value="errorStrings">
-        <s:property />
-      </s:iterator>
       <s:actionerror />
     </p>
 

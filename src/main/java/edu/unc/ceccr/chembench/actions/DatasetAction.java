@@ -24,7 +24,6 @@ public class DatasetAction extends ActionSupport {
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;
     private final JobRepository jobRepository;
-    private List<String> errorStrings = Lists.newArrayList();
     private String datasetName = "";
     private String datasetType = Constants.MODELING;
     private long id;
@@ -194,14 +193,14 @@ public class DatasetAction extends ActionSupport {
         if (datasetType.equalsIgnoreCase(Constants.MODELING)) {
             //do file check
             if (sdfFileModeling == null && actFileModeling == null) {
-                errorStrings.add("File upload failed or no files supplied. If you are using Chrome, "
+                addActionError("File upload failed or no files supplied. If you are using Chrome, "
                         + "try again in a different browser such as Firefox.");
                 result = ERROR;
             } else if (sdfFileModeling == null) {
-                errorStrings.add("Missing SDF or file upload error.");
+                addActionError("Missing SDF or file upload error.");
                 result = ERROR;
             } else if (actFileModeling == null) {
-                errorStrings.add("Missing Activity file or file upload error. If you do not have an Activity file for"
+                addActionError("Missing Activity file or file upload error. If you do not have an Activity file for"
                         + " this dataset, use the Prediction Set option when uploading.");
                 result = ERROR;
             }
@@ -229,7 +228,9 @@ public class DatasetAction extends ActionSupport {
                     msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
                 }
                 if (!msgs.isEmpty()) {
-                    errorStrings.addAll(msgs);
+                    for (String msg : msgs) {
+                        addActionError(msg);
+                    }
                     result = ERROR;
                 }
 
@@ -244,7 +245,7 @@ public class DatasetAction extends ActionSupport {
                     if (numCompounds < Constants.DATASET_MIN_COMPOUNDS) {
                         logger.warn(String.format("Rejected dataset job: had only %d compounds while %d are required",
                                 numCompounds, Constants.DATASET_MIN_COMPOUNDS));
-                        errorStrings.add(String
+                        addActionError(String
                                 .format("Your dataset job only has %d compounds while a minimum of %d are required. "
                                         + "Please choose a SDF and ACT file pair with a greater number of " +
                                         "compounds.", numCompounds, Constants.DATASET_MIN_COMPOUNDS));
@@ -291,7 +292,7 @@ public class DatasetAction extends ActionSupport {
             logger.debug("got into function");
             //do file check
             if (sdfFilePrediction == null) {
-                errorStrings.add("File upload failed or no files supplied. If you are using Chrome, "
+                addActionError("File upload failed or no files supplied. If you are using Chrome, "
                         + "try again in a different browser such as Firefox.");
                 result = ERROR;
             }
@@ -311,7 +312,9 @@ public class DatasetAction extends ActionSupport {
                 }
 
                 if (!msgs.isEmpty()) {
-                    errorStrings.addAll(msgs);
+                    for (String msg : msgs) {
+                        addActionError(msg);
+                    }
                     result = ERROR;
                 }
             }
@@ -354,7 +357,7 @@ public class DatasetAction extends ActionSupport {
         } else if (datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)) {
 
             if (xFileModDesc == null || actFileModDesc == null) {
-                errorStrings.add("File upload failed or no files supplied. If you are using Chrome, "
+                addActionError("File upload failed or no files supplied. If you are using Chrome, "
                         + "try again in a different browser such as Firefox.");
                 result = ERROR;
             }
@@ -394,7 +397,9 @@ public class DatasetAction extends ActionSupport {
                 }
 
                 if (!msgs.isEmpty()) {
-                    errorStrings.addAll(msgs);
+                    for (String msg : msgs) {
+                        addActionError(msg);
+                    }
                     result = ERROR;
                 }
             }
@@ -433,7 +438,7 @@ public class DatasetAction extends ActionSupport {
             }
         } else if (datasetType.equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)) {
             if (xFilePredDesc == null) {
-                errorStrings.add("File upload failed or no files supplied. If you are using Chrome, "
+                addActionError("File upload failed or no files supplied. If you are using Chrome, "
                         + "try again in a different browser such as Firefox.");
                 result = ERROR;
             }
@@ -462,7 +467,9 @@ public class DatasetAction extends ActionSupport {
                 }
 
                 if (!msgs.isEmpty()) {
-                    errorStrings.addAll(msgs);
+                    for (String msg : msgs) {
+                        addActionError(msg);
+                    }
                     result = ERROR;
                 }
             }
@@ -518,14 +525,6 @@ public class DatasetAction extends ActionSupport {
             this.modi = dataset.getModi();
             return SUCCESS;
         }
-    }
-
-    public List<String> getErrorStrings() {
-        return errorStrings;
-    }
-
-    public void setErrorStrings(List<String> errorStrings) {
-        this.errorStrings = errorStrings;
     }
 
     public String getDatasetName() {
