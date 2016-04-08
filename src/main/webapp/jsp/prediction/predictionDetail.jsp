@@ -91,7 +91,7 @@
         </p>
       </div>
 
-      <table id="prediction-values" class="table table-bordered compound-list datatable" data-scroll="false">
+      <table id="prediction-values" class="table table-bordered compound-list datatable">
         <thead>
         <tr>
           <s:if test="!predictionDataset.sdfFile.isEmpty()">

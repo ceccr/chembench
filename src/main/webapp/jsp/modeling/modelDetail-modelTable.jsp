@@ -1,4 +1,4 @@
-<table class="table table-hover datatable" data-scroll="false"
+<table class="table table-hover datatable"
        data-object-type="<s:property value="#objectType" />"
        data-is-y-random="<s:property value="#isYRandom" />"
        data-fold-url="<s:url action="viewPredictorFold" />"

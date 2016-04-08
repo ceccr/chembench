@@ -2,7 +2,11 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
 <table class="table table-hover table-bordered datatable" data-url="<s:url action="getModels" namespace="/api"
-/>" data-object-type="model">
+/>" data-object-type="model"
+    <s:if test="#showAll != true">
+      data-paging="data-paging"
+    </s:if>
+>
   <thead>
   <tr>
     <th data-property="name">Name</th>

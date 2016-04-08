@@ -123,6 +123,7 @@
         </div>
       </div>
 
+      <s:set name="showAll">true</s:set>
       <div id="datasets" class="tab-pane">
         <h3>Datasets</h3>
         <%@ include file="datasets.jsp" %>

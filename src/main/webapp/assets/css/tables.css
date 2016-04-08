@@ -1,3 +1,8 @@
+table.datatable {
+    /* hack to deal with datatables not expanding to fill available space */
+    width: 100% !important;
+}
+
 table[data-object-type="job"] {
     table-layout: fixed;
 }

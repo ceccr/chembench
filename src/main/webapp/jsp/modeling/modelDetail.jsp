@@ -258,7 +258,7 @@
           </div>
         </s:iterator>
 
-        <table class="compound-list table table-hover table-bordered datatable" data-scroll="false">
+        <table class="compound-list table table-hover table-bordered datatable">
           <thead>
           <tr>
             <th class="name" data-property="compoundName">Compound Name</th>

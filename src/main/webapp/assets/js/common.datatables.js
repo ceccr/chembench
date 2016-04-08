@@ -321,9 +321,10 @@
         if (dateIndex > -1) {
             options.order = [[dateIndex, 'desc']];
         }
-        if (!(table.attr('data-scroll') === 'false')) {
-            options['scrollY'] = '300px';
-            options['scrollCollapse'] = true;
+        if (table.attr('data-paging')) {
+            options['paging'] = true;
+            options['lengthMenu'] = [[5, 10, 25, 50, -1], [5, 10, 25, 50, 'All']];
+            delete options['infoCallback']; // use default
         }
 
         table.DataTable(options).on('draw', function() {
