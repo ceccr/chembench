@@ -126,17 +126,17 @@
       <s:set name="showAll">true</s:set>
       <div id="datasets" class="tab-pane">
         <h3>Datasets</h3>
-        <%@ include file="datasets.jsp" %>
+        <%@ include file="mybench-datasets.jsp" %>
       </div>
 
       <div id="models" class="tab-pane">
         <h3>Models</h3>
-        <%@ include file="models.jsp" %>
+        <%@ include file="mybench-models.jsp" %>
       </div>
 
       <div id="predictions" class="tab-pane">
         <h3>Predictions</h3>
-        <%@ include file="predictions.jsp" %>
+        <%@ include file="mybench-predictions.jsp" %>
       </div>
     </div>
   </section>

@@ -33,7 +33,7 @@
   <nav>
     <ul class="nav-list">
       <li id="nav-button-home"><s:a action="home">Home</s:a></li>
-      <li id="nav-button-mybench"><s:a action="jobs">My Bench</s:a></li>
+      <li id="nav-button-mybench"><s:a action="mybench">My Bench</s:a></li>
       <li id="nav-button-datasets"><s:a action="dataset">Datasets</s:a></li>
       <li id="nav-button-modeling"><s:a action="modeling">Modeling</s:a></li>
       <li id="nav-button-prediction"><s:a action="prediction">Prediction</s:a></li>

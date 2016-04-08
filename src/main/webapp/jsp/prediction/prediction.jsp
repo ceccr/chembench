@@ -14,7 +14,7 @@
     <section>
       <h2>Existing Predictions</h2>
 
-      <%@ include file="/jsp/jobs/predictions.jsp" %>
+      <%@ include file="/jsp/mybench/mybench-predictions.jsp" %>
     </section>
 
     <hr>
@@ -31,7 +31,7 @@
           </p>
 
           <div id="prediction-model-selection" class="checkbox-table">
-            <%@ include file="/jsp/jobs/models.jsp" %>
+            <%@ include file="/jsp/mybench/mybench-models.jsp" %>
           </div>
 
           <p id="minimum-model-warning" class="bg-danger text-danger">
@@ -129,7 +129,7 @@
               </p>
 
               <div id="prediction-dataset-selection" class="checkbox-table">
-                <%@ include file="/jsp/jobs/datasets.jsp" %>
+                <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
               </div>
 
               <p id="minimum-dataset-warning" class="bg-danger text-danger">

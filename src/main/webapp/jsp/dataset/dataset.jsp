@@ -14,7 +14,7 @@
     <section>
       <h2>Existing Datasets</h2>
 
-      <%@ include file="/jsp/jobs/datasets.jsp" %>
+      <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
     </section>
 
     <hr>

@@ -14,7 +14,7 @@
     <section>
       <h2>Existing Models</h2>
 
-      <%@ include file="/jsp/jobs/models.jsp" %>
+      <%@ include file="/jsp/mybench/mybench-models.jsp" %>
     </section>
 
     <hr>
@@ -54,7 +54,7 @@
             </p>
 
             <div class="radio-table">
-              <%@ include file="/jsp/jobs/datasets.jsp" %>
+              <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
             </div>
             <input type="hidden" name="selectedDatasetId">
             <input type="hidden" id="num-compounds">
