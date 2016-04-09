@@ -229,6 +229,12 @@ public class ModelAction extends ActionSupport {
             jobName = jobName.replaceAll("&", "_");
         }
 
+        Predictor existingPredictor = predictorRepository.findByNameAndUserName(jobName, user.getUserName());
+        if (existingPredictor != null) {
+            addFieldError("jobName", "You already have a predictor with this name. Choose a different name.");
+            return ERROR;
+        }
+
         logger.info("Submitting modeling job with dataset id: " + selectedDatasetId);
         Dataset ds = datasetRepository.findOne(selectedDatasetId);
         if (selectedDatasetId == null || ds == null || ds.getName() == null || ds.getJobCompleted()
