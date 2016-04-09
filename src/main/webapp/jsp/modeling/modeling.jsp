@@ -53,6 +53,7 @@
               <b><s:a action="dataset">Dataset Creation</s:a></b> page.)
             </p>
 
+            <s:set name="urlOverride"><s:url action="getModelingDatasets" namespace="/api" /></s:set>
             <div class="radio-table">
               <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
             </div>

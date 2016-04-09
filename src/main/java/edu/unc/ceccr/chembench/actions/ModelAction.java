@@ -1,40 +1,24 @@
 package edu.unc.ceccr.chembench.actions;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Ordering;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.chembench.utilities.PositiveRandom;
-import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ModelAction extends ActionSupport {
 
     private static final Logger logger = Logger.getLogger(ModelAction.class);
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
-    private final PredictionRepository predictionRepository;
-    private final JobRepository jobRepository;
     private User user = User.getCurrentUser();
-    private List<String> userDatasetNames;
-    private List<String> userPredictorNames;
-    private List<String> userPredictionNames;
-    private List<String> userTaskNames;
-    private List<Predictor> userPredictorList;
-    private List<Dataset> userContinuousDatasets;
-    private List<Dataset> userCategoryDatasets;
-    private List<Dataset> userDatasets;
-    private Map<String, String> knnCategoryOptimizations;
     private Long selectedPredictorId;
     private String selectedPredictorName;
     private Long selectedDatasetId;
@@ -62,7 +46,7 @@ public class ModelAction extends ActionSupport {
     private String splitIncludesMin = "true";
     private String splitIncludesMax = "true";
     private String selectionNextTrainPt = "0";
-    private String modelingType;
+    private String modelingType = Constants.RANDOMFOREST;
     // kNN Parameters
     private String minNumDescriptors = "5";
     private String maxNumDescriptors = "30";
@@ -157,64 +141,13 @@ public class ModelAction extends ActionSupport {
     private String emailOnCompletion = "false";
 
     @Autowired
-    public ModelAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
-                       PredictionRepository predictionRepository, JobRepository jobRepository) {
+    public ModelAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository) {
         this.datasetRepository = datasetRepository;
         this.predictorRepository = predictorRepository;
-        this.predictionRepository = predictionRepository;
-        this.jobRepository = jobRepository;
     }
 
     public String loadPage() throws Exception {
-        String result = SUCCESS;
-
-        // set up any values that need to be populated onto the page
-        // (dropdowns, lists, display stuff)
-        List<Dataset> userDatasets = datasetRepository.findByUserName(user.getUserName());
-        userDatasets.addAll(datasetRepository.findAllPublicDatasets());
-        userPredictorList = predictorRepository.findByUserName(user.getUserName());
-        userPredictorList.addAll(predictorRepository.findPublicPredictors());
-
-        userDatasetNames = Lists.transform(userDatasets, Utility.NAME_TRANSFORM);
-        userPredictorNames = Lists.transform(userPredictorList, Utility.NAME_TRANSFORM);
-
-        // also get the base names for nfold predictors. if a user has
-        // "mypredictor_fold_1_of_5",
-        // we want "mypredictor" in the list of used names as well.
-        List<String> foldedPredictorNames = Lists.newArrayList();
-        for (String predictorName : userPredictorNames) {
-            if (predictorName.matches(".*_fold_(\\d+)_of_(\\d+)")) {
-                int pos = predictorName.lastIndexOf("_fold");
-                foldedPredictorNames.add(predictorName.substring(0, pos));
-            }
-        }
-        userPredictorNames.addAll(foldedPredictorNames);
-
-        userPredictionNames =
-                Lists.transform(predictionRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
-        userTaskNames = Lists.transform(jobRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
-
-
-        userContinuousDatasets =
-                datasetRepository.findByUserNameAndActivityType(user.getUserName(), Constants.CONTINUOUS);
-        userCategoryDatasets = datasetRepository.findByUserNameAndActivityType(user.getUserName(), Constants.CATEGORY);
-        if (user.getShowPublicDatasets().equals(Constants.ALL)) {
-            // get user and public datasets
-            userContinuousDatasets.addAll(datasetRepository.findAllPublicContinuousDatasets());
-            userCategoryDatasets.addAll(datasetRepository.findAllPublicCategoryDatasets());
-        } else if (user.getShowPublicDatasets().equals(Constants.SOME)) {
-            userContinuousDatasets.addAll(datasetRepository.findSomePublicContinuousDatasets());
-            userCategoryDatasets.addAll(datasetRepository.findSomePublicCategoryDatasets());
-        }
-
-        // load default tab selections
-        modelingType = Constants.RANDOMFOREST;
-
-        userDatasets = Ordering.usingToString()
-                .immutableSortedCopy(Iterables.concat(userCategoryDatasets, userContinuousDatasets));
-
-        // go to the page
-        return result;
+        return SUCCESS;
     }
 
     public String execute() throws Exception {
@@ -491,107 +424,12 @@ public class ModelAction extends ActionSupport {
         return numModels;
     }
 
-    public String ajaxLoadKnn() throws Exception {
-        knnCategoryOptimizations = new HashMap<String, String>();
-        knnCategoryOptimizations.put("1", "<img src=\"/theme/img/formula01.gif\" />");
-        knnCategoryOptimizations.put("2", "<img src=\"/theme/img/formula02.gif\" />");
-        knnCategoryOptimizations.put("3", "<img src=\"/theme/img/formula03.gif\" />");
-        knnCategoryOptimizations.put("4", "<img src=\"/theme/img/formula04.gif\" />");
-
-        return SUCCESS;
-    }
-
-    public String ajaxLoadKnnPlus() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadSvm() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadRandomForest() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadRandomSplit() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadSphereSplit() throws Exception {
-        return SUCCESS;
-    }
-
-    public Map<String, String> getKnnCategoryOptimizations() {
-        return knnCategoryOptimizations;
-    }
-
-    public void setKnnCategoryOptimizations(Map<String, String> knnCategoryOptimizations) {
-        this.knnCategoryOptimizations = knnCategoryOptimizations;
-    }
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<String> getUserDatasetNames() {
-        return userDatasetNames;
-    }
-
-    public void setUserDatasetNames(List<String> userDatasetNames) {
-        this.userDatasetNames = userDatasetNames;
-    }
-
-    public List<String> getUserPredictorNames() {
-        return userPredictorNames;
-    }
-
-    public void setUserPredictorNames(List<String> userPredictorNames) {
-        this.userPredictorNames = userPredictorNames;
-    }
-    // end SVM Parameters
-
-    public List<String> getUserPredictionNames() {
-        return userPredictionNames;
-    }
-
-    public void setUserPredictionNames(List<String> userPredictionNames) {
-        this.userPredictionNames = userPredictionNames;
-    }
-
-    public List<String> getUserTaskNames() {
-        return userTaskNames;
-    }
-
-    public void setUserTaskNames(List<String> userTaskNames) {
-        this.userTaskNames = userTaskNames;
-    }
-
-    public List<Predictor> getUserPredictorList() {
-        return userPredictorList;
-    }
-
-    public void setUserPredictorList(List<Predictor> userPredictorList) {
-        this.userPredictorList = userPredictorList;
-    }
-
-    public List<Dataset> getUserContinuousDatasets() {
-        return userContinuousDatasets;
-    }
-
-    public void setUserContinuousDatasets(List<Dataset> userContinuousDatasets) {
-        this.userContinuousDatasets = userContinuousDatasets;
-    }
-
-    public List<Dataset> getUserCategoryDatasets() {
-        return userCategoryDatasets;
-    }
-
-    public void setUserCategoryDatasets(List<Dataset> userCategoryDatasets) {
-        this.userCategoryDatasets = userCategoryDatasets;
     }
 
     public String getStdDevCutoff() {
@@ -1373,7 +1211,4 @@ public class ModelAction extends ActionSupport {
         this.emailOnCompletion = emailOnCompletion;
     }
 
-    public List<Dataset> getUserDatasets() {
-        return userDatasets;
-    }
 }

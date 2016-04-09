@@ -1,8 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-<table class="table table-hover table-bordered datatable" data-url="<s:url action="getDatasets"
-namespace="/api" />" data-object-type="dataset"
+<s:if test="#urlOverride != null">
+  <s:set name="dataUrl" value="#urlOverride" />
+</s:if>
+<s:else>
+  <s:set name="dataUrl"><s:url action="getDatasets" namespace="/api" /></s:set>
+</s:else>
+<table class="table table-hover table-bordered datatable" data-object-type="dataset"
+     data-url="<s:property value="#dataUrl" />"
     <s:if test="#showAll != true">
       data-paging="data-paging"
     </s:if>

@@ -5,6 +5,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
+import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
 import org.apache.log4j.Logger;
@@ -59,12 +60,35 @@ public class MyBenchAction extends ActionSupport {
         return getFilteredJobs(CentralDogma.getInstance().errorJobs.getReadOnlyCopy());
     }
 
-    public String getDatasets() {
+    private List<Dataset> getDatasetObjects() {
         List<Dataset> datasets = Lists.newArrayList();
-        datasets.addAll(datasetRepository.findAllPublicDatasets());
-        if (user != null) {
+        if (user == null) {
+            datasets.addAll(datasetRepository.findAllPublicDatasets());
+        } else {
             // return user's datasets and public datasets
+            if (user.getShowPublicDatasets().equals(Constants.SOME)) {
+                datasets.addAll(datasetRepository.findSomePublicDatasets());
+            } else if (user.getShowPublicDatasets().equals(Constants.ALL)) {
+                datasets.addAll(datasetRepository.findAllPublicDatasets());
+            }
             datasets.addAll(datasetRepository.findByUserName(user.getUserName()));
+        }
+        return datasets;
+    }
+
+    public String getDatasets() {
+        this.data = getDatasetObjects();
+        return SUCCESS;
+    }
+
+    public String getModelingDatasets() {
+        List<Dataset> datasets = getDatasetObjects();
+        for (Iterator<Dataset> iterator = datasets.iterator(); iterator.hasNext(); ) {
+            Dataset d = iterator.next();
+            String activityType = d.getModelType();
+            if (!(activityType.equals(Constants.CONTINUOUS) || activityType.equals(Constants.CATEGORY))) {
+                iterator.remove();
+            }
         }
         this.data = datasets;
         return SUCCESS;
