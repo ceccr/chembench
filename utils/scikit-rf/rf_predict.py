@@ -14,7 +14,7 @@ from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 import parsers
 import utils
 
-DEFAULT_OUTFILEPATH = 'predictions.json'
+DEFAULT_OUTFILENAME = 'predictions.json'
 Prediction = namedtuple('Prediction', ('predictions', 'stats', 'descriptors_used'))
 
 
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     parser.add_argument('TEST_X_FILE', help='the descriptor matrix for the test set')
 
     parser.add_argument('-o', '--output',
-                        help='where to save the predictions (default: "{}")'.format(DEFAULT_OUTFILEPATH))
+                        help='where to save the predictions (default: "{}")'.format(DEFAULT_OUTFILENAME))
     parser.add_argument('-a', '--activity', nargs=2, metavar=('ACTIVITY_FILE', 'ACTIVITY_TYPE'), action=ActivityAction,
                         help=("the activity labels for the test set, and the activity type "
                               "(one of 'continuous' or 'category')"))
@@ -98,8 +98,8 @@ if __name__ == '__main__':
     else:
         prediction = predict_dataset(forest, X_test)
 
-    outfilepath = args.output if args.output else DEFAULT_OUTFILEPATH
-    with open(outfilepath, 'w') as outfile:
+    outfilename = args.output if args.output else DEFAULT_OUTFILENAME
+    with open(outfilename, 'w') as outfile:
         prediction['trees'] = tree_predictions
         json.dump(prediction, outfile, cls=PandasEncoder, indent=4)
-    logging.info('Predictions saved to "%s"', outfilepath)
+    logging.info('Predictions saved to "%s"', outfilename)
