@@ -54,8 +54,13 @@ def predict_dataset(estimator, dataset, activities=None, activity_type=None):
             stats['rmse'] = math.sqrt(stats['mse'])
             stats['mae'] = metrics.mean_absolute_error(activities, predictions)
         elif activity_type == 'category':
-            stats['ccr'] = metrics.accuracy_score(activities, predictions)
-
+            stats['accuracy'] = metrics.accuracy_score(activities, predictions)
+            stats['ccr'] = 0.0
+            num_categories = float(len(activities.cat.categories))
+            for category in activities.cat.categories:
+                category_activity = activities[activities == category]
+                category_predictions = predictions[category_activity.index.intersection(predictions.index)]
+                stats['ccr'] += (1 / num_categories) * metrics.accuracy_score(category_activity, category_predictions)
     return Prediction(predictions, stats, descriptors_used)._asdict()
 
 
