@@ -9,10 +9,6 @@
         $('.nav-list li').removeClass('active');
         $('#nav-button-prediction').addClass('active');
 
-        $('.nav-tabs a').on('shown.bs.tab', function(e) {
-            $(e.target.hash).find('table.datatable').DataTable().columns.adjust();
-        });
-
         $('#jsme-clear').click(function() {
             document.JME.reset();
         });

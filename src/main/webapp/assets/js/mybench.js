@@ -38,9 +38,7 @@
 
         // change page hash when a tab is clicked
         $('.nav-tabs a').on('shown.bs.tab', function(e) {
-            var tabHash = e.target.hash;
-            window.location.hash = tabHash;
-            $(tabHash).find('table.datatable').DataTable().columns.adjust();
+            window.location.hash = e.target.hash;
         });
 
         $('#jobs-queue-refresh').click(function() {
