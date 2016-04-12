@@ -128,3 +128,7 @@ p.bg-primary, p.bg-success, p.bg-info, p.bg-warning, p.bg-danger {
 #object-form {
     display: none;
 }
+
+.checkbox-table table > tbody > tr, .radio-table table >tbody > tr {
+    cursor: pointer;
+}

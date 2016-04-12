@@ -250,28 +250,42 @@
             }
         });
 
-        var datasetSelectTable = $('#dataset-selection-section').find('table.datatable');
-        datasetSelectTable.DataTable().on('init', function() {
-            $(this).find('input[type="radio"]').change(function() {
+        var table = $('#dataset-selection-section').find('table.datatable');
+        table.DataTable().on('init', function() {
+            table.find('input[type="radio"]').change(function() {
                 var rowSelector = $(this).closest('tr');
                 var dataset = rowSelector.closest('table').DataTable().row(rowSelector).data();
                 updateModelingForm(dataset);
             });
         }).on('draw', function() {
-            var modified = false;
-            var api = $(this).DataTable();
-            api.rows().every(function() {
-                var row = this.data();
-                if (row && (!(row.datasetType === Chembench.Constants.MODELING) ||
-                            row.datasetType === Chembench.Constants.MODELINGWITHDESCRIPTORS)) {
-                    this.remove();
-                    modified = true;
-                }
+            // XXX don't use find('tbody').find('tr'), or non-active pages won't be modified
+            table.DataTable().rows().nodes().to$().click(function() {
+                $(this).find('input[type="radio"]').prop('checked', 'checked').change();
             });
-            // XXX without this conditional the callback will recurse infinitely
-            if (modified) {
-                api.draw();
-            }
+
+            table.find('input[type="radio"]').change(function() {
+                var radio = $(this);
+                var radioRow = radio.closest('tr');
+
+                table.DataTable().rows().every(function() {
+                    var row = $(this.node());
+                    row.removeClass('info');
+                    if (row.data('oldClass')) {
+                        row.addClass(row.data('oldClass'));
+                    }
+                    if (!row.is(radioRow)) {
+                        row.find('input[type="radio"]').prop('checked', false);
+                    }
+                });
+
+                var match = /(danger|warning|success)/.exec(radioRow.attr('class'));
+                if (match !== null) {
+                    var color = match[1];
+                    radioRow.data('oldClass', color);
+                    radioRow.removeClass(color);
+                }
+                radioRow.addClass('info');
+            });
         });
     });
 })();

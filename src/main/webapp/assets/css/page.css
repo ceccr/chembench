@@ -254,11 +254,6 @@ input[type="checkbox"], input[type="radio"] {
     margin-bottom: 20px;
 }
 
-#prediction-model-selection table.datatable tbody > tr,
-#prediction-dataset-selection table.datatable tbody > tr {
-    cursor: pointer;
-}
-
 #prediction-model-selection, #prediction-dataset-selection {
     margin-bottom: 15px;
 }
