@@ -94,7 +94,10 @@
                         e.stopPropagation();
                     });
 
-                    table.find('input[type="checkbox"]').change(function() {
+                    table.find('input[type="checkbox"]').click(function() {
+                        var checkbox = $(this);
+                        checkbox.prop('checked', !(checkbox.prop('checked'))).change();
+                    }).change(function() {
                         var checkbox = $(this);
                         var row = checkbox.closest('tr');
                         var objectName = row.find('td').find('.object-name').first().text();
