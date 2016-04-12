@@ -38,8 +38,8 @@
             var numDifferentPEpsilons = 1 + Math.floor(($('#svmPEpsilonTo').val() - $('#svmPEpsilonFrom').val()) /
                                                        $('#svmPEpsilonStep').val());
 
-            var svmId = $('input[name="svmType' + $('#activity-type').val().toProperCase() +
-                          '"]:radio:checked').attr('id');
+            var svmId = $('input[name="svmType' + $('#activity-type').val().toProperCase() + '"]:radio:checked').attr(
+                    'id');
             var svmType = $('label[for="' + svmId + '"]').text();
             var numModelsPerSplit = 1;
             if (svmType === 'C-SVC') {
@@ -85,11 +85,11 @@
         }
 
         // enable only available descriptors in Descriptor Set selection
-        $('input[name="descriptorGenerationType"]').prop('disabled',
-                true).removeAttr('checked').parent().addClass('text-muted');
+        $('input[name="descriptorGenerationType"]').prop('disabled', true).removeAttr('checked').parent().addClass(
+                'text-muted');
         $.each(availableDescriptors, function(i, descriptor) {
-            $('input[name="descriptorGenerationType"][value="' + descriptor +
-              '"]').removeAttr('disabled').parent('label').removeClass('text-muted');
+            $('input[name="descriptorGenerationType"][value="' + descriptor + '"]').removeAttr('disabled').parent(
+                    'label').removeClass('text-muted');
         });
 
         if (dataset.numCompound < 40) {
@@ -156,8 +156,10 @@
 
         var modelTypeSection = $('#model-type-section');
         var splitTypeSection = $('#internal-split-type-section');
-        var activeModelType = $(modelTypeSection.find('.active').children('a').attr('href')).find('input[name="modelingTypeConstant"]').val();
-        var activeSplitType = $(splitTypeSection.find('.active').children('a').attr('href')).find('input[name="splitTypeConstant"]').val();
+        var activeModelType = $(modelTypeSection.find('.active').children('a').attr('href')).find(
+                'input[name="modelingTypeConstant"]').val();
+        var activeSplitType = $(splitTypeSection.find('.active').children('a').attr('href')).find(
+                'input[name="splitTypeConstant"]').val();
         $('#modelingType').val(activeModelType);
         $('#splitType').val(activeSplitType);
 
