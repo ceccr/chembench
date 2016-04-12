@@ -129,15 +129,13 @@
       <ul id="sponsor-list">
         <li><a href="http://www.chemcomp.com" target="_blank"><img
             src="${pageContext.request.contextPath}/assets/images/sponsors/ccg.jpg" width="114" height="46"
-            alt="Chemical Computing Group" class="img-thumbnail"></a>
-        </li>
-        <li><a href="http://www.talete.mi.it" target="_blank"><img
-            src="${pageContext.request.contextPath}/assets/images/sponsors/talete.jpg" width="71" height="80"
-            alt="Talete srl" class="img-thumbnail"></a></li>
+            alt="Chemical Computing Group" class="img-thumbnail"></a></li>
+        <li><a href="http://chm.kode-solutions.net/" target="_blank"><img
+            src="${pageContext.request.contextPath}/assets/images/sponsors/kode.png" width="150" height="70"
+            alt="Kode srl" class="img-thumbnail"></a></li>
         <li><a href="http://www.chemaxon.com" target="_blank"><img
             src="${pageContext.request.contextPath}/assets/images/sponsors/chemaxon.jpg" width="88" height="83"
-            alt="ChemAxon" class="img-thumbnail"></a>
-        </li>
+            alt="ChemAxon" class="img-thumbnail"></a></li>
         <li><a href="http://www.edusoft-lc.com" target="_blank"><img
             src="${pageContext.request.contextPath}/assets/images/sponsors/edusoft.jpg" width="99" height="71"
             alt="eduSoft" class="img-thumbnail"></a></li>
