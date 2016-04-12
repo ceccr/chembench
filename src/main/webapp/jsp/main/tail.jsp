@@ -11,7 +11,8 @@
         value="@edu.unc.ceccr.chembench.global.Constants@MODELINGWITHDESCRIPTORS" />",
         "CONTINUOUS": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@CONTINUOUS" />",
         "CATEGORY": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@CATEGORY" />",
-        "UPLOADED": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@UPLOADED" />"
+        "UPLOADED": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@UPLOADED" />",
+        "MYBENCH_URL": "<s:url action="mybench" />"
       }
     };
   })();

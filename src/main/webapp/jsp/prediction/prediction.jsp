@@ -184,9 +184,6 @@
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
-<script>
-  Chembench.MYBENCH_URL = "<s:url action="jobs" />";
-</script>
 <script src="${pageContext.request.contextPath}/assets/js/jsme/jsme.nocache.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/prediction.js"></script>
 </body>
