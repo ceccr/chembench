@@ -5,6 +5,10 @@
         document.JME = new JSApplet.JSME('jsme', '348px', '300px');
     };
 
+    function fetchAllBodyRows(node) {
+        return $(node).closest('table.datatable').DataTable().rows().nodes().to$();
+    }
+
     $(document).ready(function() {
         $('.nav-list li').removeClass('active');
         $('#nav-button-prediction').addClass('active');
@@ -27,7 +31,8 @@
             // TODO spinny
             form.find('button[type="submit"]').text('Predicting...').addClass('disabled');
 
-            var selectedModelIds = $('#prediction-model-selection').find('tbody').find(':checked').siblings('[name="id"]').map(function() {
+            var selectedModelIds = fetchAllBodyRows('#prediction-model-selection').find(':checked').siblings(
+                    '[name="id"]').map(function() {
                 return $(this).val();
             }).get();
             form.find('#compound-selectedPredictorIds').val(selectedModelIds.join(' '));
@@ -48,7 +53,8 @@
             e.preventDefault();
             var form = $(this);
             var jobName = form.find('#jobName');
-            var selectedModelIds = $('#prediction-model-selection').find('tbody').find(':checked').siblings('[name="id"]').map(function() {
+            var selectedModelIds = fetchAllBodyRows('#prediction-model-selection').find(':checked').siblings(
+                    '[name="id"]').map(function() {
                 return $(this).val();
             }).get();
             form.find('#dataset-selectedPredictorIds').val(selectedModelIds.join(' '));
@@ -58,7 +64,7 @@
 
             // get both dataset ids and names so we can append dataset names to jobName
             var selectedDatasets = [];
-            $('#prediction-dataset-selection').find('tbody').find('tr:has(:checked)').each(function() {
+            fetchAllBodyRows('#prediction-dataset-selection').filter(':has(:checked)').each(function() {
                 var row = $(this);
                 var dataset = {};
                 dataset.id = row.find('[name="id"]').val();
@@ -86,17 +92,22 @@
                 function() {
                     var table = $(this);
                     var tableType = (table.parents('#prediction-model-selection').length) ? 'model' : 'dataset';
+                    var allBodyRows = fetchAllBodyRows(table);
 
-                    table.find('tr').click(function() {
+                    table.find('thead').find('input[type="checkbox"]').click(function() {
+                        var globalCheckedState = $(this).prop('checked');
+                        allBodyRows.find('input[type="checkbox"]').prop('checked', globalCheckedState).change();
+                    });
+
+                    allBodyRows.click(function(e) {
                         var checkbox = $(this).find('input[type="checkbox"]');
                         checkbox.prop('checked', !(checkbox.prop('checked'))).change();
                     }).find('a').click(function(e) {
                         e.stopPropagation();
                     });
 
-                    table.find('input[type="checkbox"]').click(function() {
-                        var checkbox = $(this);
-                        checkbox.prop('checked', !(checkbox.prop('checked'))).change();
+                    allBodyRows.find('input[type="checkbox"]').click(function(e) {
+                        e.stopPropagation();
                     }).change(function() {
                         var checkbox = $(this);
                         var row = checkbox.closest('tr');
@@ -123,8 +134,7 @@
                             objectsMatchingName.remove();
                         }
 
-                        // XXX don't use closest("table") or the header checkbox will be included too
-                        var count = row.closest('tbody').find('input[type="checkbox"]:checked').length;
+                        var count = allBodyRows.find('input[type="checkbox"]:checked').length;
                         var warning = (tableType === 'model') ? $('#minimum-model-warning') :
                                 $('#minimum-dataset-warning');
                         var counter = (tableType === 'model') ? $('#selected-model-count') :

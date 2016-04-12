@@ -261,32 +261,31 @@
             });
         }).on('draw', function() {
             // XXX don't use find('tbody').find('tr'), or non-active pages won't be modified
-            table.DataTable().rows().nodes().to$().click(function() {
+            var allBodyRows = table.DataTable().rows().nodes().to$();
+            allBodyRows.click(function() {
                 $(this).find('input[type="radio"]').prop('checked', 'checked').change();
+            }).find('a').click(function(e) {
+                e.stopPropagation();
             });
 
             table.find('input[type="radio"]').change(function() {
                 var radio = $(this);
-                var radioRow = radio.closest('tr');
-
-                table.DataTable().rows().every(function() {
-                    var row = $(this.node());
-                    row.removeClass('info');
-                    if (row.data('oldClass')) {
-                        row.addClass(row.data('oldClass'));
-                    }
-                    if (!row.is(radioRow)) {
+                var selectedRow = radio.closest('tr');
+                allBodyRows.each(function() {
+                    var row = $(this).removeClass('info');
+                    row.addClass(row.data('oldClass'));
+                    if (!row.is(selectedRow)) {
                         row.find('input[type="radio"]').prop('checked', false);
                     }
                 });
 
-                var match = /(danger|warning|success)/.exec(radioRow.attr('class'));
+                var match = /(danger|warning|success)/.exec(selectedRow.attr('class'));
                 if (match !== null) {
                     var color = match[1];
-                    radioRow.data('oldClass', color);
-                    radioRow.removeClass(color);
+                    selectedRow.data('oldClass', color);
+                    selectedRow.removeClass(color);
                 }
-                radioRow.addClass('info');
+                selectedRow.addClass('info');
             });
         });
     });
