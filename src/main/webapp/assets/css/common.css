@@ -133,6 +133,11 @@ p.bg-primary, p.bg-success, p.bg-info, p.bg-warning, p.bg-danger {
     cursor: pointer;
 }
 
+.checkbox-table input[type="checkbox"], .radio-table input[type="radio"] {
+    margin: 0;
+    text-align: center;
+}
+
 .logout-button {
     vertical-align: top;
     margin-left: 0.5em;
