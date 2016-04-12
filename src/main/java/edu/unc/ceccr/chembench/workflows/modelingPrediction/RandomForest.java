@@ -228,7 +228,7 @@ public class RandomForest {
         }
     }
 
-    public static String getExceptionMessage(String baseMessage, Path logFilePath) {
+    private static String getExceptionMessage(String baseMessage, Path logFilePath) {
         List<String> lines = Lists.newArrayList();
         lines.add(0, baseMessage);
         try (BufferedReader br = Files.newBufferedReader(logFilePath, StandardCharsets.UTF_8)) {

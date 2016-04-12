@@ -12,6 +12,11 @@ import edu.unc.ceccr.chembench.utilities.Utility;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This is a transport class to shuttle forest/tree metadata from Python (scikit) to Java (Chembench).
+ * It shouldn't be necessary to manually instantiate and modify this class in Java; instead, read the
+ * scikit-generated json metadata (using Gson in our case) into this Java class.
+ */
 public class ScikitRandomForestPrediction {
     private List<ScikitRandomForestPrediction> trees;
     private Map<String, Double> predictions;
@@ -61,15 +66,35 @@ public class ScikitRandomForestPrediction {
         return evs;
     }
 
+    public List<ScikitRandomForestPrediction> getTrees() {
+        return trees;
+    }
+
+    public void setTrees(List<ScikitRandomForestPrediction> trees) {
+        this.trees = trees;
+    }
+
+    public Map<String, Double> getPredictions() {
+        return predictions;
+    }
+
+    public void setPredictions(Map<String, Double> predictions) {
+        this.predictions = predictions;
+    }
+
     public ScikitRandomForestPredictionStats getStats() {
         return stats;
+    }
+
+    public void setStats(ScikitRandomForestPredictionStats stats) {
+        this.stats = stats;
     }
 
     public List<String> getDescriptorsUsed() {
         return descriptorsUsed;
     }
 
-    public Map<String, Double> getPredictions() {
-        return predictions;
+    public void setDescriptorsUsed(List<String> descriptorsUsed) {
+        this.descriptorsUsed = descriptorsUsed;
     }
 }
