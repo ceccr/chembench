@@ -217,9 +217,12 @@
                     break;
                 case 'availableDescriptors': // datasets
                 case 'descriptorGeneration': // models
-                    column.render = function(data, _, row) {
-                        var r = data.replace(Chembench.Constants.UPLOADED, '*' + row.uploadedDescriptorType);
-                        return Chembench.formatAvailableDescriptors(r);
+                    column.render = function(data, type, row) {
+                        if (data) {
+                            var r = data.replace(Chembench.Constants.UPLOADED, '*' + row.uploadedDescriptorType);
+                            return Chembench.formatAvailableDescriptors(r);
+                        }
+                        return (type === 'display') ? '<span class="text-muted">None</span>' : '';
                     };
                     break;
                 case 'modi':

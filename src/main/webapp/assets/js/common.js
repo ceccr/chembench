@@ -42,13 +42,14 @@
      * AJAX call per dataset would incur too much of a speed penalty, so it is reproduced here in JS.
      *
      * @param dataset - the dataset to check
-     * @returns true if MODI can be generated, false otherwise
+     * @returns boolean - true if MODI can be generated, false otherwise
      */
     Chembench.canGenerateModi = function(dataset) {
-        var actFile = dataset.actFile;
-        var availableDescriptors = dataset.availableDescriptors;
-        return !!actFile && actFile.length > 0 &&
-               (availableDescriptors.contains('DRAGONH') || availableDescriptors.contains('CDK'));
+        if (!(dataset && dataset.availableDescriptors && dataset.actFile)) {
+            return false;
+        }
+        return dataset.actFile.length > 0 &&
+               (dataset.availableDescriptors.contains('DRAGONH') || dataset.availableDescriptors.contains('CDK'));
     };
 
     Chembench.formatJobType = function(text) {
