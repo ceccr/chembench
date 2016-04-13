@@ -118,12 +118,12 @@
                 cssClass = 'text-danger';
             }
         }
-        return '<span class="' + cssClass + ' external-acc-value">' + fullValue + '</span>';
+        return '<span class="' + cssClass + ' r2-ccr-value">' + fullValue + '</span>';
     };
 
     Chembench.addRowHighlighting = function(row) {
         // add contextual highlighting for rows with MODI or R^2/CCR values
-        var match = /text-(danger|warning|success)/.exec(row.find('.modi-value, .external-acc-value').attr('class'));
+        var match = /text-(danger|warning|success)/.exec(row.find('.modi-value, .r2-ccr-value').attr('class'));
         if (match !== null) {
             row.addClass(match[1]);
         }

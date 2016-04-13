@@ -227,3 +227,7 @@ input[type="checkbox"], input[type="radio"] {
     margin-top: -5px;
     margin-bottom: 0;
 }
+
+.r2-ccr-value {
+    white-space: nowrap;
+}
