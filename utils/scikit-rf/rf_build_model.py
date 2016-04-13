@@ -46,9 +46,9 @@ if __name__ == '__main__':
                         help="activity type: 'continuous' or 'category'")
 
     parser.add_argument('-n', '--num-trees', type=int,
-                        help='number of trees to grow (default: {})'.format(DEFAULT_TREE_COUNT))
+                        help='number of trees to grow (default: {0})'.format(DEFAULT_TREE_COUNT))
     parser.add_argument('-o', '--output',
-                        help='where to save the pickled random forest classifier object (default: "{}")'.format(
+                        help='where to save the pickled random forest classifier object (default: "{0}")'.format(
                             DEFAULT_OUTFILEPATH))
     parser.add_argument('-m', '--metadata',
                         help='where to save the classifier\'s metadata (default: derived from "-o" option filename)')

@@ -72,7 +72,7 @@ if __name__ == '__main__':
     parser.add_argument('TEST_X_FILE', help='the descriptor matrix for the test set')
 
     parser.add_argument('-o', '--output',
-                        help='where to save the predictions (default: "{}")'.format(DEFAULT_OUTFILEPATH))
+                        help='where to save the predictions (default: "{0}")'.format(DEFAULT_OUTFILENAME))
     parser.add_argument('-a', '--activity', nargs=2, metavar=('ACTIVITY_FILE', 'ACTIVITY_TYPE'), action=ActivityAction,
                         help=("the activity labels for the test set, and the activity type "
                               "(one of 'continuous' or 'category')"))
