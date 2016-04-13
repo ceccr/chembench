@@ -14,7 +14,7 @@ from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 import parsers
 import utils
 
-DEFAULT_OUTFILEPATH = 'predictions.json'
+DEFAULT_OUTFILENAME = 'predictions.json'
 Prediction = namedtuple('Prediction', ('predictions', 'stats', 'descriptors_used'))
 
 
@@ -103,7 +103,7 @@ if __name__ == '__main__':
     else:
         prediction = predict_dataset(forest, X_test)
 
-    outfilepath = args.output if args.output else DEFAULT_OUTFILEPATH
+    outfilepath = args.output if args.output else DEFAULT_OUTFILENAME
     with open(outfilepath, 'w') as outfile:
         prediction['trees'] = tree_predictions
         json.dump(prediction, outfile, cls=PandasEncoder, indent=4)
