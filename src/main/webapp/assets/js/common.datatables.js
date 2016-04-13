@@ -166,6 +166,14 @@
                         return data;
                     };
                     break;
+                case 'jobName':
+                    column.render = function(data, type) {
+                        if (type === 'display') {
+                            return '<div class="job-name-cell">' + data + '</div>';
+                        }
+                        return data;
+                    };
+                    break;
                 case 'predictorNames':
                     column.render = function(data, type) {
                         if (data) {
