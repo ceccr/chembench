@@ -36,7 +36,8 @@
     margin-left: 0.5em;
 }
 
-.job-delete-link-cell {
+#jobs .job-delete-link-cell {
+    padding-right: 8px;
     text-align: center;
 }
 /* end mybench */
