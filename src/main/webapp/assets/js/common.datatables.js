@@ -1,6 +1,8 @@
 (function() {
     'use strict';
 
+    $.fn.dataTable.ext.errMode = 'throw';
+
     Chembench.DATATABLE_OPTIONS = {
         'columnDefs': [{
             orderable: false,
