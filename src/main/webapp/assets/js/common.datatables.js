@@ -311,8 +311,9 @@
                 deleteLink.click(function(e) {
                     e.preventDefault();
                     var link = $(this).blur();
-                    var verb = (objectType === 'job' ? 'cancel' : 'delete');
-                    var message = 'Are you sure you want to ' + verb + ' the ' + objectType + ' "' + data.name + '"?';
+                    var verb = (objectType === 'job') ? 'cancel' : 'delete';
+                    var name = (objectType === 'job') ? data.jobName : data.name;
+                    var message = 'Are you sure you want to ' + verb + ' the ' + objectType + ' "' + name + '"?';
                     bootbox.confirm(message, function(response) {
                         if (response === true) {
                             $.post(link.attr('href'), function() {
