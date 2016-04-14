@@ -89,7 +89,7 @@
                     column.data = function(row) {
                         if (Chembench.CURRENT_USER.isAdmin === 'YES' ||
                             (Chembench.CURRENT_USER.userName === row.userName)) {
-                            return '<a class="delete-link" href="deleteJob?id=' + row.id + '">cancel</a>';
+                            return '<span class="delete"><a href="deleteJob?id=' + row.id + '">cancel</a></span>';
                         }
                         return '';
                     };
@@ -304,7 +304,11 @@
                     });
                 }
 
-                row.find('.delete a').click(function(e) {
+                var deleteLink = row.find('.delete a');
+                if (objectType === 'job') {
+                    deleteLink.closest('td').addClass('job-delete-link-cell');
+                }
+                deleteLink.click(function(e) {
                     e.preventDefault();
                     var link = $(this).blur();
                     var verb = (objectType === 'job' ? 'cancel' : 'delete');
@@ -316,7 +320,7 @@
                                     window.location.reload();
                                 } else {
                                     row.fadeOut(400, function() {
-                                        table.row(row).remove().draw();
+                                        table.DataTable().row(row).remove().draw();
                                     });
                                 }
                             }).fail(function(xhr) {

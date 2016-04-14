@@ -61,65 +61,59 @@
           <div class="panel-heading">
             <h4>Jobs on Local Queue</h4>
           </div>
-          <div class="panel-body">
-            <table class="table table-hover datatable" data-url="<s:url action="getLocalJobs" namespace="/api" />"
-                   data-object-type="job" data-queue-name="local">
-              <thead>
-              <tr>
-                <th data-property="jobName">Name</th>
-                <th data-property="userName">Owner</th>
-                <th data-property="jobType">Job Type</th>
-                <th data-property="timeCreated" class="date-created">Date</th>
-                <th data-property="message">Status</th>
-                <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
-              </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+          <table class="table table-hover table-bordered datatable" data-url="<s:url action="getLocalJobs" namespace="/api" />"
+                 data-object-type="job" data-queue-name="local">
+            <thead>
+            <tr>
+              <th data-property="jobName">Name</th>
+              <th data-property="userName">Owner</th>
+              <th data-property="jobType">Job Type</th>
+              <th data-property="timeCreated" class="date-created">Date</th>
+              <th data-property="message">Status</th>
+              <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
 
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4>Jobs on LSF Queue</h4>
           </div>
-          <div class="panel-body">
-            <table class="table table-hover datatable" data-url="<s:url action="getLsfJobs" namespace="/api" />"
-                   data-object-type="job" data-queue-name="LSF">
-              <thead>
-              <tr>
-                <th data-property="jobName">Name</th>
-                <th data-property="userName">Owner</th>
-                <th data-property="jobType">Job Type</th>
-                <th data-property="timeCreated" class="date-created">Date</th>
-                <th data-property="message">Status</th>
-                <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
-              </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+          <table class="table table-hover table-bordered datatable" data-url="<s:url action="getLsfJobs" namespace="/api" />"
+                 data-object-type="job" data-queue-name="LSF">
+            <thead>
+            <tr>
+              <th data-property="jobName">Name</th>
+              <th data-property="userName">Owner</th>
+              <th data-property="jobType">Job Type</th>
+              <th data-property="timeCreated" class="date-created">Date</th>
+              <th data-property="message">Status</th>
+              <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
 
         <div id="jobs-with-errors" class="panel panel-danger">
           <div class="panel-heading">
             <h4>Jobs with Errors</h4>
           </div>
-          <div class="panel-body">
-            <table class="table table-hover datatable" data-url="<s:url action="getErrorJobs" namespace="/api" />"
-                   data-object-type="job" data-queue-name="error">
-              <thead>
-              <tr>
-                <th data-property="jobName">Name</th>
-                <th data-property="userName">Owner</th>
-                <th data-property="jobType">Job Type</th>
-                <th data-property="timeCreated" class="date-created">Date</th>
-                <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
-              </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+          <table class="table table-hover table-bordered datatable" data-url="<s:url action="getErrorJobs" namespace="/api" />"
+                 data-object-type="job" data-queue-name="error">
+            <thead>
+            <tr>
+              <th data-property="jobName">Name</th>
+              <th data-property="userName">Owner</th>
+              <th data-property="jobType">Job Type</th>
+              <th data-property="timeCreated" class="date-created">Date</th>
+              <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
 

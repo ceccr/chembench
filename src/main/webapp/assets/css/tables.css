@@ -81,6 +81,31 @@ table.compound-list td.name {
 }
 
 table.compound-list td.structure {
-    width: 140px;
-    height: 140px;
+    max-width: 140px;
+    max-height: 140px;
+}
+
+.panel > .dataTables_wrapper > table.table-bordered {
+    border-width: 1px 0 0 0;
+    margin-bottom: 0 !important;
+}
+
+.panel > .dataTables_wrapper > .dataTables_info {
+    padding-left: 15px;
+    line-height: 30px;
+}
+
+.panel > .dataTables_wrapper > .dataTables_filter {
+    padding-right: 15px;
+    padding-top: 8px;
+}
+
+.panel > .dataTables_wrapper > table > thead > tr > th:first-child,
+.panel > .dataTables_wrapper > table > tbody > tr > td:first-child {
+    padding-left: 15px;
+}
+
+.panel > .dataTables_wrapper > table > thead > tr > th:last-child,
+.panel > .dataTables_wrapper > table > tbody > tr > td:last-child {
+    padding-right: 15px;
 }

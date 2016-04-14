@@ -35,6 +35,10 @@
     padding: 5px;
     margin-left: 0.5em;
 }
+
+.job-delete-link-cell {
+    text-align: center;
+}
 /* end mybench */
 
 /* dataset */
@@ -225,18 +229,5 @@ tr[data-fold-number = "0"] {
 /* predictionDetail */
 th.datatables-spacer, td.datatables-spacer {
     display: none;
-}
-
-#prediction-values_info {
-    padding-left: 1em;
-}
-
-#prediction-values_filter {
-    padding-right: 1em;
-}
-
-#prediction-values.compound-list td.structure {
-    width: auto;
-    height: auto;
 }
 /* end predictionDetail */

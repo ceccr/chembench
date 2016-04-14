@@ -231,3 +231,11 @@ input[type="checkbox"], input[type="radio"] {
 .r2-ccr-value {
     white-space: nowrap;
 }
+
+.no-objects-message {
+    display: inline-block;
+}
+
+.panel > .no-objects-message {
+    padding: 1em;
+}
