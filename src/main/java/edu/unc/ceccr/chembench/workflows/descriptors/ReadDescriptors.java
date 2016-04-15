@@ -1,6 +1,11 @@
 package edu.unc.ceccr.chembench.workflows.descriptors;
 
+import com.google.common.base.CharMatcher;
+import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.persistence.Predictor;
@@ -8,12 +13,13 @@ import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.List;
-import java.util.Scanner;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ReadDescriptors {
     // Read in the output of a descriptor generation program
@@ -22,6 +28,7 @@ public class ReadDescriptors {
     // puts results into descriptorNames and descriptorValueMatrix.
 
     private static final Logger logger = Logger.getLogger(ReadDescriptors.class);
+    private static final Pattern ISIDA_HEADER_REGEX = Pattern.compile("\\s*\\d+\\.\\s*(.+)");
 
     public static String[] readDescriptorNamesFromX(String xFile, String workingDir) throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(workingDir + xFile));
@@ -346,42 +353,76 @@ public class ReadDescriptors {
     public static void readISIDADescriptors(String ISIDAOutputFile, List<String> descriptorNames,
                                             List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading ISIDA Descriptors");
+        List<String> fragments = Lists.newArrayList();
+        fragments.add(""); // XXX fence-value for [0] since fragments are 1-indexed
+        try (BufferedReader reader = Files
+                .newBufferedReader(Paths.get(ISIDAOutputFile + ".hdr"), StandardCharsets.UTF_8)) {
+            String line;
+            // isida header (.hdr) file structure: fragment number -> descriptor name,
+            // where numbering starts from 1
+            //    1.         Cl
+            // ... (snip)
+            //   24.         H-C
+            //   25.         H-C*C-H
+            //   26.         (Cl-C),(Cl-C*C),(Cl-C*C),(Cl-C*C*C),(Cl-C*C*C),(Cl-C*C-H),(Cl-C*C-N),xCl
+            // ...
+            while ((line = reader.readLine()) != null) {
+                Matcher matcher = ISIDA_HEADER_REGEX.matcher(line);
+                matcher.matches();
+                fragments.add(matcher.group(1));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't read ISIDA header file", e);
+        }
 
-        File file = new File(ISIDAOutputFile);
-        if (!file.exists() || file.length() == 0) {
-            throw new Exception("Could not read ISIDA descriptors.\n");
-        }
-        FileReader fin = new FileReader(file);
-        BufferedReader br = new BufferedReader(fin);
-        /* contains descriptor names */
-        String line = br.readLine();
-        Scanner tok = new Scanner(line);
-        tok.useDelimiter(" ");
-        /* first descriptor says "title"; we don't need that. */
-        tok.next();
-        while (tok.hasNext()) {
-            descriptorNames.add(tok.next());
-        }
-        while ((line = br.readLine()) != null) {
-            tok = new Scanner(line);
-            tok.useDelimiter(" ");
-            if (tok.hasNext()) {
-                /* first descriptor value is the name of the compound */
-                tok.next();
+        // XXX LinkedHashMap is important: need to keep this map's keys in order of insertion
+        LinkedHashMap<String, SortedMap<Integer, Integer>> compoundNameToFragmentCounts = Maps.newLinkedHashMap();
+        try (BufferedReader reader = Files
+                .newBufferedReader(Paths.get(ISIDAOutputFile + ".svm"), StandardCharsets.UTF_8)) {
+            // isida data (.svm) file structure: compound name, followed by <fragment number>:<fragment count> pairs,
+            // where pairs are ordered by ascending fragment number
+            // ... (snip)
+            // 6 1:1 2:4 3:2 4:6 5:3 6:1 7:2 8:2 9:1 10:1 11:2 12:4 13:4 ...
+            // 289 2:2 4:6 5:6 19:6 20:6 21:6 22:8 23:8 24:4 25:3 39:1 ...
+            // 370 2:5 4:7 5:6 19:6 20:6 21:6 22:4 23:4 24:2 39:2 40:4 ...
+            // ...
+            String line;
+            Splitter lineSplitter = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
+            Splitter pairSplitter = Splitter.on(':');
+            while ((line = reader.readLine()) != null) {
+                List<String> items = lineSplitter.splitToList(line);
+                String compoundName = items.get(0);
+                SortedMap<Integer, Integer> fragmentCounts = Maps.newTreeMap();
+                for (String fragmentPair : items.subList(1, items.size())) {
+                    List<String> values = pairSplitter.splitToList(fragmentPair);
+                    fragmentCounts.put(Integer.parseInt(values.get(0)), Integer.parseInt(values.get(1)));
+                }
+                compoundNameToFragmentCounts.put(compoundName, fragmentCounts);
             }
-            String descriptorString = new String("");
-            while (tok.hasNext()) {
-                String val = tok.next();
-                descriptorString += val + " ";
-            }
-            if (!descriptorString.equalsIgnoreCase("")) {
-                Descriptors di = new Descriptors();
-                di.setDescriptorValues(descriptorString);
-                descriptorValueMatrix.add(di);
-            }
-            tok.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't read ISIDA data file", e);
         }
-        br.close();
+
+        int compoundIndex = 1; // Descriptors.compoundIndex is 1-indexed
+        if (descriptorValueMatrix == null) {
+            descriptorValueMatrix = Lists.newArrayList();
+        }
+        // XXX fragment names are 1-indexed in the .hdr file
+        descriptorNames = fragments.subList(1, fragments.size());
+        Joiner joiner = Joiner.on(' ');
+        for (String compoundName : compoundNameToFragmentCounts.keySet()) {
+            SortedMap<Integer, Integer> fragmentCounts = compoundNameToFragmentCounts.get(compoundName);
+            Descriptors d = new Descriptors();
+            d.setCompoundIndex(compoundIndex++);
+            d.setCompoundName(compoundName);
+            List<Integer> fragmentCountsForCompound = Lists.newArrayList();
+            // XXX fragments are 1-indexed (note loop starting point)
+            for (int i = 1; i < fragments.size(); i++) {
+                fragmentCountsForCompound.add(MoreObjects.firstNonNull(fragmentCounts.get(i), 0));
+            }
+            d.setDescriptorValues(joiner.join(fragmentCountsForCompound));
+            descriptorValueMatrix.add(d);
+        }
     }
 
     public static void readXDescriptors(String xFile, List<String> descriptorNames,
