@@ -25,9 +25,9 @@ public class WriteDescriptors {
     // All such operations are in-place -- the arguments will have their
     // values modified.
 
-    public static void findMinMaxAvgStdDev(List<Descriptors> descriptorMatrix, List<String> descriptorValueMinima,
-                                           List<String> descriptorValueMaxima, List<String> descriptorValueAvgs,
-                                           List<String> descriptorValueStdDevs) {
+    private static void findMinMaxAvgStdDev(List<Descriptors> descriptorMatrix, List<String> descriptorValueMinima,
+                                            List<String> descriptorValueMaxima, List<String> descriptorValueAvgs,
+                                            List<String> descriptorValueStdDevs) {
         String logString = "findMinMaxAvgStdDev: descriptorMatrix ";
         if (descriptorMatrix == null) {
             logString += "is null";
@@ -108,8 +108,8 @@ public class WriteDescriptors {
 
     }
 
-    public static void rangeScaleGivenMinMax(List<Descriptors> descriptorMatrix, List<String> descriptorValueMinima,
-                                             List<String> descriptorValueMaxima) {
+    private static void rangeScaleGivenMinMax(List<Descriptors> descriptorMatrix, List<String> descriptorValueMinima,
+                                              List<String> descriptorValueMaxima) {
         // range-scales the values in the descriptor matrix.
         // We know the min and max. Scaled value = ((value - min) /
         // (max-min)).
@@ -141,8 +141,8 @@ public class WriteDescriptors {
         }
     }
 
-    public static void autoScaleGivenAvgStdDev(List<Descriptors> descriptorMatrix, List<String> descriptorValueAvgs,
-                                               List<String> descriptorValueStdDevsPlusAvgs) {
+    private static void autoScaleGivenAvgStdDev(List<Descriptors> descriptorMatrix, List<String> descriptorValueAvgs,
+                                                List<String> descriptorValueStdDevsPlusAvgs) {
         // subtract the avg from each value
         // then divide by the stddev
 
@@ -194,12 +194,12 @@ public class WriteDescriptors {
         return result;
     }
 
-    public static void removeHighlyCorellatedDescriptors(List<Descriptors> descriptorMatrix,
-                                                         List<String> descriptorValueMinima,
-                                                         List<String> descriptorValueMaxima,
-                                                         List<String> descriptorValueAvgs,
-                                                         List<String> descriptorValueStdDevs,
-                                                         List<String> descriptorNames, Float correlationCutoff) {
+    private static void removeHighlyCorellatedDescriptors(List<Descriptors> descriptorMatrix,
+                                                          List<String> descriptorValueMinima,
+                                                          List<String> descriptorValueMaxima,
+                                                          List<String> descriptorValueAvgs,
+                                                          List<String> descriptorValueStdDevs,
+                                                          List<String> descriptorNames, Float correlationCutoff) {
 
         // first thing: we need to transpose the descriptor matrix.
         // By default, it's organized by compound - we need it organized by
@@ -299,11 +299,11 @@ public class WriteDescriptors {
 
     }
 
-    public static void removeLowStdDevDescriptors(List<Descriptors> descriptorMatrix,
-                                                  List<String> descriptorValueMinima,
-                                                  List<String> descriptorValueMaxima, List<String> descriptorValueAvgs,
-                                                  List<String> descriptorValueStdDevs, List<String> descriptorNames,
-                                                  Float stdDevCutoff) {
+    private static void removeLowStdDevDescriptors(List<Descriptors> descriptorMatrix,
+                                                   List<String> descriptorValueMinima,
+                                                   List<String> descriptorValueMaxima, List<String> descriptorValueAvgs,
+                                                   List<String> descriptorValueStdDevs, List<String> descriptorNames,
+                                                   Float stdDevCutoff) {
 
         // lol write this later
         // should be easy, just like removeZeroVariance but with a stddev
@@ -312,12 +312,12 @@ public class WriteDescriptors {
         // the same thing
     }
 
-    public static void removeZeroVarianceDescriptors(List<Descriptors> descriptorMatrix,
-                                                     List<String> descriptorValueMinima,
-                                                     List<String> descriptorValueMaxima,
-                                                     List<String> descriptorValueAvgs,
-                                                     List<String> descriptorValueStdDevs,
-                                                     List<String> descriptorNames) {
+    private static void removeZeroVarianceDescriptors(List<Descriptors> descriptorMatrix,
+                                                      List<String> descriptorValueMinima,
+                                                      List<String> descriptorValueMaxima,
+                                                      List<String> descriptorValueAvgs,
+                                                      List<String> descriptorValueStdDevs, List<String>
+                                                              descriptorNames) {
 
         // removes descriptors where the min and max are equal
         // used only during modeling
@@ -362,9 +362,9 @@ public class WriteDescriptors {
         }
     }
 
-    public static void removeDescriptorsNotInPredictor(List<Descriptors> descriptorMatrix,
-                                                       StringBuffer descriptorNameStringBuffer,
-                                                       String predictorDescriptorNameString) {
+    private static void removeDescriptorsNotInPredictor(List<Descriptors> descriptorMatrix,
+                                                        StringBuffer descriptorNameStringBuffer,
+                                                        String predictorDescriptorNameString) {
         logger.debug("removing descriptors from dataset not contained in predictor");
         // determine intersection of the two sets of descriptor names:
         // one set is the dataset being trimmed, the other is the predictor used for comparison
@@ -402,12 +402,12 @@ public class WriteDescriptors {
         logger.debug("done trimming dataset descriptors");
     }
 
-    public static void readPredictorXFile(StringBuffer predictorDescriptorNameString,
-                                          List<String> predictorDescriptorValueMinima,
-                                          List<String> predictorDescriptorValueMaxima,
-                                          List<String> predictorDescriptorValueAvgs,
-                                          List<String> predictorDescriptorValueStdDevs, String predictorScaleType,
-                                          String predictorXFile) throws Exception {
+    private static void readPredictorXFile(StringBuffer predictorDescriptorNameString,
+                                           List<String> predictorDescriptorValueMinima,
+                                           List<String> predictorDescriptorValueMaxima,
+                                           List<String> predictorDescriptorValueAvgs,
+                                           List<String> predictorDescriptorValueStdDevs, String predictorScaleType,
+                                           String predictorXFile) throws Exception {
         // get the descriptor names and min / max values of each descriptor
         // So, read in the name, min, and max of each descriptor from the
         // modeling .x file
