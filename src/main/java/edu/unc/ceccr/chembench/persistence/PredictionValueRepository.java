@@ -6,6 +6,4 @@ public interface PredictionValueRepository extends BaseRepository<PredictionValu
     List<PredictionValue> findByPredictionId(Long predictionId);
 
     List<PredictionValue> findByPredictionIdAndPredictorId(Long predictionId, Long predictorId);
-
-    long countByPredictionIdAndPredictorId(Long predictionId, Long predictorId);
 }

@@ -81,14 +81,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
         for (String selectedPredictorId : selectedPredictorIdArray) {
             Predictor p = predictorRepository.findOne(Long.parseLong(selectedPredictorId));
-            if (wasRecovered) {
-                long count = predictionValueRepository.countByPredictionIdAndPredictorId(prediction.getId(), p.getId());
-                if (count > 0) {
-                    selectedPredictors.add(p);
-                }
-            } else {
-                selectedPredictors.add(p);
-            }
+            selectedPredictors.add(p);
         }
         Collections.sort(selectedPredictors, new Comparator<Predictor>() {
             public int compare(Predictor p1, Predictor p2) {
