@@ -20,6 +20,9 @@ import org.springframework.beans.factory.annotation.Configurable;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 
 @Configurable(autowire = Autowire.BY_TYPE)
@@ -299,13 +302,14 @@ public class CreateDatasetTask extends WorkflowTask {
                 errorSummary.close();
             }
             //ISIDA
-            errors = CheckDescriptors.checkISIDADescriptors(path + descriptorDir + sdfFileName + ".ISIDA");
-            if (errors.equals("")) {
+            Path descriptorDirPath = Paths.get(path + descriptorDir);
+            if (Files.exists(descriptorDirPath.resolve(sdfFileName + ".ISIDA.hdr")) && Files.exists
+                    (descriptorDirPath.resolve(sdfFileName + ".ISIDA.svm"))) {
                 availableDescriptors += Constants.ISIDA + " ";
             } else {
                 File errorSummaryFile = new File(path + descriptorDir + "Logs/ISIDA.out");
                 BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
-                errorSummary.write(errors);
+                errorSummary.write("The ISIDA .hdr / .svm file(s) are missing.");
                 errorSummary.close();
             }
         }
