@@ -67,11 +67,12 @@ public class Dataset implements java.io.Serializable {
                 || availableDescriptors.contains(Constants.CDK));
     }
 
-    public void generateModi(DatasetRepository datasetRepository) throws Exception {
+    public void generateModi() throws Exception {
         if (modiGenerated) {
             return;
         }
 
+        logger.info("Generating modi for dataset, id: " + this.id);
         if (canGenerateModi()) {
             Path baseDir = getDirectoryPath();
             Path descriptorDir = baseDir.resolve("Descriptors");
@@ -144,7 +145,6 @@ public class Dataset implements java.io.Serializable {
                 this.modi = evaluation.correlationCoefficient();
             }
             this.modiGenerated = true;
-            datasetRepository.save(this);
         } else {
             throw new IllegalStateException("MODI cannot be generated for this dataset");
         }

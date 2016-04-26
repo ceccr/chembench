@@ -420,8 +420,6 @@ public class CreateDatasetTask extends WorkflowTask {
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs END");
 
-            step = Constants.SKETCHES + " finished!";
-
             if (numCompounds < 500 && !sdfFileName.equals("") && new File(path + descriptorDir + sdfFileName + ".maccs")
                     .exists()) {
                 // totally not worth doing visualizations on huge datasets,
@@ -477,13 +475,15 @@ public class CreateDatasetTask extends WorkflowTask {
             // copy needed back from LSF
         }
 
+        if (dataset.canGenerateModi()) {
+            step = Constants.MODI;
+            dataset.generateModi();
+        }
+
         // add dataset to DB
         dataset.setHasBeenViewed(Constants.NO);
         dataset.setJobCompleted(Constants.YES);
         dataset.setAvailableDescriptors(availableDescriptors);
-        if (dataset.canGenerateModi()) {
-            dataset.generateModi(datasetRepository);
-        }
         datasetRepository.save(dataset);
     }
 

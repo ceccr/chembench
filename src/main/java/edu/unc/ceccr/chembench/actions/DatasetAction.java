@@ -520,8 +520,9 @@ public class DatasetAction extends ActionSupport {
             return "badrequest";
         } else {
             if (!dataset.isModiGenerated()) {
-                dataset.generateModi(datasetRepository);
+                dataset.generateModi();
             }
+            datasetRepository.save(dataset);
             this.modi = dataset.getModi();
             return SUCCESS;
         }

@@ -96,6 +96,7 @@ public class Constants {
     public static final String VISUALIZATION = "Generating visualizations";
     public static final String SKETCHES = "Generating compound sketches";
     public static final String SPLITDATA = "Splitting Data";
+    public static final String MODI = "Calculating modelability index";
     //steps in modeling task
     //also uses SETUP and SPLITDATA
     public static final String STANDARDIZING = "Standardizing compounds";
