@@ -32,6 +32,7 @@ public class ReadDescriptors {
 
     private static final Logger logger = Logger.getLogger(ReadDescriptors.class);
     private static final Pattern ISIDA_HEADER_REGEX = Pattern.compile("\\s*\\d+\\.\\s*(.+)");
+    private static final Pattern ISIDA_FILENAME_REGEX = Pattern.compile("(.*\\.ISIDA)(\\.svm(_\\d+)?)?");
 
     public static String[] readDescriptorNamesFromX(String xFile, String workingDir) throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(workingDir + xFile));
@@ -356,10 +357,23 @@ public class ReadDescriptors {
     public static void readISIDADescriptors(String ISIDAOutputFile, List<String> descriptorNames,
                                             List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading ISIDA Descriptors");
+        Path rawFilePath = Paths.get(ISIDAOutputFile);
+        Path dirPath = rawFilePath.getParent();
+        // for filenames like "modeling.sdf.ISIDA.svm" or even "modeling.sdf.ISIDA.svm_0" (split files),
+        // remove the ".svm..." extension (assumption is that the header file is "modeling.sdf.ISIDA.hdr")
+        Matcher m = ISIDA_FILENAME_REGEX.matcher(rawFilePath.getFileName().toString());
+        m.matches();
+        Path headerFilePath = dirPath.resolve(m.group(1) + ".hdr");
+        Path datafilePath;
+        if (m.group(2) == null) {
+            datafilePath = dirPath.resolve(m.group(1) + ".svm");
+        } else {
+            datafilePath = dirPath.resolve(m.group(1) + m.group(2));
+        }
+
         List<String> fragments = Lists.newArrayList();
         fragments.add(""); // XXX fence-value for [0] since fragments are 1-indexed
-        try (BufferedReader reader = Files
-                .newBufferedReader(Paths.get(ISIDAOutputFile + ".hdr"), StandardCharsets.UTF_8)) {
+        try (BufferedReader reader = Files.newBufferedReader(headerFilePath, StandardCharsets.UTF_8)) {
             String line;
             // isida header (.hdr) file structure: fragment number -> descriptor name,
             // where numbering starts from 1
@@ -380,8 +394,7 @@ public class ReadDescriptors {
 
         // XXX LinkedHashMap is important: need to keep this map's keys in order of insertion
         LinkedHashMap<String, SortedMap<Integer, Integer>> compoundNameToFragmentCounts = Maps.newLinkedHashMap();
-        try (BufferedReader reader = Files
-                .newBufferedReader(Paths.get(ISIDAOutputFile + ".svm"), StandardCharsets.UTF_8)) {
+        try (BufferedReader reader = Files.newBufferedReader(datafilePath, StandardCharsets.UTF_8)) {
             // isida data (.svm) file structure: compound name, followed by <fragment number>:<fragment count> pairs,
             // where pairs are ordered by ascending fragment number
             // ... (snip)
