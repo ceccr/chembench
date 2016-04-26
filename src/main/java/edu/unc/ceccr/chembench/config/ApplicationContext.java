@@ -16,7 +16,7 @@ public class ApplicationContext {
     static class ApplicationProperties {}
 
     @Bean
-    PropertySourcesPlaceholderConfigurer propertyPlaceHolderConfigurer() {
+    static PropertySourcesPlaceholderConfigurer propertyPlaceHolderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 }
