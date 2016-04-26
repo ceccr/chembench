@@ -521,10 +521,8 @@ public class QsarModelingTask extends WorkflowTask {
         } else {
             xFileName = sdFileName + ".x";
         }
-        String descriptorString = Utility.StringListToString(descriptorNames);
-
         WriteDescriptors
-                .writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, filePath + xFileName,
+                .writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorNames, filePath + xFileName,
                         scalingType, stdDevCutoff, correlationCutoff);
 
         // apply the dataset's external split(s) to the generated .X file
@@ -705,7 +703,7 @@ public class QsarModelingTask extends WorkflowTask {
                 while ((line = br.readLine()) != null) {
                     List<String> items = splitter.splitToList(line);
                     String key = items.get(0);
-                    double value = Double.parseDouble(items.get(1));
+                    Double value = Double.parseDouble(items.get(1));
                     groundTruth.put(key, value);
                 }
             } catch (IOException e) {

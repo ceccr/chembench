@@ -1,6 +1,7 @@
 package edu.unc.ceccr.chembench.workflows.datasets;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.global.ErrorMessages;
 import edu.unc.ceccr.chembench.persistence.Dataset;
@@ -29,12 +30,12 @@ import java.util.*;
 public class DatasetFileOperations {
     private static final Logger logger = Logger.getLogger(DatasetFileOperations.class);
 
-    public static Map<String, String> getActFileIdsAndValues(Path filePath) {
+    public static Map<String, Double> getActFileIdsAndValues(Path filePath) {
         return getActFileIdsAndValues(filePath.toString());
     }
 
-    public static Map<String, String> getActFileIdsAndValues(String filePath) {
-        HashMap<String, String> idsAndValues = new HashMap<String, String>();
+    public static Map<String, Double> getActFileIdsAndValues(String filePath) {
+        HashMap<String, Double> idsAndValues = Maps.newHashMap();
 
         try {
             File file = new File(filePath);
@@ -47,7 +48,7 @@ public class DatasetFileOperations {
             String[] array = byteStr.split("\\s+");
 
             for (int i = 0; i < array.length; i += 2) {
-                idsAndValues.put(array[i], array[i + 1]);
+                idsAndValues.put(array[i], Double.parseDouble(array[i + 1]));
             }
             fis.close();
         } catch (Exception ex) {
@@ -1048,8 +1049,8 @@ public class DatasetFileOperations {
 
     public static void randomizeActivityFile(String filePath, String outFilePath) throws IOException {
         List<String> actFileCompounds = getACTCompoundNames(filePath);
-        Map<String, String> actFileIdsAndValues = getActFileIdsAndValues(filePath);
-        List<String> actFileValues = Lists.newArrayList(actFileIdsAndValues.values());
+        Map<String, Double> actFileIdsAndValues = getActFileIdsAndValues(filePath);
+        List<Double> actFileValues = Lists.newArrayList(actFileIdsAndValues.values());
         Collections.shuffle(actFileValues);
 
         if (actFileValues.size() != actFileCompounds.size()) {

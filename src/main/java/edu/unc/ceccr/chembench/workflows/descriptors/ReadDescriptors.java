@@ -1,7 +1,6 @@
 package edu.unc.ceccr.chembench.workflows.descriptors;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
@@ -16,8 +15,12 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Scanner;
+import java.util.SortedMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -93,7 +96,7 @@ public class ReadDescriptors {
         String temp;
         Scanner src = new Scanner(fin);
         // values for each molecule
-        List<String> descriptorValues = Lists.newArrayList();
+        List<String> descriptorValueStrings = Lists.newArrayList();
 
         boolean readingDescriptorNames = true;
         while (src.hasNext()) {
@@ -104,7 +107,7 @@ public class ReadDescriptors {
             if (temp.matches("not_available")) {
                 // molconnz will spit out a not_available if it gets a bad
                 // molecule.
-                descriptorValues.clear();
+                descriptorValueStrings.clear();
             }
             if (temp.matches("[\\p{Graph}]+")) {
 
@@ -120,29 +123,29 @@ public class ReadDescriptors {
                 if (readingDescriptorNames) {
                     descriptorNames.add(temp);
                 } else {
-                    if (descriptorValues.size() == descriptorNames.size()) {
+                    if (descriptorValueStrings.size() == descriptorNames.size()) {
                         // done reading values for this molecule.
 
-                        String formula = descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS);
+                        String formula = descriptorValueStrings.get(Constants.MOLCONNZ_FORMULA_POS);
                         // formula should look something like C(12)H(22)O(11)
                         if (!formula.contains("(")) {
                             // the formula for the molecule isn't a formula
                             // usually indicates missing descriptors
                             // on the previous molecule
-                            throw new Exception("MolconnZ error: Molecule " + descriptorValues
-                                    .get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + " has formula " + descriptorValues
+                            throw new Exception("MolconnZ error: Molecule " + descriptorValueStrings
+                                    .get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + " has formula " + descriptorValueStrings
                                     .get(Constants.MOLCONNZ_FORMULA_POS));
                         }
                         /* contains molecule name, which isn't a descriptor */
-                        descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS);
+                        descriptorValueStrings.remove(Constants.MOLCONNZ_FORMULA_POS);
                         /* contains molecule name, which isn't a descriptor */
-                        descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
+                        descriptorValueStrings.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
                         /* contains molecule ID, which isn't a descriptor */
-                        descriptorValues.remove(0);
+                        descriptorValueStrings.remove(0);
                         Descriptors di = new Descriptors();
-                        di.setDescriptorValues(Utility.StringListToString(descriptorValues));
+                        di.setDescriptorValues(Utility.stringListToDoubleList(descriptorValueStrings));
                         descriptorValueMatrix.add(di);
-                        descriptorValues.clear();
+                        descriptorValueStrings.clear();
                     }
 
                     /*
@@ -161,22 +164,22 @@ public class ReadDescriptors {
                          */
                         throw new Exception("MolconnZ descriptors invalid!");
                     }
-                    descriptorValues.add(temp);
+                    descriptorValueStrings.add(temp);
                 }
             }
         }
         /* add the last molecule's descriptors */
         /* contains molecule name, which isn't a descriptor */
-        descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS);
+        descriptorValueStrings.remove(Constants.MOLCONNZ_FORMULA_POS);
         descriptorNames.remove(Constants.MOLCONNZ_FORMULA_POS);
         /* contains molecule name, which isn't a descriptor */
-        descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
+        descriptorValueStrings.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
         descriptorNames.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
         /* contains molecule ID, which isn't a descriptor */
-        descriptorValues.remove(0);
+        descriptorValueStrings.remove(0);
         descriptorNames.remove(0);
         Descriptors di = new Descriptors();
-        di.setDescriptorValues(Utility.StringListToString(descriptorValues));
+        di.setDescriptorValues(Utility.stringListToDoubleList(descriptorValueStrings));
         descriptorValueMatrix.add(di);
 
         src.close();
@@ -244,7 +247,7 @@ public class ReadDescriptors {
             di.setCompoundName(descriptorValues.remove(1));
             di.setCompoundIndex(Integer.parseInt(descriptorValues.remove(0)));
 
-            di.setDescriptorValues(Utility.StringListToString(descriptorValues));
+            di.setDescriptorValues(Utility.stringListToDoubleList(descriptorValues));
             descriptorValueMatrix.add(di);
             descriptorValues.clear();
         }
@@ -267,7 +270,7 @@ public class ReadDescriptors {
         String line = br.readLine();
 
         while ((line = br.readLine()) != null) {
-            String descriptorString = new String("");
+            List<Double> descriptorValues = Lists.newArrayList();
             Scanner tok = new Scanner(line);
             tok.useDelimiter(",");
             tok.next(); // skip compound identifier
@@ -280,17 +283,17 @@ public class ReadDescriptors {
             while (tok.hasNext()) {
                 descriptor = Integer.parseInt(tok.next());
                 for (int i = last; i < descriptor; i++) {
-                    descriptorString += "0 ";
+                    descriptorValues.add(0d);
                 }
-                descriptorString += "1 ";
+                descriptorValues.add(1d);
                 last = descriptor + 1;
             }
             tok.close();
             for (int i = last; i < Constants.NUM_MACCS_KEYS; i++) {
-                descriptorString += "0 ";
+                descriptorValues.add(0d);
             }
             Descriptors di = new Descriptors();
-            di.setDescriptorValues(descriptorString);
+            di.setDescriptorValues(descriptorValues);
             descriptorValueMatrix.add(di);
 
         }
@@ -326,7 +329,7 @@ public class ReadDescriptors {
                 /* first descriptor value is the name of the compound */
                 tok.next();
             }
-            String descriptorString = new String("");
+            List<Double> descriptorValues = Lists.newArrayList();
             while (tok.hasNext()) {
                 String val = tok.next();
                 if (val.contains("NaN") || val.contains("e")) {
@@ -338,11 +341,11 @@ public class ReadDescriptors {
                      */
                     val = "0";
                 }
-                descriptorString += val + " ";
+                descriptorValues.add(Double.parseDouble(val));
             }
-            if (!descriptorString.equalsIgnoreCase("")) {
+            if (!descriptorValues.isEmpty()) {
                 Descriptors di = new Descriptors();
-                di.setDescriptorValues(descriptorString);
+                di.setDescriptorValues(descriptorValues);
                 descriptorValueMatrix.add(di);
             }
             tok.close();
@@ -408,19 +411,18 @@ public class ReadDescriptors {
             descriptorValueMatrix = Lists.newArrayList();
         }
         // XXX fragment names are 1-indexed in the .hdr file
-        descriptorNames = fragments.subList(1, fragments.size());
-        Joiner joiner = Joiner.on(' ');
+        descriptorNames.addAll(fragments.subList(1, fragments.size()));
         for (String compoundName : compoundNameToFragmentCounts.keySet()) {
             SortedMap<Integer, Integer> fragmentCounts = compoundNameToFragmentCounts.get(compoundName);
             Descriptors d = new Descriptors();
             d.setCompoundIndex(compoundIndex++);
             d.setCompoundName(compoundName);
-            List<Integer> fragmentCountsForCompound = Lists.newArrayList();
+            List<Double> fragmentCountsForCompound = Lists.newArrayList();
             // XXX fragments are 1-indexed (note loop starting point)
             for (int i = 1; i < fragments.size(); i++) {
-                fragmentCountsForCompound.add(MoreObjects.firstNonNull(fragmentCounts.get(i), 0));
+                fragmentCountsForCompound.add(MoreObjects.firstNonNull(fragmentCounts.get(i), 0).doubleValue());
             }
-            d.setDescriptorValues(joiner.join(fragmentCountsForCompound));
+            d.setDescriptorValues(fragmentCountsForCompound);
             descriptorValueMatrix.add(d);
         }
     }
@@ -456,12 +458,12 @@ public class ReadDescriptors {
                 if (tok.hasNext()) {
                     di.setCompoundName(tok.next()); // second value is the name of the compound
                 }
-                String descriptorString = new String("");
-                while (tok.hasNext()) {
-                    descriptorString += tok.next() + " ";
+                List<Double> descriptorValues = Lists.newArrayList();
+                while (tok.hasNextDouble()) {
+                    descriptorValues.add(tok.nextDouble());
                 }
-                if (!descriptorString.equalsIgnoreCase("")) {
-                    di.setDescriptorValues(descriptorString);
+                if (!descriptorValues.isEmpty()) {
+                    di.setDescriptorValues(descriptorValues);
                     descriptorValueMatrix.add(di);
                 }
                 tok.close();

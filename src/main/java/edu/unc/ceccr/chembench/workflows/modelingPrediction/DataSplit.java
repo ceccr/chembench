@@ -157,14 +157,13 @@ public class DataSplit {
             String[] parts = line.split("\\s+");
             Compound ca = new Compound();
             ca.setCompoundId(parts[0]);
-            ca.setActivityValue(parts[1]);
+            ca.setActivityValue(Double.parseDouble(parts[1]));
             compounds.add(ca);
         }
         if (useActivityBinning.equalsIgnoreCase("true")) {
             Collections.sort(compounds, new Comparator<Compound>() {
                 public int compare(Compound ca1, Compound ca2) {
-                    return (new Double(Double.parseDouble(ca1.getActivityValue())).
-                            compareTo(new Double(Double.parseDouble(ca2.getActivityValue()))));
+                    return ca1.getActivityValue().compareTo(ca2.getActivityValue());
                 }
             });
         } else {

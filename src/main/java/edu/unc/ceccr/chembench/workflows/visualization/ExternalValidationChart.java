@@ -86,7 +86,7 @@ public class ExternalValidationChart {
         logger.debug("extval size: " + extValidation.size());
 
         int index = 0;
-        float high, low;
+        double high, low;
         ExternalValidation extv = null;
 
         for (int i = 0; i < extValidation.size(); i++) {
@@ -136,8 +136,8 @@ public class ExternalValidationChart {
                     high = extv.getPredictedValue();
                     low = extv.getPredictedValue();
                 }
-                series.add(extv.getActualValue(), high);
-                series.add(extv.getActualValue(), low);
+                series.add(extv.getActualValue(), new Double(high));
+                series.add(extv.getActualValue(), new Double(low));
                 stdDevList.add(series);
             } else {
                 tooltipList.add("Compound ID: " + extv.getCompoundId() + "<br/>" + extv.getPredictedValue());
@@ -161,8 +161,8 @@ public class ExternalValidationChart {
                     high = extv.getPredictedValue();
                     low = extv.getPredictedValue();
                 }
-                series.add(extv.getActualValue(), high);
-                series.add(extv.getActualValue(), low);
+                series.add(extv.getActualValue(), new Double(high));
+                series.add(extv.getActualValue(), new Double(low));
                 highlightedStdDevList.add(series);
             } else {
                 tooltipList.add("Compound ID: " + extv.getCompoundId() + "<br/>" + extv.getPredictedValue());

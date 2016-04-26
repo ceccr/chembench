@@ -71,7 +71,7 @@ public class DatasetDetailAction extends DetailAction {
                 for (int i = 1; i <= numFolds; i++) {
                     foldNumbers.add(i);
                     Path foldFilePath = datasetPath.resolve(dataset.getActFile() + ".fold" + i);
-                    Map<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(foldFilePath);
+                    Map<String, Double> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(foldFilePath);
                     int numExternalInThisFold = actIdsAndValues.size();
                     if (largestFoldSize == 0 || largestFoldSize < numExternalInThisFold) {
                         largestFoldSize = numExternalInThisFold;
@@ -88,7 +88,7 @@ public class DatasetDetailAction extends DetailAction {
             } else {
                 // load external compounds from file
                 externalCompounds = Lists.newArrayList();
-                Map<String, String> actIdsAndValues = DatasetFileOperations
+                Map<String, Double> actIdsAndValues = DatasetFileOperations
                         .getActFileIdsAndValues(datasetPath.resolve(Constants.EXTERNAL_SET_A_FILE));
                 List<String> compoundIds = Lists.newArrayList(actIdsAndValues.keySet());
                 for (String compoundId : compoundIds) {
@@ -119,7 +119,7 @@ public class DatasetDetailAction extends DetailAction {
 
         // get activity values (if applicable)
         if (dataset.getDatasetType().startsWith(Constants.MODELING)) {
-            Map<String, String> actIdsAndValues =
+            Map<String, Double> actIdsAndValues =
                     DatasetFileOperations.getActFileIdsAndValues(datasetPath.resolve(dataset.getActFile()));
 
             for (Compound c : datasetCompounds) {
@@ -296,7 +296,7 @@ public class DatasetDetailAction extends DetailAction {
         Path foldFilePath =
                 Paths.get(Constants.CECCR_USER_BASE_PATH, dataset.getUserName(), "DATASETS", dataset.getName(),
                         dataset.getActFile() + ".fold" + foldNumber);
-        Map<String, String> foldCompoundsAndActivities = DatasetFileOperations.getActFileIdsAndValues(foldFilePath);
+        Map<String, Double> foldCompoundsAndActivities = DatasetFileOperations.getActFileIdsAndValues(foldFilePath);
         foldCompounds = Lists.newArrayList();
         for (String name : foldCompoundsAndActivities.keySet()) {
             Compound c = new Compound();

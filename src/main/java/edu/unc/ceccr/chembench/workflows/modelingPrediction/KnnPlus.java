@@ -284,7 +284,7 @@ public class KnnPlus {
 
         logger.debug("calculating nummodels, avg," + "and stddev for each compound");
         // get the actual (observed) values for each compound
-        Map<String, String> observedValues = DatasetFileOperations.getActFileIdsAndValues(workingDir + "ext_0.a");
+        Map<String, Double> observedValues = DatasetFileOperations.getActFileIdsAndValues(workingDir + "ext_0.a");
 
         // for each compound, calculate nummodels, avg, and stddev
         int numCompounds = 0;
@@ -295,8 +295,8 @@ public class KnnPlus {
 
             try {
                 // calculate stddev and avg for each compound
-                Float sum = new Float(0);
-                Float mean = new Float(0);
+                Float sum = 0f;
+                Float mean = 0f;
                 int numPredictingModels = predictionMatrix.size();
                 logger.debug("doing sum for compound " + i);
                 for (int j = 0; j < predictionMatrix.size(); j++) {
@@ -307,28 +307,20 @@ public class KnnPlus {
                         sum += Float.parseFloat(predValue);
                     }
                 }
-                if (numPredictingModels > 0) {
-                    mean = sum / numPredictingModels;
-                } else {
-                    mean = null;
-                }
+                mean = sum / numPredictingModels;
 
                 logger.debug("doing stddev for compound " + i);
 
-                Float stddev = new Float(0);
-                if (numPredictingModels > 0) {
-                    for (int j = 0; j < predictionMatrix.size(); j++) {
-                        String predValue = predictionMatrix.get(j).get(i);
-                        if (!predValue.equalsIgnoreCase("NA")) {
-                            float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
-                            stddev += distFromMeanSquared;
-                        }
+                double stddev = 0d;
+                for (int j = 0; j < predictionMatrix.size(); j++) {
+                    String predValue = predictionMatrix.get(j).get(i);
+                    if (!predValue.equalsIgnoreCase("NA")) {
+                        float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
+                        stddev += distFromMeanSquared;
                     }
-                    // divide sum then take sqrt to get stddev
-                    stddev = (float) Math.sqrt(stddev / numPredictingModels);
-                } else {
-                    stddev = null;
                 }
+                // divide sum then take sqrt to get stddev
+                stddev = Math.sqrt(stddev / numPredictingModels);
 
                 logger.debug("making predvalue object for compound " + i);
                 // create prediction value object
@@ -338,7 +330,7 @@ public class KnnPlus {
                 ev.setStandDev("" + stddev);
                 ev.setCompoundId(compoundNames[i + 2]);
                 ev.setPredictorId(predictor.getId());
-                ev.setActualValue(Float.parseFloat(observedValues.get(compoundNames[i + 2])));
+                ev.setActualValue((float) (double) observedValues.get(compoundNames[i + 2]));
 
                 predictionValues.add(ev);
 

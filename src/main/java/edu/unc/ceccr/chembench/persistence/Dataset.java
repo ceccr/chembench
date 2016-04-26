@@ -1,7 +1,6 @@
 package edu.unc.ceccr.chembench.persistence;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.Utility;
@@ -92,7 +91,7 @@ public class Dataset implements java.io.Serializable {
             }
 
             // read in activities so we can append them to the input file for Weka
-            Map<String, String> activityMap =
+            Map<String, Double> activityMap =
                     DatasetFileOperations.getActFileIdsAndValues(baseDir.resolve(actFile).toString());
 
             // create a csv input file for Weka with activities included
@@ -104,10 +103,8 @@ public class Dataset implements java.io.Serializable {
             Joiner joiner = Utility.TAB_JOINER;
             writer.write(joiner.join(header));
             writer.newLine();
-            Splitter splitter = Splitter.on(' ');
             for (Descriptors d : descriptorValueMatrix) {
-                List<String> values = Lists.newArrayList(splitter.omitEmptyStrings()
-                        .splitToList(d.getDescriptorValues()));
+                List<Double> values = d.getDescriptorValues();
                 values.add(0, activityMap.get(d.getCompoundName()));
                 writer.write(joiner.join(values));
                 writer.newLine();
