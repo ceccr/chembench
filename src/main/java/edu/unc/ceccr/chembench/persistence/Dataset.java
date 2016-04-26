@@ -152,12 +152,7 @@ public class Dataset implements java.io.Serializable {
 
     @Transient
     public Path getDirectoryPath() {
-        Path basePath = Paths.get(Constants.CECCR_USER_BASE_PATH, userName);
-        if (jobCompleted.equals(Constants.YES)) {
-            return basePath.resolve("DATASETS").resolve(name);
-        } else {
-            return basePath.resolve(name);
-        }
+        return Paths.get(Constants.CECCR_USER_BASE_PATH, userName, "DATASETS", name);
     }
 
     @Transient
