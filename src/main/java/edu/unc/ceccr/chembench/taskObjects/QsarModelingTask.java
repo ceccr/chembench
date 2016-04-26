@@ -38,9 +38,9 @@ public class QsarModelingTask extends WorkflowTask {
     private static final Logger logger = Logger.getLogger(QsarModelingTask.class);
     private boolean wasRecovered = false;
     // predicted external set values
-    List<ExternalValidation> externalSetPredictions = Lists.newArrayList();
-    Path baseDir;
-    Path yRandomDir;
+    private List<ExternalValidation> externalSetPredictions = Lists.newArrayList();
+    private Path baseDir;
+    private Path yRandomDir;
     // job details
     private String sdFileName;
     private String actFileName;
