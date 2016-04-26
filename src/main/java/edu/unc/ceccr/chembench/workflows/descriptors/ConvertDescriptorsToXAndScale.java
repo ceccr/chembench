@@ -126,7 +126,7 @@ public class ConvertDescriptorsToXAndScale {
                         descriptorValueMatrix);
             }
 
-            String descriptorString = Utility.StringListToString(descriptorNames);
+            String descriptorString = Utility.stringListToString(descriptorNames);
             WriteDescriptors.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString,
                     workingDir + outputXFile + "_" + filePartNumber, workingDir + predictorXFile, scalingType);
             // FileAndDirOperations.deleteFile(workingDir + descriptorsFile +
@@ -194,7 +194,7 @@ public class ConvertDescriptorsToXAndScale {
             ReadDescriptors.readXDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
         }
 
-        String descriptorString = Utility.StringListToString(descriptorNames);
+        String descriptorString = Utility.stringListToString(descriptorNames);
         WriteDescriptors
                 .writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, workingDir + outputXFile,
                         workingDir + predictorXFile, scalingType);

@@ -64,7 +64,7 @@ public class RunSmilesPrediction {
 
         logger.debug("Normalizing descriptors to fit predictor.");
 
-        String descriptorString = Utility.StringListToString(descriptorNames);
+        String descriptorString = Utility.stringListToString(descriptorNames);
         WriteDescriptors
                 .writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + ".renorm.x",
                         workingDir + "train_0.x", predictor.getScalingType());

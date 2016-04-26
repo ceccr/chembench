@@ -532,7 +532,7 @@ public class QsarModelingTask extends WorkflowTask {
 
         List<String> extCompoundArray = DatasetFileOperations.getXCompoundNames(filePath + "ext_0.x");
         numExternalCompounds = extCompoundArray.size();
-        String externalCompoundIdString = Utility.StringListToString(extCompoundArray);
+        String externalCompoundIdString = Utility.stringListToString(extCompoundArray);
         DataSplit.splitModelingExternalGivenList(filePath, actFileName, xFileName, externalCompoundIdString);
 
         // make internal training / test sets for each model

@@ -188,7 +188,7 @@ public class CheckDescriptors {
              * isn't a descriptor descriptorValues.remove(0); //contains
              * molecule number, which isn't a descriptor
              * di.setDescriptorValues
-             * (Utility.StringListToString(descriptorValues));
+             * (Utility.stringListToString(descriptorValues));
              */
             descriptorValues.clear();
         }

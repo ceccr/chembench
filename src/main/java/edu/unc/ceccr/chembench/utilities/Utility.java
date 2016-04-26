@@ -157,17 +157,8 @@ public class Utility {
         return sigfigs;
     }
 
-    public static String StringListToString(List<String> stringArrayList) {
-        String ret = "";
-        int size = stringArrayList.size();
-        for (int i = 0; i < size; i++) {
-            String s = stringArrayList.get(i);
-            ret += s;
-            if (i < size - 1) {
-                ret += " ";
-            }
-        }
-        return ret;
+    public static String stringListToString(List<String> stringArrayList) {
+        return SPACE_JOINER.join(stringArrayList);
     }
 
     public static String roundSignificantFigures(double number, int numFigs) {
