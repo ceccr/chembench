@@ -1,6 +1,8 @@
 package edu.unc.ceccr.chembench.utilities;
 
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Dataset;
 import edu.unc.ceccr.chembench.persistence.Job;
@@ -8,7 +10,10 @@ import edu.unc.ceccr.chembench.persistence.Prediction;
 import edu.unc.ceccr.chembench.persistence.Predictor;
 import org.apache.log4j.Logger;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -41,6 +46,22 @@ public class Utility {
             }
         }
     };
+
+    private static final Function<String, Double> PARSE_DOUBLE_TRANSFORM = new Function<String, Double>() {
+        @Override
+        public Double apply(String s) {
+            return Double.parseDouble(s);
+        }
+    };
+
+    public static final Joiner SPACE_JOINER = Joiner.on(' ');
+    public static final Joiner TAB_JOINER = Joiner.on('\t');
+    public static final Joiner COMMA_JOINER = Joiner.on(',');
+
+    public static List<Double> stringListToDoubleList(List<String> strings) {
+        // XXX must return a new list, or the returned list cannot be added to
+        return Lists.newArrayList(Lists.transform(strings, PARSE_DOUBLE_TRANSFORM));
+    }
 
     public static String encrypt(String str) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
