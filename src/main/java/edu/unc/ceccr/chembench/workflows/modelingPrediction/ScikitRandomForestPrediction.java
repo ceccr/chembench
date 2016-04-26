@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.ExternalValidation;
@@ -43,7 +42,7 @@ public class ScikitRandomForestPrediction {
             tree.setR2(Utility.roundSignificantFigures(stats.getrSquared(), 4));
             tree.setMse(Utility.roundSignificantFigures(stats.getMse(), 4));
             tree.setCcr(Utility.roundSignificantFigures(stats.getCcr(), 4));
-            tree.setDescriptorsUsed(Joiner.on(" ").join(treePrediction.getDescriptorsUsed()));
+            tree.setDescriptorsUsed(Utility.SPACE_JOINER.join(treePrediction.getDescriptorsUsed()));
             trees.add(tree);
         }
         return trees;

@@ -1,7 +1,6 @@
 package edu.unc.ceccr.chembench.workflows.download;
 
 import com.google.common.base.Function;
-import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
@@ -107,11 +106,12 @@ public class WriteCsv {
             predictors.add(predictorRepository.findOne(Long.parseLong(predictorId)));
         }
 
-        String predictorNames = Joiner.on(" ").join(Iterables.transform(predictors, new Function<Predictor, String>() {
-            public String apply(Predictor p) {
-                return p.getName();
-            }
-        }));
+        String predictorNames =
+                Utility.SPACE_JOINER.join(Iterables.transform(predictors, new Function<Predictor, String>() {
+                    public String apply(Predictor p) {
+                        return p.getName();
+                    }
+                }));
 
         try (BufferedWriter out = new BufferedWriter(new FileWriter(outfileName))) {
             String[][] header = {{"Chembench Prediction Output"}, {"User Name", prediction.getUserName()},
@@ -121,7 +121,7 @@ public class WriteCsv {
                     {"Predicted Date", Utility.formatDate(prediction.getDateCreated())},
                     {"Download Date", new Date().toString()}, {"Website", Constants.WEBADDRESS}};
             for (String[] line : header) {
-                out.write(Joiner.on(",").join(line));
+                out.write(Utility.COMMA_JOINER.join(line));
                 out.newLine();
             }
 
@@ -141,7 +141,7 @@ public class WriteCsv {
                 predictionHeader.add(p.getName() + " σ");
                 predictionHeader.add("In cutoff?");
             }
-            out.write(Joiner.on(",").join(predictionHeader));
+            out.write(Utility.COMMA_JOINER.join(predictionHeader));
             out.newLine();
 
             List<CompoundPredictions> compoundPredictionValues =
@@ -164,7 +164,7 @@ public class WriteCsv {
                             predictionValues.add("N/A"); // "in cutoff?" column
                         }
                     }
-                    out.write(Joiner.on(",").join(predictionValues));
+                    out.write(Utility.COMMA_JOINER.join(predictionValues));
                 }
                 out.newLine();
             }

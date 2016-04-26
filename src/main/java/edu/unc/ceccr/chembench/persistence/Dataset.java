@@ -4,6 +4,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
+import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import org.apache.log4j.Logger;
@@ -100,7 +101,7 @@ public class Dataset implements java.io.Serializable {
             BufferedWriter writer = Files.newBufferedWriter(wekaInputFile, StandardCharsets.UTF_8);
             List<String> header = Lists.newArrayList(descriptorNames);
             header.add(0, "Activity");
-            Joiner joiner = Joiner.on("\t");
+            Joiner joiner = Utility.TAB_JOINER;
             writer.write(joiner.join(header));
             writer.newLine();
             Splitter splitter = Splitter.on(' ');
