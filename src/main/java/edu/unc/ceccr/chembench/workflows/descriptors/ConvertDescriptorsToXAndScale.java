@@ -54,7 +54,7 @@ public class ConvertDescriptorsToXAndScale {
             descriptorsFile += ".maccs";
             splitMaccsFile(workingDir, descriptorsFile);
         } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
-            descriptorsFile += ".ISIDA";
+            descriptorsFile += ".renorm.ISIDA.svm";
             splitISIDAFile(workingDir, descriptorsFile);
         } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             splitXFile(workingDir, descriptorsFile);
@@ -392,17 +392,10 @@ public class ConvertDescriptorsToXAndScale {
         }
         FileReader fin = new FileReader(file);
         BufferedReader br = new BufferedReader(fin);
-
-        String header = ""; // stores everything up to where descriptors
-        // begin.
         int currentFile = 0;
         int moleculesInCurrentFile = 0;
         BufferedWriter outFilePart =
                 new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
-
-        header = br.readLine() + "\n";
-        outFilePart.write(header);
-
         String line;
         while ((line = br.readLine()) != null) {
             outFilePart.write(line + "\n");
@@ -413,11 +406,10 @@ public class ConvertDescriptorsToXAndScale {
                 moleculesInCurrentFile = 0;
                 currentFile++;
                 outFilePart = new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
-                outFilePart.write(header);
             }
         }
         br.close();
-        outFilePart.write("\n");
+        outFilePart.newLine();
         outFilePart.close();
     }
 
