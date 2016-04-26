@@ -6,7 +6,9 @@
     };
 
     function fetchAllBodyRows(node) {
-        return $(node).closest('table.datatable').DataTable().rows().nodes().to$();
+        var selector = $(node);
+        var dataTable = selector.hasClass('datatable') ? selector : selector.find('.datatable');
+        return dataTable.DataTable().rows().nodes().to$();
     }
 
     $(document).ready(function() {
