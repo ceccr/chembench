@@ -54,7 +54,7 @@ public class ConvertDescriptorsToXAndScale {
             descriptorsFile += ".maccs";
             splitMaccsFile(workingDir, descriptorsFile);
         } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
-            descriptorsFile += ".ISIDA";
+            descriptorsFile += "renorm.ISIDA";
             splitISIDAFile(workingDir, descriptorsFile);
         } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             splitXFile(workingDir, descriptorsFile);
