@@ -9,7 +9,6 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
@@ -189,7 +188,6 @@ public class WriteCsv {
     }
 
     @Autowired
-    @Qualifier("compoundPredictionsRepositoryImpl")
     public void setCompoundPredictionsRepository(CompoundPredictionsRepository compoundPredictionsRepository) {
         WriteCsv.compoundPredictionsRepository = compoundPredictionsRepository;
     }

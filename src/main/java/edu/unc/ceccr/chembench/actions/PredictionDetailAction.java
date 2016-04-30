@@ -5,7 +5,6 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.util.List;
 
@@ -13,12 +12,8 @@ public class PredictionDetailAction extends DetailAction {
     private final PredictionRepository predictionRepository;
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
+    private final CompoundPredictionsRepository compoundPredictionsRepository;
     private final Splitter splitter = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
-
-    @Autowired
-    @Qualifier("compoundPredictionsRepositoryImpl")
-    private CompoundPredictionsRepository compoundPredictionsRepository;
-
     private Prediction prediction;
     private Dataset predictionDataset;
     private List<Predictor> predictors;
@@ -26,10 +21,12 @@ public class PredictionDetailAction extends DetailAction {
 
     @Autowired
     public PredictionDetailAction(PredictionRepository predictionRepository, DatasetRepository datasetRepository,
-                                  PredictorRepository predictorRepository) {
+                                  PredictorRepository predictorRepository,
+                                  CompoundPredictionsRepository compoundPredictionsRepository) {
         this.predictionRepository = predictionRepository;
         this.datasetRepository = datasetRepository;
         this.predictorRepository = predictorRepository;
+        this.compoundPredictionsRepository = compoundPredictionsRepository;
     }
 
     public String execute() {
