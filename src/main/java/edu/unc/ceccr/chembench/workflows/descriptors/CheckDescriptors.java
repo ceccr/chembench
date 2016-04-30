@@ -1,7 +1,8 @@
 package edu.unc.ceccr.chembench.workflows.descriptors;
 
 import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CheckDescriptors {
-    private static final Logger logger = Logger.getLogger(CheckDescriptors.class);
+    private static final Logger logger = LoggerFactory.getLogger(CheckDescriptors.class);
     // Read in the output of a descriptor generation program (molconnZ,
     // dragon, etc.)
     // Look for any errors that would make the output unusable in modeling

@@ -8,7 +8,8 @@ import edu.unc.ceccr.chembench.persistence.Dataset;
 import edu.unc.ceccr.chembench.persistence.Job;
 import edu.unc.ceccr.chembench.persistence.Prediction;
 import edu.unc.ceccr.chembench.persistence.Predictor;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -26,7 +27,7 @@ import java.util.Random;
 
 public class Utility {
 
-    private static final Logger logger = Logger.getLogger(Utility.class);
+    private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
     private static Integer debug_counter = 0;
 

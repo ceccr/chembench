@@ -7,7 +7,8 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.chembench.workflows.visualization.ExternalValidationChart;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ import java.util.zip.ZipOutputStream;
 @Component
 public class WriteZip {
 
-    private static final Logger logger = Logger.getLogger(WriteZip.class);
+    private static final Logger logger = LoggerFactory.getLogger(WriteZip.class);
     private static PredictorRepository predictorRepository;
     private static PredictionRepository predictionRepository;
     private static UserRepository userRepository;

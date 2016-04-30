@@ -1,15 +1,12 @@
 package edu.unc.ceccr.chembench.global;
 
 import edu.unc.ceccr.chembench.utilities.ParseConfigurationXML;
-import org.apache.log4j.Logger;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.nio.file.Paths;
 
 public class ChembenchConfigurationContextListener implements ServletContextListener {
-    private static final Logger logger = Logger.getLogger(ChembenchConfigurationContextListener.class);
-
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         // read $CHEMBENCH_HOME, then append config directory / filename

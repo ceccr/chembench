@@ -5,7 +5,8 @@ import edu.unc.ceccr.chembench.persistence.Dataset;
 import edu.unc.ceccr.chembench.persistence.Predictor;
 import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ import java.util.regex.Pattern;
 @Component
 public class CopyJobFiles {
 
-    private static final Logger logger = Logger.getLogger(CopyJobFiles.class);
+    private static final Logger logger = LoggerFactory.getLogger(CopyJobFiles.class);
     private static PredictorRepository predictorRepository;
 
     public static void getDatasetFiles(String userName, Dataset dataset, String jobType, String toDir)

@@ -1,20 +1,22 @@
 package edu.unc.ceccr.chembench.utilities;
 
 import edu.unc.ceccr.chembench.global.Constants;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.IOException;
 
 public class ParseConfigurationXML {
-    private static final Logger logger = Logger.getLogger(ParseConfigurationXML.class);
+    private static final Logger logger = LoggerFactory.getLogger(ParseConfigurationXML.class);
 
     public static void initializeConstants(String filePath) {
         try {
@@ -113,17 +115,8 @@ public class ParseConfigurationXML {
             //FIXME:Does not exist! Uknown purpose
             Constants.XML_FILE_PATH = Constants.CECCR_BASE_PATH + "xml-files/";
             Constants.doneReadingConfigFile = true;
-        } catch (SAXParseException err) {
-
-            logger.error("** Parsing error" + ", line " + err.getLineNumber() + ", uri " + err.getSystemId());
-            logger.error(" " + err.getMessage());
-        } catch (SAXException e) {
-            Exception x = e.getException();
-            logger.error(x);
-            ((x == null) ? e : x).printStackTrace();
-        } catch (Throwable t) {
-            String debugStr = ("Exception in ParseConfigurationXML.java:" + t.getMessage());
-            FileAndDirOperations.writeStringToFile(debugStr, Constants.USERWORKFLOWSPATH + "javadebug.txt");
+        } catch (SAXException | ParserConfigurationException | IOException e) {
+            throw new RuntimeException("Error parsing configuration", e);
         }
     }
 

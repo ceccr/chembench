@@ -9,8 +9,10 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
 import edu.unc.ceccr.chembench.workflows.calculations.RSquaredAndCCR;
-import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
@@ -23,7 +25,7 @@ import java.util.Map;
 
 public class AdminAction extends ActionSupport {
 
-    private static final Logger logger = Logger.getLogger(AdminAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdminAction.class);
     private final UserRepository userRepository;
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;

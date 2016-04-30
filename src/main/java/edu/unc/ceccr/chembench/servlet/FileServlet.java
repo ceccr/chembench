@@ -3,7 +3,8 @@ package edu.unc.ceccr.chembench.servlet;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.workflows.download.WriteCsv;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -18,7 +19,7 @@ import java.io.*;
 public class FileServlet extends HttpServlet {
     //used to download individual files, e.g., a job result summary.
 
-    private static final Logger logger = Logger.getLogger(FileServlet.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileServlet.class);
     @Autowired
     private PredictorRepository predictorRepository;
     @Autowired

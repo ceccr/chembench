@@ -10,7 +10,8 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.commons.validator.GenericValidator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -28,7 +29,7 @@ import java.util.*;
  */
 
 public class DatasetFileOperations {
-    private static final Logger logger = Logger.getLogger(DatasetFileOperations.class);
+    private static final Logger logger = LoggerFactory.getLogger(DatasetFileOperations.class);
 
     public static Map<String, Double> getActFileIdsAndValues(Path filePath) {
         return getActFileIdsAndValues(filePath.toString());
@@ -870,7 +871,7 @@ public class DatasetFileOperations {
             fout.close();
 
         } catch (Exception ioe) {
-            logger.error(ioe);
+            logger.error("", ioe);
         }
     }
 

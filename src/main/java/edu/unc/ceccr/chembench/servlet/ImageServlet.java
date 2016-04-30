@@ -4,7 +4,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Predictor;
 import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import edu.unc.ceccr.chembench.workflows.visualization.ExternalValidationChart;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -17,7 +18,7 @@ import java.io.*;
 
 public class ImageServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(ImageServlet.class);
+    private static final Logger logger = LoggerFactory.getLogger(ImageServlet.class);
     @Autowired
     private PredictorRepository predictorRepository;
 

@@ -14,7 +14,8 @@ import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.RunSmilesPrediction;
 import org.apache.commons.collections.ListUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
@@ -27,7 +28,7 @@ import java.util.*;
 
 public class PredictionAction extends ActionSupport {
 
-    private static final Logger logger = Logger.getLogger(PredictionAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(PredictionAction.class);
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;

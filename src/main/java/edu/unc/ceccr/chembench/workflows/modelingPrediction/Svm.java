@@ -10,13 +10,14 @@ import edu.unc.ceccr.chembench.persistence.SvmParameters;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.List;
 
 public class Svm {
-    private static final Logger logger = Logger.getLogger(Svm.class);
+    private static final Logger logger = LoggerFactory.getLogger(Svm.class);
 
     public static void convertXtoSvm(String xFileName, String aFileName, String workingDir) throws Exception {
         // generates an SVM-compatible input descriptor file

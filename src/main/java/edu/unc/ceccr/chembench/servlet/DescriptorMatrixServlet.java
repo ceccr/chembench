@@ -1,7 +1,8 @@
 package edu.unc.ceccr.chembench.servlet;
 
 import edu.unc.ceccr.chembench.global.Constants;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,7 @@ import java.io.*;
 
 public class DescriptorMatrixServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(DescriptorMatrixServlet.class);
+    private static final Logger logger = LoggerFactory.getLogger(DescriptorMatrixServlet.class);
 
     //serves up files for use with the dataset visualization Flash app
 

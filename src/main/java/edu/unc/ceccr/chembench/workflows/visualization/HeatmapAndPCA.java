@@ -2,12 +2,13 @@ package edu.unc.ceccr.chembench.workflows.visualization;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class HeatmapAndPCA {
 
-    private static final Logger logger = Logger.getLogger(HeatmapAndPCA.class);
+    private static final Logger logger = LoggerFactory.getLogger(HeatmapAndPCA.class);
 
     public static void performXCreation(String maccsFilePath, String outputXFileName, String workingDir) {
         String cmd = "convert_maccs_to_X2.pl " + maccsFilePath + " " + workingDir + outputXFileName;

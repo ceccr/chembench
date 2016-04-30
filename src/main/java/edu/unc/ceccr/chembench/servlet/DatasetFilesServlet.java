@@ -3,7 +3,8 @@ package edu.unc.ceccr.chembench.servlet;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.workflows.download.WriteZip;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +15,7 @@ import java.io.*;
 
 public class DatasetFilesServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(DatasetFilesServlet.class);
+    private static final Logger logger = LoggerFactory.getLogger(DatasetFilesServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String BASE = Constants.CECCR_USER_BASE_PATH;

@@ -2,7 +2,8 @@ package edu.unc.ceccr.chembench.servlet;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.workflows.visualization.Molecule3D;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +14,7 @@ import java.io.*;
 
 public class Compound3DServlet extends HttpServlet {
 
-    private static final Logger logger = Logger.getLogger(Compound3DServlet.class);
+    private static final Logger logger = LoggerFactory.getLogger(Compound3DServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 

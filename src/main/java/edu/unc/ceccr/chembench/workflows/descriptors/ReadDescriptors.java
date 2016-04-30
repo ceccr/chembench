@@ -10,7 +10,8 @@ import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.persistence.Predictor;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -30,7 +31,7 @@ public class ReadDescriptors {
     // Create a Descriptors object for each compound.
     // puts results into descriptorNames and descriptorValueMatrix.
 
-    private static final Logger logger = Logger.getLogger(ReadDescriptors.class);
+    private static final Logger logger = LoggerFactory.getLogger(ReadDescriptors.class);
     private static final Pattern ISIDA_HEADER_REGEX = Pattern.compile("\\s*\\d+\\.\\s*(.+)");
     private static final Pattern ISIDA_FILENAME_REGEX = Pattern.compile("(.*\\.ISIDA)(\\.svm(_\\d+)?)?");
 

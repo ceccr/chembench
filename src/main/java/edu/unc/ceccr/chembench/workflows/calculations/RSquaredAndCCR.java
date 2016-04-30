@@ -9,7 +9,8 @@ import edu.unc.ceccr.chembench.persistence.Predictor;
 import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,7 @@ import java.util.Set;
 @Component
 public class RSquaredAndCCR {
 
-    private static final Logger logger = Logger.getLogger(RSquaredAndCCR.class);
+    private static final Logger logger = LoggerFactory.getLogger(RSquaredAndCCR.class);
     private static PredictorRepository predictorRepository;
     private static ExternalValidationRepository externalValidationRepository;
 

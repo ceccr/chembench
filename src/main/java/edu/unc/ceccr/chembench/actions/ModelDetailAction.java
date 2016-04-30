@@ -8,13 +8,14 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.workflows.calculations.ConfusionMatrix;
 import edu.unc.ceccr.chembench.workflows.calculations.RSquaredAndCCR;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class ModelDetailAction extends DetailAction {
-    private static final Logger logger = Logger.getLogger(ModelDetailAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(ModelDetailAction.class);
 
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;

@@ -7,7 +7,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.Utility;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +26,7 @@ public class WriteCsv {
     //of no use to humans. These functions generate downloadable results
     //files that give job results in a more readable form.
 
-    private static final Logger logger = Logger.getLogger(WriteCsv.class);
+    private static final Logger logger = LoggerFactory.getLogger(WriteCsv.class);
     private static PredictorRepository predictorRepository;
     private static PredictionRepository predictionRepository;
     private static ExternalValidationRepository externalValidationRepository;

@@ -8,7 +8,8 @@ import edu.unc.ceccr.chembench.persistence.UserRepository;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class LsfProcessingThread extends Thread {
-    private static final Logger logger = Logger.getLogger(LsfProcessingThread.class);
+    private static final Logger logger = LoggerFactory.getLogger(LsfProcessingThread.class);
     // this works on the LSFJobs joblist.
     // You should only ever have one of these threads running - don't start a
     // second one!

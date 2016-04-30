@@ -8,7 +8,8 @@ import edu.unc.ceccr.chembench.persistence.DatasetRepository;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.visualization.ActivityHistogram;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.nio.file.Files;
@@ -20,7 +21,7 @@ import java.util.Map;
 
 public class DatasetDetailAction extends DetailAction {
 
-    private static final Logger logger = Logger.getLogger(DatasetDetailAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(DatasetDetailAction.class);
     private final DatasetRepository datasetRepository;
 
     private Dataset dataset;

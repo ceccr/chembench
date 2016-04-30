@@ -9,7 +9,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.RandomForestParameters;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,7 +25,7 @@ import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
 public class RandomForest {
-    public static final Logger logger = Logger.getLogger(RandomForest.class);
+    public static final Logger logger = LoggerFactory.getLogger(RandomForest.class);
 
     public static final String MODEL_METADATA = "forest.json";
     public static final String EXTERNAL_SET_PREDICTION_OUTPUT = "external_set_predictions.json";

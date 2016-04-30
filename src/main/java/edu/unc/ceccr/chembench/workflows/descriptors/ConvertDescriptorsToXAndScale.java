@@ -5,7 +5,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Scanner;
 
 public class ConvertDescriptorsToXAndScale {
 
-    private static final Logger logger = Logger.getLogger(ConvertDescriptorsToXAndScale.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConvertDescriptorsToXAndScale.class);
     private static int compoundsPerChunk = 1000;
 
     /*

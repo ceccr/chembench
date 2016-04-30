@@ -5,7 +5,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.PredictionValue;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class KnnPrediction {
 
-    private static final Logger logger = Logger.getLogger(KnnPrediction.class);
+    private static final Logger logger = LoggerFactory.getLogger(KnnPrediction.class);
 
     // Execute external programs to generate a prediction for a given molecule
     // set.

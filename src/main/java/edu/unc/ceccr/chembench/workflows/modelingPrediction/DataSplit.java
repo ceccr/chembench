@@ -5,7 +5,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Compound;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.Collections;
@@ -15,7 +16,7 @@ import java.util.List;
 public class DataSplit {
 
 
-    private static final Logger logger = Logger.getLogger(DataSplit.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataSplit.class);
 
     public static void SplitModelingExternal(String workingdir, String actFile, String xFile,
                                              String numCompoundsExternalSet, String useActivityBinning)

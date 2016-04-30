@@ -7,7 +7,8 @@ import edu.unc.ceccr.chembench.persistence.ExternalValidationRepository;
 import edu.unc.ceccr.chembench.persistence.Predictor;
 import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import org.apache.commons.validator.GenericValidator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
@@ -38,7 +39,7 @@ import java.util.List;
 
 @Component
 public class ExternalValidationChart {
-    private static final Logger logger = Logger.getLogger(ExternalValidationChart.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExternalValidationChart.class);
     private static PredictorRepository predictorRepository;
     private static ExternalValidationRepository externalValidationRepository;
 

@@ -4,7 +4,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -18,7 +19,7 @@ import java.util.List;
 @Configurable(autowire = Autowire.BY_TYPE)
 public class LocalProcessingThread extends Thread {
 
-    private static final Logger logger = Logger.getLogger(LocalProcessingThread.class);
+    private static final Logger logger = LoggerFactory.getLogger(LocalProcessingThread.class);
     // this thread will work on the localJobs joblist.
     // There can be any number of these threads.
 

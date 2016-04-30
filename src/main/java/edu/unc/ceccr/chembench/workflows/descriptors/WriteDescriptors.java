@@ -8,7 +8,8 @@ import com.google.common.collect.Sets.SetView;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.utilities.Utility;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -21,7 +22,7 @@ import java.util.Set;
 
 
 public class WriteDescriptors {
-    private static final Logger logger = Logger.getLogger(WriteDescriptors.class);
+    private static final Logger logger = LoggerFactory.getLogger(WriteDescriptors.class);
     // using a set of Descriptors objects, create output files for kNN or SVM
     // containing the descriptors for a dataset.
     // Performs operations on data matrices as well (e.g. range-scaling).

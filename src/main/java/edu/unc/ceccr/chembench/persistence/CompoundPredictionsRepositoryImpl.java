@@ -7,7 +7,8 @@ import com.google.common.collect.Maps;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ public class CompoundPredictionsRepositoryImpl implements CompoundPredictionsRep
     // not actually a Spring Data repository because CompoundPredictions is not persisted yet
     // however, our application code tries to fetch CompoundPredictions objects in multiple places, and it needs to
     // be refactored somewhere
-    private static final Logger logger = Logger.getLogger(CompoundPredictionsRepositoryImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(CompoundPredictionsRepositoryImpl.class);
 
     private final DatasetRepository datasetRepository;
     private final PredictionRepository predictionRepository;

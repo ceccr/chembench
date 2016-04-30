@@ -1,7 +1,8 @@
 package edu.unc.ceccr.chembench.workflows.visualization;
 
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -9,7 +10,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 public class XMLTreeBuilder {
-    private static final Logger logger = Logger.getLogger(XMLTreeBuilder.class);
+    private static final Logger logger = LoggerFactory.getLogger(XMLTreeBuilder.class);
     private Vector<Vector<String>> data;
     private String xml;
     private String file_path;

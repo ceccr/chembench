@@ -11,7 +11,8 @@ import edu.unc.ceccr.chembench.workflows.datasets.StandardizeMolecules;
 import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.WriteDescriptors;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +27,7 @@ import java.util.Set;
 
 @Component
 public class RunSmilesPrediction {
-    private static final Logger logger = Logger.getLogger(RunSmilesPrediction.class);
+    private static final Logger logger = LoggerFactory.getLogger(RunSmilesPrediction.class);
     private static PredictorRepository predictorRepository;
 
     public static String[] predictSmilesSDF(String workingDir, String username, Predictor predictor) throws Exception {

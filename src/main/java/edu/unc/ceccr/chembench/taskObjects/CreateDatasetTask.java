@@ -12,7 +12,8 @@ import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.DataSplit;
 import edu.unc.ceccr.chembench.workflows.visualization.HeatmapAndPCA;
 import edu.unc.ceccr.chembench.workflows.visualization.SdfToJpg;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -27,7 +28,7 @@ import java.util.Date;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class CreateDatasetTask extends WorkflowTask {
-    private static final Logger logger = Logger.getLogger(CreateDatasetTask.class);
+    private static final Logger logger = LoggerFactory.getLogger(CreateDatasetTask.class);
     private String userName = null;
     private String datasetType;
     private String sdfFileName;

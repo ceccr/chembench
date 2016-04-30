@@ -10,7 +10,8 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
@@ -19,7 +20,7 @@ import java.util.Set;
 
 public class DatasetAction extends ActionSupport {
 
-    private static final Logger logger = Logger.getLogger(DatasetAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(DatasetAction.class);
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
     private final PredictionRepository predictionRepository;

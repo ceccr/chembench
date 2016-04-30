@@ -4,7 +4,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Job;
 import edu.unc.ceccr.chembench.persistence.JobRepository;
 import edu.unc.ceccr.chembench.taskObjects.QsarModelingTask;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class IncomingJobProcessingThread extends Thread {
-    private static final Logger logger = Logger.getLogger(IncomingJobProcessingThread.class);
+    private static final Logger logger = LoggerFactory.getLogger(IncomingJobProcessingThread.class);
     // this takes jobs off the incomingJobs joblist and sends them to lsfJobs
     // and localJobs.
     // You should only ever have one of these threads running - don't start a

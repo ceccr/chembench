@@ -6,7 +6,8 @@ import edu.unc.ceccr.chembench.persistence.Job;
 import edu.unc.ceccr.chembench.persistence.JobRepository;
 import edu.unc.ceccr.chembench.persistence.JobStats;
 import edu.unc.ceccr.chembench.persistence.JobStatsRepository;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -18,7 +19,7 @@ import java.util.List;
 @Configurable(autowire = Autowire.BY_TYPE)
 public class SynchronizedJobList {
 
-    private static final Logger logger = Logger.getLogger(SynchronizedJobList.class);
+    private static final Logger logger = LoggerFactory.getLogger(SynchronizedJobList.class);
 
     //stores a concurrent-access arraylist of jobs
     //In Chembench, one instance of this class holds all locally-running jobs

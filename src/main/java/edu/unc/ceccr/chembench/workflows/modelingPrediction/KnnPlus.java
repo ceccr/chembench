@@ -6,7 +6,8 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -16,7 +17,7 @@ import java.util.ListIterator;
 import java.util.Map;
 
 public class KnnPlus {
-    private static final Logger logger = Logger.getLogger(KnnPlus.class);
+    private static final Logger logger = LoggerFactory.getLogger(KnnPlus.class);
 
     private static String getKnnPlusCommandFromParams(KnnPlusParameters knnPlusParameters, String actFileDataType,
                                                       String modelType) {

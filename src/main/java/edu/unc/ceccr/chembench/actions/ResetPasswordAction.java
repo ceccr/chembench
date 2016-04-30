@@ -8,12 +8,13 @@ import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.persistence.UserRepository;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
 import edu.unc.ceccr.chembench.utilities.Utility;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ResetPasswordAction extends ActionSupport {
 
-    private static final Logger logger = Logger.getLogger(ResetPasswordAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(ResetPasswordAction.class);
     private String userName;
     private String email;
     private String errorMessage;

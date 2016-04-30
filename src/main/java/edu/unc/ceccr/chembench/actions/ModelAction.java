@@ -8,14 +8,15 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.chembench.utilities.PositiveRandom;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class ModelAction extends ActionSupport {
 
-    private static final Logger logger = Logger.getLogger(ModelAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(ModelAction.class);
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
     private User user = User.getCurrentUser();

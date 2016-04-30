@@ -7,7 +7,8 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.ActiveUser;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.Utility;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
@@ -19,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 public class HomeAction extends ActionSupport implements ServletResponseAware, ServletRequestAware {
-    private static final Logger logger = Logger.getLogger(HomeAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(HomeAction.class);
     private final UserRepository userRepository;
     private final JobRepository jobRepository;
     private final JobStatsRepository jobStatsRepository;

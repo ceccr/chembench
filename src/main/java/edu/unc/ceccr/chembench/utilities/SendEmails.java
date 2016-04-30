@@ -4,7 +4,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Job;
 import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.persistence.UserRepository;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ import java.util.Iterator;
 @Component
 public class SendEmails {
 
-    private static final Logger logger = Logger.getLogger(SendEmails.class);
+    private static final Logger logger = LoggerFactory.getLogger(SendEmails.class);
     private static UserRepository userRepository;
 
     public static boolean isValidEmail(String email) {

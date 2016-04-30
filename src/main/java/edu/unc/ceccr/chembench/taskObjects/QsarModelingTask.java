@@ -16,7 +16,8 @@ import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -35,7 +36,7 @@ import java.util.Map;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class QsarModelingTask extends WorkflowTask {
-    private static final Logger logger = Logger.getLogger(QsarModelingTask.class);
+    private static final Logger logger = LoggerFactory.getLogger(QsarModelingTask.class);
     private boolean wasRecovered = false;
     // predicted external set values
     private List<ExternalValidation> externalSetPredictions = Lists.newArrayList();

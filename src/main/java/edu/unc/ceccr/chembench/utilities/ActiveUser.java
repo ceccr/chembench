@@ -2,14 +2,15 @@ package edu.unc.ceccr.chembench.utilities;
 
 import edu.unc.ceccr.chembench.actions.DeleteAction;
 import edu.unc.ceccr.chembench.persistence.User;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 public class ActiveUser implements HttpSessionListener {
 
-    private static final Logger logger = Logger.getLogger(ActiveUser.class);
+    private static final Logger logger = LoggerFactory.getLogger(ActiveUser.class);
 
     private static int activeSessions = 0;
 

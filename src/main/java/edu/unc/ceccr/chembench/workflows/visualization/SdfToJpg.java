@@ -2,7 +2,8 @@ package edu.unc.ceccr.chembench.workflows.visualization;
 
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileReader;
@@ -14,7 +15,7 @@ import java.util.Scanner;
 
 public class SdfToJpg {
 
-    private static final Logger logger = Logger.getLogger(SdfToJpg.class);
+    private static final Logger logger = LoggerFactory.getLogger(SdfToJpg.class);
 
     public static void makeSketchFiles(String filePath, String fileName, String structuresDir, String sketchesDir)
             throws Exception {

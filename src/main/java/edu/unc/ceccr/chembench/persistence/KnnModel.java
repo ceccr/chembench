@@ -1,6 +1,7 @@
 package edu.unc.ceccr.chembench.persistence;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 
@@ -15,7 +16,7 @@ public class KnnModel implements java.io.Serializable {
      *
      */
 
-    private static final Logger logger = Logger.getLogger(KnnModel.class);
+    private static final Logger logger = LoggerFactory.getLogger(KnnModel.class);
     // Fields
     private Long id;
     private Long predictorId;

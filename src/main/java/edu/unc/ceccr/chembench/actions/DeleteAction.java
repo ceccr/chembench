@@ -6,7 +6,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeleteAction extends ActionSupport {
-    private static final Logger logger = Logger.getLogger(DeleteAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(DeleteAction.class);
     private static final long serialVersionUID = 8940848615449675885L;
     private Long id;
     private String userToDelete;

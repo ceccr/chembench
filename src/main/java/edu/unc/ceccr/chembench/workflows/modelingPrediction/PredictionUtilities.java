@@ -2,10 +2,11 @@ package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PredictionUtilities {
-    private static final Logger logger = Logger.getLogger(PredictionUtilities.class);
+    private static final Logger logger = LoggerFactory.getLogger(PredictionUtilities.class);
     //Execute external programs to generate a prediction for a given molecule set.
     // Used for legacy models that were created using Sasha's kNN code.
 

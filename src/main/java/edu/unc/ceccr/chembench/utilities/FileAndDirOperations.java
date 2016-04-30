@@ -1,7 +1,8 @@
 package edu.unc.ceccr.chembench.utilities;
 
 import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 
 public class FileAndDirOperations {
-    private static final Logger logger = Logger.getLogger(FileAndDirOperations.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileAndDirOperations.class);
 
     public static int countFilesInDirMatchingPattern(String dir, String pattern) {
         int count = 0;

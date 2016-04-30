@@ -1,6 +1,7 @@
 package edu.unc.ceccr.chembench.utilities;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileReader;
@@ -8,7 +9,7 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 public class StandardizeSdfFormat {
-    private static final Logger logger = Logger.getLogger(StandardizeSdfFormat.class);
+    private static final Logger logger = LoggerFactory.getLogger(StandardizeSdfFormat.class);
 
     public static void addNameTag(String userName, String jobName, String sdfFile, String outputSdfFile) {
 

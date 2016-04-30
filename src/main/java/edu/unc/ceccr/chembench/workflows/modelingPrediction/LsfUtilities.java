@@ -3,7 +3,8 @@ package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,7 +12,7 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 public class LsfUtilities {
-    private static final Logger logger = Logger.getLogger(LsfUtilities.class);
+    private static final Logger logger = LoggerFactory.getLogger(LsfUtilities.class);
 
     public static void retrieveCompletedPredictor(String filePath, String lsfPath) throws Exception {
         FileAndDirOperations.copyDirContents(lsfPath, filePath, true);

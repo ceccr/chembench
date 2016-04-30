@@ -8,14 +8,16 @@ import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Iterator;
 import java.util.List;
 
 public class MyBenchAction extends ActionSupport {
-    private static final Logger logger = Logger.getLogger(MyBenchAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyBenchAction.class);
     private final Splitter splitter = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
     private final Joiner joiner = Joiner.on(';');
     private final DatasetRepository datasetRepository;

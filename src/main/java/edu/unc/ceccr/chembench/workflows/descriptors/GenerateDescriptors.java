@@ -2,7 +2,8 @@ package edu.unc.ceccr.chembench.workflows.descriptors;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.io.PrintStream;
 
 public class GenerateDescriptors {
 
-    private static final Logger logger = Logger.getLogger(GenerateDescriptors.class);
+    private static final Logger logger = LoggerFactory.getLogger(GenerateDescriptors.class);
 
     public static void GenerateMolconnZDescriptors(String sdfile, String outfile) throws Exception {
         //Given an SD file, run MolconnZ to get the chemical descriptors for each compound.

@@ -7,7 +7,8 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -17,7 +18,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class LegacyRandomForest {
-    private static final Logger logger = Logger.getLogger(LegacyRandomForest.class);
+    private static final Logger logger = LoggerFactory.getLogger(LegacyRandomForest.class);
 
     // MODELING WORKFLOW FUNCTIONS
     public static void SetUpYRandomization(String userName, String jobName) throws Exception {

@@ -10,7 +10,9 @@ import edu.unc.ceccr.chembench.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.chembench.taskObjects.WorkflowTask;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -28,7 +30,7 @@ public class CentralDogma {
     // processing jobs list. Initiates the threads that work on these
     // data structures.
 
-    private static final Logger logger = Logger.getLogger(CentralDogma.class);
+    private static final Logger logger = LoggerFactory.getLogger(CentralDogma.class);
     private static CentralDogma instance = new CentralDogma();
 
     private final int numLocalThreads = 5;  // as many as you want; tune it based on server load.

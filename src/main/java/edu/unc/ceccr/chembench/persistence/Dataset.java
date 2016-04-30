@@ -6,7 +6,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import weka.classifiers.Evaluation;
 import weka.classifiers.lazy.IBk;
 import weka.core.Attribute;
@@ -29,7 +30,7 @@ import java.util.Random;
 @Entity
 @Table(name = "cbench_dataset")
 public class Dataset implements java.io.Serializable {
-    private static final Logger logger = Logger.getLogger(Dataset.class);
+    private static final Logger logger = LoggerFactory.getLogger(Dataset.class);
 
     private Long id;
     private String name;

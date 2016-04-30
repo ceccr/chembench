@@ -12,7 +12,8 @@ import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.chembench.workflows.download.WriteCsv;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.*;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -26,7 +27,7 @@ import java.util.*;
 @Configurable(autowire = Autowire.BY_TYPE)
 public class QsarPredictionTask extends WorkflowTask {
 
-    private static final Logger logger = Logger.getLogger(QsarPredictionTask.class);
+    private static final Logger logger = LoggerFactory.getLogger(QsarPredictionTask.class);
     // for internal use only
     List<Predictor> selectedPredictors = null;
     private boolean wasRecovered = false;
