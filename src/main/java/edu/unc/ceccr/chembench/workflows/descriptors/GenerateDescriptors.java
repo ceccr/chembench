@@ -13,7 +13,7 @@ public class GenerateDescriptors {
 
     private static final Logger logger = LoggerFactory.getLogger(GenerateDescriptors.class);
 
-    public static void generateCDKDescriptors(String sdfile, String outfile) throws Exception {
+    public static void generateCdkDescriptors(String sdfile, String outfile) throws Exception {
         //Given an SD file, run CDK to get the chemical descriptors for each compound.
         String xmlFile = Constants.CECCR_BASE_PATH + Constants.CDK_XMLFILE_PATH;
 
@@ -26,7 +26,7 @@ public class GenerateDescriptors {
 
         //Temporary thing; makes life easier for some users for bioactivity use case
         outfile = outfile.substring(outfile.lastIndexOf("/") + 1);
-        ReadDescriptors.convertCDKToX(outfile, workingDir + "/Descriptors/");
+        ReadDescriptors.convertCdkToX(outfile, workingDir + "/Descriptors/");
     }
 
     public static void generateIsidaDescriptors(String sdfile, String outfile) {

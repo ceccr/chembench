@@ -471,7 +471,7 @@ public class QsarModelingTask extends WorkflowTask {
         if (descriptorGenerationType.equals(Constants.CDK)) {
             logger.debug("Processing CDK descriptors for job, " + jobName + " submitted by user, " + userName);
 
-            ReadDescriptors.convertCDKToX(filePath + sdFileName + ".cdk", filePath);
+            ReadDescriptors.convertCdkToX(filePath + sdFileName + ".cdk", filePath);
             ReadDescriptors.readXDescriptors(filePath + sdFileName + ".cdk.x", descriptorNames, descriptorValueMatrix);
 
             // for CDK descriptors, compounds with errors are skipped.

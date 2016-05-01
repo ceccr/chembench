@@ -216,7 +216,7 @@ public class CreateDatasetTask extends WorkflowTask {
 
             // the dataset included an SDF so we need to generate descriptors from it
             logger.debug("User: " + userName + "Job: " + jobName + " Generating CDK Descriptors");
-            GenerateDescriptors.generateCDKDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".cdk");
+            GenerateDescriptors.generateCdkDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".cdk");
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating DragonH Descriptors");
             GenerateDescriptors.generateHExplicitDragonDescriptors(path + sdfFileName,
@@ -241,7 +241,7 @@ public class CreateDatasetTask extends WorkflowTask {
             step = Constants.CHECKDESCRIPTORS;
 
             // CDK
-            String errors = CheckDescriptors.checkCDKDescriptors(path + descriptorDir + sdfFileName + ".cdk");
+            String errors = CheckDescriptors.checkCdkDescriptors(path + descriptorDir + sdfFileName + ".cdk");
             if (errors.equals("")) {
                 availableDescriptors += Constants.CDK + " ";
             } else {

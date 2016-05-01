@@ -43,7 +43,7 @@ public class ReadDescriptors {
         return descs;
     }
 
-    public static void convertCDKToX(String cdkOutputFile, String workingDir) throws Exception {
+    public static void convertCdkToX(String cdkOutputFile, String workingDir) throws Exception {
         String cmd = "python " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "cdkToX.py " + cdkOutputFile +
                 " " + cdkOutputFile + ".x";
         RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "cdkToX.py");

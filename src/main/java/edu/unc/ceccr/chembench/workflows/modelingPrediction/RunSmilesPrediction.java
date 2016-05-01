@@ -213,8 +213,8 @@ public class RunSmilesPrediction {
     public static void generateDescriptorsForSdf(String smilesDir, Set<String> descriptorTypes) throws Exception {
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
         if (descriptorTypes.contains(Constants.CDK)) {
-            GenerateDescriptors.generateCDKDescriptors(sdfile, sdfile + ".cdk");
-            ReadDescriptors.convertCDKToX(sdfile + ".cdk", smilesDir);
+            GenerateDescriptors.generateCdkDescriptors(sdfile, sdfile + ".cdk");
+            ReadDescriptors.convertCdkToX(sdfile + ".cdk", smilesDir);
         }
         if (descriptorTypes.contains(Constants.DRAGONH)) {
             GenerateDescriptors.generateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonH");

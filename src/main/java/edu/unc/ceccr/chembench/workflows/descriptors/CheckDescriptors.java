@@ -89,7 +89,7 @@ public class CheckDescriptors {
         return errors;
     }
 
-    public static String checkCDKDescriptors(String cdkOutputFile) throws Exception {
+    public static String checkCdkDescriptors(String cdkOutputFile) throws Exception {
         // check if CDK file exists, then look for NA's.
         String errors = "";
 

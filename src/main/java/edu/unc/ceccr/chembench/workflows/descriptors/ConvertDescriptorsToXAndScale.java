@@ -35,7 +35,7 @@ public class ConvertDescriptorsToXAndScale {
         String descriptorsFile = sdfile;
         if (descriptorGenerationType.equals(Constants.CDK)) {
             descriptorsFile += ".cdk";
-            ReadDescriptors.convertCDKToX(workingDir + descriptorsFile, workingDir);
+            ReadDescriptors.convertCdkToX(workingDir + descriptorsFile, workingDir);
             descriptorsFile += ".x";
             splitXFile(workingDir, descriptorsFile);
         } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
@@ -86,7 +86,7 @@ public class ConvertDescriptorsToXAndScale {
 
             if (descriptorGenerationType.equals(Constants.CDK)) {
                 // descriptorsFile += ".cdk";
-                // ReadDescriptors.convertCDKToX(workingDir +
+                // ReadDescriptors.convertCdkToX(workingDir +
                 // descriptorsFile+".x_" + filePartNumber, workingDir);
                 ReadDescriptors.readXDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
                         descriptorValueMatrix);
@@ -151,7 +151,7 @@ public class ConvertDescriptorsToXAndScale {
         String descriptorsFile = sdfile;
         if (descriptorGenerationType.equals(Constants.CDK)) {
             descriptorsFile += ".cdk";
-            ReadDescriptors.convertCDKToX(workingDir + descriptorsFile, workingDir);
+            ReadDescriptors.convertCdkToX(workingDir + descriptorsFile, workingDir);
             ReadDescriptors
                     .readXDescriptors(workingDir + descriptorsFile + ".x", descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
