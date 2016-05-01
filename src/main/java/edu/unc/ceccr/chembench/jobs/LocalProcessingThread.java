@@ -1,7 +1,10 @@
 package edu.unc.ceccr.chembench.jobs;
 
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.*;
+import edu.unc.ceccr.chembench.persistence.Job;
+import edu.unc.ceccr.chembench.persistence.JobRepository;
+import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.UserRepository;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
 import org.slf4j.Logger;

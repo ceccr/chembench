@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.ExternalValidation;
 import edu.unc.ceccr.chembench.persistence.Predictor;
@@ -8,6 +7,7 @@ import edu.unc.ceccr.chembench.persistence.RandomForestGrove;
 import edu.unc.ceccr.chembench.persistence.RandomForestTree;
 import edu.unc.ceccr.chembench.utilities.Utility;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public class ScikitRandomForestPrediction {
     }
 
     public List<RandomForestTree> getTrees(RandomForestGrove grove) {
-        List<RandomForestTree> trees = Lists.newArrayList();
+        List<RandomForestTree> trees = new ArrayList<>();
         for (ScikitRandomForestPrediction treePrediction : this.trees) {
             RandomForestTree tree = new RandomForestTree();
             tree.setRandomForestGroveId(grove.getId());
@@ -49,7 +49,7 @@ public class ScikitRandomForestPrediction {
     }
 
     public List<ExternalValidation> getExternalSetPredictions(Map<String, Double> groundTruth, long predictorId) {
-        List<ExternalValidation> evs = Lists.newArrayList();
+        List<ExternalValidation> evs = new ArrayList<>();
         for (String key : predictions.keySet()) {
             ExternalValidation ev = new ExternalValidation();
             ev.setPredictorId(predictorId);

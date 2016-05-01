@@ -3,7 +3,6 @@ package edu.unc.ceccr.chembench.workflows.descriptors;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Descriptors;
@@ -18,10 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Scanner;
-import java.util.SortedMap;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -117,7 +113,7 @@ public class ReadDescriptors {
          */
         while ((line = br.readLine()) != null) {
             tok = new Scanner(line);
-            descriptorValues = Lists.newArrayList();
+            descriptorValues = new ArrayList<>();
             descriptorValues.clear();
             while (tok.hasNext()) {
                 String dvalue = tok.next();
@@ -157,7 +153,7 @@ public class ReadDescriptors {
         String line = br.readLine();
 
         while ((line = br.readLine()) != null) {
-            List<Double> descriptorValues = Lists.newArrayList();
+            List<Double> descriptorValues = new ArrayList<>();
             Scanner tok = new Scanner(line);
             tok.useDelimiter(",");
             tok.next(); // skip compound identifier
@@ -216,7 +212,7 @@ public class ReadDescriptors {
                 /* first descriptor value is the name of the compound */
                 tok.next();
             }
-            List<Double> descriptorValues = Lists.newArrayList();
+            List<Double> descriptorValues = new ArrayList<>();
             while (tok.hasNext()) {
                 String val = tok.next();
                 if (val.contains("NaN") || val.contains("e")) {
@@ -257,7 +253,7 @@ public class ReadDescriptors {
             datafilePath = dirPath.resolve(m.group(1) + m.group(2));
         }
 
-        List<String> fragments = Lists.newArrayList();
+        List<String> fragments = new ArrayList<>();
         fragments.add(""); // XXX fence-value for [0] since fragments are 1-indexed
         try (BufferedReader reader = Files.newBufferedReader(headerFilePath, StandardCharsets.UTF_8)) {
             String line;
@@ -307,7 +303,7 @@ public class ReadDescriptors {
 
         int compoundIndex = 1; // Descriptors.compoundIndex is 1-indexed
         if (descriptorValueMatrix == null) {
-            descriptorValueMatrix = Lists.newArrayList();
+            descriptorValueMatrix = new ArrayList<>();
         }
         // XXX fragment names are 1-indexed in the .hdr file
         descriptorNames.addAll(fragments.subList(1, fragments.size()));
@@ -316,7 +312,7 @@ public class ReadDescriptors {
             Descriptors d = new Descriptors();
             d.setCompoundIndex(compoundIndex++);
             d.setCompoundName(compoundName);
-            List<Double> fragmentCountsForCompound = Lists.newArrayList();
+            List<Double> fragmentCountsForCompound = new ArrayList<>();
             // XXX fragments are 1-indexed (note loop starting point)
             for (int i = 1; i < fragments.size(); i++) {
                 fragmentCountsForCompound.add(MoreObjects.firstNonNull(fragmentCounts.get(i), 0).doubleValue());
@@ -357,7 +353,7 @@ public class ReadDescriptors {
                 if (tok.hasNext()) {
                     di.setCompoundName(tok.next()); // second value is the name of the compound
                 }
-                List<Double> descriptorValues = Lists.newArrayList();
+                List<Double> descriptorValues = new ArrayList<>();
                 while (tok.hasNextDouble()) {
                     descriptorValues.add(tok.nextDouble());
                 }

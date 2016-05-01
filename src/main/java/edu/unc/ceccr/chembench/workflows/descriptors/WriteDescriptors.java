@@ -2,7 +2,6 @@ package edu.unc.ceccr.chembench.workflows.descriptors;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 import edu.unc.ceccr.chembench.global.Constants;
@@ -15,10 +14,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 
 public class WriteDescriptors {
@@ -64,7 +60,7 @@ public class WriteDescriptors {
         // Get the minimum and maximum value for each column.
         // Get column totals for calculating the averages.
         for (int i = 0; i < descriptorMatrix.size(); i++) {
-            List<Double> descriptorValues = Lists.newArrayList();
+            List<Double> descriptorValues = new ArrayList<>();
             descriptorValues.addAll(descriptorMatrix.get(i).getDescriptorValues());
 
             for (int j = 0; j < descriptorValues.size(); j++) {
@@ -88,7 +84,7 @@ public class WriteDescriptors {
         // now go through again to get stddev... what a pain
         // wish there was a faster way
         for (int i = 0; i < descriptorMatrix.size(); i++) {
-            List<Double> descriptorValues = Lists.newArrayList();
+            List<Double> descriptorValues = new ArrayList<>();
             descriptorValues.addAll(descriptorMatrix.get(i).getDescriptorValues());
 
             for (int j = 0; j < descriptorValues.size(); j++) {
@@ -193,7 +189,7 @@ public class WriteDescriptors {
                                                           List<Double> descriptorValueStdDevs,
                                                           List<String> descriptorNames, String correlationCutoff) {
 
-        List<List<Double>> descriptorValues = Lists.newArrayList();
+        List<List<Double>> descriptorValues = new ArrayList<>();
         for (Descriptors d : descriptorMatrix) {
             descriptorValues.add(d.getDescriptorValues());
         }
@@ -201,7 +197,7 @@ public class WriteDescriptors {
         // By default, it's organized by compound - we need it organized by descriptor.
         List<List<Double>> transpose = transpose(descriptorValues);
 
-        List<Integer> removedDescriptorIndexes = Lists.newArrayList();
+        List<Integer> removedDescriptorIndexes = new ArrayList<>();
         boolean done = false;
         while (!done) {
             // find the one descriptor with the most high correlations to
@@ -265,12 +261,12 @@ public class WriteDescriptors {
     }
 
     private static List<List<Double>> transpose(List<List<Double>> original) {
-        List<List<Double>> transpose = Lists.newArrayList();
+        List<List<Double>> transpose = new ArrayList<>();
         for (List<Double> column : original) {
             for (int r = 0; r < column.size(); r++) {
                 List<Double> row = transpose.get(r);
                 if (row == null) {
-                    row = Lists.newArrayList();
+                    row = new ArrayList<>();
                 }
                 row.add(column.get(r));
             }
@@ -302,7 +298,7 @@ public class WriteDescriptors {
         // used only during modeling
         logger.debug("removing zero-variance descriptors " + "from descriptor matrix");
 
-        List<Integer> zeroVariance = Lists.newArrayList();
+        List<Integer> zeroVariance = new ArrayList<>();
         for (int i = 0; i < descriptorValueMinima.size(); i++) {
             double min = descriptorValueMinima.get(i);
             double max = descriptorValueMaxima.get(i);
@@ -364,7 +360,7 @@ public class WriteDescriptors {
         // descriptors in both datasets are kept
         for (Descriptors descriptors : descriptorMatrix) {
             List<Double> oldValues = descriptors.getDescriptorValues();
-            List<Double> newValues = Lists.newArrayList();
+            List<Double> newValues = new ArrayList<>();
             for (int i = 0; i < oldValues.size(); i++) {
                 if (commonColumnIndexes.contains(i)) {
                     newValues.add(oldValues.get(i));
@@ -453,10 +449,10 @@ public class WriteDescriptors {
         // details.
 
         // find min/max values for each descriptor
-        List<Double> descriptorValueMinima = Lists.newArrayList();
-        List<Double> descriptorValueMaxima = Lists.newArrayList();
-        List<Double> descriptorValueAvgs = Lists.newArrayList();
-        List<Double> descriptorValueStdDevs = Lists.newArrayList();
+        List<Double> descriptorValueMinima = new ArrayList<>();
+        List<Double> descriptorValueMaxima = new ArrayList<>();
+        List<Double> descriptorValueAvgs = new ArrayList<>();
+        List<Double> descriptorValueStdDevs = new ArrayList<>();
 
         findMinMaxAvgStdDev(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima, descriptorValueAvgs,
                 descriptorValueStdDevs);
@@ -495,7 +491,7 @@ public class WriteDescriptors {
         // (Figuring out why this is true is left as an exercise to the
         // reader.)
 
-        List<Double> descriptorValueStdDevPlusAvgs = Lists.newArrayList();
+        List<Double> descriptorValueStdDevPlusAvgs = new ArrayList<>();
         for (int i = 0; i < descriptorValueStdDevs.size(); i++) {
             Double stddev = descriptorValueStdDevs.get(i);
             Double avg = descriptorValueStdDevs.get(i);
@@ -565,10 +561,10 @@ public class WriteDescriptors {
 
         // read in the xFile used to make the predictor
         StringBuffer predictorDescriptorNameStringBuffer = new StringBuffer("");
-        List<Double> predictorDescriptorValueMinima = Lists.newArrayList();
-        List<Double> predictorDescriptorValueMaxima = Lists.newArrayList();
-        List<Double> predictorDescriptorValueAvgs = Lists.newArrayList();
-        List<Double> predictorDescriptorValueStdDevsPlusAvgs = Lists.newArrayList();
+        List<Double> predictorDescriptorValueMinima = new ArrayList<>();
+        List<Double> predictorDescriptorValueMaxima = new ArrayList<>();
+        List<Double> predictorDescriptorValueAvgs = new ArrayList<>();
+        List<Double> predictorDescriptorValueStdDevsPlusAvgs = new ArrayList<>();
 
         readPredictorXFile(predictorDescriptorNameStringBuffer, predictorDescriptorValueMinima,
                 predictorDescriptorValueMaxima, predictorDescriptorValueAvgs, predictorDescriptorValueStdDevsPlusAvgs,

@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.workflows.descriptors;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.utilities.Utility;
@@ -9,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConvertDescriptorsToXAndScale {
@@ -73,10 +73,10 @@ public class ConvertDescriptorsToXAndScale {
 
         while (descriptorsFilePart.exists()) {
 
-            List<String> descriptorNames = Lists.newArrayList();
-            List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
+            List<String> descriptorNames = new ArrayList<>();
+            List<Descriptors> descriptorValueMatrix = new ArrayList<>();
 
-            List<String> chemicalNames = Lists.newArrayList();
+            List<String> chemicalNames = new ArrayList<>();
 
             for (int i = filePartNumber * compoundsPerChunk; i < (filePartNumber + 1) * compoundsPerChunk; i++) {
                 if (i < allChemicalNames.size()) {
@@ -138,8 +138,8 @@ public class ConvertDescriptorsToXAndScale {
             return;
         }
 
-        List<String> descriptorNames = Lists.newArrayList();
-        List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
+        List<String> descriptorNames = new ArrayList<>();
+        List<Descriptors> descriptorValueMatrix = new ArrayList<>();
         List<String> chemicalNames = null;
         if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             chemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
@@ -370,7 +370,7 @@ public class ConvertDescriptorsToXAndScale {
         while (xFilePart.exists()) {
             // read all lines into array
             BufferedReader br = new BufferedReader(new FileReader(xFilePart));
-            linesInFilePart = Lists.newArrayList();
+            linesInFilePart = new ArrayList<>();
             String line;
             while ((line = br.readLine()) != null) {
                 if (!line.trim().isEmpty()) {

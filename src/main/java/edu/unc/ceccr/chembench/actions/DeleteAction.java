@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.actions;
 
-import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
@@ -164,7 +163,7 @@ public class DeleteAction extends ActionSupport {
 
     @Transactional
     public void deletePredictor(Predictor p) {
-        ArrayList<ExternalValidation> extVals = Lists.newArrayList();
+        ArrayList<ExternalValidation> extVals = new ArrayList<>();
         // delete the files associated with this predictor
         String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName() + "/PREDICTORS/" + p.getName() + "/";
         if (!FileAndDirOperations.deleteDir(new File(dir))) {
@@ -173,7 +172,7 @@ public class DeleteAction extends ActionSupport {
 
         // delete the database entry for the predictor
         // delete any child predictors too. (Their files will already be gone since deleteDir recurses into subdirs.)
-        List<Predictor> childPredictors = Lists.newArrayList();
+        List<Predictor> childPredictors = new ArrayList<>();
         if (p.getChildIds() != null && !p.getChildIds().trim().equals("")) {
             String[] childIdArray = p.getChildIds().split("\\s+");
             for (String childId : childIdArray) {
@@ -262,7 +261,7 @@ public class DeleteAction extends ActionSupport {
                     String[] childPredictorIds = parentPredictor.getChildIds().split("\\s+");
 
                     // get siblings
-                    ArrayList<Predictor> siblingPredictors = Lists.newArrayList();
+                    ArrayList<Predictor> siblingPredictors = new ArrayList<>();
                     for (String childPredictorId : childPredictorIds) {
                         if (!childPredictorId.equals("" + p.getId())) {
                             Predictor sibling = predictorRepository.findOne(Long.parseLong(childPredictorId));

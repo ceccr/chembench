@@ -22,10 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Entity
 @Table(name = "cbench_dataset")
@@ -77,8 +74,8 @@ public class Dataset implements java.io.Serializable {
         if (canGenerateModi()) {
             Path baseDir = getDirectoryPath();
             Path descriptorDir = baseDir.resolve("Descriptors");
-            List<String> descriptorNames = Lists.newArrayList();
-            List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
+            List<String> descriptorNames = new ArrayList<>();
+            List<Descriptors> descriptorValueMatrix = new ArrayList<>();
 
             // read in descriptors, preferring Dragon when available (as it has the most descriptors)
             // but use CDK as a fallback if it's not available

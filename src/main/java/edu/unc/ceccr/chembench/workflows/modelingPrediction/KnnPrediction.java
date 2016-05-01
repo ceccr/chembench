@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.PredictionValue;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
@@ -12,6 +11,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class KnnPrediction {
@@ -48,23 +48,15 @@ public class KnnPrediction {
         in.readLine(); // junk
         in.readLine(); // junk
 
-        List<List<String>> predictionMatrix = Lists.newArrayList(); // read
-        // output
-        // file
-        // into
-        // this
-        List<PredictionValue> predictionValues = Lists.newArrayList(); // holds
-        // objects
-        // to
-        // be
-        // returned
+        List<List<String>> predictionMatrix = new ArrayList<>(); // read output file into this
+        List<PredictionValue> predictionValues = new ArrayList<>(); // holds objects to be returned
 
         // each line of output represents a model
         // (which is really the transpose of the matrix we're looking for...
         // *sigh*)
         while ((inputString = in.readLine()) != null && !inputString.equals("")) {
 
-            List<String> modelValues = Lists.newArrayList();
+            List<String> modelValues = new ArrayList<>();
 
             // get output for each compound in model
             String[] predValues = inputString.split("\\s+"); // Note: [0] and

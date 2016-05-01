@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.actions;
 
-import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
@@ -12,16 +11,12 @@ import edu.unc.ceccr.chembench.workflows.calculations.RSquaredAndCCR;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AdminAction extends ActionSupport {
 
@@ -345,7 +340,7 @@ public class AdminAction extends ActionSupport {
             throws HibernateException, ClassNotFoundException, SQLException {
         logger.debug("checking dataset dependencies");
 
-        List<String> dependencies = Lists.newArrayList();
+        List<String> dependencies = new ArrayList<>();
 
         List<Predictor> userPredictors = predictorRepository.findByUserName(userName);
         userPredictors.addAll(predictorRepository.findPublicPredictors());

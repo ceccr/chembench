@@ -1,7 +1,6 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,6 +19,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPOutputStream;
@@ -62,7 +62,7 @@ public class RandomForest {
         try (BufferedReader in = Files.newBufferedReader(predictorDir.resolve(filename), Charset.defaultCharset());
              BufferedWriter out = Files
                      .newBufferedWriter(predictorDir.resolve(RF_X_FILE_PREFIX + filename), Charset.defaultCharset())) {
-            List<String> lines = Lists.newArrayList();
+            List<String> lines = new ArrayList<>();
             String line;
             while ((line = in.readLine()) != null) {
                 lines.add(line);
@@ -230,7 +230,7 @@ public class RandomForest {
     }
 
     private static String getExceptionMessage(String baseMessage, Path logFilePath) {
-        List<String> lines = Lists.newArrayList();
+        List<String> lines = new ArrayList<>();
         lines.add(0, baseMessage);
         try (BufferedReader br = Files.newBufferedReader(logFilePath, StandardCharsets.UTF_8)) {
             String line;

@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.jobs;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
@@ -12,13 +11,13 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -70,7 +69,7 @@ public class CentralDogma {
             // Fill job lists from the database
             List<Job> jobs = jobRepository.findAll();
             if (jobs == null) {
-                jobs = Lists.newArrayList();
+                jobs = new ArrayList<>();
             }
             for (Job j : jobs) {
                 WorkflowTask wt = null;

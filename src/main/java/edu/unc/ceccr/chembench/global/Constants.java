@@ -1,7 +1,6 @@
 package edu.unc.ceccr.chembench.global;
 
-import com.google.common.collect.Lists;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class Constants {
@@ -189,9 +188,9 @@ public class Constants {
     //administration
     public static String WEBADDRESS;
     public static String WEBSITEEMAIL;
-    public static List<String> ADMIN_LIST = Lists.newArrayList();
-    public static List<String> ADMINEMAIL_LIST = Lists.newArrayList();
-    public static List<String> DESCRIPTOR_DOWNLOAD_USERS_LIST = Lists.newArrayList();
+    public static List<String> ADMIN_LIST = new ArrayList<>();
+    public static List<String> ADMINEMAIL_LIST = new ArrayList<>();
+    public static List<String> DESCRIPTOR_DOWNLOAD_USERS_LIST = new ArrayList<>();
     // web service validation
     public static String RECAPTCHA_PUBLICKEY;
     public static String RECAPTCHA_PRIVATEKEY;

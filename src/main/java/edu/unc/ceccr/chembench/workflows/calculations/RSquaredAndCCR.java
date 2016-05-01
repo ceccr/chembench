@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.workflows.calculations;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.ExternalValidation;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +27,7 @@ public class RSquaredAndCCR {
     private static ExternalValidationRepository externalValidationRepository;
 
     public static List<Double> calculateResiduals(List<ExternalValidation> externalValidationList) {
-        List<Double> residuals = Lists.newArrayList();
+        List<Double> residuals = new ArrayList<>();
 
         Iterator<ExternalValidation> eit = externalValidationList.iterator();
         int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
@@ -175,7 +175,7 @@ public class RSquaredAndCCR {
             if (childPredictors.size() != 0) {
 
                 //get external set for each
-                externalValValues = Lists.newArrayList();
+                externalValValues = new ArrayList<>();
                 SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
 
                 for (int i = 0; i < childPredictors.size(); i++) {
@@ -225,13 +225,13 @@ public class RSquaredAndCCR {
 
             if (externalValValues == null || externalValValues.isEmpty()) {
                 logger.debug("ext validation set empty!");
-                externalValValues = Lists.newArrayList();
+                externalValValues = new ArrayList<>();
                 return;
             }
 
             //calculate residuals and fix significant figures on output data
             List<Double> residualsAsDouble = RSquaredAndCCR.calculateResiduals(externalValValues);
-            List<String> residuals = Lists.newArrayList();
+            List<String> residuals = new ArrayList<>();
             if (residualsAsDouble.size() > 0) {
                 for (Double residual : residualsAsDouble) {
                     if (residual.isNaN()) {

@@ -2,7 +2,6 @@ package edu.unc.ceccr.chembench.taskObjects;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import edu.unc.ceccr.chembench.actions.ModelAction;
 import edu.unc.ceccr.chembench.global.Constants;
@@ -31,6 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +39,7 @@ public class QsarModelingTask extends WorkflowTask {
     private static final Logger logger = LoggerFactory.getLogger(QsarModelingTask.class);
     private boolean wasRecovered = false;
     // predicted external set values
-    private List<ExternalValidation> externalSetPredictions = Lists.newArrayList();
+    private List<ExternalValidation> externalSetPredictions = new ArrayList<>();
     private Path baseDir;
     private Path yRandomDir;
     // job details
@@ -461,8 +461,8 @@ public class QsarModelingTask extends WorkflowTask {
         CopyJobFiles.getDatasetFiles(userName, dataset, Constants.MODELING, filePath);
 
         // read in the descriptors for the dataset
-        List<String> descriptorNames = Lists.newArrayList();
-        List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
+        List<String> descriptorNames = new ArrayList<>();
+        List<Descriptors> descriptorValueMatrix = new ArrayList<>();
         List<String> chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
         Dataset dataset = datasetRepository.findOne(datasetID);
         String xFileName = "";
@@ -661,10 +661,10 @@ public class QsarModelingTask extends WorkflowTask {
         // the next step is to read in the results from the modeling program,
         // getting data about the models and external prediction values so we
         // can save it to the database.
-        List<KnnPlusModel> knnPlusModels = Lists.newArrayList();
-        List<SvmModel> svmModels = Lists.newArrayList();
-        List<RandomForestTree> randomForestTrees = Lists.newArrayList();
-        List<RandomForestTree> randomForestYRandomTrees = Lists.newArrayList();
+        List<KnnPlusModel> knnPlusModels = new ArrayList<>();
+        List<SvmModel> svmModels = new ArrayList<>();
+        List<RandomForestTree> randomForestTrees = new ArrayList<>();
+        List<RandomForestTree> randomForestYRandomTrees = new ArrayList<>();
 
         if (modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)) {
             // read external set predictions
@@ -725,7 +725,7 @@ public class QsarModelingTask extends WorkflowTask {
             predictor.setNumTestModels(getNumTotalModels());
         } else if (modelType.equals(Constants.SVM)) {
             // read in models and associate them with the predictor
-            svmModels = Lists.newArrayList();
+            svmModels = new ArrayList<>();
             svmModels.addAll(Svm.readSvmModels(filePath, svmParameters.getSvmCutoff()));
             svmModels.addAll(Svm.readSvmModels(filePath + "yRandom/", svmParameters.getSvmCutoff()));
 

@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.persistence.Predictor;
@@ -21,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,8 +57,8 @@ public class RunSmilesPrediction {
         }
 
         /* create the descriptors for the chemical and read them in */
-        List<String> descriptorNames = Lists.newArrayList();
-        List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
+        List<String> descriptorNames = new ArrayList<>();
+        List<Descriptors> descriptorValueMatrix = new ArrayList<>();
         List<String> chemicalNames = DatasetFileOperations.getSdfCompoundNames(sdfile);
 
         ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
@@ -71,7 +71,7 @@ public class RunSmilesPrediction {
                         workingDir + "train_0.x", predictor.getScalingType());
 
         /* read prediction output */
-        List<String> predValueArray = Lists.newArrayList();
+        List<String> predValueArray = new ArrayList<>();
         if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
             Path predictorDir = predictor.getDirectoryPath(predictorRepository);
             ScikitRandomForestPrediction pred =

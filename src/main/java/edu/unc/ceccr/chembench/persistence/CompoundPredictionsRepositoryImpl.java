@@ -2,7 +2,6 @@ package edu.unc.ceccr.chembench.persistence;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.Utility;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +54,7 @@ public class CompoundPredictionsRepositoryImpl implements CompoundPredictionsRep
         }
 
         final Splitter splitter = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
-        List<PredictionValue> allPredictionValues = Lists.newArrayList();
+        List<PredictionValue> allPredictionValues = new ArrayList<>();
         for (String idString : splitter.split(prediction.getPredictorIds())) {
             allPredictionValues.addAll(predictionValueRepository
                     .findByPredictionIdAndPredictorId(predictionId, Long.parseLong(idString)));
@@ -64,14 +64,14 @@ public class CompoundPredictionsRepositoryImpl implements CompoundPredictionsRep
         for (PredictionValue pv : allPredictionValues) {
             List<PredictionValue> compoundPredictionValues = predictionValueMap.get(pv.getCompoundName());
             if (compoundPredictionValues == null) {
-                compoundPredictionValues = Lists.newArrayList();
+                compoundPredictionValues = new ArrayList<>();
             }
             compoundPredictionValues.add(pv);
             predictionValueMap.put(pv.getCompoundName(), compoundPredictionValues);
         }
 
         // get prediction values for each compound
-        List<CompoundPredictions> cps = Lists.newArrayList();
+        List<CompoundPredictions> cps = new ArrayList<>();
         for (String compound : compounds) {
             CompoundPredictions cp = new CompoundPredictions();
             cp.setCompound(compound);

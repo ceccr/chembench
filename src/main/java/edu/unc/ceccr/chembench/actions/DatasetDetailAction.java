@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +66,7 @@ public class DatasetDetailAction extends DetailAction {
 
         if (dataset.getDatasetType().startsWith(Constants.MODELING)) {
             if (dataset.getSplitType().equals(Constants.NFOLD)) {
-                foldNumbers = Lists.newArrayList();
+                foldNumbers = new ArrayList<>();
                 int smallestFoldSize = 0;
                 int largestFoldSize = 0;
                 int numFolds = Integer.parseInt(dataset.getNumExternalFolds());
@@ -88,7 +89,7 @@ public class DatasetDetailAction extends DetailAction {
                 }
             } else {
                 // load external compounds from file
-                externalCompounds = Lists.newArrayList();
+                externalCompounds = new ArrayList<>();
                 Map<String, Double> actIdsAndValues = DatasetFileOperations
                         .getActFileIdsAndValues(datasetPath.resolve(Constants.EXTERNAL_SET_A_FILE));
                 List<String> compoundIds = Lists.newArrayList(actIdsAndValues.keySet());
@@ -104,7 +105,7 @@ public class DatasetDetailAction extends DetailAction {
         }
 
         // load compounds
-        datasetCompounds = Lists.newArrayList();
+        datasetCompounds = new ArrayList<>();
         List<String> compoundIds = null;
         if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
             compoundIds = DatasetFileOperations.getXCompoundNames(datasetPath.resolve(dataset.getXFile()));
@@ -133,7 +134,7 @@ public class DatasetDetailAction extends DetailAction {
     }
 
     private List<DescriptorGenerationResult> readDescriptorGenerationResults() {
-        descriptorGenerationResults = Lists.newArrayList();
+        descriptorGenerationResults = new ArrayList<>();
         Path descriptorLogPath = datasetPath.resolve("Descriptors").resolve("Logs");
         // read descriptor program outputs
         DescriptorGenerationResult cdkResult = new DescriptorGenerationResult();
@@ -298,7 +299,7 @@ public class DatasetDetailAction extends DetailAction {
                 Paths.get(Constants.CECCR_USER_BASE_PATH, dataset.getUserName(), "DATASETS", dataset.getName(),
                         dataset.getActFile() + ".fold" + foldNumber);
         Map<String, Double> foldCompoundsAndActivities = DatasetFileOperations.getActFileIdsAndValues(foldFilePath);
-        foldCompounds = Lists.newArrayList();
+        foldCompounds = new ArrayList<>();
         for (String name : foldCompoundsAndActivities.keySet()) {
             Compound c = new Compound();
             c.setCompoundId(name);

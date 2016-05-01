@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -180,7 +181,7 @@ public class DatasetAction extends ActionSupport {
         logger.debug("Starting dataset task");
         logger.debug("Uploaded dataset " + datasetName + " User: " + userName);
 
-        List<String> msgs = Lists.newArrayList();
+        List<String> msgs = new ArrayList<>();
 
         if (externalCompoundsCountOrPercent.equalsIgnoreCase("percent")) {
             double tmp = Double.parseDouble(numExternalCompounds);

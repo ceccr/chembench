@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.actions;
 
-import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
@@ -11,12 +10,13 @@ import edu.unc.ceccr.chembench.utilities.Utility;
 import net.tanesha.recaptcha.ReCaptcha;
 import net.tanesha.recaptcha.ReCaptchaFactory;
 import net.tanesha.recaptcha.ReCaptchaResponse;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.struts2.interceptor.ServletRequestAware;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
     private User user = User.getCurrentUser();
     private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
-    private List<String> errorMessages = Lists.newArrayList();
+    private List<String> errorMessages = new ArrayList<>();
     private String outputMessage;
     private String newUserName;
     private String address;

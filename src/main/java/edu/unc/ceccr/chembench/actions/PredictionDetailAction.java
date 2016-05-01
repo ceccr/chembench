@@ -2,10 +2,10 @@ package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PredictionDetailAction extends DetailAction {
@@ -36,7 +36,7 @@ public class PredictionDetailAction extends DetailAction {
             return result;
         }
         predictionDataset = datasetRepository.findOne(prediction.getDatasetId());
-        predictors = Lists.newArrayList();
+        predictors = new ArrayList<>();
         for (String idString : splitter.split(prediction.getPredictorIds())) {
             predictors.add(predictorRepository.findOne(Long.parseLong(idString)));
         }

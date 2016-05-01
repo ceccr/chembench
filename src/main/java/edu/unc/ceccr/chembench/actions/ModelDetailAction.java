@@ -2,7 +2,6 @@ package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.ContiguousSet;
 import com.google.common.collect.DiscreteDomain;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Range;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
@@ -12,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModelDetailAction extends DetailAction {
@@ -150,7 +150,7 @@ public class ModelDetailAction extends DetailAction {
 
     private List<DisplayedExternalValidationValue> buildDisplayedExternalValidationValues(
             List<ExternalValidation> extVals, List<Double> residuals, boolean isRandomForest) {
-        List<DisplayedExternalValidationValue> displayedExtVals = Lists.newArrayList();
+        List<DisplayedExternalValidationValue> displayedExtVals = new ArrayList<>();
         assert extVals.size() == residuals.size();
         for (int i = 0; i < extVals.size(); i++) {
             ExternalValidation extVal = extVals.get(i);
@@ -206,10 +206,10 @@ public class ModelDetailAction extends DetailAction {
             case Constants.KNNGA:
                 return knnPlusModelRepository.findByPredictorIdAndIsYRandomModel(predictor.getId(), isYRandomString);
             case Constants.KNN: // legacy knn
-                return (isYRandom) ? Lists.newArrayList() : knnModelRepository.findByPredictorId(predictor.getId());
+                return (isYRandom) ? new ArrayList<>() : knnModelRepository.findByPredictorId(predictor.getId());
         }
         logger.warn("Unrecognized model method: " + predictor.getModelMethod());
-        return Lists.newArrayList();
+        return new ArrayList<>();
     }
 
     public List<?> getModels() {
@@ -360,9 +360,9 @@ public class ModelDetailAction extends DetailAction {
 
         static ExternalValidationGroup coalesce(String activityType, ExternalValidationGroup... groups) {
             ExternalValidationGroup combined = new ExternalValidationGroup();
-            List<DisplayedExternalValidationValue> allDisplayedExtVals = Lists.newArrayList();
-            List<ExternalValidation> allExtVals = Lists.newArrayList();
-            List<Double> allResiduals = Lists.newArrayList();
+            List<DisplayedExternalValidationValue> allDisplayedExtVals = new ArrayList<>();
+            List<ExternalValidation> allExtVals = new ArrayList<>();
+            List<Double> allResiduals = new ArrayList<>();
             for (ExternalValidationGroup group : groups) {
                 if (group != null) {
                     allExtVals.addAll(group.extVals);

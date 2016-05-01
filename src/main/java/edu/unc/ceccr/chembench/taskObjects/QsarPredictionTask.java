@@ -40,7 +40,7 @@ public class QsarPredictionTask extends WorkflowTask {
     private Dataset predictionDataset;
     private String step = Constants.SETUP; // stores what step we're on
     private int allPredsTotalModels = -1; // used by getProgress function
-    private List<String> selectedPredictorNames = Lists.newArrayList(); // used by getProgress function
+    private List<String> selectedPredictorNames = new ArrayList<>(); // used by getProgress function
     private Prediction prediction;
 
     @Autowired
@@ -77,7 +77,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
     @PostConstruct
     private void init() {
-        selectedPredictors = Lists.newArrayList();
+        selectedPredictors = new ArrayList<>();
         String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
 
         for (String selectedPredictorId : selectedPredictorIdArray) {
@@ -125,7 +125,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
     public static List<PredictionValue> parsePredOutput(String fileLocation, Long predictorId) throws IOException {
         logger.debug("Reading prediction output from " + fileLocation);
-        List<PredictionValue> allPredValue = Lists.newArrayList();
+        List<PredictionValue> allPredValue = new ArrayList<>();
         try {
             BufferedReader in = new BufferedReader(new FileReader(fileLocation));
             String inputString;
@@ -334,13 +334,13 @@ public class QsarPredictionTask extends WorkflowTask {
     private List<PredictionValue> makePredictions(Predictor predictor, String sdfile, String basePath,
                                                   String datasetPath) throws Exception {
 
-        List<PredictionValue> predValues = Lists.newArrayList();
+        List<PredictionValue> predValues = new ArrayList<>();
         String predictionDir = basePath + predictor.getName() + "/";
         List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
 
         if (childPredictors.size() > 0) {
             // recurse. Call this function for each childPredictor (if there are any).
-            List<List<PredictionValue>> childResults = Lists.newArrayList();
+            List<List<PredictionValue>> childResults = new ArrayList<>();
             for (Predictor childPredictor : childPredictors) {
                 List<PredictionValue> results = makePredictions(childPredictor, sdfile, predictionDir, datasetPath);
                 if (results != null) {
@@ -356,7 +356,7 @@ public class QsarPredictionTask extends WorkflowTask {
             }
 
             // average the results from the child predictions and return them
-            predValues = Lists.newArrayList();
+            predValues = new ArrayList<>();
 
             List<PredictionValue> firstChildResults = childResults.get(0);
             for (PredictionValue pv : firstChildResults) {

@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.utilities;
 
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -317,7 +316,7 @@ public class FileAndDirOperations {
     public static List<String> getGuestDirNames(File dir) {
         ArrayList<String> result = null;
         if (dir.isDirectory()) {
-            result = Lists.newArrayList();
+            result = new ArrayList<>();
             String[] children = dir.list();
             for (int i = 0; i < children.length; i++) {
                 if (children[i].startsWith("guest") && children[i].length() > 5) {

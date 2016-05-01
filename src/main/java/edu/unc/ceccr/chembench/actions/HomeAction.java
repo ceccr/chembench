@@ -7,10 +7,10 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.ActiveUser;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.Utility;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

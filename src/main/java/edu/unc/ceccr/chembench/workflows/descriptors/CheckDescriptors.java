@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.workflows.descriptors;
 
-import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +19,7 @@ public class CheckDescriptors {
 
     public static String checkDragonDescriptors(String dragonOutputFile) throws Exception {
         logger.debug("Checking Dragon descriptors: " + dragonOutputFile);
-        List<String> descriptorNames = Lists.newArrayList();
+        List<String> descriptorNames = new ArrayList<>();
         String errors = "";
 
         File file = new File(dragonOutputFile);
@@ -60,7 +59,7 @@ public class CheckDescriptors {
         // quit this shit - means Dragon failed at descriptoring.
         while ((line = br.readLine()) != null) {
             tok = new Scanner(line);
-            descriptorValues = Lists.newArrayList();
+            descriptorValues = new ArrayList<>();
             descriptorValues.clear();
             while (tok.hasNext()) {
                 String dvalue = tok.next();

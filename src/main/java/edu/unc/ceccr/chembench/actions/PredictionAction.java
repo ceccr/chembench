@@ -46,7 +46,7 @@ public class PredictionAction extends ActionSupport {
     private boolean singleCompoundPredictionAllowed;
     private boolean isUploadedDescriptors;
     private boolean isMixDescriptors;
-    private List<Predictor> selectedPredictors = Lists.newArrayList();
+    private List<Predictor> selectedPredictors = new ArrayList<>();
     private List<SmilesPrediction> smilesPredictions;
     private String smiles;
     private String cutoff;
@@ -87,7 +87,7 @@ public class PredictionAction extends ActionSupport {
         logger.debug(user.getUserName());
         logger.debug("SMILES predids: " + predictorIds);
         String[] selectedPredictorIdArray = predictorIds.split("\\s+");
-        List<Predictor> predictors = Lists.newArrayList();
+        List<Predictor> predictors = new ArrayList<>();
         Set<String> descriptorTypes = Sets.newHashSet();
         for (String predictorId : selectedPredictorIdArray) {
             Predictor predictor = predictorRepository.findOne(Long.parseLong(predictorId));
@@ -105,7 +105,7 @@ public class PredictionAction extends ActionSupport {
         }
 
         /* stores results */
-        smilesPredictions = Lists.newArrayList();
+        smilesPredictions = new ArrayList<>();
         int numPredictors = predictors.size();
 
         for (Predictor predictor : predictors) {
@@ -135,7 +135,7 @@ public class PredictionAction extends ActionSupport {
                 Boolean computedAD = false;
                 String[] ids = predictor.getChildIds().split("\\s+");
                 logger.info("Predictor is n-folded.");
-                List<String[]> tempPred = Lists.newArrayList();
+                List<String[]> tempPred = new ArrayList<>();
                 for (String id : ids) {
                     Predictor tempP = predictorRepository.findOne(Long.parseLong(id));
 
@@ -376,7 +376,7 @@ public class PredictionAction extends ActionSupport {
          * filtering userDatasets leaving only datasets that has same modeling
          * method as predictor
          */
-        List<Dataset> new_ds = Lists.newArrayList();
+        List<Dataset> new_ds = new ArrayList<>();
         for (Dataset ds : userDatasets) {
             /*
              * looking for arrays intersection if found then the Dataset is
@@ -388,7 +388,7 @@ public class PredictionAction extends ActionSupport {
 
             // Find intersection, get iterator, then explicitly cast each
             // element of intersection to a string (type safety issues)
-            List<String> dscrptrIntsct = Lists.newArrayList();
+            List<String> dscrptrIntsct = new ArrayList<>();
             Iterator<?> tempIterator = ListUtils.intersection(dscrptrLst1, dscrptrLst2).iterator();
             while (tempIterator.hasNext()) {
                 dscrptrIntsct.add((String) tempIterator.next());
@@ -494,7 +494,7 @@ public class PredictionAction extends ActionSupport {
         String[] ids = selectedPredictorIds.split("\\s+");
         int numModels = 0;
 
-        List<Predictor> selectedPredictors = Lists.newArrayList();
+        List<Predictor> selectedPredictors = new ArrayList<>();
 
         for (String id : ids) {
             Predictor sp = predictorRepository.findOne(Long.parseLong(id));

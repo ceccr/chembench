@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Compound;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
@@ -9,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -150,7 +150,7 @@ public class DataSplit {
     public static void SplitModelingExternalNFold(String workingDir, String actFile, String numFolds,
                                                   String useActivityBinning) throws Exception {
         //read in the act file
-        List<Compound> compounds = Lists.newArrayList();
+        List<Compound> compounds = new ArrayList<>();
         File act = new File(workingDir + actFile);
         BufferedReader br = new BufferedReader(new FileReader(act));
         String line;
@@ -173,9 +173,9 @@ public class DataSplit {
 
         //go down the sorted list in chunks of size nFolds
         int folds = Integer.parseInt(numFolds);
-        List<List<Compound>> externalFolds = Lists.newArrayList();
+        List<List<Compound>> externalFolds = new ArrayList<>();
         for (int i = 0; i < folds; i++) {
-            List<Compound> fold = Lists.newArrayList();
+            List<Compound> fold = new ArrayList<>();
             externalFolds.add(fold);
         }
 

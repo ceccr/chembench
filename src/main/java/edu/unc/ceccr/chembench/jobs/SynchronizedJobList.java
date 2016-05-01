@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.jobs;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Job;
 import edu.unc.ceccr.chembench.persistence.JobRepository;
@@ -107,7 +106,7 @@ public class SynchronizedJobList {
 
     public List<Job> getReadOnlyCopy() {
         synchronized (jobList) {
-            List<Job> jobListCopy = Lists.newArrayList();
+            List<Job> jobListCopy = new ArrayList<>();
             try {
 
                 //return a copy of it

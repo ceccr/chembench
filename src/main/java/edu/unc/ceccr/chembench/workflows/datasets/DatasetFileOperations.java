@@ -10,13 +10,13 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.commons.validator.GenericValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -60,7 +60,7 @@ public class DatasetFileOperations {
     }
 
     public static List<String> getActFileValues(Dataset dataset) throws Exception {
-        List<String> actFileValues = Lists.newArrayList();
+        List<String> actFileValues = new ArrayList<>();
 
         // find activity file
         String datasetUserName = dataset.getUserName();
@@ -165,7 +165,7 @@ public class DatasetFileOperations {
 
         logger.debug("Copying dataset files to " + path);
 
-        List<String> msgs = Lists.newArrayList(); // holds any error
+        List<String> msgs = new ArrayList<>(); // holds any error
         // messages from
         // validations
 
@@ -380,7 +380,7 @@ public class DatasetFileOperations {
         if (externalCompoundList != null && !externalCompoundList.isEmpty()) {
             // check that the dataset actually contains all the compounds the
             // user gave in the external compound list
-            List<String> datasetCompounds = Lists.newArrayList();
+            List<String> datasetCompounds = new ArrayList<>();
             if (sdfFile != null) {
                 datasetCompounds.addAll(sdf_compounds);
             } else {
@@ -678,7 +678,7 @@ public class DatasetFileOperations {
     }
 
     public static List<String> getXCompoundNames(String fileLocation) throws IOException {
-        List<String> x_compounds = Lists.newArrayList();
+        List<String> x_compounds = new ArrayList<>();
         File file = new File(fileLocation);
         logger.debug("Getting X file compounds from " + fileLocation);
         if (file.exists()) {
@@ -707,7 +707,7 @@ public class DatasetFileOperations {
     }
 
     public static List<String> getACTCompoundNames(String fileLocation) throws FileNotFoundException, IOException {
-        List<String> act_compounds = Lists.newArrayList();
+        List<String> act_compounds = new ArrayList<>();
         File file = new File(fileLocation);
 
         if (file.exists()) {
@@ -740,7 +740,7 @@ public class DatasetFileOperations {
         File infile = new File(sdfPath);
         FileReader fin = new FileReader(infile);
         BufferedReader br = new BufferedReader(fin);
-        List<String> chemicalNames = Lists.newArrayList();
+        List<String> chemicalNames = new ArrayList<>();
 
         String line;
         // skip any whitespace lines before the first molecule
@@ -780,7 +780,7 @@ public class DatasetFileOperations {
         // of SDFs.
         // warning: don't open too large of files with this, as you will run
         // out of memory.
-        List<String> compounds = Lists.newArrayList();
+        List<String> compounds = new ArrayList<>();
 
         File infile = new File(sdfPath);
         FileReader fin = new FileReader(infile);
@@ -805,7 +805,7 @@ public class DatasetFileOperations {
     private static String findDuplicates(List<String> compoundList) {
         String duplicates = "";
 
-        List<String> temp_list = Lists.newArrayList();
+        List<String> temp_list = new ArrayList<>();
         for (int i = 0; i < compoundList.size(); i++) {
             if (temp_list.contains(compoundList.get(i))) {
                 duplicates += compoundList.get(i) + " ";

@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.jobs;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Job;
 import edu.unc.ceccr.chembench.persistence.User;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +47,7 @@ public class LsfProcessingThread extends Thread {
     // static functions for checking the status of the LSF queue(s) on
     // Emerald.
     public static List<String> getCompletedJobNames() {
-        List<String> finishedJobNames = Lists.newArrayList();
+        List<String> finishedJobNames = new ArrayList<>();
 
         return finishedJobNames;
     }
@@ -65,7 +65,7 @@ public class LsfProcessingThread extends Thread {
         RunExternalProgram.runCommand(command, workingDir);
 
         // read in results
-        List<LsfJobStatus> lsfStatusList = Lists.newArrayList();
+        List<LsfJobStatus> lsfStatusList = new ArrayList<>();
 
         BufferedReader br = new BufferedReader(new FileReader(workingDir + "bjobs-out.txt"));
         String line = "";

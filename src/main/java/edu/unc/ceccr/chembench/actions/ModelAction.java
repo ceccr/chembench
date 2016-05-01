@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.actions;
 
-import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
@@ -12,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ModelAction extends ActionSupport {
@@ -179,7 +179,7 @@ public class ModelAction extends ActionSupport {
 
         if ((ds.getName().equals("all-datasets"))) {
             // Launch modeling on every dataset the user owns (except for this one).
-            List<Dataset> datasetList = Lists.newArrayList();
+            List<Dataset> datasetList = new ArrayList<>();
             datasetList.addAll(datasetRepository.findByUserName(user.getUserName()));
 
             Long allDatasetsId = selectedDatasetId;

@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.workflows.visualization;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +8,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,7 +40,7 @@ public class SdfToJpg {
         file = new File(filePath + fileName);
         FileReader fin = new FileReader(file);
         Scanner src = new Scanner(fin);
-        List<String> compoundNames = Lists.newArrayList();
+        List<String> compoundNames = new ArrayList<>();
 
         while (src.hasNext()) {
             StringBuilder sb = new StringBuilder();

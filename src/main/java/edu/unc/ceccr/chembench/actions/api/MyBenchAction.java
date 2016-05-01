@@ -3,16 +3,15 @@ package edu.unc.ceccr.chembench.actions.api;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class MyBenchAction extends ActionSupport {
     private final PredictionRepository predictionRepository;
 
     private User user = User.getCurrentUser();
-    private List<?> data = Lists.newArrayList();
+    private List<?> data = new ArrayList<>();
 
     @Autowired
     public MyBenchAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
@@ -63,7 +62,7 @@ public class MyBenchAction extends ActionSupport {
     }
 
     private List<Dataset> getDatasetObjects() {
-        List<Dataset> datasets = Lists.newArrayList();
+        List<Dataset> datasets = new ArrayList<>();
         if (user == null) {
             datasets.addAll(datasetRepository.findAllPublicDatasets());
         } else {
@@ -97,7 +96,7 @@ public class MyBenchAction extends ActionSupport {
     }
 
     public String getModels() {
-        List<Predictor> predictors = Lists.newArrayList();
+        List<Predictor> predictors = new ArrayList<>();
         predictors.addAll(predictorRepository.findPublicPredictors());
         if (user != null) {
             // return user's models and public models
@@ -115,10 +114,10 @@ public class MyBenchAction extends ActionSupport {
         if (user == null) {
             return SUCCESS;
         }
-        List<Prediction> predictions = Lists.newArrayList();
+        List<Prediction> predictions = new ArrayList<>();
         predictions.addAll(predictionRepository.findByUserName(user.getUserName()));
         for (Prediction prediction : predictions) {
-            List<String> predictorNames = Lists.newArrayList();
+            List<String> predictorNames = new ArrayList<>();
             Dataset predictionDataset = datasetRepository.findOne(prediction.getDatasetId());
             List<String> rawPredictorIds = splitter.splitToList(prediction.getPredictorIds());
             for (String rawPredictorId : rawPredictorIds) {

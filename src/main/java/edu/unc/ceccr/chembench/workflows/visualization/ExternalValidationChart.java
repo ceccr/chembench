@@ -1,14 +1,11 @@
 package edu.unc.ceccr.chembench.workflows.visualization;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.ExternalValidation;
 import edu.unc.ceccr.chembench.persistence.ExternalValidationRepository;
 import edu.unc.ceccr.chembench.persistence.Predictor;
 import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import org.apache.commons.validator.GenericValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
@@ -26,6 +23,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,6 +32,7 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -62,12 +62,12 @@ public class ExternalValidationChart {
         List<ExternalValidation> extValidation;
 
         // used to highlight one child of an nfold
-        List<ExternalValidation> highlightedExtValidation = Lists.newArrayList();
+        List<ExternalValidation> highlightedExtValidation = new ArrayList<>();
 
         List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
         if (childPredictors.size() != 0) {
             // get external set for each
-            extValidation = Lists.newArrayList();
+            extValidation = new ArrayList<>();
             for (int i = 0; i < childPredictors.size(); i++) {
                 Predictor cp = childPredictors.get(i);
                 List<ExternalValidation> childExtVals = externalValidationRepository.findByPredictorId(cp.getId());
@@ -113,13 +113,13 @@ public class ExternalValidationChart {
 
         HashMap<Integer, String> map = new HashMap<Integer, String>();
 
-        List<String> tooltipList = Lists.newArrayList();
+        List<String> tooltipList = new ArrayList<>();
 
         XYSeries pointSeries = new XYSeries(0, false);
         XYSeries highlightedPointSeries = new XYSeries(0, false);
 
-        List<XYSeries> stdDevList = Lists.newArrayList();
-        List<XYSeries> highlightedStdDevList = Lists.newArrayList();
+        List<XYSeries> stdDevList = new ArrayList<>();
+        List<XYSeries> highlightedStdDevList = new ArrayList<>();
 
         Iterator<ExternalValidation> it = extValidation.iterator();
         while (it.hasNext()) {
@@ -307,7 +307,7 @@ public class ExternalValidationChart {
 
     protected static List<String> customizedURLs(XYDataset ds, HashMap<Integer, String> map, String predictorName,
                                                  String user) {
-        List<String> list = Lists.newArrayList();
+        List<String> list = new ArrayList<>();
         String url;
 
         for (int i = 0; i < map.size(); i++) {

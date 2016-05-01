@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class WriteCsv {
 
     public static void writeExternalPredictionsAsCSV(Long predictorId) throws Exception {
         Predictor predictor = predictorRepository.findOne(predictorId);
-        List<ExternalValidation> externalValidationValues = Lists.newArrayList();
+        List<ExternalValidation> externalValidationValues = new ArrayList<>();
 
         String outfileName = Constants.CECCR_USER_BASE_PATH + predictor.getUserName() + "/PREDICTORS/" +
                 predictor.getName() + "/" + predictor.getName() + "-external-set-predictions.csv";
@@ -100,7 +101,7 @@ public class WriteCsv {
             FileAndDirOperations.deleteFile(outfileName);
         }
 
-        List<Predictor> predictors = Lists.newArrayList();
+        List<Predictor> predictors = new ArrayList<>();
         String[] predictorIdArray = prediction.getPredictorIds().split("\\s+");
         for (String predictorId : predictorIdArray) {
             predictors.add(predictorRepository.findOne(Long.parseLong(predictorId)));
@@ -150,7 +151,7 @@ public class WriteCsv {
                 out.write(cp.getCompound().replaceAll(",", "_") + ",");
 
                 if (cp.getPredictionValues() != null) {
-                    List<Object> predictionValues = Lists.newArrayList();
+                    List<Object> predictionValues = new ArrayList<>();
                     for (PredictionValue pv : cp.getPredictionValues()) {
                         predictionValues.add(pv.getPredictedValue());
                         predictionValues.add(pv.getStandardDeviation());
