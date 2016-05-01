@@ -30,7 +30,7 @@ public class RunSmilesPrediction {
     private static final Logger logger = LoggerFactory.getLogger(RunSmilesPrediction.class);
     private static PredictorRepository predictorRepository;
 
-    public static String[] predictSmilesSDF(String workingDir, String username, Predictor predictor) throws Exception {
+    public static String[] predictSmilesSdf(String workingDir, String username, Predictor predictor) throws Exception {
         Path wd = new File(workingDir).toPath();
         if (!Files.exists(wd)) {
             logger.info("Working directory doesn't exist, creating it: " + wd.toString());
@@ -38,7 +38,7 @@ public class RunSmilesPrediction {
         }
 
         String sdfile = workingDir + "smiles.sdf";
-        logger.debug("Running predictSmilesSDF in dir " + workingDir);
+        logger.debug("Running predictSmilesSdf in dir " + workingDir);
 
         /* copy the predictor to the workingDir. */
         String predictorUsername = predictor.getUserName();
@@ -59,7 +59,7 @@ public class RunSmilesPrediction {
         /* create the descriptors for the chemical and read them in */
         List<String> descriptorNames = Lists.newArrayList();
         List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
-        List<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(sdfile);
+        List<String> chemicalNames = DatasetFileOperations.getSdfCompoundNames(sdfile);
 
         ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
 
@@ -171,13 +171,13 @@ public class RunSmilesPrediction {
         return prediction;
     }
 
-    public static void smilesToSDF(String smiles, String smilesDir) throws Exception {
+    public static void smilesToSdf(String smiles, String smilesDir) throws Exception {
         /*
          * takes in a SMILES string and produces an SDF file from it. Returns
          * the file path as a string.
          */
 
-        logger.debug("Running smilesToSDF with SMILES: " + smiles);
+        logger.debug("Running smilesToSdf with SMILES: " + smiles);
 
         /* set up the directory, just in case it's not there yet. */
         File dir = new File(smilesDir);
@@ -207,10 +207,10 @@ public class RunSmilesPrediction {
 
         StandardizeSdfFormat.addNameTag("", "SMILES", smilesDir + sdfFileName, smilesDir + sdfFileName + ".addNameTag");
 
-        logger.debug("Finished smilesToSDF");
+        logger.debug("Finished smilesToSdf");
     }
 
-    public static void generateDescriptorsForSDF(String smilesDir, Set<String> descriptorTypes) throws Exception {
+    public static void generateDescriptorsForSdf(String smilesDir, Set<String> descriptorTypes) throws Exception {
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
         if (descriptorTypes.contains(Constants.CDK)) {
             GenerateDescriptors.generateCDKDescriptors(sdfile, sdfile + ".cdk");

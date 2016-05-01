@@ -47,7 +47,7 @@ public class CompoundPredictionsRepositoryImpl implements CompoundPredictionsRep
             if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
                 compounds = DatasetFileOperations.getXCompoundNames(datasetPath.resolve(dataset.getXFile()));
             } else {
-                compounds = DatasetFileOperations.getSDFCompoundNames(datasetPath.resolve(dataset.getSdfFile()));
+                compounds = DatasetFileOperations.getSdfCompoundNames(datasetPath.resolve(dataset.getSdfFile()));
             }
         } catch (IOException e) {
             throw new RuntimeException("Failed to retrieve compound names", e);

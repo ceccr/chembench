@@ -188,10 +188,10 @@ public class DatasetFileOperations {
         if (sdfFile != null) {
             sdfFileName = sdfFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
             logger.debug("checking SDF");
-            saveSDFFile(sdfFile, path, sdfFileName);
+            saveSdfFile(sdfFile, path, sdfFileName);
             sdfFile = new File(path + sdfFileName);
 
-            sdf_compounds = getSDFCompoundNames(sdfFile.getAbsolutePath());
+            sdf_compounds = getSdfCompoundNames(sdfFile.getAbsolutePath());
 
             rewriteSdf(path, sdfFileName, sdf_compounds);
 
@@ -299,7 +299,7 @@ public class DatasetFileOperations {
             if (!mismatches.isEmpty()) {
                 msgs.add(ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches);
             }
-            sdf_compounds = getSDFCompoundNames(path + sdfFileName);
+            sdf_compounds = getSdfCompoundNames(path + sdfFileName);
             act_compounds = getACTCompoundNames(path + actFileName);
         }
 
@@ -374,7 +374,7 @@ public class DatasetFileOperations {
                 msgs.add(ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_X + mismatches);
             }
             x_compounds = getXCompoundNames(path + xFileName);
-            sdf_compounds = getSDFCompoundNames(path + sdfFileName);
+            sdf_compounds = getSdfCompoundNames(path + sdfFileName);
         }
 
         if (externalCompoundList != null && !externalCompoundList.isEmpty()) {
@@ -421,7 +421,7 @@ public class DatasetFileOperations {
         return msgs;
     }
 
-    public static String saveSDFFile(File sdfFile, String path, String sdfFileName) throws Exception {
+    public static String saveSdfFile(File sdfFile, String path, String sdfFileName) throws Exception {
 
         String destFilePath = path + sdfFileName;
         FileAndDirOperations.copyFile(sdfFile.getAbsolutePath(), destFilePath);
@@ -729,11 +729,11 @@ public class DatasetFileOperations {
         return act_compounds;
     }
 
-    public static List<String> getSDFCompoundNames(Path sdfPath) throws IOException {
-        return getSDFCompoundNames(sdfPath.toString());
+    public static List<String> getSdfCompoundNames(Path sdfPath) throws IOException {
+        return getSdfCompoundNames(sdfPath.toString());
     }
 
-    public static List<String> getSDFCompoundNames(String sdfPath) throws IOException {
+    public static List<String> getSdfCompoundNames(String sdfPath) throws IOException {
         // returns JUST THE NAMES of the compounds in an SDF, no structure or
         // anything.
 
@@ -878,7 +878,7 @@ public class DatasetFileOperations {
     public static String sdfIsValid(File sdfFile) throws Exception {
         if (!sdfFile.exists()) {
             return ErrorMessages.INVALID_SDF;
-        } else if (getSDFCompoundNames(sdfFile.getAbsolutePath()).size() == 0) {
+        } else if (getSdfCompoundNames(sdfFile.getAbsolutePath()).size() == 0) {
             return ErrorMessages.SDF_IS_EMPTY;
         }
 

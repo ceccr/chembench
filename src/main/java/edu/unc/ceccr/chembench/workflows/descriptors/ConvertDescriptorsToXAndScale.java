@@ -68,7 +68,7 @@ public class ConvertDescriptorsToXAndScale {
         } else if (descriptorGenerationType.equals(Constants.CDK)) {
             allChemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + descriptorsFile);
         } else {
-            allChemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
+            allChemicalNames = DatasetFileOperations.getSdfCompoundNames(workingDir + sdfile);
         }
 
         while (descriptorsFilePart.exists()) {
@@ -146,7 +146,7 @@ public class ConvertDescriptorsToXAndScale {
         } else {
             logger.info("Getting compound names from SDF file: " +
                     workingDir + sdfile);
-            chemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
+            chemicalNames = DatasetFileOperations.getSdfCompoundNames(workingDir + sdfile);
         }
         String descriptorsFile = sdfile;
         if (descriptorGenerationType.equals(Constants.CDK)) {

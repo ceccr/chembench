@@ -119,11 +119,11 @@ public class PredictionAction extends ActionSupport {
             logger.debug("Created the directory " + smilesDir);
 
             // generate an SDF from this SMILES string
-            RunSmilesPrediction.smilesToSDF(smiles, smilesDir);
+            RunSmilesPrediction.smilesToSdf(smiles, smilesDir);
             logger.info(String.format("Generated SDF file from SMILES \"%s\" written to %s", smiles, smilesDir));
             // generate descriptors using the given SDF file except for ISIDA
             if (!predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-                RunSmilesPrediction.generateDescriptorsForSDF(smilesDir, descriptorTypes);
+                RunSmilesPrediction.generateDescriptorsForSdf(smilesDir, descriptorTypes);
             }
             logger.info("Generated descriptors for SDF: " + descriptorTypes.toString());
 
@@ -155,7 +155,7 @@ public class PredictionAction extends ActionSupport {
                     }
 
                     tempPred.add(RunSmilesPrediction
-                            .predictSmilesSDF(smilesDir + tempP.getName() + "/", user.getUserName(), tempP));
+                            .predictSmilesSdf(smilesDir + tempP.getName() + "/", user.getUserName(), tempP));
 
                     totalModels += tempP.getNumTestModels();
                     logger.debug("Calculating predictions for " + tempP.getName());
@@ -224,7 +224,7 @@ public class PredictionAction extends ActionSupport {
              * prediction
              */
             else {
-                predValues = RunSmilesPrediction.predictSmilesSDF(smilesDir, user.getUserName(), predictor);
+                predValues = RunSmilesPrediction.predictSmilesSdf(smilesDir, user.getUserName(), predictor);
 
                 // Calculate applicability domian
                 String execstr = "";

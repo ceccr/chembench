@@ -150,7 +150,7 @@ public class KnnPrediction {
         // bizarrely... X_X
         String actfile = workingDir + sdfile + ".renorm.a";
         BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
-        List<String> compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
+        List<String> compoundNames = DatasetFileOperations.getSdfCompoundNames(workingDir + sdfile);
         for (String compoundName : compoundNames) {
             aout.write(compoundName + " 0\n");
         }

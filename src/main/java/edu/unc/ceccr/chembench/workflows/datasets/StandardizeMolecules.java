@@ -19,7 +19,7 @@ public class StandardizeMolecules {
         // that could go into our database.
 
         logger.debug("standardizeSdf: getting sdf compounds");
-        List<String> compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfIn);
+        List<String> compoundNames = DatasetFileOperations.getSdfCompoundNames(workingDir + sdfIn);
         logger.debug("standardizeSdf: done getting sdf compounds");
 
         if (compoundNames.size() < 600) {

@@ -339,7 +339,7 @@ public class DatasetAction extends ActionSupport {
                             externalCompoundList, //if splitType is USERDEFINED
                             datasetName, paperReference, dataSetDescription, generateImagesP);
 
-                    int numCompounds = DatasetFileOperations.getSDFCompoundNames(
+                    int numCompounds = DatasetFileOperations.getSdfCompoundNames(
                             Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
                                     sdfFilePredictionFileName).size();
                     int numModels = 0;

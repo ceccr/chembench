@@ -109,7 +109,7 @@ public class DatasetDetailAction extends DetailAction {
         if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
             compoundIds = DatasetFileOperations.getXCompoundNames(datasetPath.resolve(dataset.getXFile()));
         } else {
-            compoundIds = DatasetFileOperations.getSDFCompoundNames(datasetPath.resolve(dataset.getSdfFile()));
+            compoundIds = DatasetFileOperations.getSdfCompoundNames(datasetPath.resolve(dataset.getSdfFile()));
         }
 
         for (String cid : compoundIds) {
