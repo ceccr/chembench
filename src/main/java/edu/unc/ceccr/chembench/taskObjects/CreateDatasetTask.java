@@ -214,15 +214,7 @@ public class CreateDatasetTask extends WorkflowTask {
             step = Constants.DESCRIPTORS;
             logger.debug("User: " + userName + "Job: " + jobName + " Generating Descriptors");
 
-            // the dataset included an SDF so we need to generate descriptors
-            // from it
-            // logger.debug("User: " +userName +"Job: "+ jobName+" Generating MolconnZ Descriptors");
-            // GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path +
-            // sdfFileName, path + descriptorDir + sdfFileName + ".mz");
-            // GenerateDescriptors.GenerateMolconnZDescriptors(path
-            //        + sdfFileName, path + descriptorDir + sdfFileName
-            //        + ".molconnz");
-
+            // the dataset included an SDF so we need to generate descriptors from it
             logger.debug("User: " + userName + "Job: " + jobName + " Generating CDK Descriptors");
             GenerateDescriptors.GenerateCDKDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".cdk");
 

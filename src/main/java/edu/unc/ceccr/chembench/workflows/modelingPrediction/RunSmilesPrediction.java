@@ -212,9 +212,6 @@ public class RunSmilesPrediction {
 
     public static void generateDescriptorsForSDF(String smilesDir, Set<String> descriptorTypes) throws Exception {
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
-        if (descriptorTypes.contains(Constants.MOLCONNZ)) {
-            GenerateDescriptors.GenerateMolconnZDescriptors(sdfile, sdfile + ".molconnz");
-        }
         if (descriptorTypes.contains(Constants.CDK)) {
             GenerateDescriptors.GenerateCDKDescriptors(sdfile, sdfile + ".cdk");
             ReadDescriptors.convertCDKToX(sdfile + ".cdk", smilesDir);

@@ -468,18 +468,7 @@ public class QsarModelingTask extends WorkflowTask {
         String xFileName = "";
         // read in descriptors from the dataset
         step = Constants.PROCDESCRIPTORS;
-        if (descriptorGenerationType.equals(Constants.MOLCONNZ)) {
-            logger.debug("Converting MolconnZ output to .x format and reading " + "for job, " + jobName
-                    + " submitted by user, " +
-                    userName + ".");
-            ReadDescriptors.readMolconnZDescriptors(filePath + sdFileName + ".molconnz", descriptorNames,
-                    descriptorValueMatrix);
-
-            // ReadDescriptorsFileWorkflow.convertMzToX(filePath + sdFileName
-            // + ".mz", filePath);
-            // ReadDescriptorsFileWorkflow.readXDescriptors(filePath +
-            // sdFileName + ".mz.x", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.CDK)) {
+        if (descriptorGenerationType.equals(Constants.CDK)) {
             logger.debug("Processing CDK descriptors for job, " + jobName + " submitted by user, " + userName);
 
             ReadDescriptors.convertCDKToX(filePath + sdFileName + ".cdk", filePath);

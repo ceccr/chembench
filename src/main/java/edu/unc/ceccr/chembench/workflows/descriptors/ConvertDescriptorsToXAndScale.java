@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class ConvertDescriptorsToXAndScale {
 
@@ -34,10 +33,7 @@ public class ConvertDescriptorsToXAndScale {
 
         // split each descriptor file into chunks
         String descriptorsFile = sdfile;
-        if (descriptorGenerationType.equals(Constants.MOLCONNZ)) {
-            descriptorsFile += ".molconnz";
-            splitMolconnZFile(workingDir, descriptorsFile);
-        } else if (descriptorGenerationType.equals(Constants.CDK)) {
+        if (descriptorGenerationType.equals(Constants.CDK)) {
             descriptorsFile += ".cdk";
             ReadDescriptors.convertCDKToX(workingDir + descriptorsFile, workingDir);
             descriptorsFile += ".x";
@@ -88,15 +84,7 @@ public class ConvertDescriptorsToXAndScale {
                 }
             }
 
-            if (descriptorGenerationType.equals(Constants.MOLCONNZ)) {
-                // ReadDescriptorsFileWorkflow.convertMzToX(workingDir +
-                // descriptorsFile + "_" + filePartNumber, workingDir);
-                // ReadDescriptorsFileWorkflow.readXDescriptors(workingDir +
-                // descriptorsFile + "_" + ".mz.x", descriptorNames,
-                // descriptorValueMatrix);
-                ReadDescriptors
-                        .readMolconnZDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-            } else if (descriptorGenerationType.equals(Constants.CDK)) {
+            if (descriptorGenerationType.equals(Constants.CDK)) {
                 // descriptorsFile += ".cdk";
                 // ReadDescriptors.convertCDKToX(workingDir +
                 // descriptorsFile+".x_" + filePartNumber, workingDir);
@@ -161,17 +149,7 @@ public class ConvertDescriptorsToXAndScale {
             chemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
         }
         String descriptorsFile = sdfile;
-        if (descriptorGenerationType.equals(Constants.MOLCONNZ)) {
-            // descriptorsFile += ".mz";
-            // ReadDescriptorsFileWorkflow.convertMzToX(workingDir +
-            // descriptorsFile, workingDir);
-            // ReadDescriptorsFileWorkflow.readXDescriptors(workingDir +
-            // descriptorsFile + ".x", descriptorNames,
-            // descriptorValueMatrix);
-            descriptorsFile += ".molconnz";
-            ReadDescriptors
-                    .readMolconnZDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.CDK)) {
+        if (descriptorGenerationType.equals(Constants.CDK)) {
             descriptorsFile += ".cdk";
             ReadDescriptors.convertCDKToX(workingDir + descriptorsFile, workingDir);
             ReadDescriptors
@@ -202,78 +180,6 @@ public class ConvertDescriptorsToXAndScale {
     }
 
     // helper functions
-
-    private static void splitMolconnZFile(String workingDir, String descriptorsFile) throws Exception {
-        File file = new File(workingDir + descriptorsFile);
-        if (!file.exists() || file.length() == 0) {
-            throw new Exception("Could not read MolconnZ descriptors.\n");
-        }
-        FileReader fin = new FileReader(file);
-
-        String temp;
-        Scanner src = new Scanner(fin);
-        List<String> descriptorNames = Lists.newArrayList(); // names
-        // for
-        // each
-        // molecule;
-        // used
-        // in
-        // counting
-        List<String> descriptorValues = Lists.newArrayList(); // values
-        // for
-        // each
-        // molecule;
-        // used
-        // in
-        // counting
-
-        String header = ""; // stores everything up to where descriptors
-        // begin.
-        int currentFile = 0;
-        int moleculesInCurrentFile = 0;
-        BufferedWriter outFilePart =
-                new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
-
-        boolean readingDescriptorNames = true;
-        while (src.hasNext()) {
-            temp = src.next();
-            if (temp.matches("[\\p{Graph}]+")) {
-                if (temp.matches("[0-9&&[^a-zA-Z]]+") && readingDescriptorNames) {
-                    // The first occurrence of a number indicates we're no
-                    // longer reading descriptor names.
-                    readingDescriptorNames = false;
-                }
-
-                outFilePart.write(temp + " ");
-                if (readingDescriptorNames) {
-                    descriptorNames.add(temp);
-                    header += temp + " ";
-                } else {
-                    descriptorValues.add(temp);
-                    if (descriptorValues.size() == descriptorNames.size()) {
-                        // At end of this molecule.
-                        descriptorValues.clear();
-                        outFilePart.write("\n");
-                        moleculesInCurrentFile++;
-                        if (moleculesInCurrentFile == compoundsPerChunk) {
-                            outFilePart.close();
-                            moleculesInCurrentFile = 0;
-                            currentFile++;
-                            outFilePart = new BufferedWriter(
-                                    new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
-                            outFilePart.write(header + "\n");
-                        }
-                    }
-                }
-            }
-        }
-
-        src.close();
-        // close final file
-        outFilePart.write("\n");
-        outFilePart.close();
-    }
-
     private static void splitDragonFile(String workingDir, String descriptorsFile) throws Exception {
 
         File file = new File(workingDir + descriptorsFile);

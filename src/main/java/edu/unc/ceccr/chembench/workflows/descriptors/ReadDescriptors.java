@@ -43,15 +43,6 @@ public class ReadDescriptors {
         return descs;
     }
 
-    public static void convertMzToX(String molconnZOutputFile, String workingDir) throws Exception {
-        String cmd = "python " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "mzToX.py " +
-                molconnZOutputFile + " " + molconnZOutputFile + ".x";
-        RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "mzToX.py");
-
-        // Any errors from MolconnZ processing will be in the log files. Read
-        // 'em.
-    }
-
     public static void convertCDKToX(String cdkOutputFile, String workingDir) throws Exception {
         String cmd = "python " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "cdkToX.py " + cdkOutputFile +
                 " " + cdkOutputFile + ".x";
@@ -63,9 +54,7 @@ public class ReadDescriptors {
 
     public static void readDescriptors(Predictor predictor, String sdfFile, List<String> descriptorNames,
                                        List<Descriptors> descriptorValueMatrix) throws Exception {
-        if (predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
-            ReadDescriptors.readMolconnZDescriptors(sdfFile + ".molconnz", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
+        if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
             ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNames, descriptorValueMatrix);
         } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONH)) {
             ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonH", descriptorNames, descriptorValueMatrix);
@@ -82,110 +71,6 @@ public class ReadDescriptors {
         } else {
             throw new RuntimeException("Bad descriptor type: " + predictor.getDescriptorGeneration());
         }
-    }
-
-    public static void readMolconnZDescriptors(String molconnZOutputFile, List<String> descriptorNames,
-                                               List<Descriptors> descriptorValueMatrix) throws Exception {
-
-        logger.debug("reading MolconnZ Descriptors");
-
-        File file = new File(molconnZOutputFile);
-        if (!file.exists() || file.length() == 0) {
-            throw new Exception("Could not read MolconnZ descriptors from file:" + " " + molconnZOutputFile + "\n");
-        }
-        FileReader fin = new FileReader(file);
-
-        String temp;
-        Scanner src = new Scanner(fin);
-        // values for each molecule
-        List<String> descriptorValueStrings = Lists.newArrayList();
-
-        boolean readingDescriptorNames = true;
-        while (src.hasNext()) {
-            // sometimes MolconnZ spits out nonsensical crap like ���C
-            // along with
-            // a descriptor value. Filter that out.
-            temp = src.next();
-            if (temp.matches("not_available")) {
-                // molconnz will spit out a not_available if it gets a bad
-                // molecule.
-                descriptorValueStrings.clear();
-            }
-            if (temp.matches("[\\p{Graph}]+")) {
-
-                if (temp.matches("[0-9&&[^a-zA-Z]]+") && readingDescriptorNames) {
-                    // The first occurrence of a number indicates we're no
-                    // longer reading descriptor names.
-                    // "1" will indicate the first molecule, no matter what
-                    // the SDF
-                    // had as molecule numbers.
-                    readingDescriptorNames = false;
-                }
-
-                if (readingDescriptorNames) {
-                    descriptorNames.add(temp);
-                } else {
-                    if (descriptorValueStrings.size() == descriptorNames.size()) {
-                        // done reading values for this molecule.
-
-                        String formula = descriptorValueStrings.get(Constants.MOLCONNZ_FORMULA_POS);
-                        // formula should look something like C(12)H(22)O(11)
-                        if (!formula.contains("(")) {
-                            // the formula for the molecule isn't a formula
-                            // usually indicates missing descriptors
-                            // on the previous molecule
-                            throw new Exception("MolconnZ error: Molecule " + descriptorValueStrings
-                                    .get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + " has formula " + descriptorValueStrings
-                                    .get(Constants.MOLCONNZ_FORMULA_POS));
-                        }
-                        /* contains molecule name, which isn't a descriptor */
-                        descriptorValueStrings.remove(Constants.MOLCONNZ_FORMULA_POS);
-                        /* contains molecule name, which isn't a descriptor */
-                        descriptorValueStrings.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
-                        /* contains molecule ID, which isn't a descriptor */
-                        descriptorValueStrings.remove(0);
-                        Descriptors di = new Descriptors();
-                        di.setDescriptorValues(Utility.stringListToDoubleList(descriptorValueStrings));
-                        descriptorValueMatrix.add(di);
-                        descriptorValueStrings.clear();
-                    }
-
-                    /*
-                     * a couple more special cases for when MolconnZ decides
-                     * to go crazy
-                     */
-                    if (temp.equals("inf")) {
-                        temp = "9999";
-                    } else if (temp.equals("-inf")) {
-                        temp = "-9999";
-                    } else if (temp.equals("not_available")) {
-                        /*
-                         * quit this shit - means MolconnZ failed at
-                         * descriptoring and all values past this point will
-                         * be offset.
-                         */
-                        throw new Exception("MolconnZ descriptors invalid!");
-                    }
-                    descriptorValueStrings.add(temp);
-                }
-            }
-        }
-        /* add the last molecule's descriptors */
-        /* contains molecule name, which isn't a descriptor */
-        descriptorValueStrings.remove(Constants.MOLCONNZ_FORMULA_POS);
-        descriptorNames.remove(Constants.MOLCONNZ_FORMULA_POS);
-        /* contains molecule name, which isn't a descriptor */
-        descriptorValueStrings.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
-        descriptorNames.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
-        /* contains molecule ID, which isn't a descriptor */
-        descriptorValueStrings.remove(0);
-        descriptorNames.remove(0);
-        Descriptors di = new Descriptors();
-        di.setDescriptorValues(Utility.stringListToDoubleList(descriptorValueStrings));
-        descriptorValueMatrix.add(di);
-
-        src.close();
-        fin.close();
     }
 
     public static void readDragonDescriptors(String dragonOutputFile, List<String> descriptorNames,

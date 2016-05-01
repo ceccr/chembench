@@ -338,12 +338,8 @@ public class PredictionAction extends ActionSupport {
                 isUploadedDescriptors = true;
                 singleCompoundPredictionAllowed = false;
             }
-            if (p.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
-                singleCompoundPredictionAllowed = false;
-            }
 
-            if (p.getDescriptorGeneration().equals(Constants.MOLCONNZ) ||
-                    p.getDescriptorGeneration().equals(Constants.DRAGONH) ||
+            if (p.getDescriptorGeneration().equals(Constants.DRAGONH) ||
                     p.getDescriptorGeneration().equals(Constants.DRAGONNOH) ||
                     p.getDescriptorGeneration().equals(Constants.MOE2D) ||
                     p.getDescriptorGeneration().equals(Constants.MACCS) ||
@@ -573,10 +569,7 @@ public class PredictionAction extends ActionSupport {
                 }
             } else {
                 for (int i = 0; i < predictionDatasetDescriptors.length; i++) {
-                    if (sp.getDescriptorGeneration().equals(Constants.MOLCONNZ) && predictionDatasetDescriptors[i]
-                            .equals(Constants.MOLCONNZ)) {
-                        descriptorsMatch = true;
-                    } else if (sp.getDescriptorGeneration().equals(Constants.CDK) && predictionDatasetDescriptors[i]
+                    if (sp.getDescriptorGeneration().equals(Constants.CDK) && predictionDatasetDescriptors[i]
                             .equals(Constants.CDK)) {
                         descriptorsMatch = true;
                     } else if (sp.getDescriptorGeneration().equals(Constants.DRAGONH) && predictionDatasetDescriptors[i]

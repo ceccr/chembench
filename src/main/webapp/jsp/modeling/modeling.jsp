@@ -87,12 +87,6 @@
               </div>
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="radio" value="MOLCONNZ">
-                  MolconnZ (375 descriptors)
-                </label>
-              </div>
-              <div class="radio">
-                <label>
                   <input name="descriptorGenerationType" type="radio" value="DRAGONH">
                   Dragon, with hydrogens (2489 descriptors)
                 </label>
