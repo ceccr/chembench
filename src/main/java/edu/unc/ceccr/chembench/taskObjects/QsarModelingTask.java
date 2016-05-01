@@ -499,7 +499,7 @@ public class QsarModelingTask extends WorkflowTask {
         } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
             logger.debug("Processing ISIDA descriptors for job, " + jobName + "submitted by user, " + userName);
             ReadDescriptors
-                    .readISIDADescriptors(filePath + sdFileName + ".ISIDA", descriptorNames, descriptorValueMatrix);
+                    .readIsidaDescriptors(filePath + sdFileName + ".ISIDA", descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
             ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);

@@ -29,7 +29,7 @@ public class GenerateDescriptors {
         ReadDescriptors.convertCDKToX(outfile, workingDir + "/Descriptors/");
     }
 
-    public static void generateISIDADescriptors(String sdfile, String outfile) {
+    public static void generateIsidaDescriptors(String sdfile, String outfile) {
         //Given an SDF file, run ISIDA to get the chemical descriptors for each compound
         //Generate sdf.ISIDA.hdr and sdf.ISIDA.svm
         String execstr = "Fragmentor" + " -i " + sdfile + " -o " + outfile + " -t 0" +

@@ -53,7 +53,7 @@ public class RunSmilesPrediction {
 
         /* generate ISIDA descriptor for smiles.sdf*/
         if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-            generateISIDADescriptorsForSDF(workingDir, predictor.getSdFileName());
+            generateIsidaDescriptorsForSdf(workingDir, predictor.getSdFileName());
         }
 
         /* create the descriptors for the chemical and read them in */
@@ -230,7 +230,7 @@ public class RunSmilesPrediction {
         }
     }
 
-    public static void generateISIDADescriptorsForSDF(String smilesDir, String predictorSdfFileNames) throws Exception {
+    public static void generateIsidaDescriptorsForSdf(String smilesDir, String predictorSdfFileNames) throws Exception {
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
         String predictorHeaderFile = smilesDir + predictorSdfFileNames + ".ISIDA.hdr";
         GenerateDescriptors.generateIsidaDescriptorsWithHeader(sdfile, sdfile + ".ISIDA", predictorHeaderFile);

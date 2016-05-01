@@ -236,7 +236,7 @@ public class CreateDatasetTask extends WorkflowTask {
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating ISIDA Descriptors");
             GenerateDescriptors
-                    .generateISIDADescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".ISIDA");
+                    .generateIsidaDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".ISIDA");
 
             step = Constants.CHECKDESCRIPTORS;
 

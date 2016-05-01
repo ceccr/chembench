@@ -52,7 +52,7 @@ public class ConvertDescriptorsToXAndScale {
             splitMaccsFile(workingDir, descriptorsFile);
         } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
             descriptorsFile += ".renorm.ISIDA.svm";
-            splitISIDAFile(workingDir, descriptorsFile);
+            splitIsidaFile(workingDir, descriptorsFile);
         } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             splitXFile(workingDir, descriptorsFile);
         }
@@ -108,7 +108,7 @@ public class ConvertDescriptorsToXAndScale {
                                 descriptorValueMatrix);
             } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
                 ReadDescriptors
-                        .readISIDADescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
+                        .readIsidaDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
                                 descriptorValueMatrix);
             } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
                 ReadDescriptors.readXDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
@@ -168,7 +168,7 @@ public class ConvertDescriptorsToXAndScale {
             ReadDescriptors.readMaccsDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
             descriptorsFile += ".renorm.ISIDA";
-            ReadDescriptors.readISIDADescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
+            ReadDescriptors.readIsidaDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             ReadDescriptors.readXDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
         }
@@ -292,7 +292,7 @@ public class ConvertDescriptorsToXAndScale {
         outFilePart.close();
     }
 
-    private static void splitISIDAFile(String workingDir, String descriptorsFile) throws Exception {
+    private static void splitIsidaFile(String workingDir, String descriptorsFile) throws Exception {
         File file = new File(workingDir + descriptorsFile);
         if (!file.exists() || file.length() == 0) {
             throw new Exception("Could not read ISIDA descriptors.\n");

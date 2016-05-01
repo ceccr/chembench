@@ -65,7 +65,7 @@ public class ReadDescriptors {
         } else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
             ReadDescriptors.readMaccsDescriptors(sdfFile + ".maccs", descriptorNames, descriptorValueMatrix);
         } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-            ReadDescriptors.readISIDADescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
+            ReadDescriptors.readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
         } else if (predictor.getDescriptorGeneration().equals(Constants.UPLOADED)) {
             ReadDescriptors.readXDescriptors(sdfFile + ".x", descriptorNames, descriptorValueMatrix);
         } else {
@@ -240,7 +240,7 @@ public class ReadDescriptors {
         br.close();
     }
 
-    public static void readISIDADescriptors(String ISIDAOutputFile, List<String> descriptorNames,
+    public static void readIsidaDescriptors(String ISIDAOutputFile, List<String> descriptorNames,
                                             List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading ISIDA Descriptors");
         Path rawFilePath = Paths.get(ISIDAOutputFile);
