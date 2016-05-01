@@ -216,27 +216,27 @@ public class CreateDatasetTask extends WorkflowTask {
 
             // the dataset included an SDF so we need to generate descriptors from it
             logger.debug("User: " + userName + "Job: " + jobName + " Generating CDK Descriptors");
-            GenerateDescriptors.GenerateCDKDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".cdk");
+            GenerateDescriptors.generateCDKDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".cdk");
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating DragonH Descriptors");
-            GenerateDescriptors.GenerateHExplicitDragonDescriptors(path + sdfFileName,
+            GenerateDescriptors.generateHExplicitDragonDescriptors(path + sdfFileName,
                     path + descriptorDir + sdfFileName + ".dragonH");
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating DragonNoH Descriptors");
-            GenerateDescriptors.GenerateHDepletedDragonDescriptors(path + sdfFileName,
+            GenerateDescriptors.generateHDepletedDragonDescriptors(path + sdfFileName,
                     path + descriptorDir + sdfFileName + ".dragonNoH");
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating Moe2D Descriptors");
             GenerateDescriptors
-                    .GenerateMoe2DDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".moe2D");
+                    .generateMoe2DDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".moe2D");
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating MACCS Descriptors");
             GenerateDescriptors
-                    .GenerateMaccsDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".maccs");
+                    .generateMaccsDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".maccs");
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating ISIDA Descriptors");
             GenerateDescriptors
-                    .GenerateISIDADescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".ISIDA");
+                    .generateISIDADescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".ISIDA");
 
             step = Constants.CHECKDESCRIPTORS;
 

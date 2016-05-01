@@ -413,7 +413,7 @@ public class QsarPredictionTask extends WorkflowTask {
             step = Constants.PROCDESCRIPTORS;
 
             if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-                GenerateDescriptors.GenerateISIDADescriptorsWithHeader(predictionDir + sdfile,
+                GenerateDescriptors.generateIsidaDescriptorsWithHeader(predictionDir + sdfile,
                         predictionDir + sdfile + ".renorm.ISIDA", predictionDir + predictor.getSdFileName() + ".ISIDA" +
                                 ".hdr");
                 ConvertDescriptorsToXAndScale

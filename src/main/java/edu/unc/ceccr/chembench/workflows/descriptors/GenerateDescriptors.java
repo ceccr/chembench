@@ -13,7 +13,7 @@ public class GenerateDescriptors {
 
     private static final Logger logger = LoggerFactory.getLogger(GenerateDescriptors.class);
 
-    public static void GenerateCDKDescriptors(String sdfile, String outfile) throws Exception {
+    public static void generateCDKDescriptors(String sdfile, String outfile) throws Exception {
         //Given an SD file, run CDK to get the chemical descriptors for each compound.
         String xmlFile = Constants.CECCR_BASE_PATH + Constants.CDK_XMLFILE_PATH;
 
@@ -29,7 +29,7 @@ public class GenerateDescriptors {
         ReadDescriptors.convertCDKToX(outfile, workingDir + "/Descriptors/");
     }
 
-    public static void GenerateISIDADescriptors(String sdfile, String outfile) {
+    public static void generateISIDADescriptors(String sdfile, String outfile) {
         //Given an SDF file, run ISIDA to get the chemical descriptors for each compound
         //Generate sdf.ISIDA.hdr and sdf.ISIDA.svm
         String execstr = "Fragmentor" + " -i " + sdfile + " -o " + outfile + " -t 0" +
@@ -38,7 +38,7 @@ public class GenerateDescriptors {
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "ISIDA");
     }
 
-    public static void GenerateISIDADescriptorsWithHeader(String sdfile, String outfile, String headerFile) {
+    public static void generateIsidaDescriptorsWithHeader(String sdfile, String outfile, String headerFile) {
         //Given an SDF file, run ISIDA to get the chemical descriptors for each compound with the .hdr from predictor
         //Generate sdf.ISIDA.hdr and sdf.ISIDA.svm
         String execstr = "Fragmentor" + " -i " + sdfile + " -o " + outfile + " -t 0" +
@@ -47,7 +47,7 @@ public class GenerateDescriptors {
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "ISIDA");
     }
 
-    public static void GenerateHExplicitDragonDescriptors(String sdfile, String outfile) throws Exception {
+    public static void generateHExplicitDragonDescriptors(String sdfile, String outfile) throws Exception {
         String workingDir = outfile.replaceAll("/[^/]+$", "") + "/";
         writeHExplicitDragonScriptFiles(sdfile, workingDir, outfile);
 
@@ -57,7 +57,7 @@ public class GenerateDescriptors {
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonH");
     }
 
-    public static void GenerateHDepletedDragonDescriptors(String sdfile, String outfile) throws Exception {
+    public static void generateHDepletedDragonDescriptors(String sdfile, String outfile) throws Exception {
         String workingDir = outfile.replaceAll("/[^/]+$", "") + "/";
         writeHDepletedDragonScriptFiles(sdfile, workingDir, outfile);
 
@@ -180,7 +180,7 @@ public class GenerateDescriptors {
         }
     }
 
-    public static void GenerateMoe2DDescriptors(String sdfile, String outfile) throws Exception {
+    public static void generateMoe2DDescriptors(String sdfile, String outfile) throws Exception {
         //command: "moe2D.sh infile.sdf outfile.moe2D"
         String execstr = "moe2D.sh " + " " + sdfile + " " + outfile + " " + Constants.CECCR_BASE_PATH +
                 "mmlsoft/SVL_DIR/batch_sd_2Ddesc.svl";
@@ -189,7 +189,7 @@ public class GenerateDescriptors {
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "moe2d.sh");
     }
 
-    public static void GenerateMaccsDescriptors(String sdfile, String outfile) throws Exception {
+    public static void generateMaccsDescriptors(String sdfile, String outfile) throws Exception {
         //command: "maccs.sh infile.sdf outfile.maccs"
         String execstr = "maccs.sh " + sdfile + " " + outfile + " " + Constants.CECCR_BASE_PATH +
                 "mmlsoft/SVL_DIR/batch_sd_MACCSFP.svl";

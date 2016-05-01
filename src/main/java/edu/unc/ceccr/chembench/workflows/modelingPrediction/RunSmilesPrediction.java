@@ -213,27 +213,27 @@ public class RunSmilesPrediction {
     public static void generateDescriptorsForSDF(String smilesDir, Set<String> descriptorTypes) throws Exception {
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
         if (descriptorTypes.contains(Constants.CDK)) {
-            GenerateDescriptors.GenerateCDKDescriptors(sdfile, sdfile + ".cdk");
+            GenerateDescriptors.generateCDKDescriptors(sdfile, sdfile + ".cdk");
             ReadDescriptors.convertCDKToX(sdfile + ".cdk", smilesDir);
         }
         if (descriptorTypes.contains(Constants.DRAGONH)) {
-            GenerateDescriptors.GenerateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonH");
+            GenerateDescriptors.generateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonH");
         }
         if (descriptorTypes.contains(Constants.DRAGONNOH)) {
-            GenerateDescriptors.GenerateHDepletedDragonDescriptors(sdfile, sdfile + ".dragonNoH");
+            GenerateDescriptors.generateHDepletedDragonDescriptors(sdfile, sdfile + ".dragonNoH");
         }
         if (descriptorTypes.contains(Constants.MOE2D)) {
-            GenerateDescriptors.GenerateMoe2DDescriptors(sdfile, sdfile + ".moe2D");
+            GenerateDescriptors.generateMoe2DDescriptors(sdfile, sdfile + ".moe2D");
         }
         if (descriptorTypes.contains(Constants.MACCS)) {
-            GenerateDescriptors.GenerateMaccsDescriptors(sdfile, sdfile + ".maccs");
+            GenerateDescriptors.generateMaccsDescriptors(sdfile, sdfile + ".maccs");
         }
     }
 
     public static void generateISIDADescriptorsForSDF(String smilesDir, String predictorSdfFileNames) throws Exception {
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
         String predictorHeaderFile = smilesDir + predictorSdfFileNames + ".ISIDA.hdr";
-        GenerateDescriptors.GenerateISIDADescriptorsWithHeader(sdfile, sdfile + ".ISIDA", predictorHeaderFile);
+        GenerateDescriptors.generateIsidaDescriptorsWithHeader(sdfile, sdfile + ".ISIDA", predictorHeaderFile);
     }
 
     @Autowired
