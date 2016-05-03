@@ -41,9 +41,9 @@
             }
         });
 
-        $('.descriptor-type input[type="radio"]').click(function() {
-            var parent = $(this).parents('.descriptor-type');
-            var otherParent = $(parent).siblings('.descriptor-type');
+        $('.uploaded-descriptor-type input[type="radio"]').click(function() {
+            var parent = $(this).parents('.uploaded-descriptor-type');
+            var otherParent = $(parent).siblings('.uploaded-descriptor-type');
 
             // disable the other descriptor type
             otherParent.addClass('text-muted');

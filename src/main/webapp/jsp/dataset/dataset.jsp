@@ -219,22 +219,22 @@
                     <label>Descriptor type:</label> <span class="help-block">e.g. "Dragon", "Hybrid", etc.</span>
                   </div>
                   <div class="col-xs-9">
-                    <div class="descriptor-type">
+                    <div class="uploaded-descriptor-type">
                       <div class="control-label col-xs-3">
                         <input type="radio" name="predictorName" id="newDescriptorName" checked="checked"><label
                           for="newDescriptorName">New type</label>
                       </div>
-                      <div class="col-xs-9 descriptor-type-entry">
+                      <div class="col-xs-9 uploaded-descriptor-type-entry">
                         <s:textfield name="descriptorNewName" id="descriptorNewName" theme="simple" />
                       </div>
                     </div>
                     <s:if test="userUploadedDescriptorTypes.size() > 0">
-                      <div class="descriptor-type text-muted">
+                      <div class="uploaded-descriptor-type text-muted">
                         <div class="control-label col-xs-3">
                           <input type="radio" name="predictorName" id="usedDescriptorName"><label
                             for="usedDescriptorName">Existing type</label>
                         </div>
-                        <div class="col-xs-9 descriptor-type-entry">
+                        <div class="col-xs-9 uploaded-descriptor-type-entry">
                           <s:select name="selectedDescriptorUsedName" id="descriptorUsedName"
                                     list="userUploadedDescriptorTypes" label="Select type" disabled="true"
                                     theme="simple" />
@@ -317,22 +317,22 @@
                     <label>Descriptor type:</label> <span class="help-block">e.g. "Dragon", "Hybrid", etc.</span>
                   </div>
                   <div class="col-xs-9">
-                    <div class="descriptor-type">
+                    <div class="uploaded-descriptor-type">
                       <div class="control-label col-xs-3">
                         <input type="radio" name="predictorNameD" id="newDescriptorNameD" checked="checked"><label
                           for="newDescriptorNameD">New type</label>
                       </div>
-                      <div class="col-xs-9 descriptor-type-entry">
+                      <div class="col-xs-9 uploaded-descriptor-type-entry">
                         <s:textfield name="descriptorNewNameD" id="descriptorNewNameD" theme="simple" />
                       </div>
                     </div>
                     <s:if test="userUploadedDescriptorTypes.size() > 0">
-                      <div class="descriptor-type text-muted">
+                      <div class="uploaded-descriptor-type text-muted">
                         <div class="control-label col-xs-3">
                           <input type="radio" name="predictorNameD" id="usedDescriptorNameD"><label
                             for="usedDescriptorNameD">Existing type</label>
                         </div>
-                        <div class="col-xs-9 descriptor-type-entry">
+                        <div class="col-xs-9 uploaded-descriptor-type-entry">
                           <s:select name="selectedDescriptorUsedNameD" id="descriptorUsedNameD"
                                     list="userUploadedDescriptorTypes" label="Select type" disabled="true"
                                     theme="simple" />

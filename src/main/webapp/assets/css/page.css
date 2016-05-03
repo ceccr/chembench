@@ -56,17 +56,17 @@
     display: none;
 }
 
-.descriptor-type input[type="text"], .descriptor-type select {
+.uploaded-descriptor-type input[type="text"], .uploaded-descriptor-type select {
     width: 200px;
 }
 
-.descriptor-type-entry {
+.uploaded-descriptor-type-entry {
     padding-top: 7px;
 }
 /* end dataset */
 
 /* modeling */
-#descriptor-types, #scaling-types {
+#uploaded-descriptor-types, #scaling-types {
     margin-left: 15px;
 }
 
