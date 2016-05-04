@@ -245,7 +245,8 @@
                 </div>
                 <div class="form-group">
                   <div class="col-xs-offset-3 col-xs-9">
-                    <label for="hasBeenScaled"><s:checkbox name="hasBeenScaled" id="hasBeenScaled" theme="simple" />My
+                    <label for="hasBeenScaled-MWD"><s:checkbox name="hasBeenScaled" id="hasBeenScaled-MWD"
+                                                               theme="simple" />My
                       descriptors have been scaled</label>
 
                     <p class="help-block">If you leave this unchecked, Chembench will scale your descriptors for you.
@@ -343,7 +344,8 @@
                 </div>
                 <div class="form-group">
                   <div class="col-xs-offset-3 col-xs-9">
-                    <label for="hasBeenScaled"><s:checkbox name="hasBeenScaled" id="hasBeenScaled" theme="simple" />My
+                    <label for="hasBeenScaled-PWD"><s:checkbox name="hasBeenScaled" id="hasBeenScaled-PWD"
+                                                               theme="simple" />My
                       descriptors have been scaled</label>
 
                     <p class="help-block">
