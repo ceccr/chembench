@@ -90,7 +90,7 @@
             window.location = Chembench.Constants.MYBENCH_URL;
         });
 
-        $('#prediction-model-selection, #prediction-dataset-selection').find('table').DataTable().on('draw',
+        $('#prediction-model-selection, #prediction-dataset-selection').find('table').DataTable().one('draw',
                 function() {
                     var table = $(this);
                     var tableType = (table.parents('#prediction-model-selection').length) ? 'model' : 'dataset';
