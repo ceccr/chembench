@@ -10,7 +10,7 @@ import edu.unc.ceccr.chembench.utilities.CopyJobFiles;
 import edu.unc.ceccr.chembench.utilities.CreateJobDirectories;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.Utility;
-import edu.unc.ceccr.chembench.workflows.calculations.RSquaredAndCCR;
+import edu.unc.ceccr.chembench.workflows.calculations.PredictorEvaluation;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.WriteDescriptors;
@@ -803,7 +803,7 @@ public class QsarModelingTask extends WorkflowTask {
         }
 
         // calculate outputs based on ext set predictions and save
-        RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor);
+        PredictorEvaluation.addRSquaredAndCCRToPredictor(predictor);
         predictorRepository.save(predictor);
 
         if (dataset.getSplitType().equals(Constants.NFOLD)) {
@@ -836,7 +836,7 @@ public class QsarModelingTask extends WorkflowTask {
             predictor.setParentId(parentPredictor.getId());
 
             // calc r^2 etc for parent as well
-            RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor);
+            PredictorEvaluation.addRSquaredAndCCRToPredictor(parentPredictor);
 
             // save
             predictorRepository.save(parentPredictor);

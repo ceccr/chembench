@@ -1,6 +1,7 @@
 package edu.unc.ceccr.chembench.workflows.calculations;
 
 import com.google.common.collect.Sets;
+import com.google.common.math.DoubleMath;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.ExternalValidation;
 import edu.unc.ceccr.chembench.persistence.ExternalValidationRepository;
@@ -20,9 +21,9 @@ import java.util.List;
 import java.util.Set;
 
 @Component
-public class RSquaredAndCCR {
+public class PredictorEvaluation {
 
-    private static final Logger logger = LoggerFactory.getLogger(RSquaredAndCCR.class);
+    private static final Logger logger = LoggerFactory.getLogger(PredictorEvaluation.class);
     private static PredictorRepository predictorRepository;
     private static ExternalValidationRepository externalValidationRepository;
 
@@ -185,11 +186,11 @@ public class RSquaredAndCCR {
                     //calculate r^2 / ccr for this child
                     if (childExtVals.size() > 0) {
                         if (selectedPredictor.getActivityType().equals(Constants.CATEGORY)) {
-                            Double childCcr = (RSquaredAndCCR.calculateConfusionMatrix(childExtVals)).getCcr();
+                            Double childCcr = (PredictorEvaluation.calculateConfusionMatrix(childExtVals)).getCcr();
                             childAccuracies.addValue(childCcr);
                         } else if (selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)) {
-                            List<Double> childResiduals = RSquaredAndCCR.calculateResiduals(childExtVals);
-                            Double childRSquared = RSquaredAndCCR.calculateRSquared(childExtVals, childResiduals);
+                            List<Double> childResiduals = PredictorEvaluation.calculateResiduals(childExtVals);
+                            Double childRSquared = PredictorEvaluation.calculateRSquared(childExtVals, childResiduals);
                             childAccuracies.addValue(childRSquared);
                             //CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
                         }
@@ -230,7 +231,7 @@ public class RSquaredAndCCR {
             }
 
             //calculate residuals and fix significant figures on output data
-            List<Double> residualsAsDouble = RSquaredAndCCR.calculateResiduals(externalValValues);
+            List<Double> residualsAsDouble = PredictorEvaluation.calculateResiduals(externalValValues);
             List<String> residuals = new ArrayList<>();
             if (residualsAsDouble.size() > 0) {
                 for (Double residual : residualsAsDouble) {
@@ -249,7 +250,7 @@ public class RSquaredAndCCR {
             if (selectedPredictor.getActivityType().equals(Constants.CATEGORY)) {
                 //if category model, create confusion matrix.
                 //round off the predicted values to nearest integer.
-                confusionMatrix = RSquaredAndCCR.calculateConfusionMatrix(externalValValues);
+                confusionMatrix = PredictorEvaluation.calculateConfusionMatrix(externalValValues);
                 selectedPredictor.setExternalPredictionAccuracy(
                         Utility.roundSignificantFigures(confusionMatrix.getCcr(),
                                 Constants.REPORTED_SIGNIFICANT_FIGURES));
@@ -257,7 +258,7 @@ public class RSquaredAndCCR {
                     && externalValValues.size() > 1) {
                 //if continuous, calculate overall r^2 and... r0^2? or something?
                 //just r^2 for now, more later.
-                Double rSquaredDouble = RSquaredAndCCR.calculateRSquared(externalValValues, residualsAsDouble);
+                Double rSquaredDouble = PredictorEvaluation.calculateRSquared(externalValValues, residualsAsDouble);
                 rSquared = Utility.roundSignificantFigures("" + rSquaredDouble, Constants.REPORTED_SIGNIFICANT_FIGURES);
                 selectedPredictor.setExternalPredictionAccuracy(rSquared);
             }
@@ -266,13 +267,37 @@ public class RSquaredAndCCR {
         }
     }
 
+    public static Double calculateMae(List<ExternalValidation> extVals) {
+        if (extVals.isEmpty()) {
+            return 0d;
+        }
+
+        List<Float> absoluteErrors = new ArrayList<>();
+        for (ExternalValidation ev : extVals) {
+            absoluteErrors.add(Math.abs(ev.getActualValue() - ev.getPredictedValue()));
+        }
+        return DoubleMath.mean(absoluteErrors);
+    }
+
+    public static Double calculateRmse(List<ExternalValidation> extVals) {
+        if (extVals.isEmpty()) {
+            return 0d;
+        }
+
+        List<Double> squaredErrors = new ArrayList<>();
+        for (ExternalValidation ev : extVals) {
+            squaredErrors.add(Math.pow(ev.getActualValue() - ev.getPredictedValue(), 2));
+        }
+        return Math.sqrt(DoubleMath.mean(squaredErrors));
+    }
+
     @Autowired
     public void setPredictorRepository(PredictorRepository predictorRepository) {
-        RSquaredAndCCR.predictorRepository = predictorRepository;
+        PredictorEvaluation.predictorRepository = predictorRepository;
     }
 
     @Autowired
     public void setExternalValidationRepository(ExternalValidationRepository externalValidationRepository) {
-        RSquaredAndCCR.externalValidationRepository = externalValidationRepository;
+        PredictorEvaluation.externalValidationRepository = externalValidationRepository;
     }
 }

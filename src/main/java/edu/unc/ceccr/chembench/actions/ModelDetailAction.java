@@ -6,7 +6,7 @@ import com.google.common.collect.Range;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.workflows.calculations.ConfusionMatrix;
-import edu.unc.ceccr.chembench.workflows.calculations.RSquaredAndCCR;
+import edu.unc.ceccr.chembench.workflows.calculations.PredictorEvaluation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,7 +172,7 @@ public class ModelDetailAction extends DetailAction {
     private ExternalValidationGroup buildExternalValidationGroup(Predictor predictor) {
         ExternalValidationGroup evGroup = new ExternalValidationGroup();
         List<ExternalValidation> extVals = externalValidationRepository.findByPredictorId(predictor.getId());
-        List<Double> residuals = RSquaredAndCCR.calculateResiduals(extVals);
+        List<Double> residuals = PredictorEvaluation.calculateResiduals(extVals);
         evGroup.extVals = extVals;
         evGroup.residuals = residuals;
         List<DisplayedExternalValidationValue> displayedExtVals =
@@ -181,10 +181,12 @@ public class ModelDetailAction extends DetailAction {
         ConfusionMatrix confusionMatrix = null;
         ContinuousStatistics continuousStatistics = null;
         if (modelingDataset.isCategory()) {
-            confusionMatrix = RSquaredAndCCR.calculateConfusionMatrix(extVals);
+            confusionMatrix = PredictorEvaluation.calculateConfusionMatrix(extVals);
         } else if (modelingDataset.isContinuous()) {
             continuousStatistics = new ContinuousStatistics();
-            continuousStatistics.rSquared = RSquaredAndCCR.calculateRSquared(extVals, residuals);
+            continuousStatistics.rSquared = PredictorEvaluation.calculateRSquared(extVals, residuals);
+            continuousStatistics.rmse = PredictorEvaluation.calculateRmse(extVals);
+            continuousStatistics.mae = PredictorEvaluation.calculateMae(extVals);
         }
         evGroup.displayedExternalValidationValues = displayedExtVals;
         evGroup.confusionMatrix = confusionMatrix;
@@ -373,10 +375,12 @@ public class ModelDetailAction extends DetailAction {
             ConfusionMatrix confusionMatrix = null;
             ContinuousStatistics continuousStatistics = null;
             if (activityType.equals(Constants.CATEGORY)) {
-                confusionMatrix = RSquaredAndCCR.calculateConfusionMatrix(allExtVals);
+                confusionMatrix = PredictorEvaluation.calculateConfusionMatrix(allExtVals);
             } else if (activityType.equals(Constants.CONTINUOUS)) {
                 continuousStatistics = new ContinuousStatistics();
-                continuousStatistics.rSquared = RSquaredAndCCR.calculateRSquared(allExtVals, allResiduals);
+                continuousStatistics.rSquared = PredictorEvaluation.calculateRSquared(allExtVals, allResiduals);
+                continuousStatistics.rmse = PredictorEvaluation.calculateRmse(allExtVals);
+                continuousStatistics.mae = PredictorEvaluation.calculateMae(allExtVals);
             }
             combined.extVals = allExtVals;
             combined.displayedExternalValidationValues = allDisplayedExtVals;

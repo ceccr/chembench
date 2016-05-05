@@ -7,7 +7,7 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
-import edu.unc.ceccr.chembench.workflows.calculations.RSquaredAndCCR;
+import edu.unc.ceccr.chembench.workflows.calculations.PredictorEvaluation;
 import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -675,7 +675,7 @@ public class AdminAction extends ActionSupport {
                 for (Predictor p : predictorRepository.findByUserName(user.getUserName())) {
                     if (p.getActivityType().equals(Constants.CATEGORY)) {
                         logger.debug("Regenerating predictor " + p.getName());
-                        RSquaredAndCCR.addRSquaredAndCCRToPredictor(p);
+                        PredictorEvaluation.addRSquaredAndCCRToPredictor(p);
                         predictorRepository.save(p);
                     }
                 }

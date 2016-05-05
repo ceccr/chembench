@@ -214,6 +214,17 @@
                     <h4 class="list-group-item-heading">Statistics</h4>
                     <dl class="dl-horizontal properties-list">
                       <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
+                        <dt><var>r</var> <sup>2</sup></dt>
+                        <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
+                          <dd><s:property value="predictor.externalPredictionAccuracyAvg" /></dd>
+                        </s:if>
+                        <s:else>
+                          <dd><s:property value="predictor.externalPredictionAccuracy" /></dd>
+                        </s:else>
+                        <dt><abbr class="initialism" title="Root Mean Squared Error">RMSE</abbr></dt>
+                        <dd><s:text name="format.double"><s:param value="continuousStatistics.rmse" /></s:text></dd>
+                        <dt><abbr class="initialism" title="Mean Absolute Error">MAE</abbr></dt>
+                        <dd><s:text name="format.double"><s:param value="continuousStatistics.mae" /></s:text></dd>
                       </s:if>
                       <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
                         <dt>Total number of predictions</dt>
