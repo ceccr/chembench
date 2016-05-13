@@ -239,3 +239,7 @@ input[type="checkbox"], input[type="radio"] {
 .panel > .no-objects-message {
     padding: 1em;
 }
+
+.placeholder {
+    display: none;
+}
