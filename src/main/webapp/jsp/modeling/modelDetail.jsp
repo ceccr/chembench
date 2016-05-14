@@ -360,7 +360,7 @@
           <h3><var>y</var>-Randomized Trees</h3>
 
           <p>In <var>y</var>-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
-            data where the compound activities have been shuffled. Ideally, no trees with a high R<sup>2</sup> will be
+            data where the compound activities have been shuffled. Ideally, no trees with a high r<sup>2</sup> will be
             produced. If the <var>y</var>-Randomized trees are similar to the real trees built on your data (see the <b>Trees</b>
             tab), the predictor should be considered invalid and the dataset or parameters must be revised. <var>y</var>-randomized
             trees are only created for validation purposes and are not used in predictions.
@@ -371,10 +371,11 @@
           <h3><var>y</var>-Randomized Models</h3>
 
           <p>In <var>y</var>-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
-            data where the compound activities have been shuffled. Ideally, no models with a high R<sup>2</sup> will be
-            produced. If the <var>y</var>-Randomized models are similar to the real models built on your data (see the <b>Models</b>
-            tab), the predictor should be considered invalid and the dataset or parameters must be revised. <var>y</var>-randomized
-            models are only created for validation purposes and are not used in predictions.
+            data where the compound activities have been shuffled. Ideally, no models with a high r<sup>2</sup> or
+            q<sup>2</sup> will be produced. If the <var>y</var>-Randomized models are similar to the real models built
+            on your data (see the <b>Models</b> tab), the predictor should be considered invalid and the dataset or
+            parameters must be revised. <var>y</var>-randomized models are only created for validation purposes and are
+            not used in predictions.
           </p>
       </s:else>
 
