@@ -58,83 +58,79 @@ public class CentralDogma {
     private CentralDogma() {
     }
 
-    @PostConstruct
-    private void init() {
-        try {
-            lsfJobs = new SynchronizedJobList(Constants.LSF);
-            incomingJobs = new SynchronizedJobList(Constants.INCOMING);
-            localJobs = new SynchronizedJobList(Constants.LOCAL);
-            errorJobs = new SynchronizedJobList(Constants.ERROR);
-
-            // Fill job lists from the database
-            List<Job> jobs = jobRepository.findAll();
-            if (jobs == null) {
-                jobs = new ArrayList<>();
-            }
-            for (Job j : jobs) {
-                WorkflowTask wt = null;
-                if (j.getLookupId() != null && !j.getJobList().equals("LIMBO")) {
-                    try {
-                        logger.info("Restoring job: " + j.getJobName());
-                        if (j.getJobType().equals(Constants.DATASET)) {
-                            Long datasetId = j.getLookupId();
-                            Dataset dataset = datasetRepository.findOne(datasetId);
-                            wt = new CreateDatasetTask(dataset);
-                        } else if (j.getJobType().equals(Constants.MODELING)) {
-                            Long modelingId = j.getLookupId();
-                            Predictor predictor = predictorRepository.findOne(modelingId);
-                            wt = new QsarModelingTask(predictor);
-                        } else if (j.getJobType().equals(Constants.PREDICTION)) {
-                            Long predictionId = j.getLookupId();
-                            Prediction prediction = predictionRepository.findOne(predictionId);
-                            wt = new QsarPredictionTask(prediction);
-                        }
-                        wt.jobList = j.getJobList();
-                        j.workflowTask = wt;
-                        j.setStatus(Constants.QUEUED);
-
-                        if (j.getJobList().equals(Constants.INCOMING)) {
-                            incomingJobs.addJob(j);
-                        } else if (j.getJobList().equals(Constants.LOCAL)) {
-                            localJobs.addJob(j);
-                        } else if (j.getJobList().equals(Constants.LSF)) {
-                            lsfJobs.addJob(j);
-                        } else if (j.getJobList().equals(Constants.ERROR)) {
-                            errorJobs.addJob(j);
-                        }
-                    } catch (Exception ex) {
-                        logger.error("Error restoring job with id: " + j.getLookupId() + "\n", ex);
-                    }
-                }
-            }
-
-            // start job processing threads
-            for (int i = 0; i < numLocalThreads; i++) {
-                LocalProcessingThread localThread = new LocalProcessingThread();
-                localThread.start();
-                threads.add(localThread);
-            }
-
-            for (int i = 0; i < numLsfThreads; i++) {
-                LsfProcessingThread lsfThread = new LsfProcessingThread();
-                lsfThread.start();
-                threads.add(lsfThread);
-            }
-
-            inThread = new IncomingJobProcessingThread();
-            inThread.start();
-            threads.add(inThread);
-
-        } catch (Exception ex) {
-            logger.error("", ex);
-        }
-    }
-
     public static synchronized CentralDogma getInstance() {
         if (instance == null) {
             instance = new CentralDogma();
         }
         return instance;
+    }
+
+    @PostConstruct
+    private void init() {
+        lsfJobs = new SynchronizedJobList(Constants.LSF);
+        incomingJobs = new SynchronizedJobList(Constants.INCOMING);
+        localJobs = new SynchronizedJobList(Constants.LOCAL);
+        errorJobs = new SynchronizedJobList(Constants.ERROR);
+
+        // Fill job lists from the database
+        List<Job> jobs = jobRepository.findAll();
+        if (jobs == null) {
+            jobs = new ArrayList<>();
+        }
+        for (Job j : jobs) {
+            WorkflowTask wt = null;
+            if (j.getLookupId() != null && !j.getJobList().equals("LIMBO")) {
+                try {
+                    logger.info("Restoring job: " + j.getJobName());
+                    if (j.getJobType().equals(Constants.DATASET)) {
+                        Long datasetId = j.getLookupId();
+                        Dataset dataset = datasetRepository.findOne(datasetId);
+                        wt = new CreateDatasetTask(dataset);
+                    } else if (j.getJobType().equals(Constants.MODELING)) {
+                        Long modelingId = j.getLookupId();
+                        Predictor predictor = predictorRepository.findOne(modelingId);
+                        wt = new QsarModelingTask(predictor);
+                    } else if (j.getJobType().equals(Constants.PREDICTION)) {
+                        Long predictionId = j.getLookupId();
+                        Prediction prediction = predictionRepository.findOne(predictionId);
+                        wt = new QsarPredictionTask(prediction);
+                    }
+                    wt.jobList = j.getJobList();
+                    j.workflowTask = wt;
+                    j.setStatus(Constants.QUEUED);
+
+                    if (j.getJobList().equals(Constants.INCOMING)) {
+                        incomingJobs.addJob(j);
+                    } else if (j.getJobList().equals(Constants.LOCAL)) {
+                        localJobs.addJob(j);
+                    } else if (j.getJobList().equals(Constants.LSF)) {
+                        lsfJobs.addJob(j);
+                    } else if (j.getJobList().equals(Constants.ERROR)) {
+                        errorJobs.addJob(j);
+                    }
+                } catch (Exception ex) {
+                    logger.error("Error restoring job with id: " + j.getLookupId() + "\n", ex);
+                }
+            }
+        }
+
+        // start job processing threads
+        for (int i = 0; i < numLocalThreads; i++) {
+            LocalProcessingThread localThread = new LocalProcessingThread();
+            localThread.start();
+            threads.add(localThread);
+        }
+
+        for (int i = 0; i < numLsfThreads; i++) {
+            LsfProcessingThread lsfThread = new LsfProcessingThread();
+            lsfThread.start();
+            threads.add(lsfThread);
+        }
+
+        inThread = new IncomingJobProcessingThread();
+        inThread.start();
+        threads.add(inThread);
+
     }
 
     public void addJobToIncomingList(String userName, String jobName, WorkflowTask wt, int numCompounds, int numModels,
