@@ -16,9 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class UserAction extends ActionSupport implements ServletRequestAware {
 
@@ -26,7 +24,6 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
     private User user = User.getCurrentUser();
     private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
-    private List<String> errorMessages = new ArrayList<>();
     private String outputMessage;
     private String newUserName;
     private String address;
@@ -120,22 +117,22 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
         // this function will populate the errorMessages arraylist.
         validateUserInfo();
 
-        if (!errorMessages.isEmpty()) {
+        if (!getActionErrors().isEmpty()) {
             result = ERROR;
         }
 
         if (newUserName.isEmpty()) {
-            errorMessages.add("Please enter a user name.");
+            addActionError("Please enter a user name.");
             result = ERROR;
         }
 
         // Check whether the username already exists
         // (queries database)
         if (!newUserName.equals("") && userExists(newUserName)) {
-            errorMessages.add("The user name '" + newUserName + "' is already in use.");
+            addActionError("The user name '" + newUserName + "' is already in use.");
             result = ERROR;
         } else if (newUserName.contains(" ")) {
-            errorMessages.add("Your username may not contain a space.");
+            addActionError("Your username may not contain a space.");
             result = ERROR;
         }
 
@@ -151,7 +148,7 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
         ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1", recaptcha_challenge_field, recaptcha_response_field);
 
         if (!resp.isValid()) {
-            errorMessages.add("The text you typed for the CAPTCHA test" + " did not match the picture. Try again.");
+            addActionError("The text you typed for the CAPTCHA test did not match the picture. Try again.");
             result = ERROR;
         }
 
@@ -236,12 +233,7 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
         String realPasswordHash = user.getPassword();
         if (!(Utility.encrypt(oldPassword).equals(realPasswordHash))) {
-            errorMessages.add("You entered your old password incorrectly. "
-                    + "Your password was not changed. Please try again.");
-        }
-
-        if (!errorMessages.isEmpty()) {
-            errorMessages.add(0, "Error changing password.");
+            addActionError("You entered your old password incorrectly. Your password was not changed. Please try again.");
             return ERROR;
         }
 
@@ -279,7 +271,7 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
         // validate each field
         validateUserInfo();
-        if (!errorMessages.isEmpty()) {
+        if (!getActionErrors().isEmpty()) {
             return ERROR;
         }
 
@@ -302,7 +294,7 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
         // Commit changes
         userRepository.save(user);
-        errorMessages.add("Your information has been updated!");
+        addActionMessage("Your information has been updated!");
 
         return result;
     }
@@ -332,7 +324,7 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
         // Commit changes
         userRepository.save(user);
-        errorMessages.add("Your settings have been saved!");
+        addActionMessage("Your settings have been saved!");
 
         return result;
     }
@@ -343,25 +335,25 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
     public void validateUserInfo() {
         if (firstName.isEmpty()) {
-            errorMessages.add("Please enter your first name.");
+            addActionError("Please enter your first name.");
         }
         if (lastName.isEmpty()) {
-            errorMessages.add("Please enter your last name.");
+            addActionError("Please enter your last name.");
         }
         if (organizationName.isEmpty()) {
-            errorMessages.add("Please enter your organization name.");
+            addActionError("Please enter your organization name.");
         }
         if (organizationPosition.isEmpty()) {
-            errorMessages.add("Please enter your organization position.");
+            addActionError("Please enter your organization position.");
         }
         if (email.isEmpty() || !email.contains("@") || !email.contains(".")) {
-            errorMessages.add("Please enter a valid email address.");
+            addActionError("Please enter a valid email address.");
         }
         if (city.isEmpty()) {
-            errorMessages.add("Please enter your city.");
+            addActionError("Please enter your city.");
         }
         if (country.isEmpty()) {
-            errorMessages.add("Please enter your country.");
+            addActionError("Please enter your country.");
         }
     }
 
@@ -382,14 +374,6 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
     public void setRecaptchaPublicKey(String recaptchaPublicKey) {
         this.recaptchaPublicKey = recaptchaPublicKey;
-    }
-
-    public List<String> getActionErrors() {
-        return errorMessages;
-    }
-
-    public void setActionErrors(List<String> errorMessages) {
-        this.errorMessages = errorMessages;
     }
 
     public String getOutputMessage() {

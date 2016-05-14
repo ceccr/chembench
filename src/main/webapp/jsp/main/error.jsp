@@ -16,9 +16,7 @@
   <section id="content">
     <h2>Error</h2>
 
-    <p id="errors" class="bg-danger">
-      <s:actionerror />
-    </p>
+    <s:actionerror id="errors" cssClass="bg-danger" />
 
     <p>
       <input class="btn btn-primary" type="button" value="Back" onclick="history.back()">

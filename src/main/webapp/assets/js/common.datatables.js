@@ -332,8 +332,8 @@
                                     });
                                 }
                             }).fail(function(xhr) {
-                                var errorText = $(xhr.responseText).find('#errors').text().trim();
-                                bootbox.alert('Error deleting ' + objectType + ':<br><br>' + errorText);
+                                var errors = $(xhr.responseText).find('#errors').html();
+                                bootbox.alert('Error deleting ' + objectType + ':<br><br>' + errors);
                             });
                         }
                     });
