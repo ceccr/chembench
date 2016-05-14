@@ -21,7 +21,7 @@
     <th data-property="availableDescriptors">Descriptors</th>
     <th data-property="modi">MODI
       <a class="modi-help" tabindex="0" role="button"><span class="glyphicon glyphicon-question-sign"></span></a></th>
-    <th data-property="createdTime" class="date-created">Date</th>
+    <th data-property="createdTime" data-sort-direction="desc" class="date-created">Date</th>
     <th data-property="public-private" data-transient="data-transient">Public?</th>
   </tr>
   </thead>

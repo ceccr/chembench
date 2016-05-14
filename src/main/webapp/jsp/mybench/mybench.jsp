@@ -68,7 +68,7 @@
               <th data-property="jobName">Name</th>
               <th data-property="userName">Owner</th>
               <th data-property="jobType">Job Type</th>
-              <th data-property="timeCreated" class="date-created">Date</th>
+              <th data-property="timeCreated" data-sort-direction="desc" class="date-created">Date</th>
               <th data-property="message">Status</th>
               <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
             </tr>
@@ -88,7 +88,7 @@
               <th data-property="jobName">Name</th>
               <th data-property="userName">Owner</th>
               <th data-property="jobType">Job Type</th>
-              <th data-property="timeCreated" class="date-created">Date</th>
+              <th data-property="timeCreated" data-sort-direction="desc" class="date-created">Date</th>
               <th data-property="message">Status</th>
               <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
             </tr>
@@ -108,7 +108,7 @@
               <th data-property="jobName">Name</th>
               <th data-property="userName">Owner</th>
               <th data-property="jobType">Job Type</th>
-              <th data-property="timeCreated" class="date-created">Date</th>
+              <th data-property="timeCreated" data-sort-direction="desc" class="date-created">Date</th>
               <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
             </tr>
             </thead>

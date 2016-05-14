@@ -15,7 +15,7 @@
                                                                           class="initialism">CCR</abbr></th>
     <th data-property="modelMethod">Type</th>
     <th data-property="descriptorGeneration">Descriptors</th>
-    <th data-property="dateCreated" class="date-created">Date</th>
+    <th data-property="dateCreated" data-sort-direction="desc" class="date-created">Date</th>
     <th data-property="public-private" data-transient="data-transient">Public?</th>
   </tr>
   </thead>

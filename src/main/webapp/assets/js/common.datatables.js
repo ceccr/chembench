@@ -66,13 +66,18 @@
         }
 
         var columns = [];
+        var order = [];
         table.find('thead').find('tr').last().find('th').each(function() {
             var th = $(this);
             var column = {};
             var property = th.attr('data-property');
 
-            if (th.not('[data-transient]').exists()) {
+            if (!th.attr('data-transient')) {
                 column.data = property;
+            }
+            var sortDirection = th.attr('data-sort-direction');
+            if (sortDirection) {
+                order.push([th.index(), sortDirection]);
             }
             switch (property) {
                 // transient properties
@@ -335,9 +340,8 @@
                 });
             }
         }, Chembench.DATATABLE_OPTIONS, overrideOptions);
-        var dateIndex = table.find('th').filter('.date-created').index();
-        if (dateIndex > -1) {
-            options.order = [[dateIndex, 'desc']];
+        if (order.length > 0) {
+            options.order = order;
         }
         if (table.attr('data-paging')) {
             options['paging'] = true;

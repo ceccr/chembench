@@ -17,7 +17,7 @@
                 if (e.currentTarget.hash === "#external-validation") {
                     table.DataTable($.extend({'order': [[0, 'asc']]}, Chembench.DATATABLE_OPTIONS));
                 } else {
-                    Chembench.prepareAjaxDatatable(table, {'order': [[0, 'desc']]});
+                    Chembench.prepareAjaxDatatable(table);
                 }
             }
 

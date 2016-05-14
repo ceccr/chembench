@@ -13,7 +13,7 @@
     <th data-property="datasetDisplay">Dataset Predicted</th>
     <th data-property="predictorNames">Predictor(s) Used</th>
     <th data-property="similarityCutoff">Cutoff</th>
-    <th data-property="dateCreated" class="date-created">Date</th>
+    <th data-property="dateCreated" data-sort-direction="desc" class="date-created">Date</th>
   </tr>
   </thead>
   <tbody></tbody>
