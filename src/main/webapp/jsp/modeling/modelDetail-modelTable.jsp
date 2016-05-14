@@ -15,6 +15,17 @@
       </s:else>
       <th data-property="descriptorsUsed">Descriptors Used</th>
     </s:if>
+    <s:elseif test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@KNNSA ||
+                    predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@KNNGA">
+      <th data-property="KOrR">k</th>
+      <th data-property="q2Training">q<sup>2</sup> (training)</th>
+      <th data-property="r2Test" data-sort-direction="desc">r<sup>2</sup> (test)</th>
+      <th data-property="r02Test">R<sub>0</sub><sup>2</sup></th>
+      <th data-property="r012Test">R<sub>01</sub><sup>2</sup></th>
+      <th data-property="k1Test">k1</th>
+      <th data-property="k2Test">k2</th>
+      <th class="unsortable" data-property="dimsNames">Descriptors Used</th>
+    </s:elseif>
   </tr>
   </thead>
   <tbody>
@@ -31,6 +42,17 @@
         </s:elseif>
         <td><s:property value="descriptorsUsed" /></td>
       </s:if>
+      <s:elseif test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@KNNSA ||
+                      predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@KNNGA">
+        <td><s:property value="KOrR" /></td>
+        <td><s:property value="q2Training" /></td>
+        <td><s:property value="r2Test" /></td>
+        <td><s:property value="r02Test" /></td>
+        <td><s:property value="r012Test" /></td>
+        <td><s:property value="k1Test" /></td>
+        <td><s:property value="k2Test" /></td>
+        <td><s:property value="dimsNames" /></td>
+      </s:elseif>
     </tr>
   </s:iterator>
   </tbody>
