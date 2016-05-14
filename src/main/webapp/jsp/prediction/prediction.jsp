@@ -147,9 +147,9 @@
                 <input name="selectedDatasetId" id="selectedDatasetId" type="hidden">
 
                 <div class="form-group">
-                  <label for="jobName" class="col-xs-3 control-label">Job name:</label>
+                  <label for="jobName" class="col-xs-3 control-label">Prediction name:</label>
 
-                  <div class="col-xs-3">
+                  <div class="col-xs-6">
                     <input name="jobName" id="jobName" class="form-control">
                   </div>
                 </div>

@@ -497,7 +497,7 @@
             <div class="form-group">
               <label class="control-label col-xs-3">Dataset name:</label>
 
-              <div class="col-xs-4">
+              <div class="col-xs-6">
                 <s:textfield name="datasetName" id="datasetName" cssClass="form-control" theme="simple" />
               </div>
             </div>
@@ -506,7 +506,7 @@
                 <div class="control-label col-xs-3">
                   <label>Paper reference:</label> <span class="help-block">Optional.</span>
                 </div>
-                <div class="col-xs-4 paper-reference-input-wrapper">
+                <div class="col-xs-6 paper-reference-input-wrapper">
                   <s:textfield name="paperReference" id="paperReference" cssClass="form-control" theme="simple" />
                 </div>
               </div>
@@ -514,7 +514,7 @@
                 <div class="control-label col-xs-3">
                   <label>Dataset description:</label> <span class="help-block">Optional.</span>
                 </div>
-                <div class="col-xs-4">
+                <div class="col-xs-6">
                   <s:textarea name="dataSetDescription" id="dataSetDescription" rows="3" cssClass="form-control"
                               theme="simple" />
                 </div>
