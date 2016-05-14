@@ -120,6 +120,7 @@
       <s:set name="showAll">true</s:set>
       <div id="datasets" class="tab-pane">
         <h3>Datasets</h3>
+        <p>An asterisk (*) in the <b>Descriptors</b> field indicates an uploaded descriptor type.</p>
         <%@ include file="mybench-datasets.jsp" %>
       </div>
 

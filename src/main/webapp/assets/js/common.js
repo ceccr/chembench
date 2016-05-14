@@ -78,7 +78,15 @@
     };
 
     Chembench.formatAvailableDescriptors = function(text) {
-        var descriptorList = text.trim().split(/\s+/);
+        var descriptorList;
+        var uploadedMarkerIndex = text.indexOf('*');
+        if (uploadedMarkerIndex >= 0) { // uploaded descriptors
+            descriptorList = text.substring(0, uploadedMarkerIndex).trim().split(/\s+/).concat([text.substring(
+                    uploadedMarkerIndex,
+                    text.length)]);
+        } else {
+            descriptorList = text.trim().split(/\s+/);
+        }
         var newDescriptorList = descriptorList.map(function(d) {
             return Chembench.formatDescriptorType(d);
         });
