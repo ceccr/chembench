@@ -175,8 +175,8 @@
                   <s:param name="projectType" value="'dataset'" />
                   <s:param name="compoundId" value="%{compoundId}" />
                   <s:param name="datasetName" value="%{dataset.name}" />
-                </s:url><img src="<s:property value="imageUrl" />" class="img-thumbnail" width="125" height="125"
-                             alt="Compound structure"></td>
+                </s:url><img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure"
+                             width="125" height="125" alt="Compound structure"></td>
               </s:if>
               <s:if test="dataset.hasActivities()">
                 <td><s:property value="activityValue" /></td>
@@ -244,7 +244,7 @@
             <p class="margin-below">The compounds in your dataset's external test set are listed in the table
               below.
             </p>
-            <table class="table table-hover compound-list datatable">
+            <table class="table table-hover table-bordered compound-list datatable">
               <thead>
               <tr>
                 <th>Compound Name</th>
@@ -266,8 +266,8 @@
                       <s:param name="projectType" value="'dataset'" />
                       <s:param name="compoundId" value="%{compoundId}" />
                       <s:param name="datasetName" value="%{dataset.name}" />
-                    </s:url><img src="<s:property value="imageUrl" />" class="img-thumbnail" width="125" height="125"
-                                 alt="Compound structure"></td>
+                    </s:url><img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure"
+                                 width="125" height="125" alt="Compound structure"></td>
                   </s:if>
                   <s:if test="dataset.hasActivities()">
                     <td><s:property value="activityValue" /></td>
