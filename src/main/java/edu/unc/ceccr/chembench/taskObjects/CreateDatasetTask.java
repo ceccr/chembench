@@ -468,15 +468,14 @@ public class CreateDatasetTask extends WorkflowTask {
             // copy needed back from LSF
         }
 
+        dataset.setHasBeenViewed(Constants.NO);
+        dataset.setJobCompleted(Constants.YES);
+        dataset.setAvailableDescriptors(availableDescriptors);
         if (dataset.canGenerateModi()) {
             step = Constants.MODI;
             dataset.generateModi();
         }
-
         // add dataset to DB
-        dataset.setHasBeenViewed(Constants.NO);
-        dataset.setJobCompleted(Constants.YES);
-        dataset.setAvailableDescriptors(availableDescriptors);
         datasetRepository.save(dataset);
     }
 
