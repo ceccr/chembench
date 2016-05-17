@@ -16,9 +16,9 @@
     <p>From this page, you can change your password, edit your user information, or select options to customize
       Chembench.</p>
 
-    <s:if test="!errorMessages.isEmpty()">
+    <s:if test="!getActionErrors().isEmpty()">
       <div class="alert alert-danger">
-        <s:iterator value="errorMessages">
+        <s:iterator value="getActionErrors()">
           <s:property />
         </s:iterator>
       </div>
