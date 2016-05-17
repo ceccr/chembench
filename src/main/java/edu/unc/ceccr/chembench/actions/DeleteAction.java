@@ -7,14 +7,16 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Configurable(autowire = Autowire.BY_NAME)
 public class DeleteAction extends ActionSupport {
     private static final Logger logger = LoggerFactory.getLogger(DeleteAction.class);
     private static final long serialVersionUID = 8940848615449675885L;
@@ -161,8 +163,7 @@ public class DeleteAction extends ActionSupport {
         return SUCCESS;
     }
 
-    @Transactional
-    public void deletePredictor(Predictor p) {
+    private void deletePredictor(Predictor p) {
         ArrayList<ExternalValidation> extVals = new ArrayList<>();
         // delete the files associated with this predictor
         String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName() + "/PREDICTORS/" + p.getName() + "/";
@@ -223,8 +224,7 @@ public class DeleteAction extends ActionSupport {
         return SUCCESS;
     }
 
-    @Transactional
-    public void deletePrediction(Prediction p) {
+    private void deletePrediction(Prediction p) {
         // delete the files associated with this prediction
         String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName() + "/PREDICTIONS/" + p.getName();
         if (!FileAndDirOperations.deleteDir(new File(dir))) {
@@ -241,7 +241,6 @@ public class DeleteAction extends ActionSupport {
         predictionRepository.delete(p);
     }
 
-    @Transactional
     private void deleteJob(Job j) throws Exception {
         if (j.getJobType().equals(Constants.MODELING)) {
             if (j.getLookupId() != null) {
@@ -309,7 +308,6 @@ public class DeleteAction extends ActionSupport {
         return SUCCESS;
     }
 
-    @Transactional
     public void deleteUser(String userName) throws Exception {
         List<Dataset> datasets = datasetRepository.findByUserName(userName);
         List<Predictor> predictors = predictorRepository.findByUserName(userName);
