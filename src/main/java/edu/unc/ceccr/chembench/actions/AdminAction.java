@@ -4,19 +4,16 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
-import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
 import edu.unc.ceccr.chembench.workflows.calculations.PredictorEvaluation;
-import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.File;
-import java.nio.file.Paths;
-import java.sql.SQLException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class AdminAction extends ActionSupport {
 
@@ -24,9 +21,6 @@ public class AdminAction extends ActionSupport {
     private final UserRepository userRepository;
     private final DatasetRepository datasetRepository;
     private final PredictorRepository predictorRepository;
-    private final PredictionRepository predictionRepository;
-
-    private final PredictionValueRepository predictionValueRepository;
     private final ExternalValidationRepository externalValidationRepository;
 
     private final KnnPlusModelRepository knnPlusModelRepository;
@@ -38,12 +32,13 @@ public class AdminAction extends ActionSupport {
     private final SvmParametersRepository svmParametersRepository;
     private final KnnPlusParametersRepository knnPlusParametersRepository;
 
-    User user = User.getCurrentUser();
-    List<User> users;
+    private User user = User.getCurrentUser();
+    private List<User> users;
+
     //for sending email to all users
-    String emailMessage;
-    String emailSubject;
-    String sendTo;
+    private String emailMessage;
+    private String emailSubject;
+    private String sendTo;
 
     @Autowired
     public AdminAction(UserRepository userRepository, DatasetRepository datasetRepository,
@@ -59,8 +54,6 @@ public class AdminAction extends ActionSupport {
         this.userRepository = userRepository;
         this.datasetRepository = datasetRepository;
         this.predictorRepository = predictorRepository;
-        this.predictionRepository = predictionRepository;
-        this.predictionValueRepository = predictionValueRepository;
         this.externalValidationRepository = externalValidationRepository;
         this.knnPlusModelRepository = knnPlusModelRepository;
         this.svmModelRepository = svmModelRepository;
@@ -71,27 +64,13 @@ public class AdminAction extends ActionSupport {
         this.knnPlusParametersRepository = knnPlusParametersRepository;
     }
 
-    public String loadPage() throws Exception {
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
+    public String execute() {
         users = userRepository.findAll();
-        return SUCCESS;
-    }
-
-    public String loadEmailAllUsersPage() throws Exception {
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
-        sendTo = "JUSTME";
         return SUCCESS;
     }
 
     public String emailSelectedUsers() throws Exception {
         logger.debug("emailing SELECTED user(s)");
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
         if (!sendTo.trim().isEmpty() && !emailMessage.trim().isEmpty() && !emailSubject.trim().isEmpty()) {
             List<String> emails = Arrays.asList(sendTo.split(";"));
             Iterator<String> it = emails.iterator();
@@ -106,9 +85,6 @@ public class AdminAction extends ActionSupport {
     }
 
     public String emailAllUsers() throws Exception {
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
         List<User> userList = userRepository.findAll();
 
         if (sendTo.equals("ALLUSERS") && !emailMessage.trim().isEmpty() && !emailSubject.trim().isEmpty()) {
@@ -124,9 +100,6 @@ public class AdminAction extends ActionSupport {
     }
 
     public String changeUserAdminStatus() throws Exception {
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
         //get the current user and the username of the user to be altered
         ActionContext context = ActionContext.getContext();
         String userNameToChange = ((String[]) context.getParameters().get("userToChange"))[0];
@@ -148,9 +121,6 @@ public class AdminAction extends ActionSupport {
     }
 
     public String changeUserDescriptorDownloadStatus() throws Exception {
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
         //get the current user and the username of the user to be altered
         ActionContext context = ActionContext.getContext();
         String userNameToChange = ((String[]) context.getParameters().get("userToChange"))[0];
@@ -170,203 +140,6 @@ public class AdminAction extends ActionSupport {
         return SUCCESS;
     }
 
-    public String deletePredictor() {
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
-        ActionContext context = ActionContext.getContext();
-        try {
-            Map<String, Object> params = context.getParameters();
-            String predictorName = ((String[]) params.get("predictorName"))[0];
-            String userName = ((String[]) params.get("userName"))[0];
-            if (userName.isEmpty()) {
-                // assume that no username means public
-                userName = Constants.ALL_USERS_USERNAME;
-            }
-
-            if (predictorName.isEmpty()) {
-                addActionError("Please enter a predictor name.");
-                return ERROR;
-            }
-
-            Predictor predictor = predictorRepository.findByNameAndUserName(predictorName, userName);
-            if (predictor == null) {
-                String error;
-                if (userName.equals(Constants.ALL_USERS_USERNAME)) {
-                    error = "No public predictor with name " + predictorName +
-                            " was found in the database.";
-                } else {
-                    error = String.format(
-                            "No predictor belonging to user %s with name %s " + "was found in the database.", userName,
-                            predictorName);
-                }
-                addActionError(error);
-                return ERROR;
-            }
-
-            (new DeleteAction()).deletePredictor(predictor);
-        } catch (Exception ex) {
-            addActionError(ex.getMessage());
-            return ERROR;
-        }
-
-        return SUCCESS;
-    }
-
-    /**
-     * method responsible for deletion of the public prediction
-     *
-     * @return
-     */
-    public String deletePublicPrediction() {
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
-        ActionContext context = ActionContext.getContext();
-        try {
-            String predictionID = ((String[]) context.getParameters().get("predictionName"))[0];
-            String userName = ((String[]) context.getParameters().get("userName"))[0];
-
-            if (predictionID.isEmpty() || userName.isEmpty()) {
-                addActionError("Prediction ID and user name shouldn't be empty!");
-                return ERROR;
-            }
-
-            if (!userName.trim().equals(Constants.ALL_USERS_USERNAME)) {
-                addActionError("You can only delete public prediction here!");
-                return ERROR;
-            }
-
-            Prediction prediction = predictionRepository.findOne(Long.parseLong(predictionID));
-            if (prediction == null) {
-                addActionError("No prediction with ID " + predictionID + " was found in the database!");
-                return ERROR;
-            }
-
-            //delete the files associated with this prediction
-            String dir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/PREDICTIONS/" + prediction
-                    .getName();
-            if (!FileAndDirOperations.deleteDir(new File(dir))) {
-                addActionError("Error deleting dir");
-                logger.error("error deleting dir: " + dir);
-            }
-
-            //delete the prediction values associated with the prediction
-            List<PredictionValue> pvs = predictionValueRepository.findByPredictionId(prediction.getId());
-            if (pvs != null) {
-                for (PredictionValue pv : pvs) {
-                    predictionValueRepository.delete(pv);
-                }
-            }
-
-            //delete the database entry for the prediction
-            predictionRepository.delete(prediction);
-        } catch (Exception ex) {
-            addActionError(ex.getMessage());
-            return ERROR;
-        }
-        if (!getActionErrors().isEmpty()) {
-            return ERROR;
-        }
-        return SUCCESS;
-    }
-
-    public String deleteDataset() {
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
-        ActionContext context = ActionContext.getContext();
-        try {
-            Map<String, Object> params = context.getParameters();
-            String datasetName = ((String[]) params.get("datasetName"))[0];
-            String userName = ((String[]) params.get("userName"))[0];
-            if (userName.isEmpty()) {
-                // assume that no username means public
-                userName = Constants.ALL_USERS_USERNAME;
-            }
-
-            if (datasetName.isEmpty()) {
-                addActionError("Please enter a dataset name.");
-                return ERROR;
-            }
-
-            Dataset dataset = datasetRepository.findByNameAndUserName(datasetName, userName);
-            if (dataset == null) {
-                String error;
-                if (userName.equals(Constants.ALL_USERS_USERNAME)) {
-                    error = "No public dataset with name " + datasetName +
-                            " was found in the database.";
-                } else {
-                    error = String.format(
-                            "No dataset belonging to user %s with name %s " + "was found in the database.", userName,
-                            datasetName);
-                }
-                addActionError(error);
-                return ERROR;
-            }
-
-            // check for predictors depending on this dataset
-            List<String> dependencies = checkDatasetDependencies(dataset, userName);
-            if (!dependencies.isEmpty()) {
-                for (String dependency : dependencies) {
-                    addActionError(dependency);
-                }
-                return ERROR;
-            }
-
-            //delete the files associated with this dataset
-            File dir = Paths.get(Constants.CECCR_USER_BASE_PATH, userName, "DATASETS", dataset.getName()).toFile();
-
-            if (dir.exists()) {
-                if (!FileAndDirOperations.deleteDir(dir)) {
-                    String error = "Failed to delete directory: " + dir.getAbsolutePath();
-                    logger.error(error);
-                    addActionError(error);
-                }
-            }
-
-            //delete the database entry for the dataset
-            datasetRepository.delete(dataset);
-
-        } catch (Exception ex) {
-            addActionError(ex.getMessage());
-            return ERROR;
-        }
-        return SUCCESS;
-    }
-
-
-    private List<String> checkDatasetDependencies(Dataset ds, String userName)
-            throws HibernateException, ClassNotFoundException, SQLException {
-        logger.debug("checking dataset dependencies");
-
-        List<String> dependencies = new ArrayList<>();
-
-        List<Predictor> userPredictors = predictorRepository.findByUserName(userName);
-        userPredictors.addAll(predictorRepository.findPublicPredictors());
-        List<Prediction> userPredictions = predictionRepository.findByUserName(userName);
-
-        //check each predictor
-        for (int i = 0; i < userPredictors.size(); i++) {
-            logger.debug("predictor id: " + userPredictors.get(i).getDatasetId() + " dataset id: " + ds.getId());
-            if (userPredictors.get(i).getDatasetId() != null && userPredictors.get(i).getDatasetId()
-                    .equals(ds.getId())) {
-                dependencies.add("The predictor '" + userPredictors.get(i).getName() + "' depends on this dataset. " +
-                        "Please delete it first.\n");
-            }
-        }
-
-        //check each prediction
-        for (int i = 0; i < userPredictions.size(); i++) {
-            logger.debug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getId());
-            if (userPredictions.get(i).getDatasetId() != null && userPredictions.get(i).getDatasetId()
-                    .equals(ds.getId())) {
-                dependencies.add("The prediction '" + userPredictions.get(i).getName() + "' depends on this dataset. " +
-                        "Please delete it first.\n");
-            }
-        }
-        return dependencies;
-    }
 
     /**
      * Method responsible for converting predictor from private to public use
@@ -374,9 +147,6 @@ public class AdminAction extends ActionSupport {
      * @return
      */
     public String makePredictorPublic() {
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
         ActionContext context = ActionContext.getContext();
         try {
             String predictorName = ((String[]) context.getParameters().get("predictorName"))[0];
@@ -608,9 +378,6 @@ public class AdminAction extends ActionSupport {
     }
 
     public String makeDatasetPublic() {
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
         ActionContext context = ActionContext.getContext();
         try {
             String datasetName = ((String[]) context.getParameters().get("datasetName"))[0];
@@ -664,10 +431,6 @@ public class AdminAction extends ActionSupport {
     }
 
     public String regenerateCcr() throws Exception {
-        if (!user.getIsAdmin().equals(Constants.YES)) {
-            return "forbidden";
-        }
-
         logger.info("Starting regeneration of CCR for all category predictors");
         try {
             for (User user : userRepository.findAll()) {
@@ -686,14 +449,6 @@ public class AdminAction extends ActionSupport {
         }
         logger.info("CCR regeneration complete.");
         return SUCCESS;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public List<User> getUsers() {

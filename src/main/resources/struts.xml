@@ -6,8 +6,14 @@
     <package name="chembench" namespace="/" extends="json-default">
         <interceptors>
             <interceptor name="authentication" class="edu.unc.ceccr.chembench.interceptors.AuthenticationInterceptor" />
+            <interceptor name="admin" class="edu.unc.ceccr.chembench.interceptors.AdminInterceptor" />
             <interceptor-stack name="authStack">
                 <interceptor-ref name="authentication" />
+                <interceptor-ref name="defaultStack" />
+            </interceptor-stack>
+            <interceptor-stack name="adminStack">
+                <interceptor-ref name="authentication" />
+                <interceptor-ref name="admin" />
                 <interceptor-ref name="defaultStack" />
             </interceptor-stack>
         </interceptors>
@@ -214,12 +220,16 @@
         </action>
         <!-- End Delete Actions -->
 
-        <!-- Admin Actions -->
-        <action name="admin" class="edu.unc.ceccr.chembench.actions.AdminAction" method="loadPage">
-            <result name="success">/jsp/administration/settings/admin.jsp</result>
-            <result name="error">/jsp/main/home.jsp</result>
+        <action name="admin" class="edu.unc.ceccr.chembench.actions.AdminAction">
+            <interceptor-ref name="adminStack" />
+            <result>/jsp/admin/admin.jsp</result>
         </action>
+    </package>
 
+    <package name="admin" namespace="/admin" extends="chembench">
+        <default-interceptor-ref name="adminStack" />
+
+        <!-- Admin Actions -->
         <action name="emailToAll" class="edu.unc.ceccr.chembench.actions.AdminAction" method="loadEmailAllUsersPage">
             <result>/jsp/administration/settings/emailToAll.jsp</result>
         </action>
@@ -261,20 +271,6 @@
                 method="renamePublicPredictor">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/errors.jsp</result>
-        </action>
-
-        <action name="deleteDatasetAction" class="edu.unc.ceccr.chembench.actions.AdminAction" method="deleteDataset">
-            <result name="success" type="redirect">admin</result>
-        </action>
-
-        <action name="deletePredictorAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
-                method="deletePredictor">
-            <result name="success" type="redirect">admin</result>
-        </action>
-
-        <action name="deletePublicPredictionAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
-                method="deletePublicPrediction">
-            <result name="success" type="redirect">home</result>
         </action>
 
         <action name="regenerateCcr" class="edu.unc.ceccr.chembench.actions.AdminAction" method="regenerateCcr">
