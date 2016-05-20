@@ -4,12 +4,14 @@
     $(document).ready(function() {
         $('.impersonate-user').click(function(e) {
             e.preventDefault();
+            var newUsername = $(this).closest('tr').find('.username').text();
             $.post(Chembench.LOGIN_URL, {
-                'username': $(this).closest('tr').find('.username').text()
+                'username': newUsername
             }, function(data) {
                 document.open();
                 document.write(data);
                 document.close();
+                bootbox.alert('Now logged in as ' + newUsername + '.');
             });
         });
 
