@@ -54,9 +54,9 @@
                 <label>
                 <s:hidden name="is-admin-string" value="%{isAdmin}" theme="simple" />
                 <s:if test="userName != #session['user'].userName">
-                  <input name="is-admin" type="checkbox" title="Is administrator?">
+                  <input name="is-admin" type="checkbox">
                 </s:if>
-                <s:else><input name="is-admin" disabled="disabled" type="checkbox" title="Is administrator?"></s:else>
+                <s:else><input name="is-admin" disabled="disabled" type="checkbox"></s:else>
                   Is administrator
                 </label>
               </td>
