@@ -36,7 +36,12 @@
           </thead>
           <tbody>
           <s:iterator value="users">
+            <s:if test="userName == #session['user'].userName">
+            <tr class="info">
+            </s:if>
+            <s:else>
             <tr>
+            </s:else>
               <td><b><span class="username"><s:property value="userName" /></span></b><br>
                 <s:property value="firstName" />&nbsp;<s:property value="lastName" />
               </td>
@@ -51,14 +56,16 @@
                   All descriptors
                 </label>
                 <br>
-                <label>
                 <s:hidden name="is-admin-string" value="%{isAdmin}" theme="simple" />
                 <s:if test="userName != #session['user'].userName">
-                  <input name="is-admin" type="checkbox">
+                  <label><input name="is-admin" type="checkbox"> Is administrator</label>
                 </s:if>
-                <s:else><input name="is-admin" disabled="disabled" type="checkbox"></s:else>
-                  Is administrator
-                </label>
+                <s:else>
+                  <label class="text-muted">
+                    <input name="is-admin" disabled="disabled" type="checkbox">
+                    Is administrator
+                  </label>
+                </s:else>
               </td>
               <td>
                 <s:if test="userName != #session['user'].userName">
