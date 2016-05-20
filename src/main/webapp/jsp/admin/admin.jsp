@@ -29,8 +29,7 @@
             <th>Organization</th>
             <th>Country</th>
             <th>Last Login</th>
-            <th class="unsortable">Descriptors?</th>
-            <th class="unsortable">Admin?</th>
+            <th class="unsortable">Flags</th>
             <th class="unsortable"></th>
             <th class="unsortable"></th>
           </tr>
@@ -45,16 +44,21 @@
               <td><s:property value="orgName" /></td>
               <td><s:property value="country" /></td>
               <td><s:date name="lastLogintime" format="yyyy-MM-dd" /></td>
-              <td class="text-center">
+              <td>
                 <s:hidden name="can-download-descriptors-string" value="%{canDownloadDescriptors}" theme="simple" />
-                <input class="can-download-descriptors" type="checkbox" title="Can download descriptors?">
-              </td>
-              <td class="text-center">
+                <label>
+                  <input name="can-download-descriptors" type="checkbox">
+                  All descriptors
+                </label>
+                <br>
+                <label>
                 <s:hidden name="is-admin-string" value="%{isAdmin}" theme="simple" />
                 <s:if test="userName != #session['user'].userName">
-                  <input class="is-admin" type="checkbox" title="Is administrator?">
+                  <input name="is-admin" type="checkbox" title="Is administrator?">
                 </s:if>
-                <s:else><input class="is-admin" disabled="disabled" type="checkbox" title="Iss administrator?"></s:else>
+                <s:else><input name="is-admin" disabled="disabled" type="checkbox" title="Is administrator?"></s:else>
+                  Is administrator
+                </label>
               </td>
               <td>
                 <s:if test="userName != #session['user'].userName">

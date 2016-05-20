@@ -16,17 +16,17 @@
         var usersTable = $('#users.datatable');
         usersTable.find('tbody').children().each(function() {
             var row = $(this);
-            row.find('.can-download-descriptors').prop('checked',
+            row.find('[name="can-download-descriptors"]').prop('checked',
                     row.find('[name="can-download-descriptors-string"]').val() === 'YES');
-            row.find('.is-admin').prop('checked', row.find('[name="is-admin-string"]').val() === 'YES');
+            row.find('[name="is-admin"]').prop('checked', row.find('[name="is-admin-string"]').val() === 'YES');
         });
 
-        $('.can-download-descriptors, .is-admin').change(function() {
+        $('[name="can-download-descriptors"], [name="is-admin"]').change(function() {
             var row = $(this).closest('tr');
             $.post(Chembench.CHANGE_USER_FLAGS_URL, {
                 'userName': row.find('.username').text(),
-                'canDownloadDescriptors': row.find('.can-download-descriptors').prop('checked'),
-                'isAdmin': row.find('.is-admin').prop('checked')
+                'canDownloadDescriptors': row.find('[name="can-download-descriptors"]').prop('checked'),
+                'isAdmin': row.find('[name="is-admin"]').prop('checked')
             });
         });
 
