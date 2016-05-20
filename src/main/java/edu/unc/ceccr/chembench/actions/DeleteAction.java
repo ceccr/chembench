@@ -335,20 +335,11 @@ public class DeleteAction extends ActionSupport {
     }
 
     public String deleteUser() throws Exception {
-        // check that the person deleting the user is an admin, just to be safe
-        User u = User.getCurrentUser();
-        logger.debug("Deleting user: " + userToDelete);
-        if (!u.getIsAdmin().equals(Constants.YES)) {
-            // this isn't an admin! Kick 'em out.
-            return ERROR;
-        }
-
         if (userToDelete.isEmpty() || userToDelete.contains("..") || userToDelete.contains("~") || userToDelete
                 .contains("/")) {
             // just being a little safer, since there's a recursive delete in this function
             return ERROR;
         }
-
         deleteUser(userToDelete);
         return SUCCESS;
     }

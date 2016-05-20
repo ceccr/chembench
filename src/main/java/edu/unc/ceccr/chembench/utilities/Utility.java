@@ -386,4 +386,15 @@ public class Utility {
         }
 
     }
+
+    public static String booleanToString(boolean bool) {
+        return bool ? Constants.YES : Constants.NO;
+    }
+
+    public static boolean stringToBoolean(String str) {
+        if (str == null || !(str.equals(Constants.YES) || str.equals(Constants.NO))) {
+            throw new IllegalArgumentException("Invalid string representation of boolean: " + str);
+        }
+        return str.equals(Constants.YES);
+    }
 }

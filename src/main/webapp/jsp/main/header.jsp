@@ -18,12 +18,12 @@
         </s:else>
         <ul class="userbox-links">
           <li><s:a action="logout">log out</s:a></li>
-          <li><s:a action="overview" namespace="help">help</s:a></li>
+          <li><s:a action="overview" namespace="/help">help</s:a></li>
           <s:if test="!#session['user'].userName.contains('guest')">
             <li><s:a action="editProfile">edit profile</s:a></li>
           </s:if>
           <s:if test="#session['user'].isAdmin=='YES'">
-            <li><s:a action="admin">admin</s:a></li>
+            <li><s:a namespace="/admin" action="home">admin</s:a></li>
           </s:if>
         </ul>
       </s:if>
@@ -32,11 +32,11 @@
 
   <nav>
     <ul class="nav-list">
-      <li id="nav-button-home"><s:a action="home">Home</s:a></li>
-      <li id="nav-button-mybench"><s:a action="mybench">My Bench</s:a></li>
-      <li id="nav-button-datasets"><s:a action="dataset">Datasets</s:a></li>
-      <li id="nav-button-modeling"><s:a action="modeling">Modeling</s:a></li>
-      <li id="nav-button-prediction"><s:a action="prediction">Prediction</s:a></li>
+      <li id="nav-button-home"><s:a action="home" namespace="/">Home</s:a></li>
+      <li id="nav-button-mybench"><s:a action="mybench" namespace="/">My Bench</s:a></li>
+      <li id="nav-button-datasets"><s:a action="dataset" namespace="/">Datasets</s:a></li>
+      <li id="nav-button-modeling"><s:a action="modeling" namespace="/">Modeling</s:a></li>
+      <li id="nav-button-prediction"><s:a action="prediction" namespace="/">Prediction</s:a></li>
     </ul>
   </nav>
 

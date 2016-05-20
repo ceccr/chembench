@@ -214,47 +214,24 @@
             <result type="redirect">mybench</result>
         </action>
 
-        <action name="deleteUser" class="edu.unc.ceccr.chembench.actions.DeleteAction" method="deleteUser">
-            <result name="success" type="redirect">admin</result>
-            <result name="error" type="redirect">home</result>
-        </action>
         <!-- End Delete Actions -->
-
-        <action name="admin" class="edu.unc.ceccr.chembench.actions.AdminAction">
-            <interceptor-ref name="adminStack" />
-            <result>/jsp/admin/admin.jsp</result>
-        </action>
     </package>
 
     <package name="admin" namespace="/admin" extends="chembench">
         <default-interceptor-ref name="adminStack" />
+        <default-action-ref name="home" />
+
+        <action name="home" class="edu.unc.ceccr.chembench.actions.AdminAction">
+            <result>/jsp/admin/admin.jsp</result>
+        </action>
+
+        <action name="deleteUser" class="edu.unc.ceccr.chembench.actions.DeleteAction" method="deleteUser">
+            <result type="redirect">home</result>
+        </action>
 
         <!-- Admin Actions -->
-        <action name="emailToAll" class="edu.unc.ceccr.chembench.actions.AdminAction" method="loadEmailAllUsersPage">
-            <result>/jsp/administration/settings/emailToAll.jsp</result>
-        </action>
-
-        <action name="emailAllUsers" class="edu.unc.ceccr.chembench.actions.AdminAction" method="emailAllUsers">
-            <result name="success" type="redirect">admin</result>
-            <result name="error">/jsp/main/home.jsp</result>
-        </action>
-
-        <action name="emailSelectedUsers" class="edu.unc.ceccr.chembench.actions.AdminAction"
-                method="emailSelectedUsers">
-            <result name="success" type="redirect">admin</result>
-            <result name="error">/jsp/main/home.jsp</result>
-        </action>
-
-        <action name="changeUserAdminStatus" class="edu.unc.ceccr.chembench.actions.AdminAction"
-                method="changeUserAdminStatus">
-            <result name="success" type="redirect">admin</result>
-            <result name="error">/jsp/main/home.jsp</result>
-        </action>
-
-        <action name="changeUserDescriptorDownloadStatus" class="edu.unc.ceccr.chembench.actions.AdminAction"
-                method="changeUserDescriptorDownloadStatus">
-            <result name="success" type="redirect">admin</result>
-            <result name="error">/jsp/main/home.jsp</result>
+        <action name="changeUserFlags" class="edu.unc.ceccr.chembench.actions.AdminAction" method="changeUserFlags">
+            <result name="success" type="httpheader" />
         </action>
 
         <action name="makePredictorPublicAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
@@ -265,12 +242,6 @@
         <action name="makeDatasetPublicAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
                 method="makeDatasetPublic">
             <result name="success" type="redirect">admin</result>
-        </action>
-
-        <action name="renamePublicPredictorAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
-                method="renamePublicPredictor">
-            <result name="success" type="redirect">admin</result>
-            <result name="error">/jsp/main/errors.jsp</result>
         </action>
 
         <action name="regenerateCcr" class="edu.unc.ceccr.chembench.actions.AdminAction" method="regenerateCcr">

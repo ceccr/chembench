@@ -5,14 +5,12 @@ import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
-import edu.unc.ceccr.chembench.utilities.SendEmails;
+import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.calculations.PredictorEvaluation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class AdminAction extends ActionSupport {
@@ -32,13 +30,10 @@ public class AdminAction extends ActionSupport {
     private final SvmParametersRepository svmParametersRepository;
     private final KnnPlusParametersRepository knnPlusParametersRepository;
 
-    private User user = User.getCurrentUser();
     private List<User> users;
-
-    //for sending email to all users
-    private String emailMessage;
-    private String emailSubject;
-    private String sendTo;
+    private String userName;
+    private boolean isAdmin;
+    private boolean canDownloadDescriptors;
 
     @Autowired
     public AdminAction(UserRepository userRepository, DatasetRepository datasetRepository,
@@ -69,77 +64,16 @@ public class AdminAction extends ActionSupport {
         return SUCCESS;
     }
 
-    public String emailSelectedUsers() throws Exception {
-        logger.debug("emailing SELECTED user(s)");
-        if (!sendTo.trim().isEmpty() && !emailMessage.trim().isEmpty() && !emailSubject.trim().isEmpty()) {
-            List<String> emails = Arrays.asList(sendTo.split(";"));
-            Iterator<String> it = emails.iterator();
-            while (it.hasNext()) {
-                String email = it.next();
-                if (!email.trim().isEmpty()) {
-                    SendEmails.sendEmail(email, "", "", emailSubject, emailMessage);
-                }
-            }
+    public String changeUserFlags() {
+        User user = userRepository.findByUserName(userName);
+        if (user == null) {
+            return "badrequest";
         }
+        user.setIsAdmin(Utility.booleanToString(isAdmin));
+        user.setCanDownloadDescriptors(Utility.booleanToString(canDownloadDescriptors));
+        userRepository.save(user);
         return SUCCESS;
     }
-
-    public String emailAllUsers() throws Exception {
-        List<User> userList = userRepository.findAll();
-
-        if (sendTo.equals("ALLUSERS") && !emailMessage.trim().isEmpty() && !emailSubject.trim().isEmpty()) {
-            Iterator<User> it = userList.iterator();
-            while (it.hasNext()) {
-                User userInfo = it.next();
-                SendEmails.sendEmail(userInfo.getEmail(), "", "", emailSubject, emailMessage);
-            }
-        } else if (sendTo.equals("JUSTME") && !emailMessage.trim().isEmpty() && !emailSubject.trim().isEmpty()) {
-            SendEmails.sendEmail(user.getEmail(), "", "", emailSubject, emailMessage);
-        }
-        return SUCCESS;
-    }
-
-    public String changeUserAdminStatus() throws Exception {
-        //get the current user and the username of the user to be altered
-        ActionContext context = ActionContext.getContext();
-        String userNameToChange = ((String[]) context.getParameters().get("userToChange"))[0];
-
-        User userToChange = null;
-        if (userNameToChange.equals(user.getUserName())) {
-            userToChange = user;
-        } else {
-            userToChange = userRepository.findByUserName(userNameToChange);
-        }
-
-        if (userToChange.getIsAdmin().equals(Constants.YES)) {
-            userToChange.setIsAdmin(Constants.NO);
-        } else {
-            userToChange.setIsAdmin(Constants.YES);
-        }
-        userRepository.save(userToChange);
-        return SUCCESS;
-    }
-
-    public String changeUserDescriptorDownloadStatus() throws Exception {
-        //get the current user and the username of the user to be altered
-        ActionContext context = ActionContext.getContext();
-        String userNameToChange = ((String[]) context.getParameters().get("userToChange"))[0];
-        User userToChange = null;
-        if (userNameToChange.equals(user.getUserName())) {
-            userToChange = user;
-        } else {
-            userToChange = userRepository.findByUserName(userNameToChange);
-        }
-
-        if (userToChange.getCanDownloadDescriptors().equals(Constants.YES)) {
-            userToChange.setCanDownloadDescriptors(Constants.NO);
-        } else {
-            userToChange.setCanDownloadDescriptors(Constants.YES);
-        }
-        userRepository.save(userToChange);
-        return SUCCESS;
-    }
-
 
     /**
      * Method responsible for converting predictor from private to public use
@@ -459,28 +393,27 @@ public class AdminAction extends ActionSupport {
         this.users = users;
     }
 
-    public String getEmailMessage() {
-        return emailMessage;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setEmailMessage(String emailMessage) {
-        this.emailMessage = emailMessage;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getEmailSubject() {
-        return emailSubject;
+    public boolean getIsAdmin() {
+        return isAdmin;
     }
 
-    public void setEmailSubject(String emailSubject) {
-        this.emailSubject = emailSubject;
+    public void setIsAdmin(boolean admin) {
+        isAdmin = admin;
     }
 
-    public String getSendTo() {
-        return sendTo;
+    public boolean getCanDownloadDescriptors() {
+        return canDownloadDescriptors;
     }
 
-    public void setSendTo(String sendTo) {
-        this.sendTo = sendTo;
+    public void setCanDownloadDescriptors(boolean canDownloadDescriptors) {
+        this.canDownloadDescriptors = canDownloadDescriptors;
     }
-
 }
