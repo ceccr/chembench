@@ -60,48 +60,48 @@
         <action name="loadRegistrationPage" class="edu.unc.ceccr.chembench.actions.UserAction"
                 method="loadUserRegistration">
             <interceptor-ref name="defaultStack" />
-            <result>/jsp/administration/user/registrationForm.jsp</result>
+            <result>/jsp/user/registrationForm.jsp</result>
         </action>
 
         <action name="registerUser" class="edu.unc.ceccr.chembench.actions.UserAction"
                 method="registerUser">
             <interceptor-ref name="defaultStack" />
-            <result name="success">/jsp/administration/user/registrationApprovalMessage.jsp</result>
-            <result name="error">/jsp/administration/user/registrationForm.jsp</result>
+            <result name="success">/jsp/user/registrationApprovalMessage.jsp</result>
+            <result name="error">/jsp/user/registrationForm.jsp</result>
         </action>
 
         <action name="forgotPassword">
             <interceptor-ref name="defaultStack" />
-            <result>/jsp/administration/user/resetPassword.jsp</result>
+            <result>/jsp/user/resetPassword.jsp</result>
         </action>
 
         <action name="resetPassword" class="edu.unc.ceccr.chembench.actions.ResetPasswordAction" method="execute">
             <interceptor-ref name="defaultStack" />
-            <result name="success">/jsp/administration/user/resetPasswordSent.jsp</result>
-            <result name="error">/jsp/administration/user/resetPassword.jsp</result>
+            <result name="success">/jsp/user/resetPasswordSent.jsp</result>
+            <result name="error">/jsp/user/resetPassword.jsp</result>
         </action>
 
         <action name="editProfile" class="edu.unc.ceccr.chembench.actions.UserAction"
                 method="loadEditProfilePage">
-            <result name="success">/jsp/administration/user/editProfile.jsp</result>
+            <result name="success">/jsp/user/editProfile.jsp</result>
         </action>
 
         <action name="changePassword" class="edu.unc.ceccr.chembench.actions.UserAction"
                 method="changePassword">
-            <result name="success">/jsp/administration/user/editProfile.jsp</result>
-            <result name="error">/jsp/administration/user/editProfile.jsp</result>
+            <result name="success">/jsp/user/editProfile.jsp</result>
+            <result name="error">/jsp/user/editProfile.jsp</result>
         </action>
 
         <action name="updateUserInfo" class="edu.unc.ceccr.chembench.actions.UserAction"
                 method="updateUserInformation">
-            <result name="success">/jsp/administration/user/editProfile.jsp</result>
-            <result name="error">/jsp/administration/user/editProfile.jsp</result>
+            <result name="success">/jsp/user/editProfile.jsp</result>
+            <result name="error">/jsp/user/editProfile.jsp</result>
         </action>
 
         <action name="updateUserOptions" class="edu.unc.ceccr.chembench.actions.UserAction"
                 method="updateUserOptions">
-            <result name="success">/jsp/administration/user/editProfile.jsp</result>
-            <result name="error">/jsp/administration/user/editProfile.jsp</result>
+            <result name="success">/jsp/user/editProfile.jsp</result>
+            <result name="error">/jsp/user/editProfile.jsp</result>
         </action>
 
         <!-- Dataset Page -->
