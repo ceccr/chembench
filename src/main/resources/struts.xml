@@ -59,13 +59,26 @@
         <!-- User Registration and Edit Profile Pages -->
         <action name="loadRegistrationPage" class="edu.unc.ceccr.chembench.actions.UserAction"
                 method="loadUserRegistration">
+            <interceptor-ref name="defaultStack" />
             <result>/jsp/administration/user/registrationForm.jsp</result>
         </action>
 
         <action name="registerUser" class="edu.unc.ceccr.chembench.actions.UserAction"
                 method="registerUser">
+            <interceptor-ref name="defaultStack" />
             <result name="success">/jsp/administration/user/registrationApprovalMessage.jsp</result>
             <result name="error">/jsp/administration/user/registrationForm.jsp</result>
+        </action>
+
+        <action name="forgotPassword">
+            <interceptor-ref name="defaultStack" />
+            <result>/jsp/administration/user/resetPassword.jsp</result>
+        </action>
+
+        <action name="resetPassword" class="edu.unc.ceccr.chembench.actions.ResetPasswordAction" method="execute">
+            <interceptor-ref name="defaultStack" />
+            <result name="success">/jsp/administration/user/resetPasswordSent.jsp</result>
+            <result name="error">/jsp/administration/user/resetPassword.jsp</result>
         </action>
 
         <action name="editProfile" class="edu.unc.ceccr.chembench.actions.UserAction"
