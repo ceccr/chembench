@@ -236,3 +236,7 @@ th.datatables-spacer, td.datatables-spacer {
     overflow: hidden;
 }
 /* end predictionDetail */
+
+#help-content h3:first-child {
+    margin-top: 0;
+}
