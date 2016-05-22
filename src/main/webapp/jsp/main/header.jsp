@@ -3,8 +3,9 @@
 <header>
   <div id="masthead">
     <h1>
-      <s:a action="home"><img src="${pageContext.request.contextPath}/assets/images/masthead.jpg" width="312"
-                              height="66" alt="Chembench"></s:a>
+      <s:a action="home" namespace="/">
+        <img src="${pageContext.request.contextPath}/assets/images/masthead.jpg" width="312" height="66"
+             alt="Chembench"></s:a>
     </h1>
 
     <div class="userbox">
