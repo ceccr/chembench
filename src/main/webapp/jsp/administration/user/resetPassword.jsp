@@ -3,55 +3,47 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <%@ include file="/jsp/main/head.jsp" %>
   <title>Chembench | Reset Password</title>
-
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-  <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
-  <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
-  <link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
-  <link href="theme/standard.css" rel="stylesheet" type="text/css">
-  <link href="theme/links.css" rel="stylesheet" type="text/css">
-  <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
-  <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
-  <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
-  <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-
-  <script src="javascript/chembench.js"></script>
-
 </head>
 <body>
-<!-- Navigation bar -->
-<div class="outer">
+<div id="main" class="container">
+  <%@ include file="/jsp/main/header.jsp" %>
 
-  <div class="includesHeader">
-    <%@ include file="/jsp/main/header.jsp" %>
-  </div>
+  <section id="content">
+    <h2>Reset Password</h2>
+    <p>If you've forgotten your password, you can reset it using the form below.</p>
 
-  <!-- Main page -->
-  <table>
-    <tr>
-      <td class="ChangePSText">
-        <form action="resetPassword">
-          <br /> <b>Reset Your Password</b><br />
-          <br /> Your username: <br />
-          <s:textfield name="userName" size="20" theme="simple" />
-          <br />
-          <br /> Your email address: <br />
-          <s:textfield name="email" size="35" theme="simple" />
-          <br />
-          <br /> <input type="submit" value="Submit"> <br />
-          <br />
-          <s:property value="errorMessage" />
-        </form>
-      </td>
-    </tr>
-  </table>
-  <div class="includes">
-    <%@ include file="/jsp/main/footer.jsp" %>
-  </div>
+    <s:if test="!getActionErrors().isEmpty()">
+      <div class="alert alert-danger">
+        <s:iterator value="getActionErrors()">
+          <s:property />
+        </s:iterator>
+      </div>
+    </s:if>
 
+    <s:form action="resetPassword" cssClass="form-horizontal" theme="simple">
+      <div class="form-group">
+        <label for="userName" class="control-label col-xs-3">Your username:</label>
+        <div class="col-xs-4"><s:textfield id="userName" name="userName" cssClass="form-control" theme="simple" /></div>
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="control-label col-xs-3">Your e-mail address:</label>
+        <div class="col-xs-4"><s:textfield id="email" name="email" cssClass="form-control" theme="simple" /></div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-xs-offset-3 col-xs-4">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </s:form>
+  </section>
+
+  <%@ include file="/jsp/main/footer.jsp" %>
 </div>
+
+<%@ include file="/jsp/main/tail.jsp" %>
 </body>
 </html>

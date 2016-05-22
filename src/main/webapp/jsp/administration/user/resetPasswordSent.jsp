@@ -3,44 +3,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Chembench | Password Reset</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-  <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
-  <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
-  <link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
-  <link href="theme/standard.css" rel="stylesheet" type="text/css">
-  <link href="theme/links.css" rel="stylesheet" type="text/css">
-  <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
-  <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
-  <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
-  <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-  <script src="javascript/chembench.js"></script>
-
+  <%@ include file="/jsp/main/head.jsp" %>
+  <title>Chembench | Reset Password</title>
 </head>
 <body>
-<!--  Navigation Bars  -->
-<div class="outer">
+<div id="main" class="container">
+  <%@ include file="/jsp/main/header.jsp" %>
 
-  <div class="includesHeader">
-    <%@ include file="/jsp/main/header.jsp" %>
-  </div>
+  <section id="content">
+    <h2>Reset Password</h2>
 
-  <!--  main content -->
-  <div class="StandardTextDarkGrayParagraph">
-    Your password has been reset. <br /> An email containing the password has been sent to <font color="red"><s:property
-      value="email" /></font>.<br /> When the email arrives, you'll want to return to <a href="home">Home page</a> and
-    log in.<br /> You may change your password from the 'edit profile' page when you are logged in.<br />
-    <br />
-  </div>
-  <div class="includes">
-    <%@ include file="/jsp/main/footer.jsp" %>
-  </div>
+    <p>Your password has been reset.</p>
 
+    <p>An email containing a temporary password has been sent to <code><s:property value="email" /></code>. When the
+      email arrives, you can log in from the <s:a action="home" namespace="/">home page</s:a>. You can then change your
+      temporary password using the "edit profile" link in the top-right userbox.</p>
+  </section>
+
+  <%@ include file="/jsp/main/footer.jsp" %>
 </div>
+
+<%@ include file="/jsp/main/tail.jsp" %>
 </body>
 </html>
-
-
-

@@ -17,7 +17,6 @@ public class ResetPasswordAction extends ActionSupport {
     private static final Logger logger = LoggerFactory.getLogger(ResetPasswordAction.class);
     private String userName;
     private String email;
-    private String errorMessage;
     private UserRepository userRepository;
 
     @Autowired
@@ -29,7 +28,7 @@ public class ResetPasswordAction extends ActionSupport {
         // set up session to check user name and email
         User user = userRepository.findByUserName(userName);
         if (user == null || !user.getEmail().equals(email)) {
-            errorMessage = "Invalid username or email!";
+            addActionError("Invalid username or email!");
             return ERROR;
         }
 
@@ -65,13 +64,4 @@ public class ResetPasswordAction extends ActionSupport {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
-
 }
