@@ -3,264 +3,156 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <%@ include file="/jsp/main/head.jsp" %>
   <title>Chembench | Registration</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-  <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
-  <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
-  <link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
-  <link href="theme/standard.css" rel="stylesheet" type="text/css">
-  <link href="theme/links.css" rel="stylesheet" type="text/css">
-  <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
-  <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
-  <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
-  <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-
-  <script src="javascript/chembench.js"></script>
-  <script src="javascript/yahoo/yahoo.js"></script>
-  <script src="javascript/dom/dom.js"></script>
-  <script src="javascript/event/event.js"></script>
-  <script src="javascript/container/container_core.js"></script>
-  <script src="javascript/registerFormValidation.js"></script>
-
 </head>
 <body>
-<div class="outer">
+<div id="main" class="container">
+  <%@ include file="/jsp/main/header.jsp" %>
 
-  <div class="includesHeader">
-    <%@ include file="/jsp/main/header.jsp" %>
-  </div>
-    <span id="maincontent">
+  <section id="content">
+    <h2>Registration</h2>
 
-      <div class="benchBackground includes">
-        <div class="homeLeft">
-          <br />
+    <p class="margin-below">Thank you for your interest in Chembench. Please complete the form below to sign up for an
+      account. Fields marked with an asterisk (<span class="glyphicon glyphicon-asterisk"></span>) are required.
+    </p>
 
-          <div class="StandardTextDarkGrayParagraph">
-            <p>
-              <br />
-              <br /> Welcome to Carolina Cheminformatics Workbench (Chembench)- an integrated toolkit developed by the
-              Carolina Exploratory Center for Cheminformatics Research (CECCR) with the support of the National
-              Institutes of Health. <br />
-              <br />Please enter your information here in order to start using Chembench. An asterisk (*) indicates
-              required fields.<br /> <br />
-              <br />
-            </p>
-          </div>
+    <s:form action="registerUser" cssClass="form-horizontal" theme="simple">
+      <div class="form-group required">
+        <label for="firstName" class="control-label col-xs-3">First Name:</label>
+
+        <div class="col-xs-4">
+          <s:textfield id="firstName" name="firstName" cssClass="form-control" theme="simple" />
         </div>
-        <div class="border StandardTextDarkGrayParagraph2 benchAlign bottomMargin">
-          <s:form action="registerUser" theme="simple">
+      </div>
 
-          <table border="0" align="center" width="680">
+      <div class="form-group required">
+        <label for="lastName" class="control-label col-xs-3">Last Name:</label>
 
-            <!-- error message (if any) -->
-            <tr height="20">
-              <td colspan="2" class="StandardTextDarkGray">
-                <div class="StandardTextDarkGray">
-                  <font color="red"><br /> <s:iterator value="errorMessages">
-                    <s:property />
-                    <br />
-                  </s:iterator></font>
-                </div>
-              </td>
-              <td width="250" align="left"></td>
-            </tr>
+        <div class="col-xs-4">
+          <s:textfield id="lastName" name="lastName" cssClass="form-control" theme="simple" />
+        </div>
+      </div>
 
-            <!-- user information form -->
-            <tr height="20">
-              <td align="right" width="180" class="StandardTextDarkGray">First Name *</td>
-              <td width="250"><s:textfield name="firstName" size="30" /></td>
-              <td width="250" align="left"><span id="messageDiv1"></span></td>
-            </tr>
+      <hr>
+      <div class="form-group required">
+        <label for="organizationType" class="control-label col-xs-3">Type of Organization:</label>
 
-            <tr height="20">
-              <td align="right" width="180" class="StandardTextDarkGray">Last Name *</td>
-              <td width="250"><s:textfield name="lastName" size="30" /></td>
-              <td width="250" align="left"><span id="messageDiv2"></span></td>
-            </tr>
+        <div class="col-xs-4">
+          <s:select id="organizationType" name="organizationType" cssClass="form-control"
+                    list="#{'Academia':'Academia','Government':'Government','Industry':'Industry','Nonprofit':'Nonprofit','Other':'Other'}" />
+        </div>
+      </div>
 
-            <tr height="20">
-              <td align="right" width="180" class="StandardTextDarkGray">Type of Organization *</td>
-              <td width="250"><s:select name="organizationType"
-                                        list="#{'Academia':'Academia','Government':'Government','Industry':'Industry','Nonprofit':'Nonprofit','Other':'Other'}" />
-              </td>
-              <td width="250" align="left"></td>
-            </tr>
+      <div class="form-group required">
+        <label for="organizationName" class="control-label col-xs-3">Name of Organization:</label>
 
-            <tr height="20">
-              <td align="right" width="180" class="StandardTextDarkGray">Name of Organization *</td>
-              <td width="250"><s:textfield name="organizationName" size="30" /></td>
-              <td width="250" align="left"><span id="messageDiv4"></span></td>
-            </tr>
+        <div class="col-xs-4">
+          <s:textfield id="organizationName" name="organizationName" cssClass="form-control" />
+        </div>
+      </div>
 
-            <tr height="20">
-              <td align="right" width="180" class="StandardTextDarkGray">Position in Organization *</td>
-              <td width="250"><s:textfield name="organizationPosition" size="30" /></td>
-              <td width="250" align="left"><span id="messageDiv5"></span></td>
-            </tr>
+      <div class="form-group required">
+        <label for="organizationPosition" class="control-label col-xs-3">Position in Organization:</label>
 
-            <tr height="20">
-              <td align="right" width="180" class="StandardTextDarkGray">Address</td>
-              <td width="250"><s:textfield name="address" size="30" /></td>
-              <td width="250" align="left"><span id="messageDiv6"></span></td>
-            </tr>
+        <div class="col-xs-4">
+          <s:textfield id="organizationPosition" name="organizationPosition" cssClass="form-control" />
+        </div>
+      </div>
 
-            <tr height="20">
-              <td align="right" width="180" class="StandardTextDarkGray">City *</td>
-              <td width="250"><s:textfield name="city" size="30" /></td>
-              <td width="250" align="left"><span id="messageDiv7"></span></td>
-            </tr>
+      <hr>
+      <div class="form-group">
+        <label for="address" class="control-label col-xs-3">Address:</label>
 
-            <tr height="20">
-              <td align="right" width="180" class="StandardTextDarkGray">State/Province</td>
-              <td width="250"><s:textfield name="stateOrProvince" size="30" /></td>
-              <td width="250" align="left"><span id="messageDiv8"></span></td>
-            </tr>
+        <div class="col-xs-4">
+          <s:textfield id="address" name="address" cssClass="form-control" />
+        </div>
+      </div>
 
-            <tr height="20">
-              <td align="right" width="180" class="StandardTextDarkGray">Zip Code</td>
-              <td width="250"><s:textfield name="zipCode" size="30" /></td>
-              <td width="250" align="left"><span id="messageDiv9"></span></td>
-            </tr>
+      <div class="form-group required">
+        <label for="city" class="control-label col-xs-3">City:</label>
 
-            <tr height="20">
-              <td align="right" width="180" class="StandardTextDarkGray">Country *</td>
-              <td width="250"><s:textfield name="country" size="30" /></td>
-              <td width="250" align="left"></td>
-            </tr>
+        <div class="col-xs-4">
+          <s:textfield id="city" name="city" cssClass="form-control" />
+        </div>
+      </div>
 
-            <tr height="20">
-              <td align="right" width="180" class="StandardTextDarkGray">Phone Number</td>
-              <td width="250"><s:textfield name="phoneNumber" size="30" /></td>
-              <td width="250" align="left"><span id="messageDiv11"></td>
-            </tr>
+      <div class="form-group">
+        <label for="stateOrProvince" class="control-label col-xs-3">State or Province:</label>
 
-            <tr height="6">
-              <td width="180" class="StandardTextDarkGray"></td>
-              <td width="250">
-                <div class="StandardTextDarkGray">
-                  <i>
-                    <small><br />Please use your organization email account. Your password will be sent
-                      to this email address when you register.
-                    </small>
-                  </i>
-                </div>
-              </td>
-              <td width="250" align="left"></span></td>
-  </tr>
+        <div class="col-xs-4">
+          <s:textfield id="stateOrProvince" name="stateOrProvince" cssClass="form-control" />
+        </div>
+      </div>
 
-  <tr height="20">
-    <td align="right" width="180" class="StandardTextDarkGray">Email *</td>
-    <td width="250"><s:textfield name="email" size="30" /></td>
-    <td width="250" align="left"><span id="messageDiv12"></span></td>
-  </tr>
+      <div class="form-group">
+        <label for="zipCode" class="control-label col-xs-3">ZIP Code:</label>
 
-  <!--
-<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Work Bench</td>
-<td width="250"><s:radio name="workBench" list="#{'cchem':'CHEM','ctox':'TOX'}" /></td>
- -->
-  <!-- The idea of having a separate workbench for tox people and for chem people may come back someday. Removed it for now. -->
-  <s:hidden name="workbench" value="cchem" />
+        <div class="col-xs-4">
+          <s:textfield id="zipCode" name="zipCode" cssClass="form-control" />
+        </div>
+      </div>
 
-  <tr height="20">
-    <td align="right" width="180" class="StandardTextDarkGray">User Name *</td>
-    <td width="250"><s:textfield name="newUserName" size="30" /></td>
-    <td width="250" align="left"><span id="messageDiv13"></span></td>
-  </tr>
+      <div class="form-group required">
+        <label for="country" class="control-label col-xs-3">Country:</label>
 
-  <!-- CAPTCHA -->
+        <div class="col-xs-4">
+          <s:textfield id="country" name="country" cssClass="form-control" />
+        </div>
+      </div>
 
-  <!--
-<%! String image()
-{
-  java.util.Random generator=new java.util.Random();
-  String imgNum=Integer.toString(generator.nextInt(4));
-return imgNum;
-}
-%>
--->
-  <tr height="50">
-    <td align="right" width="180"></td>
-    <td width="250"></td>
-    <td width="250" align="left"></td>
-  </tr>
-  <tr height="20">
-    <td align="right" width="180" class="StandardTextDarkGray"><u>Verification</u></td>
-    <td width="250"></td>
-    <td width="250" align="left"></td>
-  </tr>
-  <tr height="20">
-    <td colspan="2" align="right">
-      <script>
-        var RecaptchaOptions = {
-          theme: 'white',
-          tabindex: 2
-        };
-      </script>
-      <script type="text/javascript"
-        <%-- src="http://api.recaptcha.net/challenge?k=<s:property value="recaptchaPublicKey" />"> --%>
-              src="https://www.google.com/recaptcha/api/challenge?k=<s:property value="recaptchaPublicKey" />">
-      </script>
+      <div class="form-group">
+        <label for="phoneNumber" class="control-label col-xs-3">Phone Number:</label>
 
-      <noscript>
-          <%-- <iframe src="http://api.recaptcha.net/noscript?k=<s:property value="recaptchaPublicKey" />" --%>
-        <iframe
-            src="https://www.google.com/recaptcha/api/noscript?k=<s:property value="recaptchaPublicKey" />"
-            height="40" width="200" frameborder="0"></iframe>
-        <br>
-                    <textarea name="recaptcha_challenge_field" rows="1" cols="35">
-   </textarea>
-        <input type="hidden" name="recaptcha_response_field" value="manual_challenge">
-      </noscript>
-    </td>
-    <td width="250" align="left"></td>
-  </tr>
+        <div class="col-xs-4">
+          <s:textfield id="phoneNumber" name="phoneNumber" cssClass="form-control" />
+        </div>
+      </div>
+      <hr>
+      <div class="form-group required">
+        <label for="email" class="control-label col-xs-3">Email:</label>
 
-  <tr height="20">
-    <td align="right" width="180" class="StandardTextDarkGray"></td>
-    <td width="250"></td>
-    <td width="250" align="left"></td>
-  </tr>
+        <div class="col-xs-4">
+          <s:textfield id="email" name="email" cssClass="form-control" />
+          <p class="help-block">Please use your organization email account. Your password will be sent to this email
+            address when you register.
+          </p>
+        </div>
+      </div>
 
-  <tr height="40">
-    <td align="right" width="180"></td>
-    <td width="250"></td>
-    <td width="250" align="left"></td>
-  </tr>
+      <div class="form-group required">
+        <label for="newUserName" class="control-label col-xs-3">Username:</label>
 
-  <!-- Submit Button -->
+        <div class="col-xs-4">
+          <s:textfield id="newUserName" name="newUserName" cssClass="form-control" />
+          <p class="help-block">This is what you will use to log in.</p>
+        </div>
+      </div>
 
-  <tr height="20">
-    <td align="right" width="180"></td>
-    <td width="250">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input
-        type="button" name="userAction" id="userAction" onclick="if(true){ this.form.submit() }"
-        value="Submit" />
-      <!-- <html:submit property="userAction" onclick="return submitForm1(this,document.getElementById('textarea'));" value="Submit" />  -->
-    </td>
-    <td width="250" align="left"><span id="textarea"></span></td>
-  </tr>
-  <tr height="20">
-    <td align="right" width="180"></td>
-    <td width="250"></td>
-    <td width="250" align="left"></td>
-  </tr>
-  <tr height="20">
-    <td align="right" width="180"></td>
-    <td width="250"></td>
-    <td width="250" align="left"></td>
-  </tr>
+      <div class="form-group">
+        <div class="col-xs-offset-3 col-xs-4">
+          <script>
+            var RecaptchaOptions = {
+              theme: 'white',
+              tabindex: 2
+            };
+          </script>
+          <script type="text/javascript"
+                  src="https://www.google.com/recaptcha/api/challenge?k=<s:property value="recaptchaPublicKey" />"></script>
+        </div>
+      </div>
 
-  </table>
-  </p>
-  </s:form>
-  </td>
-  </span>
-</div>
-<div class="includes">
+      <div class="form-group">
+        <div class="col-xs-offset-3 col-xs-4">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </s:form>
+  </section>
+
   <%@ include file="/jsp/main/footer.jsp" %>
 </div>
 
-</div>
+<%@ include file="/jsp/main/tail.jsp" %>
 </body>
 </html>

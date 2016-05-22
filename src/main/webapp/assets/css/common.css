@@ -224,8 +224,11 @@ input[type="checkbox"], input[type="radio"] {
 
 .help-block {
     color: #777;
-    margin-top: -5px;
     margin-bottom: 0;
+}
+
+label + .help-block {
+    margin-top: -5px;
 }
 
 .r2-ccr-value {

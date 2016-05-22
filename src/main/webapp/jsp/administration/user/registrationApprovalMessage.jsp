@@ -21,7 +21,7 @@
     <p><s:property value="outputMessage" /></p>
 
     <p>While you wait, you might like to read the <s:a action="overview"
-                                                       namespace="help">overview of Chembench</s:a>.</p>
+                                                       namespace="/help">overview of Chembench</s:a>.</p>
 
     <p>
       Enjoy,<br>
