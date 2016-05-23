@@ -15,7 +15,7 @@
     <hr>
     <div class="row">
       <div class="col-xs-3">
-        <%@ include file="nav.jsp" %>
+        <%@ include file="help-nav.jsp" %>
       </div>
 
       <section id="help-content" class="col-xs-9">
