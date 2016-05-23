@@ -39,7 +39,8 @@
 
         <h3>Dataset Creation</h3>
 
-        <img class="interstitial" src="${pageContext.request.contextPath}/assets/images/help/dataset-workflow.png">
+        <img class="interstitial" src="${pageContext.request.contextPath}/assets/images/help/dataset-workflow.png"
+             alt="Dataset workflow">
         <p>The dataset workflow handles preprocessing of the compounds, including structure standardization using the <a
             href="https://www.chemaxon.com/products/instant-jchem-suite/instant-jchem" target="_blank">JChem
           standardizer</a>. An external set is specified, and descriptors and visualizations are generated. When the
@@ -49,7 +50,8 @@
 
         <h3>Modeling</h3>
 
-        <img class="interstitial" src="${pageContext.request.contextPath}/assets/images/help/modeling-workflow.png">
+        <img class="interstitial" src="${pageContext.request.contextPath}/assets/images/help/modeling-workflow.png"
+             alt="Modeling workflow">
         <p>The Modeling workflow generates a predictor composed of an ensemble of models. After descriptors have been
           selected, the dataset's modeling set is split into several training and test sets, and one or more models is
           created for each train-test split. Once the predictor has been created, it is used to predict the activity of
@@ -62,7 +64,8 @@
 
         <h3>Prediction</h3>
 
-        <img class="interstitial" src="${pageContext.request.contextPath}/assets/images/help/prediction-workflow.png">
+        <img class="interstitial" src="${pageContext.request.contextPath}/assets/images/help/prediction-workflow.png"
+             alt="Prediction workflow">
         <p>To make a prediction, a user selects one or more predictors and a dataset. See the <s:a action="prediction"
                                                                                                    namespace="/help">Prediction help section</s:a>
           for more details.
