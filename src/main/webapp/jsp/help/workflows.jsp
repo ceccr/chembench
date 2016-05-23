@@ -37,7 +37,7 @@
           predictors we have made available in the Prediction section to help determine activity of a specific compound.
         </p>
 
-        <h3>Dataset Creation</h3>
+        <h4>Dataset Creation</h4>
 
         <img class="interstitial" src="${pageContext.request.contextPath}/assets/images/help/dataset-workflow.png"
              alt="Dataset workflow">
@@ -48,7 +48,7 @@
           downloaded. See the <s:a action="datasets" namespace="/help">Dataset help section</s:a> for more details.
         </p>
 
-        <h3>Modeling</h3>
+        <h4>Modeling</h4>
 
         <img class="interstitial" src="${pageContext.request.contextPath}/assets/images/help/modeling-workflow.png"
              alt="Modeling workflow">
@@ -62,7 +62,7 @@
           details on modeling in Chembench.
         </p>
 
-        <h3>Prediction</h3>
+        <h4>Prediction</h4>
 
         <img class="interstitial" src="${pageContext.request.contextPath}/assets/images/help/prediction-workflow.png"
              alt="Prediction workflow">

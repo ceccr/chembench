@@ -38,7 +38,7 @@
                                                       target="_blank">edit profile</s:a> page.
         </p>
 
-        <h3>Chembench Objects</h3>
+        <h4>Chembench Objects</h4>
         <p>
           In Chembench, you can create <b>Datasets</b>, <b>Predictors</b>, and <b>Predictions</b>.
         </p>

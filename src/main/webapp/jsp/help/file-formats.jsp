@@ -22,7 +22,7 @@
         <h3>File Formats</h3>
         <p>Datasets uploaded to Chembench are expected to contain these types of files.</p>
 
-        <h3 id="ACT">Activity (<code>.act</code>) Files</h3>
+        <h4 id="ACT">Activity (<code>.act</code>) Files</h4>
         <ul>
           <li><a href="${pageContext.request.contextPath}/assets/samples/continuousActFileSample.act" target="_blank">Sample
             with continuous activities</a></li>
@@ -71,7 +71,7 @@ compound7 2
 ...
 </pre>
 
-        <h3 id="SDF">Structure (<code>.sdf</code>) Files</h3>
+        <h4 id="SDF">Structure (<code>.sdf</code>) Files</h4>
         <ul>
           <li><a href="${pageContext.request.contextPath}/assets/samples/sdfFileSample.sdf" target="_blank">Sample
             file</a></li>
@@ -104,7 +104,7 @@ $$$$
 
         <p>Note that each compound is terminated by the sequence <code>$$$$</code>.</p>
 
-        <h3 id="X">Matrix (<code>.x</code>) files</h3>
+        <h4 id="X">Matrix (<code>.x</code>) files</h4>
         <ul>
           <li><a href="${pageContext.request.contextPath}/assets/samples/xFileSample.x" target="_blank">Sample file</a>
           </li>
