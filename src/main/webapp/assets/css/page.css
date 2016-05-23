@@ -242,6 +242,12 @@ th.datatables-spacer, td.datatables-spacer {
 }
 /* end predictionDetail */
 
+/* help pages */
 #help-content h3:first-child {
     margin-top: 0;
 }
+
+#help-content h4 {
+    margin-top: 20px;
+}
+/* end help pages */
