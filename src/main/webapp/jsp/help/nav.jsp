@@ -5,5 +5,4 @@
   <s:a namespace="/help" action="modeling" class="list-group-item">Modeling</s:a>
   <s:a namespace="/help" action="prediction" class="list-group-item">Prediction</s:a>
   <s:a namespace="/help" action="file-formats" class="list-group-item">File Formats</s:a>
-  <s:a namespace="/help" action="version-history" class="list-group-item">Version History</s:a>
 </nav>
