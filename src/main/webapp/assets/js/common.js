@@ -137,7 +137,7 @@
     };
 
     $(document).ready(function() {
-        $.get('api/getCurrentUser', function(data) {
+        $.get(Chembench.GET_CURRENT_USER_URL, function(data) {
             Chembench.CURRENT_USER = data;
         });
 
