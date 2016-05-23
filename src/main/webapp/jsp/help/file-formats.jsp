@@ -23,6 +23,13 @@
         <p>Datasets uploaded to Chembench are expected to contain these types of files.</p>
 
         <h3 id="ACT">Activity (<code>.act</code>) Files</h3>
+        <ul>
+          <li><a href="${pageContext.request.contextPath}/assets/samples/continuousActFileSample.act" target="_blank">Sample
+            with continuous activities</a></li>
+          <li><a href="${pageContext.request.contextPath}/assets/samples/categoryActFileSample.act" target="_blank">Sample
+            with categorical activities</a></li>
+        </ul>
+
         <p>The <code>.act</code> file stores activities of the dataset's compounds from some assay. An activity file is
           necessary for building predictive models on Chembench. Each line of an activity file is a chemical identifier
           followed by an activity value. Activity files may contain continuous or category data.
@@ -65,7 +72,10 @@ compound7 2
 </pre>
 
         <h3 id="SDF">Structure (<code>.sdf</code>) Files</h3>
-
+        <ul>
+          <li><a href="${pageContext.request.contextPath}/assets/samples/sdfFileSample.sdf" target="_blank">Sample
+            file</a></li>
+        </ul>
         <p>The <code>.sdf</code> file stores the structures of the compounds in the dataset. An example:</p>
 
 <pre>
@@ -95,6 +105,10 @@ $$$$
         <p>Note that each compound is terminated by the sequence <code>$$$$</code>.</p>
 
         <h3 id="X">Matrix (<code>.x</code>) files</h3>
+        <ul>
+          <li><a href="${pageContext.request.contextPath}/assets/samples/xFileSample.x" target="_blank">Sample file</a>
+          </li>
+        </ul>
 
         <p>The <code>.x</code> file is a descriptor file format used by Chembench. It is similar to the matrix format
           accepted by other data mining programs. It contains a matrix of compounds and their descriptor values. All
