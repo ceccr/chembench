@@ -27,16 +27,15 @@
       </p>
 
       <p>
-        For more information about creating models and selecting the right parameters, see the
-        <s:a action="modeling" namespace="help">Modeling help page</s:a>.
+        For more information about creating models and selecting the right parameters, see the <s:a action="modeling"
+                                                                                                    namespace="/help">Modeling help page</s:a>.
       </p>
 
       <p>
-        The full modeling workflow as described in our <s:a action="workflows" namespace="help">Workflow help page</s:a>
-        is
-        detailed in the following publication:
-
-        <span class="citation"><a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full" target="_blank">
+        The full modeling workflow as described in our <s:a action="workflows"
+                                                            namespace="/help">Workflow help page</s:a> is detailed
+        in <span class="citation"><a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full"
+                                     target="_blank">
           Tropsha, A. (2010). Best Practices for QSAR Model Development, Validation, and Exploitation.
           Molecular Informatics, 29(6-7), 476-488.
         </a></span>

@@ -67,8 +67,6 @@ span[title] {
 }
 
 .citation {
-    display: inline-block;
-    margin: 0.2em 1em 0 1em;
     font-style: italic;
 }
 

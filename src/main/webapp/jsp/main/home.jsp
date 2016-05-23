@@ -20,9 +20,9 @@
             Chembench can help researchers rationally design or select new compounds or compound libraries with
             significantly enhanced hit rates in screening experiments.
           </p>
-          <img class="interstitial-banner" src="${pageContext.request.contextPath}/assets/images/home-banner.jpg"
+          <img id="home-interstitial-banner" class="interstitial"
+               src="${pageContext.request.contextPath}/assets/images/home-interstitial-banner.jpg"
                alt="Molecule image banner">
-
           <p>
             Chembench provides cheminformatics research support to molecular modelers, medicinal chemists and
             quantitative biologists by integrating robust model builders, property and activity predictors, virtual

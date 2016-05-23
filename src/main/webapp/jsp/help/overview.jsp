@@ -22,27 +22,20 @@
         <h3>Overview</h3>
 
         <p>Chembench is a web-based tool for QSAR (Quantitative Structure-Activity Relationship) modeling and
-          prediction. Chembench doesn't require any
-          programming or
-          scripting knowledge to use. It's an interface that lets you skip past the hassles of file management and
-          translating between programs, so you can focus on the science of making and applying predictive models.
+          prediction. Chembench doesn't require any programming or scripting knowledge to use. It's an interface that
+          lets you skip past the hassles of file management and translating between programs, so you can focus on the
+          science of making and applying predictive models.
         </p>
 
-        <p>The first step in using Chembench is to
-          <s:a action="loadRegistrationPage" namespace="/" target="_blank">create an
-            account</s:a>.
-          When you
-          submit the form, you'll be
-          sent a
-          password by email. If you
-          prefer not to make an account, you can explore the website as a guest user; however, your work will not be
-          saved.
+        <p>The first step in using Chembench is to <s:a action="loadRegistrationPage" namespace="/"
+                                                        target="_blank">create an account</s:a>. When you submit the
+          form, you'll be sent a password by email. If you prefer not to make an account, you can explore the website as
+          a guest user; however, your work will not be saved.
         </p>
 
         <p>When you're logged in, you can get to the other tabs&mdash;My Bench, Datasets, and so on. Once logged in, you
-          can
-          also change your password from the <s:a action="editProfile" namespace="/" target="_blank">edit profile</s:a>
-          page.
+          can also change your password from the <s:a action="editProfile" namespace="/"
+                                                      target="_blank">edit profile</s:a> page.
         </p>
 
         <h3>Chembench Objects</h3>
@@ -54,8 +47,8 @@
           A <b>dataset</b> is created from files that you upload. Typically, you will use a set of compounds (an <s:a
             action="file-formats" namespace="/help" anchor="SDF">SDF file</s:a>), along with experimental values for
           those compounds (an <s:a action="file-formats" namespace="/help" anchor="ACT">ACT file</s:a>) to make a
-          dataset. Datasets can be created using the Datasets tab.
-          There are also many public datasets available on Chembench for you to experiment with.
+          dataset. Datasets can be created using the Datasets tab. There are also many public datasets available on
+          Chembench for you to experiment with.
         </p>
 
         <p>
@@ -70,21 +63,16 @@
 
         <p>Whenever you submit a dataset, predictor, or prediction to be created, you will be taken to the My Bench
           page. From there, you can see the progress of the job currently running, the queue of waiting jobs, and all of
-          the
-          datasets, predictors, and predictions available. When a dataset job finishes, you can see the results in the
-          dataset section. Finished modeling My Bench appear in the predictors section, and finished prediction My Bench
-          go
-          to the prediction section of the My Bench page.
+          the datasets, predictors, and predictions available. When a dataset job finishes, you can see the results in
+          the dataset section. Finished modeling My Bench appear in the predictors section, and finished prediction My
+          Bench go to the prediction section of the My Bench page.
         </p>
 
         <p>
           That should be enough information to get you started&mdash;the other help sections give more detail on each
-          part
-          of
-          Chembench, explaining the modeling workflows and the different parameters you can set. You can refer back to
-          them
-          as needed, and you can contact us at <a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a> with any
-          questions.
+          part of Chembench, explaining the modeling workflows and the different parameters you can set. You can refer
+          back to them as needed, and you can contact us at <a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a>
+          with any questions.
         </p>
       </section>
     </div>
