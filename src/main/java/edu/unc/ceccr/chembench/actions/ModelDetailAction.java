@@ -5,6 +5,7 @@ import com.google.common.collect.DiscreteDomain;
 import com.google.common.collect.Range;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
+import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.calculations.ConfusionMatrix;
 import edu.unc.ceccr.chembench.workflows.calculations.PredictorEvaluation;
 import org.slf4j.Logger;
@@ -159,6 +160,7 @@ public class ModelDetailAction extends DetailAction {
             displayedValue.compoundName = extVal.getCompoundId();
             displayedValue.observedValue = extVal.getActualValue();
             displayedValue.predictedValue = extVal.getPredictedValue();
+            displayedValue.predictedValueStandardDeviation = Utility.safeStringToFloat(extVal.getStandDev());
             displayedValue.residual = residual;
             if (!predictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
                 displayedValue.predictingModels = extVal.getNumModels();

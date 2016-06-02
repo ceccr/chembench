@@ -301,12 +301,22 @@
                 </td>
                 <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
                   <td><s:property value="observedValue" /></td>
-                  <td><s:property value="predictedValue" /></td>
+                  <td>
+                    <s:property value="predictedValue" />
+                    <s:if test="predictedValueStandardDeviation != 0.0f">
+                      &plusmn; <s:property value="predictedValueStandardDeviation" />
+                    </s:if>
+                  </td>
                   <td><s:text name="format.double"><s:param value="residual" /></s:text></td>
                 </s:if>
                 <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
                   <td><s:text name="format.int"><s:param value="observedValue" /></s:text></td>
-                  <td><s:text name="format.int"><s:param value="predictedValue" /></s:text></td>
+                  <td>
+                    <s:text name="format.int"><s:param value="predictedValue" /></s:text>
+                    <s:if test="predictedValueStandardDeviation != 0.0f">
+                      &plusmn; <s:property value="predictedValueStandardDeviation" />
+                    </s:if>
+                  </td>
                 </s:elseif>
                 <s:if
                     test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">

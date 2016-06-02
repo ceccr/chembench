@@ -397,4 +397,15 @@ public class Utility {
         }
         return str.equals(Constants.YES);
     }
+
+    public static float safeStringToFloat(String standDev) {
+        if (standDev != null) {
+            try {
+                return Float.parseFloat(standDev);
+            } catch (NumberFormatException e) {
+                ; // expected exception
+            }
+        }
+        return 0.0f;
+    }
 }
