@@ -25,7 +25,6 @@
           <thead>
           <tr>
             <th>Username</th>
-            <th>E-mail</th>
             <th>Organization</th>
             <th>Country</th>
             <th>Last Login</th>
@@ -43,9 +42,9 @@
             <tr>
             </s:else>
               <td><b><span class="username"><s:property value="userName" /></span></b><br>
-                <s:property value="firstName" />&nbsp;<s:property value="lastName" />
+                <s:property value="firstName" />&nbsp;<s:property value="lastName" /><br>
+                <a target="_blank" href="mailto:<s:property value="email" />"><s:property value="email" /></a>
               </td>
-              <td><a target="_blank" href="mailto:<s:property value="email" />"><s:property value="email" /></a></td>
               <td><s:property value="orgName" /></td>
               <td><s:property value="country" /></td>
               <td><s:date name="lastLogintime" format="yyyy-MM-dd" /></td>
