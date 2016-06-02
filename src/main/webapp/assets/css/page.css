@@ -251,3 +251,9 @@ th.datatables-spacer, td.datatables-spacer {
     margin-top: 20px;
 }
 /* end help pages */
+
+/* admin */
+label.user-flags {
+    white-space: nowrap;
+}
+/* end admin */

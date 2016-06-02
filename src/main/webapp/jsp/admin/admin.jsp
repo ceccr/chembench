@@ -50,17 +50,17 @@
               <td><s:date name="lastLogintime" format="yyyy-MM-dd" /></td>
               <td>
                 <s:hidden name="can-download-descriptors-string" value="%{canDownloadDescriptors}" theme="simple" />
-                <label>
+                <label class="user-flags">
                   <input name="can-download-descriptors" type="checkbox">
                   All descriptors
                 </label>
                 <br>
                 <s:hidden name="is-admin-string" value="%{isAdmin}" theme="simple" />
                 <s:if test="userName != #session['user'].userName">
-                  <label><input name="is-admin" type="checkbox"> Is administrator</label>
+                  <label class="user-flags"><input name="is-admin" type="checkbox"> Is administrator</label>
                 </s:if>
                 <s:else>
-                  <label class="text-muted">
+                  <label class="text-muted user-flags">
                     <input name="is-admin" disabled="disabled" type="checkbox">
                     Is administrator
                   </label>
