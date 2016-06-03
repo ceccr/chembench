@@ -550,6 +550,63 @@
             </s:elseif>
           </s:if>
           <s:elseif test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@SVM">
+            <h4>SVM-specific Parameters</h4>
+            <dl class="dl-horizontal properties-list">
+              <dt>SVM type</dt>
+              <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
+                <dd><s:property value="modelParameters.svmTypeContinuous" /></dd>
+              </s:if>
+              <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
+                <dd><s:property value="modelParameters.svmTypeCategory" /></dd>
+              </s:elseif>
+
+              <dt>Kernel type</dt>
+              <dd><s:property value="modelParameters.svmKernel" /></dd>
+
+              <dt>Degree</dt>
+              <dd>from <s:property value="modelParameters.svmDegreeFrom" /> to <s:property
+                  value="modelParameters.svmDegreeTo" />, step: <s:property value="modelParameters.svmDegreeStep" /></dd>
+
+              <dt>Gamma</dt>
+              <dd>from <s:property value="modelParameters.svmGammaFrom" /> to <s:property
+                  value="modelParameters.svmGammaTo" />, step: <s:property value="modelParameters.svmGammaStep" /></dd>
+
+              <dt>Cost</dt>
+              <dd>from <s:property value="modelParameters.svmCostFrom" /> to <s:property
+                  value="modelParameters.svmCostTo" />, step: <dd><s:property value="modelParameters.svmCostStep" /></dd>
+
+              <dt>Nu</dt>
+              <dd>from <s:property value="modelParameters.svmNuFrom" /> to <s:property
+                  value="modelParameters.svmNuTo" />, step: <s:property value="modelParameters.svmNuStep" /></dd>
+
+              <dt>Epsilon</dt><dd>from
+              <dd><s:property value="modelParameters.svmPEpsilonFrom" /></dd>
+              <b>to</b>
+              <dd><s:property value="modelParameters.svmPEpsilonTo" /></dd>
+              <b>step</b>
+              <dd><s:property value="modelParameters.svmPEpsilonStep" /></dd>
+
+              <dt>Epsilon in loss function of epsilon-SVR</dt>
+              <dd><s:property value="modelParameters.svmPEpsilonFrom" /></dd>
+
+              <dt>Tolerance of termination criterion</dt>
+              <dd><s:property value="modelParameters.svmEEpsilon" /></dd>
+
+              <dt>Use shrinking heuristics</dt>
+              <dd><s:property value="modelParameters.svmHeuristics" /></dd>
+
+              <dt>Use probability estimates</dt>
+              <dd><s:property value="modelParameters.svmProbability" /></dd>
+
+              <dt>Parameter C of class <var>i</var>&nbsp; to weight &sdot; C for C-SVC</dt>
+              <dd><s:property value="modelParameters.svmWeight" /></dd>
+
+              <dt>Number of cross-validations (e.g. 5 for 5-fold)</dt>
+              <dd><s:property value="modelParameters.svmCrossValidation" /></dd>
+
+              <dt>Model acceptance cutoff</dt>
+              <dd><s:property value="modelParameters.svmCutoff" /></dd>
+            </dl>
           </s:elseif>
         </s:else>
       </div>
