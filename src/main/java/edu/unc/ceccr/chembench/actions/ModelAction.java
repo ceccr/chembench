@@ -306,12 +306,18 @@ public class ModelAction extends ActionSupport {
                 p.setSplitIncludesMax(splitIncludesMax);
                 p.setSplitIncludesMin(splitIncludesMin);
                 p.setSphereSplitMinTestSize(sphereSplitMinTestSize);
+                p.setSelectionNextTrainPt(selectionNextTrainPt);
                 if (ds.getUploadedDescriptorType() != null) {
                     p.setUploadedDescriptorType(ds.getUploadedDescriptorType());
                 } else {
                     p.setUploadedDescriptorType("");
                 }
                 logger.debug("TYPE::" + ds.getUploadedDescriptorType() + ":::" + p.getUploadedDescriptorType());
+                if (trainTestSplitType.equals(Constants.RANDOM)) {
+                    p.setNumSplits(numSplitsInternalRandom);
+                } else if (trainTestSplitType.equals(Constants.SPHEREEXCLUSION)) {
+                    p.setNumSplits(numSplitsInternalSphere);
+                }
 
                 predictorRepository.save(p);
             } else {
