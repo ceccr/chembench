@@ -432,6 +432,79 @@
               <dd><s:property value="modelParameters.seed" /></dd>
             </s:if>
           </s:if>
+          <s:elseif test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@KNN)">
+            <dl class="dl-horizontal properties-list">
+              <dt>Descriptors per model</dt>
+              <dd>from <s:property value="modelParameters.knnMinNumDescriptors" /> to
+                <s:property value="modelParameters.knnMaxNumDescriptors" /></dd>
+
+              <dt>Minimum nearest neighbors</dt>
+              <dd><s:property value="modelParameters.knnMinNearestNeighbors" /></dd>
+
+              <dt>Maximum nearest neighbors</dt>
+              <dd><s:property value="modelParameters.knnMaxNearestNeighbors" /></dd>
+
+              <dt>Applicability Domain cutoff</dt>
+              <dd><s:property value="modelParameters.knnApplicabilityDomain" /></dd>
+
+              <dt>Minimum for training set</dt>
+              <dd><s:property value="modelParameters.knnMinTraining" /></dd>
+
+              <dt>Minimum for test set</dt>
+              <dd><s:property value="modelParameters.knnMinTest" /></dd>
+            </dl>
+            <hr>
+            <s:if test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@KNNSA">
+              <h4>KNN-SA-specific Parameters</h4>
+              <dl class="dl-horizontal properties-list">
+                <dt>Number of runs</dt>
+                <dd><s:property value="modelParameters.saNumRuns" /></dd>
+
+                <dt>Mutation probability per descriptor</dt>
+                <dd><s:property value="modelParameters.saMutationProbabilityPerDescriptor" /></dd>
+
+                <dt>Number of best models to store</dt>
+                <dd><s:property value="modelParameters.saNumBestModels" /></dd>
+
+                <dt>Temperature decrease coefficient</dt>
+                <dd><s:property value="modelParameters.saTempDecreaseCoefficient" /></dd>
+
+                <dt>Log initial temperature</dt>
+                <dd><s:property value="modelParameters.saLogInitialTemp" /></dd>
+
+                <dt>Final temperature</dt>
+                <dd><s:property value="modelParameters.saFinalTemp" /></dd>
+
+                <dt>Temperature convergence range</dt>
+                <dd><s:property value="modelParameters.saTempConvergence" /></dd>
+
+                <dt>Use error based fit index</dt>
+                <dd><s:if test="modelParameters.knnSaErrorBasedFit">Yes</s:if><s:else>No</s:else></dd>
+              </dl>
+            </s:if>
+            <s:elseif test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@KNNGA">
+              <h4>KNN-GA-specific Parameters</h4>
+              <dl class="dl-horizontal properties-list">
+                <dt>Population size</dt>
+                <dd><s:property value="modelParameters.gaPopulationSize" /></dd>
+
+                <dt>Maximum number of generations</dt>
+                <dd><s:property value="modelParameters.gaMaxNumGenerations" /></dd>
+
+                <dt>Stop if stable for this many generations</dt>
+                <dd><s:property value="modelParameters.gaNumStableGenerations" /></dd>
+
+                <dt>Group size for tournament selection</dt>
+                <dd><s:property value="modelParameters.gaTournamentGroupSize" /></dd>
+
+                <dt>Minimum fitness difference to proceed</dt>
+                <dd><s:property value="modelParameters.gaMinFitnessDifference" /></dd>
+
+                <dt>Use error based fit index</dt>
+                <dd><s:if test="modelParameters.knnGaErrorBasedFit">Yes</s:if><s:else>No</s:else></dd>
+              </dl>
+            </s:elseif>
+          </s:elseif>
         </dl>
       </div>
     </div>
