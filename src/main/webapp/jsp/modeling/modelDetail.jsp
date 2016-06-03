@@ -35,6 +35,9 @@
           <dt>Descriptors used</dt>
           <dd class="descriptor-type"><s:property value="predictor.descriptorGeneration" /></dd>
 
+          <dt>Correlation cutoff</dt>
+          <dd><s:property value="predictor.correlationCutoff" /></dd>
+
           <dt>Date created</dt>
           <dd><s:date name="predictor.dateCreated" format="yyyy-MM-dd HH:mm" /></dd>
         </dl>
@@ -318,8 +321,7 @@
                     </s:if>
                   </td>
                 </s:elseif>
-                <s:if
-                    test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
+                <s:if test="!predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
                   <td><s:property value="predictingModels" /> / <s:property value="totalModels" /></td>
                 </s:if>
               </tr>
@@ -419,11 +421,8 @@
 
         <p>These are the parameters you used to generate this model.</p>
 
-        <dl class="dl-horizontal properties-list">
-          <dt>Correlation cutoff</dt>
-          <dd><s:property value="predictor.correlationCutoff" /></dd>
-
-          <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
+        <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
+          <dl class="dl-horizontal properties-list">
             <dt>Number of trees</dt>
             <dd><s:property value="modelParameters.numTrees" /></dd>
 
@@ -431,8 +430,53 @@
               <dt>Random seed used</dt>
               <dd><s:property value="modelParameters.seed" /></dd>
             </s:if>
-          </s:if>
-          <s:elseif test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@KNN)">
+          </dl>
+        </s:if>
+        <s:else>
+          <!-- non-RF models use internal splitting, so display those parameters -->
+          <h4>Internal Data Split Parameters</h4>
+          <dl class="dl-horizontal properties-list">
+            <dt>Number of internal data splits</dt>
+            <dd><s:property value="predictor.numSplits" /></dd>
+
+            <s:if test="predictor.trainTestSplitType == @edu.unc.ceccr.chembench.global.Constants@RANDOM">
+              <dt>Internal data split type</dt>
+              <dd>Random split</dd>
+
+              <dt>Minimum test set size</dt>
+              <dd><s:property value="predictor.randomSplitMinTestSize" />%</dd>
+
+              <dt>Maximum test set size</dt>
+              <dd><s:property value="predictor.randomSplitMaxTestSize" />%</dd>
+            </s:if>
+            <s:elseif
+                test="predictor.trainTestSplitType == @edu.unc.ceccr.chembench.global.Constants@SPHEREEXCLUSION">
+              <dt>Internal data split type</dt>
+              <dd>Sphere exclusion</dd>
+
+              <dt>Minimum test set size</dt>
+              <dd><s:property value="predictor.sphereSplitMinTestSize" />%</dd>
+
+              <dt>Force minimum activity compound into all training sets</dt>
+              <dd><s:if test="predictor.splitIncludesMin == 'true'">Yes</s:if><s:else>No</s:else></dd>
+
+              <dt>Force maximum activity compound into all training sets</dt>
+              <dd><s:if test="predictor.splitIncludesMax == 'true'">Yes</s:if><s:else>No</s:else></dd>
+
+              <dt>Next training set point selection method</dt>
+              <dd>
+                <s:if test="predictor.selectionNextTrainPt == 0">Random selection</s:if>
+                <s:elseif
+                    test="predictor.selectionNextTrainPt == 1">Expand outwards from already selected points</s:elseif>
+                <s:elseif test="predictor.selectionNextTrainPt == 2">Even coverage of descriptor space</s:elseif>
+                <s:elseif
+                    test="predictor.selectionNextTrainPt == 3">Work inwards from boundaries of descriptor space</s:elseif>
+              </dd>
+            </s:elseif>
+          </dl>
+          <hr>
+          <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@KNN)">
+            <h4>General KNN+ Parameters</h4>
             <dl class="dl-horizontal properties-list">
               <dt>Descriptors per model</dt>
               <dd>from <s:property value="modelParameters.knnMinNumDescriptors" /> to
@@ -504,8 +548,10 @@
                 <dd><s:if test="modelParameters.knnGaErrorBasedFit">Yes</s:if><s:else>No</s:else></dd>
               </dl>
             </s:elseif>
+          </s:if>
+          <s:elseif test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@SVM">
           </s:elseif>
-        </dl>
+        </s:else>
       </div>
     </div>
   </section>
