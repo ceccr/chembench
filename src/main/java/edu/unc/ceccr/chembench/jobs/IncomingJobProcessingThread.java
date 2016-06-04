@@ -53,8 +53,8 @@ public class IncomingJobProcessingThread extends Thread {
                         // check LSF status. If LSF can accept another job,
                         // put it there.
                         QsarModelingTask qs = (QsarModelingTask) j.workflowTask;
-                        if (qs.getModelType().equals(Constants.KNN) || qs.getModelType().equals(Constants.KNNSA) || qs
-                                .getModelType().equals(Constants.KNNGA) || qs.getModelType().equals(Constants.SVM)) {
+                        if (qs.getModelType().equals(Constants.KNNSA) || qs.getModelType().equals(Constants.KNNGA) || qs
+                                .getModelType().equals(Constants.SVM)) {
                             if (LsfProcessingThread.lsfHasFreePendSlots()) {
                                 logger.info("Sending job " + j.getJobName() + " to LSF queue");
                                 movedJob = true;

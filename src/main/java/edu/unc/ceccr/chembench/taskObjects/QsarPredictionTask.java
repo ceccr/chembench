@@ -435,9 +435,7 @@ public class QsarPredictionTask extends WorkflowTask {
             logger.debug("User: " + userName + "Job: " + jobName + " ExecutePredictor: Making predictions");
             Path predictorDir = predictor.getDirectoryPath(predictorRepository);
             ScikitRandomForestPrediction scikitPred = new ScikitRandomForestPrediction();
-            if (predictor.getModelMethod().equals(Constants.KNN)) {
-                KnnPrediction.runKnnPlusPredictionForKnnPredictors(userName, jobName, predictionDir, sdfile);
-            } else if (predictor.getModelMethod().equals(Constants.SVM)) {
+            if (predictor.getModelMethod().equals(Constants.SVM)) {
                 Svm.runSvmPrediction(predictionDir, sdfile + ".renorm.x");
             } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod()
                     .equals(Constants.KNNSA)) {
@@ -454,9 +452,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
             step = Constants.READPRED;
 
-            if (predictor.getModelMethod().equals(Constants.KNN)) {
-                predValues = KnnPrediction.readPredictionOutput(predictionDir, predictor.getId(), sdfile);
-            } else if (predictor.getModelMethod().equals(Constants.SVM)) {
+            if (predictor.getModelMethod().equals(Constants.SVM)) {
                 predValues = Svm.readPredictionOutput(predictionDir, sdfile + ".renorm.x", predictor.getId());
             } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod()
                     .equals(Constants.KNNSA)) {

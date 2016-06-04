@@ -75,7 +75,6 @@ public class QsarModelingTask extends WorkflowTask {
     private String sphereSplitMinTestSize;
     private String selectionNextTrainPt;
     // sets of input parameters
-    private KnnParameters knnParameters;
     private SvmParameters svmParameters;
     private RandomForestParameters randomForestParameters;
     private KnnPlusParameters knnPlusParameters;
@@ -88,8 +87,6 @@ public class QsarModelingTask extends WorkflowTask {
     private RandomForestParametersRepository randomForestParametersRepository;
     @Autowired
     private SvmParametersRepository svmParametersRepository;
-    @Autowired
-    private KnnParametersRepository knnParametersRepository;
     @Autowired
     private KnnPlusParametersRepository knnPlusParametersRepository;
     @Autowired
@@ -197,30 +194,7 @@ public class QsarModelingTask extends WorkflowTask {
         // end datasplit parameters
 
         // load modeling parameters from form
-        if (modelingForm.getModelingType().equals(Constants.KNN)) {
-            knnParameters = new KnnParameters();
-            knnParameters.setT1(modelingForm.getT1());
-            knnParameters.setT2(modelingForm.getT2());
-            knnParameters.setTcOverTb(modelingForm.getTcOverTb());
-            knnParameters.setMinSlopes(modelingForm.getMinSlopes());
-            knnParameters.setMaxSlopes(modelingForm.getMaxSlopes());
-            knnParameters.setRelativeDiffRR0(modelingForm.getRelativeDiffRR0());
-            knnParameters.setDiffR01R02(modelingForm.getDiffR01R02());
-            knnParameters.setKnnCategoryOptimization(modelingForm.getKnnCategoryOptimization());
-            knnParameters.setMinNumDescriptors(modelingForm.getMinNumDescriptors());
-            knnParameters.setMaxNumDescriptors(modelingForm.getMaxNumDescriptors());
-            knnParameters.setStepSize(modelingForm.getStepSize());
-            knnParameters.setNumCycles(modelingForm.getNumCycles());
-            knnParameters.setNumMutations(modelingForm.getNumMutations());
-            knnParameters.setMinAccTraining(modelingForm.getMinAccTraining());
-            knnParameters.setMinAccTest(modelingForm.getMinAccTest());
-            knnParameters.setCutoff(modelingForm.getCutoff());
-            knnParameters.setMu(modelingForm.getMu());
-            knnParameters.setNumRuns(modelingForm.getNumRuns());
-            knnParameters.setNearestNeighbors(modelingForm.getNearest_Neighbors());
-            knnParameters.setPseudoNeighbors(modelingForm.getPseudo_Neighbors());
-            knnParameters.setStopCond(modelingForm.getStop_cond());
-        } else if (modelingForm.getModelingType().equals(Constants.SVM)) {
+        if (modelingForm.getModelingType().equals(Constants.SVM)) {
             svmParameters = new SvmParameters();
             svmParameters.setSvmDegreeFrom(modelingForm.getSvmDegreeFrom());
             svmParameters.setSvmDegreeTo(modelingForm.getSvmDegreeTo());
@@ -297,9 +271,7 @@ public class QsarModelingTask extends WorkflowTask {
         datasetPath += "/DATASETS/" + datasetName + "/";
         if (wasRecovered) {
             // modeling params
-            if (predictor.getModelMethod().equals(Constants.KNN)) {
-                knnParameters = knnParametersRepository.findOne(predictor.getModelingParametersId());
-            } else if (predictor.getModelMethod().equals(Constants.SVM)) {
+            if (predictor.getModelMethod().equals(Constants.SVM)) {
                 svmParameters = svmParametersRepository.findOne(predictor.getModelingParametersId());
             } else if (predictor.getModelMethod().equals(Constants.KNNSA) || predictor.getModelMethod()
                     .equals(Constants.KNNGA)) {
@@ -419,9 +391,6 @@ public class QsarModelingTask extends WorkflowTask {
         predictor.setSelectionNextTrainPt(selectionNextTrainPt);
 
         // save modeling params to database
-        if (knnParameters != null) {
-            knnParametersRepository.save(knnParameters);
-        }
         if (svmParameters != null) {
             svmParametersRepository.save(svmParameters);
         }
@@ -643,7 +612,7 @@ public class QsarModelingTask extends WorkflowTask {
             String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
             LsfUtilities.retrieveCompletedPredictor(filePath, lsfPath);
 
-            if (modelType.startsWith(Constants.KNN)) {
+            if (modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)) {
                 KnnPlus.checkModelsFile(filePath);
             }
 
@@ -986,10 +955,6 @@ public class QsarModelingTask extends WorkflowTask {
 
     public void setKnnPlusParametersRepository(KnnPlusParametersRepository knnPlusParametersRepository) {
         this.knnPlusParametersRepository = knnPlusParametersRepository;
-    }
-
-    public void setKnnParametersRepository(KnnParametersRepository knnParametersRepository) {
-        this.knnParametersRepository = knnParametersRepository;
     }
 
     public void setSvmParametersRepository(SvmParametersRepository svmParametersRepository) {

@@ -475,7 +475,8 @@
             </s:elseif>
           </dl>
           <hr>
-          <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@KNN)">
+          <s:if test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@KNNSA ||
+                      predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@KNNGA ">
             <h4>General KNN+ Parameters</h4>
             <dl class="dl-horizontal properties-list">
               <dt>Descriptors per model</dt>

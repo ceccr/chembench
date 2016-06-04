@@ -63,8 +63,7 @@ public class Predictor implements java.io.Serializable {
     private String confusionMatrix;
 
 
-    //references a row in KnnParameters, SvmParameters, RandomForestParameters,
-    //or KnnPlusParameters depending on modelMethod.
+    //references a row in SvmParameters, RandomForestParameters, or KnnPlusParameters depending on modelMethod.
     private Long modelingParametersId;
 
     //datasplit

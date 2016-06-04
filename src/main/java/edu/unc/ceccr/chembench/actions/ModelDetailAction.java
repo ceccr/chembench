@@ -22,10 +22,8 @@ public class ModelDetailAction extends DetailAction {
     private final PredictorRepository predictorRepository;
     private final RandomForestTreeRepository randomForestTreeRepository;
     private final SvmModelRepository svmModelRepository;
-    private final KnnModelRepository knnModelRepository;
     private final KnnPlusModelRepository knnPlusModelRepository;
     private final RandomForestParametersRepository randomForestParametersRepository;
-    private final KnnParametersRepository knnParametersRepository;
     private final KnnPlusParametersRepository knnPlusParametersRepository;
     private final SvmParametersRepository svmParametersRepository;
     private final ExternalValidationRepository externalValidationRepository;
@@ -53,10 +51,9 @@ public class ModelDetailAction extends DetailAction {
     public ModelDetailAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
                              RandomForestGroveRepository randomForestGroveRepository,
                              RandomForestTreeRepository randomForestTreeRepository,
-                             SvmModelRepository svmModelRepository, KnnModelRepository knnModelRepository,
+                             SvmModelRepository svmModelRepository,
                              KnnPlusModelRepository knnPlusModelRepository,
                              RandomForestParametersRepository randomForestParametersRepository,
-                             KnnParametersRepository knnParametersRepository,
                              KnnPlusParametersRepository knnPlusParametersRepository,
                              SvmParametersRepository svmParametersRepository,
                              ExternalValidationRepository externalValidationRepository) {
@@ -65,10 +62,8 @@ public class ModelDetailAction extends DetailAction {
         this.randomForestGroveRepository = randomForestGroveRepository;
         this.randomForestTreeRepository = randomForestTreeRepository;
         this.svmModelRepository = svmModelRepository;
-        this.knnModelRepository = knnModelRepository;
         this.knnPlusModelRepository = knnPlusModelRepository;
         this.randomForestParametersRepository = randomForestParametersRepository;
-        this.knnParametersRepository = knnParametersRepository;
         this.knnPlusParametersRepository = knnPlusParametersRepository;
         this.svmParametersRepository = svmParametersRepository;
         this.externalValidationRepository = externalValidationRepository;
@@ -106,9 +101,6 @@ public class ModelDetailAction extends DetailAction {
             case Constants.RANDOMFOREST_R:
                 modelParameters = randomForestParametersRepository.findOne(predictor.getModelingParametersId());
                 break;
-            case Constants.KNN: // legacy knn
-                modelParameters = knnParametersRepository.findOne(predictor.getModelingParametersId());
-                break;
             case Constants.KNNGA: // knn+
             case Constants.KNNSA:
                 modelParameters = knnPlusParametersRepository.findOne(predictor.getModelingParametersId());
@@ -120,7 +112,6 @@ public class ModelDetailAction extends DetailAction {
                 logger.warn(
                         String.format("Unrecognized model method %s for predictor id %d", predictor.getModelMethod(),
                                 predictor.getId()));
-                break;
         }
         return SUCCESS;
     }
@@ -221,8 +212,6 @@ public class ModelDetailAction extends DetailAction {
             case Constants.KNNSA: // knn+
             case Constants.KNNGA:
                 return knnPlusModelRepository.findByPredictorIdAndIsYRandomModel(predictor.getId(), isYRandomString);
-            case Constants.KNN: // legacy knn
-                return (isYRandom) ? new ArrayList<>() : knnModelRepository.findByPredictorId(predictor.getId());
         }
         logger.warn("Unrecognized model method: " + predictor.getModelMethod());
         return new ArrayList<>();

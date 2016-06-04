@@ -352,16 +352,7 @@ public class ModelAction extends ActionSupport {
             numModels = Integer.parseInt(numSplitsInternalSphere);
         }
 
-        if (modelingType.equals(Constants.KNN)) {
-            numModels *= Integer.parseInt(numRuns);
-            int numDescriptorSizes = 1;
-            if (Integer.parseInt(stepSize) != 0) {
-                numDescriptorSizes +=
-                        (Integer.parseInt(maxNumDescriptors) - Integer.parseInt(minNumDescriptors)) / Integer
-                                .parseInt(stepSize);
-            }
-            numModels *= numDescriptorSizes;
-        } else if (modelingType.equals(Constants.KNNSA)) {
+        if (modelingType.equals(Constants.KNNSA)) {
             numModels *= Integer.parseInt(saNumRuns);
             numModels *= Integer.parseInt(saNumBestModels);
             int numDescriptorSizes = 1;

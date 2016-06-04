@@ -154,8 +154,8 @@ public class RunSmilesPrediction {
             prediction[1] = predictedValue;
         } else {
             prediction[1] = "N/A";
-            if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants.KNNSA)
-                    || predictor.getModelMethod().equals(Constants.KNN)) {
+            if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod()
+                    .equals(Constants.KNNSA)) {
                 prediction[1] += "- Cutoff Too Low";
             }
         }
