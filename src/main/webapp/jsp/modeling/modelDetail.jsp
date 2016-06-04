@@ -550,59 +550,97 @@
             </s:elseif>
           </s:if>
           <s:elseif test="predictor.modelMethod == @edu.unc.ceccr.chembench.global.Constants@SVM">
-            <h4>SVM-specific Parameters</h4>
+            <h4>SVM Parameters</h4>
             <dl class="dl-horizontal properties-list">
-              <dt>SVM type</dt>
-              <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
-                <dd><s:property value="modelParameters.svmTypeContinuous" /></dd>
+              <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
+                <dt>SVM type (category)</dt>
+                <dd>
+                  <s:if test="modelParameters.svmTypeCategory == 0">
+                    C-SVC
+                  </s:if>
+                  <s:elseif test="modelParameters.svmTypeCategory == 1">
+                    nu-SVC
+                  </s:elseif>
+                </dd>
               </s:if>
-              <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
-                <dd><s:property value="modelParameters.svmTypeCategory" /></dd>
+              <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
+                <dt>SVM type (continuous)</dt>
+                <dd>
+                  <s:if test="modelParameters.svmTypeContinuous == 3">
+                    epsilon-SVR
+                  </s:if>
+                  <s:elseif test="modelParameters.svmTypeContinuous == 4">
+                    nu-SVR
+                  </s:elseif>
+                </dd>
               </s:elseif>
 
+              <s:if test="!(predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY &&
+                          modelParameters.svmTypeCategory == 1)">
+                <dt>Cost</dt>
+                <dd>from 2<sup><s:property value="modelParameters.svmCostFrom" /></sup>&nbsp; to 2<sup><s:property
+                      value="modelParameters.svmCostTo" /></sup>, step: 2<sup><s:property value="modelParameters.svmCostStep" /></sup></dd>
+              </s:if>
+
+              <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY &&
+                          modelParameters.svmTypeCategory == 0">
+                <dt>Parameter C of class <var>i</var>&nbsp; to weight &sdot; C for C-SVC</dt>
+                <dd><s:property value="modelParameters.svmWeight" /></dd>
+              </s:if>
+
+              <s:if test="(predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS &&
+                          modelParameters.svmTypeContinuous == 4) ||
+                          (predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY &&
+                          modelParameters.svmTypeCategory == 1)">
+                <dt>Nu</dt>
+                <dd>from <s:property value="modelParameters.svmNuFrom" /> to <s:property
+                    value="modelParameters.svmNuTo" />, step: <s:property value="modelParameters.svmNuStep" /></dd>
+              </s:if>
+
+              <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS &&
+                          modelParameters.svmTypeContinuous == 3">
+                <dt>Epsilon in loss function of epsilon-SVR</dt>
+                <dd>from <s:property value="modelParameters.svmPEpsilonFrom" />
+                    to <s:property value="modelParameters.svmPEpsilonTo" />,
+                    step: <s:property value="modelParameters.svmPEpsilonStep" /></dd>
+              </s:if>
+
+              <br>
               <dt>Kernel type</dt>
-              <dd><s:property value="modelParameters.svmKernel" /></dd>
+              <dd>
+                <s:if test="modelParameters.svmKernel == 0">linear</s:if>
+                <s:elseif test="modelParameters.svmKernel == 1">polynomial</s:elseif>
+                <s:elseif test="modelParameters.svmKernel == 2">radial basis function</s:elseif>
+                <s:elseif test="modelParameters.svmKernel == 3">sigmoid</s:elseif>
+              </dd>
 
-              <dt>Degree</dt>
-              <dd>from <s:property value="modelParameters.svmDegreeFrom" /> to <s:property
-                  value="modelParameters.svmDegreeTo" />, step: <s:property value="modelParameters.svmDegreeStep" /></dd>
+              <s:if test="modelParameters.svmKernel == 1">
+                <dt>Degree</dt>
+                <dd>from <s:property value="modelParameters.svmDegreeFrom" /> to <s:property
+                    value="modelParameters.svmDegreeTo" />, step: <s:property value="modelParameters.svmDegreeStep" /></dd>
+              </s:if>
 
-              <dt>Gamma</dt>
-              <dd>from <s:property value="modelParameters.svmGammaFrom" /> to <s:property
-                  value="modelParameters.svmGammaTo" />, step: <s:property value="modelParameters.svmGammaStep" /></dd>
+              <s:if test="modelParameters.svmKernel != 0">
+                <dt>Gamma</dt>
+                <dd>from 2<sup><s:property value="modelParameters.svmGammaFrom" /></sup>&nbsp; to 2<sup><s:property
+                      value="modelParameters.svmGammaTo" /></sup>, step: 2<sup><s:property value="modelParameters.svmGammaStep" /></sup></dd>
+              </s:if>
 
-              <dt>Cost</dt>
-              <dd>from <s:property value="modelParameters.svmCostFrom" /> to <s:property
-                  value="modelParameters.svmCostTo" />, step: <dd><s:property value="modelParameters.svmCostStep" /></dd>
-
-              <dt>Nu</dt>
-              <dd>from <s:property value="modelParameters.svmNuFrom" /> to <s:property
-                  value="modelParameters.svmNuTo" />, step: <s:property value="modelParameters.svmNuStep" /></dd>
-
-              <dt>Epsilon</dt><dd>from
-              <dd><s:property value="modelParameters.svmPEpsilonFrom" /></dd>
-              <b>to</b>
-              <dd><s:property value="modelParameters.svmPEpsilonTo" /></dd>
-              <b>step</b>
-              <dd><s:property value="modelParameters.svmPEpsilonStep" /></dd>
-
-              <dt>Epsilon in loss function of epsilon-SVR</dt>
-              <dd><s:property value="modelParameters.svmPEpsilonFrom" /></dd>
-
+              <br>
               <dt>Tolerance of termination criterion</dt>
               <dd><s:property value="modelParameters.svmEEpsilon" /></dd>
 
               <dt>Use shrinking heuristics</dt>
-              <dd><s:property value="modelParameters.svmHeuristics" /></dd>
+              <dd>
+                <s:if test="modelParameters.svmHeuristics == 1">Yes</s:if>
+                <s:elseif test="modelParameters.svmHeuristics == 0">No</s:elseif>
+              </dd>
 
               <dt>Use probability estimates</dt>
-              <dd><s:property value="modelParameters.svmProbability" /></dd>
-
-              <dt>Parameter C of class <var>i</var>&nbsp; to weight &sdot; C for C-SVC</dt>
-              <dd><s:property value="modelParameters.svmWeight" /></dd>
-
-              <dt>Number of cross-validations (e.g. 5 for 5-fold)</dt>
-              <dd><s:property value="modelParameters.svmCrossValidation" /></dd>
+              <dd>
+                <s:if test="modelParameters.svmProbability == 1">Yes</s:if>
+                <s:elseif test="modelParameters.svmProbability == 0">No</s:elseif>
+              </dd>
 
               <dt>Model acceptance cutoff</dt>
               <dd><s:property value="modelParameters.svmCutoff" /></dd>
