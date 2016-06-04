@@ -247,14 +247,14 @@
             <result name="success" type="httpheader" />
         </action>
 
-        <action name="makePredictorPublicAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
+        <action name="makePredictorPublic" class="edu.unc.ceccr.chembench.actions.AdminAction"
                 method="makePredictorPublic">
-            <result name="success" type="redirect">admin</result>
+            <result type="redirect">admin</result>
         </action>
 
-        <action name="makeDatasetPublicAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
+        <action name="makeDatasetPublic" class="edu.unc.ceccr.chembench.actions.AdminAction"
                 method="makeDatasetPublic">
-            <result name="success" type="redirect">admin</result>
+            <result type="redirect">admin</result>
         </action>
 
         <action name="regenerateCcr" class="edu.unc.ceccr.chembench.actions.AdminAction" method="regenerateCcr">
