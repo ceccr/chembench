@@ -150,7 +150,7 @@
                     <s:param name="currentFoldNumber" value="#status.index" />
                   </s:url>
                   <img src="<s:property value="imageUrl" />" class="img-thumbnail" alt="External validation chart"
-                       width="500px" height="500px">
+                       width="500" height="500">
                 </s:if>
                 <s:elseif test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CATEGORY">
                   <div class="panel panel-default">

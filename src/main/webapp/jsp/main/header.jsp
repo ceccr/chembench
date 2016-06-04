@@ -2,11 +2,10 @@
 
 <header>
   <div id="masthead">
-    <h1>
-      <s:a action="home" namespace="/">
-        <img src="${pageContext.request.contextPath}/assets/images/masthead.jpg" width="312" height="66"
-             alt="Chembench"></s:a>
-    </h1>
+    <h1><s:a action="home" namespace="/"><img id="chembench-logo"
+                                              src="${pageContext.request.contextPath}/assets/images/logo.png"
+                                              height="50">
+      Chembench</s:a></h1>
 
     <div class="userbox">
       <s:if test="#session['user']!=null">

@@ -24,11 +24,22 @@ footer {
 #masthead {
     display: table;
     width: 100%;
-    margin: 1em 0 0.5em 0;
+    margin: 1.5em 0 1em 0;
 }
 
 #masthead h1 {
+    line-height: 50px;
     display: table-cell;
+}
+
+#masthead h1 a:hover {
+    text-decoration: none;
+}
+
+#chembench-logo {
+    vertical-align: bottom;
+    display: inline-block;
+    margin-right: 5px;
 }
 /* end masthead */
 
