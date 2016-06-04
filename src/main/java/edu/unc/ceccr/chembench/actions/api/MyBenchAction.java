@@ -49,6 +49,10 @@ public class MyBenchAction extends ActionSupport {
         return SUCCESS;
     }
 
+    public String getUnassignedJobs() {
+        return getFilteredJobs(CentralDogma.getInstance().incomingJobs.getReadOnlyCopy());
+    }
+
     public String getLocalJobs() {
         return getFilteredJobs(CentralDogma.getInstance().localJobs.getReadOnlyCopy());
     }

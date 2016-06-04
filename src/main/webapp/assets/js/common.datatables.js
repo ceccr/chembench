@@ -362,12 +362,16 @@
                 if (wrapper.find('.dataTables_empty').exists()) {
                     if (queue === 'error') {
                         $('#jobs-with-errors').hide();
+                    } else if (queue === 'unassigned') {
+                        $('#unassigned-jobs').hide();
                     } else {
                         wrapper.hide().siblings('.no-objects-message').show();
                     }
                 } else {
                     if (queue === 'error') {
                         $('#jobs-with-errors').show();
+                    } else if (queue === 'unassigned') {
+                        $('#unassigned-jobs').hide();
                     } else {
                         wrapper.show().siblings('.no-objects-message').hide();
                     }

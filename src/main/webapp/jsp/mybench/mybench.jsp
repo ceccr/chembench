@@ -53,16 +53,35 @@
 
         <p class="margin-below">
           Running jobs from all Chembench users are displayed below. Use the <b>Refresh</b> button to update the list.
-          Other users can see your jobs while they are running, but only you can access your completed datasets,
-          models, and predictions.
         </p>
+
+        <div id="unassigned-jobs" class="panel panel-warning">
+          <div class="panel-heading">
+            <h4>Unassigned Jobs</h4>
+          </div>
+          <table class="table table-hover table-bordered datatable"
+                 data-url="<s:url action="getUnassignedJobs" namespace="/api" />" data-object-type="job"
+                 data-queue-name="unassigned">
+            <thead>
+            <tr>
+              <th data-property="jobName">Name</th>
+              <th data-property="userName">Owner</th>
+              <th data-property="jobType">Job Type</th>
+              <th data-property="timeCreated" data-sort-direction="desc" class="date-created">Date</th>
+              <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
 
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4>Jobs on Local Queue</h4>
           </div>
-          <table class="table table-hover table-bordered datatable" data-url="<s:url action="getLocalJobs" namespace="/api" />"
-                 data-object-type="job" data-queue-name="local">
+          <table class="table table-hover table-bordered datatable"
+                 data-url="<s:url action="getLocalJobs" namespace="/api" />" data-object-type="job"
+                 data-queue-name="local">
             <thead>
             <tr>
               <th data-property="jobName">Name</th>
@@ -81,14 +100,14 @@
           <div class="panel-heading">
             <h4>Jobs on LSF Queue</h4>
           </div>
-          <table class="table table-hover table-bordered datatable" data-url="<s:url action="getLsfJobs" namespace="/api" />"
-                 data-object-type="job" data-queue-name="LSF">
+          <table class="table table-hover table-bordered datatable"
+                 data-url="<s:url action="getLsfJobs" namespace="/api" />" data-object-type="job" data-queue-name="LSF">
             <thead>
             <tr>
               <th data-property="jobName">Name</th>
               <th data-property="userName">Owner</th>
               <th data-property="jobType">Job Type</th>
-              <th data-property="timeCreated" data-sort-direction="desc" class="date-created">Date</th>
+              <th data-property="timeCre=ated" data-sort-direction="desc" class="date-created">Date</th>
               <th data-property="message">Status</th>
               <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
             </tr>
@@ -101,8 +120,9 @@
           <div class="panel-heading">
             <h4>Jobs with Errors</h4>
           </div>
-          <table class="table table-hover table-bordered datatable" data-url="<s:url action="getErrorJobs" namespace="/api" />"
-                 data-object-type="job" data-queue-name="error">
+          <table class="table table-hover table-bordered datatable"
+                 data-url="<s:url action="getErrorJobs" namespace="/api" />" data-object-type="job"
+                 data-queue-name="error">
             <thead>
             <tr>
               <th data-property="jobName">Name</th>
