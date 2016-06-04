@@ -219,7 +219,7 @@
                   </div>
 
                   <div id="cost-settings" class="form-group range-input-group">
-                    <label class="control-label col-xs-4">Cost (C) for C-SVC, epsilon-CVR, and nu-SVR:</label>
+                    <label class="control-label col-xs-4">Cost (C) for C-SVC, epsilon-SVR, and nu-SVR:</label>
 
                     <div class="col-xs-8 form-inline">
                       <div class="form-group">

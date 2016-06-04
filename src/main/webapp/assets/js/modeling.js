@@ -222,6 +222,7 @@
             } else if (selectedSvm === 'nu-SVC') {
                 nuSettings.show();
             } else if (selectedSvm === 'epsilon-SVR') {
+                costSettings.show();
                 epsilonSettings.show();
             } else if (selectedSvm === 'nu-SVR') {
                 costSettings.show();
