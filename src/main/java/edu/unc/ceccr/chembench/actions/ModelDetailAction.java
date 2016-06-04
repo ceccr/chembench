@@ -174,6 +174,18 @@ public class ModelDetailAction extends DetailAction {
     private ExternalValidationGroup buildExternalValidationGroup(Predictor predictor) {
         ExternalValidationGroup evGroup = new ExternalValidationGroup();
         List<ExternalValidation> extVals = externalValidationRepository.findByPredictorId(predictor.getId());
+        // XXX ExternalValidation#get/setNumTotalModels() is declared transient, so if it is not set after fetching
+        // from the db all the total model values will be zero. Set these based on the parent predictor now.
+        // (As for _why_ we don't persist that value I'm not sure, because this value shouldn't change.)
+        for (ExternalValidation ev : extVals) {
+            if (predictor.getModelMethod().equals(Constants.KNNGA)) {
+                // for KNNGA specifically we use the model count as the total number of models
+                ev.setNumTotalModels(knnPlusModelRepository.findByPredictorId(predictor.getId()).size());
+            } else {
+                // all other types (including KNN_SA_)
+                ev.setNumTotalModels(predictor.getNumTotalModels());
+            }
+        }
         List<Double> residuals = PredictorEvaluation.calculateResiduals(extVals);
         evGroup.extVals = extVals;
         evGroup.residuals = residuals;
