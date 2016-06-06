@@ -1,263 +1,541 @@
-<!DOCTYPE html>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
-
+<!DOCTYPE html>
 <html>
 <head>
-  <sx:head />
-  <title>CHEMBENCH | Dataset Management</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
-  <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
-  <link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
-  <link href="theme/standard.css" rel="stylesheet" type="text/css">
-  <link href="theme/links.css" rel="stylesheet" type="text/css">
-  <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
-  <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
-  <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
-  <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-  <script src="javascript/chembench.js"></script>
-  <script src="javascript/dataset.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
-  <script language="javascript">
-
-    var usedDatasetNames = new Array(<s:iterator value="userDatasetNames">"<s:property />", </s:iterator>"");
-    var usedPredictorNames = new Array(<s:iterator value="userPredictorNames">"<s:property />", </s:iterator>"");
-    var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />", </s:iterator>"");
-    var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />", </s:iterator>"");
-
-    function getSelectedDescriptor() {
-      if (document.getElementById("newDescriptorName").checked) {
-        document.getElementById("descriptorNewName").disabled = false;
-        document.getElementById("descriptorUsedName").disabled = true;
-        document.getElementById("newDescriptorName").checked = "checked";
-      } else if (document.getElementById("usedDescriptorName").checked) {
-        document.getElementById("descriptorUsedName").disabled = false;
-        document.getElementById("descriptorNewName").disabled = true;
-        document.getElementById("usedDescriptorName").checked = "checked";
-      }
-    }
-
-    function getSelectedDescriptorD() {
-      if (document.getElementById("newDescriptorNameD").checked) {
-        document.getElementById("descriptorNewNameD").disabled = false;
-        document.getElementById("descriptorUsedNameD").disabled = true;
-        document.getElementById("newDescriptorNameD").checked = "checked";
-      } else if (document.getElementById("usedDescriptorNameD").checked) {
-        document.getElementById("descriptorUsedNameD").disabled = false;
-        document.getElementById("descriptorNewNameD").disabled = true;
-        document.getElementById("usedDescriptorNameD").checked = "checked";
-      }
-    }
-  </script>
+  <%@ include file="/jsp/main/head.jsp" %>
+  <title>Chembench | Datasets</title>
 </head>
-<body onload="setTabToDataset();">
-<div class="outer">
-  <div id="bodyDIV"></div>
-  <!-- used for the "Please Wait..." box. Do not remove. -->
+<body>
+<div id="main" class="container">
+  <%@ include file="/jsp/main/header.jsp" %>
 
-  <div class="includesHeader">
-    <%@include file="/jsp/main/header.jsp" %>
-  </div>
-  <div class="includesNavbar">
-    <%@include file="/jsp/main/centralNavigationBar.jsp" %>
-  </div>
-  <div class="StandardTextDarkGrayParagraph">
-    <div class="datasetBackground" style="margin-left: -18px; margin-right: 20px;">
-      <div class="homeLeft">
-        <br />
+  <div id="content">
+    <section>
+      <h2>Existing Datasets</h2>
 
-        <p class="StandardTextDarkGrayParagraph2">
-          <b> Chembench Dataset Creation</b>
-        </p>
+      <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
+    </section>
 
-        <p style="margin-left: 20px">
-          Here, you may create a dataset by uploading compound structures with or without associated activities. The
-          activity data is required for building models. <br /> <br /> You can either create a Modeling dataset,
-          which has both structures and activities, or a Prediction dataset, which only has structures. <br /> <br />
-          Each modeling dataset you create will appear as an option under the "Modeling" tab and under the
-          "Prediction" tab. Prediction datasets will only appear under the "Prediction" tab.<br /> <br /> When you
-          submit a dataset, chemical structure images will be generated for each compound. A pairwise compound
-          similarity matrix will be created and displayed as a heatmap. <br /> <br /> For more information about
-          dataset creation and defining external sets, see the <a href="/help-dataset">Dataset help section</a>.
-        </p>
-      </div>
-    </div>
-    <s:form action="submitDataset" enctype="multipart/form-data" method="post" theme="simple"
-            cssStyle="margin-right:20px;margin-left:-18px;">
+    <hr>
+    <section>
+      <h2>Create a New Dataset</h2>
 
-      <!-- Upload Files -->
-      <div class="border">
-        <p class="StandardTextDarkGrayParagraph2 boxHeadingText">
-          <br /> <b>Upload Dataset Files</b>
-        </p>
+      <p>
+        Here, you can create a dataset by uploading compound structures with or without associated activities. The
+        activity data is required for building models.
+      </p>
 
-        <div class="boxDescriptionText">
-          <i>Select the type of dataset to create.<br /> For the "Modeling Set" and "Prediction Set", you do not
-            need to provide descriptors; Chembench will generate descriptors as needed for visualization, modeling,
-            and prediction. <br /> For the "Modeling Set With Descriptors" and "Prediction Set With Descriptors", you
-            will need to <br /> upload an <a href="/help-fileformats#X">X</a> file containing the descriptor values.
-            <br />
-          </i>
-        </div>
-        <!-- script sets hidden field so we know which tab was selected -->
-        <script type="text/javascript">
-          dojo.event.topic.subscribe('/datasetTypeSelect', function(tab, tabContainer) {
-            //alert("Tab "+ tab.widgetId + " was selected");
-            document.getElementById("datasetType").value = tab.widgetId;
-            changeDatasetType();
-          });
-        </script>
-        <s:hidden id="datasetType" name="datasetType" />
-        <!-- end script -->
+      <p>
+        You can either create a <b>Modeling Dataset</b>, which has both structures and activities, or a <b>Prediction
+        Dataset</b>, which only has structures.
+      </p>
 
-        <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
-          <tr>
-            <td><sx:tabbedpanel id="datasetTypeTabbedPanel" afterSelectTabNotifyTopics="/datasetTypeSelect">
+      <p>
+        Each modeling dataset you create will appear as an option under the "Modeling" tab and under the "Prediction"
+        tab. Prediction datasets will only appear under the "Prediction" tab. When you submit a dataset, chemical
+        structure images will be generated for each compound. A pairwise compound similarity matrix will be created and
+        displayed as a heatmap.
+      </p>
 
-              <sx:div id="MODELING" href="/loadModelingSection" label="Modeling Set" theme="ajax"
-                      loadingText="Loading dataset types...">
-              </sx:div>
+      <p>
+        For more information about dataset creation and defining external sets, see the <s:a action="dataset"
+                                                                                             namespace="help">Dataset help section</s:a>
+      </p>
+      <hr>
+      <s:form action="submitDataset" enctype="multipart/form-data" method="post" cssClass="form-horizontal"
+              theme="simple">
+        <div id="dataset-type-selection" class="panel panel-primary">
+          <s:hidden id="datasetType" name="datasetType" />
 
-              <sx:div id="PREDICTION" href="/loadPredictionSection" label="Prediction Set" theme="ajax"
-                      loadingText="Loading dataset types..." preload="false">
-              </sx:div>
+          <div class="panel-heading">
+            <h3 class="panel-title">Upload Dataset Files</h3>
+          </div>
+          <div class="panel-body">
+            <p>Select the type of dataset to create.</p>
 
-              <sx:div id="MODELINGWITHDESCRIPTORS" href="/loadModelingWithDescriptorsSection"
-                      label="Modeling Set With Descriptors" theme="ajax" loadingText="Loading dataset types...">
-              </sx:div>
+            <p>
+              If you are creating a <b>Modeling</b> or <b>Prediction Dataset</b>, you do not have to provide
+              descriptors; Chembench will generate them for you.<br> If you have your own descriptors that you would
+              like to upload for your dataset, select <b>Modeling</b> or <b>Prediction Dataset with Descriptors</b>.
+            </p>
+            <hr>
+            <ul class="nav nav-pills">
+              <li class="active"><a href="#modeling-dataset" data-toggle="tab">Modeling Dataset</a></li>
+              <li><a href="#prediction-dataset" data-toggle="tab">Prediction Dataset</a></li>
+              <li><a href="#modeling-dataset-with-descriptors" data-toggle="tab">Modeling Dataset with Descriptors</a>
+              </li>
+              <li><a href="#prediction-dataset-with-descriptors" data-toggle="tab">Prediction Dataset with
+                Descriptors</a>
+              </li>
+            </ul>
 
-              <sx:div id="PREDICTIONWITHDESCRIPTORS" href="/loadPredictionWithDescriptorsSection"
-                      label="Prediction Set With Descriptors" theme="ajax" loadingText="Loading dataset types...">
-              </sx:div>
+            <div class="tab-content">
+              <div id="modeling-dataset" class="tab-pane active">
+                <input type="hidden" name="dataset-type" value=<s:property
+                    value="@edu.unc.ceccr.chembench.global.Constants@MODELING" />>
 
-            </sx:tabbedpanel></td>
-          </tr>
-        </table>
-      </div>
-      <br />
-      <!-- Define External Set -->
-      <div class="border">
+                <p>
+                  A <b>Modeling Dataset</b> can be used for both modeling and prediction. You will need to supply an
+                  <s:a action="fileformats" namespace="help" anchor="SDF">SDF file</s:a> containing the structures of
+                  the compounds in your dataset, and an <s:a action="fileformats" namespace="help"
+                                                             anchor="ACT">ACT file</s:a> containing the activity values
+                  of those compounds.
+                </p>
 
-        <p class="StandardTextDarkGrayParagraph2 boxHeadingText">
-          <br /> <b>Define External Set</b>
-        </p>
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Activity file (.act):</label>
 
-        <div class="boxDescriptionText">
-          <i>A subset of the compounds in the dataset will be reserved for testing of the models you build. If you
-            already have a test set defined, use the "Choose Compounds" tab to pick those compounds as your external
-            test set. <br />These parameters only apply to modeling sets. <br />
-          </i>
-        </div>
+                  <div class="col-xs-9">
+                    <s:file name="actFileModeling" id="actFileModeling" theme="simple" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Activity type:</label>
 
-        <!-- script sets hidden field so we know which tab was selected -->
-        <script type="text/javascript">
-          dojo.event.topic.subscribe('/splitTypeSelect', function(tab, tabContainer) {
-            //alert("Tab "+ tab.widgetId + " was selected");
-            document.getElementById("splitType").value = tab.widgetId;
-            changeDatasetType();
-          });
-        </script>
-        <s:hidden id="splitType" name="splitType" />
-        <!-- end script -->
+                  <div class="inline-radio-group col-xs-9">
+                    <s:radio name="dataTypeModeling" value="dataTypeModeling"
+                             list="#{'CONTINUOUS':'Continuous (regression)','CATEGORY':'Category (classification)'}"
+                             theme="simple" />
+                  </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Structure file (.sdf):</label>
 
-        <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
-          <tr>
-            <td><sx:tabbedpanel id="splitTypeTabbedPanel" afterSelectTabNotifyTopics="/splitTypeSelect">
-              <sx:div id="NFOLD" href="/loadNFoldExternalSection" label="n-Fold Split" theme="ajax"
-                      loadingText="Loading split type..." preload="true">
-              </sx:div>
+                  <div class="col-xs-9">
+                    <s:file name="sdfFileModeling" id="sdfFileModeling" theme="simple" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-3 col-xs-9">
+                    <label for="standardizeModeling"><s:checkbox name="standardizeModeling" id="standardizeModeling"
+                                                                 theme="simple" />Standardize molecule
+                      structures</label>
 
-              <sx:div id="RANDOM" href="/loadAutoExternalSection" label="Random Split" theme="ajax"
-                      loadingText="Loading split type...">
-              </sx:div>
+                    <p class="help-block">
+                      If you choose not to standardize, ensure that your structure file contains explicit hydrogens.<br>
+                      Otherwise, Dragon descriptors will not be available.
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-3 col-xs-9">
+                    <label for="generateImagesM"><s:checkbox name="generateImagesM" id="generateImagesM"
+                                                             theme="simple" />Generate Mahalanobis heatmap</label>
 
-              <sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax"
-                      loadingText="Loading split type..." preload="true">
-              </sx:div>
-            </sx:tabbedpanel></td>
-          </tr>
-        </table>
-        </td>
-        </tr>
-        </tbody>
-      </div>
-      <br />
-
-      <!-- Submit Dataset -->
-      <div class="border">
-
-        <div class="StandardTextDarkGrayParagraph2 boxHeadingText">
-          <br /> <b>Create Dataset</b>
-        </div>
-        <div class="boxDescriptionText">
-          <br> <i>A job will be started to generate visualizations and chemical sketches for this dataset. <br />
-        </i>
-        </div>
-        <table class="datasetLastTable">
-          <tbody>
-          <tr>
-            <td width="200">
-              <div class='StandardTextDarkGrayParagraph'>
-                <b>Dataset Name:</b>
+                    <p class="help-block">Unchecking this box will accelerate dataset generation but will eliminate
+                      heatmap based on Mahalanobis distance measure.
+                    </p>
+                  </div>
+                </div>
               </div>
-            </td>
-            <td align="left"><s:textfield name="datasetName" id="datasetName" size="40" /></td>
-          </tr>
-          <tr>
-            <td><b class='StandardTextDarkGrayParagraph'>Reference (optional):</b></td>
-            <td align="left"><s:textfield name="paperReference" id="paperReference" size="40" /></td>
-          </tr>
-          <tr>
-            <td><b class='StandardTextDarkGrayParagraph'>Description (optional):</b></td>
-            <td align="left"><s:textarea name="dataSetDescription" id="dataSetDescription"
-                                         cssStyle="height: 50px; width: 274px;" /></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td align="left"><input name="userAction" id="userAction"
-                                    onclick="if(validateObjectNames(document.getElementById('datasetName').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ submitForm(this,document.getElementById('datasetName').value); }"
-                                    value="Create Dataset" type="button" /></td>
-          </tr>
-          <tr>
-            <!-- used for the "Please Wait..." box. Do not remove. -->
-            <td colspan="2"><span id="pleaseWaitText"></span>
+              <div id="prediction-dataset" class="tab-pane">
+                <input type="hidden" name="dataset-type" value=<s:property
+                    value="@edu.unc.ceccr.chembench.global.Constants@PREDICTION" />>
 
-              <div id="messageDiv" style="color: red;"></div>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </s:form>
+                <p>
+                  A <b>Prediction Dataset</b> can only be used for prediction. You will need to supply an <s:a
+                    action="fileformats" namespace="help" anchor="SDF"> SDF file</s:a> containing the structures of the
+                  compounds in your dataset.
+                </p>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Structure file (.sdf):</label>
+
+                  <div class="col-xs-9">
+                    <s:file name="sdfFilePrediction" id="sdfFilePrediction" theme="simple" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-3 col-xs-9">
+                    <label for="standardizePrediction"><s:checkbox name="standardizePrediction"
+                                                                   id="standardizePrediction" theme="simple" />Standardize
+                      molecule structures</label>
+
+                    <p class="help-block">
+                      If you choose not to standardize, ensure that your structure file contains explicit hydrogens.<br>
+                      Otherwise, Dragon descriptors will not be available.
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-3 col-xs-9">
+                    <label for="generateImagesP"><s:checkbox name="generateImagesP" id="generateImagesP"
+                                                             theme="simple" />Generate Mahalanobis heatmap</label>
+
+                    <p class="help-block">Unchecking this box will accelerate dataset generation but will eliminate
+                      heatmap based on Mahalanobis distance measure.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div id="modeling-dataset-with-descriptors" class="tab-pane">
+                <input type="hidden" name="dataset-type" value=<s:property
+                    value="@edu.unc.ceccr.chembench.global.Constants@MODELINGWITHDESCRIPTORS" />>
+
+                <p>
+                  A <b>Modeling Dataset with Descriptors</b> can be used for both modeling and prediction. Choose this
+                  option if you have your own descriptors that you want to upload. (Otherwise, select <b>Modeling
+                  Dataset</b> instead.)
+                </p>
+
+                <p>
+                  You will need to supply an <s:a action="fileformats" namespace="help" anchor="X">X file</s:a>
+                  containing your descriptor data, and an <s:a action="fileformats" namespace="help"
+                                                               anchor="ACT">ACT file</s:a> containing your compounds'
+                  activity values. Optionally, you may provide a <s:a action="fileformats" namespace="help"
+                                                                      anchor="SDF">SDF file</s:a> containing the
+                  structures of the compounds in your dataset. If you do, Chembench will generate descriptors for you in
+                  addition to the ones you upload, as well as images of your compound structures.
+                </p>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Activity file (.act):</label>
+
+                  <div class="col-xs-9">
+                    <s:file name="actFileModDesc" id="actFileModDesc" theme="simple" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Activity type:</label>
+
+                  <div class="inline-radio-group col-xs-9">
+                    <s:radio name="dataTypeModDesc" value="dataTypeModDesc"
+                             list="#{'CONTINUOUS':'Continuous (regression)','CATEGORY':'Category (classification)'}"
+                             theme="simple" />
+                  </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Descriptor data (.x):</label>
+
+                  <div class="col-xs-9">
+                    <s:file name="xFileModDesc" id="xFileModDesc" theme="simple" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="control-label col-xs-3">
+                    <label>Descriptor type:</label> <span class="help-block">e.g. "Dragon", "Hybrid", etc.</span>
+                  </div>
+                  <div class="col-xs-9">
+                    <div class="uploaded-descriptor-type">
+                      <div class="control-label col-xs-3">
+                        <input type="radio" name="predictorName" id="newDescriptorName" checked="checked"><label
+                          for="newDescriptorName">New type</label>
+                      </div>
+                      <div class="col-xs-9 uploaded-descriptor-type-entry">
+                        <s:textfield name="descriptorNewName" id="descriptorNewName" theme="simple"
+                                     cssClass="form-control" />
+                      </div>
+                    </div>
+                    <s:if test="userUploadedDescriptorTypes.size() > 0">
+                      <div class="uploaded-descriptor-type text-muted">
+                        <div class="control-label col-xs-3">
+                          <input type="radio" name="predictorName" id="usedDescriptorName"><label
+                            for="usedDescriptorName">Existing type</label>
+                        </div>
+                        <div class="col-xs-9 uploaded-descriptor-type-entry">
+                          <s:select name="selectedDescriptorUsedName" id="descriptorUsedName"
+                                    list="userUploadedDescriptorTypes" label="Select type" disabled="true"
+                                    theme="simple" />
+                        </div>
+                      </div>
+                    </s:if>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-3 col-xs-9">
+                    <label for="hasBeenScaled-MWD"><s:checkbox name="hasBeenScaled" id="hasBeenScaled-MWD"
+                                                               theme="simple" />My
+                      descriptors have been scaled</label>
+
+                    <p class="help-block">If you leave this unchecked, Chembench will scale your descriptors for you.
+                    </p>
+                  </div>
+                </div>
+                <hr>
+                <div class="form-group optional-sdf text-muted">
+                  <div class="control-label col-xs-3">
+                    <label>Structure file (.sdf):</label><span class="help-block">Optional.</span>
+                  </div>
+                  <div class="col-xs-9">
+                    <s:file name="sdfFileModDesc" id="sdfFileModDesc" theme="simple" cssClass="optional-sdf-select" />
+                  </div>
+                </div>
+                <div class="optional-sdf-options">
+                  <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                      <label for="standardizeModDesc"><s:checkbox name="standardizeModDesc" id="standardizeModDesc"
+                                                                  theme="simple" />Standardize molecule
+                        structures</label>
+
+                      <p class="help-block">
+                        If you choose not to standardize, ensure that your structure file contains explicit
+                        hydrogens.<br> Otherwise, Dragon descriptors will not be available.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                      <label for="generateImagesMWD"><s:checkbox name="generateImagesMWD" id="generateImagesMWD"
+                                                                 theme="simple" />Generate Mahalanobis heatmap</label>
+
+                      <p class="help-block">Unchecking this box will accelerate dataset generation but will eliminate
+                        heatmap based on Mahalanobis distance measure.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="prediction-dataset-with-descriptors" class="tab-pane">
+                <input type="hidden" name="dataset-type" value=<s:property
+                    value="@edu.unc.ceccr.chembench.global.Constants@PREDICTIONWITHDESCRIPTORS" />>
+
+                <p>
+                  A <b>Prediction Dataset with Descriptors</b> can only be used for prediction. Choose this option if
+                  you have your own descriptors that you want to upload. (Otherwise, select <b>Prediction Dataset</b>
+                  instead.)
+                </p>
+
+                <p>
+                  You will need to supply an <s:a action="fileformats" namespace="help" anchor="X">X file</s:a>
+                  containing your descriptor data. Optionally, you may provide a <s:a action="fileformats"
+                                                                                      namespace="help"
+                                                                                      anchor="SDF">SDF file</s:a>
+                  containing the structures of the compounds in your dataset. If you do, Chembench will generate
+                  compound structure images for you.
+                </p>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Descriptor data (.x):</label>
+
+                  <div class="col-xs-9">
+                    <s:file name="xFilePredDesc" id="xFilePredDesc" theme="simple" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="control-label col-xs-3">
+                    <label>Descriptor type:</label> <span class="help-block">e.g. "Dragon", "Hybrid", etc.</span>
+                  </div>
+                  <div class="col-xs-9">
+                    <div class="uploaded-descriptor-type">
+                      <div class="control-label col-xs-3">
+                        <input type="radio" name="predictorNameD" id="newDescriptorNameD" checked="checked"><label
+                          for="newDescriptorNameD">New type</label>
+                      </div>
+                      <div class="col-xs-9 uploaded-descriptor-type-entry">
+                        <s:textfield name="descriptorNewNameD" id="descriptorNewNameD" theme="simple" />
+                      </div>
+                    </div>
+                    <s:if test="userUploadedDescriptorTypes.size() > 0">
+                      <div class="uploaded-descriptor-type text-muted">
+                        <div class="control-label col-xs-3">
+                          <input type="radio" name="predictorNameD" id="usedDescriptorNameD"><label
+                            for="usedDescriptorNameD">Existing type</label>
+                        </div>
+                        <div class="col-xs-9 uploaded-descriptor-type-entry">
+                          <s:select name="selectedDescriptorUsedNameD" id="descriptorUsedNameD"
+                                    list="userUploadedDescriptorTypes" label="Select type" disabled="true"
+                                    theme="simple" />
+                        </div>
+                      </div>
+                    </s:if>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-3 col-xs-9">
+                    <label for="hasBeenScaled-PWD"><s:checkbox name="hasBeenScaled" id="hasBeenScaled-PWD"
+                                                               theme="simple" />My
+                      descriptors have been scaled</label>
+
+                    <p class="help-block">
+                      If you leave this unchecked, Chembench will scale your descriptors for you.<br> <span
+                        class="text-danger">Please note that your uploaded descriptors must have the same scaling
+                        as your modeling dataset.</span>
+                    </p>
+                  </div>
+                </div>
+                <hr>
+                <div class="form-group optional-sdf text-muted">
+                  <div class="control-label col-xs-3">
+                    <label>Structure file (.sdf):</label><span class="help-block">Optional.</span>
+                  </div>
+                  <div class="col-xs-9">
+                    <s:file name="sdfFilePredDesc" id="sdfFilePredDesc" theme="simple" cssClass="optional-sdf-select" />
+                  </div>
+                </div>
+                <div class="optional-sdf-options">
+                  <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                      <label for="standardizePredDesc"><s:checkbox name="standardizePredDesc" id="standardizePredDesc"
+                                                                   theme="simple" />Standardize molecule
+                        structures</label>
+
+                      <p class="help-block">
+                        If you choose not to standardize, ensure that your structure file contains explicit
+                        hydrogens.<br> Otherwise, Dragon descriptors will not be available.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                      <label for="generateImagesPWD"><s:checkbox name="generateImagesPWD" id="generateImagesPWD"
+                                                                 theme="simple" />Generate Mahalanobis heatmap</label>
+
+                      <p class="help-block">Unchecking this box will accelerate dataset generation but will eliminate
+                        heatmap based on Mahalanobis distance measure.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="external-set-settings" class="panel panel-primary">
+          <s:hidden id="splitType" name="splitType" />
+          <div class="panel-heading">
+            <h3 class="panel-title">Define External Set</h3>
+          </div>
+          <div class="panel-body">
+            <p>Select the splitting method to use.</p>
+
+            <p>
+              A subset of the compounds in the dataset will be reserved to test the models you build. If you have
+              already defined a test set, select <b>Choose Compounds</b> to use those compounds as your external set on
+              Chembench.
+            </p>
+            <hr>
+            <ul class="nav nav-pills">
+              <li class="active"><a href="#nfold-split" data-toggle="tab">n-Fold Split</a></li>
+              <li><a href="#random-split" data-toggle="tab">Random Split</a></li>
+              <li><a href="#choose-compounds" data-toggle="tab">Choose Compounds</a></li>
+            </ul>
+
+            <div class="tab-content">
+              <div id="nfold-split" class="tab-pane active">
+                <input type="hidden" name="split-type" value=<s:property
+                    value="@edu.unc.ceccr.chembench.global.Constants@NFOLD" />>
+
+                <p>
+                  An <b>n-fold split</b> will generate <b>n</b> different external test sets. When you use this dataset
+                  for modeling, <b>n</b> predictors will be created: one for each fold. Each external set will contain
+                  1/<b>n</b> of the total dataset, and the external sets will not overlap.
+                </p>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Number of splits (<i>n</i>&nbsp;): </label>
+
+                  <div class="col-xs-2">
+                    <s:textfield name="numExternalFolds" id="numExternalFolds" cssClass="form-control" theme="simple" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-3 col-xs-9">
+                    <s:checkbox name="useActivityBinningNFold" id="useActivityBinningNFold" theme="simple" /> <label
+                      for="useActivityBinningNFold">Use activity binning</label>
+                  </div>
+                </div>
+              </div>
+              <div id="random-split" class="tab-pane">
+                <input type="hidden" name="split-type" value=<s:property
+                    value="@edu.unc.ceccr.chembench.global.Constants@RANDOM" />>
+
+                <p>
+                  A <b>random split</b> will divide your modeling dataset into training and test portions at random. You
+                  can change the size of the external set below. Either a percentage of total compounds or a fixed
+                  number of compounds can be entered.
+                </p>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-3">External set size:</label>
+
+                  <div class="col-xs-2">
+                    <s:textfield name="numExternalCompounds" id="numExternalCompounds" cssClass="form-control"
+                                 theme="simple" />
+                  </div>
+                  <div class="col-xs-3 external-split-type">
+                    <s:select name="externalCompoundsCountOrPercent"
+                              list="#{'Percent':'Percent','Compounds':'Compounds'}" cssClass="form-control"
+                              theme="simple" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-3 col-xs-9">
+                    <s:checkbox name="useActivityBinningNFold" id="useActivityBinningNFold" theme="simple" /> <label
+                      for="useActivityBinningNFold">Use activity binning</label>
+                  </div>
+                </div>
+              </div>
+              <div id="choose-compounds" class="tab-pane">
+                <input type="hidden" name="split-type" value=<s:property
+                    value="@edu.unc.ceccr.chembench.global.Constants@USERDEFINED" />>
+
+                <p>
+                  If you want to specifically <b>choose the compounds</b> for the external set, enter the names of those
+                  compounds in the box below. The compound names may be separated by commas, spaces, tabs, and/or
+                  newlines.
+                </p>
+
+                <div class="form-group">
+                  <div class="col-xs-12">
+                    <s:textarea name="externalCompoundList" id="externalCompoundList" rows="3" cssClass="form-control"
+                                theme="simple" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Add Dataset Metadata</h3>
+          </div>
+          <div class="panel-body">
+            <div class="form-group">
+              <label class="control-label col-xs-3">Dataset name:</label>
+
+              <div class="col-xs-6">
+                <s:textfield name="datasetName" id="datasetName" cssClass="form-control" theme="simple" />
+              </div>
+            </div>
+            <div class="text-muted">
+              <div class="form-group">
+                <div class="control-label col-xs-3">
+                  <label>Paper reference:</label> <span class="help-block">Optional.</span>
+                </div>
+                <div class="col-xs-6 paper-reference-input-wrapper">
+                  <s:textfield name="paperReference" id="paperReference" cssClass="form-control" theme="simple" />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="control-label col-xs-3">
+                  <label>Dataset description:</label> <span class="help-block">Optional.</span>
+                </div>
+                <div class="col-xs-6">
+                  <s:textarea name="dataSetDescription" id="dataSetDescription" rows="3" cssClass="form-control"
+                              theme="simple" />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-xs-offset-3 col-xs-9">
+                  <button type="submit" class="btn btn-primary">Create Dataset</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </s:form>
+    </section>
   </div>
 
-  <div class="includes">
-    <%@include file="/jsp/main/footer.jsp" %>
-  </div>
-  <script language="javascript">
-    $(document).ready(function() {
-      $("#sdfFilePredDesc").live('change', function(e) {
-        f_name = jQuery.trim($(this).val());
-        if (f_name != "") {
-          $("#generateImages_trp").show();
-        }
-      });
-      $("#sdfFileModDesc").live('change', function(e) {
-        f_name = jQuery.trim($(this).val());
-        if (f_name != "") {
-          $("#generateImages_trm").show();
-        }
-      });
-
-    });
-
-  </script>
-
+  <%@ include file="/jsp/main/footer.jsp" %>
 </div>
+
+<%@ include file="/jsp/main/tail.jsp" %>
+<script src="${pageContext.request.contextPath}/assets/js/dataset.js"></script>
 </body>
 </html>

@@ -1,12 +1,20 @@
 package edu.unc.ceccr.chembench.utilities;
 
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.User;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import edu.unc.ceccr.chembench.persistence.Dataset;
+import edu.unc.ceccr.chembench.persistence.Job;
+import edu.unc.ceccr.chembench.persistence.Prediction;
+import edu.unc.ceccr.chembench.persistence.Predictor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -19,14 +27,42 @@ import java.util.Random;
 
 public class Utility {
 
-    private static Logger logger = Logger.getLogger(Utility.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Utility.class);
 
     private static Integer debug_counter = 0;
 
-    public Utility() {
-    }
+    public static final Function<Object, String> NAME_TRANSFORM = new Function<Object, String>() {
+        @Override
+        public String apply(Object o) {
+            if (o instanceof Dataset) {
+                return ((Dataset) o).getName();
+            } else if (o instanceof Predictor) {
+                return ((Predictor) o).getName();
+            } else if (o instanceof Prediction) {
+                return ((Prediction) o).getName();
+            } else if (o instanceof Job) {
+                return ((Job) o).getJobName();
+            } else {
+                throw new RuntimeException("Unrecognized object type: " + o);
+            }
+        }
+    };
 
-    ;
+    private static final Function<String, Double> PARSE_DOUBLE_TRANSFORM = new Function<String, Double>() {
+        @Override
+        public Double apply(String s) {
+            return Double.parseDouble(s);
+        }
+    };
+
+    public static final Joiner SPACE_JOINER = Joiner.on(' ');
+    public static final Joiner TAB_JOINER = Joiner.on('\t');
+    public static final Joiner COMMA_JOINER = Joiner.on(',');
+
+    public static List<Double> stringListToDoubleList(List<String> strings) {
+        // XXX must return a new list, or the returned list cannot be added to
+        return Lists.newArrayList(Lists.transform(strings, PARSE_DOUBLE_TRANSFORM));
+    }
 
     public static String encrypt(String str) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
@@ -63,141 +99,6 @@ public class Utility {
         return s.toString();
     }
 
-    public static void writeToDebug(String s, String userName, String jobName) {
-        //Debug output write function. Used throughout Java code.
-        try {
-            // Append to current-job file. For ease of use, really.
-            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
-            BufferedWriter out = new BufferedWriter(fstream);
-
-            out.write(debug_counter.toString() + " " + userName + " " + jobName + " " + s + " [" + getDate() + "]"
-                    + "\n");
-            out.close();
-
-            //write to individual job log
-            String debugDir = Constants.CECCR_USER_BASE_PATH + "DEBUG/";
-            if (!new File(debugDir).exists()) {
-                new File(debugDir).mkdirs();
-            }
-            // Append to file
-            fstream = new FileWriter(debugDir + userName + "-" + jobName + ".log", true);
-            out = new BufferedWriter(fstream);
-            out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
-            out.close();
-        } catch (Exception e) {
-            //whatever
-        }
-        debug_counter++;
-    }
-
-    public static void writeToDebug(String s) {
-        //Debug output write function. Used throughout Java code.
-        try {
-            // Append to current-job file. For ease of use, really.
-            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
-            BufferedWriter out = new BufferedWriter(fstream);
-
-            out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
-            out.close();
-        } catch (Exception e) {
-        }
-        debug_counter++;
-    }
-
-    public static void writeToUsageLog(String s, String username) {
-        //Usage output write function. Used throughout Java code.
-        try {
-            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "usage.log", true);
-            BufferedWriter out = new BufferedWriter(fstream);
-
-            out.write(username + ": " + s + " [" + getDate() + "]" + "\n");
-            out.close();
-        } catch (Exception e) {
-            //oh well
-        }
-    }
-
-
-    public static void writeToDebug(Exception ex) {
-        try {
-            // Create file
-            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
-            String s;
-            final Writer result = new StringWriter();
-            final PrintWriter printWriter = new PrintWriter(result);
-            ex.printStackTrace(printWriter);
-            s = result.toString();
-            BufferedWriter out = new BufferedWriter(fstream);
-            out.write(s + " [" + getDate() + "]");
-            // Close the output stream
-            out.close();
-        } catch (Exception e) {// Catch exception if any
-        }
-        /*
-        NOTE: If you're getting (Unknown source) instead of line numbers in your output
-        make sure, in your build.xml, on the javac line, you have set
-        debug="true"
-        Your life will get so much easier. javac -g will do this too.
-        */
-    }
-
-    public static void writeToDebug(Exception ex, String userName, String jobName) {
-        try {
-            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
-            String s;
-            final Writer result = new StringWriter();
-            final PrintWriter printWriter = new PrintWriter(result);
-            ex.printStackTrace(printWriter);
-            s = result.toString();
-            BufferedWriter out = new BufferedWriter(fstream);
-            out.write(s + " [" + getDate() + "]");
-            out.close();
-
-            //write to individual job log
-            String debugDir = Constants.CECCR_USER_BASE_PATH + "DEBUG/";
-            if (!new File(debugDir).exists()) {
-                new File(debugDir).mkdirs();
-            }
-            // Append to file
-            fstream = new FileWriter(debugDir + userName + "-" + jobName + ".log", true);
-            out = new BufferedWriter(fstream);
-            out.write(s + " [" + getDate() + "]");
-            out.close();
-        } catch (Exception e) {// Catch exception if any
-        }
-    }
-
-    public static void writeToStrutsDebug(String s) {
-        //Debug output write function. Used in Struts code.
-        try {
-            // Append to current-job file. For ease of use, really.
-            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "strutsdebug.log", true);
-            BufferedWriter out = new BufferedWriter(fstream);
-
-            out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
-            out.close();
-        } catch (Exception e) {
-        }
-        debug_counter++;
-    }
-
-    public static void writeToStrutsDebug(Exception ex) {
-        try {
-            // Create file
-            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "strutsdebug.log", true);
-            String s;
-            final Writer result = new StringWriter();
-            final PrintWriter printWriter = new PrintWriter(result);
-            ex.printStackTrace(printWriter);
-            s = result.toString();
-            BufferedWriter out = new BufferedWriter(fstream);
-            out.write(s + " [" + getDate() + "]");
-            // Close the output stream
-            out.close();
-        } catch (Exception e) {// Catch exception if any
-        }
-    }
-
     public static String doubleToString(Double num) {
         java.text.NumberFormat f = java.text.NumberFormat.getInstance();
         f.setGroupingUsed(false);
@@ -210,39 +111,6 @@ public class Utility {
         return f.format(num);
     }
 
-    public static boolean isAdmin(String userName) {
-        try {
-            Session s = HibernateUtil.getSession();
-            User u = PopulateDataObjects.getUserByUserName(userName, s);
-
-            if (u.getIsAdmin().equals(Constants.YES)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception ex) {
-            logger.error(ex);
-            return false;
-        }
-    }
-
-    public static boolean canDownloadDescriptors(String userName) {
-        try {
-            Session s = HibernateUtil.getSession();
-            User u = PopulateDataObjects.getUserByUserName(userName, s);
-
-            if (u.getCanDownloadDescriptors().equals(Constants.YES)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception ex) {
-            logger.error(ex);
-            return false;
-        }
-    }
-
-
     public static Long checkExpiration(int year, int month, int day) {
         Calendar cal1 = Calendar.getInstance();
         cal1.set(year, month - 1, day);
@@ -251,18 +119,6 @@ public class Utility {
         Date today = cal2.getTime();
 
         return (end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
-    }
-
-    public static void readBuildDateAndSystemConfig(String path) throws IOException {
-        ParseConfigurationXML.initializeConstants(path);
-
-        try {
-            BufferedReader dis = new BufferedReader(new FileReader(new File(Constants.BUILD_DATE_FILE_PATH)));
-            Constants.BUILD_DATE = dis.readLine().replace("#", "");
-            dis.close();
-        } catch (Exception ex) {
-            writeToDebug(ex);
-        }
     }
 
     public static int getSignificantFigures(String number, boolean removeTrailingZeros) {
@@ -302,17 +158,8 @@ public class Utility {
         return sigfigs;
     }
 
-    public static String StringListToString(List<String> stringArrayList) {
-        String ret = "";
-        int size = stringArrayList.size();
-        for (int i = 0; i < size; i++) {
-            String s = stringArrayList.get(i);
-            ret += s;
-            if (i < size - 1) {
-                ret += " ";
-            }
-        }
-        return ret;
+    public static String stringListToString(List<String> stringArrayList) {
+        return SPACE_JOINER.join(stringArrayList);
     }
 
     public static String roundSignificantFigures(double number, int numFigs) {
@@ -538,5 +385,27 @@ public class Utility {
         } catch (Exception e) {// Catch exception if any
         }
 
+    }
+
+    public static String booleanToString(boolean bool) {
+        return bool ? Constants.YES : Constants.NO;
+    }
+
+    public static boolean stringToBoolean(String str) {
+        if (str == null || !(str.equals(Constants.YES) || str.equals(Constants.NO))) {
+            throw new IllegalArgumentException("Invalid string representation of boolean: " + str);
+        }
+        return str.equals(Constants.YES);
+    }
+
+    public static float safeStringToFloat(String standDev) {
+        if (standDev != null) {
+            try {
+                return Float.parseFloat(standDev);
+            } catch (NumberFormatException e) {
+                ; // expected exception
+            }
+        }
+        return 0.0f;
     }
 }

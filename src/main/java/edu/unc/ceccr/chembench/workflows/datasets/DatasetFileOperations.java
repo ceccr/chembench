@@ -1,6 +1,7 @@
 package edu.unc.ceccr.chembench.workflows.datasets;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.global.ErrorMessages;
 import edu.unc.ceccr.chembench.persistence.Dataset;
@@ -9,12 +10,13 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.commons.validator.GenericValidator;
-import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -27,10 +29,14 @@ import java.util.*;
  */
 
 public class DatasetFileOperations {
-    private static Logger logger = Logger.getLogger(DatasetFileOperations.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(DatasetFileOperations.class);
 
-    public static HashMap<String, String> getActFileIdsAndValues(String filePath) {
-        HashMap<String, String> idsAndValues = new HashMap<String, String>();
+    public static Map<String, Double> getActFileIdsAndValues(Path filePath) {
+        return getActFileIdsAndValues(filePath.toString());
+    }
+
+    public static Map<String, Double> getActFileIdsAndValues(String filePath) {
+        HashMap<String, Double> idsAndValues = Maps.newHashMap();
 
         try {
             File file = new File(filePath);
@@ -43,18 +49,18 @@ public class DatasetFileOperations {
             String[] array = byteStr.split("\\s+");
 
             for (int i = 0; i < array.length; i += 2) {
-                idsAndValues.put(array[i], array[i + 1]);
+                idsAndValues.put(array[i], Double.parseDouble(array[i + 1]));
             }
             fis.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         return idsAndValues;
     }
 
     public static List<String> getActFileValues(Dataset dataset) throws Exception {
-        List<String> actFileValues = Lists.newArrayList();
+        List<String> actFileValues = new ArrayList<>();
 
         // find activity file
         String datasetUserName = dataset.getUserName();
@@ -159,7 +165,7 @@ public class DatasetFileOperations {
 
         logger.debug("Copying dataset files to " + path);
 
-        List<String> msgs = Lists.newArrayList(); // holds any error
+        List<String> msgs = new ArrayList<>(); // holds any error
         // messages from
         // validations
 
@@ -182,10 +188,10 @@ public class DatasetFileOperations {
         if (sdfFile != null) {
             sdfFileName = sdfFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
             logger.debug("checking SDF");
-            saveSDFFile(sdfFile, path, sdfFileName);
+            saveSdfFile(sdfFile, path, sdfFileName);
             sdfFile = new File(path + sdfFileName);
 
-            sdf_compounds = getSDFCompoundNames(sdfFile.getAbsolutePath());
+            sdf_compounds = getSdfCompoundNames(sdfFile.getAbsolutePath());
 
             rewriteSdf(path, sdfFileName, sdf_compounds);
 
@@ -293,7 +299,7 @@ public class DatasetFileOperations {
             if (!mismatches.isEmpty()) {
                 msgs.add(ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches);
             }
-            sdf_compounds = getSDFCompoundNames(path + sdfFileName);
+            sdf_compounds = getSdfCompoundNames(path + sdfFileName);
             act_compounds = getACTCompoundNames(path + actFileName);
         }
 
@@ -368,13 +374,13 @@ public class DatasetFileOperations {
                 msgs.add(ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_X + mismatches);
             }
             x_compounds = getXCompoundNames(path + xFileName);
-            sdf_compounds = getSDFCompoundNames(path + sdfFileName);
+            sdf_compounds = getSdfCompoundNames(path + sdfFileName);
         }
 
         if (externalCompoundList != null && !externalCompoundList.isEmpty()) {
             // check that the dataset actually contains all the compounds the
             // user gave in the external compound list
-            List<String> datasetCompounds = Lists.newArrayList();
+            List<String> datasetCompounds = new ArrayList<>();
             if (sdfFile != null) {
                 datasetCompounds.addAll(sdf_compounds);
             } else {
@@ -415,7 +421,7 @@ public class DatasetFileOperations {
         return msgs;
     }
 
-    public static String saveSDFFile(File sdfFile, String path, String sdfFileName) throws Exception {
+    public static String saveSdfFile(File sdfFile, String path, String sdfFileName) throws Exception {
 
         String destFilePath = path + sdfFileName;
         FileAndDirOperations.copyFile(sdfFile.getAbsolutePath(), destFilePath);
@@ -562,7 +568,7 @@ public class DatasetFileOperations {
                         // second thing isn't a number -- line was a header!
                         logger.debug(
                                 "Activity file contains a header: " + temp + " {" + temp.split("\\s+")[1].trim() + "}");
-                        logger.error(ex);
+                        logger.error("", ex);
                         firstLineContainsHeader = true;
                     }
                 } else {
@@ -660,15 +666,19 @@ public class DatasetFileOperations {
                 result.add(temp);
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
 
         return result;
 
     }
 
+    public static List<String> getXCompoundNames(Path fileLocation) throws IOException {
+        return getXCompoundNames(fileLocation.toString());
+    }
+
     public static List<String> getXCompoundNames(String fileLocation) throws IOException {
-        List<String> x_compounds = Lists.newArrayList();
+        List<String> x_compounds = new ArrayList<>();
         File file = new File(fileLocation);
         logger.debug("Getting X file compounds from " + fileLocation);
         if (file.exists()) {
@@ -697,7 +707,7 @@ public class DatasetFileOperations {
     }
 
     public static List<String> getACTCompoundNames(String fileLocation) throws FileNotFoundException, IOException {
-        List<String> act_compounds = Lists.newArrayList();
+        List<String> act_compounds = new ArrayList<>();
         File file = new File(fileLocation);
 
         if (file.exists()) {
@@ -719,14 +729,18 @@ public class DatasetFileOperations {
         return act_compounds;
     }
 
-    public static List<String> getSDFCompoundNames(String sdfPath) throws IOException {
+    public static List<String> getSdfCompoundNames(Path sdfPath) throws IOException {
+        return getSdfCompoundNames(sdfPath.toString());
+    }
+
+    public static List<String> getSdfCompoundNames(String sdfPath) throws IOException {
         // returns JUST THE NAMES of the compounds in an SDF, no structure or
         // anything.
 
         File infile = new File(sdfPath);
         FileReader fin = new FileReader(infile);
         BufferedReader br = new BufferedReader(fin);
-        List<String> chemicalNames = Lists.newArrayList();
+        List<String> chemicalNames = new ArrayList<>();
 
         String line;
         // skip any whitespace lines before the first molecule
@@ -766,7 +780,7 @@ public class DatasetFileOperations {
         // of SDFs.
         // warning: don't open too large of files with this, as you will run
         // out of memory.
-        List<String> compounds = Lists.newArrayList();
+        List<String> compounds = new ArrayList<>();
 
         File infile = new File(sdfPath);
         FileReader fin = new FileReader(infile);
@@ -791,7 +805,7 @@ public class DatasetFileOperations {
     private static String findDuplicates(List<String> compoundList) {
         String duplicates = "";
 
-        List<String> temp_list = Lists.newArrayList();
+        List<String> temp_list = new ArrayList<>();
         for (int i = 0; i < compoundList.size(); i++) {
             if (temp_list.contains(compoundList.get(i))) {
                 duplicates += compoundList.get(i) + " ";
@@ -857,14 +871,14 @@ public class DatasetFileOperations {
             fout.close();
 
         } catch (Exception ioe) {
-            logger.error(ioe);
+            logger.error("", ioe);
         }
     }
 
     public static String sdfIsValid(File sdfFile) throws Exception {
         if (!sdfFile.exists()) {
             return ErrorMessages.INVALID_SDF;
-        } else if (getSDFCompoundNames(sdfFile.getAbsolutePath()).size() == 0) {
+        } else if (getSdfCompoundNames(sdfFile.getAbsolutePath()).size() == 0) {
             return ErrorMessages.SDF_IS_EMPTY;
         }
 
@@ -1036,8 +1050,8 @@ public class DatasetFileOperations {
 
     public static void randomizeActivityFile(String filePath, String outFilePath) throws IOException {
         List<String> actFileCompounds = getACTCompoundNames(filePath);
-        HashMap<String, String> actFileIdsAndValues = getActFileIdsAndValues(filePath);
-        List<String> actFileValues = Lists.newArrayList(actFileIdsAndValues.values());
+        Map<String, Double> actFileIdsAndValues = getActFileIdsAndValues(filePath);
+        List<Double> actFileValues = Lists.newArrayList(actFileIdsAndValues.values());
         Collections.shuffle(actFileValues);
 
         if (actFileValues.size() != actFileCompounds.size()) {

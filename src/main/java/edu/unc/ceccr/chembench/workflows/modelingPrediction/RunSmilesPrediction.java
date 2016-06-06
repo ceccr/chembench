@@ -1,30 +1,36 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.persistence.Predictor;
+import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import edu.unc.ceccr.chembench.utilities.*;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.datasets.StandardizeMolecules;
 import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.WriteDescriptors;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Component
 public class RunSmilesPrediction {
-    private static Logger logger = Logger.getLogger(RunSmilesPrediction.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RunSmilesPrediction.class);
+    private static PredictorRepository predictorRepository;
 
-    public static String[] predictSmilesSDF(String workingDir, String username, Predictor predictor) throws Exception {
+    public static String[] predictSmilesSdf(String workingDir, String username, Predictor predictor) throws Exception {
         Path wd = new File(workingDir).toPath();
         if (!Files.exists(wd)) {
             logger.info("Working directory doesn't exist, creating it: " + wd.toString());
@@ -32,7 +38,7 @@ public class RunSmilesPrediction {
         }
 
         String sdfile = workingDir + "smiles.sdf";
-        logger.debug("Running predictSmilesSDF in dir " + workingDir);
+        logger.debug("Running predictSmilesSdf in dir " + workingDir);
 
         /* copy the predictor to the workingDir. */
         String predictorUsername = predictor.getUserName();
@@ -47,27 +53,27 @@ public class RunSmilesPrediction {
 
         /* generate ISIDA descriptor for smiles.sdf*/
         if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-            generateISIDADescriptorsForSDF(workingDir, predictor.getSdFileName());
+            generateIsidaDescriptorsForSdf(workingDir, predictor.getSdFileName());
         }
 
         /* create the descriptors for the chemical and read them in */
-        List<String> descriptorNames = Lists.newArrayList();
-        List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
-        List<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(sdfile);
+        List<String> descriptorNames = new ArrayList<>();
+        List<Descriptors> descriptorValueMatrix = new ArrayList<>();
+        List<String> chemicalNames = DatasetFileOperations.getSdfCompoundNames(sdfile);
 
         ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
 
         logger.debug("Normalizing descriptors to fit predictor.");
 
-        String descriptorString = Utility.StringListToString(descriptorNames);
+        String descriptorString = Utility.stringListToString(descriptorNames);
         WriteDescriptors
                 .writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + ".renorm.x",
                         workingDir + "train_0.x", predictor.getScalingType());
 
         /* read prediction output */
-        List<String> predValueArray = Lists.newArrayList();
+        List<String> predValueArray = new ArrayList<>();
         if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-            Path predictorDir = predictor.getDirectoryPath();
+            Path predictorDir = predictor.getDirectoryPath(predictorRepository);
             ScikitRandomForestPrediction pred =
                     RandomForest.predict(predictorDir, Paths.get(workingDir), "smiles.sdf" + ".renorm.x");
             Map<String, Double> predictions = pred.getPredictions();
@@ -148,8 +154,8 @@ public class RunSmilesPrediction {
             prediction[1] = predictedValue;
         } else {
             prediction[1] = "N/A";
-            if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants.KNNSA)
-                    || predictor.getModelMethod().equals(Constants.KNN)) {
+            if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod()
+                    .equals(Constants.KNNSA)) {
                 prediction[1] += "- Cutoff Too Low";
             }
         }
@@ -165,13 +171,13 @@ public class RunSmilesPrediction {
         return prediction;
     }
 
-    public static void smilesToSDF(String smiles, String smilesDir) throws Exception {
+    public static void smilesToSdf(String smiles, String smilesDir) throws Exception {
         /*
          * takes in a SMILES string and produces an SDF file from it. Returns
          * the file path as a string.
          */
 
-        logger.debug("Running smilesToSDF with SMILES: " + smiles);
+        logger.debug("Running smilesToSdf with SMILES: " + smiles);
 
         /* set up the directory, just in case it's not there yet. */
         File dir = new File(smilesDir);
@@ -201,35 +207,37 @@ public class RunSmilesPrediction {
 
         StandardizeSdfFormat.addNameTag("", "SMILES", smilesDir + sdfFileName, smilesDir + sdfFileName + ".addNameTag");
 
-        logger.debug("Finished smilesToSDF");
+        logger.debug("Finished smilesToSdf");
     }
 
-    public static void generateDescriptorsForSDF(String smilesDir, Set<String> descriptorTypes) throws Exception {
+    public static void generateDescriptorsForSdf(String smilesDir, Set<String> descriptorTypes) throws Exception {
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
-        if (descriptorTypes.contains(Constants.MOLCONNZ)) {
-            GenerateDescriptors.GenerateMolconnZDescriptors(sdfile, sdfile + ".molconnz");
-        }
         if (descriptorTypes.contains(Constants.CDK)) {
-            GenerateDescriptors.GenerateCDKDescriptors(sdfile, sdfile + ".cdk");
-            ReadDescriptors.convertCDKToX(sdfile + ".cdk", smilesDir);
+            GenerateDescriptors.generateCdkDescriptors(sdfile, sdfile + ".cdk");
+            ReadDescriptors.convertCdkToX(sdfile + ".cdk", smilesDir);
         }
         if (descriptorTypes.contains(Constants.DRAGONH)) {
-            GenerateDescriptors.GenerateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonH");
+            GenerateDescriptors.generateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonH");
         }
         if (descriptorTypes.contains(Constants.DRAGONNOH)) {
-            GenerateDescriptors.GenerateHDepletedDragonDescriptors(sdfile, sdfile + ".dragonNoH");
+            GenerateDescriptors.generateHDepletedDragonDescriptors(sdfile, sdfile + ".dragonNoH");
         }
         if (descriptorTypes.contains(Constants.MOE2D)) {
-            GenerateDescriptors.GenerateMoe2DDescriptors(sdfile, sdfile + ".moe2D");
+            GenerateDescriptors.generateMoe2DDescriptors(sdfile, sdfile + ".moe2D");
         }
         if (descriptorTypes.contains(Constants.MACCS)) {
-            GenerateDescriptors.GenerateMaccsDescriptors(sdfile, sdfile + ".maccs");
+            GenerateDescriptors.generateMaccsDescriptors(sdfile, sdfile + ".maccs");
         }
     }
 
-    public static void generateISIDADescriptorsForSDF(String smilesDir, String predictorSdfFileNames) throws Exception {
+    public static void generateIsidaDescriptorsForSdf(String smilesDir, String predictorSdfFileNames) throws Exception {
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
         String predictorHeaderFile = smilesDir + predictorSdfFileNames + ".ISIDA.hdr";
-        GenerateDescriptors.GenerateISIDADescriptorsWithHeader(sdfile, sdfile + ".ISIDA", predictorHeaderFile);
+        GenerateDescriptors.generateIsidaDescriptorsWithHeader(sdfile, sdfile + ".ISIDA", predictorHeaderFile);
+    }
+
+    @Autowired
+    public void setPredictorRepository(PredictorRepository predictorRepository) {
+        RunSmilesPrediction.predictorRepository = predictorRepository;
     }
 }

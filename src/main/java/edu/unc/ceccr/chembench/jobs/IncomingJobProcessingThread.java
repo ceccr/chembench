@@ -1,33 +1,31 @@
 package edu.unc.ceccr.chembench.jobs;
 
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.Job;
+import edu.unc.ceccr.chembench.persistence.JobRepository;
 import edu.unc.ceccr.chembench.taskObjects.QsarModelingTask;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import java.util.List;
 
+@Configurable(autowire = Autowire.BY_TYPE)
 public class IncomingJobProcessingThread extends Thread {
-    private static Logger logger = Logger.getLogger(IncomingJobProcessingThread.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(IncomingJobProcessingThread.class);
     // this takes jobs off the incomingJobs joblist and sends them to lsfJobs
     // and localJobs.
     // You should only ever have one of these threads running - don't start a
     // second one!
+    @Autowired
+    private JobRepository jobRepository;
 
     public void run() {
         while (true) {
             try {
                 sleep(1000);
-
-                /*
-                 * CentralDogma.getInstance().incomingJobs.printJobListStates()
-                 * ;
-                 * CentralDogma.getInstance().localJobs.printJobListStates();
-                 * CentralDogma.getInstance().lsfJobs.printJobListStates();
-                 */
 
                 // determine which jobs should be sent to the LSF jobs list,
                 // which should stay here, and which should go to the local
@@ -55,8 +53,8 @@ public class IncomingJobProcessingThread extends Thread {
                         // check LSF status. If LSF can accept another job,
                         // put it there.
                         QsarModelingTask qs = (QsarModelingTask) j.workflowTask;
-                        if (qs.getModelType().equals(Constants.KNN) || qs.getModelType().equals(Constants.KNNSA) || qs
-                                .getModelType().equals(Constants.KNNGA) || qs.getModelType().equals(Constants.SVM)) {
+                        if (qs.getModelType().equals(Constants.KNNSA) || qs.getModelType().equals(Constants.KNNGA) || qs
+                                .getModelType().equals(Constants.SVM)) {
                             if (LsfProcessingThread.lsfHasFreePendSlots()) {
                                 logger.info("Sending job " + j.getJobName() + " to LSF queue");
                                 movedJob = true;
@@ -79,24 +77,11 @@ public class IncomingJobProcessingThread extends Thread {
 
                     if (movedJob) {
                         // update job DB entry to reflect queue change
-                        Session s = HibernateUtil.getSession();
-                        Transaction tx = null;
-                        try {
-                            tx = s.beginTransaction();
-                            s.saveOrUpdate(j);
-                            tx.commit();
-                        } catch (RuntimeException e) {
-                            if (tx != null) {
-                                tx.rollback();
-                            }
-                            logger.error(e);
-                        } finally {
-                            s.close();
-                        }
+                        jobRepository.save(j);
                     }
                 }
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
     }

@@ -1,10 +1,11 @@
 package edu.unc.ceccr.chembench.utilities;
 
-import com.google.common.collect.Lists;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 
 public class FileAndDirOperations {
-    private static Logger logger = Logger.getLogger(FileAndDirOperations.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(FileAndDirOperations.class);
 
     public static int countFilesInDirMatchingPattern(String dir, String pattern) {
         int count = 0;
@@ -51,10 +52,14 @@ public class FileAndDirOperations {
             }
             is.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             return 0;
         }
         return count;
+    }
+
+    public static String readFileIntoString(Path filePath) {
+        return readFileIntoString(filePath.toString());
     }
 
     public static String readFileIntoString(String filePath) {
@@ -72,7 +77,7 @@ public class FileAndDirOperations {
             br.close();
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
         return fileContents.toString();
     }
@@ -83,7 +88,7 @@ public class FileAndDirOperations {
             out.write(text);
             out.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 
@@ -103,7 +108,7 @@ public class FileAndDirOperations {
                 x++;
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 
@@ -146,7 +151,7 @@ public class FileAndDirOperations {
             }
             logger.debug("Copied " + x + " file from " + fromDir + " to " + toDir);
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 
@@ -247,7 +252,7 @@ public class FileAndDirOperations {
             /*FIXME: commenting out the logging. This exception gets thrown several times
                      till, we look into why, better prevent logs from be flooded.
              */
-            //logger.error(ex);
+            //logger.error("", ex);
         }
     }
 
@@ -276,7 +281,7 @@ public class FileAndDirOperations {
                 x++;
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 
@@ -311,7 +316,7 @@ public class FileAndDirOperations {
     public static List<String> getGuestDirNames(File dir) {
         ArrayList<String> result = null;
         if (dir.isDirectory()) {
-            result = Lists.newArrayList();
+            result = new ArrayList<>();
             String[] children = dir.list();
             for (int i = 0; i < children.length; i++) {
                 if (children[i].startsWith("guest") && children[i].length() > 5) {

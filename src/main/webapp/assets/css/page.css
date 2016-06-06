@@ -1,0 +1,259 @@
+/* home */
+/* sponsor attribution */
+#sponsor-section {
+    text-align: center;
+}
+
+#sponsor-list {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+#sponsor-list li {
+    display: inline-block;
+    margin: 0 2em 0 2em;
+}
+/* end sponsor attribution */
+
+img.interstitial {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1em 0;
+}
+
+#home-interstitial-banner {
+    margin: 1em auto;
+}
+
+/* end home */
+
+/* mybench */
+#jobs-queue-refresh {
+    margin-right: 0.5em;
+}
+
+#autorefresh-interval {
+    display: inline;
+    width: 90px;
+    padding: 5px;
+    margin-left: 0.5em;
+}
+
+#jobs .job-delete-link-cell {
+    padding-right: 8px;
+    text-align: center;
+}
+/* end mybench */
+
+/* dataset */
+.paper-reference-input-wrapper {
+    padding-top: 0.7em;
+    padding-bottom: 10px;
+}
+
+.external-split-type {
+    margin-left: -1.5em;
+}
+
+.optional-sdf-options {
+    display: none;
+}
+
+.uploaded-descriptor-type input[type="text"], .uploaded-descriptor-type select {
+    width: 200px;
+}
+
+.uploaded-descriptor-type-entry {
+    padding-top: 7px;
+}
+/* end dataset */
+
+/* modeling */
+#uploaded-descriptor-types, #scaling-types {
+    margin-left: 15px;
+}
+
+#scaling-types .inline-radio-group {
+    padding-left: 0;
+}
+
+.advanced-settings-group h4 {
+    position: relative;
+}
+
+.advanced-settings-group .glyphicon {
+    font-size: small;
+    position: absolute;
+    left: -1.4em;
+    top: 0.3em;
+}
+
+.advanced-settings-group .advanced-settings {
+    display: none;
+}
+
+#small-dataset-warning {
+    margin-top: 1em;
+    display: none;
+}
+
+#already-scaled-info {
+    margin-top: -0.5em;
+    margin-bottom: 1em;
+    display: none;
+}
+
+
+.range-input-group .input-wrapper {
+    position: relative;
+}
+
+.range-input-group .input-prefix {
+    position: absolute;
+    line-height: 34px;
+    left: 0.7em;
+    z-index: 999;
+    color: #aaa;
+}
+
+.range-input-group .input-prefix ~ .form-control {
+    padding-left: 1.9em;
+    width: 100%;
+}
+
+.range-input-group .form-group {
+    width: 33%;
+}
+
+.range-input-group .form-group:first-child {
+    padding-left: 15px;
+}
+
+.range-input-group .form-group:last-child {
+    padding-right: 15px;
+}
+
+.range-input-group .form-inline {
+    text-align: justify;
+    height: 34px;
+}
+
+.range-input-group .form-inline:after {
+    content: "";
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+}
+
+.range-input-group ~ :not(.range-input-group) .form-control {
+    width: 30%;
+    display: inline-block;
+}
+
+.range-input-group ~ :not(.range-input-group) .form-control ~ .help-inline {
+    margin-left: 0.5em;
+}
+
+#dataset-selection {
+    margin-top: 0.3em;
+}
+
+#dataset-info-wrapper {
+    border-left: 1px solid #888;
+}
+
+#view-dataset-detail {
+    margin-right: 0.5em;
+}
+/* end modeling */
+
+/* prediction */
+#new-prediction-heading {
+    margin-bottom: 20px;
+}
+
+#prediction-model-selection, #prediction-dataset-selection {
+    margin-bottom: 15px;
+}
+
+#make-prediction, #predict-dataset {
+    display: none;
+}
+
+#model-list-message, #dataset-list-message {
+    display: none;
+}
+
+#jsme-container {
+    padding-right: 0;
+}
+
+#prediction-results dl:not(:first-child) {
+    margin-top: 2em;
+}
+/* end prediction */
+
+/* datasetDetail */
+#heatmapSwfWrapper {
+    padding-bottom: 100%;
+}
+/* end datasetDetail */
+
+/* modelDetail */
+.all-folds {
+    vertical-align: top;
+    margin: 20px 5px 20px;
+    color: #337ab7;
+}
+
+.all-folds a:hover, .all-folds a:focus {
+    text-decoration: none;
+}
+
+.all-folds.active, .all-folds.active:hover, .all-folds.active:focus {
+    background-color: #337ab7;
+    border-color: #337ab7;
+    color: #ffffff;
+}
+
+div[data-fold-number], tr[data-fold-number] {
+    display: none;
+}
+
+div[data-fold-number = "0"] {
+    display: block;
+}
+
+tr[data-fold-number = "0"] {
+    display: table-row;
+}
+/* end modelDetail */
+
+/* predictionDetail */
+th.datatables-spacer, td.datatables-spacer {
+    display: none;
+}
+
+#prediction-values {
+    overflow: hidden;
+}
+/* end predictionDetail */
+
+/* help pages */
+#help-content h3:first-child {
+    margin-top: 0;
+}
+
+#help-content h4 {
+    margin-top: 20px;
+}
+/* end help pages */
+
+/* admin */
+label.user-flags {
+    white-space: nowrap;
+}
+/* end admin */

@@ -3,7 +3,8 @@ package edu.unc.ceccr.chembench.servlet;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.workflows.download.WriteZip;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 
-@SuppressWarnings("serial")
+
 public class DatasetFilesServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(DatasetFilesServlet.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(DatasetFilesServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String BASE = Constants.CECCR_USER_BASE_PATH;
@@ -46,7 +47,7 @@ public class DatasetFilesServlet extends HttpServlet {
                 writer.write("An ERROR occured, can not download the dataset file.");
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         }
     }
 

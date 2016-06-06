@@ -1,6 +1,8 @@
 package edu.unc.ceccr.chembench.persistence;
 
 
+import edu.unc.ceccr.chembench.global.Constants;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,7 +13,7 @@ public class Prediction implements java.io.Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String name;
     private String predictorIds;
@@ -57,6 +59,21 @@ public class Prediction implements java.io.Serializable {
 
     public void setDatasetDisplay(String datasetDisplay) {
         this.datasetDisplay = datasetDisplay;
+    }
+
+    @Transient
+    public boolean isPublic() {
+        return userName.equals(Constants.ALL_USERS_USERNAME);
+    }
+
+    @Transient
+    public boolean isViewableBy(User user) {
+        return isEditableBy(user) || isPublic();
+    }
+
+    @Transient
+    public boolean isEditableBy(User user) {
+        return user.getIsAdmin().equals(Constants.YES) || userName.equals(user.getUserName());
     }
 
     @Id

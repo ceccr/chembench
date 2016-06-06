@@ -4,6 +4,18 @@
          version="2.5">
     <display-name>Chembench: The Cheminformatics Workbench</display-name>
 
+    <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>
+            org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+        </param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>edu.unc.ceccr.chembench.config.ApplicationContext</param-value>
+    </context-param>
+
     <servlet>
         <servlet-name>ApplicationServlet</servlet-name>
         <servlet-class>edu.unc.ceccr.chembench.servlet.ApplicationServlet</servlet-class>
@@ -84,7 +96,15 @@
     </listener>
 
     <listener>
-        <listener-class>edu.unc.ceccr.chembench.global.ChembenchServletContextListener</listener-class>
+        <listener-class>edu.unc.ceccr.chembench.global.ChembenchConfigurationContextListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>edu.unc.ceccr.chembench.global.CentralDogmaContextListener</listener-class>
     </listener>
 
     <filter>

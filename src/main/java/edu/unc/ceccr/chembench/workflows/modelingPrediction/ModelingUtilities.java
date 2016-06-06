@@ -4,7 +4,8 @@ import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,7 +14,7 @@ import java.nio.channels.FileChannel;
 
 public class ModelingUtilities {
 
-    private static Logger logger = Logger.getLogger(ModelingUtilities.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ModelingUtilities.class);
 
     public static void SetUpYRandomization(String userName, String jobName) throws Exception {
         String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";

@@ -1,52 +1,50 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+<header>
+  <div id="masthead">
+    <h1><s:a action="home" namespace="/"><img id="chembench-logo"
+                                              src="${pageContext.request.contextPath}/assets/images/logo.png"
+                                              height="50">
+      Chembench</s:a></h1>
 
-  ga('create', 'UA-62647428-1', 'auto');
-  ga('send', 'pageview');
-
-</script>
-
-<div class="homeLeft">
-  <img src="theme/ccbTheme/images/ccbLogo.jpg" alt="Chembench logo" id="header-image" name="header-image">
-</div>
-
-<div class="StandardTextDarkGrayParagraph loginRight">
-  <s:if test="#session['user']!=null">
-    <s:if test="#session['user'].userName!=''">
-      <div align="right">
-        <span style="color: #F00"></span><span class="StandardTextDarkGray4">Logged in as <s:if
-          test="#session['user'].userName.contains('guest')">
-        <b>guest</b>.
-      </s:if> <s:else>
-        <b><s:property value="#session['user'].userName" /></b>.
-      </s:else>
-        </span>
-      </div>
-      <div align="right">
-        <a href="/logout">log out</a>
-        <s:if test="!#session['user'].userName.contains('guest')">
-          | <a href="editProfile">edit profile</a>
+    <div class="userbox">
+      <s:if test="#session['user']!=null">
+        Logged in as
+        <s:if test="#session['user'].userName.contains('guest')">
+          a <strong>guest</strong>.
         </s:if>
-        | <a href="help-overview" target="_top">help pages</a>
-        <s:if test="#session['user'].isAdmin=='YES'">
-          | <a href="admin">admin</a>
-        </s:if>
-      </div>
-    </s:if>
-    <s:else>
-      <p align="right">
-        <span><span class="StandardTextDarkGray4"> ERROR: Username empty. Logout or restart your browser.
-            <button onclick="logout()" type="button" class="LoginBoxes1"
-                    style="border-style: solid; border-color: gray; border-width: 1px">logout
-            </button>
-        </span></span>
-      </p>
-    </s:else>
-  </s:if>
-</div>
+        <s:else>
+          <strong><s:property value="#session['user'].userName" /></strong>.
+        </s:else>
+        <ul class="userbox-links">
+          <li><s:a action="logout">log out</s:a></li>
+          <li><s:a action="overview" namespace="/help">help</s:a></li>
+          <s:if test="!#session['user'].userName.contains('guest')">
+            <li><s:a action="editProfile">edit profile</s:a></li>
+          </s:if>
+          <s:if test="#session['user'].isAdmin=='YES'">
+            <li><s:a namespace="/admin" action="home">admin</s:a></li>
+          </s:if>
+        </ul>
+      </s:if>
+    </div>
+  </div>
+
+  <nav>
+    <ul class="nav-list">
+      <li id="nav-button-home"><s:a action="home" namespace="/">Home</s:a></li>
+      <li id="nav-button-mybench"><s:a action="mybench" namespace="/">My Bench</s:a></li>
+      <li id="nav-button-datasets"><s:a action="dataset" namespace="/">Datasets</s:a></li>
+      <li id="nav-button-modeling"><s:a action="modeling" namespace="/">Modeling</s:a></li>
+      <li id="nav-button-prediction"><s:a action="prediction" namespace="/">Prediction</s:a></li>
+    </ul>
+  </nav>
+
+  <noscript>
+    <div id="no-js-warning" class="alert alert-danger">
+      <strong>Warning:</strong> JavaScript is disabled on your computer. Some parts of Chembench may not work properly.
+      Please enable JavaScript.
+    </div>
+  </noscript>
+
+</header>

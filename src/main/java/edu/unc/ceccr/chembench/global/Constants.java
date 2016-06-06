@@ -1,7 +1,6 @@
 package edu.unc.ceccr.chembench.global;
 
-import com.google.common.collect.Lists;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class Constants {
@@ -23,10 +22,8 @@ public class Constants {
     public static final int NUM_MACCS_KEYS = 400;
     //In practice, there are only 2 different types of MACCS keys -- 166 and 320.
     //We use the 166 version. Padding doesn't hurt, though -- the extra 0's get removed later.
-    public static final int MOLCONNZ_FORMULA_POS = 11;
 
     //Enums for Data Types
-    public static final int MOLCONNZ_COMPOUND_NAME_POS = 10;
     public static final String CONTINUOUS = "CONTINUOUS";
     public static final String CATEGORY = "CATEGORY";
     public static final String INCOMING = "INCOMING";
@@ -67,7 +64,6 @@ public class Constants {
     public static final String PREDICTIONWITHDESCRIPTORS = "PREDICTIONWITHDESCRIPTORS";
     public static final String INVERSEOFSIZE = "INVERSEOFSIZE";
     public static final String NOWEIGHTING = "NOWEIGHTING";
-    public static final String MOLCONNZ = "MOLCONNZ";
     public static final String DRAGONH = "DRAGONH";
     public static final String DRAGONNOH = "DRAGONNOH";
     public static final String MOE2D = "MOE2D";
@@ -96,6 +92,7 @@ public class Constants {
     public static final String VISUALIZATION = "Generating visualizations";
     public static final String SKETCHES = "Generating compound sketches";
     public static final String SPLITDATA = "Splitting Data";
+    public static final String MODI = "Calculating modelability index";
     //steps in modeling task
     //also uses SETUP and SPLITDATA
     public static final String STANDARDIZING = "Standardizing compounds";
@@ -161,8 +158,6 @@ public class Constants {
     //Paths
     public static String CECCR_BASE_PATH;
     public static String TOMCAT_PATH;
-    public static String BUILD_DATE_FILE_PATH;
-    public static String BUILD_DATE;
     public static String CECCR_USER_BASE_PATH;
     public static String XML_FILE_PATH;
     public static String SDFILE_FILEPATH;
@@ -173,9 +168,6 @@ public class Constants {
     public static String CONTINUOUS_DATAFILE_FILEPATH;
     public static String EXECUTABLEFILE_PATH;
     public static String INSTALLS_PATH;
-    public static String MOLCONNZ_MODELING_DATFILE_PATH;
-    public static String MOLCONNZ_PREDICTION_DATFILE_PATH;
-    public static String MOLCONNZ_CSV_DATFILE_PATH;
     public static String CDK_XMLFILE_PATH;
     public static String SCRIPTS_PATH;
     public static String RF_BUILD_MODEL_RSCRIPT;
@@ -196,9 +188,9 @@ public class Constants {
     //administration
     public static String WEBADDRESS;
     public static String WEBSITEEMAIL;
-    public static List<String> ADMIN_LIST = Lists.newArrayList();
-    public static List<String> ADMINEMAIL_LIST = Lists.newArrayList();
-    public static List<String> DESCRIPTOR_DOWNLOAD_USERS_LIST = Lists.newArrayList();
+    public static List<String> ADMIN_LIST = new ArrayList<>();
+    public static List<String> ADMINEMAIL_LIST = new ArrayList<>();
+    public static List<String> DESCRIPTOR_DOWNLOAD_USERS_LIST = new ArrayList<>();
     // web service validation
     public static String RECAPTCHA_PUBLICKEY;
     public static String RECAPTCHA_PRIVATEKEY;
@@ -211,4 +203,6 @@ public class Constants {
     public static String CECCR_DATABASE_PASSWORD;
     public static String WORKBENCH;
 
+    // modelability index threshold
+    public static double MODI_MODELABLE = 0.65;
 }

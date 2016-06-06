@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "cbench_randomForestGrove")
-public class RandomForestGrove extends Persistable implements java.io.Serializable {
+public class RandomForestGrove implements java.io.Serializable {
 
 	/*
 create table cbench_randomForestGrove (
@@ -25,7 +25,7 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     private Long id;
     private Long predictorId;
     private String name;

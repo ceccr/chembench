@@ -1,23 +1,24 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LegacyRandomForest {
-    private static Logger logger = Logger.getLogger(LegacyRandomForest.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(LegacyRandomForest.class);
 
     // MODELING WORKFLOW FUNCTIONS
     public static void SetUpYRandomization(String userName, String jobName) throws Exception {
@@ -146,7 +147,7 @@ public class LegacyRandomForest {
         // note that in Random Forest, making external predictions is done automatically as part of the modeling
         // process.
 
-        List<ExternalValidation> allExternalValues = Lists.newArrayList();
+        List<ExternalValidation> allExternalValues = new ArrayList<>();
         BufferedReader in = new BufferedReader(new FileReader(workingDir + Constants.EXTERNAL_SET_A_FILE));
         String inputString;
 
@@ -199,7 +200,7 @@ public class LegacyRandomForest {
 
     public static List<RandomForestGrove> readRandomForestGroves(String workingDir, Predictor predictor,
                                                                  String isYRandomModel) throws Exception {
-        List<RandomForestGrove> randomForestModels = Lists.newArrayList();
+        List<RandomForestGrove> randomForestModels = new ArrayList<>();
 
         // read the models list
         BufferedReader in = new BufferedReader(new FileReader(workingDir + Constants.RF_DESCRIPTORS_USED_FILE));
@@ -224,13 +225,13 @@ public class LegacyRandomForest {
     public static List<RandomForestTree> readRandomForestTrees(String workingDir, Predictor predictor,
                                                                RandomForestGrove grove, String actFileDataType)
             throws Exception {
-        List<RandomForestTree> randomForestTrees = Lists.newArrayList();
+        List<RandomForestTree> randomForestTrees = new ArrayList<>();
 
         if (actFileDataType.equals(Constants.CONTINUOUS)) {
-            List<String> treeFileName = Lists.newArrayList();
-            List<String> treeR2 = Lists.newArrayList();
-            List<String> treeMse = Lists.newArrayList();
-            List<String> treeDescriptorsUsed = Lists.newArrayList();
+            List<String> treeFileName = new ArrayList<>();
+            List<String> treeR2 = new ArrayList<>();
+            List<String> treeMse = new ArrayList<>();
+            List<String> treeDescriptorsUsed = new ArrayList<>();
 
             BufferedReader in = new BufferedReader(new FileReader(workingDir + grove.getName() + "_trees.list"));
             String inputString;
@@ -268,8 +269,8 @@ public class LegacyRandomForest {
                 randomForestTrees.add(t);
             }
         } else {
-            List<String> treeFileName = Lists.newArrayList();
-            List<String> treeDescriptorsUsed = Lists.newArrayList();
+            List<String> treeFileName = new ArrayList<>();
+            List<String> treeDescriptorsUsed = new ArrayList<>();
             BufferedReader in = new BufferedReader(new FileReader(workingDir + grove.getName() + "_trees.list"));
             String inputString;
             while ((inputString = in.readLine()) != null && !inputString.equals("")) {
@@ -330,7 +331,7 @@ public class LegacyRandomForest {
             }
             in.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         int treeFilesDeleted = 0;
@@ -381,7 +382,7 @@ public class LegacyRandomForest {
     }
 
     public static List<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception {
-        List<PredictionValue> predictionValues = Lists.newArrayList(); // holds objects to be returned
+        List<PredictionValue> predictionValues = new ArrayList<>(); // holds objects to be returned
 
         // Get the predicted values of the forest
         String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
@@ -447,7 +448,7 @@ public class LegacyRandomForest {
         }
 
         BufferedReader br = new BufferedReader(new FileReader(workingDir + xFile));
-        List<String> lines = Lists.newArrayList();
+        List<String> lines = new ArrayList<>();
 
         // replace "#" with "=_"
         String line;

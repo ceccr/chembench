@@ -1,17 +1,18 @@
 package edu.unc.ceccr.chembench.servlet;
 
 import edu.unc.ceccr.chembench.global.Constants;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-@SuppressWarnings("serial")
+
 public class DescriptorMatrixServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(DescriptorMatrixServlet.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(DescriptorMatrixServlet.class);
 
     //serves up files for use with the dataset visualization Flash app
 
@@ -43,20 +44,20 @@ public class DescriptorMatrixServlet extends HttpServlet {
 
                 output.flush();
             } catch (IOException e) {
-                logger.error(e);
+                logger.error("", e);
             } finally {
                 if (input != null) {
                     try {
                         input.close();
                     } catch (IOException e) {
-                        logger.error(e);
+                        logger.error("", e);
                     }
                 }
                 if (output != null) {
                     try {
                         output.close();
                     } catch (IOException e) {
-                        logger.error(e);
+                        logger.error("", e);
                     }
                 }
             }

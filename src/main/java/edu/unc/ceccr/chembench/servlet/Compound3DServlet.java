@@ -2,7 +2,8 @@ package edu.unc.ceccr.chembench.servlet;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.workflows.visualization.Molecule3D;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-@SuppressWarnings("serial")
+
 public class Compound3DServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(Compound3DServlet.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Compound3DServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -94,7 +95,7 @@ public class Compound3DServlet extends HttpServlet {
                 out.println(" ERROR : Can not find SD file: " + id);
             }
         } catch (Exception e) {
-            logger.error(e);
+            logger.error("", e);
         } finally {
             out.close();
         }

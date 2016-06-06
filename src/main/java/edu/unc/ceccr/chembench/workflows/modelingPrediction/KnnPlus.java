@@ -1,22 +1,23 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 public class KnnPlus {
-    private static Logger logger = Logger.getLogger(KnnPlus.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(KnnPlus.class);
 
     private static String getKnnPlusCommandFromParams(KnnPlusParameters knnPlusParameters, String actFileDataType,
                                                       String modelType) {
@@ -162,7 +163,7 @@ public class KnnPlus {
                 FileAndDirOperations.deleteFile(workingDir + "yRandom/" + "models.tbl");
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
 
         String knnPlusCommand = getKnnPlusCommandFromParams(knnPlusParameters, actFileDataType, modelType);
@@ -249,12 +250,12 @@ public class KnnPlus {
         in.readLine(); // junk
         in.readLine(); // junk
 
-        List<List<String>> predictionMatrix = Lists.newArrayList(); // read
+        List<List<String>> predictionMatrix = new ArrayList<>(); // read
         // output
         // file
         // into
         // this
-        List<ExternalValidation> predictionValues = Lists.newArrayList(); // to
+        List<ExternalValidation> predictionValues = new ArrayList<>(); // to
         // be
         // returned
 
@@ -263,7 +264,7 @@ public class KnnPlus {
         // *sigh*)
         while ((inputString = in.readLine()) != null && !inputString.equals("")) {
 
-            List<String> modelValues = Lists.newArrayList();
+            List<String> modelValues = new ArrayList<>();
 
             // get output for each compound in model
             String[] predValues = inputString.split("\\s+"); // Note: [0] and
@@ -284,7 +285,7 @@ public class KnnPlus {
 
         logger.debug("calculating nummodels, avg," + "and stddev for each compound");
         // get the actual (observed) values for each compound
-        HashMap<String, String> observedValues = DatasetFileOperations.getActFileIdsAndValues(workingDir + "ext_0.a");
+        Map<String, Double> observedValues = DatasetFileOperations.getActFileIdsAndValues(workingDir + "ext_0.a");
 
         // for each compound, calculate nummodels, avg, and stddev
         int numCompounds = 0;
@@ -295,8 +296,8 @@ public class KnnPlus {
 
             try {
                 // calculate stddev and avg for each compound
-                Float sum = new Float(0);
-                Float mean = new Float(0);
+                Float sum = 0f;
+                Float mean = 0f;
                 int numPredictingModels = predictionMatrix.size();
                 logger.debug("doing sum for compound " + i);
                 for (int j = 0; j < predictionMatrix.size(); j++) {
@@ -307,28 +308,20 @@ public class KnnPlus {
                         sum += Float.parseFloat(predValue);
                     }
                 }
-                if (numPredictingModels > 0) {
-                    mean = sum / numPredictingModels;
-                } else {
-                    mean = null;
-                }
+                mean = sum / numPredictingModels;
 
                 logger.debug("doing stddev for compound " + i);
 
-                Float stddev = new Float(0);
-                if (numPredictingModels > 0) {
-                    for (int j = 0; j < predictionMatrix.size(); j++) {
-                        String predValue = predictionMatrix.get(j).get(i);
-                        if (!predValue.equalsIgnoreCase("NA")) {
-                            float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
-                            stddev += distFromMeanSquared;
-                        }
+                double stddev = 0d;
+                for (int j = 0; j < predictionMatrix.size(); j++) {
+                    String predValue = predictionMatrix.get(j).get(i);
+                    if (!predValue.equalsIgnoreCase("NA")) {
+                        float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
+                        stddev += distFromMeanSquared;
                     }
-                    // divide sum then take sqrt to get stddev
-                    stddev = (float) Math.sqrt(stddev / numPredictingModels);
-                } else {
-                    stddev = null;
                 }
+                // divide sum then take sqrt to get stddev
+                stddev = Math.sqrt(stddev / numPredictingModels);
 
                 logger.debug("making predvalue object for compound " + i);
                 // create prediction value object
@@ -338,12 +331,12 @@ public class KnnPlus {
                 ev.setStandDev("" + stddev);
                 ev.setCompoundId(compoundNames[i + 2]);
                 ev.setPredictorId(predictor.getId());
-                ev.setActualValue(Float.parseFloat(observedValues.get(compoundNames[i + 2])));
+                ev.setActualValue((float) (double) observedValues.get(compoundNames[i + 2]));
 
                 predictionValues.add(ev);
 
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
 
@@ -369,7 +362,7 @@ public class KnnPlus {
                 return -1;
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             return -1;
         }
 
@@ -394,7 +387,7 @@ public class KnnPlus {
                 return -1;
             }
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
             return -1;
         }
 
@@ -402,7 +395,7 @@ public class KnnPlus {
     }
 
     public static List<KnnPlusModel> readModelsFile(String workingDir, Predictor predictor, String isYRandomModel) {
-        List<KnnPlusModel> knnPlusModels = Lists.newArrayList();
+        List<KnnPlusModel> knnPlusModels = new ArrayList<>();
         try {
             if (!new File(workingDir + "models.tbl").exists()) {
                 // in case of no models generated, usually happens in yRandom
@@ -512,7 +505,7 @@ public class KnnPlus {
             }
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
         return knnPlusModels;
     }
@@ -523,7 +516,7 @@ public class KnnPlus {
         // bizarrely... X_X
         String actfile = workingDir + sdfile + ".renorm.a";
         BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
-        List<String> compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
+        List<String> compoundNames = DatasetFileOperations.getSdfCompoundNames(workingDir + sdfile);
         for (String compoundName : compoundNames) {
             aout.write(compoundName + " 0\n");
         }
@@ -559,12 +552,12 @@ public class KnnPlus {
         in.readLine(); // junk
         in.readLine(); // junk
 
-        List<List<String>> predictionMatrix = Lists.newArrayList(); // read
+        List<List<String>> predictionMatrix = new ArrayList<>(); // read
         // output
         // file
         // into
         // this
-        List<PredictionValue> predictionValues = Lists.newArrayList(); // holds
+        List<PredictionValue> predictionValues = new ArrayList<>(); // holds
         // objects
         // to
         // be
@@ -575,7 +568,7 @@ public class KnnPlus {
         // *sigh*)
         while ((inputString = in.readLine()) != null && !inputString.equals("")) {
 
-            List<String> modelValues = Lists.newArrayList();
+            List<String> modelValues = new ArrayList<>();
 
             // get output for each compound in model
             String[] predValues = inputString.split("\\s+"); // Note: [0] and
@@ -655,7 +648,7 @@ public class KnnPlus {
                 predictionValues.add(p);
 
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
 

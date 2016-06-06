@@ -6,12 +6,12 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "cbench_randomForestTree")
-public class RandomForestTree extends Persistable implements java.io.Serializable {
+public class RandomForestTree implements java.io.Serializable {
 
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
     /*
 create table cbench_randomForestTree (
 id INT(12) UNSIGNED auto_increment PRIMARY KEY,

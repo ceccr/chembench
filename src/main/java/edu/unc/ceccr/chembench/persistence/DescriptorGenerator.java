@@ -2,7 +2,7 @@ package edu.unc.ceccr.chembench.persistence;
 
 import javax.persistence.*;
 
-@SuppressWarnings("serial")
+
 @Entity
 @Table(name = "cbench_descriptors")
 public class DescriptorGenerator implements java.io.Serializable {

@@ -1,22 +1,31 @@
 package edu.unc.ceccr.chembench.servlet;
 
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import edu.unc.ceccr.chembench.workflows.visualization.ExternalValidationChart;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-@SuppressWarnings("serial")
 public class ImageServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(ImageServlet.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ImageServlet.class);
+    @Autowired
+    private PredictorRepository predictorRepository;
+
+    public void init(ServletConfig servletConfig) throws ServletException {
+        super.init(servletConfig);
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, servletConfig.getServletContext());
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 
@@ -43,9 +52,7 @@ public class ImageServlet extends HttpServlet {
             //displays ext validation chart for modeling
 
             try {
-                Session s = HibernateUtil.getSession();
-                Predictor predictor = PopulateDataObjects.getPredictorByName(project, userName, s);
-
+                Predictor predictor = predictorRepository.findByNameAndUserName(project, userName);
                 if (!currentFoldNumber.equals("0")) {
                     int numChildren = predictor.getChildIds().split("\\s+").length;
                     String childPredName = project + "_fold_" + currentFoldNumber + "_of_" + numChildren;
@@ -59,7 +66,7 @@ public class ImageServlet extends HttpServlet {
                 }
 
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         } else if (projectType.equals("dataset")) {
             imageFileName = userName + "/DATASETS/" + datasetName + "/Visualization/Sketches/" + compoundId + ".jpg";
@@ -83,18 +90,13 @@ public class ImageServlet extends HttpServlet {
             }
         }
 
-        BufferedInputStream input = null;
-        BufferedOutputStream output = null;
-
-        try {
-            input = new BufferedInputStream(new FileInputStream(imageFile));
+        try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(imageFile));
+             BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
             int contentLength = input.available();
 
             response.reset();
             response.setContentLength(contentLength);
             response.setContentType("image/jpeg");
-
-            output = new BufferedOutputStream(response.getOutputStream());
 
             // Write file contents to response.
             while (contentLength-- > 0) {
@@ -103,23 +105,7 @@ public class ImageServlet extends HttpServlet {
 
             output.flush();
         } catch (IOException e) {
-            logger.error(e);
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    logger.error(e);
-                }
-            }
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    logger.error(e);
-                }
-            }
+            logger.error("", e);
         }
     }
-
 }

@@ -103,8 +103,8 @@ if __name__ == '__main__':
     else:
         prediction = predict_dataset(forest, X_test)
 
-    outfilepath = args.output if args.output else DEFAULT_OUTFILENAME
-    with open(outfilepath, 'w') as outfile:
+    outfilename = args.output if args.output else DEFAULT_OUTFILENAME
+    with open(outfilename, 'w') as outfile:
         prediction['trees'] = tree_predictions
         json.dump(prediction, outfile, cls=PandasEncoder, indent=4)
-    logging.info('Predictions saved to "%s"', outfilepath)
+    logging.info('Predictions saved to "%s"', outfilename)

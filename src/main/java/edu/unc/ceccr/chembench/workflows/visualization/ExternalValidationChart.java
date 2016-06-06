@@ -1,14 +1,11 @@
 package edu.unc.ceccr.chembench.workflows.visualization;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.ExternalValidation;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
+import edu.unc.ceccr.chembench.persistence.ExternalValidationRepository;
 import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import org.apache.commons.validator.GenericValidator;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
@@ -26,17 +23,25 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+@Component
 public class ExternalValidationChart {
-    private static Logger logger = Logger.getLogger(ExternalValidationChart.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ExternalValidationChart.class);
+    private static PredictorRepository predictorRepository;
+    private static ExternalValidationRepository externalValidationRepository;
 
     public static void createChart(Predictor predictor, String currentFoldNumber) throws Exception {
         /*
@@ -54,22 +59,18 @@ public class ExternalValidationChart {
 
         String project = predictor.getName();
         String user = predictor.getUserName();
-
-        Session session = HibernateUtil.getSession();
-
         List<ExternalValidation> extValidation;
 
         // used to highlight one child of an nfold
-        List<ExternalValidation> highlightedExtValidation = Lists.newArrayList();
+        List<ExternalValidation> highlightedExtValidation = new ArrayList<>();
 
-        List<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, session);
+        List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
         if (childPredictors.size() != 0) {
             // get external set for each
-            extValidation = Lists.newArrayList();
+            extValidation = new ArrayList<>();
             for (int i = 0; i < childPredictors.size(); i++) {
                 Predictor cp = childPredictors.get(i);
-                List<ExternalValidation> childExtVals =
-                        PopulateDataObjects.getExternalValidationValues(cp.getId(), session);
+                List<ExternalValidation> childExtVals = externalValidationRepository.findByPredictorId(cp.getId());
                 if (currentFoldNumber.equals("" + (i + 1))) {
                     highlightedExtValidation.addAll(childExtVals);
                 } else {
@@ -77,7 +78,7 @@ public class ExternalValidationChart {
                 }
             }
         } else {
-            extValidation = PopulateDataObjects.getExternalValidationValues(predictor.getId(), session);
+            extValidation = externalValidationRepository.findByPredictorId(predictor.getId());
         }
         if (extValidation.size() == 0) {
             return;
@@ -86,8 +87,7 @@ public class ExternalValidationChart {
         logger.debug("extval size: " + extValidation.size());
 
         int index = 0;
-        float high, low;
-        session.close();
+        double high, low;
         ExternalValidation extv = null;
 
         for (int i = 0; i < extValidation.size(); i++) {
@@ -113,13 +113,13 @@ public class ExternalValidationChart {
 
         HashMap<Integer, String> map = new HashMap<Integer, String>();
 
-        List<String> tooltipList = Lists.newArrayList();
+        List<String> tooltipList = new ArrayList<>();
 
         XYSeries pointSeries = new XYSeries(0, false);
         XYSeries highlightedPointSeries = new XYSeries(0, false);
 
-        List<XYSeries> stdDevList = Lists.newArrayList();
-        List<XYSeries> highlightedStdDevList = Lists.newArrayList();
+        List<XYSeries> stdDevList = new ArrayList<>();
+        List<XYSeries> highlightedStdDevList = new ArrayList<>();
 
         Iterator<ExternalValidation> it = extValidation.iterator();
         while (it.hasNext()) {
@@ -137,8 +137,8 @@ public class ExternalValidationChart {
                     high = extv.getPredictedValue();
                     low = extv.getPredictedValue();
                 }
-                series.add(extv.getActualValue(), high);
-                series.add(extv.getActualValue(), low);
+                series.add(extv.getActualValue(), new Double(high));
+                series.add(extv.getActualValue(), new Double(low));
                 stdDevList.add(series);
             } else {
                 tooltipList.add("Compound ID: " + extv.getCompoundId() + "<br/>" + extv.getPredictedValue());
@@ -162,8 +162,8 @@ public class ExternalValidationChart {
                     high = extv.getPredictedValue();
                     low = extv.getPredictedValue();
                 }
-                series.add(extv.getActualValue(), high);
-                series.add(extv.getActualValue(), low);
+                series.add(extv.getActualValue(), new Double(high));
+                series.add(extv.getActualValue(), new Double(low));
                 highlightedStdDevList.add(series);
             } else {
                 tooltipList.add("Compound ID: " + extv.getCompoundId() + "<br/>" + extv.getPredictedValue());
@@ -307,7 +307,7 @@ public class ExternalValidationChart {
 
     protected static List<String> customizedURLs(XYDataset ds, HashMap<Integer, String> map, String predictorName,
                                                  String user) {
-        List<String> list = Lists.newArrayList();
+        List<String> list = new ArrayList<>();
         String url;
 
         for (int i = 0; i < map.size(); i++) {
@@ -317,7 +317,7 @@ public class ExternalValidationChart {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
-                logger.error(e);
+                logger.error("", e);
             }
             list.add(url);
         }
@@ -372,4 +372,13 @@ public class ExternalValidationChart {
 
     }
 
+    @Autowired
+    public void setPredictorRepository(PredictorRepository predictorRepository) {
+        ExternalValidationChart.predictorRepository = predictorRepository;
+    }
+
+    @Autowired
+    public void setExternalValidationRepository(ExternalValidationRepository externalValidationRepository) {
+        ExternalValidationChart.externalValidationRepository = externalValidationRepository;
+    }
 }

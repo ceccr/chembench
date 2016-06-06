@@ -1,564 +1,871 @@
-<!DOCTYPE html>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
-
+<!DOCTYPE html>
 <html>
 <head>
-  <sx:head />
-  <title>CHEMBENCH | Modeling</title>
-
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
-  <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
-  <link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
-  <link href="theme/standard.css" rel="stylesheet" type="text/css">
-  <link href="theme/links.css" rel="stylesheet" type="text/css">
-  <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
-  <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
-  <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
-  <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-  <script src="javascript/chembench.js"></script>
-  <script src="javascript/dataset.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-
-  <script language="javascript">
-    var usedDatasetNames = new Array(<s:iterator value="userDatasetNames">"<s:property />", </s:iterator>"");
-    var usedPredictorNames = new Array(<s:iterator value="userPredictorNames">"<s:property />", </s:iterator>"");
-    var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />", </s:iterator>"");
-    var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />", </s:iterator>"");
-
-    var datasetId = -1;
-    var selectedDatasetNumCompounds = -1;
-    var selectedDatasetAvailableDescriptors = "";
-    var selectedDatasetHasBeenScaled = "";
-
-    function getSelectedDataset() {
-      //get the numCompounds and availableDescriptors for the currently selected dataset
-      if (document.getElementById("categoryDataset").checked == true) {
-        datasetId = document.getElementById("selectedCategoryDataset").value;
-        <s:iterator value="userCategoryDatasets">
-        if (datasetId ==<s:property value="id" />) {
-          selectedDatasetNumCompounds = <s:property value='numCompound' />;
-          selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
-          selectedDatasetHasBeenScaled = "<s:property value='hasBeenScaled' />";
-        }
-        </s:iterator>
-      } else {
-        datasetId = document.getElementById("selectedContinuousDataset").value;
-        <s:iterator value="userContinuousDatasets">
-        if (datasetId ==<s:property value="id" />) {
-          selectedDatasetNumCompounds = <s:property value='numCompound' />;
-          selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
-          selectedDatasetHasBeenScaled = "<s:property value='hasBeenScaled' />";
-        }
-        </s:iterator>
-      }
-
-      if (selectedDatasetNumCompounds < 40) {
-        alert('The dataset you selected has ' + selectedDatasetNumCompounds + ' compounds. ' +
-              'Generally we do not recommend developing any statistical QSAR model for a dataset ' +
-              'with fewer than 40 compounds, since for a small dataset it is generally not ' +
-              'possible to evaluate the external accuracy of the model.');
-      }
-
-      //enable / disable based on the availableDescriptors
-      //these are ordered based on defaults (e.g. if uploaded is available, it will be the default checked)
-      if (selectedDatasetAvailableDescriptors.indexOf("MOE2D") > -1) {
-        document.getElementById("descriptorGenerationType" + "MOE2D").disabled = false;
-        document.getElementById("descriptorGenerationType" + "MOE2D").checked = "checked";
-      } else {
-        document.getElementById("descriptorGenerationType" + "MOE2D").disabled = true;
-      }
-
-      if (selectedDatasetAvailableDescriptors.indexOf("ISIDA") > -1) {
-        document.getElementById("descriptorGenerationType" + "ISIDA").disabled = false;
-        document.getElementById("descriptorGenerationType" + "ISIDA").checked = "checked";
-      } else {
-        document.getElementById("descriptorGenerationType" + "ISIDA").disabled = true;
-      }
-
-      if (selectedDatasetAvailableDescriptors.indexOf("MACCS") > -1) {
-        document.getElementById("descriptorGenerationType" + "MACCS").disabled = false;
-        document.getElementById("descriptorGenerationType" + "MACCS").checked = "checked";
-      } else {
-        document.getElementById("descriptorGenerationType" + "MACCS").disabled = true;
-      }
-
-      if (selectedDatasetAvailableDescriptors.indexOf("DRAGONNOH") > -1) {
-        document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = false;
-        document.getElementById("descriptorGenerationType" + "DRAGONNOH").checked = "checked";
-      } else {
-        document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = true;
-      }
-
-      if (selectedDatasetAvailableDescriptors.indexOf("DRAGONH") > -1) {
-        document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = false;
-        document.getElementById("descriptorGenerationType" + "DRAGONH").checked = "checked";
-      } else {
-        document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = true;
-      }
-
-      if (selectedDatasetAvailableDescriptors.indexOf("MOLCONNZ") > -1) {
-        document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = false;
-        document.getElementById("descriptorGenerationType" + "MOLCONNZ").checked = "checked";
-      } else {
-        document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = true;
-      }
-
-      if (selectedDatasetAvailableDescriptors.indexOf("CDK") > -1) {
-        document.getElementById("descriptorGenerationType" + "CDK").disabled = false;
-        document.getElementById("descriptorGenerationType" + "CDK").checked = "checked";
-      } else {
-        document.getElementById("descriptorGenerationType" + "CDK").disabled = true;
-      }
-
-      if (selectedDatasetAvailableDescriptors.indexOf("UPLOADED") > -1) {
-        document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = false;
-        document.getElementById("descriptorGenerationType" + "UPLOADED").checked = "checked";
-      } else {
-        document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = true;
-      }
-
-      setDescriptorScaling();
-
-      //recalculate time estimate for the newly selected dataset
-      calculateRuntimeEstimate();
-    }
-
-    function setDescriptorScaling() {
-      //turns scaling options on or off
-      //If a user has uploaded scaled descriptors we don't want to scale them any further
-
-      if (document.getElementById("descriptorGenerationType" + "UPLOADED").checked &&
-          selectedDatasetHasBeenScaled == "true") {
-        document.getElementById("scalingType" + "RANGESCALING").disabled = true;
-        document.getElementById("scalingType" + "AUTOSCALING").disabled = true;
-        document.getElementById("scalingType" + "NOSCALING").checked = "checked";
-      } else {
-        document.getElementById("scalingType" + "RANGESCALING").disabled = false;
-        document.getElementById("scalingType" + "AUTOSCALING").disabled = false;
-        document.getElementById("scalingType" + "RANGESCALING").checked = "checked";
-      }
-    }
-
-    function calculateRuntimeEstimate() {
-      //estimates runtime based on input parameters and displays it.
-      //assumes that getDataset has assigned the value of selectedDatasetNumCompounds already.
-
-      var timeEstimateDays = 0;
-      var timeEstimateHours = 0;
-      var timeEstimateMins = 0;
-
-      var dataSplitMethod = document.getElementById("trainTestSplitType").value;
-      var modelMethod = document.getElementById("modelingType").value;
-
-      var numSplits;
-      if (dataSplitMethod == "RANDOM") {
-        numSplits = document.getElementById("numSplitsInternalRandom").value;
-      } else {
-        //sphere exclusion
-        numSplits = document.getElementById("numSplitsInternalSphere").value;
-      }
-
-      //Time estimates were generated by taking the results from around 200 jobs
-      //then removing outliers and plotting a trendline in Excel. Predictions
-      //look pretty accurate in there at least.
-      if (modelMethod == "RANDOMFOREST") {
-        timeEstimateMins = (selectedDatasetNumCompounds * numSplits * 0.003) - 5.718;
-      } else if (modelMethod == "KNN-GA") {
-        //var maxNumGenerations = document.getElementById("gaMaxNumGenerations").value;
-        timeEstimateMins = (selectedDatasetNumCompounds * numSplits * 0.05);
-      } else if (modelMethod == "KNN-SA") {
-        //depends on numRuns and needs a factor for convergence parameters (temperature etc).
-
-        // numRuns and numBest only exist in the DOM if the user doesn't have
-        // KNN advanced settings hidden, so we should use the defaults if the
-        // elements don't exist
-        var numRuns = 2;    // TODO hardcoded defaults are bad :(
-        if ($('#saNumRuns').length) {  // equivalent to "foo.exists()"
-          numRuns = document.getElementById("saNumRuns").value;
-        }
-        var numBest = 3;
-        if ($('#saNumBestModels').length) {
-          numBest = document.getElementById("saNumBestModels").value;
-        }
-
-        var numDifferentDescriptors = 1;
-        var minDesc = document.getElementsByName("knnMinNumDescriptors")[1].value;
-        var maxDesc = document.getElementsByName("knnMaxNumDescriptors")[1].value;
-        var descSteps = document.getElementById("knnDescriptorStepSize").value;
-
-        if (descSteps != 0) {
-          numDifferentDescriptors += Math.floor((maxDesc - minDesc) / descSteps);
-        }
-
-        timeEstimateMins =
-        numSplits * (numRuns * numBest * numDifferentDescriptors) * selectedDatasetNumCompounds * 0.018;
-      } else if (modelMethod == "SVM") {
-
-        var numDifferentDegrees = Math.floor((document.getElementById("svmDegreeTo").value -
-                                              document.getElementById("svmDegreeFrom").value) /
-                                             document.getElementById("svmDegreeStep").value + 0.001);
-        var numDifferentGammas = Math.floor((document.getElementById("svmGammaTo").value -
-                                             document.getElementById("svmGammaFrom").value) /
-                                            document.getElementById("svmGammaStep").value + 0.001);
-        var numDifferentCosts = Math.floor((document.getElementById("svmCostTo").value -
-                                            document.getElementById("svmCostFrom").value) /
-                                           document.getElementById("svmCostStep").value + 0.001);
-        var numDifferentNus = Math.floor((document.getElementById("svmNuTo").value -
-                                          document.getElementById("svmNuFrom").value) /
-                                         document.getElementById("svmNuStep").value + 0.001);
-        var numDifferentPEpsilons = Math.floor((document.getElementById("svmPEpsilonTo").value -
-                                                document.getElementById("svmPEpsilonFrom").value) /
-                                               document.getElementById("svmPEpsilonStep").value + 0.001);
-
-        var svmType;
-        if (document.getElementById("categoryDataset").checked == true) {
-          if (document.getElementById("svmTypeCategory0").checked == true) {
-            svmType = document.getElementById("svmTypeCategory0").value;
-          } else {
-            svmType = document.getElementById("svmTypeCategory1").value;
-          }
-        } else {
-          if (document.getElementById("svmTypeContinuous3").checked == true) {
-            svmType = document.getElementById("svmTypeContinuous3").value;
-          } else {
-            svmType = document.getElementById("svmTypeContinuous4").value;
-          }
-        }
-
-        if (svmType == '0') {
-          numDifferentPEpsilons = 1;
-          numDifferentNus = 1;
-        } else if (svmType == '1') {
-          numDifferentPEpsilons = 1;
-          numDifferentCosts = 1;
-        } else if (svmType == '3') {
-          numDifferentNus = 1;
-        } else if (svmType == '4') {
-          numDifferentPEpsilons = 1;
-        }
-
-        var kernelType;
-        if (document.getElementById("svmKernel0").checked == true) {
-          numDifferentGammas = 1;
-          numDifferentDegrees = 1;
-        } else if (document.getElementById("svmKernel1").checked == true) {
-          //both gamma and degree are used
-        } else if (document.getElementById("svmKernel2").checked == true) {
-          numDifferentDegrees = 1;
-        } else if (document.getElementById("svmKernel3").checked == true) {
-          numDifferentDegrees = 1;
-        }
-
-        var numModelsPerSplit = numDifferentPEpsilons * numDifferentNus * numDifferentCosts * numDifferentGammas *
-                                numDifferentDegrees;
-
-        timeEstimateMins = selectedDatasetNumCompounds * numSplits * numModelsPerSplit * 0.00022;
-      }
-
-      var errorMargin = 1.8;
-      timeEstimateMins = timeEstimateMins * errorMargin;
-
-      timeEstimateMins = Math.ceil(timeEstimateMins);
-      if (timeEstimateMins <= 0) {
-        timeEstimateMins = 2;
-      }
-
-      var timeEstimateString = timeEstimateMins + " minutes";
-      if (timeEstimateMins == 1) {
-        timeEstimateString = timeEstimateMins + " minute";
-      }
-
-      if (timeEstimateMins > 120) {
-        timeEstimateHours = Math.ceil(timeEstimateMins / 60);
-        timeEstimateString = timeEstimateHours + " hours";
-        if (timeEstimateHours > 48) {
-          timeEstimateDays = Math.ceil(timeEstimateHours / 24);
-          timeEstimateString = timeEstimateDays + " days";
-        }
-      }
-
-      document.getElementById("timeEstimateDiv").innerHTML =
-      "<br />This modeling job will take about <b>" + timeEstimateString + "</b> to finish.";
-    }
-    $(window).load(function() {
-      var currentModelingTab = $('.dojoTab.current', '#modelingMethod');
-      var currentModelingTabLabel = currentModelingTab.find('[dojoattachpoint="titleNode"]').text();
-      if (currentModelingTabLabel.match(/Random\s*Forest/i)) {
-        $('#dataSplittingMethod').hide();
-      }
-    });
-  </script>
-  <script language="javascript" src="javascript/chembench.js"></script>
-  <script language="javascript" src="javascript/modeling.js"></script>
-
+  <%@ include file="/jsp/main/head.jsp" %>
+  <title>Chembench | Modeling</title>
 </head>
+<body>
+<div id="main" class="container">
+  <%@ include file="/jsp/main/header.jsp" %>
 
-<body bgcolor="#ffffff" onload="setTabToModeling(); getSelectedDataset();">
-<div class="outer">
-  <div class="includesHeader">
-    <%@include file="/jsp/main/header.jsp" %>
-  </div>
-  <div class="includesNavbar">
-    <%@include file="/jsp/main/centralNavigationBar.jsp" %>
-  </div>
-  <div class="StandardTextDarkGrayParagraph">
-    <div class="modelingBackground" style="margin-left: -18px; margin-right: 20px;">
-      <div class="homeLeft">
-        <br />
+  <div id="content">
+    <section>
+      <h2>Existing Models</h2>
 
-        <p class="StandardTextDarkGrayParagraph2">
-          <b>Chembench Model Development</b>
-        </p>
+      <%@ include file="/jsp/mybench/mybench-models.jsp" %>
+    </section>
 
-        <p style="margin-left: 20px">
-          Here you may develop QSAR predictors for any of your datasets. Public datasets are also available.<br />
-          <br /> For more information about creating predictors and selecting the right parameters, use the <a
-            href="/help-modeling">Modeling help page</a>.
-        </p>
+    <hr>
+    <section>
+      <h2>Create a New Model</h2>
 
-        <p class="StandardTextDarkGrayParagraph">
-          The full modeling workflow, as described in our <a href="/help-workflows">Workflow help page</a>, is
-          detailed the publication: <a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full">Tropsha,
-          A. Best Practices for QSAR Model Development, Validation, and Exploitation Mol. Inf., 2010, 29, 476-488</a>
-        </p>
-      </div>
-    </div>
-    <s:form action="createModelingJob" enctype="multipart/form-data" theme="simple">
+      <p>
+        Here you can develop Quantitative Structure-Activity Relationship (QSAR) models using your uploaded modeling
+        datasets.<br>You can also build models using publicly available modeling datasets.
+      </p>
 
-      <!-- Dataset Selection -->
-      <div class="border StandardTextDarkGrayParagraph benchAlign">
-        <p class="StandardTextDarkGrayParagraph2">
-          <br />
-          <b>Select a Dataset</b>
-        </p>
+      <p>
+        For more information about creating models and selecting the right parameters, see the <s:a action="modeling"
+                                                                                                    namespace="/help">Modeling help page</s:a>.
+      </p>
 
-        <p class="StandardTextDarkGrayParagraph">
-          <i>(Use the "DATASET" page to create datasets.)</i>
-        </p>
-        <s:hidden id="actFileDataType" name="actFileDataType" />
-        <div class="StandardTextDarkGrayParagraph">
-          <b><input type="radio" name="actFileDataTypeRadio" id="continuousDataset"
-                    onclick="setToContinuous(); getSelectedDataset()" checked>Choose a Continuous Dataset:</input></b>
-          <br />
-          <s:select name="selectedDatasetId" list="userContinuousDatasets" id="selectedContinuousDataset" listKey="id"
-                    listValue="name" onchange='getSelectedDataset();' />
-        </div>
-        <div class="StandardTextDarkGrayParagraph">
-          <b><input type="radio" name="actFileDataTypeRadio" id="categoryDataset"
-                    onclick="setToCategory(); getSelectedDataset()">Choose a Category Dataset:</input></b> <br />
-          <s:select name="selectedDatasetId" disabled="true" list="userCategoryDatasets" id="selectedCategoryDataset"
-                    listKey="id" listValue="name" onchange='getSelectedDataset();' />
-        </div>
-        <!-- Commented out until it's implemented...
-                <tr>
-                    <td>
-                    <div class="StandardTextDarkGrayParagraph"><b>Weight Categories By:</b></div></td>
-                    <td align="left" valign="top">
-                    <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="categoryWeights" value="categoryWeights" list="#{'INVERSESIZE':'Inverse of Size','NOWEIGHTING':'No Weighting','MANUAL':'Set Manually...'}" /></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="100%" colspan="2">
-                    <div class="StandardTextDarkGrayParagraph" id="submitMessage">
-                    <i>Weighting will improve modeling on imbalanced datasets.
-                    When optimizing the model, the accuracy on members of different categories will be
-                    weighted depending on the values you input.</i>
-                    </div>
-                    </td>
-                </tr>
-                -->
-        <div class="StandardTextDarkGrayParagraph">
-          <br />
-          <input type="button" value="View Dataset" property="text" onclick="showDataset()" /> <i> Opens in a new
-          window. Check your browser settings if the new window does not appear.</i>
-        </div>
-        <br />
-      </div>
-      <br />
+      <p>
+        The full modeling workflow as described in our <s:a action="workflows"
+                                                            namespace="/help">Workflow help page</s:a> is detailed
+        in <span class="citation"><a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full"
+                                     target="_blank">
+          Tropsha, A. (2010). Best Practices for QSAR Model Development, Validation, and Exploitation.
+          Molecular Informatics, 29(6-7), 476-488.
+        </a></span>
+      </p>
 
-      <!-- Descriptor Type Selection -->
-      <div class="border StandardTextDarkGrayParagraph benchAlign">
-        <p class="StandardTextDarkGrayParagraph2">
-          <br />
-          <b>Select Descriptors</b>
-        </p>
-
-        <div class="StandardTextDarkGrayParagraph">
-          <b>Descriptor Type:</b>
-        </div>
-        <div class="StandardTextDarkGrayParagraphNoIndent">
-          <s:radio name="descriptorGenerationType" onclick="setDescriptorScaling()" id="descriptorGenerationType"
-                   value="descriptorGenerationType"
-                   list="#{'CDK':'CDK [202 descriptors]<br />', 'MOLCONNZ':'MolconnZ [375 descriptors]<br />','DRAGONH':'Dragon (with hydrogens) [2489 descriptors]<br />','DRAGONNOH':'Dragon (no hydrogens) [900 descriptors]<br />','MACCS':'MACCS [166 descriptors]<br />','MOE2D':'MOE2D [184 descriptors]<br />','ISIDA':'ISIDA<br />' ,'UPLOADED':'Uploaded Descriptors<br />'}" />
-        </div>
-        <br />
-
-        <div class="StandardTextDarkGrayParagraph">
-          <b>Scale Descriptors Using:</b>
-        </div>
-
-        <div class="StandardTextDarkGrayParagraphNoIndent">
-          <s:radio name="scalingType" id="scalingType" value="scalingType"
-                   list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" />
-        </div>
-
-        <!-- <tr>
-                    <td>
-                    <div class="StandardTextDarkGrayParagraph"><b>Minimum Standard Deviation:</b></div>
-                    </td>
-                    <td align="left" valign="top"><s:textfield name="stdDevCutoff" id="stdDevCutoff" size="5" /></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                    <div class="StandardTextDarkGrayParagraph"><i>Each descriptor that has values with lower standard deviation than the minimum will be removed.<br /></i></div>
-                    </td>
-                </tr>	 -->
-
-        <div class="StandardTextDarkGrayParagraph">
-          <b>Maximum Correlation:</b>
-        </div>
-        <s:textfield name="correlationCutoff" id="correlationCutoff" size="5" />
-        <div class="StandardTextDarkGrayParagraph">
-          <i>For each pair of descriptors, if the correlation coefficient is above the maximum, one of the two
-            will be removed.<br />In addition, descriptors with zero variance across compounds will always be
-            removed.<br />
-          </i>
-        </div>
-
-      </div>
-      <br />
-
-      <!-- Modeling Method (kNN, kNN+, SVM) -->
-      <div id="modelingMethod" class="border StandardTextDarkGrayParagraph benchAlign">
-        <p class="StandardTextDarkGrayParagraph2">
-          <b>Choose Model Generation Method</b>
-        </p>
-        <br />
-
-        <!-- script sets hidden field so we know which tab was selected -->
-        <script type="text/javascript">
-          dojo.event.topic.subscribe('/modelingTypeSelect', function(tab, tabContainer) {
-            if (tab.widgetId.match(/Random\s*Forest/i)) {
-              // random forest tab selected; hide data splitting methods
-              $('#dataSplittingMethod').hide();
-            } else {
-              // for non-RF models show the data splitting methods again
-              $('#dataSplittingMethod').show();
-            }
-            document.getElementById("modelingType").value = tab.widgetId;
-            changeSvmType();
-            calculateRuntimeEstimate();
-          });
-        </script>
-        <s:hidden id="modelingType" name="modelingType" />
-        <!-- end script -->
-
-        <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
-          <tr>
-            <td><sx:tabbedpanel id="modelingTypeTabbedPanel" afterSelectTabNotifyTopics="/modelingTypeSelect">
-
-              <sx:div id="RANDOMFOREST" value="RANDOMFOREST" theme="ajax" label="Random Forest"
-                      href="/loadRFSection" loadingText="Loading randomForest parameters...">
-              </sx:div>
-
-              <s:if test="!#session['user'].userName.contains('guest')">
-                <sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection"
-                        loadingText="Loading SVM parameters...">
-                </sx:div>
-
-                <sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="/loadKnnPlusGASection"
-                        loadingText="Loading kNN+ parameters...">
-                </sx:div>
-
-                <sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="/loadKnnPlusSASection"
-                        loadingText="Loading kNN+ parameters...">
-                </sx:div>
-              </s:if>
-            </sx:tabbedpanel></td>
-          </tr>
-        </table>
-
-      </div>
-      <br />
-
-      <!-- Internal Data Split Parameters -->
-      <div id="dataSplittingMethod" class="border StandardTextDarkGrayParagraph benchAlign">
-        <p class="StandardTextDarkGrayParagraph2">
-          <b>Choose Internal Data Splitting Method</b>
-        </p>
-        <br />
-
-        <!-- script sets hidden field so we know which tab was selected -->
-        <script type="text/javascript">
-          dojo.event.topic.subscribe('/internalDataSplitTypeSelect', function(tab, tabContainer) {
-            //alert("Tab "+ tab.widgetId + " was selected");
-            document.getElementById("trainTestSplitType").value = tab.widgetId;
-            calculateRuntimeEstimate();
-          });
-        </script>
-        <s:hidden id="trainTestSplitType" name="trainTestSplitType" />
-        <!-- end script -->
-
-        <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
-          <tr>
-            <td><sx:tabbedpanel id="internalDataSplitTabbedPanel"
-                                afterSelectTabNotifyTopics="/internalDataSplitTypeSelect">
-              <sx:div id="SPHEREEXCLUSION" theme="ajax" label="Sphere Exclusion"
-                      href="/loadSphereInternalSplitSection" loadingText="Loading data splitting parameters...">
-              </sx:div>
-
-              <sx:div id="RANDOM" theme="ajax" label="Random Split" href="/loadRandomInternalSplitSection"
-                      loadingText="Loading data splitting parameters...">
-              </sx:div>
-            </sx:tabbedpanel></td>
-          </tr>
-        </table>
-      </div>
-      <br />
-
-      <!-- Begin Modeling Job -->
-      <div class="border StandardTextDarkGrayParagraph benchAlign">
-        <p class="StandardTextDarkGrayParagraph2">
-          <br />
-          <b>Start Job</b>
-        </p>
-
-        <div class="StandardTextDarkGrayParagraph" id="timeEstimateDiv"></div>
-
-        <s:if test="user.getUserName().contains('guest_')">
-
-          <div class="StandardTextDarkGrayParagraph">
-            <br />
-            <b>Send me an email when the job finishes: </b><br />
+      <hr>
+      <s:form action="createModelingJob" cssClass="form-horizontal" theme="simple">
+        <div id="dataset-selection-section" class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Select a Modeling Dataset</h3>
           </div>
-          <s:checkbox name="emailOnCompletion" id="emailOnCompletion" />
+          <div class="panel-body">
+            <p>Select a modeling dataset to create a model from. (You can create more datasets using the
+              <b><s:a action="dataset">Dataset Creation</s:a></b> page.)
+            </p>
 
-        </s:if>
+            <s:set name="urlOverride"><s:url action="getModelingDatasets" namespace="/api" /></s:set>
+            <div class="radio-table">
+              <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
+            </div>
+            <input type="hidden" name="selectedDatasetId">
+            <input type="hidden" id="num-compounds">
+            <input type="hidden" id="activity-type">
 
-        <div class="StandardTextDarkGrayParagraph" id="submitMessage">
-          <i>Please enter a name for the predictor you are creating.</i>
+            <p id="small-dataset-warning" class="bg-danger">
+              <span class="text-danger"><strong>Warning:</strong></span> The dataset you have selected has <strong>fewer
+              than 40 compounds</strong>. We do not recommend developing any statistical QSAR models using a dataset
+              with fewer than 40 compounds because it is generally not possible to evaluate the external accuracy of
+              models on such small datasets.
+            </p>
+          </div>
         </div>
 
-        <div class="StandardTextDarkGrayParagraph">
-          <b>Predictor Name:</b>
-        </div>
-        <s:textfield name="jobName" id="jobName" size="19" />
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Define Model Descriptors</h3>
+          </div>
+          <div class="panel-body">
+            <s:hidden id="defaultDescriptorGenerationType" value="%{descriptorGenerationType}" />
+            <h4>Descriptor Set</h4>
 
-        <input type="button" name="userAction" id="userAction"
-               onclick="if(validateObjectNames(document.getElementById('jobName').value ,usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ submitForm(this); }"
-               value="Submit Modeling Job" /> <span id="textarea"></span> <br />
-      </div>
-      <br />
-    </s:form>
-    <br />
+            <div id="descriptor-types">
+              <div class="radio">
+                <label>
+                  <input name="descriptorGenerationType" type="radio" value="CDK">
+                  CDK (202 descriptors)
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input name="descriptorGenerationType" type="radio" value="DRAGONH">
+                  Dragon, with hydrogens (2489 descriptors)
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input name="descriptorGenerationType" type="radio" value="DRAGONNOH">
+                  Dragon, no hydrogens (900 descriptors)
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input name="descriptorGenerationType" type="radio" value="MACCS">
+                  MACCS (166 descriptors)
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input name="descriptorGenerationType" type="radio" value="MOE2D">
+                  MOE2D (184 descriptors)
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input name="descriptorGenerationType" type="radio" value="ISIDA">
+                  ISIDA
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input name="descriptorGenerationType" type="radio" value="UPLOADED">
+                  Uploaded descriptors
+                </label>
+              </div>
+            </div>
+
+            <h4>Scaling Type</h4>
+
+            <input type="hidden" id="uploaded-descriptors-scaled">
+            <s:hidden id="defaultScalingType" value="%{scalingType}" />
+            <div id="scaling-types" class="form-group">
+              <div class="inline-radio-group col-xs-12">
+                <s:radio name="scalingType" id="scalingType" value="scalingType"
+                         list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" />
+              </div>
+            </div>
+            <p id="already-scaled-info" class="bg-info">
+              Your uploaded descriptors have already been scaled, so you can't scale them again.
+            </p>
+
+            <h4>Descriptor Filtering Options</h4>
+
+            <div class="form-group">
+              <label class="control-label col-xs-3">Maximum correlation:</label>
+
+              <div class="col-xs-3">
+                <div class="input-group">
+                  <span class="input-group-addon">0.0 &le;</span>
+                  <s:textfield name="correlationCutoff" id="correlationCutoff" cssClass="form-control" />
+                  <span class="input-group-addon">&le; 1.0</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-offset-3 col-xs-9">
+              <span class="help-block">For each pair of descriptors, if the correlation coefficient is above the
+                maximum, one of the two will be removed. Note that descriptors with zero variance across compounds
+                will always be removed.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Select Model Type and Parameters</h3>
+          </div>
+          <div id="model-type-section" class="panel-body">
+            <ul class="nav nav-pills">
+              <li class="active"><a href="#random-forest" data-toggle="tab">Random Forest</a></li>
+              <li><a href="#support-vector-machine" data-toggle="tab">Support Vector Machine</a></li>
+              <li><a href="#ga-knn" data-toggle="tab">GA-kNN</a></li>
+              <li><a href="#sa-knn" data-toggle="tab">SA-kNN</a></li>
+            </ul>
+            <input type="hidden" id="modelingType" name="modelingType" />
+
+            <div class="tab-content">
+              <div id="random-forest" class="tab-pane active">
+                <h4>Random Forest</h4>
+                <input type="hidden" name="modelingTypeConstant" value="RANDOMFOREST">
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Number of trees:</label>
+
+                  <div class="col-xs-2">
+                    <s:textfield id="numTrees" name="numTrees" cssClass="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Random seed to use for tree generation:</label>
+
+                  <div class="col-xs-2">
+                    <s:textfield id="randomForestSeed" name="randomForestSeed" cssClass="form-control" />
+                  </div>
+                  <div class="col-xs-6">
+                    <span class="help-inline">(negative value = generate randomly)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div id="support-vector-machine" class="tab-pane">
+                <h4>Support Vector Machine (SVM)</h4>
+                <input type="hidden" name="modelingTypeConstant" value="SVM">
+
+                <div id="svm-general-settings">
+                  <div id="svm-type-category" class="form-group">
+                    <label class="control-label col-xs-4">SVM type (category):</label>
+
+                    <div class="col-xs-8 inline-radio-group">
+                      <s:radio name="svmTypeCategory" id="svmTypeCategory" list="#{'0':'C-SVC','1':'nu-SVC'}" />
+                    </div>
+                  </div>
+
+                  <div id="svm-type-continuous" class="form-group">
+                    <label class="control-label col-xs-4">SVM type (continuous):</label>
+
+                    <div class="col-xs-8 inline-radio-group">
+                      <s:radio name="svmTypeContinuous" id="svmTypeContinuous"
+                               list="#{'3':'epsilon-SVR','4':'nu-SVR'}" />
+                    </div>
+                  </div>
+
+                  <div id="cost-settings" class="form-group range-input-group">
+                    <label class="control-label col-xs-4">Cost (C) for C-SVC, epsilon-SVR, and nu-SVR:</label>
+
+                    <div class="col-xs-8 form-inline">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">From:</div>
+                          <div class="input-wrapper">
+                            <span class="input-prefix">2^</span>
+                            <s:textfield id="svmCostFrom" name="svmCostFrom" cssClass="form-control" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">To:</div>
+                          <div class="input-wrapper">
+                            <span class="input-prefix">2^</span>
+                            <s:textfield id="svmCostTo" name="svmCostTo" cssClass="form-control" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">Step:</div>
+                          <div class="input-wrapper">
+                            <span class="input-prefix">2^</span>
+                            <s:textfield id="svmCostStep" name="svmCostStep" cssClass="form-control" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="nu-settings" class="form-group range-input-group">
+                    <label class="control-label col-xs-4">Nu of nu-SVC and nu-SVR:</label>
+
+                    <div class="col-xs-8 form-inline">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">From:</div>
+                          <s:textfield id="svmNuFrom" name="svmNuFrom" cssClass="form-control" />
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">To:</div>
+                          <s:textfield id="svmNuTo" name="svmNuTo" cssClass="form-control" />
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">Step:</div>
+                          <s:textfield id="svmNuStep" name="svmNuStep" cssClass="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="epsilon-settings" class="form-group range-input-group">
+                    <label class="control-label col-xs-4">Epsilon in loss function of epsilon-SVR:</label>
+
+                    <div class="col-xs-8 form-inline">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">From:</div>
+                          <s:textfield id="svmPEpsilonFrom" name="svmPEpsilonFrom" cssClass="form-control" />
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">To:</div>
+                          <s:textfield id="svmPEpsilonTo" name="svmPEpsilonTo" cssClass="form-control" />
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-addon">Step:</div>
+                          <s:textfield id="svmPEpsilonStep" name="svmPEpsilonStep" cssClass="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="csvm-weight-settings" class="form-group">
+                    <label class="control-label col-xs-4">Parameter C of class <var>i</var>&nbsp; to weight &sdot; C for
+                      C-SVC:</label>
+
+                    <div class="col-xs-8">
+                      <s:textfield id="svmWeight" name="svmWeight" cssClass="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <h4>Kernel Function Settings</h4>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Kernel type:</label>
+
+                  <div class="col-xs-8 inline-radio-group">
+                    <s:radio id="svmKernel" name="svmKernel"
+                             list="#{'0':'linear','1':'polynomial','2':'radial basis function','3':'sigmoid'}" />
+                  </div>
+                </div>
+
+                <div id="degree-settings" class="form-group range-input-group">
+                  <label class="control-label col-xs-4">Degree in kernel function:</label>
+
+                  <div class="col-xs-8 form-inline">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">From:</div>
+                        <s:textfield id="svmDegreeFrom" name="svmDegreeFrom" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">To:</div>
+                        <s:textfield id="svmDegreeTo" name="svmDegreeTo" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">Step:</div>
+                        <s:textfield id="svmDegreeStep" name="svmDegreeStep" cssClass="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="gamma-settings" class="form-group range-input-group">
+                  <label class="control-label col-xs-4">Gamma in kernel function:</label>
+
+                  <div class="col-xs-8 form-inline">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">From:</div>
+                        <div class="input-wrapper">
+                          <span class="input-prefix">2^</span>
+                          <s:textfield id="svmGammaFrom" name="svmGammaFrom" cssClass="form-control" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">To:</div>
+                        <div class="input-wrapper">
+                          <span class="input-prefix">2^</span>
+                          <s:textfield id="svmGammaTo" name="svmGammaTo" cssClass="form-control" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">Step:</div>
+                        <div class="input-wrapper">
+                          <span class="input-prefix">2^</span>
+                          <s:textfield id="svmGammaStep" name="svmGammaStep" cssClass="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="advanced-settings-group">
+                  <h4><span class="glyphicon glyphicon-chevron-down"></span>
+                    <a class="advanced-settings-toggle" href="#">Other Advanced Settings
+                      <small>(click to toggle)</small>
+                    </a></h4>
+
+                  <div class="advanced-settings">
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Tolerance of termination criterion:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="svmEEpsilon" name="svmEEpsilon" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Use shrinking heuristics:</label>
+
+                      <div class="col-xs-8 inline-radio-group">
+                        <s:radio name="svmHeuristics" list="#{'1':'Yes','0':'No'}" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Use probability heuristics:</label>
+
+                      <div class="col-xs-8 inline-radio-group">
+                        <s:radio name="svmProbability" list="#{'1':'Yes','0':'No'}" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">CCR or <var>R&nbsp;<sup>2</sup></var> cutoff for model
+                        acceptance:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="svmCutoff" name="svmCutoff" cssClass="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="ga-knn" class="tab-pane">
+                <h4><var>k</var>-Nearest Neighbors Classifier with Genetic Algorithm Descriptor Selection (GA-kNN)</h4>
+                <input type="hidden" name="modelingTypeConstant" value="KNN-GA">
+
+                <div class="form-group range-input-group">
+                  <label class="control-label col-xs-4">Descriptors per model:</label>
+
+                  <div class="col-xs-8 form-inline">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon">Minimum:</span>
+                        <s:textfield name="knnMinNumDescriptors" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon">Maximum:</span>
+                        <s:textfield name="knnMaxNumDescriptors" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon">Step:</span>
+                        <s:textfield name="knnDescriptorStepSize" cssClass="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Minimum nearest neighbors:</label>
+
+                  <div class="col-xs-8">
+                    <s:textfield name="knnMinNearestNeighbors" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Maximum nearest neighbors:</label>
+
+                  <div class="col-xs-8">
+                    <s:textfield name="knnMaxNearestNeighbors" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <h4>Model Acceptance Parameters</h4>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Applicability domain cutoff:</label>
+
+                  <div class="col-xs-8">
+                    <s:textfield name="knnApplicabilityDomain" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Minimum CCR or <var>R&nbsp;<sup>2</sup></var> for training
+                    set:</label>
+
+                  <div class="col-xs-8">
+                    <s:textfield name="knnMinTraining" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Minimum CCR or <var>R&nbsp;<sup>2</sup></var> for test
+                    set:</label>
+
+                  <div class="col-xs-8">
+                    <s:textfield name="knnMinTest" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-xs-offset-4 col-xs-8">
+                    <s:checkbox id="knnGaErrorBasedFit" name="knnGaErrorBasedFit" />
+                    <label for="knnGaErrorBasedFit">Use error based fit index</label>
+                  </div>
+                </div>
+
+                <div class="advanced-settings-group">
+                  <h4><span class="glyphicon glyphicon-chevron-down"></span>
+                    <a class="advanced-settings-toggle" href="#">Genetic Algorithm Parameters
+                      <small>(click to toggle)</small>
+                    </a></h4>
+
+                  <div class="advanced-settings">
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Population size:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="gaPopulationSize" name="gaPopulationSize" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Maximum number of generations:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="gaMaxNumGenerations" name="gaMaxNumGenerations" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Stop if stable for this many generations:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="gaNumStableGenerations" name="gaNumStableGenerations"
+                                     cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Group size for tournament selection:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="gaTournamentGroupSize" name="gaTournamentGroupSize" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Minimum fitness difference to proceed:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="gaMinFitnessDifference" name="gaMinFitnessDifference"
+                                     cssClass="form-control" />
+                        <span class="help-inline">(log<sub>10</sub> units)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div id="sa-knn" class="tab-pane">
+                <h4><var>k</var>-Nearest Neighbors Classifier with Simulated Annealing Descriptor Selection (SA-kNN)
+                </h4>
+                <input type="hidden" name="modelingTypeConstant" value="KNN-SA">
+
+                <div class="form-group range-input-group">
+                  <label class="control-label col-xs-4">Descriptors per model:</label>
+
+                  <div class="col-xs-8 form-inline">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon">Minimum:</span>
+                        <s:textfield name="knnMinNumDescriptors" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon">Maximum:</span>
+                        <s:textfield name="knnMaxNumDescriptors" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-addon">Step:</span>
+                        <s:textfield name="knnDescriptorStepSize" cssClass="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Minimum nearest neighbors:</label>
+
+                  <div class="col-xs-8">
+                    <s:textfield name="knnMinNearestNeighbors" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Maximum nearest neighbors:</label>
+
+                  <div class="col-xs-8">
+                    <s:textfield name="knnMaxNearestNeighbors" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <h4>Model Acceptance Parameters</h4>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Applicability domain cutoff:</label>
+
+                  <div class="col-xs-8">
+                    <s:textfield name="knnApplicabilityDomain" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Minimum CCR or <var>R&nbsp;<sup>2</sup></var> for training
+                    set:</label>
+
+                  <div class="col-xs-8">
+                    <s:textfield name="knnMinTraining" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Minimum CCR or <var>R&nbsp;<sup>2</sup></var> for test
+                    set:</label>
+
+                  <div class="col-xs-8">
+                    <s:textfield name="knnMinTest" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <div class="col-xs-offset-4 col-xs-8">
+                    <s:checkbox id="knnSaErrorBasedFit" name="knnSaErrorBasedFit" />
+                    <label for="knnGaErrorBasedFit">Use error based fit index</label>
+                  </div>
+                </div>
+
+                <div class="advanced-settings-group">
+                  <h4><span class="glyphicon glyphicon-chevron-down"></span>
+                    <a class="advanced-settings-toggle" href="#">Simulated Annealing Parameters
+                      <small>(click to toggle)</small>
+                    </a></h4>
+
+                  <div class="advanced-settings">
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Number of runs:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="saNumRuns" name="saNumRuns" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Mutation probability per descriptor:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="saMutationProbabilityPerDescriptor" name="saMutationProbabilityPerDescriptor"
+                                     cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Number of best models to store:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="saNumBestModels" name="saNumBestModels" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Temperature decrease coefficient:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="saTempDecreaseCoefficient" name="saTempDecreaseCoefficient"
+                                     cssClass="form-control" />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-offset-4 col-xs-8">
+                      <span class="help-block margin-below">
+                        Moving the Temperature Decrease Coefficient closer to 0 will make descriptor selection faster
+                        but less optimal.
+                      </span>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Log. initial temperature:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="saLogInitialTemp" name="saLogInitialTemp" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Log. final temperature:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="saFinalTemp" name="saFinalTemp" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-xs-4">Log. temperature convergence range:</label>
+
+                      <div class="col-xs-8">
+                        <s:textfield id="saTempConvergence" name="saTempConvergence" cssClass="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Choose Internal Data Split Method</h3>
+          </div>
+          <div id="internal-split-type-section" class="panel-body">
+            <ul class="nav nav-pills">
+              <li class="active"><a href="#sphere-exclusion" data-toggle="tab">Sphere Exclusion</a></li>
+              <li><a href="#random-split" data-toggle="tab">Random Split</a></li>
+            </ul>
+            <input type="hidden" id="splitType" name="trainTestSplitType" />
+
+            <div class="tab-content">
+              <div id="sphere-exclusion" class="tab-pane active">
+                <h4>Sphere Exclusion</h4>
+                <input type="hidden" name="splitTypeConstant" value="SPHEREEXCLUSION">
+
+                <p class="margin-below bg-warning">Recommended for datasets with
+                  <strong>fewer than 300 compounds.</strong></p>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Number of data splits:</label>
+
+                  <div class="col-xs-2">
+                    <s:textfield name="numSplitsInternalSphere" id="numSplitsInternalSphere" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Minimum test set size:</label>
+
+                  <div class="col-xs-2">
+                    <div class="input-group">
+                      <s:textfield name="sphereSplitMinTestSize" id="sphereSplitMinTestSize" cssClass="form-control" />
+                      <span class="input-group-addon">%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Force minimum activity compound into all training sets:</label>
+
+                  <div class="col-xs-8 inline-radio-group">
+                    <s:radio list="#{'true':'Yes','false':'No'}" name="splitIncludesMin" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Force maximum activity compound into all training sets:</label>
+
+                  <div class="col-xs-8 inline-radio-group">
+                    <s:radio list="#{'true':'Yes','false':'No'}" name="splitIncludesMax" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Select next training set point based on:</label>
+
+                  <div class="col-xs-6">
+                    <s:select name="selectionNextTrainPt" id="selectionNextTrainPt" cssClass="form-control"
+                              list="#{'0':'Random Selection','1':'Expand Outwards from Already Selected Points','2':'Even Coverage of Descriptor Space','3':'Work Inwards from Boundaries of Descriptor Space'}" />
+                  </div>
+                </div>
+              </div>
+
+              <div id="random-split" class="tab-pane">
+                <h4>Random Split</h4>
+                <input type="hidden" name="splitTypeConstant" value="RANDOM">
+
+                <p class="margin-below bg-warning">Recommended for datasets with <strong>300 or more
+                  compounds.</strong></p>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Number of data splits:</label>
+
+                  <div class="col-xs-2">
+                    <s:textfield name="numSplitsInternalRandom" id="numSplitsInternalRandom" cssClass="form-control" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Minimum test set size:</label>
+
+                  <div class="col-xs-2">
+                    <div class="input-group">
+                      <s:textfield name="randomSplitMinTestSize" id="randomSplitMinTestSize" cssClass="form-control" />
+                      <span class="input-group-addon">%</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-xs-4">Maximum test set size:</label>
+
+                  <div class="col-xs-2">
+                    <div class="input-group">
+                      <s:textfield name="randomSplitMaxTestSize" id="randomSplitMaxTestSize" cssClass="form-control" />
+                      <span class="input-group-addon">%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">Add Model Metadata</h3>
+          </div>
+          <div class="panel-body">
+            <p id="time-estimate"></p>
+            <div class="form-group">
+              <label class="control-label col-xs-3">Model name:</label>
+
+              <div class="col-xs-6">
+                <s:textfield name="jobName" id="jobName" cssClass="form-control" theme="simple" />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-offset-3 col-xs-9">
+                <button type="submit" class="btn btn-primary">Create Model</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </s:form>
+    </section>
   </div>
-  <div class="includes">
-    <%@include file="/jsp/main/footer.jsp" %>
-  </div>
+
+  <%@ include file="/jsp/main/footer.jsp" %>
+</div>
+
+<%@ include file="/jsp/main/tail.jsp" %>
+<script src="${pageContext.request.contextPath}/assets/js/modeling.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/moment.min.js"></script>
 </body>
 </html>

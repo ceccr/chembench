@@ -1,12 +1,13 @@
 package edu.unc.ceccr.chembench.persistence;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
+import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import weka.classifiers.Evaluation;
 import weka.classifiers.lazy.IBk;
 import weka.core.Attribute;
@@ -21,16 +22,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "cbench_dataset")
-public class Dataset extends Persistable implements java.io.Serializable {
-    private static Logger logger = Logger.getLogger(Dataset.class.getName());
+public class Dataset implements java.io.Serializable {
+    private static final Logger logger = LoggerFactory.getLogger(Dataset.class);
 
     private Long id;
     private String name;
@@ -63,12 +60,9 @@ public class Dataset extends Persistable implements java.io.Serializable {
     private double modi;
     private boolean modiGenerated = false;
 
-    public Dataset() {
-    }
-
     public boolean canGenerateModi() {
-        return actFile != null && !actFile.isEmpty()
-                && (availableDescriptors.contains(Constants.DRAGONH) || availableDescriptors.contains(Constants.CDK));
+        return actFile != null && !actFile.isEmpty() && (availableDescriptors.contains(Constants.DRAGONH)
+                || availableDescriptors.contains(Constants.CDK));
     }
 
     public void generateModi() throws Exception {
@@ -76,26 +70,27 @@ public class Dataset extends Persistable implements java.io.Serializable {
             return;
         }
 
+        logger.info("Generating modi for dataset, id: " + this.id);
         if (canGenerateModi()) {
             Path baseDir = getDirectoryPath();
             Path descriptorDir = baseDir.resolve("Descriptors");
-            List<String> descriptorNames = Lists.newArrayList();
-            List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
+            List<String> descriptorNames = new ArrayList<>();
+            List<Descriptors> descriptorValueMatrix = new ArrayList<>();
 
             // read in descriptors, preferring Dragon when available (as it has the most descriptors)
             // but use CDK as a fallback if it's not available
             if (availableDescriptors.contains(Constants.DRAGONH)) {
                 Path dragonDescriptorFile = descriptorDir.resolve(sdfFile + ".dragonH");
-                ReadDescriptors.readDragonDescriptors(dragonDescriptorFile.toString(), descriptorNames,
-                        descriptorValueMatrix);
+                ReadDescriptors
+                        .readDragonDescriptors(dragonDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
             } else if (availableDescriptors.contains(Constants.CDK)) {
                 Path cdkDescriptorFile = descriptorDir.resolve(sdfFile + ".cdk.x");
                 ReadDescriptors.readXDescriptors(cdkDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
             }
 
             // read in activities so we can append them to the input file for Weka
-            HashMap<String, String> activityMap = DatasetFileOperations.getActFileIdsAndValues(baseDir.resolve(actFile)
-                    .toString());
+            Map<String, Double> activityMap =
+                    DatasetFileOperations.getActFileIdsAndValues(baseDir.resolve(actFile).toString());
 
             // create a csv input file for Weka with activities included
             Path wekaInputFile = Files.createTempFile(getDirectoryPath(), "weka", ".csv");
@@ -103,12 +98,11 @@ public class Dataset extends Persistable implements java.io.Serializable {
             BufferedWriter writer = Files.newBufferedWriter(wekaInputFile, StandardCharsets.UTF_8);
             List<String> header = Lists.newArrayList(descriptorNames);
             header.add(0, "Activity");
-            Joiner joiner = Joiner.on("\t");
+            Joiner joiner = Utility.TAB_JOINER;
             writer.write(joiner.join(header));
             writer.newLine();
             for (Descriptors d : descriptorValueMatrix) {
-                List<String> values = Lists.newArrayList(Splitter.on(' ').omitEmptyStrings()
-                        .splitToList(d.getDescriptorValues()));
+                List<Double> values = d.getDescriptorValues();
                 values.add(0, activityMap.get(d.getCompoundName()));
                 writer.write(joiner.join(values));
                 writer.newLine();
@@ -147,7 +141,6 @@ public class Dataset extends Persistable implements java.io.Serializable {
                 this.modi = evaluation.correlationCoefficient();
             }
             this.modiGenerated = true;
-            save();
         } else {
             throw new IllegalStateException("MODI cannot be generated for this dataset");
         }
@@ -155,12 +148,17 @@ public class Dataset extends Persistable implements java.io.Serializable {
 
     @Transient
     public Path getDirectoryPath() {
-        Path basePath = Paths.get(Constants.CECCR_USER_BASE_PATH, userName);
-        if (jobCompleted.equals(Constants.YES)) {
-            return basePath.resolve("DATASETS").resolve(name);
-        } else {
-            return basePath.resolve(name);
-        }
+        return Paths.get(Constants.CECCR_USER_BASE_PATH, userName, "DATASETS", name);
+    }
+
+    @Transient
+    public boolean hasActivities() {
+        return actFile != null && !actFile.isEmpty();
+    }
+
+    @Transient
+    public boolean hasStructures() {
+        return sdfFile != null && !sdfFile.isEmpty();
     }
 
     @Transient
@@ -171,6 +169,21 @@ public class Dataset extends Persistable implements java.io.Serializable {
     @Transient
     public boolean isContinuous() {
         return modelType.equalsIgnoreCase(Constants.CONTINUOUS);
+    }
+
+    @Transient
+    public boolean isPublic() {
+        return userName.equals(Constants.ALL_USERS_USERNAME);
+    }
+
+    @Transient
+    public boolean isViewableBy(User user) {
+        return isEditableBy(user) || isPublic();
+    }
+
+    @Transient
+    public boolean isEditableBy(User user) {
+        return user.getIsAdmin().equals(Constants.YES) || userName.equals(user.getUserName());
     }
 
     @Id
@@ -429,4 +442,8 @@ public class Dataset extends Persistable implements java.io.Serializable {
         this.modiGenerated = modiGenerated;
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

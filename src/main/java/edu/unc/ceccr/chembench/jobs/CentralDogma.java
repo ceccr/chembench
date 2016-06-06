@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.jobs;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
@@ -9,30 +8,31 @@ import edu.unc.ceccr.chembench.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.chembench.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.chembench.taskObjects.WorkflowTask;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-// logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
-
+@Configurable(autowire = Autowire.BY_TYPE)
 public class CentralDogma {
     // singleton.
     // Holds the LSF jobs list, the incoming jobs list, and the local
     // processing jobs list. Initiates the threads that work on these
     // data structures.
 
-    private static Logger logger = Logger.getLogger(CentralDogma.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(CentralDogma.class);
     private static CentralDogma instance = new CentralDogma();
 
-    private final int numLocalThreads = 9;  // as many as you want; tune it based on server load.
+    private final int numLocalThreads = 5;  // as many as you want; tune it based on server load.
     // Limiting factors on numLocalThreads: JVM memory size, number of file handles, number of database connections,
     // server processing power. Jobs will fail in weird ways if any of those isn't high enough.
 
@@ -46,77 +46,16 @@ public class CentralDogma {
 
     private Set<Thread> threads = Sets.newHashSet();
 
+    @Autowired
+    private JobRepository jobRepository;
+    @Autowired
+    private DatasetRepository datasetRepository;
+    @Autowired
+    private PredictorRepository predictorRepository;
+    @Autowired
+    private PredictionRepository predictionRepository;
+
     private CentralDogma() {
-        try {
-            lsfJobs = new SynchronizedJobList(Constants.LSF);
-            incomingJobs = new SynchronizedJobList(Constants.INCOMING);
-            localJobs = new SynchronizedJobList(Constants.LOCAL);
-            errorJobs = new SynchronizedJobList(Constants.ERROR);
-
-            // Fill job lists from the database
-            Session s = HibernateUtil.getSession();
-
-            @SuppressWarnings("unchecked") ArrayList<Job> jobs = PopulateDataObjects.populateClass(Job.class, s);
-            if (jobs == null) {
-                jobs = Lists.newArrayList();
-            }
-            for (Job j : jobs) {
-                WorkflowTask wt = null;
-                if (j.getLookupId() != null && !j.getJobList().equals("LIMBO")) {
-                    try {
-                        logger.info("Restoring job: " + j.getJobName());
-                        if (j.getJobType().equals(Constants.DATASET)) {
-                            Long datasetId = j.getLookupId();
-                            Dataset dataset = PopulateDataObjects.getDataSetById(datasetId, s);
-                            wt = new CreateDatasetTask(dataset);
-                        } else if (j.getJobType().equals(Constants.MODELING)) {
-                            Long modelingId = j.getLookupId();
-                            Predictor predictor = PopulateDataObjects.getPredictorById(modelingId, s);
-                            wt = new QsarModelingTask(predictor);
-                        } else if (j.getJobType().equals(Constants.PREDICTION)) {
-                            Long predictionId = j.getLookupId();
-                            Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
-                            wt = new QsarPredictionTask(prediction);
-                        }
-                        wt.jobList = j.getJobList();
-                        j.workflowTask = wt;
-                        j.setStatus(Constants.QUEUED);
-
-                        if (j.getJobList().equals(Constants.INCOMING)) {
-                            incomingJobs.addJob(j);
-                        } else if (j.getJobList().equals(Constants.LOCAL)) {
-                            localJobs.addJob(j);
-                        } else if (j.getJobList().equals(Constants.LSF)) {
-                            lsfJobs.addJob(j);
-                        } else if (j.getJobList().equals(Constants.ERROR)) {
-                            errorJobs.addJob(j);
-                        }
-                    } catch (Exception ex) {
-                        logger.error("Error restoring job with id: " + j.getLookupId() + "\n" + ex);
-                    }
-                }
-            }
-
-            // start job processing threads
-            for (int i = 0; i < numLocalThreads; i++) {
-                LocalProcessingThread localThread = new LocalProcessingThread();
-                localThread.start();
-                threads.add(localThread);
-            }
-
-            for (int i = 0; i < numLsfThreads; i++) {
-                LsfProcessingThread lsfThread = new LsfProcessingThread();
-                lsfThread.start();
-                threads.add(lsfThread);
-            }
-
-            inThread = new IncomingJobProcessingThread();
-            inThread.start();
-            threads.add(inThread);
-
-        } catch (Exception ex) {
-            logger.error(ex);
-        }
     }
 
     public static synchronized CentralDogma getInstance() {
@@ -124,6 +63,74 @@ public class CentralDogma {
             instance = new CentralDogma();
         }
         return instance;
+    }
+
+    @PostConstruct
+    private void init() {
+        lsfJobs = new SynchronizedJobList(Constants.LSF);
+        incomingJobs = new SynchronizedJobList(Constants.INCOMING);
+        localJobs = new SynchronizedJobList(Constants.LOCAL);
+        errorJobs = new SynchronizedJobList(Constants.ERROR);
+
+        // Fill job lists from the database
+        List<Job> jobs = jobRepository.findAll();
+        if (jobs == null) {
+            jobs = new ArrayList<>();
+        }
+        for (Job j : jobs) {
+            WorkflowTask wt = null;
+            if (j.getLookupId() != null && !j.getJobList().equals("LIMBO")) {
+                try {
+                    logger.info("Restoring job: " + j.getJobName());
+                    if (j.getJobType().equals(Constants.DATASET)) {
+                        Long datasetId = j.getLookupId();
+                        Dataset dataset = datasetRepository.findOne(datasetId);
+                        wt = new CreateDatasetTask(dataset);
+                    } else if (j.getJobType().equals(Constants.MODELING)) {
+                        Long modelingId = j.getLookupId();
+                        Predictor predictor = predictorRepository.findOne(modelingId);
+                        wt = new QsarModelingTask(predictor);
+                    } else if (j.getJobType().equals(Constants.PREDICTION)) {
+                        Long predictionId = j.getLookupId();
+                        Prediction prediction = predictionRepository.findOne(predictionId);
+                        wt = new QsarPredictionTask(prediction);
+                    }
+                    wt.jobList = j.getJobList();
+                    j.workflowTask = wt;
+                    j.setStatus(Constants.QUEUED);
+
+                    if (j.getJobList().equals(Constants.INCOMING)) {
+                        incomingJobs.addJob(j);
+                    } else if (j.getJobList().equals(Constants.LOCAL)) {
+                        localJobs.addJob(j);
+                    } else if (j.getJobList().equals(Constants.LSF)) {
+                        lsfJobs.addJob(j);
+                    } else if (j.getJobList().equals(Constants.ERROR)) {
+                        errorJobs.addJob(j);
+                    }
+                } catch (Exception ex) {
+                    logger.error("Error restoring job with id: " + j.getLookupId() + "\n", ex);
+                }
+            }
+        }
+
+        // start job processing threads
+        for (int i = 0; i < numLocalThreads; i++) {
+            LocalProcessingThread localThread = new LocalProcessingThread();
+            localThread.start();
+            threads.add(localThread);
+        }
+
+        for (int i = 0; i < numLsfThreads; i++) {
+            LsfProcessingThread lsfThread = new LsfProcessingThread();
+            lsfThread.start();
+            threads.add(lsfThread);
+        }
+
+        inThread = new IncomingJobProcessingThread();
+        inThread.start();
+        threads.add(inThread);
+
     }
 
     public void addJobToIncomingList(String userName, String jobName, WorkflowTask wt, int numCompounds, int numModels,
@@ -145,26 +152,9 @@ public class CentralDogma {
         j.setJobType(wt.jobType);
         j.setLookupId(wt.lookupId);
         j.workflowTask = wt;
-
-        // commit job to DB
-        Session s = HibernateUtil.getSession();
-        Transaction tx = null;
-        try {
-            tx = s.beginTransaction();
-            s.save(j);
-            tx.commit();
-        } catch (RuntimeException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error(e);
-        } finally {
-            s.close();
-        }
-
+        jobRepository.save(j);
         // put into incoming queue
         incomingJobs.addJob(j);
-
     }
 
     public void cancelJob(Long jobId) throws Exception {
@@ -229,41 +219,17 @@ public class CentralDogma {
 
             // delete corresponding workflowTask object (Dataset, Predictor,
             // or Prediction)
-            Session s = null;
-            Transaction tx = null;
-
-            try {
-                s = HibernateUtil.getSession();
-
-                if (j.getJobType().equals(Constants.DATASET)) {
-                    // delete corresponding Dataset in DB
-                    Dataset ds = PopulateDataObjects.getDataSetById(j.getLookupId(), s);
-                    if (ds != null) {
-                        tx = s.beginTransaction();
-                        s.delete(ds);
-                        tx.commit();
-                    }
-                } else if (j.getJobType().equals(Constants.MODELING)) {
-                    // delete corresponding Predictor in DB
-                    Predictor p = PopulateDataObjects.getPredictorById(j.getLookupId(), s);
-                    if (p != null) {
-                        tx = s.beginTransaction();
-                        s.delete(p);
-                        tx.commit();
-                    }
-                } else if (j.getJobType().equals(Constants.PREDICTION)) {
-                    // delete corresponding Prediction in DB
-                    Prediction p = PopulateDataObjects.getPredictionById(j.getLookupId(), s);
-                    if (p != null) {
-                        tx = s.beginTransaction();
-                        s.delete(p);
-                        tx.commit();
-                    }
-                }
-            } catch (Exception ex) {
-                logger.error(ex);
-            } finally {
-                s.close();
+            if (j.getJobType().equals(Constants.DATASET)) {
+                // delete corresponding Dataset in DB
+                Dataset ds = datasetRepository.findOne(j.getLookupId());
+                datasetRepository.delete(ds);
+            } else if (j.getJobType().equals(Constants.MODELING)) {
+                // delete corresponding Predictor in DB
+                Predictor p = predictorRepository.findOne(j.getLookupId());
+                predictorRepository.delete(p);
+            } else if (j.getJobType().equals(Constants.PREDICTION)) {
+                Prediction p = predictionRepository.findOne(j.getLookupId());
+                predictionRepository.delete(p);
             }
         }
 

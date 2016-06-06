@@ -1,17 +1,18 @@
 package edu.unc.ceccr.chembench.servlet;
 
 import edu.unc.ceccr.chembench.global.Constants;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-@SuppressWarnings("serial")
+
 public class ApplicationServlet extends HttpServlet {
 
-    private static Logger logger = Logger.getLogger(ApplicationServlet.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ApplicationServlet.class);
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -45,7 +46,7 @@ public class ApplicationServlet extends HttpServlet {
 
             output.flush();
         } catch (IOException e) {
-            logger.error(e);
+            logger.error("", e);
         } finally {
             input.close();
         }

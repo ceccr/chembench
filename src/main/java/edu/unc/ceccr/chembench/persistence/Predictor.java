@@ -3,20 +3,12 @@ package edu.unc.ceccr.chembench.persistence;
 // default package
 // Generated Jun 20, 2006 1:22:16 PM by Hibernate Tools 3.1.0.beta5
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 
 import javax.persistence.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "cbench_predictor")
@@ -25,7 +17,7 @@ public class Predictor implements java.io.Serializable {
     /**
      *
      */
-    private static final long serialVersionUID = 1L;
+
 
     private String userName;
     private Long id;
@@ -71,8 +63,7 @@ public class Predictor implements java.io.Serializable {
     private String confusionMatrix;
 
 
-    //references a row in KnnParameters, SvmParameters, RandomForestParameters,
-    //or KnnPlusParameters depending on modelMethod.
+    //references a row in SvmParameters, RandomForestParameters, or KnnPlusParameters depending on modelMethod.
     private Long modelingParametersId;
 
     //datasplit
@@ -126,31 +117,13 @@ public class Predictor implements java.io.Serializable {
     }
 
     @Transient
-    public List<Predictor> getChildren() {
-        Session session = null;
-        try {
-            session = HibernateUtil.getSession();
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException("Failed to get db session", e);
-        }
-        if (session == null) {
-            throw new RuntimeException("Received null when db session requested");
-        }
-        Transaction tx = session.beginTransaction();
-        List<?> rawResult = session.createCriteria(Predictor.class).add(Restrictions.eq("parentId", id)).list();
-        tx.commit();
-        session.close();
-        return Lists.newArrayList(Iterables.filter(rawResult, Predictor.class));
-    }
-
-    @Transient
-    public Path getDirectoryPath() {
+    public Path getDirectoryPath(PredictorRepository predictorRepository) {
         Path basePath = Paths.get(Constants.CECCR_USER_BASE_PATH, userName);
         if (jobCompleted.equals(Constants.YES)) {
             basePath = basePath.resolve("PREDICTORS");
         }
         if (parentId != null) {
-            Predictor parent = Predictor.get(parentId);
+            Predictor parent = predictorRepository.findOne(parentId);
             if (parent != null) {
                 basePath = basePath.resolve(parent.getName());
             }
@@ -159,24 +132,19 @@ public class Predictor implements java.io.Serializable {
     }
 
     @Transient
-    public static Predictor get(long predictorId) {
-        // TODO quick and dirty impl, lots of improvements to be made here
-        Session session = null;
-        try {
-            session = HibernateUtil.getSession();
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException("Failed to get db session", e);
-        }
-        if (session == null) {
-            throw new RuntimeException("Received null when db session requested");
-        }
-        try {
-            return PopulateDataObjects.getPredictorById(predictorId, session);
-        } catch (ClassNotFoundException | SQLException e) {
-            throw new RuntimeException(e);
-        }
+    public boolean isPublic() {
+        return userName.equals(Constants.ALL_USERS_USERNAME);
     }
 
+    @Transient
+    public boolean isViewableBy(User user) {
+        return isEditableBy(user) || isPublic();
+    }
+
+    @Transient
+    public boolean isEditableBy(User user) {
+        return user.getIsAdmin().equals(Constants.YES) || userName.equals(user.getUserName());
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

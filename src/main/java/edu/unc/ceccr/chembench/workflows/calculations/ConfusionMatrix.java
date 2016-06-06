@@ -1,15 +1,12 @@
 package edu.unc.ceccr.chembench.workflows.calculations;
 
-import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.utilities.Utility;
-
 import java.util.Set;
 
 public class ConfusionMatrix {
     private Set<Integer> uniqueObservedValues;
     private int[][] matrix;
-    private double totalCorrect;
-    private double totalIncorrect;
+    private int totalCorrect;
+    private int totalIncorrect;
     private double ccr;
     private double accuracy;
 
@@ -24,34 +21,6 @@ public class ConfusionMatrix {
     private int falsePositives;
     private int trueNegatives;
     private int falseNegatives;
-
-    private String getDoubleVarAsString(double var) {
-        return Utility.roundSignificantFigures("" + var, Constants.REPORTED_SIGNIFICANT_FIGURES);
-    }
-
-    public String getAccuracyAsString() {
-        return getDoubleVarAsString(accuracy);
-    }
-
-    public String getCcrAsString() {
-        return getDoubleVarAsString(ccr);
-    }
-
-    public String getPpvAsString() {
-        return getDoubleVarAsString(ppv);
-    }
-
-    public String getNpvAsString() {
-        return getDoubleVarAsString(npv);
-    }
-
-    public String getSensitivityAsString() {
-        return getDoubleVarAsString(sensitivity);
-    }
-
-    public String getSpecificityAsString() {
-        return getDoubleVarAsString(specificity);
-    }
 
     public Set<Integer> getUniqueObservedValues() {
         return uniqueObservedValues;
@@ -77,19 +46,19 @@ public class ConfusionMatrix {
         this.ccr = ccr;
     }
 
-    public double getTotalCorrect() {
+    public int getTotalCorrect() {
         return totalCorrect;
     }
 
-    public void setTotalCorrect(double totalCorrect) {
+    public void setTotalCorrect(int totalCorrect) {
         this.totalCorrect = totalCorrect;
     }
 
-    public double getTotalIncorrect() {
+    public int getTotalIncorrect() {
         return totalIncorrect;
     }
 
-    public void setTotalIncorrect(double totalIncorrect) {
+    public void setTotalIncorrect(int totalIncorrect) {
         this.totalIncorrect = totalIncorrect;
     }
 

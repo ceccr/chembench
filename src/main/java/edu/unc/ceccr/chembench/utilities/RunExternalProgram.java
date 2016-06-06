@@ -1,7 +1,8 @@
 package edu.unc.ceccr.chembench.utilities;
 
 import edu.unc.ceccr.chembench.global.Constants;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -16,7 +17,7 @@ public class RunExternalProgram {
     // when they run. (For programs that execute many times in quick
     // succession.)
 
-    private static Logger logger = Logger.getLogger(RunExternalProgram.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RunExternalProgram.class);
     private static String[] runQuietly =
             {"bjobs.sh", "datasplit_train_test", "checkKnnSaProgress", "checkKnnGaProgress", "svm-train", "svm-predict",
                     "molconvert"};
@@ -76,7 +77,7 @@ public class RunExternalProgram {
             p.destroy();
 
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 

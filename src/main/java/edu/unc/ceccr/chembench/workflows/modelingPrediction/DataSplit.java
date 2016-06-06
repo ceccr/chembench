@@ -1,13 +1,14 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Compound;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 public class DataSplit {
 
 
-    private static Logger logger = Logger.getLogger(DataSplit.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(DataSplit.class);
 
     public static void SplitModelingExternal(String workingdir, String actFile, String xFile,
                                              String numCompoundsExternalSet, String useActivityBinning)
@@ -149,7 +150,7 @@ public class DataSplit {
     public static void SplitModelingExternalNFold(String workingDir, String actFile, String numFolds,
                                                   String useActivityBinning) throws Exception {
         //read in the act file
-        List<Compound> compounds = Lists.newArrayList();
+        List<Compound> compounds = new ArrayList<>();
         File act = new File(workingDir + actFile);
         BufferedReader br = new BufferedReader(new FileReader(act));
         String line;
@@ -157,14 +158,13 @@ public class DataSplit {
             String[] parts = line.split("\\s+");
             Compound ca = new Compound();
             ca.setCompoundId(parts[0]);
-            ca.setActivityValue(parts[1]);
+            ca.setActivityValue(Double.parseDouble(parts[1]));
             compounds.add(ca);
         }
         if (useActivityBinning.equalsIgnoreCase("true")) {
             Collections.sort(compounds, new Comparator<Compound>() {
                 public int compare(Compound ca1, Compound ca2) {
-                    return (new Double(Double.parseDouble(ca1.getActivityValue())).
-                            compareTo(new Double(Double.parseDouble(ca2.getActivityValue()))));
+                    return ca1.getActivityValue().compareTo(ca2.getActivityValue());
                 }
             });
         } else {
@@ -173,9 +173,9 @@ public class DataSplit {
 
         //go down the sorted list in chunks of size nFolds
         int folds = Integer.parseInt(numFolds);
-        List<List<Compound>> externalFolds = Lists.newArrayList();
+        List<List<Compound>> externalFolds = new ArrayList<>();
         for (int i = 0; i < folds; i++) {
-            List<Compound> fold = Lists.newArrayList();
+            List<Compound> fold = new ArrayList<>();
             externalFolds.add(fold);
         }
 

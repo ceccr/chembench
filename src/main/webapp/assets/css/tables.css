@@ -1,0 +1,111 @@
+table.datatable {
+    /* hack to deal with datatables not expanding to fill available space */
+    width: 100% !important;
+}
+
+th {
+    white-space: nowrap;
+}
+
+/* for select-all table header */
+th[data-property="checkbox"] input[type="checkbox"] {
+    margin: 0;
+    padding: 0;
+}
+
+/* clip overly long names that can't be broken neatly */
+.name-cell {
+    width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.job-name-cell {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.object-name {
+    font-weight: bold;
+}
+
+.object-action-group .object-action {
+    display: inline-block;
+    padding: 0 0.5em;
+    border-left: 1px solid #888;
+}
+
+.object-action-group .object-action:first-child {
+    padding-left: 0;
+    border: none;
+}
+
+/* fix for doubled sorting arrows in scroll body */
+.dataTables_scrollBody table.dataTable thead .sorting:after,
+.dataTables_scrollBody table.dataTable thead .sorting_asc:after,
+.dataTables_scrollBody table.dataTable thead .sorting_desc:after,
+.dataTables_scrollBody table.dataTable thead .sorting_asc_disabled:after,
+.dataTables_scrollBody table.dataTable thead .sorting_desc_disabled:after {
+    content: "";
+}
+
+/* fix for weird space between scroll-head and scroll-body */
+.dataTables_scrollBody table.dataTable thead .sorting .dataTables_sizing {
+    position: absolute;
+}
+
+.dataTables_info {
+    float: left;
+}
+
+table.compound-list thead > tr > th.name {
+    text-align: left;
+    padding-left: 1em;
+}
+
+table.compound-list thead > tr > th {
+    text-align: center;
+}
+
+/* needed for specificity issues */
+table.compound-list > tbody > tr > td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+table.compound-list td.name {
+    padding-left: 1em;
+    text-align: left;
+    word-break: break-all;
+}
+
+table.compound-list td.structure {
+    max-width: 140px;
+    max-height: 140px;
+}
+
+.panel > .dataTables_wrapper > table.table-bordered {
+    border-width: 1px 0 0 0;
+    margin-bottom: 0 !important;
+}
+
+.panel > .dataTables_wrapper > .dataTables_info {
+    padding-left: 15px;
+    line-height: 30px;
+}
+
+.panel > .dataTables_wrapper > .dataTables_filter {
+    padding-right: 15px;
+    padding-top: 8px;
+}
+
+.panel > .dataTables_wrapper > table > thead > tr > th:first-child,
+.panel > .dataTables_wrapper > table > tbody > tr > td:first-child {
+    padding-left: 15px;
+}
+
+.panel > .dataTables_wrapper > table > thead > tr > th:last-child,
+.panel > .dataTables_wrapper > table > tbody > tr > td:last-child {
+    padding-right: 15px;
+}

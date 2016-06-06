@@ -1,7 +1,6 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
 
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.ExternalValidation;
 import edu.unc.ceccr.chembench.persistence.PredictionValue;
@@ -10,13 +9,15 @@ import edu.unc.ceccr.chembench.persistence.SvmParameters;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Svm {
-    private static Logger logger = Logger.getLogger(Svm.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Svm.class);
 
     public static void convertXtoSvm(String xFileName, String aFileName, String workingDir) throws Exception {
         // generates an SVM-compatible input descriptor file
@@ -24,7 +25,7 @@ public class Svm {
         // xFileName + " + " + aFileName + " => " + xFileName.replace(".x",
         // ".svm"));
 
-        List<String> activityValues = Lists.newArrayList();
+        List<String> activityValues = new ArrayList<>();
         if (aFileName != null && !aFileName.isEmpty()) {
             // read in the activity file
 
@@ -188,7 +189,7 @@ public class Svm {
     }
 
     public static List<SvmModel> readSvmModels(String workingDir, String cutoff) throws Exception {
-        List<SvmModel> svmModels = Lists.newArrayList();
+        List<SvmModel> svmModels = new ArrayList<>();
 
         BufferedReader br = new BufferedReader(new FileReader(workingDir + "svm-results.txt"));
         String line;
@@ -260,7 +261,7 @@ public class Svm {
             }
             in.close();
         } catch (Exception ex) {
-            logger.error(ex);
+            logger.error("", ex);
         }
     }
 
@@ -287,7 +288,7 @@ public class Svm {
 
     public static List<PredictionValue> readPredictionOutput(String workingDir, String predictionXFileName,
                                                              Long predictorId) throws Exception {
-        List<PredictionValue> predictionValues = Lists.newArrayList();
+        List<PredictionValue> predictionValues = new ArrayList<>();
 
         List<String> compoundNames = DatasetFileOperations.getXCompoundNames(workingDir + predictionXFileName);
 
@@ -336,7 +337,7 @@ public class Svm {
 
     public static List<ExternalValidation> readExternalPredictionOutput(String workingDir, Long predictorId)
             throws Exception {
-        List<ExternalValidation> externalPredictions = Lists.newArrayList();
+        List<ExternalValidation> externalPredictions = new ArrayList<>();
 
         // set compound names
         String line;

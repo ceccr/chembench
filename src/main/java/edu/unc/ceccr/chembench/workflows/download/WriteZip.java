@@ -1,31 +1,33 @@
 package edu.unc.ceccr.chembench.workflows.download;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.Prediction;
-import edu.unc.ceccr.chembench.persistence.Predictor;
+import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
-import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.chembench.workflows.visualization.ExternalValidationChart;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+@Component
 public class WriteZip {
 
-    private static Logger logger = Logger.getLogger(WriteZip.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(WriteZip.class);
+    private static PredictorRepository predictorRepository;
+    private static PredictionRepository predictionRepository;
+    private static UserRepository userRepository;
 
     public static void ZipEntireDirectory(String workingDir, String projectDir, String zipFile) throws Exception {
         //will be used for MML members - they can access all files on every project type
@@ -34,8 +36,8 @@ public class WriteZip {
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
         byte[] buf = new byte[1024];
 
-        List<String> fileNames = Lists.newArrayList();
-        List<String> dirNames = Lists.newArrayList();
+        List<String> fileNames = new ArrayList<>();
+        List<String> dirNames = new ArrayList<>();
         dirNames.add(projectDir);
 
         for (int i = 0; i < dirNames.size(); i++) {
@@ -70,7 +72,7 @@ public class WriteZip {
                 out.closeEntry();
                 in.close();
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
         out.close();
@@ -87,8 +89,8 @@ public class WriteZip {
             return;
         }
         String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
-
-        if (Utility.canDownloadDescriptors(userName)) {
+        User user = userRepository.findByUserName(userName);
+        if (user.getCanDownloadDescriptors().equals(Constants.YES)) {
             //this is a special user - just give them the whole damn directory
             String workingDir = Constants.CECCR_USER_BASE_PATH + datasetUserName + "/DATASETS/";
             String subDir = datasetName + "/";
@@ -115,7 +117,7 @@ public class WriteZip {
             Visualization/Sketches/*
         */
 
-        List<String> datasetFiles = Lists.newArrayList();
+        List<String> datasetFiles = new ArrayList<>();
 
         //add in the basic dataset files
         datasetFiles.add(Constants.MODELING_SET_A_FILE);
@@ -192,7 +194,7 @@ public class WriteZip {
                     in.close();
                 }
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
         out.close();
@@ -229,16 +231,13 @@ public class WriteZip {
         }
         String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
 
-
-        Session session = HibernateUtil.getSession();
-        Predictor predictor = PopulateDataObjects.getPredictorByName(jobName, predictorUserName, session);
-        List<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, session);
-        session.close();
+        Predictor predictor = predictorRepository.findByNameAndUserName(jobName, predictorUserName);
+        List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
 
         //get external predictions
         WriteCsv.writeExternalPredictionsAsCSV(predictor.getId());
-
-        if (Utility.canDownloadDescriptors(userName)) {
+        User user = userRepository.findByUserName(userName);
+        if (user.getCanDownloadDescriptors().equals(Constants.YES)) {
             //this is a special user - just give them the whole damn directory
             String workingDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/PREDICTORS/";
             String subDir = jobName + "/";
@@ -249,7 +248,7 @@ public class WriteZip {
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
         byte[] buf = new byte[1024];
 
-        List<String> modelingFiles = Lists.newArrayList(); //list of files that will be in the downloaded zip
+        List<String> modelingFiles = new ArrayList<>(); //list of files that will be in the downloaded zip
 
         modelingFiles.add(predictor.getName() + "-external-set-predictions.csv");
 
@@ -403,7 +402,7 @@ public class WriteZip {
                     //don't worry about missing files
                 }
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
         out.close();
@@ -418,15 +417,12 @@ public class WriteZip {
             return;
         }
         String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
-
-        Session session = HibernateUtil.getSession();
-        Prediction prediction = PopulateDataObjects.getPredictionByName(jobName, predictionUserName, session);
-        session.close();
+        Prediction prediction = predictionRepository.findByNameAndUserName(jobName, predictionUserName);
         if (!new File(prediction.getName() + "-prediction-values.csv").exists()) {
             WriteCsv.writePredictionValuesAsCSV(prediction.getId());
         }
-
-        if (Utility.canDownloadDescriptors(userName)) {
+        User user = userRepository.findByUserName(userName);
+        if (user.getCanDownloadDescriptors().equals(Constants.YES)) {
             //this is a special user - just give them the whole damn directory
             String workingDir = Constants.CECCR_USER_BASE_PATH + predictionUserName + "/PREDICTIONS/";
             String subDir = jobName + "/";
@@ -446,7 +442,7 @@ public class WriteZip {
             subdir/Logs/*
         */
 
-        List<String> predictionFiles = Lists.newArrayList();
+        List<String> predictionFiles = new ArrayList<>();
         predictionFiles.add(prediction.getName() + "-prediction-values.csv");
 
         //add in the prediction dataset files
@@ -477,7 +473,7 @@ public class WriteZip {
 
         //scan for the predictor subdirectories
         x = 0;
-        List<String> predictorSubDirs = Lists.newArrayList();
+        List<String> predictorSubDirs = new ArrayList<>();
         while (projectDirFilenames != null && x < projectDirFilenames.length) {
             if ((new File(projectDir + projectDirFilenames[x])).isDirectory() && !projectDirFilenames[x]
                     .equals("Logs")) {
@@ -513,10 +509,24 @@ public class WriteZip {
                 out.closeEntry();
                 in.close();
             } catch (Exception ex) {
-                logger.error(ex);
+                logger.error("", ex);
             }
         }
         out.close();
     }
 
+    @Autowired
+    public void setPredictorRepository(PredictorRepository predictorRepository) {
+        WriteZip.predictorRepository = predictorRepository;
+    }
+
+    @Autowired
+    public void setPredictionRepository(PredictionRepository predictionRepository) {
+        WriteZip.predictionRepository = predictionRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        WriteZip.userRepository = userRepository;
+    }
 }
