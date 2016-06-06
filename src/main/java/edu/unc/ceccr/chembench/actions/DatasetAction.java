@@ -88,7 +88,6 @@ public class DatasetAction extends ActionSupport {
     private List<String> userPredictionNames;
     private List<String> userTaskNames;
     private List<String> userUploadedDescriptorTypes;
-    private List<String> userUploadedDescriptorTypesD;
     private List<Predictor> userPredictorList;
     private String selectedDescriptorUsedName = "";
     private String descriptorNewName = "";
@@ -117,36 +116,6 @@ public class DatasetAction extends ActionSupport {
         return Lists.newArrayList(uploadedTypes);
     }
 
-    public String ajaxLoadModeling() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadPrediction() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadModelingWithDescriptors() throws Exception {
-        userUploadedDescriptorTypes = getUploadedDescriptorTypes();
-        return SUCCESS;
-    }
-
-    public String ajaxLoadPredictionWithDescriptors() throws Exception {
-        userUploadedDescriptorTypes = getUploadedDescriptorTypes();
-        return SUCCESS;
-    }
-
-    public String ajaxLoadAutoSplit() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadManualSplit() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadNFoldSplit() throws Exception {
-        return SUCCESS;
-    }
-
     public String loadPage() throws Exception {
         //set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
         List<Dataset> datasets = datasetRepository.findByUserName(user.getUserName());
@@ -157,6 +126,7 @@ public class DatasetAction extends ActionSupport {
         userPredictionNames =
                 Lists.transform(predictionRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
         userTaskNames = Lists.transform(jobRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
+        userUploadedDescriptorTypes = getUploadedDescriptorTypes();
         return SUCCESS;
     }
 
@@ -971,14 +941,6 @@ public class DatasetAction extends ActionSupport {
 
     public void setUserUploadedDescriptorTypes(List<String> userUploadedDescriptorTypes) {
         this.userUploadedDescriptorTypes = userUploadedDescriptorTypes;
-    }
-
-    public List<String> getUserUploadedDescriptorTypesD() {
-        return userUploadedDescriptorTypesD;
-    }
-
-    public void setUserUploadedDescriptorTypesD(List<String> userUploadedDescriptorTypes) {
-        this.userUploadedDescriptorTypesD = userUploadedDescriptorTypes;
     }
 
     public String getDescriptorNewName() {
