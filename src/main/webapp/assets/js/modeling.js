@@ -103,6 +103,9 @@
         var defaultDescriptorOption = $('input[name="descriptorGenerationType"][value="' + defaultDescriptor + '"]');
         if (!defaultDescriptorOption.prop('disabled')) {
             defaultDescriptorOption.prop('checked', true);
+        } else {
+            // just check the first available one
+            $('input[name="descriptorGenerationType"]').not(':disabled').first().prop('checked', true);
         }
 
         // enable the correct svm type based on the selected dataset's activity value type
