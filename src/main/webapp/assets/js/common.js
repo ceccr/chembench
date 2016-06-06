@@ -80,9 +80,6 @@
     Chembench.formatAvailableDescriptors = function(text) {
         var descriptorList = text.trim().split(/\s+/);
         var newDescriptorList = descriptorList.map(function(d) {
-            if (d === Chembench.Constants.UPLOADED) {
-                return d;
-            }
             return Chembench.formatDescriptorType(d);
         });
         return newDescriptorList.join(', ');

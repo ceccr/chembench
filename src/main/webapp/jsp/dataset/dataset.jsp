@@ -225,7 +225,8 @@
                           for="newDescriptorName">New type</label>
                       </div>
                       <div class="col-xs-9 uploaded-descriptor-type-entry">
-                        <s:textfield name="descriptorNewName" id="descriptorNewName" theme="simple" />
+                        <s:textfield name="descriptorNewName" id="descriptorNewName" theme="simple"
+                                     cssClass="form-control" />
                       </div>
                     </div>
                     <s:if test="userUploadedDescriptorTypes.size() > 0">

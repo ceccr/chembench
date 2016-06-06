@@ -234,8 +234,8 @@
                 case 'descriptorGeneration': // models
                     column.render = function(data, type, row) {
                         if (data) {
-                            return Chembench.formatAvailableDescriptors(data).replace(Chembench.Constants.UPLOADED,
-                                    '*' + row.uploadedDescriptorType);
+                            return Chembench.formatAvailableDescriptors(data).replace(Chembench.formatDescriptorType(
+                                    Chembench.Constants.UPLOADED), '*' + row.uploadedDescriptorType);
                         }
                         return (type === 'display') ? '<span class="text-muted">None</span>' : '';
                     };
