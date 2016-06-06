@@ -140,8 +140,8 @@
         </s:else>
         <li><a href="#activity-histogram" data-toggle="tab">Activity Histogram</a></li>
       </s:if>
-      <li><a href="#descriptors" data-toggle="tab">Descriptors</a></li>
-      <s:if test="dataset.datasetType.startsWith(@edu.unc.ceccr.chembench.global.Constants@MODELING)">
+      <s:if test="dataset.hasStructures()">
+        <li><a href="#descriptors" data-toggle="tab">Descriptors</a></li>
         <li><a href="#heatmap" data-toggle="tab">Heatmap</a></li>
       </s:if>
     </ul>
