@@ -1,17 +1,20 @@
 (function() {
     'use strict';
 
-    function composeRow(object) {
-        var imageParams = {
-            user: $('input#username').val(),
-            projectType: 'dataset',
-            compoundId: object.compoundId,
-            datasetName: $('input#dataset-name').val()
-        };
-        var image = '<img src="imageServlet?' + $.param(imageParams) +
-                    '" class="compound-structure img-thumbnail" width="125" height="125" alt="Compound structure">';
-
-        return [object.compoundId, image, object.activityValue];
+    function composeRow(object, hasStructures) {
+        if (hasStructures === true) {
+            var imageParams = {
+                user: $('input#username').val(),
+                projectType: 'dataset',
+                compoundId: object.compoundId,
+                datasetName: $('input#dataset-name').val()
+            };
+            var image = '<img src="imageServlet?' + $.param(imageParams) +
+                        '" class="compound-structure img-thumbnail" width="125" height="125" alt="Compound structure">';
+            return [object.compoundId, image, object.activityValue];
+        } else {
+            return [object.compoundId, object.activityValue];
+        }
     }
 
     function updatePages(clicked) {
@@ -74,7 +77,7 @@
                 // replace table body with new fold data
                 table.clear();
                 for (var i = 0; i < data.length; i++) {
-                    table.row.add(composeRow(data[i]));
+                    table.row.add(composeRow(data[i], window.datasetHasStructures === 'true'));
                 }
                 table.$().find('.compound-structure').popover(Chembench.POPOVER_CONFIG);
                 updatePages(clicked);

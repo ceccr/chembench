@@ -380,6 +380,7 @@
 <%@ include file="/jsp/main/tail.jsp" %>
 <script>
   $(document).ready(function() {
+    window.datasetHasStructures = '<s:property value="dataset.hasStructures()" />';
     Chembench.Heatmap = {};
     Chembench.Heatmap.flashvars = {
       "web-addr": "<s:property value='webAddress' />",
