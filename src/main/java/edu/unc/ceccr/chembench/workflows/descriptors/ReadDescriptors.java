@@ -50,6 +50,8 @@ public class ReadDescriptors {
 
     public static void readDescriptors(Predictor predictor, String sdfFile, List<String> descriptorNames,
                                        List<Descriptors> descriptorValueMatrix) throws Exception {
+        List<String> descriptorSetList = Splitter.on(", ").splitToList(predictor.getDescriptorGeneration());
+        //loop the block on each descriptor type, predictor = CDK, DRAGONH --> here, prefix
         if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
             ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNames, descriptorValueMatrix);
         } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONH)) {
@@ -67,6 +69,8 @@ public class ReadDescriptors {
         } else {
             throw new RuntimeException("Bad descriptor type: " + predictor.getDescriptorGeneration());
         }
+
+
     }
 
     public static void readDragonDescriptors(String dragonOutputFile, List<String> descriptorNames,

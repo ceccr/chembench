@@ -80,43 +80,43 @@
             <div id="descriptor-types">
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="radio" value="CDK">
+                  <input name="descriptorGenerationType" type="checkbox" value="CDK" checkeds>
                   CDK (202 descriptors)
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="radio" value="DRAGONH">
+                  <input name="descriptorGenerationType" type="checkbox" value="DRAGONH">
                   Dragon, with hydrogens (2489 descriptors)
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="radio" value="DRAGONNOH">
+                  <input name="descriptorGenerationType" type="checkbox" value="DRAGONNOH">
                   Dragon, no hydrogens (900 descriptors)
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="radio" value="MACCS">
+                  <input name="descriptorGenerationType" type="checkbox" value="MACCS">
                   MACCS (166 descriptors)
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="radio" value="MOE2D">
+                  <input name="descriptorGenerationType" type="checkbox" value="MOE2D">
                   MOE2D (184 descriptors)
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="radio" value="ISIDA">
+                  <input name="descriptorGenerationType" type="checkbox" value="ISIDA">
                   ISIDA
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="radio" value="UPLOADED">
+                  <input name="descriptorGenerationType" type="checkbox" value="UPLOADED">
                   Uploaded descriptors
                 </label>
               </div>
