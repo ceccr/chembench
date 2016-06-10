@@ -4,10 +4,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.Job;
-import edu.unc.ceccr.chembench.persistence.Prediction;
-import edu.unc.ceccr.chembench.persistence.Predictor;
+import edu.unc.ceccr.chembench.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -407,5 +404,22 @@ public class Utility {
             }
         }
         return 0.0f;
+    }
+
+    public static void hybrid(int descriptorSetListSize ,String descriptorType, List<String> chemicalNames,
+                              List<String> descriptorNames, List<Descriptors> descriptorValueMatrix,
+                              List<List<String>> chemicalNamesCombined, List<String> descriptorNamesCombined,
+                              List<Descriptors> descriptorValueMatrixCombined){
+        if (descriptorSetListSize > 1) {
+            for (String name : descriptorNames)
+                descriptorNamesCombined.add(descriptorType + "_" + name);
+        }
+        else{
+            descriptorNamesCombined.addAll(descriptorNames);
+        }
+        if(chemicalNames!=null)
+            chemicalNamesCombined.add(chemicalNames);
+        if(descriptorValueMatrix!=null)
+        descriptorValueMatrixCombined.addAll(descriptorValueMatrix);
     }
 }

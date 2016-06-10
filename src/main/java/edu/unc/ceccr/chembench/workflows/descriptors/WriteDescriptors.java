@@ -128,7 +128,8 @@ public class WriteDescriptors {
 
     }
 
-    private static void rangeScaleGivenMinMax(List<Descriptors> descriptorMatrix, List<Double> descriptorValueMinima,
+    private static void rangeScaleGivenMinMax(List<Descriptors> descriptorMatrix, List<Double>
+            descriptorValueMinima,
                                               List<Double> descriptorValueMaxima) {
         // range-scales the values in the descriptor matrix.
         // We know the min and max. Scaled value = ((value - min) /
@@ -571,37 +572,37 @@ public class WriteDescriptors {
                     descriptorValueAvgs, descriptorValueStdDevPlusAvgs, descriptorNames, correlationCutoff);
         }
         //find common compound name set for combining descriptors
-        Set<String> chemicalNamesIntersected = new HashSet<String>(compoundNames.get(0));
+        Set<String> compoundNamesIntersected = new HashSet<String>(compoundNames.get(0));
         for (int i = 1; i < compoundNames.size(); i++){
             Set<String> temp = new HashSet<String>(compoundNames.get(i));
-            chemicalNamesIntersected.retainAll(temp);
+            compoundNamesIntersected.retainAll(temp);
         }
 
         // write output
         Joiner joiner = Utility.SPACE_JOINER;
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(xFilePath), StandardCharsets.UTF_8)) {
-            writer.write(joiner.join(chemicalNamesIntersected.size(), descriptorNames.size()));
+            writer.write(joiner.join(compoundNamesIntersected.size(), descriptorNames.size()));
             writer.newLine();
             writer.write(joiner.join(descriptorNames));
             writer.newLine();
 
             int i = 1;
-            for (String chemicalName: chemicalNamesIntersected) {
+            for (String compoundName: compoundNamesIntersected) {
                 // each line of the descriptors matrix
                 List<Double> descriptorValues = new ArrayList<>();
 
                 int size = 0;
                 for(int j = 0; j < compoundNames.size(); j++){
-                    int chemicalNameLocation = compoundNames.get(j).indexOf(chemicalName);
+                    int chemicalNameLocation = compoundNames.get(j).indexOf(compoundName);
                     descriptorValues.addAll(descriptorMatrix.get(chemicalNameLocation + size).getDescriptorValues());
                     size += compoundNames.get(j).size();
                 }
                 if (descriptorValues.contains(Double.NaN) || descriptorValues.contains(Double.NEGATIVE_INFINITY) ||
                         descriptorValues.contains(Double.POSITIVE_INFINITY)) {
-                    logger.warn("Compound " + chemicalName + " has NaN/Inf descriptor value");
+                    logger.warn("Compound " + compoundName + " has NaN/Inf descriptor value");
                 }
 
-                writer.write(joiner.join(i, chemicalName, joiner.join(descriptorValues)));
+                writer.write(joiner.join(i, compoundName, joiner.join(descriptorValues)));
                 writer.newLine();
                 i++;
             }
@@ -652,7 +653,8 @@ public class WriteDescriptors {
 
         // do range scaling on descriptorMatrix
         if (predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)) {
-            rangeScaleGivenMinMax(descriptorMatrix, predictorDescriptorValueMinima, predictorDescriptorValueMaxima);
+            rangeScaleGivenMinMax(descriptorMatrix, predictorDescriptorValueMinima,
+                    predictorDescriptorValueMaxima);
         } else if (predictorScaleType.equalsIgnoreCase(Constants.AUTOSCALING)) {
             autoScaleGivenAvgStdDev(descriptorMatrix, predictorDescriptorValueAvgs,
                     predictorDescriptorValueStdDevsPlusAvgs);

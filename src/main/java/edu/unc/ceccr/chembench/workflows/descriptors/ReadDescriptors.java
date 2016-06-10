@@ -9,6 +9,7 @@ import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.persistence.Predictor;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
+import javassist.runtime.Desc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,28 +52,56 @@ public class ReadDescriptors {
     public static void readDescriptors(Predictor predictor, String sdfFile, List<String> descriptorNames,
                                        List<Descriptors> descriptorValueMatrix) throws Exception {
         List<String> descriptorSetList = Splitter.on(", ").splitToList(predictor.getDescriptorGeneration());
+        List<Double> descriptorValues = new ArrayList<>();
         //loop the block on each descriptor type, predictor = CDK, DRAGONH --> here, prefix
-        if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
-            ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONH)) {
-            ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonH", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)) {
-            ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
-            ReadDescriptors.readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
-            ReadDescriptors.readMaccsDescriptors(sdfFile + ".maccs", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-            ReadDescriptors.readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.UPLOADED)) {
-            ReadDescriptors.readXDescriptors(sdfFile + ".x", descriptorNames, descriptorValueMatrix);
-        } else {
-            throw new RuntimeException("Bad descriptor type: " + predictor.getDescriptorGeneration());
+        for (String descriptorType: descriptorSetList) {
+            List<String> descriptorNamesTemp = new ArrayList<>();
+            List<Descriptors> descriptorValueMatrixTemp = new ArrayList<>();
+            if (descriptorType.equals(Constants.CDK)) {
+                ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
+                        null, null, descriptorNames, null);
+                //presumption: there is only one compound to calculate
+                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+            } else if (descriptorType.equals(Constants.DRAGONH)) {
+                ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonH", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
+                        null, null, descriptorNames, null);
+                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+            } else if (descriptorType.equals(Constants.DRAGONNOH)) {
+                ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonNoH", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
+                        null, null, descriptorNames, null);
+                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+            } else if (descriptorType.equals(Constants.MOE2D)) {
+                ReadDescriptors.readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
+                        null, null, descriptorNames, null);
+                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+            } else if (descriptorType.equals(Constants.MACCS)) {
+                ReadDescriptors.readMaccsDescriptors(sdfFile + ".maccs", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
+                        null, null, descriptorNames, null);
+                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+            } else if (descriptorType.equals(Constants.ISIDA)) {
+                ReadDescriptors.readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
+                        null, null, descriptorNames, null);
+                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+            } else if (descriptorType.equals(Constants.UPLOADED)) {
+                ReadDescriptors.readXDescriptors(sdfFile + ".x", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
+                        null, null, descriptorNames, null);
+                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+            } else {
+                throw new RuntimeException("Bad descriptor type: " + descriptorType);
+            }
+
         }
-
-
+        Descriptors descriptor = new Descriptors();
+        descriptor.setDescriptorValues(descriptorValues);
+        descriptorValueMatrix.add(descriptor);
     }
-
     public static void readDragonDescriptors(String dragonOutputFile, List<String> descriptorNames,
                                              List<Descriptors> descriptorValueMatrix) throws Exception {
 

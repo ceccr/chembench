@@ -52,7 +52,7 @@ public class RunSmilesPrediction {
         logger.debug("Copying complete. Generating descriptors. ");
 
         /* generate ISIDA descriptor for smiles.sdf*/
-        if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
+        if (predictor.getDescriptorGeneration().contains(Constants.ISIDA)) {
             generateIsidaDescriptorsForSdf(workingDir, predictor.getSdFileName());
         }
 
@@ -212,6 +212,7 @@ public class RunSmilesPrediction {
 
     public static void generateDescriptorsForSdf(String smilesDir, Set<String> descriptorTypes) throws Exception {
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
+
         if (descriptorTypes.contains(Constants.CDK)) {
             GenerateDescriptors.generateCdkDescriptors(sdfile, sdfile + ".cdk");
             ReadDescriptors.convertCdkToX(sdfile + ".cdk", smilesDir);

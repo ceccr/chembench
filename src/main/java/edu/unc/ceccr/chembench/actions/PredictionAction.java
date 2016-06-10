@@ -1,5 +1,6 @@
 package edu.unc.ceccr.chembench.actions;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -95,12 +96,13 @@ public class PredictionAction extends ActionSupport {
                 throw new RuntimeException("Non-random forest predictors cannot be used for SMILES predictions");
             }
 
-            String descriptorType = predictor.getDescriptorGeneration();
+            List<String> descriptorType =  Splitter.on(", ").splitToList(predictor.getDescriptorGeneration());
             // skip predictors with uploaded descriptors, since we can't
             // generate them for the SDF generated from the SMILES string
+            for(String descriptor: descriptorType)
             if (!descriptorType.equals(Constants.UPLOADED)) {
                 predictors.add(predictor);
-                descriptorTypes.add(descriptorType);
+                descriptorTypes.add(descriptor);
             }
         }
 
@@ -122,7 +124,7 @@ public class PredictionAction extends ActionSupport {
             RunSmilesPrediction.smilesToSdf(smiles, smilesDir);
             logger.info(String.format("Generated SDF file from SMILES \"%s\" written to %s", smiles, smilesDir));
             // generate descriptors using the given SDF file except for ISIDA
-            if (!predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
+            if ((!predictor.getDescriptorGeneration().contains(Constants.ISIDA)) || descriptorTypes.size() > 1) {
                 RunSmilesPrediction.generateDescriptorsForSdf(smilesDir, descriptorTypes);
             }
             logger.info("Generated descriptors for SDF: " + descriptorTypes.toString());

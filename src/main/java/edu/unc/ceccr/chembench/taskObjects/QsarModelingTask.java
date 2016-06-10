@@ -462,50 +462,50 @@ public class QsarModelingTask extends WorkflowTask {
                 cdkChemicalNames =  DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
 
                 //sets name based on if it is a hybrid and combine into a list
-                hybrid(descriptorType, descriptorSetList, cdkChemicalNames, descriptorNames, descriptorValueMatrix,
-                        chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, cdkChemicalNames, descriptorNames,
+                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.DRAGONH)) {
                 logger.debug("Processing DragonH descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors.readDragonDescriptors(filePath + sdFileName + ".dragonH", descriptorNames,
                         descriptorValueMatrix);
 
-                hybrid(descriptorType, descriptorSetList, chemicalNames, descriptorNames, descriptorValueMatrix,
-                        chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
+                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.DRAGONNOH)) {
                 logger.debug("Processing DragonNoH descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors.readDragonDescriptors(filePath + sdFileName + ".dragonNoH", descriptorNames,
                         descriptorValueMatrix);
 
-                hybrid(descriptorType, descriptorSetList, chemicalNames, descriptorNames, descriptorValueMatrix,
-                        chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
+                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.MOE2D)) {
                 logger.debug("Processing MOE2D descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors
                         .readMoe2DDescriptors(filePath + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
 
-                hybrid(descriptorType, descriptorSetList, chemicalNames, descriptorNames, descriptorValueMatrix,
-                        chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
+                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.MACCS)) {
                 logger.debug("Processing MACCS descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors
                         .readMaccsDescriptors(filePath + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 
-                hybrid(descriptorType, descriptorSetList, chemicalNames, descriptorNames, descriptorValueMatrix,
-                        chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
+                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.ISIDA)) {
                 logger.debug("Processing ISIDA descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors
                         .readIsidaDescriptors(filePath + sdFileName + ".ISIDA", descriptorNames, descriptorValueMatrix);
 
-                hybrid(descriptorType, descriptorSetList, chemicalNames, descriptorNames, descriptorValueMatrix,
-                        chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
+                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.UPLOADED)) {
                 logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
 
                 if (descriptorNames.size() > 0 && descriptorValueMatrix.size() >0)
-                hybrid(descriptorType, descriptorSetList, chemicalNames, descriptorNames, descriptorValueMatrix,
-                        chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                    Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
+                            descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
             }
         }
         // write out the descriptors into a .x file for modeling
@@ -514,12 +514,10 @@ public class QsarModelingTask extends WorkflowTask {
         } else {
             xFileName = sdFileName + ".x";
         }
+        WriteDescriptors
+                .writeModelingXFile(chemicalNamesCombined, descriptorValueMatrixCombined, descriptorNamesCombined,
+                        filePath + xFileName, scalingType, stdDevCutoff, correlationCutoff);
 
-        if(descriptorSetList.size() >= 1){
-            WriteDescriptors
-                    .writeModelingXFile(chemicalNamesCombined, descriptorValueMatrixCombined, descriptorNamesCombined,
-                            filePath + xFileName, scalingType, stdDevCutoff, correlationCutoff);
-        }
 
         // apply the dataset's external split(s) to the generated .X file
         step = Constants.SPLITDATA;
@@ -562,20 +560,7 @@ public class QsarModelingTask extends WorkflowTask {
         }
         logger.info("Finished pre-processing for " + jobName);
     }
-    private void hybrid(String descriptorType, List<String> descriptorSetList, List<String> chemicalNames,
-                       List<String> descriptorNames, List<Descriptors> descriptorValueMatrix,
-                       List<List<String>> chemicalNamesCombined, List<String> descriptorNamesCombined,
-                       List<Descriptors> descriptorValueMatrixCombined){
-        if (descriptorSetList.size() > 1) {
-            for (String name : descriptorNames)
-                descriptorNamesCombined.add(descriptorType + "_" + name);
-        }
-        else{
-            descriptorNamesCombined.addAll(descriptorNames);
-        }
-        chemicalNamesCombined.add(chemicalNames);
-        descriptorValueMatrixCombined.addAll(descriptorValueMatrix);
-    }
+
     public String executeLSF() throws Exception {
         logger.info("Beginning LSF submission for " + jobName);
         // this function will submit a single LSF job.
