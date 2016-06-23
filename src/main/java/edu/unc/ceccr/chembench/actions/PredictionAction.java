@@ -571,22 +571,22 @@ public class PredictionAction extends ActionSupport {
                 }
             } else {
                 for (int i = 0; i < predictionDatasetDescriptors.length; i++) {
-                    if (sp.getDescriptorGeneration().equals(Constants.CDK) && predictionDatasetDescriptors[i]
+                    if (sp.getDescriptorGeneration().contains(Constants.CDK) && predictionDatasetDescriptors[i]
                             .equals(Constants.CDK)) {
                         descriptorsMatch = true;
-                    } else if (sp.getDescriptorGeneration().equals(Constants.DRAGONH) && predictionDatasetDescriptors[i]
+                    } else if (sp.getDescriptorGeneration().contains(Constants.DRAGONH) && predictionDatasetDescriptors[i]
                             .equals(Constants.DRAGONH)) {
                         descriptorsMatch = true;
-                    } else if (sp.getDescriptorGeneration().equals(Constants.DRAGONNOH)
+                    } else if (sp.getDescriptorGeneration().contains(Constants.DRAGONNOH)
                             && predictionDatasetDescriptors[i].equals(Constants.DRAGONNOH)) {
                         descriptorsMatch = true;
-                    } else if (sp.getDescriptorGeneration().equals(Constants.MOE2D) && predictionDatasetDescriptors[i]
+                    } else if (sp.getDescriptorGeneration().contains(Constants.MOE2D) && predictionDatasetDescriptors[i]
                             .equals(Constants.MOE2D)) {
                         descriptorsMatch = true;
-                    } else if (sp.getDescriptorGeneration().equals(Constants.MACCS) && predictionDatasetDescriptors[i]
+                    } else if (sp.getDescriptorGeneration().contains(Constants.MACCS) && predictionDatasetDescriptors[i]
                             .equals(Constants.MACCS)) {
                         descriptorsMatch = true;
-                    } else if (sp.getDescriptorGeneration().equals(Constants.ISIDA) && predictionDatasetDescriptors[i]
+                    } else if (sp.getDescriptorGeneration().contains(Constants.ISIDA) && predictionDatasetDescriptors[i]
                             .equals(Constants.ISIDA)) {
                         descriptorsMatch = true;
                     }
@@ -609,9 +609,9 @@ public class PredictionAction extends ActionSupport {
                 emailOnCompletion);
 
         logger.info("making prediction run on dataset " + predictionDataset.getName() + " with predictors "
-                + selectedPredictorIds + " for " + user.getUserName());
-        return SUCCESS;
-    }
+            + selectedPredictorIds + " for " + user.getUserName());
+    return SUCCESS;
+}
 
     public String execute() throws Exception {
         return SUCCESS;

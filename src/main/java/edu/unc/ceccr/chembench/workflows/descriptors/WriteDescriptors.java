@@ -48,22 +48,9 @@ public class WriteDescriptors {
         List<Double> firstCompoundDescriptorValues = new ArrayList<>();
         firstCompoundDescriptorValues.addAll(descriptorMatrix.get(0).getDescriptorValues());
 
-        //for hybrid descriptors, going through the matrix to find
-        // the next first compound of the next descriptor set
-        for (int i = 0 ; i < descriptorMatrix.size()-1; i++){
-            if (descriptorMatrix.get(i).getDescriptorValues().size()!=
-                    descriptorMatrix.get(i+1).getDescriptorValues().size()){
-                firstCompoundDescriptorValues.addAll(descriptorMatrix.get(i+1).getDescriptorValues());
-            }
-        }
-
         for (Double value : firstCompoundDescriptorValues) {
             descriptorValueMinima.add(value);
             descriptorValueMaxima.add(value);
-        }
-
-        // initialize the avgs and stddevs to 0
-        for (int i = 0; i < firstCompoundDescriptorValues.size(); i++) {
             descriptorValueAvgs.add(0d);
             descriptorValueStdDevs.add(0d);
         }
@@ -74,15 +61,6 @@ public class WriteDescriptors {
         for (int i = 0; i < descriptorMatrix.size(); i++) {
             List<Double> descriptorValues = new ArrayList<>();
             descriptorValues.addAll(descriptorMatrix.get(i).getDescriptorValues());
-
-            //if user selects more than one type of descriptor,
-            //then offset compensate for the previous descriptors.
-            if (i > 0) {
-                if (descriptorMatrix.get(i -1 ).getDescriptorValues().size()!=
-                        descriptorMatrix.get(i).getDescriptorValues().size()){
-                    offset += descriptorMatrix.get(i- 1).getDescriptorValues().size();
-                }
-            }
 
             for (int j = 0; j < descriptorValues.size(); j++) {
                 if (descriptorValues.get(j) < descriptorValueMinima.get(j + offset)) {
@@ -351,21 +329,13 @@ public class WriteDescriptors {
                 zeroVariance.add(0);
             }
         }
-        int previousOffset = 0;
-        int previousDescriptorNumber = descriptorMatrix.get(0).getDescriptorValues().size();
-        int offset = descriptorMatrix.get(0).getDescriptorValues().size();
+
         for (int i = 0; i < descriptorMatrix.size(); i++) {
             List<Double> descriptorValues = descriptorMatrix.get(i).getDescriptorValues();
 
-            if (descriptorMatrix.get(i).getDescriptorValues().size()!= previousDescriptorNumber){
-                previousOffset = offset;
-                previousDescriptorNumber = descriptorMatrix.get(i).getDescriptorValues().size();
-                offset += descriptorMatrix.get(i).getDescriptorValues().size();
-            }
-
-            for (int j = offset - 1; j >= previousOffset; j--) {
+            for (int j = zeroVariance.size() - 1; j >= 0; j--) {
                 if (zeroVariance.get(j) == 1) {
-                    descriptorValues.remove(j-previousOffset);
+                    descriptorValues.remove(j);
                 }
             }
 
@@ -490,7 +460,7 @@ public class WriteDescriptors {
         br.close();
     }
 
-    public static void writeModelingXFile(List<List<String>> compoundNames, List<Descriptors> descriptorMatrix,
+    public static void writeModelingXFile(List<String> compoundNames, List<Descriptors> descriptorMatrix,
                                           List<String> descriptorNames, String xFilePath, String scalingType,
                                           String stdDevCutoff, String correlationCutoff) throws Exception {
         // Perform scaling on descriptorMatrix
@@ -571,42 +541,24 @@ public class WriteDescriptors {
             removeHighlyCorellatedDescriptors(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima,
                     descriptorValueAvgs, descriptorValueStdDevPlusAvgs, descriptorNames, correlationCutoff);
         }
-        //find common compound name set for combining descriptors
-        Set<String> compoundNamesIntersected = new HashSet<String>(compoundNames.get(0));
-        for (int i = 1; i < compoundNames.size(); i++){
-            Set<String> temp = new HashSet<String>(compoundNames.get(i));
-            compoundNamesIntersected.retainAll(temp);
-        }
 
         // write output
         Joiner joiner = Utility.SPACE_JOINER;
         try (BufferedWriter writer = Files.newBufferedWriter(Paths.get(xFilePath), StandardCharsets.UTF_8)) {
-            writer.write(joiner.join(compoundNamesIntersected.size(), descriptorNames.size()));
+            writer.write(joiner.join(descriptorMatrix.size(), descriptorNames.size()));
             writer.newLine();
             writer.write(joiner.join(descriptorNames));
             writer.newLine();
-
-            int i = 1;
-            for (String compoundName: compoundNamesIntersected) {
+            for (int i = 0; i < descriptorMatrix.size(); i++) {
                 // each line of the descriptors matrix
-                List<Double> descriptorValues = new ArrayList<>();
-
-                int size = 0;
-                for(int j = 0; j < compoundNames.size(); j++){
-                    int chemicalNameLocation = compoundNames.get(j).indexOf(compoundName);
-                    descriptorValues.addAll(descriptorMatrix.get(chemicalNameLocation + size).getDescriptorValues());
-                    size += compoundNames.get(j).size();
-                }
+                List<Double> descriptorValues = descriptorMatrix.get(i).getDescriptorValues();
                 if (descriptorValues.contains(Double.NaN) || descriptorValues.contains(Double.NEGATIVE_INFINITY) ||
                         descriptorValues.contains(Double.POSITIVE_INFINITY)) {
-                    logger.warn("Compound " + compoundName + " has NaN/Inf descriptor value");
+                    logger.warn("Compound " + compoundNames.get(i) + " has NaN/Inf descriptor value");
                 }
-
-                writer.write(joiner.join(i, compoundName, joiner.join(descriptorValues)));
+                writer.write(joiner.join(i + 1, compoundNames.get(i), joiner.join(descriptorValues)));
                 writer.newLine();
-                i++;
             }
-
             if (scalingType.equalsIgnoreCase(Constants.RANGESCALING)) {
                 writer.write(joiner.join(descriptorValueMinima));
                 writer.newLine();

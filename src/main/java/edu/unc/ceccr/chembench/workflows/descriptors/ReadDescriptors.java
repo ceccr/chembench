@@ -59,40 +59,32 @@ public class ReadDescriptors {
             List<Descriptors> descriptorValueMatrixTemp = new ArrayList<>();
             if (descriptorType.equals(Constants.CDK)) {
                 ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
-                        null, null, descriptorNames, null);
-                //presumption: there is only one compound to calculate
-                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.DRAGONH)) {
                 ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonH", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
-                        null, null, descriptorNames, null);
-                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.DRAGONNOH)) {
                 ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonNoH", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
-                        null, null, descriptorNames, null);
-                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.MOE2D)) {
                 ReadDescriptors.readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
-                        null, null, descriptorNames, null);
-                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.MACCS)) {
                 ReadDescriptors.readMaccsDescriptors(sdfFile + ".maccs", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
-                        null, null, descriptorNames, null);
-                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.ISIDA)) {
                 ReadDescriptors.readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
-                        null, null, descriptorNames, null);
-                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.UPLOADED)) {
                 ReadDescriptors.readXDescriptors(sdfFile + ".x", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, null, descriptorNamesTemp,
-                        null, null, descriptorNames, null);
-                descriptorValues.addAll(descriptorValueMatrixTemp.get(0).getDescriptorValues());
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
             } else {
                 throw new RuntimeException("Bad descriptor type: " + descriptorType);
             }
@@ -189,7 +181,7 @@ public class ReadDescriptors {
             List<Double> descriptorValues = new ArrayList<>();
             Scanner tok = new Scanner(line);
             tok.useDelimiter(",");
-            tok.next(); // skip compound identifier
+            String name = tok.next(); // skip compound identifier
             String tmp = tok.next();
             tok.close();
             tok = new Scanner(tmp);
@@ -209,6 +201,7 @@ public class ReadDescriptors {
                 descriptorValues.add(0d);
             }
             Descriptors di = new Descriptors();
+            di.setCompoundName(name);
             di.setDescriptorValues(descriptorValues);
             descriptorValueMatrix.add(di);
 
@@ -239,11 +232,12 @@ public class ReadDescriptors {
             descriptorNames.add(tok.next());
         }
         while ((line = br.readLine()) != null) {
+            String name = "";
             tok = new Scanner(line);
             tok.useDelimiter(",");
             if (tok.hasNext()) {
                 /* first descriptor value is the name of the compound */
-                tok.next();
+                name = tok.next();
             }
             List<Double> descriptorValues = new ArrayList<>();
             while (tok.hasNext()) {
@@ -262,6 +256,7 @@ public class ReadDescriptors {
             if (!descriptorValues.isEmpty()) {
                 Descriptors di = new Descriptors();
                 di.setDescriptorValues(descriptorValues);
+                di.setCompoundName(name);
                 descriptorValueMatrix.add(di);
             }
             tok.close();

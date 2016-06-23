@@ -459,53 +459,54 @@ public class QsarModelingTask extends WorkflowTask {
                 DatasetFileOperations
                         .removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
                 DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
-                cdkChemicalNames =  DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
+                chemicalNames =  DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
 
                 //sets name based on if it is a hybrid and combine into a list
-                Utility. hybrid(descriptorSetList.size(), descriptorType, cdkChemicalNames, descriptorNames,
-                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.DRAGONH)) {
                 logger.debug("Processing DragonH descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors.readDragonDescriptors(filePath + sdFileName + ".dragonH", descriptorNames,
                         descriptorValueMatrix);
 
-                Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
-                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.DRAGONNOH)) {
                 logger.debug("Processing DragonNoH descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors.readDragonDescriptors(filePath + sdFileName + ".dragonNoH", descriptorNames,
                         descriptorValueMatrix);
 
-                Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
-                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.MOE2D)) {
                 logger.debug("Processing MOE2D descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors
                         .readMoe2DDescriptors(filePath + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
 
-                Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
-                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.MACCS)) {
                 logger.debug("Processing MACCS descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors
                         .readMaccsDescriptors(filePath + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 
-                Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
-                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.ISIDA)) {
                 logger.debug("Processing ISIDA descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors
                         .readIsidaDescriptors(filePath + sdFileName + ".ISIDA", descriptorNames, descriptorValueMatrix);
 
-                Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
-                        descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.UPLOADED)) {
                 logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
 
                 if (descriptorNames.size() > 0 && descriptorValueMatrix.size() >0)
-                    Utility.hybrid(descriptorSetList.size(),descriptorType, chemicalNames, descriptorNames,
-                            descriptorValueMatrix, chemicalNamesCombined, descriptorNamesCombined, descriptorValueMatrixCombined);
+                    Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                            descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility.combine(descriptorValueMatrix, descriptorValueMatrixCombined);
             }
         }
         // write out the descriptors into a .x file for modeling
@@ -515,7 +516,7 @@ public class QsarModelingTask extends WorkflowTask {
             xFileName = sdFileName + ".x";
         }
         WriteDescriptors
-                .writeModelingXFile(chemicalNamesCombined, descriptorValueMatrixCombined, descriptorNamesCombined,
+                .writeModelingXFile(chemicalNames, descriptorValueMatrixCombined, descriptorNamesCombined,
                         filePath + xFileName, scalingType, stdDevCutoff, correlationCutoff);
 
 
