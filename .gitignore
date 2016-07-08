@@ -67,4 +67,7 @@ local.properties
 # Vagrant
 .vagrant
 jchem.cookie
+logs/
+users/
+tomcat_logs/
 
