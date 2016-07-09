@@ -17,10 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class UserAction extends ActionSupport implements ServletRequestAware {
 
     private static final Logger logger = LoggerFactory.getLogger(UserAction.class);
+    private static final Pattern NON_ALPHANUMERIC_REGEX = Pattern.compile("[^a-zA-Z0-9]");
 
     private User user = User.getCurrentUser();
     private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
@@ -131,8 +133,9 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
         if (!newUserName.equals("") && userExists(newUserName)) {
             addActionError("The user name '" + newUserName + "' is already in use.");
             result = ERROR;
-        } else if (newUserName.contains(" ")) {
-            addActionError("Your username may not contain a space.");
+        } else if (NON_ALPHANUMERIC_REGEX.matcher(newUserName).find()) {
+            addActionError("You have entered an invalid username. " +
+                    "Usernames must be alphanumeric (no spaces, symbols, or special characters).");
             result = ERROR;
         }
 

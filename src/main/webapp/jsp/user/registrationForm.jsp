@@ -13,6 +13,14 @@
   <section id="content">
     <h2>Registration</h2>
 
+    <s:if test="!getActionErrors().isEmpty()">
+      <div class="alert alert-danger">
+        <s:iterator value="getActionErrors()">
+          <s:property /><br>
+        </s:iterator>
+      </div>
+    </s:if>
+
     <p class="margin-below">Thank you for your interest in Chembench. Please complete the form below to sign up for an
       account. Fields marked with an asterisk (<span class="glyphicon glyphicon-asterisk"></span>) are required.
     </p>
@@ -125,7 +133,8 @@
 
         <div class="col-xs-4">
           <s:textfield id="newUserName" name="newUserName" cssClass="form-control" />
-          <p class="help-block">This is what you will use to log in.</p>
+          <p class="help-block">This is what you will use to log in.<br>
+              Only alphanumeric characters (no spaces, symbols, or special characters) are allowed.</p>
         </div>
       </div>
 
