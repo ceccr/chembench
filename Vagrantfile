@@ -54,6 +54,7 @@ Vagrant.configure(2) do |config|
         sudo echo '#{catalina_opts}' >> #{tomcat_home}/bin/setenv.sh
         sudo echo '#{tomcat_users_xml}' > #{tomcat_home}/conf/tomcat-users.xml
         sudo tar xzvf /vagrant/basebox.tgz -C /opt
+        sudo chown -R vagrant:vagrant /opt/chembench
         mysql -u root -e 'CREATE DATABASE cbprod'
         mysql -u root cbprod < #{chembench_home}/cbprod.sql
     SHELL
