@@ -12,25 +12,25 @@ ENV
 
 tomcat_home = "/opt/apache-tomcat-7.0.70"
 catalina_opts = <<-OPTS
-export CATALINA_OPTS="-Djava.rmi.server.hostname=192.168.33.77 -agentlib:jdwp=transport=dt_socket,address=49174,suspend=n,server=y -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+export CATALINA_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 OPTS
 tomcat_users_xml = <<-XML
 <?xml version="1.0" encoding="utf-8"?>
 <tomcat-users>
     <role rolename="manager-gui" />
-    <user username="admin" password="" roles="manager-gui" />
+    <role rolename="manager-script" />
+    <user username="admin" password="" roles="manager-gui,manager-script" />
 </tomcat-users>
 XML
 
 Vagrant.configure(2) do |config|
-    config.vm.network "private_network", ip: "192.168.33.77"
     config.vm.box = "ubuntu/trusty64"
     config.vm.synced_folder "logs", "#{chembench_home}/logs", create: true
     config.vm.synced_folder "tomcat_logs", "#{tomcat_home}/logs", create: true
     config.vm.synced_folder "users", "#{chembench_home}/users", create: true
-    config.vm.synced_folder "src/main/webapp/jsp", "#{tomcat_home}/webapps/chembench/jsp"
-    config.vm.synced_folder "src/main/webapp/assets", "#{tomcat_home}/webapps/chembench/assets"
-    config.vm.synced_folder "target/chembench", "#{tomcat_home}/webapps/chembench"
+
+    config.vm.network "forwarded_port", guest: 8080, host: 9090
+    config.vm.network "forwarded_port", guest: 5005, host: 5005
 
     config.vm.provider "virtualbox" do |vb|
         vb.memory = "2048"
