@@ -1,12 +1,13 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="chembench:war exploded">
-    <output-path>$PROJECT_DIR$/target/chembench</output-path>
+    <output-path>$PROJECT_DIR$/target/chembench-2.1-SNAPSHOT</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="chembench" />
         </element>
         <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.8.7" />
           <element id="library" level="project" name="Maven: org.apache.struts:struts2-core:2.3.20" />
           <element id="library" level="project" name="Maven: org.apache.struts.xwork:xwork-core:2.3.20" />
           <element id="library" level="project" name="Maven: org.ow2.asm:asm-commons:5.0.2" />
@@ -39,7 +40,6 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-orm:4.1.6.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:4.1.6.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-tx:4.1.6.RELEASE" />
-          <element id="library" level="project" name="Maven: org.aspectj:aspectjrt:1.8.5" />
           <element id="library" level="project" name="Maven: org.slf4j:jcl-over-slf4j:1.7.11" />
           <element id="library" level="project" name="Maven: com.zaxxer:HikariCP:2.4.3" />
           <element id="library" level="project" name="Maven: org.hibernate:hibernate-entitymanager:4.3.8.Final" />
