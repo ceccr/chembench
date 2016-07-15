@@ -105,8 +105,8 @@
         </action>
 
         <!-- Dataset Page -->
-        <action name="dataset" class="edu.unc.ceccr.chembench.actions.DatasetAction" method="loadPage">
-            <result name="success">/jsp/dataset/dataset.jsp</result>
+        <action name="datasets" class="edu.unc.ceccr.chembench.actions.DatasetAction" method="loadPage">
+            <result name="success">/jsp/dataset/datasets.jsp</result>
         </action>
 
         <action name="submitDataset" class="edu.unc.ceccr.chembench.actions.DatasetAction" method="execute">

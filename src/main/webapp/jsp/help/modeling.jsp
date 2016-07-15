@@ -39,7 +39,7 @@
 
         <p>The descriptor type option defines what descriptors will be used to represent your compounds in the modeling
           process. If you want to use other descriptor types besides what Chembench can generate, you can create a
-          dataset with your own descriptors in it from the <s:a action="dataset" namespace="/"
+          dataset with your own descriptors in it from the <s:a action="datasets" namespace="/"
                                                                 target="_blank">Datasets page</s:a>. Descriptor
           generation and scaling are skipped if you supply your own descriptors.
         </p>

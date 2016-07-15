@@ -39,8 +39,8 @@
       </p>
 
       <p>
-        For more information about dataset creation and defining external sets, see the <s:a action="dataset"
-                                                                                             namespace="help">Dataset help section</s:a>
+        For more information about dataset creation and defining external sets, see the <s:a action="datasets"
+                                                                                             namespace="/help">Dataset help section</s:a>.
       </p>
       <hr>
       <s:form action="submitDataset" enctype="multipart/form-data" method="post" cssClass="form-horizontal"
@@ -77,8 +77,8 @@
 
                 <p>
                   A <b>Modeling Dataset</b> can be used for both modeling and prediction. You will need to supply an
-                  <s:a action="fileformats" namespace="help" anchor="SDF">SDF file</s:a> containing the structures of
-                  the compounds in your dataset, and an <s:a action="fileformats" namespace="help"
+                  <s:a action="file-formats" namespace="/help" anchor="SDF">SDF file</s:a> containing the structures of
+                  the compounds in your dataset, and an <s:a action="file-formats" namespace="/help"
                                                              anchor="ACT">ACT file</s:a> containing the activity values
                   of those compounds.
                 </p>
@@ -136,7 +136,7 @@
 
                 <p>
                   A <b>Prediction Dataset</b> can only be used for prediction. You will need to supply an <s:a
-                    action="fileformats" namespace="help" anchor="SDF"> SDF file</s:a> containing the structures of the
+                    action="file-formats" namespace="/help" anchor="SDF"> SDF file</s:a> containing the structures of the
                   compounds in your dataset.
                 </p>
 
@@ -181,10 +181,10 @@
                 </p>
 
                 <p>
-                  You will need to supply an <s:a action="fileformats" namespace="help" anchor="X">X file</s:a>
-                  containing your descriptor data, and an <s:a action="fileformats" namespace="help"
+                  You will need to supply an <s:a action="file-formats" namespace="/help" anchor="X">X file</s:a>
+                  containing your descriptor data, and an <s:a action="file-formats" namespace="/help"
                                                                anchor="ACT">ACT file</s:a> containing your compounds'
-                  activity values. Optionally, you may provide a <s:a action="fileformats" namespace="help"
+                  activity values. Optionally, you may provide a <s:a action="file-formats" namespace="/help"
                                                                       anchor="SDF">SDF file</s:a> containing the
                   structures of the compounds in your dataset. If you do, Chembench will generate descriptors for you in
                   addition to the ones you upload, as well as images of your compound structures.
@@ -299,9 +299,9 @@
                 </p>
 
                 <p>
-                  You will need to supply an <s:a action="fileformats" namespace="help" anchor="X">X file</s:a>
-                  containing your descriptor data. Optionally, you may provide a <s:a action="fileformats"
-                                                                                      namespace="help"
+                  You will need to supply an <s:a action="file-formats" namespace="/help" anchor="X">X file</s:a>
+                  containing your descriptor data. Optionally, you may provide a <s:a action="file-formats"
+                                                                                      namespace="/help"
                                                                                       anchor="SDF">SDF file</s:a>
                   containing the structures of the compounds in your dataset. If you do, Chembench will generate
                   compound structure images for you.

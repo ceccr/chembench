@@ -95,8 +95,8 @@
 
         <h3>Help &amp; Resources</h3>
         <ul class="links-list">
-          <li><s:a action="overview" namespace="help" target="_blank">Chembench Overview</s:a></li>
-          <li><s:a action="workflows" namespace="help" target="_blank">Workflows &amp; Methodology</s:a></li>
+          <li><s:a action="overview" namespace="/help" target="_blank">Chembench Overview</s:a></li>
+          <li><s:a action="workflows" namespace="/help" target="_blank">Workflows &amp; Methodology</s:a></li>
         </ul>
         <s:if test="showStatistics!=null || showStatistics=='NO'">
           <h3>Site Stats</h3>

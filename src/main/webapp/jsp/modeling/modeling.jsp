@@ -49,7 +49,7 @@
           </div>
           <div class="panel-body">
             <p>Select a modeling dataset to create a model from. (You can create more datasets using the
-              <b><s:a action="dataset">Dataset Creation</s:a></b> page.)
+              <b><s:a action="datasets">Dataset Creation</s:a></b> page.)
             </p>
 
             <s:set name="urlOverride"><s:url action="getModelingDatasets" namespace="/api" /></s:set>

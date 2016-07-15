@@ -34,7 +34,7 @@
     <ul class="nav-list">
       <li id="nav-button-home"><s:a action="home" namespace="/">Home</s:a></li>
       <li id="nav-button-mybench"><s:a action="mybench" namespace="/">My Bench</s:a></li>
-      <li id="nav-button-datasets"><s:a action="dataset" namespace="/">Datasets</s:a></li>
+      <li id="nav-button-datasets"><s:a action="datasets" namespace="/">Datasets</s:a></li>
       <li id="nav-button-modeling"><s:a action="modeling" namespace="/">Modeling</s:a></li>
       <li id="nav-button-prediction"><s:a action="prediction" namespace="/">Prediction</s:a></li>
     </ul>
