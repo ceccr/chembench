@@ -47,7 +47,8 @@ Vagrant.configure(2) do |config|
             python2.7 python-pandas python-sklearn \
             gcc-multilib \
             oracle-java8-installer \
-            maven
+            maven \
+            dos2unix
         wget -O /tmp/tomcat.tgz 'http://www-us.apache.org/dist/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz'
         sudo tar xzvf /tmp/tomcat.tgz -C /opt
         sudo echo '#{chembench_env}' >> #{tomcat_home}/bin/setenv.sh
@@ -62,6 +63,7 @@ Vagrant.configure(2) do |config|
     config.vm.provision "shell", run: "always", inline: <<-SHELL
         cp /vagrant/utils/R/* #{chembench_home}/bin
         cp /vagrant/utils/scikit-rf/* #{chembench_home}/bin
+        dos2unix #{chembench_home}/bin/*.{R,py}
     SHELL
 end
 
