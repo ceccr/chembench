@@ -31,24 +31,26 @@
         });
         tabLinks.first().trigger('shown.bs.tab');
 
-        var externalValidationSection = $('#external-validation');
-        externalValidationSection.find('.fold-navigation').find('a').click(function(e) {
+        var preloadedFoldsSections = $('#external-validation, #descriptor-importance');
+        preloadedFoldsSections.find('.fold-navigation').find('a').click(function(e) {
             e.preventDefault();
             var target = $(this);
-            var nav = target.parents('.fold-navigation');
-            var pagination = nav.find('.pagination');
-            var newIndex;
-            if (target.hasClass('all-folds')) {
-                newIndex = 0;
-                target.addClass('active');
-                pagination.find('.previous, .next').addClass('disabled');
-                pagination.find('.active').removeClass('active');
-            } else {
-                nav.find('.all-folds').removeClass('active');
-                newIndex = Chembench.updatePages(target);
+            if (!target.parent('li').hasClass('disabled')) {
+                var nav = target.parents('.fold-navigation');
+                var pagination = nav.find('.pagination');
+                var newIndex;
+                if (target.hasClass('all-folds')) {
+                    newIndex = 0;
+                    target.addClass('active');
+                    pagination.find('.previous, .next').addClass('disabled');
+                    pagination.find('.active').removeClass('active');
+                } else {
+                    nav.find('.all-folds').removeClass('active');
+                    newIndex = Chembench.updatePages(target);
+                }
+                preloadedFoldsSections.find('[data-fold-number]').hide();
+                preloadedFoldsSections.find('[data-fold-number=' + newIndex + ']').show();
             }
-            externalValidationSection.find('[data-fold-number]').hide();
-            externalValidationSection.find('[data-fold-number=' + newIndex + ']').show();
         });
 
         var modelTabs = $('#trees, #y-randomized-trees, #models, #y-randomized-models');

@@ -103,6 +103,7 @@
       <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
         <li><a href="#trees" data-toggle="tab">Trees</a></li>
         <li><a href="#y-randomized-trees" data-toggle="tab">y-Randomized Trees</a></li>
+        <li><a href="#descriptor-importance" data-toggle="tab">Descriptor Importance</a></li>
       </s:if>
       <s:else>
         <li><a href="#models" data-toggle="tab">Models</a></li>
@@ -415,6 +416,55 @@
           <s:set var="isYRandom">true</s:set>
           <%@ include file="modelDetail-modelTable.jsp" %>
       </div>
+
+      <s:if test="predictor.modelMethod.startsWith(@edu.unc.ceccr.chembench.global.Constants@RANDOMFOREST)">
+        <div id="descriptor-importance" class="tab-pane">
+          <h3>Descriptor Importance</h3>
+
+          <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
+            <nav class="text-center fold-navigation">
+              <a href="#" class="btn btn-default all-folds active" role="button">All</a>
+
+              <ul class="pagination">
+                <li class="previous disabled">
+                  <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <s:iterator value="foldNumbers">
+                  <li><a href="#"><s:property /></a></li>
+                </s:iterator>
+                <li class="next disabled">
+                  <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </s:if>
+
+          <s:iterator value="randomForestDescriptorImportances" status="status">
+            <div data-fold-number="<s:property value="#status.index" />">
+              <table class="table table-bordered table-hover datatable">
+                <thead>
+                <tr>
+                  <th>Descriptor</th>
+                  <th data-sort-direction="desc"><s:property value="importanceMeasure" /></th>
+                </tr>
+                </thead>
+                <tbody>
+                <s:iterator>
+                  <tr>
+                    <td><s:property value="key" /></td>
+                    <td><s:property value="value" /></td>
+                  </tr>
+                </s:iterator>
+                </tbody>
+              </table>
+            </div>
+          </s:iterator>
+        </div>
+      </s:if>
 
       <div id="modeling-parameters" class="tab-pane">
         <h3>Modeling Parameters</h3>

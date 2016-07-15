@@ -1,19 +1,29 @@
 package edu.unc.ceccr.chembench.actions;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ContiguousSet;
 import com.google.common.collect.DiscreteDomain;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Range;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.calculations.ConfusionMatrix;
 import edu.unc.ceccr.chembench.workflows.calculations.PredictorEvaluation;
+import edu.unc.ceccr.chembench.workflows.modelingPrediction.RandomForest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class ModelDetailAction extends DetailAction {
     private static final Logger logger = LoggerFactory.getLogger(ModelDetailAction.class);
@@ -35,17 +45,15 @@ public class ModelDetailAction extends DetailAction {
     private boolean editable;
     private String description;
     private String paperReference;
-
-    // random split
     private ExternalValidationGroup[] evGroups;
     private List<?> models;
     private List<?> yRandomModels;
-
-    // n-fold
     private boolean isYRandom;
     private int foldNumber = 0;
     private Iterable<Integer> foldNumbers;
-    private List<?> data;
+    private Object data;
+    private String importanceMeasure;
+    private List<Map<String, Double>> randomForestDescriptorImportances;
 
     @Autowired
     public ModelDetailAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
@@ -90,11 +98,36 @@ public class ModelDetailAction extends DetailAction {
                 evGroups[i + 1] = buildExternalValidationGroup(childPredictors.get(i));
             }
             evGroups[0] = ExternalValidationGroup.coalesce(predictor.getActivityType(), evGroups);
+            if (predictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
+                randomForestDescriptorImportances = new ArrayList<>(childPredictors.size() + 1);
+                randomForestDescriptorImportances.add(0, null);
+                Map<String, Double> averagedImportance = new HashMap<>();
+                for (int i = 0; i < childPredictors.size(); i++) {
+                    Predictor child = childPredictors.get(i);
+                    Map<String, Double> childImportance = readRandomForestDescriptorImportance(child, predictor);
+                    randomForestDescriptorImportances.add(childImportance);
+                    for (String key : childImportance.keySet()) {
+                        Double childValue = childImportance.get(key);
+                        Double totalValue = averagedImportance.get(key);
+                        if (totalValue == null) {
+                            totalValue = 0d;
+                        }
+                        averagedImportance.put(key, childValue + totalValue);
+                    }
+                }
+                for (String key : averagedImportance.keySet()) {
+                    averagedImportance.put(key, averagedImportance.get(key) / childPredictors.size());
+                }
+                randomForestDescriptorImportances.set(0, averagedImportance);
+            }
         } else {
             models = readModels(predictor, false);
             yRandomModels = readModels(predictor, true);
             evGroups = new ExternalValidationGroup[1];
             evGroups[0] = buildExternalValidationGroup(predictor);
+            if (predictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
+                randomForestDescriptorImportances.add(readRandomForestDescriptorImportance(predictor, null));
+            }
         }
         switch (predictor.getModelMethod()) {
             case Constants.RANDOMFOREST:
@@ -138,6 +171,82 @@ public class ModelDetailAction extends DetailAction {
         }
         data = readModels(childPredictors.get(foldNumber - 1), isYRandom);
         return SUCCESS;
+    }
+
+    private Map<String, Double> readRandomForestDescriptorImportance(Predictor p, Predictor parent) {
+        Path basePath = Paths.get(Constants.CECCR_USER_BASE_PATH, p.getUserName(), "PREDICTORS");
+        if (parent != null) {
+            basePath = basePath.resolve(parent.getName());
+        }
+        basePath = basePath.resolve(p.getName());
+
+        Map<String, Double> data = Maps.newHashMap();
+        if (p.getModelMethod().equals(Constants.RANDOMFOREST)) {
+            importanceMeasure = "Relative Importance";
+            data = RandomForest.getDescriptorImportance(basePath);
+        } else if (p.getModelMethod().equals(Constants.RANDOMFOREST_R)) {
+            // XXX new models will never generate more than one RData file (named "RF_rand_sets_0_trn0.RData")
+            // however, old models may have more than one RData file due to how splitting was implemented for legacy RF.
+            // (in the past we allowed RF models to have more than one split.)
+            // in these cases the descriptor importance table will only show the importance data for the first split.
+            String[] filenames = basePath.toFile().list(new FilenameFilter() {
+                @Override
+                public boolean accept(File dir, String name) {
+                    return name.toLowerCase().endsWith(".rdata");
+                }
+            });
+            Arrays.sort(filenames);
+
+            File outFile = basePath.resolve("importance.csv").toFile();
+            int exitValue = 0;
+            if (outFile.length() == 0) {
+                try {
+                    ProcessBuilder pb = new ProcessBuilder("Rscript",
+                            Paths.get(Constants.CECCR_BASE_PATH, Constants.SCRIPTS_PATH, "get_importance.R").toString(),
+                            basePath.resolve(filenames[0]).toString());
+                    pb.redirectOutput(outFile);
+                    exitValue = pb.start().waitFor();
+                } catch (IOException e) {
+                    throw new RuntimeException("R descriptor importance extraction failed", e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException("Interrupted while waiting for descriptor importance extraction", e);
+                }
+
+                if (outFile.length() == 0) {
+                    throw new RuntimeException("Descriptor importance extraction produced no output");
+                } else if (exitValue != 0) {
+                    outFile.delete();
+                    throw new RuntimeException(
+                            "Descriptor importance extraction exited with non-zero exit code: " + exitValue);
+                }
+            }
+
+            Splitter splitter = Splitter.on('\t');
+            try (BufferedReader reader = Files.newBufferedReader(outFile.toPath(), StandardCharsets.UTF_8)) {
+                List<String> headerFields = splitter.splitToList(reader.readLine());
+                // XXX if the RF call has importance = FALSE (the default), only IncNodePurity (continuous) or
+                // MeanDecreaseGini (category) is generated. If importance = TRUE, then %IncMse (continuous)
+                // or MeanDecreaseAccuracy (category) are also generated. ideally we'd report both measures, but for now,
+                // report IncNodePurity / MeanDecreaseGini as that'll always be there
+                int importanceMeasureIndex = -1;
+                for (int i = 0; i < headerFields.size(); i++) {
+                    String currField = headerFields.get(i);
+                    if (currField.equals("IncNodePurity") || currField.equals("MeanDecreaseGini")) {
+                        importanceMeasureIndex = i;
+                        importanceMeasure = currField;
+                        break;
+                    }
+                }
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    List<String> fields = splitter.splitToList(line);
+                    data.put(fields.get(0), Double.parseDouble(fields.get(importanceMeasureIndex)));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Couldn't read descriptor importance output", e);
+            }
+        }
+        return data;
     }
 
     private List<DisplayedExternalValidationValue> buildDisplayedExternalValidationValues(
@@ -273,7 +382,7 @@ public class ModelDetailAction extends DetailAction {
         this.foldNumber = foldNumber;
     }
 
-    public List<?> getData() {
+    public Object getData() {
         return data;
     }
 
@@ -331,6 +440,22 @@ public class ModelDetailAction extends DetailAction {
 
     public ExternalValidationGroup[] getEvGroups() {
         return evGroups;
+    }
+
+    public String getImportanceMeasure() {
+        return importanceMeasure;
+    }
+
+    public void setImportanceMeasure(String importanceMeasure) {
+        this.importanceMeasure = importanceMeasure;
+    }
+
+    public List<Map<String, Double>> getRandomForestDescriptorImportances() {
+        return randomForestDescriptorImportances;
+    }
+
+    public void setRandomForestDescriptorImportances(List<Map<String, Double>> randomForestDescriptorImportances) {
+        this.randomForestDescriptorImportances = randomForestDescriptorImportances;
     }
 
     private static class ContinuousStatistics {
