@@ -30,6 +30,13 @@ public class DeleteAction extends ActionSupport {
     private ExternalValidationRepository externalValidationRepository;
     private PredictionValueRepository predictionValueRepository;
     private UserRepository userRepository;
+    private RandomForestTreeRepository randomForestTreeRepository;
+    private RandomForestGroveRepository randomForestGroveRepository;
+    private RandomForestParametersRepository randomForestParametersRepository;
+    private SvmModelRepository svmModelRepository;
+    private SvmParametersRepository svmParametersRepository;
+    private KnnPlusModelRepository knnPlusModelRepository;
+    private KnnPlusParametersRepository knnPlusParametersRepository;
 
     private void checkDatasetDependencies(Dataset ds) {
         // make sure there are no predictors, predictions, or jobs that depend
@@ -163,41 +170,77 @@ public class DeleteAction extends ActionSupport {
         return SUCCESS;
     }
 
-    private void deletePredictor(Predictor p) {
-        ArrayList<ExternalValidation> extVals = new ArrayList<>();
+    private void deletePredictor(Predictor predictor) {
+        List<ExternalValidation> extVals = new ArrayList<>();
         // delete the files associated with this predictor
-        String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName() + "/PREDICTORS/" + p.getName() + "/";
+        String dir = Constants.CECCR_USER_BASE_PATH + predictor.getUserName() + "/PREDICTORS/" + predictor.getName() + "/";
         if (!FileAndDirOperations.deleteDir(new File(dir))) {
             logger.warn("error deleting dir: " + dir);
         }
 
         // delete the database entry for the predictor
         // delete any child predictors too. (Their files will already be gone since deleteDir recurses into subdirs.)
-        List<Predictor> childPredictors = new ArrayList<>();
-        if (p.getChildIds() != null && !p.getChildIds().trim().equals("")) {
-            String[] childIdArray = p.getChildIds().split("\\s+");
+        List<Predictor> allPredictors = new ArrayList<>();
+        allPredictors.add(predictor);
+        if (predictor.getChildIds() != null && !predictor.getChildIds().trim().equals("")) {
+            String[] childIdArray = predictor.getChildIds().split("\\s+");
             for (String childId : childIdArray) {
                 if (childId.equals("null")) {
                     logger.warn("Attempted to delete a nonexistant child " +
-                            "predictor belonging to predictor id " + p.getId());
+                            "predictor belonging to predictor id " + predictor.getId());
                 } else {
                     Predictor childPredictor = predictorRepository.findOne(Long.parseLong(childId));
                     if (childPredictor == null) {
                         logger.warn(String.format("Child predictor with id %s not found", childId));
                     } else {
-                        childPredictors.add(childPredictor);
+                        allPredictors.add(childPredictor);
                         extVals.addAll(externalValidationRepository.findByPredictorId(childPredictor.getId()));
                     }
                 }
             }
         }
-        extVals.addAll(externalValidationRepository.findByPredictorId(p.getId()));
-        predictorRepository.delete(p);
-        for (Predictor childPredictor : childPredictors) {
-            predictorRepository.delete(childPredictor);
-        }
+        extVals.addAll(externalValidationRepository.findByPredictorId(predictor.getId()));
         for (ExternalValidation ev : extVals) {
             externalValidationRepository.delete(ev);
+        }
+
+        for (Predictor p : allPredictors) {
+            switch (p.getModelMethod()) {
+                case Constants.RANDOMFOREST:
+                case Constants.RANDOMFOREST_R:
+                    RandomForestParameters rfParams = randomForestParametersRepository.findOne(p.getModelingParametersId());
+                    if (rfParams != null) {
+                        randomForestParametersRepository.delete(rfParams);
+                    }
+                    List<RandomForestGrove> groves = randomForestGroveRepository.findByPredictorId(p.getId());
+                    for (RandomForestGrove grove : groves) {
+                        for (RandomForestTree tree : randomForestTreeRepository.findByRandomForestGroveId(grove.getId())) {
+                            randomForestTreeRepository.delete(tree);
+                        }
+                        randomForestGroveRepository.delete(grove);
+                    }
+                    break;
+                case Constants.SVM:
+                    SvmParameters svmParams = svmParametersRepository.findOne(p.getModelingParametersId());
+                    if (svmParams != null) {
+                        svmParametersRepository.delete(svmParams);
+                    }
+                    for (SvmModel svmModel : svmModelRepository.findByPredictorId(p.getId())) {
+                        svmModelRepository.delete(svmModel);
+                    }
+                    break;
+                case Constants.KNNSA:
+                case Constants.KNNGA:
+                    KnnPlusParameters knnPlusParams = knnPlusParametersRepository.findOne(p.getModelingParametersId());
+                    if (knnPlusParams != null) {
+                        knnPlusParametersRepository.delete(knnPlusParams);
+                    }
+                    for (KnnPlusModel knnPlusModel : knnPlusModelRepository.findByPredictorId(p.getId())) {
+                        knnPlusModelRepository.delete(knnPlusModel);
+                    }
+                    break;
+            }
+            predictorRepository.delete(p);
         }
     }
 
@@ -385,5 +428,40 @@ public class DeleteAction extends ActionSupport {
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setRandomForestTreeRepository(RandomForestTreeRepository randomForestTreeRepository) {
+        this.randomForestTreeRepository = randomForestTreeRepository;
+    }
+
+    @Autowired
+    public void setRandomForestGroveRepository(RandomForestGroveRepository randomForestGroveRepository) {
+        this.randomForestGroveRepository = randomForestGroveRepository;
+    }
+
+    @Autowired
+    public void setRandomForestParametersRepository(RandomForestParametersRepository randomForestParametersRepository) {
+        this.randomForestParametersRepository = randomForestParametersRepository;
+    }
+
+    @Autowired
+    public void setSvmModelRepository(SvmModelRepository svmModelRepository) {
+        this.svmModelRepository = svmModelRepository;
+    }
+
+    @Autowired
+    public void setSvmParametersRepository(SvmParametersRepository svmParametersRepository) {
+        this.svmParametersRepository = svmParametersRepository;
+    }
+
+    @Autowired
+    public void setKnnPlusModelRepository(KnnPlusModelRepository knnPlusModelRepository) {
+        this.knnPlusModelRepository = knnPlusModelRepository;
+    }
+
+    @Autowired
+    public void setKnnPlusParametersRepository(KnnPlusParametersRepository knnPlusParametersRepository) {
+        this.knnPlusParametersRepository = knnPlusParametersRepository;
     }
 }
