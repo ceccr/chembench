@@ -76,7 +76,9 @@ Vagrant.configure(2) do |config|
             gcc-multilib \
             oracle-java8-installer \
             maven \
-            dos2unix
+            dos2unix \
+            macchanger
+
         wget -O /tmp/tomcat.tgz 'http://www-us.apache.org/dist/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz'
         sudo tar xzvf /tmp/tomcat.tgz -C /opt
         sudo echo '#{chembench_env}' >> #{tomcat_home}/bin/setenv.sh
@@ -84,8 +86,14 @@ Vagrant.configure(2) do |config|
         sudo echo '#{tomcat_users_xml}' > #{tomcat_home}/conf/tomcat-users.xml
         sudo tar xzvf /vagrant/basebox.tgz -C /opt
         sudo chown -R vagrant:vagrant /opt/chembench
+
         mysql -u root -e 'CREATE DATABASE cbprod'
         mysql -u root cbprod < #{chembench_home}/cbprod.sql
+        rm #{chembench_home}/cbprod.sql
+
+        sudo echo 'pre-up macchanger -m `#{chembench_home}/mac.txt` eth0' >> /etc/network/interfaces.d/eth0.cfg
+        rm #{chembench_home}/mac.txt
+
         sudo echo '#{tomcat_init_script}' > /etc/init.d/tomcat#{tomcat_version}
         sudo chmod 755 /etc/init.d/tomcat#{tomcat_version}
         sudo chown root:root /etc/init.d/tomcat#{tomcat_version}
