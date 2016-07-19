@@ -10,7 +10,8 @@ export CHEMAXON_LICENSE_URL=$CHEMBENCH_HOME/licenses/jchem.cxl
 export DRGX_LICENSEDATA=$CHEMBENCH_HOME/licenses/dragon.txt
 ENV
 
-tomcat_home = "/opt/apache-tomcat-7.0.70"
+tomcat_version = "7.0.70"
+tomcat_home = "/opt/apache-tomcat-#{tomcat_version}"
 catalina_opts = <<-OPTS
 export CATALINA_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 OPTS
@@ -22,6 +23,33 @@ tomcat_users_xml = <<-XML
     <user username="admin" password="" roles="manager-gui,manager-script" />
 </tomcat-users>
 XML
+
+tomcat_init_script = <<-INIT
+### BEGIN INIT INFO
+# Provides:        tomcat#{tomcat_version}
+# Required-Start:  $network
+# Required-Stop:   $network
+# Default-Start:   2 3 4 5
+# Default-Stop:    0 1 6
+# Short-Description: Start/Stop Tomcat server
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+start() {
+	sh #{tomcat_home}/bin/startup.sh
+}
+
+stop() {
+	sh #{tomcat_home}/bin/shutdown.sh
+}
+
+case $1 in
+	start|stop) $1;;
+	restart) stop; start;;
+	*) echo "Run as $0 <start|stop|restart>"; exit 1;;
+esac
+INIT
 
 Vagrant.configure(2) do |config|
     config.vm.box = "ubuntu/trusty64"
@@ -58,6 +86,9 @@ Vagrant.configure(2) do |config|
         sudo chown -R vagrant:vagrant /opt/chembench
         mysql -u root -e 'CREATE DATABASE cbprod'
         mysql -u root cbprod < #{chembench_home}/cbprod.sql
+        sudo echo '#{tomcat_init_script}' > /etc/init.d/tomcat#{tomcat_version}
+        sudo chmod 755 /etc/init.d/tomcat#{tomcat_version}
+        sudo chown root:root /etc/init.d/tomcat#{tomcat_version}
     SHELL
 
     config.vm.provision "shell", run: "always", inline: <<-SHELL
