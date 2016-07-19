@@ -11,7 +11,7 @@ public class ExternalValidation implements java.io.Serializable {
      */
 
     int numTotalModels = 0;
-    private int externalValId;
+    private Long externalValId;
     private Long predictorId;
     private String compoundId;
     private float predictedValue;
@@ -24,7 +24,7 @@ public class ExternalValidation implements java.io.Serializable {
 
     ;
 
-    public ExternalValidation(int externalValId, Long predictorId, String compoundId, float predictedValue,
+    public ExternalValidation(Long externalValId, Long predictorId, String compoundId, float predictedValue,
                               float actualValue, int numModels, String standDev) {
         super();
         this.externalValId = externalValId;
@@ -69,11 +69,11 @@ public class ExternalValidation implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ext_pred_id")
-    public int getExternalValId() {
+    public Long getExternalValId() {
         return externalValId;
     }
 
-    public void setExternalValId(int externalValId) {
+    public void setExternalValId(Long externalValId) {
         this.externalValId = externalValId;
     }
 

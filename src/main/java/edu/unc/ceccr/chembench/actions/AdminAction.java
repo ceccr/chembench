@@ -87,6 +87,13 @@ public class AdminAction extends ActionSupport {
         if (predictor == null) {
             return ERROR;
         }
+        if (predictor.getParentId() != null) {
+            Predictor parentPredictor = predictorRepository.findOne(predictor.getParentId());
+            if (parentPredictor == null) {
+                return ERROR;
+            }
+            predictor = parentPredictor;
+        }
 
         // idiot proof if someone will try to make public predictor public again.
         if (predictor.getUserName().equals(Constants.ALL_USERS_USERNAME)) {
@@ -124,8 +131,9 @@ public class AdminAction extends ActionSupport {
         String allUserPredictorDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME +
                 "/PREDICTORS/" + predictor.getName();
 
-        String userDatasetDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + dataset.getName();
-        String userPredictorDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + predictor.getName();
+        String predictorUserName = predictor.getUserName();
+        String userDatasetDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/DATASETS/" + dataset.getName();
+        String userPredictorDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/PREDICTORS/" + predictor.getName();
 
         //copy files to all users folder
         logger.debug("Start copying files from '" + userDatasetDir + "' to '" + allUserDatasetDir + "'");
@@ -164,6 +172,7 @@ public class AdminAction extends ActionSupport {
 
         List<ExternalValidation> extValidation = externalValidationRepository.findByPredictorId(predictorId);
         for (ExternalValidation exVal : extValidation) {
+            exVal.setExternalValId(null);
             exVal.setPredictorId(newPredictorId);
             externalValidationRepository.save(exVal);
         }
@@ -172,6 +181,7 @@ public class AdminAction extends ActionSupport {
         logger.debug("------//taking care of knnPlusModel table");
         List<KnnPlusModel> knnPlusModels = knnPlusModelRepository.findByPredictorId(predictorId);
         for (KnnPlusModel knnPlusModel : knnPlusModels) {
+            knnPlusModel.setId(null);
             knnPlusModel.setPredictorId(newPredictorId);
             knnPlusModelRepository.save(knnPlusModel);
         }
@@ -180,6 +190,7 @@ public class AdminAction extends ActionSupport {
         logger.debug("------//taking care of SVM table");
         List<SvmModel> svmModels = svmModelRepository.findByPredictorId(predictorId);
         for (SvmModel svmModel : svmModels) {
+            svmModel.setId(null);
             svmModel.setPredictorId(newPredictorId);
             svmModelRepository.save(svmModel);
         }
@@ -189,10 +200,12 @@ public class AdminAction extends ActionSupport {
         List<RandomForestGrove> groves = randomForestGroveRepository.findByPredictorId(predictorId);
         for (RandomForestGrove grove : groves) {
             Long oldGroveId = grove.getId();
+            grove.setId(null);
             grove.setPredictorId(newPredictorId);
             randomForestGroveRepository.save(grove);
             List<RandomForestTree> trees = randomForestTreeRepository.findByRandomForestGroveId(oldGroveId);
             for (RandomForestTree tree : trees) {
+                tree.setId(null);
                 tree.setRandomForestGroveId(grove.getId());
                 randomForestTreeRepository.save(tree);
             }
@@ -206,6 +219,7 @@ public class AdminAction extends ActionSupport {
             logger.debug("------//RANDOMFOREST");
             RandomForestParameters randomForestParameters =
                     randomForestParametersRepository.findOne(oldPredictor.getModelingParametersId());
+            randomForestParameters.setId(null);
             randomForestParametersRepository.save(randomForestParameters);
             predictor.setModelingParametersId(randomForestParameters.getId());
         } else if (oldPredictor.getModelMethod().equals(Constants.KNNGA) || oldPredictor.getModelMethod()
@@ -213,11 +227,13 @@ public class AdminAction extends ActionSupport {
             logger.debug("------//KNN+");
             KnnPlusParameters knnPlusParameters =
                     knnPlusParametersRepository.findOne(oldPredictor.getModelingParametersId());
+            knnPlusParameters.setId(null);
             knnPlusParametersRepository.save(knnPlusParameters);
             predictor.setModelingParametersId(knnPlusParameters.getId());
         } else if (oldPredictor.getModelMethod().equals(Constants.SVM)) {
             logger.debug("------//SVM");
             SvmParameters svmParameters = svmParametersRepository.findOne(oldPredictor.getModelingParametersId());
+            svmParameters.setId(null);
             svmParametersRepository.save(svmParameters);
             predictor.setModelingParametersId(svmParameters.getId());
         }
@@ -235,6 +251,7 @@ public class AdminAction extends ActionSupport {
                 logger.debug("--------Child predictor ID=" + id + " longId=" + Long.parseLong(id));
                 Predictor child = predictorRepository.findOne(Long.parseLong(id));
                 if (child != null) {
+                    child.setId(null);
                     child.setUserName(Constants.ALL_USERS_USERNAME);
                     child.setPredictorType("Hidden");
                     child.setDatasetId(dataset.getId());
@@ -246,24 +263,27 @@ public class AdminAction extends ActionSupport {
                     //taking care of external validation table
                     extValidation = externalValidationRepository.findByPredictorId(Long.parseLong(id));
                     for (ExternalValidation exVal : extValidation) {
+                        exVal.setExternalValId(null);
                         exVal.setPredictorId(newId);
                         externalValidationRepository.save(exVal);
                     }
 
-
                     if (child.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
                         RandomForestParameters randomForestParameters =
                                 randomForestParametersRepository.findOne(child.getModelingParametersId());
+                        randomForestParameters.setId(null);
                         randomForestParametersRepository.save(randomForestParameters);
                         child.setModelingParametersId(randomForestParameters.getId());
                     } else if (child.getModelMethod().equals(Constants.KNNGA) || child.getModelMethod()
                             .equals(Constants.KNNSA)) {
                         KnnPlusParameters knnPlusParameters =
                                 knnPlusParametersRepository.findOne(child.getModelingParametersId());
+                        knnPlusParameters.setId(null);
                         knnPlusParametersRepository.save(knnPlusParameters);
                         child.setModelingParametersId(knnPlusParameters.getId());
                     } else if (child.getModelMethod().equals(Constants.SVM)) {
                         SvmParameters svmParameters = svmParametersRepository.findOne(child.getModelingParametersId());
+                        svmParameters.setId(null);
                         svmParametersRepository.save(svmParameters);
                         child.setModelingParametersId(svmParameters.getId());
                     }
@@ -273,10 +293,12 @@ public class AdminAction extends ActionSupport {
                     groves = randomForestGroveRepository.findByPredictorId(Long.parseLong(id));
                     for (RandomForestGrove grove : groves) {
                         Long oldId = grove.getId();
+                        grove.setId(null);
                         grove.setPredictorId(newId);
                         randomForestGroveRepository.save(grove);
                         List<RandomForestTree> trees = randomForestTreeRepository.findByRandomForestGroveId(oldId);
                         for (RandomForestTree tree : trees) {
+                            tree.setId(null);
                             tree.setRandomForestGroveId(grove.getId());
                             randomForestTreeRepository.save(tree);
                         }
@@ -312,7 +334,7 @@ public class AdminAction extends ActionSupport {
 
         String allUserDatasetDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/DATASETS/" +
                 dataset.getName();
-        String userDatasetDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + dataset.getName();
+        String userDatasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getName();
 
         //copy files to all users folder
         logger.debug("Start copying files from '" + userDatasetDir + "' to '" + allUserDatasetDir + "'");
@@ -324,6 +346,7 @@ public class AdminAction extends ActionSupport {
 
         //duplicating dataset record
         logger.debug("------DB: Duplicating dataset record for dataset: " + dataset.getName());
+        dataset.setId(null);
         dataset.setUserName(Constants.ALL_USERS_USERNAME);
         datasetRepository.save(dataset);
         return SUCCESS;
