@@ -91,8 +91,10 @@ Vagrant.configure(2) do |config|
         mysql -u root cbprod < #{chembench_home}/cbprod.sql
         rm #{chembench_home}/cbprod.sql
 
-        sudo echo 'pre-up macchanger -m `#{chembench_home}/mac.txt` eth0' >> /etc/network/interfaces.d/eth0.cfg
+        echo "pre-up macchanger -m `cat #{chembench_home}/mac.txt` eth0" > #{chembench_home}/macchanger.txt
+        sudo tee -a /etc/network/interfaces.d/eth0.cfg < #{chembench_home}/macchanger.txt
         rm #{chembench_home}/mac.txt
+        rm #{chembench_home}/macchanger.txt
 
         sudo echo '#{tomcat_init_script}' > /etc/init.d/tomcat#{tomcat_version}
         sudo chmod 755 /etc/init.d/tomcat#{tomcat_version}
