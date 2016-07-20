@@ -67,15 +67,8 @@ public class MyBenchAction extends ActionSupport {
 
     private List<Dataset> getDatasetObjects() {
         List<Dataset> datasets = new ArrayList<>();
-        if (user == null) {
-            datasets.addAll(datasetRepository.findAllPublicDatasets());
-        } else {
-            // return user's datasets and public datasets
-            if (user.getShowPublicDatasets().equals(Constants.SOME)) {
-                datasets.addAll(datasetRepository.findSomePublicDatasets());
-            } else if (user.getShowPublicDatasets().equals(Constants.ALL)) {
-                datasets.addAll(datasetRepository.findAllPublicDatasets());
-            }
+        datasets.addAll(datasetRepository.findAllPublicDatasets());
+        if (user != null) {
             datasets.addAll(datasetRepository.findByUserName(user.getUserName()));
         }
         return datasets;

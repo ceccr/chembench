@@ -84,9 +84,15 @@ public class AdminAction extends ActionSupport {
      */
     public String makePredictorPublic() {
         Predictor predictor = predictorRepository.findOne(predictorId);
+
         if (predictor == null) {
             return ERROR;
         }
+
+        if(predictor.getUserName()==null){
+            return ERROR;
+        }
+        setUserName(predictor.getUserName());
 
         // idiot proof if someone will try to make public predictor public again.
         if (predictor.getUserName().equals(Constants.ALL_USERS_USERNAME)) {
@@ -124,8 +130,8 @@ public class AdminAction extends ActionSupport {
         String allUserPredictorDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME +
                 "/PREDICTORS/" + predictor.getName();
 
-        String userDatasetDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + dataset.getName();
-        String userPredictorDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + predictor.getName();
+        String userDatasetDir = Constants.CECCR_USER_BASE_PATH + getUserName() + "/DATASETS/" + dataset.getName();
+        String userPredictorDir = Constants.CECCR_USER_BASE_PATH + getUserName() + "/PREDICTORS/" + predictor.getName();
 
         //copy files to all users folder
         logger.debug("Start copying files from '" + userDatasetDir + "' to '" + allUserDatasetDir + "'");
@@ -234,7 +240,9 @@ public class AdminAction extends ActionSupport {
             for (String id : predictorChildren) {
                 logger.debug("--------Child predictor ID=" + id + " longId=" + Long.parseLong(id));
                 Predictor child = predictorRepository.findOne(Long.parseLong(id));
+
                 if (child != null) {
+                    child.setId(null);
                     child.setUserName(Constants.ALL_USERS_USERNAME);
                     child.setPredictorType("Hidden");
                     child.setDatasetId(dataset.getId());
@@ -242,6 +250,7 @@ public class AdminAction extends ActionSupport {
                     predictorRepository.save(child);
                     Long newId = child.getId();
                     newChildIds += newId.toString() + " ";
+
 
                     //taking care of external validation table
                     extValidation = externalValidationRepository.findByPredictorId(Long.parseLong(id));
@@ -295,9 +304,14 @@ public class AdminAction extends ActionSupport {
 
     public String makeDatasetPublic() {
         Dataset dataset = datasetRepository.findOne(datasetId);
+
         if (dataset == null) {
             return ERROR;
         }
+        if (dataset.getUserName() == null){
+            return ERROR;
+        }
+        setUserName(dataset.getUserName());
 
         // idiot proof if someone will try to make public dataset public again.
         if (dataset.getUserName().equals(Constants.ALL_USERS_USERNAME)) {
@@ -309,10 +323,13 @@ public class AdminAction extends ActionSupport {
             addActionError("There is already been a public dataset with the same name as this one.");
             return ERROR;
         }
+        if (dataset.getUserName() == null){
+            return ERROR;
+        }
 
         String allUserDatasetDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/DATASETS/" +
                 dataset.getName();
-        String userDatasetDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + dataset.getName();
+        String userDatasetDir = Constants.CECCR_USER_BASE_PATH + getUserName() + "/DATASETS/" + dataset.getName();
 
         //copy files to all users folder
         logger.debug("Start copying files from '" + userDatasetDir + "' to '" + allUserDatasetDir + "'");
@@ -324,6 +341,7 @@ public class AdminAction extends ActionSupport {
 
         //duplicating dataset record
         logger.debug("------DB: Duplicating dataset record for dataset: " + dataset.getName());
+        dataset.setId(null);
         dataset.setUserName(Constants.ALL_USERS_USERNAME);
         datasetRepository.save(dataset);
         return SUCCESS;
