@@ -84,14 +84,18 @@ public class LsfProcessingThread extends Thread {
     }
 
     public void run() {
-
-        while (true) {
+        while (!interrupted()) {
             try {
                 sleep(1500);
                 List<Job> readOnlyJobArray = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
 
                 // do not call checkLsfStatus more than once in this function
-                List<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
+                List<LsfJobStatus> lsfJobStatuses = new ArrayList<>();
+                try {
+                    lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
+                } catch (Exception e) {
+                    logger.error("Error checking lsf status", e);
+                }
 
                 // For every finished job, do postprocessing.
                 for (LsfJobStatus jobStatus : lsfJobStatuses) {
@@ -269,8 +273,8 @@ public class LsfProcessingThread extends Thread {
                     logger.error("Error checking job completion.\n" + ex);
                 }
 
-            } catch (Exception ex) {
-                logger.error("", ex);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
     }

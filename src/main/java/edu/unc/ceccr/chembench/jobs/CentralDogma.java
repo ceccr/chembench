@@ -130,7 +130,6 @@ public class CentralDogma {
         inThread = new IncomingJobProcessingThread();
         inThread.start();
         threads.add(inThread);
-
     }
 
     public void addJobToIncomingList(String userName, String jobName, WorkflowTask wt, int numCompounds, int numModels,

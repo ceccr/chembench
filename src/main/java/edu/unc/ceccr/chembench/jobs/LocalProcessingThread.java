@@ -32,7 +32,7 @@ public class LocalProcessingThread extends Thread {
     private UserRepository userRepository;
 
     public void run() {
-        while (true) {
+        while (!interrupted()) {
             try {
                 sleep(1500);
                 // logger.debug("LocalProcessingThread awake!");
@@ -126,8 +126,8 @@ public class LocalProcessingThread extends Thread {
                     }
                 }
 
-            } catch (Exception ex) {
-                logger.error("", ex);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
     }

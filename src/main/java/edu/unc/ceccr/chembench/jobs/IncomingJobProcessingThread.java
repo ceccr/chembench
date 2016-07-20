@@ -23,7 +23,7 @@ public class IncomingJobProcessingThread extends Thread {
     private JobRepository jobRepository;
 
     public void run() {
-        while (true) {
+        while (!interrupted()) {
             try {
                 sleep(1000);
 
@@ -80,10 +80,9 @@ public class IncomingJobProcessingThread extends Thread {
                         jobRepository.save(j);
                     }
                 }
-            } catch (Exception ex) {
-                logger.error("", ex);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
         }
     }
-
 }
