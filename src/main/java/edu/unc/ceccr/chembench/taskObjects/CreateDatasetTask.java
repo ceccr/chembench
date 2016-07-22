@@ -8,6 +8,7 @@ import edu.unc.ceccr.chembench.utilities.StandardizeSdfFormat;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.datasets.StandardizeMolecules;
 import edu.unc.ceccr.chembench.workflows.descriptors.CheckDescriptors;
+import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorGenerationException;
 import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.DataSplit;
 import edu.unc.ceccr.chembench.workflows.visualization.HeatmapAndPCA;
@@ -238,6 +239,15 @@ public class CreateDatasetTask extends WorkflowTask {
             GenerateDescriptors
                     .generateIsidaDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".ISIDA");
 
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating Dragon 7 Descriptors");
+            try {
+                GenerateDescriptors.generateDragon7Descriptors(path + sdfFileName,
+                        path + descriptorDir + sdfFileName + ".dragon7");
+                availableDescriptors += Constants.DRAGON7 + " ";
+            } catch (DescriptorGenerationException e) {
+                logger.error("Dragon 7 descriptor generation failed; not adding to available descriptors", e);
+            }
+
             step = Constants.CHECKDESCRIPTORS;
 
             // CDK
@@ -245,17 +255,14 @@ public class CreateDatasetTask extends WorkflowTask {
             if (errors.equals("")) {
                 availableDescriptors += Constants.CDK + " ";
             } else {
-                availableDescriptors += Constants.CDK + " "; // CDK is
-                // available even
-                // when there are
-                // errors
+                availableDescriptors += Constants.CDK + " "; // CDK is available even when there are errors
                 File errorSummaryFile = new File(path + descriptorDir + "Logs/cdk.out");
                 BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
                 errorSummary.write(errors);
                 errorSummary.close();
             }
             // DragonH
-            errors = CheckDescriptors.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonH");
+            errors = CheckDescriptors.checkDragonXDescriptors(path + descriptorDir + sdfFileName + ".dragonH");
             if (errors.equals("")) {
                 availableDescriptors += Constants.DRAGONH + " ";
             } else {
@@ -265,7 +272,7 @@ public class CreateDatasetTask extends WorkflowTask {
                 errorSummary.close();
             }
             // DragonNoH
-            errors = CheckDescriptors.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonNoH");
+            errors = CheckDescriptors.checkDragonXDescriptors(path + descriptorDir + sdfFileName + ".dragonNoH");
             if (errors.equals("")) {
                 availableDescriptors += Constants.DRAGONNOH + " ";
             } else {

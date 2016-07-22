@@ -452,10 +452,10 @@ public class QsarModelingTask extends WorkflowTask {
         } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
             logger.debug("Processing DragonH descriptors for job, " + jobName + "submitted by user, " + userName);
             ReadDescriptors
-                    .readDragonDescriptors(filePath + sdFileName + ".dragonH", descriptorNames, descriptorValueMatrix);
+                    .readDragonXDescriptors(filePath + sdFileName + ".dragonH", descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
             logger.debug("Processing DragonNoH descriptors for job, " + jobName + "submitted by user, " + userName);
-            ReadDescriptors.readDragonDescriptors(filePath + sdFileName + ".dragonNoH", descriptorNames,
+            ReadDescriptors.readDragonXDescriptors(filePath + sdFileName + ".dragonNoH", descriptorNames,
                     descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.MOE2D)) {
             logger.debug("Processing MOE2D descriptors for job, " + jobName + "submitted by user, " + userName);

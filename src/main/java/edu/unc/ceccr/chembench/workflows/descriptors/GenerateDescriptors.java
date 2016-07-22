@@ -2,12 +2,18 @@ package edu.unc.ceccr.chembench.workflows.descriptors;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
+import edu.unc.ceccr.chembench.utilities.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public class GenerateDescriptors {
 
@@ -50,20 +56,14 @@ public class GenerateDescriptors {
     public static void generateHExplicitDragonDescriptors(String sdfile, String outfile) throws Exception {
         String workingDir = outfile.replaceAll("/[^/]+$", "") + "/";
         writeHExplicitDragonScriptFiles(sdfile, workingDir, outfile);
-
-        String execstr =
-                // "/usr/local/ceccr/dragon/dragonX -s "
-                "dragonX -s " + workingDir + "dragon-scriptH.txt";
+        String execstr = "dragonX -s " + workingDir + "dragon-scriptH.txt";
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonH");
     }
 
     public static void generateHDepletedDragonDescriptors(String sdfile, String outfile) throws Exception {
         String workingDir = outfile.replaceAll("/[^/]+$", "") + "/";
         writeHDepletedDragonScriptFiles(sdfile, workingDir, outfile);
-
-        String execstr =
-                // "/usr/local/ceccr/dragon/dragonX -s "
-                "dragonX -s " + workingDir + "dragon-scriptNoH.txt";
+        String execstr = "dragonX -s " + workingDir + "dragon-scriptNoH.txt";
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonNoH");
     }
 
@@ -198,4 +198,25 @@ public class GenerateDescriptors {
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "maccs.sh");
     }
 
+    public static void generateDragon7Descriptors(String sdfFile, String outFile) throws DescriptorGenerationException {
+        String scriptFilePath = Paths.get(Constants.CECCR_BASE_PATH, Constants.DRAGON7_SCRIPT_PATH).toString();
+        String execstr = Utility.SPACE_JOINER.join(new String[]{"dragon7",
+                "-s", scriptFilePath,
+                "<", sdfFile
+        });
+        Path sdfFilePath = Paths.get(sdfFile);
+        Path descriptorsDirPath = sdfFilePath.getParent().resolve("Descriptors");
+        RunExternalProgram.runCommandAndLogOutput(execstr, descriptorsDirPath.toString() + "/", "dragon7");
+
+        // dragon7 will write out descriptor output to dragon7.log and its log to dragon7.err;
+        // rename dragon7.log to the descriptor file (<sdf_name>.dragon7) and dragon7.err to dragon7.log
+        // (in that order, or you'll overwrite the file! need to use REPLACE_EXISTING if execution failed before)
+        try {
+            Files.move(descriptorsDirPath.resolve("Logs").resolve("dragon7.log"), Paths.get(outFile), REPLACE_EXISTING);
+            Files.move(descriptorsDirPath.resolve("Logs").resolve("dragon7.err"),
+                    descriptorsDirPath.resolve("Logs").resolve("dragon7.log"), REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new DescriptorGenerationException("Dragon 7 descriptor generation failed", e);
+        }
+    }
 }

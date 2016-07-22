@@ -82,7 +82,7 @@ public class Dataset implements java.io.Serializable {
             if (availableDescriptors.contains(Constants.DRAGONH)) {
                 Path dragonDescriptorFile = descriptorDir.resolve(sdfFile + ".dragonH");
                 ReadDescriptors
-                        .readDragonDescriptors(dragonDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
+                        .readDragonXDescriptors(dragonDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
             } else if (availableDescriptors.contains(Constants.CDK)) {
                 Path cdkDescriptorFile = descriptorDir.resolve(sdfFile + ".cdk.x");
                 ReadDescriptors.readXDescriptors(cdkDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
