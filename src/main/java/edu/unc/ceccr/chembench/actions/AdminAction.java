@@ -109,53 +109,25 @@ public class AdminAction extends ActionSupport {
         Dataset dataset = datasetRepository.findOne(predictor.getDatasetId());
         if (dataset == null) {
             return ERROR;
+        } else if (!dataset.getUserName().trim().equals(Constants.ALL_USERS_USERNAME)) {
+            this.datasetId = dataset.getId();
+            String datasetResult = makeDatasetPublic();
+            if (datasetResult.equals(ERROR)) {
+                return ERROR;
+            }
         }
 
-        //check if predictor is based on the public dataset
-        boolean isDatasetPublic = false;
-        if (dataset.getUserName().trim().equals(Constants.ALL_USERS_USERNAME)) {
-            logger.debug("**************DATASET IS ALREADY PUBLIC!");
-            isDatasetPublic = true;
-        }
-
-        //check if any other dataset with the same name is already public
-        Dataset checkPublicDataset =
-                datasetRepository.findByNameAndUserName(dataset.getName(), Constants.ALL_USERS_USERNAME);
-        if (checkPublicDataset != null) {
-            isDatasetPublic = true;
-            dataset = checkPublicDataset;
-        }
-
-        String allUserDatasetDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/DATASETS/" +
-                dataset.getName();
         String allUserPredictorDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME +
                 "/PREDICTORS/" + predictor.getName();
-
         String predictorUserName = predictor.getUserName();
-        String userDatasetDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/DATASETS/" + dataset.getName();
         String userPredictorDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/PREDICTORS/" + predictor.getName();
 
         //copy files to all users folder
-        logger.debug("Start copying files from '" + userDatasetDir + "' to '" + allUserDatasetDir + "'");
-        if (!isDatasetPublic) {
-            String cmd = "cp -r " + userDatasetDir + " " + allUserDatasetDir;
-            RunExternalProgram.runCommand(cmd, "");
-        }
         logger.debug("Start copying files from '" + userPredictorDir + "' to '" + allUserPredictorDir + "'");
         String cmd = "cp -r " + userPredictorDir + " " + allUserPredictorDir;
         RunExternalProgram.runCommand(cmd, "");
 
         //starting database records cloning process
-
-        if (!isDatasetPublic) {
-            //duplicating dataset record
-            logger.debug("------DB: Duplicating dataset record for dataset: " + dataset.getName());
-            dataset.setId(null);
-            dataset.setUserName(Constants.ALL_USERS_USERNAME);
-            datasetRepository.save(dataset);
-        }
-
-
         Long predictorId = predictor.getId();
         Long newPredictorId = null;
         //duplicating predictor record
