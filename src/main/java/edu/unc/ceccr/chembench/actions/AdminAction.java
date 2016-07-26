@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdminAction extends ActionSupport {
@@ -109,54 +111,27 @@ public class AdminAction extends ActionSupport {
         Dataset dataset = datasetRepository.findOne(predictor.getDatasetId());
         if (dataset == null) {
             return ERROR;
+        } else if (!dataset.getUserName().trim().equals(Constants.ALL_USERS_USERNAME)) {
+            this.datasetId = dataset.getId();
+            String datasetResult = makeDatasetPublic();
+            if (datasetResult.equals(ERROR)) {
+                return ERROR;
+            }
         }
 
-        //check if predictor is based on the public dataset
-        boolean isDatasetPublic = false;
-        if (dataset.getUserName().trim().equals(Constants.ALL_USERS_USERNAME)) {
-            logger.debug("**************DATASET IS ALREADY PUBLIC!");
-            isDatasetPublic = true;
-        }
-
-        //check if any other dataset with the same name is already public
-        Dataset checkPublicDataset =
-                datasetRepository.findByNameAndUserName(dataset.getName(), Constants.ALL_USERS_USERNAME);
-        if (checkPublicDataset != null) {
-            isDatasetPublic = true;
-            dataset = checkPublicDataset;
-        }
-
-        String allUserDatasetDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/DATASETS/" +
-                dataset.getName();
         String allUserPredictorDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME +
-                "/PREDICTORS/" + predictor.getName();
-
+                "/PREDICTORS/";
         String predictorUserName = predictor.getUserName();
-        String userDatasetDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/DATASETS/" + dataset.getName();
         String userPredictorDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/PREDICTORS/" + predictor.getName();
 
         //copy files to all users folder
-        logger.debug("Start copying files from '" + userDatasetDir + "' to '" + allUserDatasetDir + "'");
-        if (!isDatasetPublic) {
-            String cmd = "cp -r " + userDatasetDir + " " + allUserDatasetDir;
-            RunExternalProgram.runCommand(cmd, "");
-        }
         logger.debug("Start copying files from '" + userPredictorDir + "' to '" + allUserPredictorDir + "'");
+        new File(allUserPredictorDir).mkdirs();
         String cmd = "cp -r " + userPredictorDir + " " + allUserPredictorDir;
         RunExternalProgram.runCommand(cmd, "");
 
         //starting database records cloning process
-
-        if (!isDatasetPublic) {
-            //duplicating dataset record
-            logger.debug("------DB: Duplicating dataset record for dataset: " + dataset.getName());
-            dataset.setId(null);
-            dataset.setUserName(Constants.ALL_USERS_USERNAME);
-            datasetRepository.save(dataset);
-        }
-
-
-        Long predictorId = predictor.getId();
+        Long oldPredictorId = predictor.getId();
         Long newPredictorId = null;
         //duplicating predictor record
         logger.debug("------DB: Duplicating predictor record for predictor: " + predictor.getName());
@@ -164,155 +139,105 @@ public class AdminAction extends ActionSupport {
         predictor.setUserName(Constants.ALL_USERS_USERNAME);
         predictor.setPredictorType(predictorType);
         predictor.setDatasetId(dataset.getId());
-        predictorRepository.save(predictor);
+        Predictor newPredictor = predictorRepository.save(predictor);
         newPredictorId = predictor.getId();
+        newPredictor = copyPredictorRelatedObjects(oldPredictorId, newPredictorId);
 
+        //duplicating child predictors
+        List<Predictor> children = predictorRepository.findByParentId(oldPredictorId);
+        if (!children.isEmpty()) {
+            List<Long> childIds = new ArrayList<>();
+            for (Predictor child : children) {
+                Long oldChildId = child.getId();
+                child.setId(null);
+                child.setUserName(Constants.ALL_USERS_USERNAME);
+                child.setPredictorType("Hidden");
+                child.setDatasetId(dataset.getId());
+                child.setParentId(newPredictorId);
+                Predictor newChild = predictorRepository.save(child);
+                childIds.add(newChild.getId());
+                copyPredictorRelatedObjects(oldChildId, newChild.getId());
+            }
+            newPredictor.setChildIds(Utility.SPACE_JOINER.join(childIds));
+            predictorRepository.save(newPredictor);
+            logger.debug("--------New child predictor IDs=" + newPredictor.getChildIds());
+        }
+        return SUCCESS;
+    }
+
+    private Predictor copyPredictorRelatedObjects(Long oldId, Long newId) {
         //taking care of external validation table
         logger.debug("------//taking care of external validation table");
 
-        List<ExternalValidation> extValidation = externalValidationRepository.findByPredictorId(predictorId);
+        List<ExternalValidation> extValidation = externalValidationRepository.findByPredictorId(oldId);
         for (ExternalValidation exVal : extValidation) {
             exVal.setExternalValId(null);
-            exVal.setPredictorId(newPredictorId);
+            exVal.setPredictorId(newId);
             externalValidationRepository.save(exVal);
         }
 
         //taking care of knnPlusModel table
         logger.debug("------//taking care of knnPlusModel table");
-        List<KnnPlusModel> knnPlusModels = knnPlusModelRepository.findByPredictorId(predictorId);
+        List<KnnPlusModel> knnPlusModels = knnPlusModelRepository.findByPredictorId(oldId);
         for (KnnPlusModel knnPlusModel : knnPlusModels) {
             knnPlusModel.setId(null);
-            knnPlusModel.setPredictorId(newPredictorId);
+            knnPlusModel.setPredictorId(newId);
             knnPlusModelRepository.save(knnPlusModel);
         }
 
         //taking care of SVM table
         logger.debug("------//taking care of SVM table");
-        List<SvmModel> svmModels = svmModelRepository.findByPredictorId(predictorId);
+        List<SvmModel> svmModels = svmModelRepository.findByPredictorId(oldId);
         for (SvmModel svmModel : svmModels) {
             svmModel.setId(null);
-            svmModel.setPredictorId(newPredictorId);
+            svmModel.setPredictorId(newId);
             svmModelRepository.save(svmModel);
         }
 
         //taking care of RandomForest table
         logger.debug("------//taking care of RandomForest table");
-        List<RandomForestGrove> groves = randomForestGroveRepository.findByPredictorId(predictorId);
+        List<RandomForestGrove> groves = randomForestGroveRepository.findByPredictorId(oldId);
         for (RandomForestGrove grove : groves) {
             Long oldGroveId = grove.getId();
             grove.setId(null);
-            grove.setPredictorId(newPredictorId);
-            randomForestGroveRepository.save(grove);
+            grove.setPredictorId(newId);
+            RandomForestGrove newGrove = randomForestGroveRepository.save(grove);
             List<RandomForestTree> trees = randomForestTreeRepository.findByRandomForestGroveId(oldGroveId);
             for (RandomForestTree tree : trees) {
                 tree.setId(null);
-                tree.setRandomForestGroveId(grove.getId());
+                tree.setRandomForestGroveId(newGrove.getId());
                 randomForestTreeRepository.save(tree);
             }
         }
 
         //taking care of modeling parameters
+        Predictor oldPredictor = predictorRepository.findOne(oldId);
+        Predictor newPredictor = predictorRepository.findOne(newId);
         logger.debug("------//taking care of modeling parameters");
-
-        Predictor oldPredictor = predictorRepository.findOne(predictorId);
         if (oldPredictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
             logger.debug("------//RANDOMFOREST");
             RandomForestParameters randomForestParameters =
                     randomForestParametersRepository.findOne(oldPredictor.getModelingParametersId());
             randomForestParameters.setId(null);
-            randomForestParametersRepository.save(randomForestParameters);
-            predictor.setModelingParametersId(randomForestParameters.getId());
+            randomForestParameters = randomForestParametersRepository.save(randomForestParameters);
+            newPredictor.setModelingParametersId(randomForestParameters.getId());
         } else if (oldPredictor.getModelMethod().equals(Constants.KNNGA) || oldPredictor.getModelMethod()
                 .equals(Constants.KNNSA)) {
             logger.debug("------//KNN+");
             KnnPlusParameters knnPlusParameters =
                     knnPlusParametersRepository.findOne(oldPredictor.getModelingParametersId());
             knnPlusParameters.setId(null);
-            knnPlusParametersRepository.save(knnPlusParameters);
-            predictor.setModelingParametersId(knnPlusParameters.getId());
+            knnPlusParameters = knnPlusParametersRepository.save(knnPlusParameters);
+            newPredictor.setModelingParametersId(knnPlusParameters.getId());
         } else if (oldPredictor.getModelMethod().equals(Constants.SVM)) {
             logger.debug("------//SVM");
             SvmParameters svmParameters = svmParametersRepository.findOne(oldPredictor.getModelingParametersId());
             svmParameters.setId(null);
-            svmParametersRepository.save(svmParameters);
-            predictor.setModelingParametersId(svmParameters.getId());
+            svmParameters = svmParametersRepository.save(svmParameters);
+            newPredictor.setModelingParametersId(svmParameters.getId());
         }
-
-        logger.debug("--------Old predictor ID=" + predictorId + " -> new one = " + newPredictorId);
-
-        //duplicating child predictors
-        String[] predictorChildren = null;
-        String newChildIds = null;
-        if (predictor.getChildIds() != null) {
-            logger.debug("--------Child predictor IDs=" + predictor.getChildIds());
-            newChildIds = "";
-            predictorChildren = predictor.getChildIds().split("\\s+");
-            for (String id : predictorChildren) {
-                logger.debug("--------Child predictor ID=" + id + " longId=" + Long.parseLong(id));
-                Predictor child = predictorRepository.findOne(Long.parseLong(id));
-                if (child != null) {
-                    child.setId(null);
-                    child.setUserName(Constants.ALL_USERS_USERNAME);
-                    child.setPredictorType("Hidden");
-                    child.setDatasetId(dataset.getId());
-                    child.setParentId(newPredictorId);
-                    predictorRepository.save(child);
-                    Long newId = child.getId();
-                    newChildIds += newId.toString() + " ";
-
-                    //taking care of external validation table
-                    extValidation = externalValidationRepository.findByPredictorId(Long.parseLong(id));
-                    for (ExternalValidation exVal : extValidation) {
-                        exVal.setExternalValId(null);
-                        exVal.setPredictorId(newId);
-                        externalValidationRepository.save(exVal);
-                    }
-
-                    if (child.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
-                        RandomForestParameters randomForestParameters =
-                                randomForestParametersRepository.findOne(child.getModelingParametersId());
-                        randomForestParameters.setId(null);
-                        randomForestParametersRepository.save(randomForestParameters);
-                        child.setModelingParametersId(randomForestParameters.getId());
-                    } else if (child.getModelMethod().equals(Constants.KNNGA) || child.getModelMethod()
-                            .equals(Constants.KNNSA)) {
-                        KnnPlusParameters knnPlusParameters =
-                                knnPlusParametersRepository.findOne(child.getModelingParametersId());
-                        knnPlusParameters.setId(null);
-                        knnPlusParametersRepository.save(knnPlusParameters);
-                        child.setModelingParametersId(knnPlusParameters.getId());
-                    } else if (child.getModelMethod().equals(Constants.SVM)) {
-                        SvmParameters svmParameters = svmParametersRepository.findOne(child.getModelingParametersId());
-                        svmParameters.setId(null);
-                        svmParametersRepository.save(svmParameters);
-                        child.setModelingParametersId(svmParameters.getId());
-                    }
-                    //taking care of RandomForest table
-                    logger.debug("------//taking care of RandomForest table");
-
-                    groves = randomForestGroveRepository.findByPredictorId(Long.parseLong(id));
-                    for (RandomForestGrove grove : groves) {
-                        Long oldId = grove.getId();
-                        grove.setId(null);
-                        grove.setPredictorId(newId);
-                        randomForestGroveRepository.save(grove);
-                        List<RandomForestTree> trees = randomForestTreeRepository.findByRandomForestGroveId(oldId);
-                        for (RandomForestTree tree : trees) {
-                            tree.setId(null);
-                            tree.setRandomForestGroveId(grove.getId());
-                            randomForestTreeRepository.save(tree);
-                        }
-                    }
-                    predictorRepository.save(child);
-                }
-            }
-        }
-
-        //updating newly created predictor with new child ids
-        predictor.setChildIds(newChildIds);
-        logger.debug("--------New child predictor IDs=" + newChildIds);
-        predictorRepository.save(predictor);
-        return SUCCESS;
+        logger.debug("--------Old predictor ID=" + oldId + " -> new one = " + newId);
+        return predictorRepository.save(newPredictor);
     }
 
     public String makeDatasetPublic() {
@@ -332,13 +257,12 @@ public class AdminAction extends ActionSupport {
             return ERROR;
         }
 
-        String allUserDatasetDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/DATASETS/" +
-                dataset.getName();
+        String allUserDatasetDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/DATASETS/";
         String userDatasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getName();
 
         //copy files to all users folder
         logger.debug("Start copying files from '" + userDatasetDir + "' to '" + allUserDatasetDir + "'");
-
+        new File(allUserDatasetDir).mkdirs();
         String cmd = "cp -r " + userDatasetDir + " " + allUserDatasetDir;
         RunExternalProgram.runCommand(cmd, "");
 
