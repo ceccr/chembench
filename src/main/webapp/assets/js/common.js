@@ -74,7 +74,7 @@
     };
 
     Chembench.formatDescriptorType = function(text) {
-        return text.replace('DRAGON', 'Dragon').replace('NOH', 'NoH').replace(Chembench.Constants.UPLOADED, 'Uploaded');
+        return text.replace('DRAGONNOH', 'DragonX-NoH').replace('DRAGONH', 'DragonX-H').replace('DRAGON7', 'Dragon 7').replace(Chembench.Constants.UPLOADED, 'Uploaded');
     };
 
     Chembench.formatAvailableDescriptors = function(text) {
