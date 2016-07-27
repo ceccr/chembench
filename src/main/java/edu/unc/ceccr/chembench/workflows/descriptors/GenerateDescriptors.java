@@ -12,8 +12,7 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.nio.file.StandardCopyOption;
 
 public class GenerateDescriptors {
 
@@ -208,13 +207,8 @@ public class GenerateDescriptors {
         Path descriptorsDirPath = sdfFilePath.getParent().resolve("Descriptors");
         RunExternalProgram.runCommandAndLogOutput(execstr, descriptorsDirPath.toString() + "/", "dragon7");
 
-        // dragon7 will write out descriptor output to dragon7.log and its log to dragon7.err;
-        // rename dragon7.log to the descriptor file (<sdf_name>.dragon7) and dragon7.err to dragon7.log
-        // (in that order, or you'll overwrite the file! need to use REPLACE_EXISTING if execution failed before)
         try {
-            Files.move(descriptorsDirPath.resolve("Logs").resolve("dragon7.log"), Paths.get(outFile), REPLACE_EXISTING);
-            Files.move(descriptorsDirPath.resolve("Logs").resolve("dragon7.err"),
-                    descriptorsDirPath.resolve("Logs").resolve("dragon7.log"), REPLACE_EXISTING);
+            Files.move(descriptorsDirPath.resolve("dragon7.out"), Paths.get(outFile), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new DescriptorGenerationException("Dragon 7 descriptor generation failed", e);
         }
