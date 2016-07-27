@@ -437,6 +437,7 @@ public class QsarModelingTask extends WorkflowTask {
         String xFileName = "";
         // read in descriptors from the dataset
         step = Constants.PROCDESCRIPTORS;
+        // for CDK we need to do some preprocessing so we can't call ReadDescriptors.readDescriptors on it yet
         if (descriptorGenerationType.equals(Constants.CDK)) {
             logger.debug("Processing CDK descriptors for job, " + jobName + " submitted by user, " + userName);
 
@@ -449,29 +450,8 @@ public class QsarModelingTask extends WorkflowTask {
             DatasetFileOperations.removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
             DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
             chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
-        } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
-            logger.debug("Processing DragonH descriptors for job, " + jobName + "submitted by user, " + userName);
-            ReadDescriptors
-                    .readDragonXDescriptors(filePath + sdFileName + ".dragonH", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
-            logger.debug("Processing DragonNoH descriptors for job, " + jobName + "submitted by user, " + userName);
-            ReadDescriptors.readDragonXDescriptors(filePath + sdFileName + ".dragonNoH", descriptorNames,
-                    descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.MOE2D)) {
-            logger.debug("Processing MOE2D descriptors for job, " + jobName + "submitted by user, " + userName);
-            ReadDescriptors
-                    .readMoe2DDescriptors(filePath + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.MACCS)) {
-            logger.debug("Processing MACCS descriptors for job, " + jobName + "submitted by user, " + userName);
-            ReadDescriptors
-                    .readMaccsDescriptors(filePath + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
-            logger.debug("Processing ISIDA descriptors for job, " + jobName + "submitted by user, " + userName);
-            ReadDescriptors
-                    .readIsidaDescriptors(filePath + sdFileName + ".ISIDA", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
-            logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
-            ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
+        } else {
+            ReadDescriptors.readDescriptors(predictor, filePath + sdFileName, descriptorNames, descriptorValueMatrix);
         }
 
         // write out the descriptors into a .x file for modeling
