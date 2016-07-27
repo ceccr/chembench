@@ -86,14 +86,20 @@
               </div>
               <div class="radio">
                 <label>
+                  <input name="descriptorGenerationType" type="radio" value="DRAGON7">
+                  Dragon 7 (3850 descriptors)
+                </label>
+              </div>
+              <div class="radio">
+                <label>
                   <input name="descriptorGenerationType" type="radio" value="DRAGONH">
-                  Dragon, with hydrogens (2489 descriptors)
+                  Dragon X, with hydrogens (2489 descriptors)
                 </label>
               </div>
               <div class="radio">
                 <label>
                   <input name="descriptorGenerationType" type="radio" value="DRAGONNOH">
-                  Dragon, no hydrogens (900 descriptors)
+                  Dragon X, no hydrogens (900 descriptors)
                 </label>
               </div>
               <div class="radio">
