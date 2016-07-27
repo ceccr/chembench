@@ -433,7 +433,6 @@ public class QsarModelingTask extends WorkflowTask {
         String xFileName = "";
 
         //hybrid descriptor
-        List<List<String>> chemicalNamesCombined = new ArrayList<>();
         List<String> descriptorNamesCombined = new ArrayList<>();
         List<String> descriptorSetList = Splitter.on(", ").splitToList(descriptorGenerationType);
         List<Descriptors> descriptorValueMatrixCombined = new ArrayList<>();
@@ -445,7 +444,6 @@ public class QsarModelingTask extends WorkflowTask {
             List<Descriptors> descriptorValueMatrix = new ArrayList<>();
 
             if (descriptorType.equals(Constants.CDK)) {
-                List<String> cdkChemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
                 logger.debug("Processing CDK descriptors for job, " + jobName + " submitted by user, " + userName);
 
                 ReadDescriptors.convertCdkToX(filePath + sdFileName + ".cdk", filePath);
@@ -503,10 +501,9 @@ public class QsarModelingTask extends WorkflowTask {
                 logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
 
-                if (descriptorNames.size() > 0 && descriptorValueMatrix.size() >0)
+                if (descriptorNames.size() > 0 && descriptorValueMatrix.size() > 0)
                     Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
                             descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
-                Utility.combine(descriptorValueMatrix, descriptorValueMatrixCombined);
             }
         }
         // write out the descriptors into a .x file for modeling

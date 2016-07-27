@@ -400,10 +400,11 @@ public class QsarPredictionTask extends WorkflowTask {
             // descriptors to fit predictor.
             FileAndDirOperations.copyDirContents(datasetPath, predictionDir, false);
 
-            if (predictor.getDescriptorGeneration().equals(Constants.UPLOADED)) {
+            String sdfilex = null;
+            if (predictor.getDescriptorGeneration().contains(Constants.UPLOADED)) {
                 // the prediction descriptors file name is different if the
                 // user provided a .x file.
-                sdfile = predictionDataset.getXFile();
+                sdfilex = predictionDataset.getXFile();
             }
 
             step = Constants.PROCDESCRIPTORS;
@@ -413,7 +414,7 @@ public class QsarPredictionTask extends WorkflowTask {
                                 ".hdr");
             }
             ConvertDescriptorsToXAndScale
-                    .convertDescriptorsToXAndScale(predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x",
+                    .convertDescriptorsToXAndScale(predictionDir, sdfile, sdfilex, "train_0.x", sdfile + ".renorm.x",
                             predictor.getDescriptorGeneration(), predictor.getScalingType(),
                             predictionDataset.getNumCompound());
 

@@ -130,69 +130,79 @@ public class ConvertDescriptorsToXAndScale {
         mergeXFileParts(workingDir, outputXFile, scalingType, allChemicalNames.size());
     }
 
-    public static void convertDescriptorsToXAndScale(String workingDir, String sdfile, String predictorXFile,
-                                                     String outputXFile, String descriptorGenerationType,
-                                                     String scalingType, int numCompounds) throws Exception {
-
+    public static void convertDescriptorsToXAndScale(String workingDir, String sdfile, String sdfilex,
+                                                     String predictorXFile, String outputXFile,
+                                                     String descriptorGenerationType, String scalingType,
+                                                     int numCompounds) throws Exception {
 //        if (numCompounds > compoundsPerChunk) {
 //            convertDescriptorsToXAndScaleInChunks(workingDir, sdfile, predictorXFile, outputXFile,
 //                    descriptorGenerationType, scalingType);
 //            return;
 //        }
 
-        List<String> chemicalNames = null;
+        List<String> chemicalNames = new ArrayList<>();
         List<String> descriptorNamesCombined = new ArrayList<>();
         List<Descriptors> descriptorValueMatrixCombined = new ArrayList<>();
         List<String> descriptorSetList = Splitter.on(", ").splitToList(descriptorGenerationType);
 
-        if (descriptorGenerationType.contains(Constants.UPLOADED)) {
-            chemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
-        } else {
-            logger.info("Getting compound names from SDF file: " +
-                    workingDir + sdfile);
+        if (descriptorSetList.size() > 1 ) {
             chemicalNames = DatasetFileOperations.getSdfCompoundNames(workingDir + sdfile);
+            if (descriptorGenerationType.contains(Constants.UPLOADED) && chemicalNames.size() > DatasetFileOperations
+                    .getSdfCompoundNames(workingDir + sdfilex).size()) {
+                chemicalNames =  DatasetFileOperations.getXCompoundNames(workingDir + sdfilex);
+            }
+        }
+        else{
+            if (descriptorGenerationType.equals(Constants.UPLOADED)) {
+                chemicalNames.addAll(DatasetFileOperations.getXCompoundNames(workingDir + sdfilex));
+            } else {
+                logger.info("Getting compound names from SDF file: " +
+                        workingDir + sdfile);
+                chemicalNames.addAll(DatasetFileOperations.getSdfCompoundNames(workingDir + sdfile));
+            }
         }
 
         for (String descriptorType :descriptorSetList) {
             List<String> descriptorNames = new ArrayList<>();
             List<Descriptors> descriptorValueMatrix = new ArrayList<>();
-
             String descriptorsFile = sdfile;
+
             if (descriptorType.equals(Constants.CDK)) {
                 descriptorsFile += ".cdk";
                 ReadDescriptors.convertCdkToX(workingDir + descriptorsFile, workingDir);
                 ReadDescriptors
                         .readXDescriptors(workingDir + descriptorsFile + ".x", descriptorNames, descriptorValueMatrix);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
                         descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.DRAGONH)) {
                 descriptorsFile += ".dragonH";
                 ReadDescriptors.readDragonDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
                         descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.DRAGONNOH)) {
                 descriptorsFile += ".dragonNoH";
                 ReadDescriptors.readDragonDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
                         descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.MOE2D)) {
                 descriptorsFile += ".moe2D";
                 ReadDescriptors.readMoe2DDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
                         descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.MACCS)) {
                 descriptorsFile += ".maccs";
                 ReadDescriptors.readMaccsDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
                         descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.ISIDA)) {
                 descriptorsFile += ".renorm.ISIDA";
                 ReadDescriptors.readIsidaDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
                         descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.UPLOADED)) {
+                descriptorsFile = sdfilex;
                 ReadDescriptors.readXDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
                         descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             }
         }

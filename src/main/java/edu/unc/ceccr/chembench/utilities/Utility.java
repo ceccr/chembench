@@ -417,6 +417,8 @@ public class Utility {
     }
     public static void combine (List<Descriptors> descriptorValueMatrix ,
                                 List<Descriptors> descriptorValueMatrixCombined){
+        logger.info("Combining descriptors of size " +descriptorValueMatrix.size()+" and "+
+                descriptorValueMatrixCombined.size());
         if (!descriptorValueMatrixCombined.isEmpty()) {
             int j = 0;
             int k = 0;

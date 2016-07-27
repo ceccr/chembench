@@ -95,14 +95,14 @@ public class PredictionAction extends ActionSupport {
             if (!predictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
                 throw new RuntimeException("Non-random forest predictors cannot be used for SMILES predictions");
             }
-
-            List<String> descriptorType =  Splitter.on(", ").splitToList(predictor.getDescriptorGeneration());
+            String descriptorType = predictor.getDescriptorGeneration();
             // skip predictors with uploaded descriptors, since we can't
             // generate them for the SDF generated from the SMILES string
-            for(String descriptor: descriptorType)
-            if (!descriptorType.equals(Constants.UPLOADED)) {
+            if (!descriptorType.contains(Constants.UPLOADED)) {
                 predictors.add(predictor);
-                descriptorTypes.add(descriptor);
+                //add descriptor types for hybrids
+                for(String descriptor: Splitter.on(", ").splitToList(descriptorType))
+                    descriptorTypes.add(descriptor);
             }
         }
 
@@ -522,54 +522,6 @@ public class PredictionAction extends ActionSupport {
 
             boolean descriptorsMatch = false;
 
-            if (sp.getDescriptorGeneration().equals(Constants.UPLOADED)) {
-                // get the uploaded descriptors for the dataset
-                String predictionXFile = predictionDataset.getXFile();
-
-                String predictionDatasetDir =
-                        Constants.CECCR_USER_BASE_PATH + predictionDataset.getUserName() + "/DATASETS/"
-                                + predictionDataset.getName() + "/";
-                if (predictionXFile != null && !predictionXFile.trim().isEmpty()) {
-
-                    logger.debug("Staring to read predictors from file: " + predictionDatasetDir + predictionXFile);
-                    String[] predictionDescs =
-                            ReadDescriptors.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
-
-                    // get the uploaded descriptors for the predictor
-                    Dataset predictorDataset = datasetRepository.findOne(sp.getDatasetId());
-                    String predictorDatasetDir =
-                            Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + "/DATASETS/"
-                                    + predictorDataset.getName() + "/";
-                    String[] predictorDescs =
-                            ReadDescriptors.readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
-
-                    descriptorsMatch = true;
-                    /*
-                     * for each predictor desc, make sure there's a matching
-                     * prediction desc.
-                     */
-                    for (int i = 0; i < predictorDescs.length; i++) {
-                        boolean matchingDescriptor = false;
-                        for (int j = 0; j < predictionDescs.length; j++) {
-                            if (predictorDescs[i].equals(predictionDescs[j])) {
-                                matchingDescriptor = true;
-                                j = predictionDescs.length;
-                            }
-                        }
-                        if (!matchingDescriptor) {
-                            descriptorsMatch = false;
-                            addActionError(
-                                    "The predictor '" + sp.getName() + "' contains the descriptor '" + predictorDescs[i]
-                                            + "', but this " + "descriptor was not found in "
-                                            + "the prediction dataset.");
-                        }
-                    }
-
-                    if (!descriptorsMatch) {
-                        return ERROR;
-                    }
-                }
-            } else {
                 for (int i = 0; i < predictionDatasetDescriptors.length; i++) {
                     if (sp.getDescriptorGeneration().contains(Constants.CDK) && predictionDatasetDescriptors[i]
                             .equals(Constants.CDK)) {
@@ -589,6 +541,52 @@ public class PredictionAction extends ActionSupport {
                     } else if (sp.getDescriptorGeneration().contains(Constants.ISIDA) && predictionDatasetDescriptors[i]
                             .equals(Constants.ISIDA)) {
                         descriptorsMatch = true;
+                    } else if (sp.getDescriptorGeneration().contains(Constants.UPLOADED) && predictionDatasetDescriptors[i]
+                            .equals(Constants.UPLOADED)) {
+                        // get the uploaded descriptors for the dataset
+                        String predictionXFile = predictionDataset.getXFile();
+
+                        String predictionDatasetDir =
+                                Constants.CECCR_USER_BASE_PATH + predictionDataset.getUserName() + "/DATASETS/"
+                                        + predictionDataset.getName() + "/";
+                        if (predictionXFile != null && !predictionXFile.trim().isEmpty()) {
+
+                            logger.debug("Staring to read predictors from file: " + predictionDatasetDir + predictionXFile);
+                            String[] predictionDescs =
+                                    ReadDescriptors.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
+
+                            // get the uploaded descriptors for the predictor
+                            Dataset predictorDataset = datasetRepository.findOne(sp.getDatasetId());
+                            String predictorDatasetDir =
+                                    Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + "/DATASETS/"
+                                            + predictorDataset.getName() + "/";
+                            String[] predictorDescs = ReadDescriptors
+                                    .readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
+
+                            descriptorsMatch = true;
+                            /*
+                             * for each predictor desc, make sure there's a matching
+                             * prediction desc.
+                             */
+                            for (int j = 0; j < predictorDescs.length; j++) {
+                                boolean matchingDescriptor = false;
+                                for (int k = 0; k < predictionDescs.length; k++) {
+                                    if (predictorDescs[j].equals(predictionDescs[k])) {
+                                        matchingDescriptor = true;
+                                        k = predictionDescs.length;
+                                    }
+                                }
+                                if (!matchingDescriptor) {
+                                    descriptorsMatch = false;
+                                    addActionError("The predictor '" + sp.getName() + "' contains the descriptor '" + predictorDescs[i]
+                                            + "', but this " + "descriptor was not found in " + "the prediction dataset.");
+                                }
+                            }
+
+                            if (!descriptorsMatch) {
+                                return ERROR;
+                            }
+                        }
                     }
                 }
 
@@ -599,7 +597,7 @@ public class PredictionAction extends ActionSupport {
                             + " this prediction.");
                     return ERROR;
                 }
-            }
+
 
         }
 

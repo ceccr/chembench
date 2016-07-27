@@ -80,7 +80,7 @@
             <div id="descriptor-types">
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="checkbox" value="CDK" checkeds>
+                  <input name="descriptorGenerationType" type="checkbox" value="CDK" checked>
                   CDK (202 descriptors)
                 </label>
               </div>
@@ -118,6 +118,12 @@
                 <label>
                   <input name="descriptorGenerationType" type="checkbox" value="UPLOADED">
                   Uploaded descriptors
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input name="descriptorGenerationType" type="checkbox" value="HYBRID">
+                  Hybrid descriptors
                 </label>
               </div>
             </div>

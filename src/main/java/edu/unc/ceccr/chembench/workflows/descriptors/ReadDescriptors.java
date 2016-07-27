@@ -90,9 +90,6 @@ public class ReadDescriptors {
             }
 
         }
-        Descriptors descriptor = new Descriptors();
-        descriptor.setDescriptorValues(descriptorValues);
-        descriptorValueMatrix.add(descriptor);
     }
     public static void readDragonDescriptors(String dragonOutputFile, List<String> descriptorNames,
                                              List<Descriptors> descriptorValueMatrix) throws Exception {
