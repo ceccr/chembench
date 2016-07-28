@@ -51,8 +51,13 @@ public class Compound3DAction extends ActionSupport implements ServletResponseAw
 
         Path datasetStructuresDirPath = dataset.getDirectoryPath().resolve("Visualization").resolve("Structures");
         Path molFilePath = datasetStructuresDirPath.resolve(compoundName + ".mol");
+        Path sdfFilePath = datasetStructuresDirPath.resolve(compoundName + ".sdf");
+        if (!Files.exists(sdfFilePath)) {
+            return "notfound";
+        }
+        logger.debug("Getting molfile: " + molFilePath);
         if (!Files.exists(molFilePath)) {
-            convert2Dto3D(datasetStructuresDirPath.resolve(compoundName + ".sdf"), molFilePath);
+            convert2Dto3D(sdfFilePath, molFilePath);
         }
         applet = new MarvinApplet();
         applet.height = APPLET_HEIGHT;
@@ -83,6 +88,7 @@ public class Compound3DAction extends ActionSupport implements ServletResponseAw
         // We have a Visualization/Structures directory, filled with single-compound 2D SDFs.
         // We need 3D mol files in order to visualize them.
         // So, this function will convert a 2D SDF to a 3D mol file on demand.
+        logger.debug(".mol file doesn't exist yet, creating it from sdf");
         String command = String.format("molconvert -3:S{fast} mol \"%s\" -o \"%s\"", inFilePath.toString(),
                 outFilePath.toString());
         RunExternalProgram.runCommandAndLogOutput(command, outFilePath.getParent(), "molconvert_3D");
