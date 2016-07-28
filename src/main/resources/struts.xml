@@ -286,11 +286,7 @@
             </result>
         </action>
 
-        <action name="getCompound3D" class="edu.unc.ceccr.chembench.actions.api.Compound3DAction">
-            <result name="success" type="json">
-                <param name="root">applet</param>
-            </result>
-        </action>
+        <action name="getCompound3D" class="edu.unc.ceccr.chembench.actions.api.Compound3DAction" />
     </package>
     <!-- End API -->
 </struts>

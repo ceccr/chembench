@@ -1,5 +1,7 @@
 package edu.unc.ceccr.chembench.actions.api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Dataset;
@@ -7,16 +9,18 @@ import edu.unc.ceccr.chembench.persistence.DatasetRepository;
 import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.struts2.interceptor.ServletResponseAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class Compound3DAction extends ActionSupport {
+public class Compound3DAction extends ActionSupport implements ServletResponseAware {
     private static final Logger logger = LoggerFactory.getLogger(Compound3DAction.class);
     private static final int APPLET_WIDTH = 350;
     private static final int APPLET_HEIGHT = 350;
@@ -27,6 +31,7 @@ public class Compound3DAction extends ActionSupport {
     private String compoundName;
     private Long datasetId;
     private MarvinApplet applet;
+    private HttpServletResponse response;
 
     @Autowired
     public Compound3DAction(DatasetRepository datasetRepository) {
@@ -64,7 +69,14 @@ public class Compound3DAction extends ActionSupport {
             logger.error("URL building failed", e);
             return ERROR;
         }
-        return SUCCESS;
+
+        // the struts2-json-plugin doesn't let us disable html escaping for the url,
+        // so we write to the response manually and return NONE to skip result processing
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+        response.getWriter().write(gson.toJson(applet));
+        return NONE;
     }
 
     private void convert2Dto3D(Path inFilePath, Path outFilePath) {
@@ -98,6 +110,11 @@ public class Compound3DAction extends ActionSupport {
 
     public void setApplet(MarvinApplet applet) {
         this.applet = applet;
+    }
+
+    @Override
+    public void setServletResponse(HttpServletResponse httpServletResponse) {
+        this.response = httpServletResponse;
     }
 
     /**
