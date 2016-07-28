@@ -33,20 +33,6 @@ public class Compound3DAction extends ActionSupport {
         this.datasetRepository = datasetRepository;
     }
 
-    /*
-    public String execute() throws IOException {
-        String front = "<script LANGUAGE='JavaScript1.1' SRC='jchem/marvin/marvin.js'></script><script "
-                + "LANGUAGE='JavaScript1.1'>" + "mview_begin('/jchem/marvin/', 350, 350);";
-
-        String mol3D_URL_friendly = compoundName.replaceAll("%", "%25") + "_3D.mol";
-        String parameter =
-                "mview_param('mol'," + "'" + urlBaseDir + "&" + "compoundId=" + compoundName.replaceAll("%", "%25")
-                        + "'" + ");";
-
-        String end = "mview_end();</script>";
-    }
-    */
-
     public String execute() throws IOException {
         if (compoundName == null || datasetId == null) {
             return "badrequest";
