@@ -196,10 +196,6 @@
             <result>descriptorMatrixServlet.do</result>
         </action>
 
-        <action name="compound3D">
-            <result>compound3D.do</result>
-        </action>
-
         <action name="datasetFilesServlet">
             <result>datasetFilesServlet.do</result>
         </action>
@@ -274,7 +270,7 @@
     <!-- End Help forwards -->
 
     <!-- API endpoints -->
-    <package name="api" namespace="/api" extends="json-default">
+    <package name="api" namespace="/api" extends="chembench">
         <action name="getCurrentUser" class="edu.unc.ceccr.chembench.actions.api.UserAction"
                 method="getCurrentUser">
             <result name="success" type="json">
@@ -287,6 +283,12 @@
         <action name="get*" class="edu.unc.ceccr.chembench.actions.api.MyBenchAction" method="get{1}">
             <result name="success" type="json">
                 <param name="includeProperties">^data\[\d+\]\..*</param>
+            </result>
+        </action>
+
+        <action name="getCompound3D" class="edu.unc.ceccr.chembench.actions.api.Compound3DAction">
+            <result name="success" type="json">
+                <param name="root">applet</param>
             </result>
         </action>
     </package>

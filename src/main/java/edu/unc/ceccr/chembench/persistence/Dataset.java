@@ -446,4 +446,9 @@ public class Dataset implements java.io.Serializable {
     public String toString() {
         return this.name;
     }
+
+    @Transient
+    public boolean canBeViewedBy(User user) {
+        return Utility.stringToBoolean(user.getIsAdmin()) || this.userName.equals(user.getUserName());
+    }
 }

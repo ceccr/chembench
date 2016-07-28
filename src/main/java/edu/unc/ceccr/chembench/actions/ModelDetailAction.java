@@ -530,7 +530,7 @@ public class ModelDetailAction extends DetailAction {
         }
     }
 
-    private class DisplayedExternalValidationValue {
+    private static class DisplayedExternalValidationValue {
         private String compoundName;
         private float observedValue;
         private float predictedValue;

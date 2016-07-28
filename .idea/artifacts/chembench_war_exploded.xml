@@ -76,6 +76,9 @@
           <element id="library" level="project" name="Maven: nz.ac.waikato.cms.weka:weka-dev:3.7.11" />
           <element id="library" level="project" name="Maven: net.sf.squirrel-sql.thirdparty-non-maven:java-cup:0.11a" />
           <element id="library" level="project" name="Maven: org.pentaho.pentaho-commons:pentaho-package-manager:1.0.8" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.5.2" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.4" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.10" />
         </element>
       </element>
       <element id="directory" name="META-INF">

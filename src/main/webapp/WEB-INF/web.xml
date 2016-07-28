@@ -37,16 +37,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>Compound3D</servlet-name>
-        <servlet-class>edu.unc.ceccr.chembench.servlet.Compound3DServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>Compound3D</servlet-name>
-        <url-pattern>/compound3D.do</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>ImageServlet</servlet-name>
         <servlet-class>edu.unc.ceccr.chembench.servlet.ImageServlet</servlet-class>
     </servlet>

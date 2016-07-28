@@ -13,7 +13,7 @@ ENV
 tomcat_version = "7.0.70"
 tomcat_home = "/opt/apache-tomcat-#{tomcat_version}"
 catalina_opts = <<-OPTS
-export CATALINA_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+export CATALINA_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -Dchembench.jChemPath=$CHEMBENCH_HOME/jchem"
 OPTS
 tomcat_users_xml = <<-XML
 <?xml version="1.0" encoding="utf-8"?>
@@ -22,6 +22,10 @@ tomcat_users_xml = <<-XML
     <role rolename="manager-script" />
     <user username="admin" password="" roles="manager-gui,manager-script" />
 </tomcat-users>
+XML
+tomcat_jchem_xml = <<-XML
+<?xml version="1.0" encoding="utf-8"?>
+<Context path="/jchem" docBase="${chembench.jChemPath}" />
 XML
 
 tomcat_init_script = <<-INIT
@@ -84,6 +88,7 @@ Vagrant.configure(2) do |config|
         sudo echo '#{chembench_env}' >> #{tomcat_home}/bin/setenv.sh
         sudo echo '#{catalina_opts}' >> #{tomcat_home}/bin/setenv.sh
         sudo echo '#{tomcat_users_xml}' > #{tomcat_home}/conf/tomcat-users.xml
+        sudo echo '#{tomcat_jchem_xml}' > #{tomcat_home}/Catalina/localhost/jchem.xml
         sudo tar xzvf /vagrant/basebox.tgz -C /opt
         sudo chown -R vagrant:vagrant /opt/chembench
 
