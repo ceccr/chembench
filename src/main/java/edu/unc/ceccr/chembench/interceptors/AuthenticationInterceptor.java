@@ -15,8 +15,10 @@ public class AuthenticationInterceptor extends AbstractInterceptor {
         Map<String, Object> session = invocation.getInvocationContext().getSession();
         HttpServletRequest request = ServletActionContext.getRequest();
         if (session.get("user") == null) {
-            String queryString = request.getQueryString();
-            session.put("savedUrl", request.getRequestURI() + ((queryString == null) ? "" : "?" + queryString));
+            if (!invocation.getProxy().getNamespace().equals("/api")) {
+                String queryString = request.getQueryString();
+                session.put("savedUrl", request.getRequestURI() + ((queryString == null) ? "" : "?" + queryString));
+            }
             return Action.LOGIN;
         }
         return invocation.invoke();
