@@ -50,11 +50,11 @@ public class Compound3DAction extends ActionSupport implements ServletResponseAw
         }
 
         Path datasetStructuresDirPath = dataset.getDirectoryPath().resolve("Visualization").resolve("Structures");
-        Path molFilePath = datasetStructuresDirPath.resolve(compoundName + ".mol");
         Path sdfFilePath = datasetStructuresDirPath.resolve(compoundName + ".sdf");
         if (!Files.exists(sdfFilePath)) {
             return "notfound";
         }
+        Path molFilePath = datasetStructuresDirPath.resolve(compoundName + "_3D.mol");
         logger.debug("Getting molfile: " + molFilePath);
         if (!Files.exists(molFilePath)) {
             convert2Dto3D(sdfFilePath, molFilePath);
