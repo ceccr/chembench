@@ -20,6 +20,9 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * Handles requests for 3D .mol files for use with the Marvin compound visualization applet.
+ */
 public class Compound3DAction extends ActionSupport implements ServletResponseAware {
     private static final Logger logger = LoggerFactory.getLogger(Compound3DAction.class);
     private static final int APPLET_WIDTH = 350;
@@ -38,7 +41,12 @@ public class Compound3DAction extends ActionSupport implements ServletResponseAw
         this.datasetRepository = datasetRepository;
     }
 
-    public String execute() throws IOException {
+    /**
+     * Return a json response containing applet width/height and a url to the 3D molfile of the requested compound.
+     *
+     * @return result string
+     */
+    public String execute() {
         if (compoundName == null || datasetId == null) {
             return "badrequest";
         }
@@ -77,10 +85,15 @@ public class Compound3DAction extends ActionSupport implements ServletResponseAw
 
         // the struts2-json-plugin doesn't let us disable html escaping for the url,
         // so we write to the response manually and return NONE to skip result processing
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        Gson gson = new GsonBuilder().disableHtmlEscaping().create();
-        response.getWriter().write(gson.toJson(applet));
+        try {
+            Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+            response.getWriter().write(gson.toJson(applet));
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+        } catch (IOException e) {
+            logger.error("Couldn't write to response", e);
+            return ERROR;
+        }
         return NONE;
     }
 
@@ -124,11 +137,9 @@ public class Compound3DAction extends ActionSupport implements ServletResponseAw
     }
 
     /**
-     * Container class for info necessary for creating a Marvin 3D compound visualization applet.
-     *
-     * Note: This inner class *must* be declared public or the struts2-json-plugin will not correctly serialize it.
+     * Container class for Marvin applet parameters.
      */
-    public static class MarvinApplet {
+    private static class MarvinApplet {
         private int width;
         private int height;
         private String url;
