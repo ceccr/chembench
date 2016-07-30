@@ -14,7 +14,8 @@
         "UPLOADED": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@UPLOADED" />"
       },
       "MYBENCH_URL": "<s:url action="mybench" namespace="/" />",
-      "GET_CURRENT_USER_URL": "<s:url action="getCurrentUser" namespace="/api" />"
+      "GET_CURRENT_USER_URL": "<s:url action="getCurrentUser" namespace="/api" />",
+      'COMPOUND_3D_URL': '<s:url namespace="/api" action="getCompound3D" />'
     };
   })();
 </script>

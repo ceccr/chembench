@@ -13,6 +13,8 @@
   <section id="content">
     <h2>Model Details: <s:property value="predictor.name" /></h2>
 
+    <s:hidden id="dataset-id" value="%{predictor.datasetId}" />
+
     <div class="list-group">
       <div class="list-group-item">
         <h4 class="list-group-item-heading">General information</h4>
@@ -300,8 +302,10 @@
                     <s:param name="compoundId" value="%{compoundName}" />
                     <s:param name="datasetName" value="%{modelingDataset.name}" />
                   </s:url>
-                  <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
-                       height="125" alt="Compound structure">
+                  <button class="btn btn-default">
+                    <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
+                         height="125" alt="Compound structure">
+                  </button>
                 </td>
                 <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
                   <td><s:property value="observedValue" /></td>
@@ -709,6 +713,8 @@
 <script src="${pageContext.request.contextPath}/assets/js/autolink.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/editable.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/paging.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/ChemDoodleWeb.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/compound-detail.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/modelDetail.js"></script>
 </body>
 </html>

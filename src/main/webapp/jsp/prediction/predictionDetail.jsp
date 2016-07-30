@@ -13,6 +13,8 @@
   <section id="content">
     <h2>Prediction Details: <s:property value="prediction.name" /></h2>
 
+    <s:hidden id="dataset-id" value="%{predictionDataset.id}" />
+
     <div class="list-group">
       <div class="list-group-item">
         <h4 class="list-group-item-heading">General information</h4>
@@ -133,8 +135,10 @@
                   <s:param name="compoundId" value="%{compound}" />
                   <s:param name="datasetName" value="%{predictionDataset.name}" />
                 </s:url>
-                <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
-                     height="125" alt="Compound structure">
+                <button class="btn btn-default">
+                  <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
+                       height="125" alt="Compound structure">
+                </button>
               </td>
             </s:if>
             <s:if test="predictionValues != null && !predictionValues.isEmpty()">
@@ -191,6 +195,8 @@
 
 <%@ include file="/jsp/main/tail.jsp" %>
 <script src="${pageContext.request.contextPath}/assets/js/jquery.doubleScroll.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/ChemDoodleWeb.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/compound-detail.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/predictionDetail.js"></script>
 </body>
 </html>

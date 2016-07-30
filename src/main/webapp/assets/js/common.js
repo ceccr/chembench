@@ -24,17 +24,6 @@
         return false;
     };
 
-    Chembench.POPOVER_CONFIG = {
-        html: true,
-        template: '<div class="popover popover-image" role="tooltip">' +
-                  '<div class="arrow"></div><div class="popover-content"></div></div>',
-        content: function() {
-            return '<img src="' + $(this).attr('src') + '">';
-        },
-        trigger: 'hover',
-        placement: 'right'
-    };
-
     /**
      * Checks if a dataset can generate a MODI value.
      *

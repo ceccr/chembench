@@ -5,8 +5,6 @@
         $('.nav-list li').removeClass('active');
         $('#nav-button-modeling').addClass('active');
 
-        $('.compound-structure').popover(Chembench.POPOVER_CONFIG);
-
         var tabLinks = $('a[data-toggle="tab"]');
         tabLinks.on('shown.bs.tab', function(e) {
             var tab = $(e.currentTarget.hash);

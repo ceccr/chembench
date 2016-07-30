@@ -16,6 +16,7 @@
     <s:hidden id="username" value="%{dataset.userName}" />
     <s:hidden id="dataset-name" value="%{dataset.name}" />
     <s:hidden id="has-structures" value="%{dataset.hasStructures()}" />
+    <s:hidden id="dataset-id" value="%{dataset.id}" />
 
     <div class="list-group">
       <div class="list-group-item">
@@ -170,13 +171,18 @@
             <tr>
               <td class="name"><s:property value="compoundId" /></td>
               <s:if test="!dataset.sdfFile.isEmpty()">
-                <td class="structure"><s:url var="imageUrl" action="imageServlet" escapeAmp="false">
-                  <s:param name="user" value="%{dataset.userName}" />
-                  <s:param name="projectType" value="'dataset'" />
-                  <s:param name="compoundId" value="%{compoundId}" />
-                  <s:param name="datasetName" value="%{dataset.name}" />
-                </s:url><img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure"
-                             width="125" height="125" alt="Compound structure"></td>
+                <td class="structure">
+                  <s:url var="imageUrl" action="imageServlet" escapeAmp="false">
+                    <s:param name="user" value="%{dataset.userName}" />
+                    <s:param name="projectType" value="'dataset'" />
+                    <s:param name="compoundId" value="%{compoundId}" />
+                    <s:param name="datasetName" value="%{dataset.name}" />
+                  </s:url>
+                  <button class="btn btn-default">
+                    <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure"
+                         width="125" height="125" alt="Compound structure">
+                  </button>
+                </td>
               </s:if>
               <s:if test="dataset.hasActivities()">
                 <td><s:property value="activityValue" /></td>
@@ -404,6 +410,8 @@
 <script src="${pageContext.request.contextPath}/assets/js/swfobject.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/autolink.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/editable.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/ChemDoodleWeb.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/compound-detail.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/datasetDetail.js"></script>
 </body>
 </html>
