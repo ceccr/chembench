@@ -68,6 +68,7 @@ public class ParseConfigurationXML {
             Constants.RECAPTCHA_PUBLICKEY = getNestedNodeValue(getParentNode(doc, "webService"), "publicKey");
             Constants.RECAPTCHA_PRIVATEKEY = getNestedNodeValue(getParentNode(doc, "webService"), "privateKey");
             Constants.CDK_XMLFILE_PATH = getNestedNodeValue(getParentNode(doc, "cdk"), "xmlFilePath");
+            Constants.DRAGON7_SCRIPT_PATH = getNestedNodeValue(getParentNode(doc, "dragon7"), "scriptPath");
             Constants.RF_BUILD_MODEL_RSCRIPT =
                     getNestedNodeValue(getParentNode(doc, "randomForest"), "buildModelRScript");
             Constants.RF_PREDICT_RSCRIPT = getNestedNodeValue(getParentNode(doc, "randomForest"), "predictRScript");

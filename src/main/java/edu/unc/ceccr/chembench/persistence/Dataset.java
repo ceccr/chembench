@@ -77,12 +77,11 @@ public class Dataset implements java.io.Serializable {
             List<String> descriptorNames = new ArrayList<>();
             List<Descriptors> descriptorValueMatrix = new ArrayList<>();
 
-            // read in descriptors, preferring Dragon when available (as it has the most descriptors)
-            // but use CDK as a fallback if it's not available
-            if (availableDescriptors.contains(Constants.DRAGONH)) {
+            // use Dragon 7 when available (as it has the most descriptors) but use CDK as a fallback
+            if (availableDescriptors.contains(Constants.DRAGON7)) {
                 Path dragonDescriptorFile = descriptorDir.resolve(sdfFile + ".dragonH");
                 ReadDescriptors
-                        .readDragonDescriptors(dragonDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
+                        .readDragonXDescriptors(dragonDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
             } else if (availableDescriptors.contains(Constants.CDK)) {
                 Path cdkDescriptorFile = descriptorDir.resolve(sdfFile + ".cdk.x");
                 ReadDescriptors.readXDescriptors(cdkDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);

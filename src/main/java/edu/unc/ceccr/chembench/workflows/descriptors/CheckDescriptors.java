@@ -17,7 +17,7 @@ public class CheckDescriptors {
     // Look for any errors that would make the output unusable in modeling
     // Return an HTML-formatted string with user-readable feedback
 
-    public static String checkDragonDescriptors(String dragonOutputFile) throws Exception {
+    public static String checkDragonXDescriptors(String dragonOutputFile) throws Exception {
         logger.debug("Checking Dragon descriptors: " + dragonOutputFile);
         List<String> descriptorNames = new ArrayList<>();
         String errors = "";

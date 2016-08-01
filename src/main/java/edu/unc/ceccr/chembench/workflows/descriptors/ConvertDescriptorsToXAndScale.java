@@ -92,11 +92,11 @@ public class ConvertDescriptorsToXAndScale {
                         descriptorValueMatrix);
             } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
                 ReadDescriptors
-                        .readDragonDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
+                        .readDragonXDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
                                 descriptorValueMatrix);
             } else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
                 ReadDescriptors
-                        .readDragonDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
+                        .readDragonXDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
                                 descriptorValueMatrix);
             } else if (descriptorGenerationType.equals(Constants.MOE2D)) {
                 ReadDescriptors
@@ -156,10 +156,10 @@ public class ConvertDescriptorsToXAndScale {
                     .readXDescriptors(workingDir + descriptorsFile + ".x", descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
             descriptorsFile += ".dragonH";
-            ReadDescriptors.readDragonDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
+            ReadDescriptors.readDragonXDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
             descriptorsFile += ".dragonNoH";
-            ReadDescriptors.readDragonDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
+            ReadDescriptors.readDragonXDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.MOE2D)) {
             descriptorsFile += ".moe2D";
             ReadDescriptors.readMoe2DDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);

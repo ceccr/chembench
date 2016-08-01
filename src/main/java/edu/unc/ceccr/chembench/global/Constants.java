@@ -66,6 +66,7 @@ public class Constants {
     public static final String NOWEIGHTING = "NOWEIGHTING";
     public static final String DRAGONH = "DRAGONH";
     public static final String DRAGONNOH = "DRAGONNOH";
+    public static final String DRAGON7 = "DRAGON7";
     public static final String MOE2D = "MOE2D";
     public static final String MACCS = "MACCS";
     public static final String CDK = "CDK";
@@ -169,6 +170,7 @@ public class Constants {
     public static String EXECUTABLEFILE_PATH;
     public static String INSTALLS_PATH;
     public static String CDK_XMLFILE_PATH;
+    public static String DRAGON7_SCRIPT_PATH;
     public static String SCRIPTS_PATH;
     public static String RF_BUILD_MODEL_RSCRIPT;
     public static String RF_PREDICT_RSCRIPT;
