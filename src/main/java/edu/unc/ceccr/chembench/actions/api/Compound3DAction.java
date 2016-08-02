@@ -4,7 +4,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.persistence.Dataset;
 import edu.unc.ceccr.chembench.persistence.DatasetRepository;
 import edu.unc.ceccr.chembench.persistence.User;
-import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +16,8 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import static edu.unc.ceccr.chembench.workflows.visualization.SdfToJpg.convert2Dto3D;
 
 /**
  * Handles requests for 3D .mol files for use in 3D compound visualization.
@@ -60,6 +61,7 @@ public class Compound3DAction extends ActionSupport implements ServletResponseAw
         Path molFilePath = datasetStructuresDirPath.resolve(compoundName + "_3D.mol");
         logger.debug("Getting molfile: " + molFilePath);
         if (!Files.exists(molFilePath)) {
+            logger.debug(".mol file doesn't exist yet, creating it from sdf");
             convert2Dto3D(sdfFilePath, molFilePath);
         }
         try (BufferedReader reader = Files.newBufferedReader(molFilePath, StandardCharsets.UTF_8)){
@@ -76,16 +78,6 @@ public class Compound3DAction extends ActionSupport implements ServletResponseAw
         }
         // we've already written directly to the response, so return NONE to skip result processing
         return NONE;
-    }
-
-    private void convert2Dto3D(Path inFilePath, Path outFilePath) {
-        // We have a Visualization/Structures directory, filled with single-compound 2D SDFs.
-        // We need 3D mol files in order to visualize them.
-        // So, this function will convert a 2D SDF to a 3D mol file on demand.
-        logger.debug(".mol file doesn't exist yet, creating it from sdf");
-        String command = String.format("molconvert -3:S{fast} mol \"%s\" -o \"%s\"", inFilePath.toString(),
-                outFilePath.toString());
-        RunExternalProgram.runCommandAndLogOutput(command, outFilePath.getParent(), "molconvert_3D");
     }
 
     public String getCompoundName() {

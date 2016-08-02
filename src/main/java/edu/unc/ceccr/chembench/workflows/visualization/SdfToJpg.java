@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,11 +84,26 @@ public class SdfToJpg {
         if (files == null) {
             logger.warn("Error reading Structures directory: " + structuresDir);
         }
-
+        logger.info("Converting 2d structures to 3d in " + structuresDir);
+        Path dirPath = dir.toPath();
         for (int i = 0; i < files.length; i++) {
             File source = new File(sketchesDir, "i" + (i + 1) + ".jpg");
             File destination = new File(sketchesDir, compoundNames.get(i) + ".jpg");
             source.renameTo(destination);
+
+            // convert 2d structures to 3d structures for the 3d compound viewer
+            Path compound2d = dirPath.resolve(files[i]);
+            Path compound3d = dirPath.resolve(files[i].replaceAll("\\.sdf$", "_3D.mol"));
+            convert2Dto3D(compound2d, compound3d);
         }
+    }
+
+    public static void convert2Dto3D(Path inFilePath, Path outFilePath) {
+        // We have a Visualization/Structures directory, filled with single-compound 2D SDFs.
+        // We need 3D mol files in order to visualize them.
+        // So, this function will convert a 2D SDF to a 3D mol file on demand.
+        String command = String.format("molconvert -3:S{fast} mol \"%s\" -o \"%s\"", inFilePath.toString(),
+                outFilePath.toString());
+        RunExternalProgram.runCommandAndLogOutput(command, outFilePath.getParent(), "molconvert_3D");
     }
 }
