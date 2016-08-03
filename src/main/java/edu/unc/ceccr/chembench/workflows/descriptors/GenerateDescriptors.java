@@ -37,19 +37,24 @@ public class GenerateDescriptors {
     public static void generateIsidaDescriptors(String sdfile, String outfile) {
         //Given an SDF file, run ISIDA to get the chemical descriptors for each compound
         //Generate sdf.ISIDA.hdr and sdf.ISIDA.svm
-        String execstr = "Fragmentor" + " -i " + sdfile + " -o " + outfile + " -t 0" +
-                " -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name";
-        String workingDir = sdfile.replaceAll("/[^/]+$", "");
-        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "ISIDA");
+        Path workingDir = Paths.get(sdfile.replaceAll("/[^/]+$", "")).resolve("Descriptors");
+        Path inFilePath = workingDir.relativize(Paths.get(sdfile));
+        Path outFilePath = workingDir.relativize(Paths.get(outfile));
+        String execstr = String.format("Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name",
+                inFilePath.toString(), outFilePath.toString());
+        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir.toString(), "ISIDA");
     }
 
     public static void generateIsidaDescriptorsWithHeader(String sdfile, String outfile, String headerFile) {
         //Given an SDF file, run ISIDA to get the chemical descriptors for each compound with the .hdr from predictor
         //Generate sdf.ISIDA.hdr and sdf.ISIDA.svm
-        String execstr = "Fragmentor" + " -i " + sdfile + " -o " + outfile + " -t 0" +
-                " -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name " + "-h " + headerFile + " --StrictFrg";
-        String workingDir = sdfile.replaceAll("/[^/]+$", "");
-        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "ISIDA");
+        Path workingDir = Paths.get(sdfile.replaceAll("/[^/]+$", "")).resolve("Descriptors");
+        Path inFilePath = workingDir.relativize(Paths.get(sdfile));
+        Path outFilePath = workingDir.relativize(Paths.get(outfile));
+        Path headerFilePath = workingDir.relativize(Paths.get(headerFile));
+        String execstr = String.format("Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name "
+                + "-h %s --StrictFrg", inFilePath.toString(), outFilePath.toString(), headerFilePath.toString());
+        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir.toString(), "ISIDA");
     }
 
     public static void generateHExplicitDragonDescriptors(String sdfile, String outfile) throws Exception {

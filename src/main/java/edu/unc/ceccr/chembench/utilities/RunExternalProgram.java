@@ -91,6 +91,9 @@ public class RunExternalProgram {
 
     public static int runCommandAndLogOutput(String cmd, String workingDir, String logFileName) {
         // runs an external program and writes user info to logfile
+        if (!workingDir.endsWith("/")) {
+            workingDir += "/";
+        }
 
         try {
             Process p = null;
