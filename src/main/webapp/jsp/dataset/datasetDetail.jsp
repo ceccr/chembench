@@ -320,7 +320,7 @@
               <s:property value="generationResult" />
             </dd>
 
-            <s:if test="!programOutput.isEmpty()">
+            <s:if test="!generationResult.equalsIgnoreCase('successful')">
               <dt>Error Summary</dt>
               <dd>
                 <s:property value="programOutput" />
