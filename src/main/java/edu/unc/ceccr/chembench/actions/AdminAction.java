@@ -290,27 +290,6 @@ public class AdminAction extends ActionSupport {
         return SUCCESS;
     }
 
-    public String regenerateCcr() throws Exception {
-        logger.info("Starting regeneration of CCR for all category predictors");
-        try {
-            for (User user : userRepository.findAll()) {
-                logger.debug("Regenerating CCR for predictors owned by " + user.getUserName());
-                for (Predictor p : predictorRepository.findByUserName(user.getUserName())) {
-                    if (p.getActivityType().equals(Constants.CATEGORY)) {
-                        logger.debug("Regenerating predictor " + p.getName());
-                        PredictorEvaluation.addRSquaredAndCCRToPredictor(p);
-                        predictorRepository.save(p);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            logger.warn("An error occurred during regeneration, rolling back: ", e);
-            return ERROR;
-        }
-        logger.info("CCR regeneration complete.");
-        return SUCCESS;
-    }
-
     @Transactional
     public String regenerateChildren() {
         Predictor parent = predictorRepository.findOne(predictorId);
