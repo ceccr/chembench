@@ -245,16 +245,16 @@
 
         <action name="makePredictorPublic" class="edu.unc.ceccr.chembench.actions.AdminAction"
                 method="makePredictorPublic">
-            <result type="redirect">admin</result>
+            <result type="redirect">home</result>
         </action>
 
         <action name="makeDatasetPublic" class="edu.unc.ceccr.chembench.actions.AdminAction"
                 method="makeDatasetPublic">
-            <result type="redirect">admin</result>
+            <result type="redirect">home</result>
         </action>
 
         <action name="regenerateCcr" class="edu.unc.ceccr.chembench.actions.AdminAction" method="regenerateCcr">
-            <result name="success" type="redirect">admin</result>
+            <result name="success" type="redirect">home</result>
         </action>
         <!-- End Admin Actions -->
     </package>
