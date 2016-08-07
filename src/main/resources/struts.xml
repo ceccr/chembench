@@ -253,6 +253,11 @@
             <result type="redirect">home</result>
         </action>
 
+        <action name="regenerateRSquaredOrCCR" class="edu.unc.ceccr.chembench.actions.AdminAction"
+                method="regenerateRSquaredOrCCR">
+            <result name="success" type="redirect">home</result>
+        </action>
+
         <action name="regenerateCcr" class="edu.unc.ceccr.chembench.actions.AdminAction" method="regenerateCcr">
             <result name="success" type="redirect">home</result>
         </action>

@@ -277,6 +277,19 @@ public class AdminAction extends ActionSupport {
         return SUCCESS;
     }
 
+    @Transactional
+    public String regenerateRSquaredOrCCR() {
+        Predictor p = predictorRepository.findOne(predictorId);
+        if (p == null) {
+            return "notfound";
+        }
+
+        logger.debug("Regenerating R2 or CCR for predictor, id: {}" + p.getId());
+        PredictorEvaluation.addRSquaredAndCCRToPredictor(p);
+        predictorRepository.save(p);
+        return SUCCESS;
+    }
+
     public String regenerateCcr() throws Exception {
         logger.info("Starting regeneration of CCR for all category predictors");
         try {
