@@ -1,7 +1,9 @@
 package edu.unc.ceccr.chembench.utilities;
 
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Dataset;
@@ -11,10 +13,7 @@ import edu.unc.ceccr.chembench.persistence.Predictor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.StringWriter;
-import java.io.Writer;
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -22,6 +21,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import static org.apache.commons.io.IOUtils.closeQuietly;
 
 //The Utility class is for cross-cutting concerns (logging, authentication / user stuff).
 
@@ -55,13 +56,47 @@ public class Utility {
         }
     };
 
+    private static final Function<String, Long> PARSE_LONG_TRANSFORM = new Function<String, Long>() {
+        @Override
+        public Long apply(String s) {
+            return Long.parseLong(s);
+        }
+    };
+
     public static final Joiner SPACE_JOINER = Joiner.on(' ');
     public static final Joiner TAB_JOINER = Joiner.on('\t');
     public static final Joiner COMMA_JOINER = Joiner.on(',');
+    public static final Splitter WHITESPACE_SPLITTER = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
 
+    /**
+     * Converts a list of Strings to a list of Doubles.
+     *
+     * @param strings the Strings to convert into Doubles
+     * @return the converted Doubles
+     * @throws IllegalArgumentException if one of the Strings is not a valid Double
+     */
     public static List<Double> stringListToDoubleList(List<String> strings) {
         // XXX must return a new list, or the returned list cannot be added to
-        return Lists.newArrayList(Lists.transform(strings, PARSE_DOUBLE_TRANSFORM));
+        try {
+            return Lists.newArrayList(Lists.transform(strings, PARSE_DOUBLE_TRANSFORM));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("String to double conversion failed", e);
+        }
+    }
+
+    /**
+     * Converts a list of Strings to a list of Longs.
+     *
+     * @param strings the Strings to convert into Longs
+     * @return the converted Longs
+     * @throws IllegalArgumentException if one of the Strings is not a valid Long
+     */
+    public static List<Long> stringListToLongList(List<String> strings) {
+        try {
+            return Lists.newArrayList(Lists.transform(strings, PARSE_LONG_TRANSFORM));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("String to long conversion failed");
+        }
     }
 
     public static String encrypt(String str) throws NoSuchAlgorithmException {
@@ -407,5 +442,33 @@ public class Utility {
             }
         }
         return 0.0f;
+    }
+
+    public static <T extends Serializable> T clone(T entity) {
+        ByteArrayOutputStream baos = null;
+        ObjectOutputStream oos = null;
+        ByteArrayInputStream bis = null;
+        ObjectInputStream ois = null;
+        try {
+            baos = new ByteArrayOutputStream();
+            oos = new ObjectOutputStream(baos);
+            oos.writeObject(entity);
+            oos.flush();
+
+            byte[] bytes = baos.toByteArray();
+            bis = new ByteArrayInputStream(bytes);
+            ois = new ObjectInputStream(bis);
+            Object result = ois.readObject();
+            return (T) result;
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Object can't be copied", e);
+        } catch (ClassNotFoundException e) {
+            throw new IllegalArgumentException("Unable to reconstruct serialized object due to invalid class definition", e);
+        } finally {
+            closeQuietly(oos);
+            closeQuietly(baos);
+            closeQuietly(bis);
+            closeQuietly(ois);
+        }
     }
 }

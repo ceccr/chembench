@@ -23,6 +23,7 @@ import java.util.Map;
 public class DatasetDetailAction extends DetailAction {
 
     private static final Logger logger = LoggerFactory.getLogger(DatasetDetailAction.class);
+    private static final String DRAGON7_ERROR_HEADER = "\\*\\*\\* Errors encountered during execution of Dragon:";
     private final DatasetRepository datasetRepository;
 
     private Dataset dataset;
@@ -271,6 +272,34 @@ public class DatasetDetailAction extends DetailAction {
             maccsResult.setGenerationResult("Descriptor generation failed. See program output for details.");
         }
         descriptorGenerationResults.add(maccsResult);
+
+        DescriptorGenerationResult dragon7Result = new DescriptorGenerationResult();
+        dragon7Result.setDescriptorType("Dragon 7");
+        if (!dataset.getAvailableDescriptors().contains(Constants.DRAGON7)) {
+            dragon7Result.setProgramOutput(""); // dragon 7 doesn't have a separate .log file (it'll always be empty)
+            if (Files.exists(descriptorLogPath.resolve("dragon7.err"))) {
+                dragon7Result.setGenerationResult("Descriptor generation failed. See program output for details.");
+                String[] rawLog = FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragon7.err"))
+                        .split(DRAGON7_ERROR_HEADER);
+                if (rawLog.length > 1) {
+                    String errorSummary = rawLog[1].trim();
+                    dragon7Result.setProgramErrorOutput(errorSummary);
+                    if (errorSummary.contains("not correctly licensed")) {
+                        dragon7Result.setProgramOutput("Invalid license.");
+                    } else if (errorSummary.contains("script file")) {
+                        dragon7Result.setProgramOutput("Invalid or missing script file.");
+                    } else {
+                        dragon7Result.setProgramOutput("Unknown error.");
+                    }
+                }
+            } else {
+                dragon7Result.setGenerationResult("Descriptor generation failed."); // no extra info available
+            }
+        } else {
+            dragon7Result.setGenerationResult("Successful");
+        }
+        descriptorGenerationResults.add(dragon7Result);
+
         return descriptorGenerationResults;
     }
 
