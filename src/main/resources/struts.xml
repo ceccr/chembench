@@ -256,6 +256,12 @@
         <action name="regenerateCcr" class="edu.unc.ceccr.chembench.actions.AdminAction" method="regenerateCcr">
             <result name="success" type="redirect">home</result>
         </action>
+
+        <action name="regenerateChildren" class="edu.unc.ceccr.chembench.actions.AdminAction"
+                method="regenerateChildren">
+            <result name="success" type="redirect">home</result>
+        </action>
+
         <!-- End Admin Actions -->
     </package>
 
