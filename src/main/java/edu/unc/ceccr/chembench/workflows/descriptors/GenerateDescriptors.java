@@ -198,4 +198,12 @@ public class GenerateDescriptors {
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "maccs.sh");
     }
 
+    public static void generateSirmsDescriptors(String sdfile, String outfile) throws Exception {
+        //command: "sirms.py -i infile.sdf -o outfile.sirms"
+        String execstr = "python3 " + Constants.EXECUTABLEFILE_PATH +"sirms/sirms.py -i " + sdfile + " -o " + outfile;
+        String workingDir = sdfile.replaceAll("/[^/]+$", "");
+
+        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "sirms");
+    }
+
 }

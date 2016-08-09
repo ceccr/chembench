@@ -70,6 +70,7 @@ public class Constants {
     public static final String MACCS = "MACCS";
     public static final String CDK = "CDK";
     public static final String ISIDA = "ISIDA";
+    public static final String SIRMS = "SIRMS";
     public static final String UPLOADED = "UPLOADED";
     public static final String KNN = "KNN";
     public static final String KNNSA = "KNN-SA";

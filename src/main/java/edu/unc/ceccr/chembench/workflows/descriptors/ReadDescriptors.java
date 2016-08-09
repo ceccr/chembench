@@ -49,10 +49,10 @@ public class ReadDescriptors {
         // 'em.
     }
 
-    public static void readDescriptors(Predictor predictor, String sdfFile, List<String> descriptorNames,
-                                       List<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readDescriptors(String workingDir, Predictor predictor, String sdfFile, List<String>
+            descriptorNames, List<Descriptors> descriptorValueMatrix) throws Exception {
         List<String> descriptorSetList = Splitter.on(", ").splitToList(predictor.getDescriptorGeneration());
-        List<Double> descriptorValues = new ArrayList<>();
+
         //loop the block on each descriptor type, predictor = CDK, DRAGONH --> here, prefix
         for (String descriptorType: descriptorSetList) {
             List<String> descriptorNamesTemp = new ArrayList<>();
@@ -79,6 +79,11 @@ public class ReadDescriptors {
                         descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.ISIDA)) {
                 ReadDescriptors.readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+            } else if (descriptorType.equals(Constants.SIRMS)) {
+                ReadDescriptors.readSirmsDescriptors(workingDir + predictor.getSdFileName() + ".sirms", sdfFile + ".sirms",
+                        descriptorNamesTemp, descriptorValueMatrixTemp);
                 Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
                         descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.UPLOADED)) {
@@ -347,6 +352,110 @@ public class ReadDescriptors {
         }
     }
 
+    public static void readSirmsDescriptors(String sirmsOutputFile, List<String> descriptorNames,
+                                            List<Descriptors> descriptorValueMatrix) throws Exception {
+        logger.debug("reading Sirms Descriptors");
+
+        File file = new File(sirmsOutputFile);
+        if (!file.exists() || file.length() == 0) {
+            throw new Exception("Could not read SIRMS descriptors.\n");
+        }
+        FileReader fin = new FileReader(file);
+        BufferedReader br = new BufferedReader(fin);
+        /* contains descriptor names */
+        String line = br.readLine();
+        Scanner tok = new Scanner(line);
+        tok.useDelimiter("\\s+");
+        /* first descriptor says "Compounds"; we don't need that. */
+        tok.next();
+        while (tok.hasNext()) {
+            descriptorNames.add(tok.next());
+        }
+        while ((line = br.readLine()) != null) {
+            String name = "";
+            tok = new Scanner(line);
+            tok.useDelimiter("\\s+");
+            if (tok.hasNext()) {
+                /* first descriptor value is the name of the compound */
+                name = tok.next();
+            }
+            List<Double> descriptorValues = new ArrayList<>();
+            while (tok.hasNext()) {
+                descriptorValues.add(Double.parseDouble(tok.next()));
+            }
+            if (!descriptorValues.isEmpty()) {
+                Descriptors di = new Descriptors();
+                di.setDescriptorValues(descriptorValues);
+                di.setCompoundName(name);
+                descriptorValueMatrix.add(di);
+            }
+            tok.close();
+        }
+        br.close();
+    }
+    public static void readSirmsDescriptors(String predictorSdfFileNames, String sirmsOutputFile, List<String>
+            descriptorNames, List<Descriptors> descriptorValueMatrix) throws Exception {
+        logger.debug("reading Sirms Descriptors with Predictor Sirms");
+
+        List<String> predictorNames = new ArrayList<>();
+        List<String> descriptorNamesTemp = new ArrayList<>();
+        List<Descriptors> descriptorValueMatrixTemp = new ArrayList<>();
+
+
+        readSirmsDescriptors(sirmsOutputFile, descriptorNamesTemp, descriptorValueMatrixTemp);
+        readSirmsHeader(predictorSdfFileNames, predictorNames);
+        descriptorNames.addAll(predictorNames);
+
+        //if the descriptor name is not in the model, it is now added to the end of the list of descriptors
+        for (String name : descriptorNamesTemp) {
+            if (!predictorNames.contains(name)) {
+                descriptorNames.add(name);
+            }
+        }
+
+        //for each set of descriptors in the matrix
+        for (Descriptors descriptor: descriptorValueMatrixTemp) {
+            List<Double> descriptorValues = new ArrayList<>();
+            for (int i = 0; i < descriptorNames.size(); i++){
+                if (descriptorNamesTemp.contains(descriptorNames.get(i))){
+                    int index = descriptorNamesTemp.indexOf(descriptorNames.get(i));
+                    descriptorValues.add(descriptor.getDescriptorValues().get(index));
+                }
+                else{
+                    descriptorValues.add(0.0);
+                }
+            }
+
+            if (!descriptorValues.isEmpty()) {
+                Descriptors di = new Descriptors();
+                di.setDescriptorValues(descriptorValues);
+                di.setCompoundName(descriptor.getCompoundName());
+                descriptorValueMatrix.add(di);
+            }
+        }
+
+    }
+    public static void readSirmsHeader(String sirmsOutputFile, List<String> descriptorNames) throws Exception {
+        logger.debug("reading Sirms Header");
+
+        File file = new File(sirmsOutputFile);
+        if (!file.exists() || file.length() == 0) {
+            throw new Exception("Could not read SIRMS Header.\n");
+        }
+        FileReader fin = new FileReader(file);
+        BufferedReader br = new BufferedReader(fin);
+        /* contains descriptor names */
+        String line = br.readLine();
+        Scanner tok = new Scanner(line);
+        tok.useDelimiter("\\s+");
+        /* first descriptor says "Compounds"; we don't need that. */
+        tok.next();
+        while (tok.hasNext()) {
+            descriptorNames.add(tok.next());
+        }
+        tok.close();
+        br.close();
+    }
     public static void readXDescriptors(String xFile, List<String> descriptorNames,
                                         List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("Trying to read uploaded descriptors");

@@ -61,7 +61,7 @@ public class RunSmilesPrediction {
         List<Descriptors> descriptorValueMatrix = new ArrayList<>();
         List<String> chemicalNames = DatasetFileOperations.getSdfCompoundNames(sdfile);
 
-        ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
+        ReadDescriptors.readDescriptors(workingDir, predictor, sdfile, descriptorNames, descriptorValueMatrix);
 
         logger.debug("Normalizing descriptors to fit predictor.");
 
@@ -229,6 +229,9 @@ public class RunSmilesPrediction {
         if (descriptorTypes.contains(Constants.MACCS)) {
             GenerateDescriptors.generateMaccsDescriptors(sdfile, sdfile + ".maccs");
         }
+        if (descriptorTypes.contains(Constants.SIRMS)){
+            GenerateDescriptors.generateSirmsDescriptors(sdfile, sdfile + ".sirms");
+        }
     }
 
     public static void generateIsidaDescriptorsForSdf(String smilesDir, String predictorSdfFileNames) throws Exception {
@@ -236,6 +239,7 @@ public class RunSmilesPrediction {
         String predictorHeaderFile = smilesDir + predictorSdfFileNames + ".ISIDA.hdr";
         GenerateDescriptors.generateIsidaDescriptorsWithHeader(sdfile, sdfile + ".ISIDA", predictorHeaderFile);
     }
+
 
     @Autowired
     public void setPredictorRepository(PredictorRepository predictorRepository) {

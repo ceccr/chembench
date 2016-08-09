@@ -130,7 +130,7 @@ public class ConvertDescriptorsToXAndScale {
         mergeXFileParts(workingDir, outputXFile, scalingType, allChemicalNames.size());
     }
 
-    public static void convertDescriptorsToXAndScale(String workingDir, String sdfile, String sdfilex,
+    public static void convertDescriptorsToXAndScale(String workingDir, String predictor, String sdfile, String sdfilex,
                                                      String predictorXFile, String outputXFile,
                                                      String descriptorGenerationType, String scalingType,
                                                      int numCompounds) throws Exception {
@@ -199,6 +199,13 @@ public class ConvertDescriptorsToXAndScale {
                 ReadDescriptors.readIsidaDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
                 Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
                         descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
+            } else if (descriptorType.equals(Constants.SIRMS)) {
+                descriptorsFile += ".sirms";
+                ReadDescriptors.readSirmsDescriptors(workingDir + predictor + ".sirms", workingDir + descriptorsFile,
+                        descriptorNames,
+                        descriptorValueMatrix);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.UPLOADED)) {
                 descriptorsFile = sdfilex;
                 ReadDescriptors.readXDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
@@ -209,8 +216,7 @@ public class ConvertDescriptorsToXAndScale {
         String descriptorString = Utility.stringListToString(descriptorNamesCombined);
         WriteDescriptors
                 .writePredictionXFile(chemicalNames, descriptorValueMatrixCombined, descriptorString, workingDir +
-                                outputXFile,
-                        workingDir + predictorXFile, scalingType);
+                                outputXFile, workingDir + predictorXFile, scalingType);
     }
 
     // helper functions

@@ -116,14 +116,14 @@
               </div>
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="checkbox" value="UPLOADED">
-                  Uploaded descriptors
+                  <input name="descriptorGenerationType" type="checkbox" value="SIRMS">
+                  SIRMS
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="checkbox" value="HYBRID">
-                  Hybrid descriptors
+                  <input name="descriptorGenerationType" type="checkbox" value="UPLOADED">
+                  Uploaded descriptors
                 </label>
               </div>
             </div>

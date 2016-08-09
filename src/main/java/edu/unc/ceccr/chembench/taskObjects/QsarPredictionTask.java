@@ -414,7 +414,9 @@ public class QsarPredictionTask extends WorkflowTask {
                                 ".hdr");
             }
             ConvertDescriptorsToXAndScale
-                    .convertDescriptorsToXAndScale(predictionDir, sdfile, sdfilex, "train_0.x", sdfile + ".renorm.x",
+                    .convertDescriptorsToXAndScale(predictionDir, predictor.getSdFileName(), sdfile, sdfilex, "train_0.x",
+                            sdfile +
+                            ".renorm.x",
                             predictor.getDescriptorGeneration(), predictor.getScalingType(),
                             predictionDataset.getNumCompound());
 

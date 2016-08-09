@@ -497,7 +497,13 @@ public class QsarModelingTask extends WorkflowTask {
 
                 Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
                         descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
-            } else if (descriptorType.equals(Constants.UPLOADED)) {
+            }  else if (descriptorType.equals(Constants.SIRMS)) {
+                logger.debug("Processing SIRMS descriptors for job, " + jobName + "submitted by user, " + userName);
+                ReadDescriptors
+                        .readSirmsDescriptors(filePath + sdFileName + ".sirms", descriptorNames, descriptorValueMatrix);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
+            }   else if (descriptorType.equals(Constants.UPLOADED)) {
                 logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
 
