@@ -238,6 +238,9 @@ public class CreateDatasetTask extends WorkflowTask {
             logger.debug("User: " + userName + "Job: " + jobName + " Generating ISIDA Descriptors");
             GenerateDescriptors
                     .generateIsidaDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".ISIDA");
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating SIRMS Descriptors");
+            GenerateDescriptors
+                    .generateSirmsDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".sirms");
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating Dragon 7 Descriptors");
             try {
@@ -310,6 +313,16 @@ public class CreateDatasetTask extends WorkflowTask {
                 File errorSummaryFile = new File(path + descriptorDir + "Logs/ISIDA.out");
                 BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
                 errorSummary.write("The ISIDA .hdr / .svm file(s) are missing.");
+                errorSummary.close();
+            }
+            //SIRMS
+            errors = CheckDescriptors.checkSirmsDescriptors(path + descriptorDir + sdfFileName + ".sirms");
+            if (errors.equals("")) {
+                availableDescriptors += Constants.SIRMS + " ";
+            } else {
+                File errorSummaryFile = new File(path + descriptorDir + "Logs/sirms.out");
+                BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+                errorSummary.write(errors);
                 errorSummary.close();
             }
         }

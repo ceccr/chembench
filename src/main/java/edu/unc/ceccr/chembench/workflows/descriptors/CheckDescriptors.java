@@ -160,4 +160,15 @@ public class CheckDescriptors {
         br.close();
         return errors;
     }
+
+    public static String checkSirmsDescriptors(String sirmsOutputFile) throws Exception {
+        // right now this doesn't check anything because idk what to check for...
+        String errors = "";
+
+        File file = new File(sirmsOutputFile);
+        if (!file.exists() || file.length() == 0) {
+            errors = "Could not read descriptor file.\n";
+        }
+        return errors;
+    }
 }

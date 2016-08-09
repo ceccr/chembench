@@ -124,7 +124,7 @@ public class PredictionAction extends ActionSupport {
             RunSmilesPrediction.smilesToSdf(smiles, smilesDir);
             logger.info(String.format("Generated SDF file from SMILES \"%s\" written to %s", smiles, smilesDir));
             // generate descriptors using the given SDF file except for ISIDA
-            if ((!predictor.getDescriptorGeneration().contains(Constants.ISIDA)) || descriptorTypes.size() > 1) {
+            if (!predictor.getDescriptorGeneration().contains(Constants.ISIDA)) {
                 RunSmilesPrediction.generateDescriptorsForSdf(smilesDir, descriptorTypes);
             }
             logger.info("Generated descriptors for SDF: " + descriptorTypes.toString());
@@ -540,6 +540,9 @@ public class PredictionAction extends ActionSupport {
                         descriptorsMatch = true;
                     } else if (sp.getDescriptorGeneration().contains(Constants.ISIDA) && predictionDatasetDescriptors[i]
                             .equals(Constants.ISIDA)) {
+                        descriptorsMatch = true;
+                    } else if (sp.getDescriptorGeneration().contains(Constants.SIRMS) && predictionDatasetDescriptors[i]
+                            .equals(Constants.SIRMS)) {
                         descriptorsMatch = true;
                     } else if (sp.getDescriptorGeneration().contains(Constants.UPLOADED) && predictionDatasetDescriptors[i]
                             .equals(Constants.UPLOADED)) {
