@@ -50,27 +50,46 @@ public class ReadDescriptors {
 
     public static void readDescriptors(Predictor predictor, String sdfFile, List<String> descriptorNames,
                                        List<Descriptors> descriptorValueMatrix) throws Exception {
-        if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
-            readXDescriptors(sdfFile + ".cdk.x", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONH)) {
-            readDragonXDescriptors(sdfFile + ".dragonH", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)) {
-            readDragonXDescriptors(sdfFile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
-            readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
-            readMaccsDescriptors(sdfFile + ".maccs", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-            readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.UPLOADED)) {
-            readXDescriptors(sdfFile + ".x", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGON7)) {
-            readDragon7Descriptors(sdfFile + ".dragon7", descriptorNames, descriptorValueMatrix);
-        } else {
-            throw new RuntimeException("Bad descriptor type: " + predictor.getDescriptorGeneration());
+        List<String> descriptorSetList = Splitter.on(", ").splitToList(predictor.getDescriptorGeneration());
+        List<Double> descriptorValues = new ArrayList<>();
+        //loop the block on each descriptor type, predictor = CDK, DRAGONH --> here, prefix
+        for (String descriptorType: descriptorSetList) {
+            List<String> descriptorNamesTemp = new ArrayList<>();
+            List<Descriptors> descriptorValueMatrixTemp = new ArrayList<>();
+            if (descriptorType.equals(Constants.CDK)) {
+                ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+            } else if (descriptorType.equals(Constants.DRAGONH)) {
+                ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonH", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+            } else if (descriptorType.equals(Constants.DRAGONNOH)) {
+                ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonNoH", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+            } else if (descriptorType.equals(Constants.MOE2D)) {
+                ReadDescriptors.readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+            } else if (descriptorType.equals(Constants.MACCS)) {
+                ReadDescriptors.readMaccsDescriptors(sdfFile + ".maccs", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+            } else if (descriptorType.equals(Constants.ISIDA)) {
+                ReadDescriptors.readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+            } else if (descriptorType.equals(Constants.UPLOADED)) {
+                ReadDescriptors.readXDescriptors(sdfFile + ".x", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
+                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+            } else {
+                throw new RuntimeException("Bad descriptor type: " + descriptorType);
+            }
+
         }
     }
-
     public static void readCommonDragonDescriptors(String dragonOutputFile, List<String> descriptorNames,
                                                    List<Descriptors> descriptorValueMatrix, boolean hasHeader) throws Exception {
 
@@ -161,7 +180,7 @@ public class ReadDescriptors {
             List<Double> descriptorValues = new ArrayList<>();
             Scanner tok = new Scanner(line);
             tok.useDelimiter(",");
-            tok.next(); // skip compound identifier
+            String name = tok.next(); // skip compound identifier
             String tmp = tok.next();
             tok.close();
             tok = new Scanner(tmp);
@@ -181,6 +200,7 @@ public class ReadDescriptors {
                 descriptorValues.add(0d);
             }
             Descriptors di = new Descriptors();
+            di.setCompoundName(name);
             di.setDescriptorValues(descriptorValues);
             descriptorValueMatrix.add(di);
 
@@ -211,11 +231,12 @@ public class ReadDescriptors {
             descriptorNames.add(tok.next());
         }
         while ((line = br.readLine()) != null) {
+            String name = "";
             tok = new Scanner(line);
             tok.useDelimiter(",");
             if (tok.hasNext()) {
                 /* first descriptor value is the name of the compound */
-                tok.next();
+                name = tok.next();
             }
             List<Double> descriptorValues = new ArrayList<>();
             while (tok.hasNext()) {
@@ -234,6 +255,7 @@ public class ReadDescriptors {
             if (!descriptorValues.isEmpty()) {
                 Descriptors di = new Descriptors();
                 di.setDescriptorValues(descriptorValues);
+                di.setCompoundName(name);
                 descriptorValueMatrix.add(di);
             }
             tok.close();

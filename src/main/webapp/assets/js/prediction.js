@@ -76,7 +76,7 @@
             if (!jobName.val() || !selectedDatasets.length) {
                 return false;
             }
-
+            var goings = Array();
             var originalJobName = jobName.val();
             $.each(selectedDatasets, function(index, dataset) {
                 form.find('#selectedDatasetId').val(dataset.id);
@@ -84,10 +84,18 @@
                 if (selectedDatasets.length > 1) {
                     jobName.val(originalJobName + ' ' + dataset.name);
                 }
-                $.post(form.attr('action') + '?' + form.serialize());
+
+                var going = $.post(form.attr('action') + '?' + form.serialize()).done(function( ) {
+
+                });
+                goings.push(going);
+
             });
 
-            window.location = Chembench.MYBENCH_URL;
+            $.when.apply($,goings).then(function(){
+                window.location = Chembench.MYBENCH_URL;
+            });
+
         });
 
         $('#prediction-model-selection, #prediction-dataset-selection').find('table').DataTable().one('draw',

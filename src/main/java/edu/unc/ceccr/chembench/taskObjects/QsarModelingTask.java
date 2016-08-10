@@ -30,9 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class QsarModelingTask extends WorkflowTask {
@@ -430,28 +428,41 @@ public class QsarModelingTask extends WorkflowTask {
         CopyJobFiles.getDatasetFiles(userName, dataset, Constants.MODELING, filePath);
 
         // read in the descriptors for the dataset
-        List<String> descriptorNames = new ArrayList<>();
-        List<Descriptors> descriptorValueMatrix = new ArrayList<>();
         List<String> chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
         Dataset dataset = datasetRepository.findOne(datasetID);
         String xFileName = "";
-        // read in descriptors from the dataset
+
+        //hybrid descriptor
+        List<String> descriptorNamesCombined = new ArrayList<>();
+        List<String> descriptorSetList = Splitter.on(", ").splitToList(descriptorGenerationType);
+        List<Descriptors> descriptorValueMatrixCombined = new ArrayList<>();
+
         step = Constants.PROCDESCRIPTORS;
-        // for CDK we need to do some preprocessing so we can't call ReadDescriptors.readDescriptors on it yet
-        if (descriptorGenerationType.equals(Constants.CDK)) {
-            logger.debug("Processing CDK descriptors for job, " + jobName + " submitted by user, " + userName);
+        for (String descriptorType : descriptorSetList) {
+            // read in the descriptors for the dataset
+            List<String> descriptorNames = new ArrayList<>();
+            List<Descriptors> descriptorValueMatrix = new ArrayList<>();
 
-            ReadDescriptors.convertCdkToX(filePath + sdFileName + ".cdk", filePath);
-            ReadDescriptors.readXDescriptors(filePath + sdFileName + ".cdk.x", descriptorNames, descriptorValueMatrix);
+            if (descriptorType.equals(Constants.CDK)) {
+                logger.debug("Processing CDK descriptors for job, " + jobName + " submitted by user, " + userName);
 
-            // for CDK descriptors, compounds with errors are skipped.
-            // Make sure that any skipped compounds are removed from the list
-            // of external compounds
-            DatasetFileOperations.removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
-            DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
-            chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
-        } else {
-            ReadDescriptors.readDescriptors(predictor, filePath + sdFileName, descriptorNames, descriptorValueMatrix);
+                ReadDescriptors.convertCdkToX(filePath + sdFileName + ".cdk", filePath);
+                ReadDescriptors
+                        .readXDescriptors(filePath + sdFileName + ".cdk.x", descriptorNames, descriptorValueMatrix);
+
+                // for CDK descriptors, compounds with errors are skipped.
+                // Make sure that any skipped compounds are removed from the list
+                // of external compounds
+                DatasetFileOperations
+                        .removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
+                DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
+                chemicalNames =  DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
+            } else {
+                ReadDescriptors
+                        .readDescriptors(predictor, filePath + sdFileName, descriptorNames, descriptorValueMatrix);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
+                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
+            }
         }
 
         // write out the descriptors into a .x file for modeling
@@ -460,9 +471,10 @@ public class QsarModelingTask extends WorkflowTask {
         } else {
             xFileName = sdFileName + ".x";
         }
+
         WriteDescriptors
-                .writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorNames, filePath + xFileName,
-                        scalingType, stdDevCutoff, correlationCutoff);
+                .writeModelingXFile(chemicalNames, descriptorValueMatrixCombined, descriptorNamesCombined,
+                        filePath + xFileName, scalingType, stdDevCutoff, correlationCutoff);
 
         // apply the dataset's external split(s) to the generated .X file
         step = Constants.SPLITDATA;
@@ -505,7 +517,6 @@ public class QsarModelingTask extends WorkflowTask {
         }
         logger.info("Finished pre-processing for " + jobName);
     }
-
     public String executeLSF() throws Exception {
         logger.info("Beginning LSF submission for " + jobName);
         // this function will submit a single LSF job.

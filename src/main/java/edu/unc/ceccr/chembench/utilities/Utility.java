@@ -6,10 +6,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.Job;
-import edu.unc.ceccr.chembench.persistence.Prediction;
-import edu.unc.ceccr.chembench.persistence.Predictor;
+import edu.unc.ceccr.chembench.persistence.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,10 +14,7 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static org.apache.commons.io.IOUtils.closeQuietly;
 
@@ -469,6 +463,63 @@ public class Utility {
             closeQuietly(baos);
             closeQuietly(bis);
             closeQuietly(ois);
+        }
+    }
+
+    public static void hybrid(int descriptorSetListSize ,String descriptorType, List<String> descriptorNames,
+                              List<Descriptors> descriptorValueMatrix, List<String> descriptorNamesCombined,
+                              List<Descriptors> descriptorValueMatrixCombined){
+        if (descriptorSetListSize > 1) {
+            for (String name : descriptorNames)
+                descriptorNamesCombined.add(descriptorType + "_" + name);
+        }
+        else{
+            descriptorNamesCombined.addAll(descriptorNames);
+        }
+        combine(descriptorValueMatrix, descriptorValueMatrixCombined);
+    }
+    public static void combine (List<Descriptors> descriptorValueMatrix ,
+                                List<Descriptors> descriptorValueMatrixCombined){
+        logger.info("Combining descriptors of size " +descriptorValueMatrix.size()+" and "+
+                descriptorValueMatrixCombined.size());
+        if (!descriptorValueMatrixCombined.isEmpty()) {
+            int j = 0;
+            int k = 0;
+            int size = (descriptorValueMatrixCombined.size() < descriptorValueMatrix.size()) ?
+                    descriptorValueMatrixCombined.size() : descriptorValueMatrix.size();
+            List<Descriptors> descriptorValueMatrixCombinedTemp = new ArrayList<>();
+            descriptorValueMatrixCombinedTemp.addAll(descriptorValueMatrixCombined);
+            descriptorValueMatrixCombined.clear();
+            for (int i = 0; i < size; i++) {
+                List<Double> descriptorValues = new ArrayList<>();
+                Descriptors descriptors = new Descriptors();
+                //sets the descriptors in the combined matrix based on whichever matrix is smaller
+                if(descriptorValueMatrixCombinedTemp.size() < descriptorValueMatrix.size()) {
+                    k = i;
+                }
+                else{
+                    j = i;
+                }
+                if (descriptorValueMatrix.get(j).getCompoundName().equals(descriptorValueMatrixCombinedTemp.get(k).getCompoundName())) {
+                    descriptorValues.addAll(descriptorValueMatrixCombinedTemp.get(k).getDescriptorValues());
+                    descriptorValues.addAll(descriptorValueMatrix.get(j).getDescriptorValues());
+                    descriptors.setCompoundName(descriptorValueMatrix.get(j).getCompoundName());
+                    descriptors.setDescriptorValues(descriptorValues);
+                    descriptorValueMatrixCombined.add(i, descriptors);
+                }
+                else{
+                    if(descriptorValueMatrixCombinedTemp.size() < descriptorValueMatrix.size()) {
+                        j++;
+                    }
+                    else{
+                        k++;
+                    }
+                    i--;
+                }
+            }
+        }
+        else{
+            descriptorValueMatrixCombined.addAll(descriptorValueMatrix);
         }
     }
 }

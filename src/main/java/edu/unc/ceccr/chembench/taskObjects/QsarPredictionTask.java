@@ -99,7 +99,6 @@ public class QsarPredictionTask extends WorkflowTask {
     }
 
     private static PredictionValue createPredObject(String[] extValues) {
-
         if (extValues == null) {
             return null;
         }
@@ -155,7 +154,6 @@ public class QsarPredictionTask extends WorkflowTask {
     }
 
     public String getProgress(String userName) {
-
         try {
             if (!step.equals(Constants.PREDICTING)) {
                 return step;
@@ -246,7 +244,6 @@ public class QsarPredictionTask extends WorkflowTask {
     public Long setUp() throws Exception {
         // create Prediction object in DB to allow for recovery of this job if
         // it fails.
-
         if (prediction == null) {
             prediction = new Prediction();
         }
@@ -333,7 +330,6 @@ public class QsarPredictionTask extends WorkflowTask {
 
     private List<PredictionValue> makePredictions(Predictor predictor, String sdfile, String basePath,
                                                   String datasetPath) throws Exception {
-
         List<PredictionValue> predValues = new ArrayList<>();
         String predictionDir = basePath + predictor.getName() + "/";
         List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
@@ -404,28 +400,24 @@ public class QsarPredictionTask extends WorkflowTask {
             // descriptors to fit predictor.
             FileAndDirOperations.copyDirContents(datasetPath, predictionDir, false);
 
-            if (predictor.getDescriptorGeneration().equals(Constants.UPLOADED)) {
+            String sdfilex = null;
+            if (predictor.getDescriptorGeneration().contains(Constants.UPLOADED)) {
                 // the prediction descriptors file name is different if the
                 // user provided a .x file.
-                sdfile = predictionDataset.getXFile();
+                sdfilex = predictionDataset.getXFile();
             }
 
             step = Constants.PROCDESCRIPTORS;
-
-            if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
+            if (predictor.getDescriptorGeneration().contains(Constants.ISIDA)) {
                 GenerateDescriptors.generateIsidaDescriptorsWithHeader(predictionDir + sdfile,
                         predictionDir + sdfile + ".renorm.ISIDA", predictionDir + predictor.getSdFileName() + ".ISIDA" +
                                 ".hdr");
-                ConvertDescriptorsToXAndScale
-                        .convertDescriptorsToXAndScale(predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x",
-                                predictor.getDescriptorGeneration(), predictor.getScalingType(),
-                                predictionDataset.getNumCompound());
-            } else {
-                ConvertDescriptorsToXAndScale
-                        .convertDescriptorsToXAndScale(predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x",
-                                predictor.getDescriptorGeneration(), predictor.getScalingType(),
-                                predictionDataset.getNumCompound());
             }
+            ConvertDescriptorsToXAndScale
+                    .convertDescriptorsToXAndScale(predictionDir, sdfile, sdfilex, "train_0.x", sdfile + ".renorm.x",
+                            predictor.getDescriptorGeneration(), predictor.getScalingType(),
+                            predictionDataset.getNumCompound());
+
             // done with 3. (copy dataset from jobDir to jobDir/predictorDir.
             // Scale descriptors to fit predictor.)
 
@@ -528,7 +520,6 @@ public class QsarPredictionTask extends WorkflowTask {
     }
 
     public void executeLocal() throws Exception {
-
         String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
         String sdfile = predictionDataset.getSdfFile();
 
@@ -576,7 +567,6 @@ public class QsarPredictionTask extends WorkflowTask {
     // helpers below this point.
 
     public void postProcess() throws Exception {
-
         if (jobList.equals(Constants.LSF)) {
             // move files back from LSF
         }
