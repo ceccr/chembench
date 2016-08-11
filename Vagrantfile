@@ -83,14 +83,18 @@ Vagrant.configure(2) do |config|
             dos2unix \
             macchanger
 
-        wget -O /tmp/tomcat.tgz 'http://www-us.apache.org/dist/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz'
-        sudo tar xzvf /tmp/tomcat.tgz -C /opt
+        wget -O /tmp/tomcat.tar.gz 'http://www-us.apache.org/dist/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz'
+        sudo tar xzvf /tmp/tomcat.tar.gz -C /opt
         sudo echo '#{chembench_env}' >> #{tomcat_home}/bin/setenv.sh
         sudo echo '#{catalina_opts}' >> #{tomcat_home}/bin/setenv.sh
         sudo echo '#{tomcat_users_xml}' > #{tomcat_home}/conf/tomcat-users.xml
         sudo echo '#{tomcat_jchem_xml}' > #{tomcat_home}/Catalina/localhost/jchem.xml
-        sudo tar xzvf /vagrant/basebox.tgz -C /opt
+        sudo tar xzvf /vagrant/basebox.tar.gz -C /opt
         sudo chown -R vagrant:vagrant /opt/chembench
+
+        sudo chmod +x #{chembench_home}/bin/*
+        cp #{chembench_home}/licenses/dragonX.txt ~/drgx_license.txt
+        sudo #{chembench_home}/bin/dragon7 -i #{chembench_home}/licenses/dragon7.txt
 
         mysql -u root -e 'CREATE DATABASE cbprod'
         mysql -u root cbprod < #{chembench_home}/cbprod.sql

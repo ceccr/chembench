@@ -65,6 +65,7 @@ local.properties
 /utils/scikit-rf/*.json
 
 # Vagrant
+basebox/
 .vagrant
 jchem.cookie
 logs/
