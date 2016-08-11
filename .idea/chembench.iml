@@ -23,6 +23,11 @@
           <root url="file://$MODULE_DIR$/src/main/resources" />
         </sourceRoots>
       </configuration>
+      <facet type="Struts2" name="Struts 2">
+        <configuration>
+          <propertiesKeys disabled="false" />
+        </configuration>
+      </facet>
     </facet>
     <facet type="Spring" name="Spring">
       <configuration>
@@ -31,6 +36,9 @@
           <file>file://$MODULE_DIR$/src/main/java/edu/unc/ceccr/chembench/config/PersistenceContext.java</file>
         </fileset>
       </configuration>
+    </facet>
+    <facet type="Python" name="Python">
+      <configuration sdkName="" />
     </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
