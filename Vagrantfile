@@ -76,7 +76,7 @@ Vagrant.configure(2) do |config|
         sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
             mysql-server \
             r-base r-cran-randomforest \
-            python2.7 python-pandas python-sklearn \
+            python2.7 python-pandas python-sklearn python3 \
             gcc-multilib \
             oracle-java8-installer \
             maven \
@@ -109,6 +109,7 @@ Vagrant.configure(2) do |config|
     config.vm.provision "shell", run: "always", inline: <<-SHELL
         cp /vagrant/utils/R/* #{chembench_home}/bin
         cp /vagrant/utils/scikit-rf/* #{chembench_home}/bin
+        cp /vagrant/utils/sirms/* #{chembench_home}/bin
         dos2unix #{chembench_home}/bin/*.{R,py}
     SHELL
 end
