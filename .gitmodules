@@ -1,0 +1,3 @@
+[submodule "utils/sirms"]
+	path = utils/sirms
+	url = https://github.com/DrrDom/sirms
