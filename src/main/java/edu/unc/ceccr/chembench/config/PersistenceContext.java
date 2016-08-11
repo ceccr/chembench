@@ -17,26 +17,19 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {
-        "edu.unc.ceccr.chembench.persistence"
-})
+@EnableJpaRepositories(basePackages = {"edu.unc.ceccr.chembench.persistence"})
 @EnableTransactionManagement
 public class PersistenceContext {
-    private static final String[] ENTITY_PACKAGES = {
-            "edu.unc.ceccr.chembench.persistence"
-    };
+    private static final String[] ENTITY_PACKAGES = {"edu.unc.ceccr.chembench.persistence"};
 
-    private static final String[] HIBERNATE_PROPERTIES = {
-            "hibernate.dialect",
-            "hibernate.hbm2ddl.auto",
-            "hibernate.ejb.naming_strategy",
-            "hibernate.format_sql",
-            "hibernate.show_sql"
-    };
+    private static final String[] HIBERNATE_PROPERTIES =
+            {"hibernate.dialect", "hibernate.hbm2ddl.auto", "hibernate.ejb.naming_strategy", "hibernate.format_sql",
+                    "hibernate.show_sql"};
 
     /**
      * Creates and configures the HikariCP datasource bean.
-     * @param env   The runtime environment of  our application.
+     *
+     * @param env The runtime environment of  our application.
      * @return
      */
     @Bean(destroyMethod = "close")
@@ -51,8 +44,9 @@ public class PersistenceContext {
 
     /**
      * Creates the bean that creates the JPA entity manager factory.
-     * @param dataSource    The datasource that provides the database connections.
-     * @param env           The runtime environment of  our application.
+     *
+     * @param dataSource The datasource that provides the database connections.
+     * @param env        The runtime environment of  our application.
      * @return
      */
     @Bean
@@ -74,7 +68,8 @@ public class PersistenceContext {
     /**
      * Creates the transaction manager bean that integrates the used JPA provider with the
      * Spring transaction mechanism.
-     * @param entityManagerFactory  The used JPA entity manager factory.
+     *
+     * @param entityManagerFactory The used JPA entity manager factory.
      * @return
      */
     @Bean

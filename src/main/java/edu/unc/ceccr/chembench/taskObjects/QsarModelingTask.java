@@ -30,7 +30,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class QsarModelingTask extends WorkflowTask {
@@ -456,59 +458,60 @@ public class QsarModelingTask extends WorkflowTask {
                 DatasetFileOperations
                         .removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
                 DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
-                chemicalNames =  DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
+                chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
 
                 //sets name based on if it is a hybrid and combine into a list
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
-                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
+                        descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.DRAGONH)) {
                 logger.debug("Processing DragonH descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors.readDragonXDescriptors(filePath + sdFileName + ".dragonH", descriptorNames,
                         descriptorValueMatrix);
 
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
-                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
+                        descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.DRAGONNOH)) {
                 logger.debug("Processing DragonNoH descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors.readDragonXDescriptors(filePath + sdFileName + ".dragonNoH", descriptorNames,
                         descriptorValueMatrix);
 
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
-                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
+                        descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.MOE2D)) {
                 logger.debug("Processing MOE2D descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors
                         .readMoe2DDescriptors(filePath + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
 
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
-                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
+                        descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.MACCS)) {
                 logger.debug("Processing MACCS descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors
                         .readMaccsDescriptors(filePath + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
-                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
+                        descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.ISIDA)) {
                 logger.debug("Processing ISIDA descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors
                         .readIsidaDescriptors(filePath + sdFileName + ".ISIDA", descriptorNames, descriptorValueMatrix);
 
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
-                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
-            }  else if (descriptorType.equals(Constants.SIRMS)) {
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
+                        descriptorNamesCombined, descriptorValueMatrixCombined);
+            } else if (descriptorType.equals(Constants.SIRMS)) {
                 logger.debug("Processing SIRMS descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors
                         .readSirmsDescriptors(filePath + sdFileName + ".sirms", descriptorNames, descriptorValueMatrix);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
-                        descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
-            }   else if (descriptorType.equals(Constants.UPLOADED)) {
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
+                        descriptorNamesCombined, descriptorValueMatrixCombined);
+            } else if (descriptorType.equals(Constants.UPLOADED)) {
                 logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
                 ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
 
-                if (descriptorNames.size() > 0 && descriptorValueMatrix.size() > 0)
-                    Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNames,
-                            descriptorValueMatrix, descriptorNamesCombined, descriptorValueMatrixCombined);
+                if (descriptorNames.size() > 0 && descriptorValueMatrix.size() > 0) {
+                    Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
+                            descriptorNamesCombined, descriptorValueMatrixCombined);
+                }
             }
         }
 
@@ -519,9 +522,8 @@ public class QsarModelingTask extends WorkflowTask {
             xFileName = sdFileName + ".x";
         }
 
-        WriteDescriptors
-                .writeModelingXFile(chemicalNames, descriptorValueMatrixCombined, descriptorNamesCombined,
-                        filePath + xFileName, scalingType, stdDevCutoff, correlationCutoff);
+        WriteDescriptors.writeModelingXFile(chemicalNames, descriptorValueMatrixCombined, descriptorNamesCombined,
+                filePath + xFileName, scalingType, stdDevCutoff, correlationCutoff);
 
         // apply the dataset's external split(s) to the generated .X file
         step = Constants.SPLITDATA;
@@ -564,6 +566,7 @@ public class QsarModelingTask extends WorkflowTask {
         }
         logger.info("Finished pre-processing for " + jobName);
     }
+
     public String executeLSF() throws Exception {
         logger.info("Beginning LSF submission for " + jobName);
         // this function will submit a single LSF job.

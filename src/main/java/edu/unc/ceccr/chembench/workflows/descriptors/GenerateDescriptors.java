@@ -22,8 +22,9 @@ public class GenerateDescriptors {
         //Given an SD file, run CDK to get the chemical descriptors for each compound.
         String xmlFile = Constants.CECCR_BASE_PATH + Constants.CDK_XMLFILE_PATH;
 
-        String execstr = "java -jar " + Constants.EXECUTABLEFILE_PATH + "CDKGui-1.30.jar -b -o " + outfile + " -s " +
-                xmlFile + " " + sdfile;
+        String execstr =
+                "java -jar " + Constants.EXECUTABLEFILE_PATH + "CDKGui-1.30.jar -b -o " + outfile + " -s " + xmlFile
+                        + " " + sdfile;
 
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
 
@@ -52,8 +53,9 @@ public class GenerateDescriptors {
         Path inFilePath = workingDir.relativize(Paths.get(sdfile));
         Path outFilePath = workingDir.relativize(Paths.get(outfile));
         Path headerFilePath = workingDir.relativize(Paths.get(headerFile));
-        String execstr = String.format("Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name "
-                + "-h %s --StrictFrg", inFilePath.toString(), outFilePath.toString(), headerFilePath.toString());
+        String execstr = String.format(
+                "Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name " + "-h %s --StrictFrg",
+                inFilePath.toString(), outFilePath.toString(), headerFilePath.toString());
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir.toString(), "ISIDA");
     }
 
@@ -186,8 +188,8 @@ public class GenerateDescriptors {
 
     public static void generateMoe2DDescriptors(String sdfile, String outfile) throws Exception {
         //command: "moe2D.sh infile.sdf outfile.moe2D"
-        String execstr = "moe2D.sh " + " " + sdfile + " " + outfile + " " + Constants.CECCR_BASE_PATH +
-                "mmlsoft/SVL_DIR/batch_sd_2Ddesc.svl";
+        String execstr = "moe2D.sh " + " " + sdfile + " " + outfile + " " + Constants.CECCR_BASE_PATH
+                + "mmlsoft/SVL_DIR/batch_sd_2Ddesc.svl";
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
 
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "moe2d.sh");
@@ -195,8 +197,8 @@ public class GenerateDescriptors {
 
     public static void generateMaccsDescriptors(String sdfile, String outfile) throws Exception {
         //command: "maccs.sh infile.sdf outfile.maccs"
-        String execstr = "maccs.sh " + sdfile + " " + outfile + " " + Constants.CECCR_BASE_PATH +
-                "mmlsoft/SVL_DIR/batch_sd_MACCSFP.svl";
+        String execstr = "maccs.sh " + sdfile + " " + outfile + " " + Constants.CECCR_BASE_PATH
+                + "mmlsoft/SVL_DIR/batch_sd_MACCSFP.svl";
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
 
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "maccs.sh");
@@ -204,16 +206,14 @@ public class GenerateDescriptors {
 
     public static void generateDragon7Descriptors(String sdfFile, String outFile) throws DescriptorGenerationException {
         String scriptFilePath = Paths.get(Constants.CECCR_BASE_PATH, Constants.DRAGON7_SCRIPT_PATH).toString();
-        String execstr = Utility.SPACE_JOINER.join(new String[]{"dragon7",
-                "-s", scriptFilePath,
-                "<", sdfFile
-        });
+        String execstr = Utility.SPACE_JOINER.join(new String[]{"dragon7", "-s", scriptFilePath, "<", sdfFile});
         Path sdfFilePath = Paths.get(sdfFile);
         Path descriptorsDirPath = sdfFilePath.getParent().resolve("Descriptors");
         RunExternalProgram.runCommandAndLogOutput(execstr, descriptorsDirPath.toString() + "/", "dragon7");
 
         try {
-            Files.move(descriptorsDirPath.resolve("dragon7.out"), Paths.get(outFile), StandardCopyOption.REPLACE_EXISTING);
+            Files.move(descriptorsDirPath.resolve("dragon7.out"), Paths.get(outFile),
+                    StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new DescriptorGenerationException("Dragon 7 descriptor generation failed", e);
         }
@@ -221,7 +221,7 @@ public class GenerateDescriptors {
 
     public static void generateSirmsDescriptors(String sdfile, String outfile) throws Exception {
         //command: "sirms.py -i infile.sdf -o outfile.sirms"
-        String execstr = "python3 " + Constants.EXECUTABLEFILE_PATH +"sirms/sirms.py -i " + sdfile + " -o " + outfile;
+        String execstr = "python3 " + Constants.EXECUTABLEFILE_PATH + "sirms/sirms.py -i " + sdfile + " -o " + outfile;
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
 
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "sirms");

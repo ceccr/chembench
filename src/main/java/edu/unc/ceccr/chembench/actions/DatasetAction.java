@@ -212,15 +212,15 @@ public class DatasetAction extends ActionSupport {
                 // be any size)
                 if (result != ERROR && datasetType.startsWith("MODELING")) {
                     int numCompounds = DatasetFileOperations.getACTCompoundNames(
-                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
-                                    actFileModelingFileName).size();
+                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/"
+                                    + actFileModelingFileName).size();
                     if (numCompounds < Constants.DATASET_MIN_COMPOUNDS) {
                         logger.warn(String.format("Rejected dataset job: had only %d compounds while %d are required",
                                 numCompounds, Constants.DATASET_MIN_COMPOUNDS));
-                        addActionError(String
-                                .format("Your dataset job only has %d compounds while a minimum of %d are required. "
-                                        + "Please choose a SDF and ACT file pair with a greater number of " +
-                                        "compounds.", numCompounds, Constants.DATASET_MIN_COMPOUNDS));
+                        addActionError(String.format(
+                                "Your dataset job only has %d compounds while a minimum of %d are required. "
+                                        + "Please choose a SDF and ACT file pair with a greater number of "
+                                        + "compounds.", numCompounds, Constants.DATASET_MIN_COMPOUNDS));
                         result = ERROR;
                     }
                 }
@@ -245,11 +245,11 @@ public class DatasetAction extends ActionSupport {
                         externalCompoundList, //if splitType is USERDEFINED
                         datasetName, paperReference, dataSetDescription, generateImagesM);
                 try {
-                    logger.debug("getting ACT compound count from " + Constants.CECCR_USER_BASE_PATH + userName +
-                            "/DATASETS/" + datasetName + "/" + actFileModelingFileName);
+                    logger.debug("getting ACT compound count from " + Constants.CECCR_USER_BASE_PATH + userName
+                            + "/DATASETS/" + datasetName + "/" + actFileModelingFileName);
                     int numCompounds = DatasetFileOperations.getACTCompoundNames(
-                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
-                                    actFileModelingFileName).size();
+                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/"
+                                    + actFileModelingFileName).size();
                     int numModels = 0;
 
                     CentralDogma centralDogma = CentralDogma.getInstance();
@@ -311,8 +311,8 @@ public class DatasetAction extends ActionSupport {
                             datasetName, paperReference, dataSetDescription, generateImagesP);
 
                     int numCompounds = DatasetFileOperations.getSdfCompoundNames(
-                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
-                                    sdfFilePredictionFileName).size();
+                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/"
+                                    + sdfFilePredictionFileName).size();
                     int numModels = 0;
                     logger.debug("adding task");
 
@@ -395,8 +395,8 @@ public class DatasetAction extends ActionSupport {
                             datasetName, paperReference, dataSetDescription, generateImagesMWD);
 
                     int numCompounds = DatasetFileOperations.getACTCompoundNames(
-                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
-                                    actFileModDescFileName).size();
+                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/"
+                                    + actFileModDescFileName).size();
                     int numModels = 0;
 
                     CentralDogma centralDogma = CentralDogma.getInstance();
@@ -466,8 +466,8 @@ public class DatasetAction extends ActionSupport {
                             datasetName, paperReference, dataSetDescription, generateImagesPWD);
 
                     int numCompounds = DatasetFileOperations.getXCompoundNames(
-                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
-                                    xFilePredDescFileName).size();
+                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/"
+                                    + xFilePredDescFileName).size();
                     int numModels = 0;
 
                     CentralDogma centralDogma = CentralDogma.getInstance();

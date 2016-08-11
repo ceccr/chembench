@@ -243,16 +243,19 @@ public class ModelAction extends ActionSupport {
                 int numDescriptors = ReadDescriptors.readDescriptorNamesFromX(ds.getXFile(), datasetDir).length;
                 int numMaxDesc = Integer.parseInt(knnMaxNumDescriptors);
                 if (numDescriptors < numMaxDesc) {
-                    addActionError("Your uploaded dataset contains only " + numDescriptors
-                            + " descriptors, but you requested " + "that each model contain up to " + numMaxDesc
-                            + " descriptors. Please return to the " + "Modeling page and " + "fix your parameters.");
+                    addActionError(
+                            "Your uploaded dataset contains only " + numDescriptors + " descriptors, but you requested "
+                                    + "that each model contain up to " + numMaxDesc
+                                    + " descriptors. Please return to the " + "Modeling page and "
+                                    + "fix your parameters.");
                     return ERROR;
                 }
             }
 
             if (ds.getSplitType().equals(Constants.NFOLD)) {
                 // generate random randomForestSeed for RF if none given
-                // (we need to do this here, not in Python, because the randomForestSeed needs to stay the same across every fold)
+                // (we need to do this here, not in Python, because the randomForestSeed needs to stay the same
+                // across every fold)
                 if (modelingType.equals(Constants.RANDOMFOREST) && randomForestSeed < 0) {
                     PositiveRandom random = new PositiveRandom();
                     randomForestSeed = random.nextPositiveInt(); // in interval [0, Integer.MAX_VALUE]
@@ -280,8 +283,7 @@ public class ModelAction extends ActionSupport {
                                     emailOnCompletion);
 
                     logger.info("Added modeling job by " + user.getUserName());
-                    logger.info("Modeling job added to queue " +
-                            user.getUserName() + " " + this.getJobName());
+                    logger.info("Modeling job added to queue " + user.getUserName() + " " + this.getJobName());
                 }
 
                 // make a "parent" predictor to contain each of the "child"
@@ -334,8 +336,7 @@ public class ModelAction extends ActionSupport {
                         emailOnCompletion);
 
                 logger.info("Added modeling job by " + user.getUserName());
-                logger.info("Task added to queue " +
-                        user.getUserName() + " " + this.getJobName());
+                logger.info("Task added to queue " + user.getUserName() + " " + this.getJobName());
 
             }
         } catch (Exception ex) {

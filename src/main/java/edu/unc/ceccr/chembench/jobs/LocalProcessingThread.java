@@ -105,12 +105,12 @@ public class LocalProcessingThread extends Thread {
 
                                 // send an email to the site administrator
                                 User sadUser = userRepository.findByUserName(j.getUserName());
-                                String message = "Heya, <br />" + j.getUserName() + "'s job \"" + j.getJobName() +
-                                        "\" failed. You might wanna look into that. Their email is " + sadUser
+                                String message = "Heya, <br />" + j.getUserName() + "'s job \"" + j.getJobName()
+                                        + "\" failed. You might wanna look into that. Their email is " + sadUser
                                         .getEmail() + " and their name is " + sadUser.getFirstName() + " " + sadUser
-                                        .getLastName() + " in case you want to give them hope of a brighter tomorrow" +
-                                        "." + "<br /><br />Here's the exception it threw: <br />" + ex.toString() +
-                                        "<br /><br />Good luck!<br />--Chembench";
+                                        .getLastName() + " in case you want to give them hope of a brighter tomorrow"
+                                        + "." + "<br /><br />Here's the exception it threw: <br />" + ex.toString()
+                                        + "<br /><br />Good luck!<br />--Chembench";
                                 message += "<br /><br />The full stack trace is below. Happy debugging!<br /><br />"
                                         + exceptionAsString;
 

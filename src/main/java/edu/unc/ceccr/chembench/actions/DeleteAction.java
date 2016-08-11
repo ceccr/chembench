@@ -52,8 +52,8 @@ public class DeleteAction extends ActionSupport {
         for (Predictor predictor : userPredictors) {
             logger.debug("predictor id: " + predictor.getDatasetId() + " dataset id: " + ds.getId());
             if (predictor.getDatasetId() != null && predictor.getDatasetId().equals(ds.getId())) {
-                addActionError("The predictor '" + predictor.getName() + "' depends on this dataset. Please" +
-                        " delete it first.\n");
+                addActionError("The predictor '" + predictor.getName() + "' depends on this dataset. Please"
+                        + " delete it first.\n");
             }
         }
 
@@ -61,8 +61,8 @@ public class DeleteAction extends ActionSupport {
         for (Prediction prediction : userPredictions) {
             logger.debug("Prediction id: " + prediction.getDatasetId() + " dataset id: " + ds.getId());
             if (prediction.getDatasetId() != null && prediction.getDatasetId().equals(ds.getId())) {
-                addActionError("The prediction '" + prediction.getName() + "' depends on this dataset. Please " +
-                        "delete it first.\n");
+                addActionError("The prediction '" + prediction.getName() + "' depends on this dataset. Please "
+                        + "delete it first.\n");
             }
         }
 
@@ -86,8 +86,8 @@ public class DeleteAction extends ActionSupport {
             String[] predictorIds = prediction.getPredictorIds().split("\\s+");
             for (String predictorId : predictorIds) {
                 if (Long.parseLong(predictorId) == p.getId()) {
-                    addActionError("The prediction '" + prediction.getName() + "' depends on this predictor." +
-                            " Please delete it first.\n");
+                    addActionError("The prediction '" + prediction.getName() + "' depends on this predictor."
+                            + " Please delete it first.\n");
                 }
             }
         }
@@ -173,7 +173,8 @@ public class DeleteAction extends ActionSupport {
     private void deletePredictor(Predictor predictor) {
         List<ExternalValidation> extVals = new ArrayList<>();
         // delete the files associated with this predictor
-        String dir = Constants.CECCR_USER_BASE_PATH + predictor.getUserName() + "/PREDICTORS/" + predictor.getName() + "/";
+        String dir =
+                Constants.CECCR_USER_BASE_PATH + predictor.getUserName() + "/PREDICTORS/" + predictor.getName() + "/";
         if (!FileAndDirOperations.deleteDir(new File(dir))) {
             logger.warn("error deleting dir: " + dir);
         }
@@ -186,8 +187,8 @@ public class DeleteAction extends ActionSupport {
             String[] childIdArray = predictor.getChildIds().split("\\s+");
             for (String childId : childIdArray) {
                 if (childId.equals("null")) {
-                    logger.warn("Attempted to delete a nonexistant child " +
-                            "predictor belonging to predictor id " + predictor.getId());
+                    logger.warn("Attempted to delete a nonexistant child " + "predictor belonging to predictor id "
+                            + predictor.getId());
                 } else {
                     Predictor childPredictor = predictorRepository.findOne(Long.parseLong(childId));
                     if (childPredictor == null) {
@@ -208,13 +209,15 @@ public class DeleteAction extends ActionSupport {
             switch (p.getModelMethod()) {
                 case Constants.RANDOMFOREST:
                 case Constants.RANDOMFOREST_R:
-                    RandomForestParameters rfParams = randomForestParametersRepository.findOne(p.getModelingParametersId());
+                    RandomForestParameters rfParams =
+                            randomForestParametersRepository.findOne(p.getModelingParametersId());
                     if (rfParams != null) {
                         randomForestParametersRepository.delete(rfParams);
                     }
                     List<RandomForestGrove> groves = randomForestGroveRepository.findByPredictorId(p.getId());
                     for (RandomForestGrove grove : groves) {
-                        for (RandomForestTree tree : randomForestTreeRepository.findByRandomForestGroveId(grove.getId())) {
+                        for (RandomForestTree tree : randomForestTreeRepository
+                                .findByRandomForestGroveId(grove.getId())) {
                             randomForestTreeRepository.delete(tree);
                         }
                         randomForestGroveRepository.delete(grove);

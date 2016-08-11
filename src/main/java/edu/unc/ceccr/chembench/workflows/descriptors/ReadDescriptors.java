@@ -40,65 +40,72 @@ public class ReadDescriptors {
     }
 
     public static void convertCdkToX(String cdkOutputFile, String workingDir) throws Exception {
-        String cmd = "python " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "cdkToX.py " + cdkOutputFile +
-                " " + cdkOutputFile + ".x";
+        String cmd = "python " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "cdkToX.py " + cdkOutputFile + " "
+                + cdkOutputFile + ".x";
         RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "cdkToX.py");
 
         // Any errors from MolconnZ processing will be in the log files. Read
         // 'em.
     }
 
-    public static void readDescriptors(String workingDir, Predictor predictor, String sdfFile, List<String>
-            descriptorNames, List<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readDescriptors(String workingDir, Predictor predictor, String sdfFile,
+                                       List<String> descriptorNames, List<Descriptors> descriptorValueMatrix)
+            throws Exception {
         List<String> descriptorSetList = Splitter.on(", ").splitToList(predictor.getDescriptorGeneration());
 
         //loop the block on each descriptor type, predictor = CDK, DRAGONH --> here, prefix
-        for (String descriptorType: descriptorSetList) {
+        for (String descriptorType : descriptorSetList) {
             List<String> descriptorNamesTemp = new ArrayList<>();
             List<Descriptors> descriptorValueMatrixTemp = new ArrayList<>();
             if (descriptorType.equals(Constants.CDK)) {
                 ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
-                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
+                        descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.DRAGONH)) {
-                ReadDescriptors.readDragonXDescriptors(sdfFile + ".dragonH", descriptorNamesTemp,
-                        descriptorValueMatrixTemp);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
-                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+                ReadDescriptors
+                        .readDragonXDescriptors(sdfFile + ".dragonH", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
+                        descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.DRAGONNOH)) {
-                ReadDescriptors.readDragonXDescriptors(sdfFile + ".dragonNoH", descriptorNamesTemp,
-                        descriptorValueMatrixTemp);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
-                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+                ReadDescriptors
+                        .readDragonXDescriptors(sdfFile + ".dragonNoH", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
+                        descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.MOE2D)) {
-                ReadDescriptors.readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
-                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+                ReadDescriptors
+                        .readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
+                        descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.MACCS)) {
-                ReadDescriptors.readMaccsDescriptors(sdfFile + ".maccs", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
-                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+                ReadDescriptors
+                        .readMaccsDescriptors(sdfFile + ".maccs", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
+                        descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.ISIDA)) {
-                ReadDescriptors.readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
-                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+                ReadDescriptors
+                        .readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
+                        descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.SIRMS)) {
-                ReadDescriptors.readSirmsDescriptors(workingDir + predictor.getSdFileName() + ".sirms", sdfFile + ".sirms",
-                        descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
-                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+                ReadDescriptors
+                        .readSirmsDescriptors(workingDir + predictor.getSdFileName() + ".sirms", sdfFile + ".sirms",
+                                descriptorNamesTemp, descriptorValueMatrixTemp);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
+                        descriptorNames, descriptorValueMatrix);
             } else if (descriptorType.equals(Constants.UPLOADED)) {
                 ReadDescriptors.readXDescriptors(sdfFile + ".x", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility. hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp,
-                        descriptorValueMatrixTemp, descriptorNames, descriptorValueMatrix);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
+                        descriptorNames, descriptorValueMatrix);
             } else {
                 throw new RuntimeException("Bad descriptor type: " + descriptorType);
             }
 
         }
     }
+
     public static void readCommonDragonDescriptors(String dragonOutputFile, List<String> descriptorNames,
-                                                   List<Descriptors> descriptorValueMatrix, boolean hasHeader) throws Exception {
+                                                   List<Descriptors> descriptorValueMatrix, boolean hasHeader)
+            throws Exception {
 
         logger.debug("reading Dragon Descriptors");
 
@@ -397,8 +404,10 @@ public class ReadDescriptors {
         }
         br.close();
     }
-    public static void readSirmsDescriptors(String predictorSdfFileNames, String sirmsOutputFile, List<String>
-            descriptorNames, List<Descriptors> descriptorValueMatrix) throws Exception {
+
+    public static void readSirmsDescriptors(String predictorSdfFileNames, String sirmsOutputFile,
+                                            List<String> descriptorNames, List<Descriptors> descriptorValueMatrix)
+            throws Exception {
         logger.debug("reading Sirms Descriptors with Predictor Sirms");
 
         List<String> predictorNames = new ArrayList<>();
@@ -418,14 +427,13 @@ public class ReadDescriptors {
         }
 
         //for each set of descriptors in the matrix
-        for (Descriptors descriptor: descriptorValueMatrixTemp) {
+        for (Descriptors descriptor : descriptorValueMatrixTemp) {
             List<Double> descriptorValues = new ArrayList<>();
-            for (int i = 0; i < descriptorNames.size(); i++){
-                if (descriptorNamesTemp.contains(descriptorNames.get(i))){
+            for (int i = 0; i < descriptorNames.size(); i++) {
+                if (descriptorNamesTemp.contains(descriptorNames.get(i))) {
                     int index = descriptorNamesTemp.indexOf(descriptorNames.get(i));
                     descriptorValues.add(descriptor.getDescriptorValues().get(index));
-                }
-                else{
+                } else {
                     descriptorValues.add(0.0);
                 }
             }
@@ -439,6 +447,7 @@ public class ReadDescriptors {
         }
 
     }
+
     public static void readSirmsHeader(String sirmsOutputFile, List<String> descriptorNames) throws Exception {
         logger.debug("reading Sirms Header");
 
@@ -460,6 +469,7 @@ public class ReadDescriptors {
         tok.close();
         br.close();
     }
+
     public static void readXDescriptors(String xFile, List<String> descriptorNames,
                                         List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("Trying to read uploaded descriptors");

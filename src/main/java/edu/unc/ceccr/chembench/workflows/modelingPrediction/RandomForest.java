@@ -113,9 +113,7 @@ public class RandomForest {
         String command = String.format("%s %s %s %s --output %s --num-trees %s --seed %d", BUILD_SCRIPT,
                 predictorDir.resolve(RF_X_FILE_PREFIX + Constants.MODELING_SET_X_FILE),
                 predictorDir.resolve(Constants.MODELING_SET_A_FILE), activityType.toString().toLowerCase(),
-                predictorDir.resolve(MODEL_PICKLE_RAW),
-                params.getNumTrees(),
-                params.getSeed());
+                predictorDir.resolve(MODEL_PICKLE_RAW), params.getNumTrees(), params.getSeed());
         int exitcode = RunExternalProgram.runCommandAndLogOutput(command, predictorDir, BUILD_SCRIPT);
         if (exitcode != 0) {
             String baseMessage = "Model generation failed, exit code " + exitcode;

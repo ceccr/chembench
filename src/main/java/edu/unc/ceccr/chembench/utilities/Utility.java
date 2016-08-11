@@ -22,10 +22,6 @@ import static org.apache.commons.io.IOUtils.closeQuietly;
 
 public class Utility {
 
-    private static final Logger logger = LoggerFactory.getLogger(Utility.class);
-
-    private static Integer debug_counter = 0;
-
     public static final Function<Object, String> NAME_TRANSFORM = new Function<Object, String>() {
         @Override
         public String apply(Object o) {
@@ -42,25 +38,24 @@ public class Utility {
             }
         }
     };
-
+    public static final Joiner SPACE_JOINER = Joiner.on(' ');
+    public static final Joiner TAB_JOINER = Joiner.on('\t');
+    public static final Joiner COMMA_JOINER = Joiner.on(',');
+    public static final Splitter WHITESPACE_SPLITTER = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
+    private static final Logger logger = LoggerFactory.getLogger(Utility.class);
     private static final Function<String, Double> PARSE_DOUBLE_TRANSFORM = new Function<String, Double>() {
         @Override
         public Double apply(String s) {
             return Double.parseDouble(s);
         }
     };
-
     private static final Function<String, Long> PARSE_LONG_TRANSFORM = new Function<String, Long>() {
         @Override
         public Long apply(String s) {
             return Long.parseLong(s);
         }
     };
-
-    public static final Joiner SPACE_JOINER = Joiner.on(' ');
-    public static final Joiner TAB_JOINER = Joiner.on('\t');
-    public static final Joiner COMMA_JOINER = Joiner.on(',');
-    public static final Splitter WHITESPACE_SPLITTER = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
+    private static Integer debug_counter = 0;
 
     /**
      * Converts a list of Strings to a list of Doubles.
@@ -457,7 +452,8 @@ public class Utility {
         } catch (IOException e) {
             throw new IllegalArgumentException("Object can't be copied", e);
         } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("Unable to reconstruct serialized object due to invalid class definition", e);
+            throw new IllegalArgumentException(
+                    "Unable to reconstruct serialized object due to invalid class definition", e);
         } finally {
             closeQuietly(oos);
             closeQuietly(baos);
@@ -466,22 +462,23 @@ public class Utility {
         }
     }
 
-    public static void hybrid(int descriptorSetListSize ,String descriptorType, List<String> descriptorNames,
+    public static void hybrid(int descriptorSetListSize, String descriptorType, List<String> descriptorNames,
                               List<Descriptors> descriptorValueMatrix, List<String> descriptorNamesCombined,
-                              List<Descriptors> descriptorValueMatrixCombined){
+                              List<Descriptors> descriptorValueMatrixCombined) {
         if (descriptorSetListSize > 1) {
-            for (String name : descriptorNames)
+            for (String name : descriptorNames) {
                 descriptorNamesCombined.add(descriptorType + "_" + name);
-        }
-        else{
+            }
+        } else {
             descriptorNamesCombined.addAll(descriptorNames);
         }
         combine(descriptorValueMatrix, descriptorValueMatrixCombined);
     }
-    public static void combine (List<Descriptors> descriptorValueMatrix ,
-                                List<Descriptors> descriptorValueMatrixCombined){
-        logger.info("Combining descriptors of size " +descriptorValueMatrix.size()+" and "+
-                descriptorValueMatrixCombined.size());
+
+    public static void combine(List<Descriptors> descriptorValueMatrix,
+                               List<Descriptors> descriptorValueMatrixCombined) {
+        logger.info("Combining descriptors of size " + descriptorValueMatrix.size() + " and "
+                + descriptorValueMatrixCombined.size());
         if (!descriptorValueMatrixCombined.isEmpty()) {
             int j = 0;
             int k = 0;
@@ -494,31 +491,28 @@ public class Utility {
                 List<Double> descriptorValues = new ArrayList<>();
                 Descriptors descriptors = new Descriptors();
                 //sets the descriptors in the combined matrix based on whichever matrix is smaller
-                if(descriptorValueMatrixCombinedTemp.size() < descriptorValueMatrix.size()) {
+                if (descriptorValueMatrixCombinedTemp.size() < descriptorValueMatrix.size()) {
                     k = i;
-                }
-                else{
+                } else {
                     j = i;
                 }
-                if (descriptorValueMatrix.get(j).getCompoundName().equals(descriptorValueMatrixCombinedTemp.get(k).getCompoundName())) {
+                if (descriptorValueMatrix.get(j).getCompoundName()
+                        .equals(descriptorValueMatrixCombinedTemp.get(k).getCompoundName())) {
                     descriptorValues.addAll(descriptorValueMatrixCombinedTemp.get(k).getDescriptorValues());
                     descriptorValues.addAll(descriptorValueMatrix.get(j).getDescriptorValues());
                     descriptors.setCompoundName(descriptorValueMatrix.get(j).getCompoundName());
                     descriptors.setDescriptorValues(descriptorValues);
                     descriptorValueMatrixCombined.add(i, descriptors);
-                }
-                else{
-                    if(descriptorValueMatrixCombinedTemp.size() < descriptorValueMatrix.size()) {
+                } else {
+                    if (descriptorValueMatrixCombinedTemp.size() < descriptorValueMatrix.size()) {
                         j++;
-                    }
-                    else{
+                    } else {
                         k++;
                     }
                     i--;
                 }
             }
-        }
-        else{
+        } else {
             descriptorValueMatrixCombined.addAll(descriptorValueMatrix);
         }
     }

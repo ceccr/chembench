@@ -694,8 +694,7 @@ public class KnnPlus {
 
         // only write out new version if something was discarded
         if (originalLineCount > lines.size()) {
-            logger.debug("Renaming original models.tbl to " +
-                    "models.tbl.old in " + workingDir);
+            logger.debug("Renaming original models.tbl to " + "models.tbl.old in " + workingDir);
             File modelsFileOld = new File(workingDir, "models.tbl.old");
             if (modelsFileOld.exists()) {
                 modelsFileOld.delete();

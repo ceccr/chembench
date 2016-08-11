@@ -103,8 +103,8 @@ public class LsfProcessingThread extends Thread {
                         // check if this is a running job
                         for (Job j : readOnlyJobArray) {
                             if (j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)) {
-                                logger.debug("LSFQueue: trying postprocessing on job: " + j.getJobName() + " from " +
-                                        "user: " + j.getUserName());
+                                logger.debug("LSFQueue: trying postprocessing on job: " + j.getJobName() + " from "
+                                        + "user: " + j.getUserName());
                                 if (CentralDogma.getInstance().lsfJobs.startPostJob(j.getId())) {
                                     try {
                                         logger.debug("Postprocessing job: " + j.getJobName() + " from user: " + j
@@ -141,15 +141,15 @@ public class LsfProcessingThread extends Thread {
                                         logger.error(exceptionAsString);
 
                                         String message = "Heya, <br />" + j.getUserName() + "'s job \"" + j.getJobName()
-                                                + "\" failed. You might want" + " to look into that. " +
-                                                "Their " + "email is " + sadUser.getEmail() + " and their name is " +
-                                                sadUser.getFirstName() + " " + sadUser.getLastName() + " in case you " +
-                                                "want to " + "give them hope of a " + "brighter tomorrow." + "<br " +
-                                                "/><br />Here's the " + "exception it threw: <br />" + ex.toString()
+                                                + "\" failed. You might want" + " to look into that. " + "Their "
+                                                + "email is " + sadUser.getEmail() + " and their name is " + sadUser
+                                                .getFirstName() + " " + sadUser.getLastName() + " in case you "
+                                                + "want to " + "give them hope of a " + "brighter tomorrow." + "<br "
+                                                + "/><br />Here's the " + "exception it threw: <br />" + ex.toString()
                                                 + "<br /><br />Good " + "luck!<br />--Chembench";
 
-                                        message += "<br /><br />The full " + "stack trace is below. " + "Happy " +
-                                                "debugging!<br /><br />" + exceptionAsString;
+                                        message += "<br /><br />The full " + "stack trace is below. " + "Happy "
+                                                + "debugging!<br /><br />" + exceptionAsString;
 
                                         for (String adminEmailAddress : Constants.ADMINEMAIL_LIST) {
                                             SendEmails.sendEmail(adminEmailAddress, "", "",
@@ -188,8 +188,8 @@ public class LsfProcessingThread extends Thread {
                                             // job is already running, so
                                             // don't do anything to it
                                             jobIsRunningAlready = true;
-                                            logger.info("LSFQueue: " + j.getJobName() + " was already running " +
-                                                    "happily!");
+                                            logger.info("LSFQueue: " + j.getJobName() + " was already running "
+                                                    + "happily!");
                                             if (j.getJobType().equals(Constants.MODELING)) {
                                                 j.workflowTask.setStep(Constants.MODELS);
                                             }
@@ -200,8 +200,8 @@ public class LsfProcessingThread extends Thread {
                                 if (!jobIsRunningAlready) {
                                     // job is not already running; needs to be
                                     // started.
-                                    logger.info("LSFQueue: " + j.getJobName() + " was not running already; it " + "is" +
-                                            " being preprocessed.");
+                                    logger.info("LSFQueue: " + j.getJobName() + " was not running already; it " + "is"
+                                            + " being preprocessed.");
                                     j.setTimeStarted(new Date());
                                     j.setStatus(Constants.PREPROC);
                                     j.workflowTask.preProcess();
@@ -229,15 +229,15 @@ public class LsfProcessingThread extends Thread {
 
                                 // send an email to the site administrator
                                 User sadUser = userRepository.findByUserName(j.getUserName());
-                                String message = "Heya, <br />" + j.getUserName() + "'s job \"" + j.getJobName() +
-                                        "\" failed. You might want" + " to look into that. Their " + "email is " +
-                                        sadUser.getEmail() + " and their name is " + sadUser.getFirstName() + " " +
-                                        sadUser.getLastName() + " in case you want to " + "give them hope of a " +
-                                        "brighter tomorrow." + "<br /><br />Here's the " + "exception it threw: <br " +
-                                        "/>" + ex.toString() + "<br /><br />Good " + "luck!<br />--Chembench";
+                                String message = "Heya, <br />" + j.getUserName() + "'s job \"" + j.getJobName()
+                                        + "\" failed. You might want" + " to look into that. Their " + "email is "
+                                        + sadUser.getEmail() + " and their name is " + sadUser.getFirstName() + " "
+                                        + sadUser.getLastName() + " in case you want to " + "give them hope of a "
+                                        + "brighter tomorrow." + "<br /><br />Here's the " + "exception it threw: <br "
+                                        + "/>" + ex.toString() + "<br /><br />Good " + "luck!<br />--Chembench";
 
-                                message += "<br /><br />The full " + "stack trace is below. " + "Happy debugging!<br " +
-                                        "/><br />" + exceptionAsString;
+                                message += "<br /><br />The full " + "stack trace is below. " + "Happy debugging!<br "
+                                        + "/><br />" + exceptionAsString;
 
                                 for (String adminEmailAddress : Constants.ADMINEMAIL_LIST) {
                                     SendEmails.sendEmail(adminEmailAddress, "", "", "Job failed: " + j.getJobName(),

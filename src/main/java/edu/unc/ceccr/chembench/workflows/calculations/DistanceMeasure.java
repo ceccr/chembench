@@ -20,8 +20,8 @@ public class DistanceMeasure {
     }
 
     public DistanceMeasure(String userName, String datasetName, String sdfName) throws IOException {
-        file_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/Visualization/" +
-                sdfName;
+        file_path =
+                Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/Visualization/" + sdfName;
         // reading content of the .x file to Vector
     }
 

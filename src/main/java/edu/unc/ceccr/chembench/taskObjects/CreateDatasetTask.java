@@ -306,8 +306,8 @@ public class CreateDatasetTask extends WorkflowTask {
             }
             //ISIDA
             Path descriptorDirPath = Paths.get(path + descriptorDir);
-            if (Files.exists(descriptorDirPath.resolve(sdfFileName + ".ISIDA.hdr")) && Files.exists
-                    (descriptorDirPath.resolve(sdfFileName + ".ISIDA.svm"))) {
+            if (Files.exists(descriptorDirPath.resolve(sdfFileName + ".ISIDA.hdr")) && Files
+                    .exists(descriptorDirPath.resolve(sdfFileName + ".ISIDA.svm"))) {
                 availableDescriptors += Constants.ISIDA + " ";
             } else {
                 File errorSummaryFile = new File(path + descriptorDir + "Logs/ISIDA.out");

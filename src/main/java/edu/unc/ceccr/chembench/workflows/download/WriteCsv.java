@@ -37,8 +37,9 @@ public class WriteCsv {
         Predictor predictor = predictorRepository.findOne(predictorId);
         List<ExternalValidation> externalValidationValues = new ArrayList<>();
 
-        String outfileName = Constants.CECCR_USER_BASE_PATH + predictor.getUserName() + "/PREDICTORS/" +
-                predictor.getName() + "/" + predictor.getName() + "-external-set-predictions.csv";
+        String outfileName =
+                Constants.CECCR_USER_BASE_PATH + predictor.getUserName() + "/PREDICTORS/" + predictor.getName() + "/"
+                        + predictor.getName() + "-external-set-predictions.csv";
         BufferedWriter out = new BufferedWriter(new FileWriter(outfileName));
 
         List<Predictor> childPredictors = predictorRepository.findByParentId(predictor.getId());
@@ -67,24 +68,17 @@ public class WriteCsv {
         out.write("Modeling Method," + predictor.getModelMethod() + "\n" + "Descriptor Type," + predictor
                 .getDescriptorGeneration() + "\n" + "Created Date," + Utility.formatDate(predictor.getDateCreated())
                 + "\n" + "Download Date," + new Date() + "\n" + "Web Site," + Constants.WEBADDRESS + "\n\n");
-        out.write("Compound ID," +
-                "Observed Value," +
-                "Predicted Value," +
-                "Standard Deviation," +
-                "Number of Predicting Models," +
-                "Total Number of Models\n");
+        out.write("Compound ID," + "Observed Value," + "Predicted Value," + "Standard Deviation,"
+                + "Number of Predicting Models," + "Total Number of Models\n");
 
         for (ExternalValidation ev : externalValidationValues) {
             String observedValueStr =
                     Utility.roundSignificantFigures("" + ev.getActualValue(), Constants.REPORTED_SIGNIFICANT_FIGURES);
             String predictedValueStr = Utility.roundSignificantFigures("" + ev.getPredictedValue(),
                     Constants.REPORTED_SIGNIFICANT_FIGURES);
-            out.write(ev.getCompoundId() + "," +
-                    observedValueStr + "," +
-                    predictedValueStr + "," +
-                    ev.getStandDev() + "," +
-                    ev.getNumModels() + "," +
-                    ev.getNumTotalModels() + "\n");
+            out.write(
+                    ev.getCompoundId() + "," + observedValueStr + "," + predictedValueStr + "," + ev.getStandDev() + ","
+                            + ev.getNumModels() + "," + ev.getNumTotalModels() + "\n");
         }
 
         out.close();

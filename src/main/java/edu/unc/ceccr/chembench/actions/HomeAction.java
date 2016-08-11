@@ -237,12 +237,12 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
         if (user != null) {
             logger.debug("Logged out: " + user.getUserName());
 
-        if (user.getUserName().contains("guest") && context.getSession().get("userType") != null && ((String) context
-                .getSession().get("userType")).equals("guest")) {
-            (new DeleteAction()).deleteUser(user.getUserName());
-        }
-        context.getSession().remove("user");
-        context.getSession().clear();
+            if (user.getUserName().contains("guest") && context.getSession().get("userType") != null
+                    && ((String) context.getSession().get("userType")).equals("guest")) {
+                (new DeleteAction()).deleteUser(user.getUserName());
+            }
+            context.getSession().remove("user");
+            context.getSession().clear();
 
             Cookie ckie = new Cookie("login", "false");
             servletResponse.addCookie(ckie);

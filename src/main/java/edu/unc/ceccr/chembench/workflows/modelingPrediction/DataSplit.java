@@ -54,8 +54,8 @@ public class DataSplit {
                                                       String compoundIdString) throws Exception {
 
         String[] compoundIDs = compoundIdString.trim().split("\\s+");
-        logger.debug("called splitModelingExternalGivenList in dir: " + workingdir + " actfile: " + actFileName + " " +
-                "xfile: " + xFileName);
+        logger.debug("called splitModelingExternalGivenList in dir: " + workingdir + " actfile: " + actFileName + " "
+                + "xfile: " + xFileName);
 
         File inX = new File(workingdir + xFileName);
         BufferedReader inXReader = new BufferedReader(new FileReader(inX));
@@ -202,8 +202,7 @@ public class DataSplit {
         //need to make the sample with replace option actually do something
 
         //splits the modeling set into several training and test sets randomly
-        logger.debug("User " + userName + " Job: " + jobName +
-                " Splitting train/test data randomly.");
+        logger.debug("User " + userName + " Job: " + jobName + " Splitting train/test data randomly.");
 
         String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 

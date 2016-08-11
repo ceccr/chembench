@@ -39,10 +39,11 @@ public class ResetPasswordAction extends ActionSupport {
         // message to user
 
         //email
-        String message = user.getFirstName() + ", your Chembench password has been reset." + "<br/>" + "Your " +
-                "username: " + user.getUserName() + "<br/> Your new password is: " + randomPassword + "<br/><br/><br/>"
-                + "You may login from " + Constants.WEBADDRESS + ".<br/> <br/><br/>"
-                + "Once you are logged in, you may change your password from the 'edit profile' page.";
+        String message =
+                user.getFirstName() + ", your Chembench password has been reset." + "<br/>" + "Your " + "username: "
+                        + user.getUserName() + "<br/> Your new password is: " + randomPassword + "<br/><br/><br/>"
+                        + "You may login from " + Constants.WEBADDRESS + ".<br/> <br/><br/>"
+                        + "Once you are logged in, you may change your password from the 'edit profile' page.";
 
         SendEmails.sendEmail(email, "", "", "Chembench Password Reset", message);
 

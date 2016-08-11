@@ -64,7 +64,7 @@ public class Compound3DAction extends ActionSupport implements ServletResponseAw
             logger.debug(".mol file doesn't exist yet, creating it from sdf");
             convert2Dto3D(sdfFilePath, molFilePath);
         }
-        try (BufferedReader reader = Files.newBufferedReader(molFilePath, StandardCharsets.UTF_8)){
+        try (BufferedReader reader = Files.newBufferedReader(molFilePath, StandardCharsets.UTF_8)) {
             response.setCharacterEncoding("UTF-8");
             PrintWriter writer = response.getWriter();
             String line;

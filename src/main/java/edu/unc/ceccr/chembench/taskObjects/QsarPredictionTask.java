@@ -75,29 +75,6 @@ public class QsarPredictionTask extends WorkflowTask {
         this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
     }
 
-    @PostConstruct
-    private void init() {
-        selectedPredictors = new ArrayList<>();
-        String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
-
-        for (String selectedPredictorId : selectedPredictorIdArray) {
-            Predictor p = predictorRepository.findOne(Long.parseLong(selectedPredictorId));
-            selectedPredictors.add(p);
-        }
-        Collections.sort(selectedPredictors, new Comparator<Predictor>() {
-            public int compare(Predictor p1, Predictor p2) {
-                return p1.getId().compareTo(p2.getId());
-            }
-        });
-
-        if (wasRecovered) {
-            this.predictionDataset = datasetRepository.findOne(prediction.getDatasetId());
-            if (predictionDataset.getSdfFile() != null) {
-                this.sdf = predictionDataset.getSdfFile();
-            }
-        }
-    }
-
     private static PredictionValue createPredObject(String[] extValues) {
         if (extValues == null) {
             return null;
@@ -153,6 +130,29 @@ public class QsarPredictionTask extends WorkflowTask {
         return allPredValue;
     }
 
+    @PostConstruct
+    private void init() {
+        selectedPredictors = new ArrayList<>();
+        String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
+
+        for (String selectedPredictorId : selectedPredictorIdArray) {
+            Predictor p = predictorRepository.findOne(Long.parseLong(selectedPredictorId));
+            selectedPredictors.add(p);
+        }
+        Collections.sort(selectedPredictors, new Comparator<Predictor>() {
+            public int compare(Predictor p1, Predictor p2) {
+                return p1.getId().compareTo(p2.getId());
+            }
+        });
+
+        if (wasRecovered) {
+            this.predictionDataset = datasetRepository.findOne(prediction.getDatasetId());
+            if (predictionDataset.getSdfFile() != null) {
+                this.sdf = predictionDataset.getSdfFile();
+            }
+        }
+    }
+
     public String getProgress(String userName) {
         try {
             if (!step.equals(Constants.PREDICTING)) {
@@ -169,8 +169,7 @@ public class QsarPredictionTask extends WorkflowTask {
                     List<String> selectedPredictorIds = Lists.newArrayList(Arrays.asList(selectedPredictorIdArray));
                     Collections.sort(selectedPredictorIds);
                     for (int i = 0; i < selectedPredictorIds.size(); i++) {
-                        Predictor sp =
-                                predictorRepository.findOne(Long.parseLong(selectedPredictorIds.get(i)));
+                        Predictor sp = predictorRepository.findOne(Long.parseLong(selectedPredictorIds.get(i)));
 
                         if (sp.getChildType() != null && sp.getChildType().equals(Constants.NFOLD)) {
                             String[] childIds = sp.getChildIds().split("\\s+");
@@ -410,15 +409,13 @@ public class QsarPredictionTask extends WorkflowTask {
             step = Constants.PROCDESCRIPTORS;
             if (predictor.getDescriptorGeneration().contains(Constants.ISIDA)) {
                 GenerateDescriptors.generateIsidaDescriptorsWithHeader(predictionDir + sdfile,
-                        predictionDir + sdfile + ".renorm.ISIDA", predictionDir + predictor.getSdFileName() + ".ISIDA" +
-                                ".hdr");
+                        predictionDir + sdfile + ".renorm.ISIDA",
+                        predictionDir + predictor.getSdFileName() + ".ISIDA" + ".hdr");
             }
             ConvertDescriptorsToXAndScale
-                    .convertDescriptorsToXAndScale(predictionDir, predictor.getSdFileName(), sdfile, sdfilex, "train_0.x",
-                            sdfile +
-                            ".renorm.x",
-                            predictor.getDescriptorGeneration(), predictor.getScalingType(),
-                            predictionDataset.getNumCompound());
+                    .convertDescriptorsToXAndScale(predictionDir, predictor.getSdFileName(), sdfile, sdfilex,
+                            "train_0.x", sdfile + ".renorm.x", predictor.getDescriptorGeneration(),
+                            predictor.getScalingType(), predictionDataset.getNumCompound());
 
             // done with 3. (copy dataset from jobDir to jobDir/predictorDir.
             // Scale descriptors to fit predictor.)
@@ -476,8 +473,8 @@ public class QsarPredictionTask extends WorkflowTask {
 
             String predictorXFile =
                     predictor.getModelMethod().startsWith(Constants.RANDOMFOREST) ? "RF_train_0.x" : "train_0.x";
-            execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + predictionDir + predictorXFile + " " +
-                    "-4PRED=" + predictionXFile + " -OUT=" + predictionDir + "PRE_AD";
+            execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + predictionDir + predictorXFile + " " + "-4PRED="
+                    + predictionXFile + " -OUT=" + predictionDir + "PRE_AD";
             RunExternalProgram.runCommandAndLogOutput(execstr, predictionDir, "getAD");
 
             //Read AD results

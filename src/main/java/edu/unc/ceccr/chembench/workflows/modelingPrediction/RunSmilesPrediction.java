@@ -42,8 +42,8 @@ public class RunSmilesPrediction {
 
         /* copy the predictor to the workingDir. */
         String predictorUsername = predictor.getUserName();
-        String fromDir = Constants.CECCR_USER_BASE_PATH + predictorUsername + "/PREDICTORS/" + predictor.getName() +
-                "/";
+        String fromDir =
+                Constants.CECCR_USER_BASE_PATH + predictorUsername + "/PREDICTORS/" + predictor.getName() + "/";
 
         /* get train_0.x file from the predictor dir. */
         logger.debug("Copying predictor files from " + fromDir);
@@ -89,8 +89,9 @@ public class RunSmilesPrediction {
             String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
             String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
             String modelsListFile = "models.list";
-            String command = "Rscript --vanilla " + predictScript + " --scriptsDir " + scriptDir + " --workDir " +
-                    workingDir + " --modelsListFile " + modelsListFile + " --xFile " + newXFile;
+            String command =
+                    "Rscript --vanilla " + predictScript + " --scriptsDir " + scriptDir + " --workDir " + workingDir
+                            + " --modelsListFile " + modelsListFile + " --xFile " + newXFile;
 
             RunExternalProgram.runCommandAndLogOutput(command, workingDir, "randomForestPredict");
 
@@ -229,7 +230,7 @@ public class RunSmilesPrediction {
         if (descriptorTypes.contains(Constants.MACCS)) {
             GenerateDescriptors.generateMaccsDescriptors(sdfile, sdfile + ".maccs");
         }
-        if (descriptorTypes.contains(Constants.SIRMS)){
+        if (descriptorTypes.contains(Constants.SIRMS)) {
             GenerateDescriptors.generateSirmsDescriptors(sdfile, sdfile + ".sirms");
         }
     }

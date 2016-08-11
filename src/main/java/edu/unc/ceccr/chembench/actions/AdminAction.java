@@ -120,10 +120,10 @@ public class AdminAction extends ActionSupport {
             }
         }
 
-        String allUserPredictorDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME +
-                "/PREDICTORS/";
+        String allUserPredictorDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/PREDICTORS/";
         String predictorUserName = predictor.getUserName();
-        String userPredictorDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/PREDICTORS/" + predictor.getName();
+        String userPredictorDir =
+                Constants.CECCR_USER_BASE_PATH + predictorUserName + "/PREDICTORS/" + predictor.getName();
 
         //copy files to all users folder
         logger.debug("Start copying files from '" + userPredictorDir + "' to '" + allUserPredictorDir + "'");
@@ -259,7 +259,8 @@ public class AdminAction extends ActionSupport {
         }
 
         String allUserDatasetDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/DATASETS/";
-        String userDatasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getName();
+        String userDatasetDir =
+                Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getName();
 
         //copy files to all users folder
         logger.debug("Start copying files from '" + userDatasetDir + "' to '" + allUserDatasetDir + "'");

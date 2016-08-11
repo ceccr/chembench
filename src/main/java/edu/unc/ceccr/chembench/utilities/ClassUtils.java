@@ -44,9 +44,8 @@ public class ClassUtils {
         AccessibleObject.setAccessible(f, true);
         for (int i = 0; i < f.length; i++) {
             try {
-                if (f[i].getType().equals(new String().getClass()) ||
-                        f[i].getType().equals(new Date().getClass()) ||
-                        f[i].getType().equals(byte.class)) {
+                if (f[i].getType().equals(new String().getClass()) || f[i].getType().equals(new Date().getClass())
+                        || f[i].getType().equals(byte.class)) {
                     list.add("'" + f[i].get(o) + "'");
                 } else {
                     list.add(f[i].get(o));

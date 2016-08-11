@@ -59,8 +59,7 @@ public class ModelDetailAction extends DetailAction {
     public ModelDetailAction(DatasetRepository datasetRepository, PredictorRepository predictorRepository,
                              RandomForestGroveRepository randomForestGroveRepository,
                              RandomForestTreeRepository randomForestTreeRepository,
-                             SvmModelRepository svmModelRepository,
-                             KnnPlusModelRepository knnPlusModelRepository,
+                             SvmModelRepository svmModelRepository, KnnPlusModelRepository knnPlusModelRepository,
                              RandomForestParametersRepository randomForestParametersRepository,
                              KnnPlusParametersRepository knnPlusParametersRepository,
                              SvmParametersRepository svmParametersRepository,
@@ -226,7 +225,8 @@ public class ModelDetailAction extends DetailAction {
                 List<String> headerFields = splitter.splitToList(reader.readLine());
                 // XXX if the RF call has importance = FALSE (the default), only IncNodePurity (continuous) or
                 // MeanDecreaseGini (category) is generated. If importance = TRUE, then %IncMse (continuous)
-                // or MeanDecreaseAccuracy (category) are also generated. ideally we'd report both measures, but for now,
+                // or MeanDecreaseAccuracy (category) are also generated. ideally we'd report both measures, but for
+                // now,
                 // report IncNodePurity / MeanDecreaseGini as that'll always be there
                 int importanceMeasureIndex = -1;
                 for (int i = 0; i < headerFields.size(); i++) {

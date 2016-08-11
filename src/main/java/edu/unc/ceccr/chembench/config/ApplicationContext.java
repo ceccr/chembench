@@ -11,12 +11,13 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @EnableSpringConfigured
 public class ApplicationContext {
 
-    @Configuration
-    @PropertySource("classpath:application.properties")
-    static class ApplicationProperties {}
-
     @Bean
     static PropertySourcesPlaceholderConfigurer propertyPlaceHolderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
+    }
+
+    @Configuration
+    @PropertySource("classpath:application.properties")
+    static class ApplicationProperties {
     }
 }

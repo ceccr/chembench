@@ -5,14 +5,6 @@ import java.util.List;
 
 public class Constants {
 
-    public enum ActivityType {
-        CATEGORY, CONTINUOUS
-    }
-
-    public enum ScalingType {
-        AUTOSCALING, RANGESCALING, NOSCALING
-    }
-
     //After submitting around 250 jobs, LSF won't let you submit more, it just returns an error.
     //Cap the number of jobs that can be added to the LSF queue at any given time.
     public static final int MAXLSFJOBS = 200;
@@ -20,15 +12,13 @@ public class Constants {
     //How long a login will last if idle, measured in seconds. 21600 seconds = 6 hours.
     //Descriptor constants
     public static final int NUM_MACCS_KEYS = 400;
-    //In practice, there are only 2 different types of MACCS keys -- 166 and 320.
-    //We use the 166 version. Padding doesn't hurt, though -- the extra 0's get removed later.
-
     //Enums for Data Types
     public static final String CONTINUOUS = "CONTINUOUS";
     public static final String CATEGORY = "CATEGORY";
+    //In practice, there are only 2 different types of MACCS keys -- 166 and 320.
+    //We use the 166 version. Padding doesn't hurt, though -- the extra 0's get removed later.
     public static final String INCOMING = "INCOMING";
     public static final String LSF = "LSF";
-
     //Type strings
     //The point of having these is to define capitalizations
     //(prevents case-sensitivity bugs)
@@ -205,7 +195,13 @@ public class Constants {
     public static String CECCR_DATABASE_NAME;
     public static String CECCR_DATABASE_PASSWORD;
     public static String WORKBENCH;
-
     // modelability index threshold
     public static double MODI_MODELABLE = 0.65;
+    public enum ActivityType {
+        CATEGORY, CONTINUOUS
+    }
+
+    public enum ScalingType {
+        AUTOSCALING, RANGESCALING, NOSCALING
+    }
 }

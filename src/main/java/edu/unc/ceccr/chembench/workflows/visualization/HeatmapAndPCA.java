@@ -20,10 +20,11 @@ public class HeatmapAndPCA {
         //method = "tanimoto" or "mahalanobis"
         try {
             String viz_path = workingDir + sdfName;
-            String tanimoto = "run_heatmap_tree.sh " + viz_path + ".x " + viz_path + "_tan.mat " + viz_path + "_tan" +
-                    ".xml " + "e";
-            String mahalanobis = "run_heatmap_tree.sh " + viz_path + ".x " + viz_path + "_mah.mat " + viz_path +
-                    "_mah.xml " + "m";
+            String tanimoto =
+                    "run_heatmap_tree.sh " + viz_path + ".x " + viz_path + "_tan.mat " + viz_path + "_tan" + ".xml "
+                            + "e";
+            String mahalanobis =
+                    "run_heatmap_tree.sh " + viz_path + ".x " + viz_path + "_mah.mat " + viz_path + "_mah.xml " + "m";
             //Process p;
             if (method.equals("tanimoto")) {
                 RunExternalProgram.runCommandAndLogOutput(tanimoto, "", "tanimoto");

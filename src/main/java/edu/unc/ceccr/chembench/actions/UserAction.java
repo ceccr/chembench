@@ -134,8 +134,8 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
             addActionError("The user name '" + newUserName + "' is already in use.");
             result = ERROR;
         } else if (NON_ALPHANUMERIC_REGEX.matcher(newUserName).find()) {
-            addActionError("You have entered an invalid username. " +
-                    "Usernames must be alphanumeric (no spaces, symbols, or special characters).");
+            addActionError("You have entered an invalid username. "
+                    + "Usernames must be alphanumeric (no spaces, symbols, or special characters).");
             result = ERROR;
         }
 
@@ -236,7 +236,8 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
 
         String realPasswordHash = user.getPassword();
         if (!(Utility.encrypt(oldPassword).equals(realPasswordHash))) {
-            addActionError("You entered your old password incorrectly. Your password was not changed. Please try again.");
+            addActionError(
+                    "You entered your old password incorrectly. Your password was not changed. Please try again.");
             return ERROR;
         }
 

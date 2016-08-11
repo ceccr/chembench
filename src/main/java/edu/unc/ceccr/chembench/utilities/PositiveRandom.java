@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * A random number generator that returns only positive integers.
- *
+ * <p>
  * This class is necessary in order to utilize Random#next(), which is a protected method.
  * Random#nextInt() is unsatisfactory because it only generates integers in the interval [0, Integer.MAX_VALUE),
  * meaning it will never return Integer.MAX_VALUE as a possible integer.

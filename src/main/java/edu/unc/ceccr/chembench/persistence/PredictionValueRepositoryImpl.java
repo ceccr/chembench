@@ -25,8 +25,8 @@ public class PredictionValueRepositoryImpl implements PredictionValueRepository 
     }
 
     public List<PredictionValue> findByPredictionIdAndPredictorId(Long predictionId, Long predictorId) {
-        List<PredictionValue> pvs = basePredictionValueRepository.findByPredictionIdAndPredictorId(predictionId,
-                predictorId);
+        List<PredictionValue> pvs =
+                basePredictionValueRepository.findByPredictionIdAndPredictorId(predictionId, predictorId);
         Predictor predictor = predictorRepository.findOne(predictorId);
         for (PredictionValue pv : pvs) {
             pv.setNumTotalModels(predictor.getNumTotalModels());

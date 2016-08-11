@@ -64,10 +64,10 @@ public class WriteDescriptors {
 
             for (int j = 0; j < descriptorValues.size(); j++) {
                 if (descriptorValues.get(j) < descriptorValueMinima.get(j + offset)) {
-                    descriptorValueMinima.set(j + offset , descriptorValues.get(j));
+                    descriptorValueMinima.set(j + offset, descriptorValues.get(j));
                 }
                 if (descriptorValues.get(j) > descriptorValueMaxima.get(j + offset)) {
-                    descriptorValueMaxima.set(j + offset , descriptorValues.get(j));
+                    descriptorValueMaxima.set(j + offset, descriptorValues.get(j));
                 }
                 Double totalSoFar = descriptorValueAvgs.get(j + offset);
                 descriptorValueAvgs.set(j + offset, descriptorValues.get(j) + totalSoFar);
@@ -87,8 +87,8 @@ public class WriteDescriptors {
             descriptorValues.addAll(descriptorMatrix.get(i).getDescriptorValues());
 
             if (i > 0) {
-                if (descriptorMatrix.get(i -1 ).getDescriptorValues().size()!=
-                        descriptorMatrix.get(i).getDescriptorValues().size()){
+                if (descriptorMatrix.get(i - 1).getDescriptorValues().size() != descriptorMatrix.get(i)
+                        .getDescriptorValues().size()) {
                     offset += descriptorMatrix.get(i - 1).getDescriptorValues().size();
                 }
             }
@@ -106,8 +106,7 @@ public class WriteDescriptors {
 
     }
 
-    private static void rangeScaleGivenMinMax(List<Descriptors> descriptorMatrix, List<Double>
-            descriptorValueMinima,
+    private static void rangeScaleGivenMinMax(List<Descriptors> descriptorMatrix, List<Double> descriptorValueMinima,
                                               List<Double> descriptorValueMaxima) {
         // range-scales the values in the descriptor matrix.
         // We know the min and max. Scaled value = ((value - min) /
@@ -119,8 +118,8 @@ public class WriteDescriptors {
             List<Double> descriptorValues = descriptorMatrix.get(i).getDescriptorValues();
 
             if (i > 0) {
-                if (descriptorMatrix.get(i - 1).getDescriptorValues().size()!=
-                        descriptorMatrix.get(i).getDescriptorValues().size()){
+                if (descriptorMatrix.get(i - 1).getDescriptorValues().size() != descriptorMatrix.get(i)
+                        .getDescriptorValues().size()) {
                     offset += descriptorMatrix.get(i - 1).getDescriptorValues().size();
                 }
             }
@@ -154,8 +153,8 @@ public class WriteDescriptors {
             List<Double> descriptorValues = descriptorMatrix.get(i).getDescriptorValues();
 
             if (i > 0) {
-                if (descriptorMatrix.get(i - 1 ).getDescriptorValues().size()!=
-                        descriptorMatrix.get(i).getDescriptorValues().size()){
+                if (descriptorMatrix.get(i - 1).getDescriptorValues().size() != descriptorMatrix.get(i)
+                        .getDescriptorValues().size()) {
                     offset += descriptorMatrix.get(i - 1).getDescriptorValues().size();
                 }
             }
@@ -552,8 +551,8 @@ public class WriteDescriptors {
             for (int i = 0; i < descriptorMatrix.size(); i++) {
                 // each line of the descriptors matrix
                 List<Double> descriptorValues = descriptorMatrix.get(i).getDescriptorValues();
-                if (descriptorValues.contains(Double.NaN) || descriptorValues.contains(Double.NEGATIVE_INFINITY) ||
-                        descriptorValues.contains(Double.POSITIVE_INFINITY)) {
+                if (descriptorValues.contains(Double.NaN) || descriptorValues.contains(Double.NEGATIVE_INFINITY)
+                        || descriptorValues.contains(Double.POSITIVE_INFINITY)) {
                     logger.warn("Compound " + compoundNames.get(i) + " has NaN/Inf descriptor value");
                 }
                 writer.write(joiner.join(i + 1, compoundNames.get(i), joiner.join(descriptorValues)));
@@ -605,8 +604,7 @@ public class WriteDescriptors {
 
         // do range scaling on descriptorMatrix
         if (predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)) {
-            rangeScaleGivenMinMax(descriptorMatrix, predictorDescriptorValueMinima,
-                    predictorDescriptorValueMaxima);
+            rangeScaleGivenMinMax(descriptorMatrix, predictorDescriptorValueMinima, predictorDescriptorValueMaxima);
         } else if (predictorScaleType.equalsIgnoreCase(Constants.AUTOSCALING)) {
             autoScaleGivenAvgStdDev(descriptorMatrix, predictorDescriptorValueAvgs,
                     predictorDescriptorValueStdDevsPlusAvgs);
@@ -625,16 +623,15 @@ public class WriteDescriptors {
         try {
             for (int i = 0; i < descriptorMatrix.size(); i++) {
                 // each line of the descriptors matrix
-                xFileOut.write(joiner.join((i + 1), compoundNames.get(i), joiner.join(descriptorMatrix.get(i)
-                        .getDescriptorValues())));
+                xFileOut.write(joiner.join((i + 1), compoundNames.get(i),
+                        joiner.join(descriptorMatrix.get(i).getDescriptorValues())));
                 xFileOut.newLine();
             }
         } catch (IndexOutOfBoundsException ex) {
-            logger.error(String.format("Mismatch between size of descriptor " +
-                            "matrix and list of compounds: " +
-                            "descriptorMatrix.size() was %d, " +
-                            "compoundNames.size() was %d", descriptorMatrix.size(), compoundNames.size()),
-                    ex); // log the exception stacktrace
+            logger.error(String.format("Mismatch between size of descriptor " + "matrix and list of compounds: "
+                            + "descriptorMatrix.size() was %d, " + "compoundNames.size() was %d", descriptorMatrix
+                            .size(),
+                    compoundNames.size()), ex); // log the exception stacktrace
         }
 
         if (predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)) {

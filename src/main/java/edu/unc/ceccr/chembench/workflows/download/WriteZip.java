@@ -154,8 +154,8 @@ public class WriteZip {
         x = 0;
         while (projectDirDescriptorsFilenames != null && x < projectDirDescriptorsFilenames.length) {
             if (projectDirDescriptorsFilenames[x].endsWith(".cdk") || projectDirDescriptorsFilenames[x]
-                    .endsWith("" + ".x") || projectDirDescriptorsFilenames[x].endsWith(".ISIDA") ||
-                    projectDirDescriptorsFilenames[x].endsWith(".hdr") || projectDirDescriptorsFilenames[x]
+                    .endsWith("" + ".x") || projectDirDescriptorsFilenames[x].endsWith(".ISIDA")
+                    || projectDirDescriptorsFilenames[x].endsWith(".hdr") || projectDirDescriptorsFilenames[x]
                     .endsWith(".svm")) {
                 datasetFiles.add("Descriptors/" + projectDirDescriptorsFilenames[x]);
             }
