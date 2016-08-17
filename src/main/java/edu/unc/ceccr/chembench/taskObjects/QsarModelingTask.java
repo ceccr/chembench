@@ -450,6 +450,9 @@ public class QsarModelingTask extends WorkflowTask {
             DatasetFileOperations.removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
             DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
             chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
+        } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
+            logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
+            ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
         } else {
             ReadDescriptors.readDescriptors(predictor, filePath + sdFileName, descriptorNames, descriptorValueMatrix);
         }
