@@ -62,8 +62,6 @@ public class ReadDescriptors {
             readMaccsDescriptors(sdfFile + ".maccs", descriptorNames, descriptorValueMatrix);
         } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
             readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.UPLOADED)) {
-            readXDescriptors(sdfFile + ".x", descriptorNames, descriptorValueMatrix);
         } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGON7)) {
             readDragon7Descriptors(sdfFile + ".dragon7", descriptorNames, descriptorValueMatrix);
         } else {
