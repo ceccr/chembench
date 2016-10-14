@@ -258,12 +258,13 @@
 
         var table = $('#dataset-selection-section').find('table.datatable');
         table.DataTable().on('init', function() {
-            table.find('input[type="radio"]').change(function() {
+            
+        }).on('draw', function() {
+			table.find('input[type="radio"]').change(function() {
                 var rowSelector = $(this).closest('tr');
                 var dataset = rowSelector.closest('table').DataTable().row(rowSelector).data();
                 updateModelingForm(dataset);
             });
-        }).on('draw', function() {
             // XXX don't use find('tbody').find('tr'), or non-active pages won't be modified
             var allBodyRows = table.DataTable().rows().nodes().to$();
             allBodyRows.click(function() {
