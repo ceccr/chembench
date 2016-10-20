@@ -30,7 +30,7 @@
   <tbody>
     <tr>
       <td><span class="object-name"><s:property value="predictorName" /></span></td>
-      <td><s:if test="%{(Number(cutoff)||0) > (Number(zScore)||0) || cutoff=='N/A'}">
+      <td><s:if test="%{show}">
         <s:property value="predictedValue" />
         <s:if test="stdDeviation!='N/A'"> &plusmn; <s:property value="stdDeviation" />
         </s:if>
