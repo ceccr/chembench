@@ -422,7 +422,7 @@ public class CreateDatasetTask extends WorkflowTask {
             logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs END");
 
             if (numCompounds < 500 && !sdfFileName.equals("") && new File(path + descriptorDir + sdfFileName + ".maccs")
-                    .exists()) {`
+                    .exists()) {
                 // totally not worth doing visualizations on huge datasets,
                 // the heatmap is
                 // just nonsense at that point and it wastes a ton of compute
