@@ -326,10 +326,6 @@
                 <s:property value="programOutput" />
               </dd>
 
-              <dt>Program Output</dt>
-              <dd>
-                <s:property value="programErrorOutput" />
-              </dd>
             </s:if>
           </dl>
         </s:iterator>
