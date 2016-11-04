@@ -138,138 +138,81 @@ public class DatasetDetailAction extends DetailAction {
         descriptorGenerationResults = new ArrayList<>();
         Path descriptorLogPath = datasetPath.resolve("Descriptors").resolve("Logs");
         // read descriptor program outputs
+        //CDK is special because it is available even if there are errors.
         DescriptorGenerationResult cdkResult = new DescriptorGenerationResult();
         cdkResult.setDescriptorType("CDK");
+        //.out exist only if there are errors
         if (Files.exists(descriptorLogPath.resolve("cdk.out"))) {
             cdkResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("cdk.out")));
-        }
-        if (Files.exists(descriptorLogPath.resolve("cdk.err"))) {
-            cdkResult.setProgramErrorOutput(
-                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("cdk" + ".err")));
-        }
-        if (dataset.getAvailableDescriptors().contains(Constants.CDK)) {
-            cdkResult.setGenerationResult("Successful");
-        } else {
             cdkResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+        }
+        else {
+            cdkResult.setGenerationResult("Successful");
         }
         descriptorGenerationResults.add(cdkResult);
 
         DescriptorGenerationResult isidaResult = new DescriptorGenerationResult();
         isidaResult.setDescriptorType("ISIDA");
-        if (Files.exists(descriptorLogPath.resolve("ISIDA.out"))) {
-            isidaResult
-                    .setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("ISIDA.out")));
-        }
-        if (Files.exists(descriptorLogPath.resolve("ISIDA.err"))) {
-            isidaResult.setProgramErrorOutput(
-                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("ISIDA.err")));
-        }
         if (dataset.getAvailableDescriptors().contains(Constants.ISIDA)) {
             isidaResult.setGenerationResult("Successful");
         } else {
-            isidaResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+            if (Files.exists(descriptorLogPath.resolve("ISIDA.out"))) {
+                isidaResult
+                        .setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("ISIDA.out")));
+            }
+            isidaResult.setGenerationResult("Descriptor generation failed. See error summary for details.");
         }
         descriptorGenerationResults.add(isidaResult);
 
         DescriptorGenerationResult dragonHResult = new DescriptorGenerationResult();
         dragonHResult.setDescriptorType("Dragon (with hydrogens)");
-        if (Files.exists(descriptorLogPath.resolve("dragonH.out"))) {
-            dragonHResult.setProgramOutput(
-                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragonH.out")));
-        }
-        if (Files.exists(descriptorLogPath.resolve("dragonH.err"))) {
-            String dragonErrStr = FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragonH.err"));
-            if (dragonErrStr.contains("error: license not valid on the computer in use")) {
-                dragonErrStr = "Dragon license invalid or expired.";
-            }
-            if (dragonErrStr.contains("Access violation")) {
-                logger.debug("DragonX crashed; please contact the system administrator at " + Constants.WEBSITEEMAIL
-                        + " to fix this problem.");
-            }
-            // The Dragon output contains lots of extra info (MAC address of server, that sorta thing)
-            // that should not be displayed. Remove it.
-            // Sample of stuff we don't want to show:
-            /*
-             * dragonX version 1.4 - Command line version for Linux - v.1.4.2 - built on: 2007-12-04
-             * License file (/usr/local/ceccr/dragon/2010-12-31_drgx_license_UNC.txt) is a valid license file
-             * User: ceccr (). Date: 2010/02/17 - 00:56:10 Licensed to: UNC-Chapel Hill - License type: Academic
-             * (Single Workstation) - Expiration Date: 2010/12/31 - MAC address: 00:14:5E:3D:75:24
-             * Decimal Separator set to: '.' - Thousands Separator set to: ','
-             */
-            if (dragonErrStr.contains("Thousands")) {
-                dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
-                dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
-                dragonErrStr = dragonErrStr.replaceAll(Constants.CECCR_USER_BASE_PATH, "");
-            }
-            dragonHResult.setProgramErrorOutput(dragonErrStr);
-        }
         if (dataset.getAvailableDescriptors().contains(Constants.DRAGONH)) {
             dragonHResult.setGenerationResult("Successful");
         } else {
-            dragonHResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+            if (Files.exists(descriptorLogPath.resolve("dragonH.out"))) {
+                dragonHResult.setProgramOutput(
+                        FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragonH.out")));
+            }
+            dragonHResult.setGenerationResult("Descriptor generation failed. See error summary for details.");
         }
         descriptorGenerationResults.add(dragonHResult);
 
         DescriptorGenerationResult dragonNoHResult = new DescriptorGenerationResult();
         dragonNoHResult.setDescriptorType("Dragon (no hydrogens)");
-        if (Files.exists(descriptorLogPath.resolve("dragonNoH.out"))) {
-            dragonNoHResult.setProgramOutput(
-                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragonNoH.out")));
-        }
-        if (Files.exists(descriptorLogPath.resolve("dragonNoH.err"))) {
-            String dragonErrStr = FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragonNoH.err"));
-            if (dragonErrStr.contains("error: license not valid on the computer in use")) {
-                dragonErrStr = "Dragon license invalid or expired.";
-            }
-            if (dragonErrStr.contains("Access violation")) {
-                logger.debug("DragonX crashed; please contact the system administrator at " + Constants.WEBSITEEMAIL
-                        + " to fix this problem.");
-            }
-            if (dragonErrStr.contains("Thousands")) {
-                dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
-                dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
-                dragonErrStr = dragonErrStr.replaceAll(Constants.CECCR_USER_BASE_PATH, "");
-            }
-            dragonNoHResult.setProgramErrorOutput(dragonErrStr);
-        }
         if (dataset.getAvailableDescriptors().contains(Constants.DRAGONNOH)) {
             dragonNoHResult.setGenerationResult("Successful");
         } else {
-            dragonNoHResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+            if (Files.exists(descriptorLogPath.resolve("dragonNoH.out"))) {
+                dragonNoHResult.setProgramOutput(
+                        FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragonNoH.out")));
+            }
+            dragonNoHResult.setGenerationResult("Descriptor generation failed. See error summary for details.");
         }
         descriptorGenerationResults.add(dragonNoHResult);
 
         DescriptorGenerationResult moe2DResult = new DescriptorGenerationResult();
         moe2DResult.setDescriptorType(Constants.MOE2D);
-        if (Files.exists(descriptorLogPath.resolve("moe2d.out"))) {
-            moe2DResult
-                    .setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("moe2d.out")));
-        }
-        if (Files.exists(descriptorLogPath.resolve("moe2d.sh.err"))) {
-            moe2DResult.setProgramErrorOutput(
-                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("moe2d.sh.err")));
-        }
         if (dataset.getAvailableDescriptors().contains(Constants.MOE2D)) {
             moe2DResult.setGenerationResult("Successful");
         } else {
-            moe2DResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+            if (Files.exists(descriptorLogPath.resolve("moe2d.out"))) {
+                moe2DResult
+                        .setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("moe2d.out")));
+            }
+            moe2DResult.setGenerationResult("Descriptor generation failed. See error summary for details.");
         }
         descriptorGenerationResults.add(moe2DResult);
 
         DescriptorGenerationResult maccsResult = new DescriptorGenerationResult();
         maccsResult.setDescriptorType(Constants.MACCS);
-        if (Files.exists(descriptorLogPath.resolve("maccs.out"))) {
-            maccsResult
-                    .setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("maccs.out")));
-        }
-        if (Files.exists(descriptorLogPath.resolve("maccs.sh.err"))) {
-            maccsResult.setProgramErrorOutput(
-                    FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("maccs.sh.err")));
-        }
         if (dataset.getAvailableDescriptors().contains(Constants.MOE2D)) {
             maccsResult.setGenerationResult("Successful");
         } else {
-            maccsResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+            if (Files.exists(descriptorLogPath.resolve("maccs.out"))) {
+                maccsResult
+                        .setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("maccs.out")));
+            }
+            maccsResult.setGenerationResult("Descriptor generation failed. See error summary for details.");
         }
         descriptorGenerationResults.add(maccsResult);
 
@@ -278,12 +221,11 @@ public class DatasetDetailAction extends DetailAction {
         if (!dataset.getAvailableDescriptors().contains(Constants.DRAGON7)) {
             dragon7Result.setProgramOutput(""); // dragon 7 doesn't have a separate .log file (it'll always be empty)
             if (Files.exists(descriptorLogPath.resolve("dragon7.err"))) {
-                dragon7Result.setGenerationResult("Descriptor generation failed. See program output for details.");
+                dragon7Result.setGenerationResult("Descriptor generation failed. See error summary for details.");
                 String[] rawLog = FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("dragon7.err"))
                         .split(DRAGON7_ERROR_HEADER);
                 if (rawLog.length > 1) {
                     String errorSummary = rawLog[1].trim();
-                    dragon7Result.setProgramErrorOutput(errorSummary);
                     if (errorSummary.contains("not correctly licensed")) {
                         dragon7Result.setProgramOutput("Invalid license.");
                     } else if (errorSummary.contains("script file")) {
@@ -431,7 +373,6 @@ public class DatasetDetailAction extends DetailAction {
         private String descriptorType;
         private String generationResult;
         private String programOutput;
-        private String programErrorOutput;
 
         public String getDescriptorType() {
             return descriptorType;
@@ -455,14 +396,6 @@ public class DatasetDetailAction extends DetailAction {
 
         public void setProgramOutput(String programOutput) {
             this.programOutput = programOutput;
-        }
-
-        public String getProgramErrorOutput() {
-            return programErrorOutput;
-        }
-
-        public void setProgramErrorOutput(String programErrorOutput) {
-            this.programErrorOutput = programErrorOutput;
         }
     }
 
