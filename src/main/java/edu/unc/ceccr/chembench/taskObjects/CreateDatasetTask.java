@@ -416,8 +416,9 @@ public class CreateDatasetTask extends WorkflowTask {
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs");
 
-            SdfToJpg.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
-
+			if(numCompounds<200){
+				SdfToJpg.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
+			} // Planning on taking this out at a later time and Just Generating all Images through Chemdoodle or something else when clicked upon. tt
             logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs END");
 
             if (numCompounds < 500 && !sdfFileName.equals("") && new File(path + descriptorDir + sdfFileName + ".maccs")
