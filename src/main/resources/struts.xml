@@ -294,6 +294,7 @@
         </action>
 
         <action name="getCompound3D" class="edu.unc.ceccr.chembench.actions.api.Compound3DAction" />
+        <action name="getCompound2D" class="edu.unc.ceccr.chembench.actions.api.Compound2DAction"/>
     </package>
     <!-- End API -->
 </struts>
