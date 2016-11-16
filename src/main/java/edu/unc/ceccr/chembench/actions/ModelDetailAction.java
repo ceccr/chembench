@@ -96,6 +96,7 @@ public class ModelDetailAction extends DetailAction {
             for (int i = 0; i < childPredictors.size(); i++) {
                 // XXX careful: evGroup is 1-indexed, childPredictors.get() is 0-indexed
                 evGroups[i + 1] = buildExternalValidationGroup(childPredictors.get(i));
+                logger.debug("rvalue " + evGroups[i + 1].continuousStatistics.getRsquared().toString());
             }
             evGroups[0] = ExternalValidationGroup.coalesce(predictor.getActivityType(), evGroups);
             if (predictor.getModelMethod().startsWith(Constants.RANDOMFOREST)) {
@@ -464,7 +465,7 @@ public class ModelDetailAction extends DetailAction {
         private Double stddev;
         private Double rmse;
 
-        public Double getrSquared() {
+        public Double getRsquared() {
             return rSquared;
         }
 

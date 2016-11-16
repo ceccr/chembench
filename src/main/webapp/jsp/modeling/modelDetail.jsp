@@ -222,7 +222,12 @@
                       <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
                         <dt><var>r</var> <sup>2</sup></dt>
                         <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
-                          <dd><s:property value="predictor.externalPredictionAccuracyAvg" /></dd>
+                          <s:if test="#status.index==0">
+                            <dd><s:property value="predictor.externalPredictionAccuracyAvg" /></dd>
+                          </s:if>
+                          <s:else>
+                            <dd><s:text name="format.double"><s:param value="continuousStatistics.getRsquared()" /></s:text></dd>
+                          </s:else>
                         </s:if>
                         <s:else>
                           <dd><s:property value="predictor.externalPredictionAccuracy" /></dd>

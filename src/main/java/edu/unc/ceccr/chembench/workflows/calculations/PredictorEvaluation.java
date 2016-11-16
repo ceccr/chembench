@@ -162,7 +162,6 @@ public class PredictorEvaluation {
 
         return cm;
     }
-
     public static void addRSquaredAndCCRToPredictor(Predictor selectedPredictor) {
         ConfusionMatrix confusionMatrix;
         String rSquared = "";
@@ -197,6 +196,7 @@ public class PredictorEvaluation {
                 }
             }
 
+            confusionMatrix = PredictorEvaluation.calculateConfusionMatrix(externalValValues);
             Double mean = childAccuracies.getMean();
             Double stddev = childAccuracies.getStandardDeviation();
 
@@ -211,11 +211,15 @@ public class PredictorEvaluation {
                 //make main ext validation chart
                 //CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
             } else if (selectedPredictor.getActivityType().equals(Constants.CATEGORY)) {
+                //no standard deviation for ccr because ccr is calculated using the all matrix
+                //in short, ccr is not actually the avg but the ccr for the fold "all"
+                //leaving the naming convention for now
+                double ccr = 0;
+                if (externalValValues!=null){
+                    ccr = calculateConfusionMatrix(externalValValues).getCcr();
+                }
                 ccrAverageAndStddev =
-                        Utility.roundSignificantFigures("" + mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
-                ccrAverageAndStddev += " \u00B1 ";
-                ccrAverageAndStddev +=
-                        Utility.roundSignificantFigures("" + stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
+                        Utility.roundSignificantFigures("" + ccr, Constants.REPORTED_SIGNIFICANT_FIGURES);
                 logger.debug("ccr avg and stddev: " + ccrAverageAndStddev);
                 selectedPredictor.setExternalPredictionAccuracyAvg(ccrAverageAndStddev);
             }

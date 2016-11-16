@@ -3,31 +3,31 @@
 
 <table class="table">
   <s:iterator value="smilesPredictions">
-  <dl class="dl-horizontal properties-list">
-    <dt>SMILES string</dt>
-    <dd><s:property value="smiles" /></dd>
+      <dl class="dl-horizontal properties-list">
+        <dt>SMILES string</dt>
+        <dd><s:property value="smiles" /></dd>
 
-    <dt>Similarity cutoff</dt>
-    <dd>
-      <s:if test="%{cutoff == 'N/A'}">
-        N/A
-      </s:if>
-      <s:else>
-        <s:property value="cutoff" />&sigma;
-      </s:else>
-    </dd>
-  </dl>
+        <dt>Similarity cutoff</dt>
+        <dd>
+          <s:if test="%{cutoff == 'N/A'}">
+            N/A
+          </s:if>
+          <s:else>
+            <s:property value="cutoff" />&sigma;
+          </s:else>
+        </dd>
+      </dl>
 
-  <thead>
-  <tr>
-    <th>Model</th>
-    <th>Prediction</th>
-    <th>Predicting Models</th>
-    <th>&sigma;</th>
-  </tr>
-  </thead>
+      <thead>
+      <tr>
+        <th>Model</th>
+        <th>Prediction</th>
+        <th>Predicting Models</th>
+        <th>&sigma;</th>
+      </tr>
+      </thead>
 
-  <tbody>
+    <tbody>
     <tr>
       <td><span class="object-name"><s:property value="predictorName" /></span></td>
       <td><s:if test="%{show}">
@@ -41,7 +41,7 @@
       <td><s:property value="predictingModels" /> / <s:property value="totalModels" /></td>
       <td><s:property value="zScore" />&sigma;</td>
     </tr>
-  </tbody>
+    </tbody>
   </s:iterator>
 </table>
 

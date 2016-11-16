@@ -853,7 +853,7 @@
               <label class="control-label col-xs-3">Model name:</label>
 
               <div class="col-xs-6">
-                <s:textfield name="jobName" id="jobName" cssClass="form-control" theme="simple" />
+                <s:textfield name="jobName" id="jobName" cssClass="form-control" theme="simple" required="required" />
               </div>
             </div>
             <div class="form-group">
