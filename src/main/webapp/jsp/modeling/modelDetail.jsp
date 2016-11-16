@@ -252,7 +252,7 @@
 
                         <dt><abbr class="initialism" title="Correct Classification Rate">CCR</abbr></dt>
                         <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
-                          <dd><s:property value="confusionMatrix.ccr" /></dd>
+                          <dd><s:text name="format.double"><s:param value="confusionMatrix.ccr" /></s:text></dd>
                         </s:if>
                         <s:else>
                           <dd><s:property value="predictor.externalPredictionAccuracy" /></dd>
