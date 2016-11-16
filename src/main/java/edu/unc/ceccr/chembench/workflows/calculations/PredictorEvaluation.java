@@ -195,8 +195,6 @@ public class PredictorEvaluation {
                     externalValValues.addAll(childExtVals);
                 }
             }
-
-            confusionMatrix = PredictorEvaluation.calculateConfusionMatrix(externalValValues);
             Double mean = childAccuracies.getMean();
             Double stddev = childAccuracies.getStandardDeviation();
 
