@@ -284,7 +284,7 @@
           <thead>
           <tr>
             <th class="name" data-property="compoundName">Compound Name</th>
-            <th data-transient="data-transient" class="unsortable">Structure</th>
+            <%--<th data-transient="data-transient" class="unsortable">Structure</th>--%>
             <th data-property="observedValue">Observed Value</th>
             <th data-property="predictedValue">Predicted Value</th>
             <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
@@ -299,8 +299,8 @@
           <s:iterator value="evGroups" status="status">
             <s:iterator value="displayedExternalValidationValues">
               <tr data-fold-number="<s:property value="#status.index" />">
-                <td class="name"><s:property value="compoundName" /></td>
-                <td class="structure">
+                <td class="name compound-structure"><s:property value="compoundName" /></td>
+                <%--<td class="structure">
                   <s:url var="imageUrl" action="imageServlet" escapeAmp="false">
                     <s:param name="user" value="%{modelingDataset.userName}" />
                     <s:param name="projectType" value="'dataset'" />
@@ -311,7 +311,7 @@
                     <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
                          height="125" alt="Compound structure">
                   </button>
-                </td>
+                </td>--%>
                 <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
                   <td><s:property value="observedValue" /></td>
                   <td>
