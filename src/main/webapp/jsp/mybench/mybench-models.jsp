@@ -11,7 +11,7 @@
   <tr>
     <th data-property="name">Name</th>
     <th data-property="datasetDisplay">Modeling Dataset</th>
-    <th data-property="externalPredictionAccuracy">R<sup>2</sup> or <abbr title="Correct Classification Rate"
+    <th data-property="externalPredictionAccuracy">Q<sup>2</sup> or <abbr title="Correct Classification Rate"
                                                                           class="initialism">CCR</abbr></th>
     <th data-property="modelMethod">Type</th>
     <th data-property="descriptorGeneration">Descriptors</th>

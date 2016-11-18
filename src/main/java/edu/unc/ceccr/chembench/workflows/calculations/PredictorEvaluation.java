@@ -56,7 +56,7 @@ public class PredictorEvaluation {
         return residuals;
     }
 
-    public static Double calculateRSquared(List<ExternalValidation> externalValidationList, List<Double> residuals) {
+    public static Double calculateQSquared(List<ExternalValidation> externalValidationList, List<Double> residuals) {
 
         Double avg = 0.0;
         for (ExternalValidation ev : externalValidationList) {
@@ -188,7 +188,7 @@ public class PredictorEvaluation {
                         childAccuracies.addValue(childCcr);
                     } else if (selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)) {
                         List<Double> childResiduals = PredictorEvaluation.calculateResiduals(childExtVals);
-                        Double childRSquared = PredictorEvaluation.calculateRSquared(childExtVals, childResiduals);
+                        Double childRSquared = PredictorEvaluation.calculateQSquared(childExtVals, childResiduals);
                         childAccuracies.addValue(childRSquared);
                         //CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
                     }
@@ -257,7 +257,7 @@ public class PredictorEvaluation {
         } else if (selectedPredictor.getActivityType().equals(Constants.CONTINUOUS) && externalValValues.size() > 1) {
             //if continuous, calculate overall r^2 and... r0^2? or something?
             //just r^2 for now, more later.
-            Double rSquaredDouble = PredictorEvaluation.calculateRSquared(externalValValues, residualsAsDouble);
+            Double rSquaredDouble = PredictorEvaluation.calculateQSquared(externalValValues, residualsAsDouble);
             rSquared = Utility.roundSignificantFigures("" + rSquaredDouble, Constants.REPORTED_SIGNIFICANT_FIGURES);
             selectedPredictor.setExternalPredictionAccuracy(rSquared);
         }
