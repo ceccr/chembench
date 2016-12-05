@@ -211,22 +211,38 @@ public class RunSmilesPrediction {
     }
 
     public static void generateDescriptorsForSdf(String smilesDir, Set<String> descriptorTypes) throws Exception {
+        logger.debug("About to Generate Descriptors For SDF");
+        for (String s:
+             descriptorTypes) {
+            logger.debug(s);
+
+        }
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
         if (descriptorTypes.contains(Constants.CDK)) {
             GenerateDescriptors.generateCdkDescriptors(sdfile, sdfile + ".cdk");
             ReadDescriptors.convertCdkToX(sdfile + ".cdk", smilesDir);
+        }else{
+            logger.debug("Not CDK");
         }
         if (descriptorTypes.contains(Constants.DRAGONH)) {
             GenerateDescriptors.generateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonH");
+        }else{
+            logger.debug("Not DragonH");
         }
         if (descriptorTypes.contains(Constants.DRAGONNOH)) {
             GenerateDescriptors.generateHDepletedDragonDescriptors(sdfile, sdfile + ".dragonNoH");
+        }else{
+            logger.debug("Not DragonNoH");
         }
         if (descriptorTypes.contains(Constants.MOE2D)) {
             GenerateDescriptors.generateMoe2DDescriptors(sdfile, sdfile + ".moe2D");
+        }else{
+            logger.debug("Not Moe2D");
         }
         if (descriptorTypes.contains(Constants.MACCS)) {
             GenerateDescriptors.generateMaccsDescriptors(sdfile, sdfile + ".maccs");
+        }else{
+            logger.debug("Not MACCS");
         }
     }
 
