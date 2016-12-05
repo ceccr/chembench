@@ -124,6 +124,9 @@ public class PredictionAction extends ActionSupport {
             // generate descriptors using the given SDF file except for ISIDA
             if (!predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
                 RunSmilesPrediction.generateDescriptorsForSdf(smilesDir, descriptorTypes);
+            }else{
+                logger.info(predictor.getDescriptorGeneration());
+
             }
             logger.info("Generated descriptors for SDF: " + descriptorTypes.toString());
 
