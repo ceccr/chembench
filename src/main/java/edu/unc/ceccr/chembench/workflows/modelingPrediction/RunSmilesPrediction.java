@@ -230,7 +230,7 @@ public class RunSmilesPrediction {
             GenerateDescriptors.generateMaccsDescriptors(sdfile, sdfile + ".maccs");
         }
         if(descriptorTypes.contains(Constants.DRAGON7)){
-            GenerateDescriptors.generateDragon7Descriptors(sdfile, sdfile + ".dragon7");
+            GenerateDescriptors.generateHExplicitDragonDescriptors(sdfile, sdfile + ".dragon7");
         }
     }
 
