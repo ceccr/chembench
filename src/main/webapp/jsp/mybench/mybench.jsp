@@ -19,7 +19,7 @@
 
     <p>
       Publicly available datasets and models are also displayed. If you wish to share datasets or models you
-      have developed with the Chembench community, please contact us at <a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a>.
+      have developed with the Chembench community, please contact us at <a href="mailto:thethorn@cs.unc.edu">thethorn@cs.unc.edu</a>.
     </p>
 
     <p>All data is sorted by the creation date in descending order (newest on top).</p>
