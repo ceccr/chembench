@@ -176,23 +176,22 @@ public class PredictorEvaluation {
             //get external set for each
             externalValValues = new ArrayList<>();
             SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
-
+            if (selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)) {
             for (int i = 0; i < childPredictors.size(); i++) {
                 Predictor cp = childPredictors.get(i);
                 List<ExternalValidation> childExtVals = externalValidationRepository.findByPredictorId(cp.getId());
 
                 //calculate r^2 / ccr for this child
                 if (childExtVals.size() > 0) {
-                    if (selectedPredictor.getActivityType().equals(Constants.CATEGORY)) {
-                        Double childCcr = (PredictorEvaluation.calculateConfusionMatrix(childExtVals)).getCcr();
-                        childAccuracies.addValue(childCcr);
-                    } else if (selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)) {
+//                    if (selectedPredictor.getActivityType().equals(Constants.CATEGORY)) {
+//                        Double childCcr = (PredictorEvaluation.calculateConfusionMatrix(childExtVals)).getCcr();
+//                        childAccuracies.addValue(childCcr);
+//                    } else if (selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)) {
                         List<Double> childResiduals = PredictorEvaluation.calculateResiduals(childExtVals);
                         Double childRSquared = PredictorEvaluation.calculateQSquared(childExtVals, childResiduals);
                         childAccuracies.addValue(childRSquared);
                         //CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
                     }
-                    externalValValues.addAll(childExtVals);
                 }
             }
             Double mean = childAccuracies.getMean();
@@ -213,6 +212,7 @@ public class PredictorEvaluation {
                 //in short, ccr is not actually the avg but the ccr for the fold "all"
                 //leaving the naming convention for now
                 double ccr = 0;
+                externalValValues = externalValidationRepository.findByPredictorId(selectedPredictor.getId());
                 if (externalValValues!=null){
                     ccr = calculateConfusionMatrix(externalValValues).getCcr();
                 }
@@ -227,7 +227,6 @@ public class PredictorEvaluation {
 
         if (externalValValues == null || externalValValues.isEmpty()) {
             logger.debug("ext validation set empty!");
-            externalValValues = new ArrayList<>();
             return;
         }
 
