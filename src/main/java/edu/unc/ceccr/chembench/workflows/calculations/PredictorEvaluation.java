@@ -166,6 +166,7 @@ public class PredictorEvaluation {
         ConfusionMatrix confusionMatrix;
         String rSquared = "";
         String rSquaredAverageAndStddev = "";
+        String ccrAverageAndStddev = "";
         String ccrAll = "";
         List<ExternalValidation> externalValValues = null;
         List<Predictor> childPredictors = predictorRepository.findByParentId(selectedPredictor.getId());
@@ -212,13 +213,13 @@ public class PredictorEvaluation {
                 //no standard deviation for ccr because ccr is calculated using the all matrix
                 //in short, ccr is not actually the avg but the ccr for the fold "all"
                 //leaving the naming convention for now
-
-                if (externalValValues!=null) {
-                    Double ccr = (PredictorEvaluation.calculateConfusionMatrix(externalValValues)).getCcr();
-                    ccrAll = Utility.roundSignificantFigures("" + ccr, Constants.REPORTED_SIGNIFICANT_FIGURES);
-                    logger.debug("ccr avg and stddev: " + ccrAll);
-                    selectedPredictor.setExternalPredictionAccuracyAvg(ccrAll);
-                }
+                ccrAverageAndStddev =
+                        Utility.roundSignificantFigures("" + mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
+                ccrAverageAndStddev += " \u00B1 ";
+                ccrAverageAndStddev +=
+                        Utility.roundSignificantFigures("" + stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
+                logger.debug("ccr avg and stddev: " + ccrAverageAndStddev);
+                selectedPredictor.setExternalPredictionAccuracyAvg(ccrAverageAndStddev);
             }
         } else {
             externalValValues = externalValidationRepository.findByPredictorId(selectedPredictor.getId());
