@@ -59,7 +59,7 @@
           <div class="panel-heading">
             <h4>Unassigned Jobs</h4>
           </div>
-          <table class="table table-hover table-bordered datatable"
+          <table class="table table-hover table-bordered datatable job-table"
                  data-url="<s:url action="getUnassignedJobs" namespace="/api" />" data-object-type="job"
                  data-queue-name="unassigned">
             <thead>
@@ -79,7 +79,7 @@
           <div class="panel-heading">
             <h4>Jobs on Local Queue</h4>
           </div>
-          <table class="table table-hover table-bordered datatable"
+          <table class="table table-hover table-bordered datatable job-table"
                  data-url="<s:url action="getLocalJobs" namespace="/api" />" data-object-type="job"
                  data-queue-name="local">
             <thead>
@@ -100,7 +100,7 @@
           <div class="panel-heading">
             <h4>Jobs on LSF Queue</h4>
           </div>
-          <table class="table table-hover table-bordered datatable"
+          <table class="table table-hover table-bordered datatable job-table"
                  data-url="<s:url action="getLsfJobs" namespace="/api" />" data-object-type="job" data-queue-name="LSF">
             <thead>
             <tr>
@@ -120,7 +120,7 @@
           <div class="panel-heading">
             <h4>Jobs with Errors</h4>
           </div>
-          <table class="table table-hover table-bordered datatable"
+          <table class="table table-hover table-bordered datatable job-table"
                  data-url="<s:url action="getErrorJobs" namespace="/api" />" data-object-type="job"
                  data-queue-name="error">
             <thead>
@@ -141,17 +141,17 @@
       <div id="datasets" class="tab-pane">
         <h3>Datasets</h3>
         <p>An asterisk (*) in the <b>Descriptors</b> field indicates an uploaded descriptor type.</p>
-        <%@ include file="mybench-datasets.jsp" %>
+        <%@ include file="mybench-datasets-wrap.jsp" %>
       </div>
 
       <div id="models" class="tab-pane">
         <h3>Models</h3>
-        <%@ include file="mybench-models.jsp" %>
+        <%@ include file="mybench-models-wrap.jsp" %>
       </div>
 
       <div id="predictions" class="tab-pane">
         <h3>Predictions</h3>
-        <%@ include file="mybench-predictions.jsp" %>
+        <%@ include file="mybench-predictions-wrap.jsp" %>
       </div>
     </div>
   </section>

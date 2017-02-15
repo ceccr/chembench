@@ -12,7 +12,7 @@
 
         var xhrs = [];
         var start = Date.now();
-        $('table.datatable[data-url]').DataTable().one('xhr', function(e, settings, json, xhr) {
+        $('.job-table').DataTable().one('xhr', function(e, settings, json, xhr) {
             xhrs.push(xhr);
         }).ajax.reload();
 
@@ -24,6 +24,12 @@
                 clearRefreshingState();
             }
         });
+    }
+
+    function fetchAllBodyRows(node) {
+        var selector = $(node);
+        var dataTable = selector.hasClass('datatable') ? selector : selector.find('.datatable');
+        return dataTable.DataTable().rows().nodes().to$();
     }
 
     $(document).ready(function() {
@@ -56,5 +62,108 @@
                 refreshTask = setInterval(refreshJobQueues, newInterval * 1000);
             }
         });
+
+        $('form#delete-dataset, form#delete-model, form#delete-predictions').submit(function(e) {
+            e.preventDefault();
+            var form = $(this);
+            var id = form.attr('id');
+            // var errorTotal = 'Error deleting ';
+            // var errorDeleting = false
+
+            var selection;
+            if (id == 'delete-dataset'){
+                selection = '#mybench-dataset-selection';
+            }
+            else if (id == 'delete-model'){
+                selection = '#mybench-model-selection';
+            }
+            else if (id == 'delete-predictions'){
+                selection = '#mybench-predictions-selection';
+            }
+
+            fetchAllBodyRows(selection).filter(':has(:checked)').each(function() {
+                var row = $(this);
+                var name = row.find('.object-name').text();
+                // var objectType = 'dataset';
+                var link = row.find('.delete a');
+
+                $.post(link.attr('href'), function() {
+                        row.fadeOut(400, function() {
+                            $(selection).find('table').DataTable().row(row).remove().draw();
+                        });
+                }).fail(function(xhr) {
+                    var errors = $(xhr.responseText).find('#errors').html();
+                    // errorTotal += name;
+                    // errorDeleting = true;
+                    bootbox.alert('Error deleting ' + name + ':<br><br>' + errors);
+                });
+
+            });
+
+
+            // if (errorDeleting){
+            //     bootbox.alert(errorTotal);
+            // }
+            $.post(form.attr('action') + '?' + form.serialize());
+        });
+
+        $('#mybench-dataset-selection, #mybench-model-selection, #mybench-predictions-selection').find('table').DataTable().one('draw',
+            function() {
+                var table = $(this);
+                var allBodyRows = fetchAllBodyRows(table);
+
+                table.find('thead').find('input[type="checkbox"]').click(function() {
+                    var globalCheckedState = $(this).prop('checked');
+                    allBodyRows.find('input[type="checkbox"]').prop('checked', globalCheckedState).change();
+                });
+
+                allBodyRows.click(function(e) {
+                    var checkbox = $(this).find('input[type="checkbox"]');
+                    checkbox.prop('checked', !(checkbox.prop('checked'))).change();
+                }).find('a').click(function(e) {
+                    e.stopPropagation();
+                });
+
+                allBodyRows.find('input[type="checkbox"]').click(function(e) {
+                    e.stopPropagation();
+                }).change(function() {
+                    var checkbox = $(this);
+                    var id = table.attr('id');
+                    var row = checkbox.closest('tr');
+                    var objectName = row.find('td').find('.object-name').first().text();
+
+                    var objectList;
+                    if (id == 'DataTables_Table_4'){
+                        objectList =  $('#mybench-dataset-list');
+                    }
+                    else if (id == 'DataTables_Table_5'){
+                        objectList =  $('#mybench-model-list');
+                    }
+                    else if (id == 'DataTables_Table_6'){
+                        objectList =  $('#mybench-predictions-list');
+                    }
+
+                    var objectsMatchingName = objectList.find('li').filter(function() {
+                        return $(this).text().trim() === objectName;
+                    });
+
+                    if (checkbox.prop('checked')) {
+                        var match = /(danger|warning|success)/.exec(row.attr('class'));
+                        if (match !== null) {
+                            var color = match[1];
+                            row.data('oldClass', color);
+                            row.removeClass(color);
+                        }
+                        row.addClass('info');
+                        if (objectsMatchingName.length === 0) {
+                            objectList.append('<li>' + objectName + '</li>');
+                        }
+                    } else {
+                        row.removeClass('info');
+                        row.addClass(row.data('oldClass'));
+                        objectsMatchingName.remove();
+                    }
+                });
+            });
     });
 })();

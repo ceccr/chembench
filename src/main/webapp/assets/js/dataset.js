@@ -5,6 +5,17 @@
         $('.nav-list li').removeClass('active');
         $('#nav-button-datasets').addClass('active');
 
+        // if given a hash, activate that tab on page load
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+        }
+
+        // change page hash when a tab is clicked
+        $('.nav-tabs a').on('shown.bs.tab', function(e) {
+            window.location.hash = e.target.hash;
+        });
+
         var datasetTypeInput = $('input#datasetType');
         var selectedTabs = $('.tab-pane.active');
         datasetTypeInput.val(selectedTabs.find('input[name="dataset-type"]').val());
@@ -70,5 +81,6 @@
             var tab = $(e.currentTarget.hash);
             splitTypeInput.val(tab.find('input[name="split-type"]').val());
         });
+
     });
 })();
