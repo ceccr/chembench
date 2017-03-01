@@ -150,7 +150,7 @@
                   <label for="jobName" class="col-xs-3 control-label">Prediction name:</label>
 
                   <div class="col-xs-6">
-                    <input name="jobName" id="jobName" class="form-control">
+                    <input name="jobName" id="jobName" class="form-control" required="required">
                   </div>
                 </div>
                 <div class="form-group">

@@ -220,9 +220,14 @@
                     <h4 class="list-group-item-heading">Statistics</h4>
                     <dl class="dl-horizontal properties-list">
                       <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
-                        <dt><var>r</var> <sup>2</sup></dt>
+                        <dt><var>q</var> <sup>2</sup></dt>
                         <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
-                          <dd><s:property value="predictor.externalPredictionAccuracyAvg" /></dd>
+                          <s:if test="#status.index==0">
+                            <dd><s:property value="predictor.externalPredictionAccuracyAvg" /></dd>
+                          </s:if>
+                          <s:else>
+                            <dd><s:text name="format.double"><s:param value="continuousStatistics.getQsquared()" /></s:text></dd>
+                          </s:else>
                         </s:if>
                         <s:else>
                           <dd><s:property value="predictor.externalPredictionAccuracy" /></dd>
@@ -247,7 +252,7 @@
 
                         <dt><abbr class="initialism" title="Correct Classification Rate">CCR</abbr></dt>
                         <s:if test="predictor.childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
-                          <dd><s:property value="predictor.externalPredictionAccuracyAvg" /></dd>
+                          <dd><s:text name="format.double"><s:param value="confusionMatrix.ccr" /></s:text></dd>
                         </s:if>
                         <s:else>
                           <dd><s:property value="predictor.externalPredictionAccuracy" /></dd>
@@ -279,7 +284,7 @@
           <thead>
           <tr>
             <th class="name" data-property="compoundName">Compound Name</th>
-            <th data-transient="data-transient" class="unsortable">Structure</th>
+            <%--<th data-transient="data-transient" class="unsortable">Structure</th>--%>
             <th data-property="observedValue">Observed Value</th>
             <th data-property="predictedValue">Predicted Value</th>
             <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
@@ -294,8 +299,8 @@
           <s:iterator value="evGroups" status="status">
             <s:iterator value="displayedExternalValidationValues">
               <tr data-fold-number="<s:property value="#status.index" />">
-                <td class="name"><s:property value="compoundName" /></td>
-                <td class="structure">
+                <td class="name compound-structure"><s:property value="compoundName" /></td>
+                <%--<td class="structure">
                   <s:url var="imageUrl" action="imageServlet" escapeAmp="false">
                     <s:param name="user" value="%{modelingDataset.userName}" />
                     <s:param name="projectType" value="'dataset'" />
@@ -306,7 +311,7 @@
                     <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
                          height="125" alt="Compound structure">
                   </button>
-                </td>
+                </td>--%>
                 <s:if test="predictor.activityType == @edu.unc.ceccr.chembench.global.Constants@CONTINUOUS">
                   <td><s:property value="observedValue" /></td>
                   <td>

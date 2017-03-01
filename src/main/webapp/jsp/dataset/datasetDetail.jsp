@@ -158,9 +158,9 @@
           <thead>
           <tr>
             <th class="name">Compound Name</th>
-            <s:if test="dataset.hasStructures()">
+            <%--<s:if test="dataset.hasStructures()">
               <th class="unsortable">Structure</th>
-            </s:if>
+            </s:if>--%>
             <s:if test="dataset.hasActivities()">
               <th>Activity</th>
             </s:if>
@@ -169,8 +169,8 @@
           <tbody>
           <s:iterator value="datasetCompounds">
             <tr>
-              <td class="name"><s:property value="compoundId" /></td>
-              <s:if test="!dataset.sdfFile.isEmpty()">
+              <td class="name compound-structure"><s:property value="compoundId"/></td>
+              <%--<s:if test="!dataset.sdfFile.isEmpty()">
                 <td class="structure">
                   <s:url var="imageUrl" action="imageServlet" escapeAmp="false">
                     <s:param name="user" value="%{dataset.userName}" />
@@ -183,7 +183,7 @@
                          width="125" height="125" alt="Compound structure">
                   </button>
                 </td>
-              </s:if>
+              </s:if>--%>
               <s:if test="dataset.hasActivities()">
                 <td><s:property value="activityValue" /></td>
               </s:if>
@@ -231,9 +231,9 @@
               <thead>
               <tr>
                 <th>Compound Name</th>
-                <s:if test="dataset.hasStructures()">
+                <%--<s:if test="dataset.hasStructures()">
                   <th class="unsortable">Structure</th>
-                </s:if>
+                </s:if>--%>
                 <s:if test="dataset.hasActivities()">
                   <th>Activity</th>
                 </s:if>
@@ -254,9 +254,9 @@
               <thead>
               <tr>
                 <th>Compound Name</th>
-                <s:if test="dataset.hasStructures()">
+                <%--<s:if test="dataset.hasStructures()">
                   <th class="unsortable">Structure</th>
-                </s:if>
+                </s:if>--%>
                 <s:if test="dataset.hasActivities()">
                   <th>Activity</th>
                 </s:if>
@@ -266,7 +266,7 @@
               <s:iterator value="externalCompounds">
                 <tr>
                   <td class="name"><s:property value="compoundId" /></td>
-                  <s:if test="!dataset.sdfFile.isEmpty()">
+                  <%--<s:if test="!dataset.sdfFile.isEmpty()">
                     <td><s:url var="imageUrl" action="imageServlet" escapeAmp="false">
                       <s:param name="user" value="%{dataset.userName}" />
                       <s:param name="projectType" value="'dataset'" />
@@ -274,7 +274,7 @@
                       <s:param name="datasetName" value="%{dataset.name}" />
                     </s:url><img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure"
                                  width="125" height="125" alt="Compound structure"></td>
-                  </s:if>
+                  </s:if>--%>
                   <s:if test="dataset.hasActivities()">
                     <td><s:property value="activityValue" /></td>
                   </s:if>
@@ -326,10 +326,6 @@
                 <s:property value="programOutput" />
               </dd>
 
-              <dt>Program Output</dt>
-              <dd>
-                <s:property value="programErrorOutput" />
-              </dd>
             </s:if>
           </dl>
         </s:iterator>

@@ -48,7 +48,7 @@ public class ReadDescriptors {
         // 'em.
     }
 
-    public static void readDescriptors(String workingDir, Predictor predictor, String sdfFile,
+    public static void readDescriptors(Predictor predictor, String sdfFile,
                                        List<String> descriptorNames, List<Descriptors> descriptorValueMatrix)
             throws Exception {
         List<String> descriptorSetList = Splitter.on(", ").splitToList(predictor.getDescriptorGeneration());
@@ -57,50 +57,28 @@ public class ReadDescriptors {
         for (String descriptorType : descriptorSetList) {
             List<String> descriptorNamesTemp = new ArrayList<>();
             List<Descriptors> descriptorValueMatrixTemp = new ArrayList<>();
-            if (descriptorType.equals(Constants.CDK)) {
-                ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
-                        descriptorNames, descriptorValueMatrix);
-            } else if (descriptorType.equals(Constants.DRAGONH)) {
-                ReadDescriptors
-                        .readDragonXDescriptors(sdfFile + ".dragonH", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
-                        descriptorNames, descriptorValueMatrix);
-            } else if (descriptorType.equals(Constants.DRAGONNOH)) {
-                ReadDescriptors
-                        .readDragonXDescriptors(sdfFile + ".dragonNoH", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
-                        descriptorNames, descriptorValueMatrix);
-            } else if (descriptorType.equals(Constants.MOE2D)) {
-                ReadDescriptors
-                        .readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
-                        descriptorNames, descriptorValueMatrix);
-            } else if (descriptorType.equals(Constants.MACCS)) {
-                ReadDescriptors
-                        .readMaccsDescriptors(sdfFile + ".maccs", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
-                        descriptorNames, descriptorValueMatrix);
-            } else if (descriptorType.equals(Constants.ISIDA)) {
-                ReadDescriptors
-                        .readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
-                        descriptorNames, descriptorValueMatrix);
-            } else if (descriptorType.equals(Constants.SIRMS)) {
-                ReadDescriptors
-                        .readSirmsDescriptors(workingDir + predictor.getSdFileName() + ".sirms", sdfFile + ".sirms",
-                                descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
-                        descriptorNames, descriptorValueMatrix);
-            } else if (descriptorType.equals(Constants.UPLOADED)) {
-                ReadDescriptors.readXDescriptors(sdfFile + ".x", descriptorNamesTemp, descriptorValueMatrixTemp);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
-                        descriptorNames, descriptorValueMatrix);
-            } else {
-                throw new RuntimeException("Bad descriptor type: " + descriptorType);
-            }
 
+            if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
+                readXDescriptors(sdfFile + ".cdk.x", descriptorNames, descriptorValueMatrix);
+            } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONH)) {
+                readDragonXDescriptors(sdfFile + ".dragonH", descriptorNames, descriptorValueMatrix);
+            } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)) {
+                readDragonXDescriptors(sdfFile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
+            } else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
+                readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNames, descriptorValueMatrix);
+            } else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
+                readMaccsDescriptors(sdfFile + ".maccs", descriptorNames, descriptorValueMatrix);
+            } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
+                readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
+            } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGON7)) {
+                readDragon7Descriptors(sdfFile + ".dragon7", descriptorNames, descriptorValueMatrix);
+            } else {
+                throw new RuntimeException("Bad descriptor type: " + predictor.getDescriptorGeneration());
+            }
+            Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
+                    descriptorNames, descriptorValueMatrix);
         }
+
     }
 
     public static void readCommonDragonDescriptors(String dragonOutputFile, List<String> descriptorNames,
@@ -108,10 +86,12 @@ public class ReadDescriptors {
             throws Exception {
 
         logger.debug("reading Dragon Descriptors");
-
+        logger.debug(dragonOutputFile);
         File file = new File(dragonOutputFile);
-        if (!file.exists() || file.length() == 0) {
-            throw new Exception("Could not read Dragon descriptors.\n");
+        if (!file.exists() ) {
+            throw new Exception("Could not read Dragon descriptors. (File Missing)\n");
+        }else if(file.length() == 0){
+            throw new Exception("Could not read Dragon descriptors. (File Length is 0)\n");
         }
         FileReader fin = new FileReader(file);
         BufferedReader br = new BufferedReader(fin);

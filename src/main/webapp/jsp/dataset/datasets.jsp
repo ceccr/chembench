@@ -11,13 +11,13 @@
   <%@ include file="/jsp/main/header.jsp" %>
 
   <div id="content">
-    <section>
-      <h2>Existing Datasets</h2>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#new-datasets" data-toggle="tab"><h5>Create a New Dataset</h5></a></li>
+      <li><a href="#existing-datasets" data-toggle="tab"><h5>Existing Datasets</h5></a></li>
+    </ul>
 
-      <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
-    </section>
-
-    <hr>
+      <div class="tab-content">
+          <div id="new-datasets" class="tab-pane active">
     <section>
       <h2>Create a New Dataset</h2>
 
@@ -499,7 +499,7 @@
               <label class="control-label col-xs-3">Dataset name:</label>
 
               <div class="col-xs-6">
-                <s:textfield name="datasetName" id="datasetName" cssClass="form-control" theme="simple" />
+                <s:textfield name="datasetName" id="datasetName" cssClass="form-control" theme="simple" required="required" />
               </div>
             </div>
             <div class="text-muted">
@@ -531,6 +531,15 @@
       </s:form>
     </section>
   </div>
+          <div id="existing-datasets" class="tab-pane">
+              <section>
+                  <h2>Existing Datasets</h2>
+                      <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
+              </section>
+          </div>
+      </div>
+  </div>
+
 
   <%@ include file="/jsp/main/footer.jsp" %>
 </div>

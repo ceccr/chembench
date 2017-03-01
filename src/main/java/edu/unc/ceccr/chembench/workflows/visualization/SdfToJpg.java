@@ -74,7 +74,7 @@ public class SdfToJpg {
         //for each .sdf file in Structures/, create a .jpg file in Sketches/.
 
         //make sure Sketches dir exists.
-        File skDir = new File(sketchesDir);
+        /*File skDir = new File(sketchesDir);
         if (!skDir.exists()) {
             skDir.mkdirs();
         }
@@ -95,7 +95,7 @@ public class SdfToJpg {
             Path compound2d = dirPath.resolve(files[i]);
             Path compound3d = dirPath.resolve(files[i].replaceAll("\\.sdf$", "_3D.mol"));
             convert2Dto3D(compound2d, compound3d);
-        }
+        }*/
     }
 
     public static void convert2Dto3D(Path inFilePath, Path outFilePath) {

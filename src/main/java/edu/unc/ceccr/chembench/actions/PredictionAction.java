@@ -127,6 +127,8 @@ public class PredictionAction extends ActionSupport {
             // generate descriptors using the given SDF file except for ISIDA
             if (!predictor.getDescriptorGeneration().contains(Constants.ISIDA)) {
                 RunSmilesPrediction.generateDescriptorsForSdf(smilesDir, descriptorTypes);
+            }else{
+                logger.info(predictor.getDescriptorGeneration());
             }
             logger.info("Generated descriptors for SDF: " + descriptorTypes.toString());
 
@@ -269,6 +271,23 @@ public class PredictionAction extends ActionSupport {
             sp.setPredictedValue(predValues[1]);
             sp.setStdDeviation(predValues[2]);
             sp.setZScore(zScore);
+            sp.setCutoff(cutoff);
+            sp.setSmiles(smiles);
+            sp.setShow(false);
+
+            if (cutoff.equals("N/A")){
+                sp.setShow(true);
+            }
+            else{
+                if (!zScore.trim().isEmpty()) {
+                    if (Double.parseDouble(cutoff) > Double.parseDouble(zScore)) {
+                        sp.setShow(true);
+                    }
+                }
+            }
+
+            logger.debug("zScore: " + zScore);
+            logger.debug("cutoff: " + cutoff);
 
             // add it to the array
             smilesPredictions.add(sp);
@@ -697,6 +716,9 @@ public class PredictionAction extends ActionSupport {
         int predictingModels;
         int totalModels;
         String predictorName;
+        String smiles;
+        String cutoff;
+        boolean show;
 
         public String getPredictedValue() {
             return predictedValue;
@@ -745,6 +767,18 @@ public class PredictionAction extends ActionSupport {
         public void setPredictorName(String predictorName) {
             this.predictorName = predictorName;
         }
+
+        public void setCutoff(String cutoff) {this.cutoff = cutoff;}
+
+        public String getCutoff(){return cutoff;}
+
+        public void setSmiles(String smiles) {this.smiles = smiles;}
+
+        public String getSmiles(){return smiles;}
+
+        public void setShow(Boolean show) {this.show = show;}
+
+        public Boolean getShow(){return show;}
     }
 
 }

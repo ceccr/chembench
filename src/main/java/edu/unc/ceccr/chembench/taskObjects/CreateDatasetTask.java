@@ -429,6 +429,7 @@ public class CreateDatasetTask extends WorkflowTask {
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs");
 
+
             SdfToJpg.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
 
             logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs END");

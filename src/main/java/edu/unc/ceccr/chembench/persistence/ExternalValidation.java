@@ -22,8 +22,6 @@ public class ExternalValidation implements java.io.Serializable {
     public ExternalValidation() {
     }
 
-    ;
-
     public ExternalValidation(Long externalValId, Long predictorId, String compoundId, float predictedValue,
                               float actualValue, int numModels, String standDev) {
         super();

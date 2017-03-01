@@ -12,9 +12,11 @@ public interface DatasetRepository extends BaseRepository<Dataset, Long> {
     @Query("select d from Dataset d where d.userName = edu.unc.ceccr.chembench.global.Constants.ALL_USERS_USERNAME")
     List<Dataset> findAllPublicDatasets();
 
-    @Query("select d from Dataset d where d.userName = edu.unc.ceccr.chembench.global.Constants.ALL_USERS_USERNAME "
-            + "and d.showByDefault <> edu.unc.ceccr.chembench.global.Constants.NO")
+	@Query("select d from Dataset d where d.userName = edu.unc.ceccr.chembench.global.Constants.ALL_USERS_USERNAME")
     List<Dataset> findSomePublicDatasets();
+    //@Query("select d from Dataset d where d.userName = //edu.unc.ceccr.chembench.global.Constants.ALL_USERS_USERNAME "
+     //       + "and d.showByDefault <> edu.unc.ceccr.chembench.global.Constants.NO")
+   // List<Dataset> findSomePublicDatasets();
 
     @Query("select d from Dataset d where d.jobCompleted = 'YES' and d.userName = :userName and d.modelType = "
             + ":activityType")

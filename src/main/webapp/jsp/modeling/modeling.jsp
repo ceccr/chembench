@@ -11,13 +11,13 @@
   <%@ include file="/jsp/main/header.jsp" %>
 
   <div id="content">
-    <section>
-      <h2>Existing Models</h2>
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#new-models" data-toggle="tab"><h5>Create a New Model</h5></a></li>
+      <li><a href="#existing-models" data-toggle="tab"><h5>Existing Models</h5></a></li>
+    </ul>
 
-      <%@ include file="/jsp/mybench/mybench-models.jsp" %>
-    </section>
-
-    <hr>
+    <div class="tab-content">
+      <div id="new-models" class="tab-pane active">
     <section>
       <h2>Create a New Model</h2>
 
@@ -859,7 +859,7 @@
               <label class="control-label col-xs-3">Model name:</label>
 
               <div class="col-xs-6">
-                <s:textfield name="jobName" id="jobName" cssClass="form-control" theme="simple" />
+                <s:textfield name="jobName" id="jobName" cssClass="form-control" theme="simple" required="required" />
               </div>
             </div>
             <div class="form-group">
@@ -872,6 +872,15 @@
       </s:form>
     </section>
   </div>
+      <div id="existing-models" class="tab-pane">
+      <section>
+        <h2>Existing Models</h2>
+
+        <%@ include file="/jsp/mybench/mybench-models.jsp" %>
+      </section>
+        </div>
+      </div>
+    </div>
 
   <%@ include file="/jsp/main/footer.jsp" %>
 </div>

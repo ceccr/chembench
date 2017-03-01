@@ -455,47 +455,11 @@ public class QsarModelingTask extends WorkflowTask {
                 // for CDK descriptors, compounds with errors are skipped.
                 // Make sure that any skipped compounds are removed from the list
                 // of external compounds
-                DatasetFileOperations
-                        .removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
+                DatasetFileOperations.removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
                 DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
                 chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
 
                 //sets name based on if it is a hybrid and combine into a list
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
-                        descriptorNamesCombined, descriptorValueMatrixCombined);
-            } else if (descriptorType.equals(Constants.DRAGONH)) {
-                logger.debug("Processing DragonH descriptors for job, " + jobName + "submitted by user, " + userName);
-                ReadDescriptors.readDragonXDescriptors(filePath + sdFileName + ".dragonH", descriptorNames,
-                        descriptorValueMatrix);
-
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
-                        descriptorNamesCombined, descriptorValueMatrixCombined);
-            } else if (descriptorType.equals(Constants.DRAGONNOH)) {
-                logger.debug("Processing DragonNoH descriptors for job, " + jobName + "submitted by user, " + userName);
-                ReadDescriptors.readDragonXDescriptors(filePath + sdFileName + ".dragonNoH", descriptorNames,
-                        descriptorValueMatrix);
-
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
-                        descriptorNamesCombined, descriptorValueMatrixCombined);
-            } else if (descriptorType.equals(Constants.MOE2D)) {
-                logger.debug("Processing MOE2D descriptors for job, " + jobName + "submitted by user, " + userName);
-                ReadDescriptors
-                        .readMoe2DDescriptors(filePath + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
-
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
-                        descriptorNamesCombined, descriptorValueMatrixCombined);
-            } else if (descriptorType.equals(Constants.MACCS)) {
-                logger.debug("Processing MACCS descriptors for job, " + jobName + "submitted by user, " + userName);
-                ReadDescriptors
-                        .readMaccsDescriptors(filePath + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
-
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
-                        descriptorNamesCombined, descriptorValueMatrixCombined);
-            } else if (descriptorType.equals(Constants.ISIDA)) {
-                logger.debug("Processing ISIDA descriptors for job, " + jobName + "submitted by user, " + userName);
-                ReadDescriptors
-                        .readIsidaDescriptors(filePath + sdFileName + ".ISIDA", descriptorNames, descriptorValueMatrix);
-
                 Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
                         descriptorNamesCombined, descriptorValueMatrixCombined);
             } else if (descriptorType.equals(Constants.SIRMS)) {
@@ -512,6 +476,11 @@ public class QsarModelingTask extends WorkflowTask {
                     Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
                             descriptorNamesCombined, descriptorValueMatrixCombined);
                 }
+            }
+            else{
+                ReadDescriptors.readDescriptors(predictor, filePath + sdFileName, descriptorNames, descriptorValueMatrix);
+                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
+                        descriptorNamesCombined, descriptorValueMatrixCombined);
             }
         }
 

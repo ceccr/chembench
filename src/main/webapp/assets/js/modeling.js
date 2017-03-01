@@ -153,6 +153,17 @@
         $('.nav-list li').removeClass('active');
         $('#nav-button-modeling').addClass('active');
 
+        // if given a hash, activate that tab on page load
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+        }
+
+        // change page hash when a tab is clicked
+        $('.nav-tabs a').on('shown.bs.tab', function(e) {
+            window.location.hash = e.target.hash;
+        });
+
         $('#descriptor-types').find('label').addClass('text-muted').find('input').prop('disabled', true);
         hideSections();
         $('#degree-settings, #gamma-settings').hide();
@@ -258,12 +269,13 @@
 
         var table = $('#dataset-selection-section').find('table.datatable');
         table.DataTable().on('init', function() {
-            table.find('input[type="radio"]').change(function() {
+            
+        }).on('draw', function() {
+			table.find('input[type="radio"]').change(function() {
                 var rowSelector = $(this).closest('tr');
                 var dataset = rowSelector.closest('table').DataTable().row(rowSelector).data();
                 updateModelingForm(dataset);
             });
-        }).on('draw', function() {
             // XXX don't use find('tbody').find('tr'), or non-active pages won't be modified
             var allBodyRows = table.DataTable().rows().nodes().to$();
             allBodyRows.click(function() {

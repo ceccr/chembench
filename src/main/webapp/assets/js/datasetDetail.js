@@ -2,7 +2,7 @@
     'use strict';
 
     function composeRow(object, hasStructures) {
-        if (hasStructures === true) {
+        /*if (hasStructures === true) {
             var imageParams = {
                 user: $('input#username').val(),
                 projectType: 'dataset',
@@ -12,9 +12,9 @@
             var image = '<img src="imageServlet?' + $.param(imageParams) +
                         '" class="compound-structure img-thumbnail" width="125" height="125" alt="Compound structure">';
             return [object.compoundId, image, object.activityValue];
-        } else {
+        } else {*/
             return [object.compoundId, object.activityValue];
-        }
+        //}
     }
 
     function updatePages(clicked) {
