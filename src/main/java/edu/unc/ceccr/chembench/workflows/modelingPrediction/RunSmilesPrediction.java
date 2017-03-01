@@ -60,7 +60,7 @@ public class RunSmilesPrediction {
         List<Descriptors> descriptorValueMatrix = new ArrayList<>();
         List<String> chemicalNames = DatasetFileOperations.getSdfCompoundNames(sdfile);
 
-        ReadDescriptors.readDescriptors(workingDir, predictor, sdfile, descriptorNames, descriptorValueMatrix);
+        ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
 
         logger.debug("Normalizing descriptors to fit predictor.");
 
