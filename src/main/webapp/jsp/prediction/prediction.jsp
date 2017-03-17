@@ -10,15 +10,15 @@
 <div id="main" class="container">
   <%@ include file="/jsp/main/header.jsp" %>
 
-  <div id="content">
-    <section>
-      <h2>Existing Predictions</h2>
+    <div id="content">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#new-predictions" data-toggle="tab"><h5>Create a New Prediction</h5></a></li>
+        <li><a href="#existing-predictions" data-toggle="tab"><h5>Existing Predictions</h5></a></li>
+      </ul>
 
-      <%@ include file="/jsp/mybench/mybench-predictions.jsp" %>
-    </section>
-
-    <hr>
-    <section>
+      <div class="tab-content">
+        <div id="new-predictions" class="tab-pane active">
+          <section>
       <h2 id="new-prediction-heading">Create a New Prediction</h2>
 
       <div class="panel panel-primary">
@@ -178,7 +178,17 @@
         </div>
       </div>
     </section>
+        </div>
+          <div id="existing-predictions" class="tab-pane">
+            <section>
+              <h2>Existing Predictions</h2>
+
+              <%@ include file="/jsp/mybench/mybench-predictions.jsp" %>
+            </section>
+          </div>
+        </div>
   </div>
+
 
   <%@ include file="/jsp/main/footer.jsp" %>
 </div>
