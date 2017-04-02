@@ -182,6 +182,22 @@
         </action>
         <!-- End View Prediction Page -->
 
+        <!-- MCRA Page -->
+        <action name="mcra">
+            <result>/jsp/mcra/mcra.jsp</result>
+        </action>
+
+        <action name="makeDatasetPredictionMcra" class="edu.unc.ceccr.chembench.actions.McraAction"
+                method="makeDatasetPrediction">
+            <result name="success" type="redirect">mybench</result>
+        </action>
+
+        <action name="makeSmilesPredictionMcra" class="edu.unc.ceccr.chembench.actions.McraAction"
+                method="makeSmilesPrediction">
+            <result>/jsp/mcra/predictionResults.jsp</result>
+        </action>
+        <!-- End MCRA Page -->
+
         <!-- Servlet forwards -->
         <!-- these will forward to a path defined in web.xml -->
         <action name="imageServlet">

@@ -37,6 +37,7 @@
       <li id="nav-button-datasets"><s:a action="datasets" namespace="/">Datasets</s:a></li>
       <li id="nav-button-modeling"><s:a action="modeling" namespace="/">Modeling</s:a></li>
       <li id="nav-button-prediction"><s:a action="prediction" namespace="/">Prediction</s:a></li>
+      <li id="nav-button-mcra"><s:a action="mcra" namespace="/">MCRA</s:a></li>
     </ul>
   </nav>
 
