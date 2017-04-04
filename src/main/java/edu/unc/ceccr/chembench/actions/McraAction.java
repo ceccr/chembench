@@ -137,7 +137,7 @@ public class McraAction extends ActionSupport {
 
             // generate descriptors using the given SDF file
             RunSmilesPrediction.generateDescriptorsForSdf(smilesDir, descriptorTypes);  //doesn't include ISIDA
-            GenerateDescriptors.generateIsidaDescriptors(smilesDir+"smiles.sdf", smilesDir + "Descriptors/smiles.sdf.ISIDA");
+            GenerateDescriptors.generateIsidaDescriptors(smilesDir+"smiles.sdf", smilesDir + "smiles.sdf.ISIDA");
 
             logger.info("Generated descriptors for SDF: " + descriptorTypes.toString());
 
@@ -163,7 +163,7 @@ public class McraAction extends ActionSupport {
 
             /* read descriptors for the modeling sdf */
             List<Descriptors> modelingDescriptors = new ArrayList<>();
-            readDescriptors(descriptorType, modelingDataset.getDirectoryPath()+modelingDataset.getSdfFile(), descriptorNames, modelingDescriptors);
+            readDescriptors(descriptorType, modelingDataset.getDirectoryPath()+"Descriptors/"+modelingDataset.getSdfFile(), descriptorNames, modelingDescriptors);
 
             /* read descriptors for the predicting sdf */
             List<Descriptors> predictingDescriptors = new ArrayList<>();
