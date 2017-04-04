@@ -169,7 +169,7 @@ public class McraAction extends ActionSupport {
             List<Descriptors> predictingDescriptors = new ArrayList<>();
             readDescriptors(descriptorType, predictingSdf, descriptorNames, predictingDescriptors);
 
-            if (predictingDescriptors == null){
+            if (compoundNeighborLists == null){
                 compoundNeighborLists = new List[predictingDescriptors.size()];     //size would be 1 for SMILES
             }
 

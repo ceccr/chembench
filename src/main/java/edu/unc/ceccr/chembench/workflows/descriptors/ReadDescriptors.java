@@ -76,7 +76,7 @@ public class ReadDescriptors {
         logger.debug(dragonOutputFile);
         File file = new File(dragonOutputFile);
         if (!file.exists() ) {
-            throw new Exception("Could not read Dragon descriptors. (File Missing)\n");
+            throw new Exception("Could not read Dragon descriptors. (File Missing)"+dragonOutputFile+"\n");
         }else if(file.length() == 0){
             throw new Exception("Could not read Dragon descriptors. (File Length is 0)\n");
         }
