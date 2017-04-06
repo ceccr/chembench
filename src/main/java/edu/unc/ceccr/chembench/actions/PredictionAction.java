@@ -718,7 +718,6 @@ public class PredictionAction extends ActionSupport {
         // used by makeSmilesPrediction()
         String predictedValue;
         String stdDeviation;
-        String zScore;
         String zscore;
         int predictingModels;
         int totalModels;

@@ -68,9 +68,9 @@ public class DatasetAction extends ActionSupport {
     private File actFileModDesc = null;
     private String actFileModDescContentType = "";
     private String actFileModDescFileName = "";
-    private File xFileModDesc = null;
-    private String xFileModDescContentType = "";
-    private String xFileModDescFileName = "";
+    private File descriptorXModDesc = null;
+    private String descriptorXModDescContentType = "";
+    private String descriptorXModDescFileName = "";
     private File sdfFileModDesc = null;
     private String sdfFileModDescContentType = "";
     private String sdfFileModDescFileName = "";
@@ -328,7 +328,7 @@ public class DatasetAction extends ActionSupport {
             }
         } else if (datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)) {
 
-            if (xFileModDesc == null || actFileModDesc == null) {
+            if (descriptorXModDesc == null || actFileModDesc == null) {
                 addActionError("File upload failed or no files supplied. If you are using Chrome, "
                         + "try again in a different browser such as Firefox.");
                 result = ERROR;
@@ -345,20 +345,20 @@ public class DatasetAction extends ActionSupport {
                     } else if (!actFileModDescFileName.endsWith(".act")) {
                         actFileModDescFileName += ".act";
                     }
-                    if (!xFileModDescFileName.endsWith(".x")) {
-                        xFileModDescFileName += ".x";
+                    if (!descriptorXModDescFileName.endsWith(".x")) {
+                        descriptorXModDescFileName += ".x";
                     }
 
                     msgs = DatasetFileOperations
                             .uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc,
-                                    actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName,
+                                    actFileModDescFileName, descriptorXModDesc, descriptorXModDescFileName, datasetName,
                                     dataTypeModeling, datasetType, externalCompoundList);
                     sdfFileModDescFileName =
                             sdfFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
                     actFileModDescFileName =
                             actFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-                    xFileModDescFileName =
-                            xFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
+                    descriptorXModDescFileName =
+                            descriptorXModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
                     descriptorTypeModDesc =
                             descriptorNewName.trim().isEmpty() ? selectedDescriptorUsedName : descriptorNewName;
 
@@ -381,7 +381,7 @@ public class DatasetAction extends ActionSupport {
                             //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
                             sdfFileModDescFileName, //sdfFileName
                             actFileModDescFileName, //actFileName
-                            xFileModDescFileName, //xFileName
+                            descriptorXModDescFileName, //xFileName
                             descriptorTypeModDesc, //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or
                             // PREDICTIONWITHDESCRIPTORS
                             dataTypeModDesc, //act file type, Continuous or Category,
@@ -780,28 +780,28 @@ public class DatasetAction extends ActionSupport {
         this.actFileModDescFileName = actFileModDescFileName;
     }
 
-    public File getXFileModDesc() {
-        return xFileModDesc;
+    public File getDescriptorXModDesc() {
+        return descriptorXModDesc;
     }
 
-    public void setXFileModDesc(File xFileModDesc) {
-        this.xFileModDesc = xFileModDesc;
+    public void setDescriptorXModDesc(File descriptorXModDesc) {
+        this.descriptorXModDesc = descriptorXModDesc;
     }
 
-    public String getXFileModDescContentType() {
-        return xFileModDescContentType;
+    public String getDescriptorXModDescContentType() {
+        return descriptorXModDescContentType;
     }
 
-    public void setXFileModDescContentType(String fileContentType) {
-        xFileModDescContentType = fileContentType;
+    public void setDescriptorXModDescContentType(String fileContentType) {
+        descriptorXModDescContentType = fileContentType;
     }
 
-    public String getXFileModDescFileName() {
-        return xFileModDescFileName;
+    public String getDescriptorXModDescFileName() {
+        return descriptorXModDescFileName;
     }
 
-    public void setXFileModDescFileName(String fileName) {
-        xFileModDescFileName = fileName;
+    public void setDescriptorXModDescFileName(String fileName) {
+        descriptorXModDescFileName = fileName;
     }
 
     //end file upload stuff
