@@ -557,12 +557,11 @@ public class WriteDescriptors {
     }
 
     public static void addZeroToOutput(List<Descriptors> descriptorMatrix,
-                                       String descriptorNameString,
+                                       StringBuffer descriptorNameStringBuffer,
                                        String predictorDescriptorNameString){
         logger.info("Adding 0's to the dataset descriptors");
-        String[] datasetDescriptorNames = descriptorNameString.split("\\s+");
+        String[] datasetDescriptorNames = descriptorNameStringBuffer.toString().split("\\s+");
         String[] predictorDescriptorNames = predictorDescriptorNameString.split("\\s+");
-        List<Descriptors> descriptorMatrixTemp = new ArrayList<>();
 
         //j keeps track of the dataset while i keeps track of the predictor
         int j = 0;
@@ -575,6 +574,9 @@ public class WriteDescriptors {
                 }
             }
         }
+        descriptorNameStringBuffer.setLength(0);
+        descriptorNameStringBuffer.append(predictorDescriptorNameString);
+
     }
 
     public static void writePredictionXFile(List<String> compoundNames, List<Descriptors> descriptorMatrix,
@@ -616,7 +618,8 @@ public class WriteDescriptors {
                     + " descriptors and output has " + numberOfOutputDescripors);
             //add 0's to the dataset descriptor to make them have the same number of descriptors
             if (numberOfPredictorDescriptors > numberOfOutputDescripors){
-                addZeroToOutput(descriptorMatrix, descriptorNameString, predictorDescriptorNameString);
+                addZeroToOutput(descriptorMatrix, descriptorNameStringBuffer, predictorDescriptorNameString);
+                descriptorNameString = descriptorNameStringBuffer.toString();
             }
         }
 
