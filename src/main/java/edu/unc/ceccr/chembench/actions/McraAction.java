@@ -6,35 +6,21 @@ import com.google.common.collect.Sets;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.QsarPredictionTask;
-import edu.unc.ceccr.chembench.utilities.CopyJobFiles;
-import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
-import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
-import edu.unc.ceccr.chembench.workflows.descriptors.WriteDescriptors;
-import edu.unc.ceccr.chembench.workflows.modelingPrediction.LegacyRandomForest;
-import edu.unc.ceccr.chembench.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.RunSmilesPrediction;
-import edu.unc.ceccr.chembench.workflows.modelingPrediction.ScikitRandomForestPrediction;
 import org.apache.commons.collections.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DecimalFormat;
 import java.util.*;
 
 public class McraAction extends ActionSupport {
@@ -58,7 +44,6 @@ public class McraAction extends ActionSupport {
     private boolean isUploadedDescriptors;
     private boolean isMixDescriptors;
     private List<Predictor> selectedPredictors = new ArrayList<>();
-  //  private List<PredictionAction.SmilesPrediction> smilesPredictions;
     private String smiles;
     private String cutoff;
     // populated by the JSP form
@@ -67,16 +52,15 @@ public class McraAction extends ActionSupport {
     private String jobName;
     private String selectedPredictorIds;    //selected modeling datasets
 
-
     private static Set<String> descriptorTypes = Sets.newHashSet();
     static {
+        descriptorTypes.add(Constants.ISIDA);
         descriptorTypes.add(Constants.MACCS);
         descriptorTypes.add(Constants.MOE2D);
-        descriptorTypes.add(Constants.ISIDA);
         descriptorTypes.add(Constants.DRAGONH);
     }
     private final static int N_NEAREST_NEIGHORS = 1;
-    private List<PredictionAction.SmilesPrediction> smilesPredictions;
+    private List<McraPrediction> mcraPredictions;
 
 
     @Autowired
@@ -118,71 +102,92 @@ public class McraAction extends ActionSupport {
             modelingDatasets.add(predictor);
         }
 
+        Dataset modelingDataset = modelingDatasets.get(0);
+        /* make smiles dir */
+        Path baseSmilesDir = Paths.get(Constants.CECCR_USER_BASE_PATH, user.getUserName(), "SMILES");
+        Files.createDirectories(baseSmilesDir);
+        Path predPath = Files.createTempDirectory(baseSmilesDir, modelingDataset.getName());
+        String smilesDir = predPath.toString() + "/";
+        logger.debug("Created the directory " + smilesDir);
+
+        // generate an SDF from this SMILES string
+        RunSmilesPrediction.smilesToSdf(smiles, smilesDir);
+        logger.info(String.format("Generated SDF file from SMILES \"%s\" written to %s", smiles, smilesDir));
+
+        // generate descriptors using the given SDF file
+        RunSmilesPrediction.generateDescriptorsForSdf(smilesDir, descriptorTypes);  //doesn't include ISIDA
+        GenerateDescriptors.generateIsidaDescriptors(smilesDir+"smiles.sdf", smilesDir + "smiles.sdf.ISIDA");
+
+        logger.info("Generated descriptors for SDF: " + descriptorTypes.toString());
+
+        List<List<DescriptorResult>> allDescriptorResults = new ArrayList<>(); //list of each descriptor type's sub-results for each compound
+        List<Double> predictedValues = predictActivity( smilesDir+"smiles.sdf", modelingDataset, allDescriptorResults);
+        logger.info("Predicted value for SMILES SDF: " + predictedValues.get(0).toString());
+
         /* stores results */
-        smilesPredictions = new ArrayList<>();
+        mcraPredictions = new ArrayList<>();
 
-        // WHY, WHAT IS THIS
-        for (Dataset modelingDataset : modelingDatasets) {
-
-            /* make smiles dir */
-            Path baseSmilesDir = Paths.get(Constants.CECCR_USER_BASE_PATH, user.getUserName(), "SMILES");
-            Files.createDirectories(baseSmilesDir);
-            Path predPath = Files.createTempDirectory(baseSmilesDir, modelingDataset.getName());
-            String smilesDir = predPath.toString() + "/";
-            logger.debug("Created the directory " + smilesDir);
-
-            // generate an SDF from this SMILES string
-            RunSmilesPrediction.smilesToSdf(smiles, smilesDir);
-            logger.info(String.format("Generated SDF file from SMILES \"%s\" written to %s", smiles, smilesDir));
-
-            // generate descriptors using the given SDF file
-            RunSmilesPrediction.generateDescriptorsForSdf(smilesDir, descriptorTypes);  //doesn't include ISIDA
-            GenerateDescriptors.generateIsidaDescriptors(smilesDir+"smiles.sdf", smilesDir + "smiles.sdf.ISIDA");
-
-            logger.info("Generated descriptors for SDF: " + descriptorTypes.toString());
-
-            List<Double> predictedValues = predictActivity( smilesDir+"smiles.sdf", modelingDataset);
-            logger.info("Predicted value for SMILES SDF: " + predictedValues.get(0).toString());
-
-          //  predValues = predictSmilesSdf(smilesDir, user.getUserName(), predictor);
+        for (int i=0; i<predictedValues.size(); i++) {
+            List<DescriptorResult> results = new ArrayList<>();
+            for (List<DescriptorResult> descriptor : allDescriptorResults){    //every compound's result for one descriptor
+                results.add(descriptor.get(i));
+            }
+            McraPrediction prediction = new McraPrediction(N_NEAREST_NEIGHORS, predictedValues.get(i), smiles, results);
+            mcraPredictions.add(prediction);
         }
 
-        logger.info("made SMILES prediction on string " + smiles + " with predictors " + predictorIds + " for " + user
-                .getUserName());
+        logger.info("made SMILES prediction on string " + smiles + " with predictors " + predictorIds + " for " + user.getUserName());
 
         return result;
     }
 
     /* returns the predicted activity of each compound in the predicting sdf, in the order of the sdf*/
-    private List<Double> predictActivity(String predictingSdf, Dataset modelingDataset) throws Exception {
+    private List<Double> predictActivity(String predictingSdf, Dataset modelingDataset, List<List<DescriptorResult>> allDescriptorResults) throws Exception {
         List<String> descriptorNames = new ArrayList<>();
 
         List<Neighbor>[] compoundNeighborLists = null;  //maps the index of a compound in the predicting sdf to a list of nearest neighbors
 
         for (String descriptorType : descriptorTypes) {
 
-            /* read descriptors for the modeling sdf */
             List<Descriptors> modelingDescriptors = new ArrayList<>();
-            readDescriptors(descriptorType, modelingDataset.getDirectoryPath()+"Descriptors/"+modelingDataset.getSdfFile(), descriptorNames, modelingDescriptors);
-
-            /* read descriptors for the predicting sdf */
             List<Descriptors> predictingDescriptors = new ArrayList<>();
-            readDescriptors(descriptorType, predictingSdf, descriptorNames, predictingDescriptors);
 
+            String modelingSdf = modelingDataset.getDirectoryPath()+"/Descriptors/"+modelingDataset.getSdfFile();
+
+            // read Descriptor lists
+            if (descriptorType.equals(Constants.ISIDA)){
+                ReadDescriptors.readJoinedIsidaDescriptors(predictingSdf+".ISIDA", modelingSdf+".ISIDA", predictingDescriptors, modelingDescriptors);
+            } else {
+                ReadDescriptors.readDescriptors(descriptorType, modelingSdf, descriptorNames, modelingDescriptors);
+                ReadDescriptors.readDescriptors(descriptorType, predictingSdf, descriptorNames, predictingDescriptors);
+            }
+
+            // if this is the first descriptor type being processed
             if (compoundNeighborLists == null){
                 compoundNeighborLists = new List[predictingDescriptors.size()];     //size would be 1 for SMILES
             }
+
+            List<DescriptorResult> singleDescriptorResults = new ArrayList(); //the results of every compound for one descriptor type
 
             /* for each compound in the predicting set, find the nearest neighbors for this descriptor only */
             for (int i=0; i<predictingDescriptors.size(); i++) {
                 if (compoundNeighborLists[i] == null){
                     compoundNeighborLists[i] = new ArrayList<Neighbor>();
                 }
-                nearestNeighbors(N_NEAREST_NEIGHORS, predictingDescriptors.get(i).getDescriptorValues(),
+                DescriptorResult descriptorResult = nearestNeighbors(N_NEAREST_NEIGHORS, predictingDescriptors.get(i).getDescriptorValues(),
                         modelingDescriptors, modelingDataset, compoundNeighborLists[i]);
+                descriptorResult.name = descriptorType;
+                singleDescriptorResults.add(descriptorResult);
             }
+
+            allDescriptorResults.add(singleDescriptorResults);
         }
 
+        return weightedAverage(compoundNeighborLists);
+    }
+
+    /* Return the final predicted value for each compound in the predicting .sdf */
+    private List<Double> weightedAverage(List<Neighbor>[] compoundNeighborLists){
         List<Double> predictionValues = new ArrayList<>();
 
         for (int i=0; i<compoundNeighborLists.length; i++) {
@@ -197,32 +202,10 @@ public class McraAction extends ActionSupport {
         return predictionValues;
     }
 
-    /*
-    Reads a single descriptor file into the descriptorValueMatrix
-     */
-    private static void readDescriptors(String descriptorType, String sdfFile, List<String> descriptorNames,
-                                       List<Descriptors> descriptorValueMatrix) throws Exception {
-        if (descriptorType.equals(Constants.CDK)) {
-            ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorType.equals(Constants.DRAGONH)) {
-            ReadDescriptors.readDragonXDescriptors(sdfFile + ".dragonH", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorType.equals(Constants.DRAGONNOH)) {
-            ReadDescriptors.readDragonXDescriptors(sdfFile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorType.equals(Constants.MOE2D)) {
-            ReadDescriptors.readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorType.equals(Constants.MACCS)) {
-            ReadDescriptors.readMaccsDescriptors(sdfFile + ".maccs", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorType.equals(Constants.ISIDA)) {
-            ReadDescriptors.readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorType.equals(Constants.DRAGON7)) {
-            ReadDescriptors.readDragon7Descriptors(sdfFile + ".dragon7", descriptorNames, descriptorValueMatrix);
-        } else {
-            throw new RuntimeException("Bad descriptor type: " + descriptorType);
-        }
-    }
 
     /* append nearest neighbors for a single compound vs. a set of compounds, within this descriptor type*/
-    private void nearestNeighbors(int n, List<Double> compound, List<Descriptors> modelingCompounds, Dataset modelingDataset, List<Neighbor> neighborList) throws Exception {
+    private DescriptorResult nearestNeighbors(int n, List<Double> compound, List<Descriptors> modelingCompounds,
+                                  Dataset modelingDataset, List<Neighbor> neighborList) throws Exception {
 
         List<String> actValues = DatasetFileOperations.getActFileValues(modelingDataset);
 
@@ -230,27 +213,34 @@ public class McraAction extends ActionSupport {
         for (int i=0; i<modelingCompounds.size(); i++){
             List<Double> c = modelingCompounds.get(i).getDescriptorValues();
             if (queue.size() < n){
-                queue.add(new Neighbor(similarity(compound, c), Integer.parseInt(actValues.get(i))));
+                //queue.add(new Neighbor(similarity(compound, c), Integer.parseInt(actValues.get(i))));
+                queue.add(new Neighbor(similarity(compound, c), Double.parseDouble(actValues.get(i))));
                 continue;
             }
             // if this compound is more similar than the least similar compound in the queue
             if (similarity(compound, c) > queue.peek().similarity){
                 queue.poll();
-                queue.add(new Neighbor(similarity(compound, c), Integer.parseInt(actValues.get(i))));
+                queue.add(new Neighbor(similarity(compound, c), Double.parseDouble(actValues.get(i))));
             }
         }
 
+        float totalSimilarity=0, totalActivity=0;
         while (!queue.isEmpty()){
-            neighborList.add(queue.poll());
+            Neighbor neighbor = queue.poll();
+            totalActivity += neighbor.activity;
+            totalSimilarity += neighbor.similarity;
+            neighborList.add(neighbor);
         }
-        return;
+
+
+        return new DescriptorResult(totalSimilarity/n, totalActivity/n);
     }
 
     private class Neighbor implements Comparable<Neighbor>{
         double similarity;
-        int activity;   //0 or 1, in ACT file
+        double activity;   //0 or 1, in ACT file
 
-        public Neighbor(double similarity, int activity) {
+        public Neighbor(double similarity, double activity) {
             this.similarity = similarity;
             this.activity=activity;
         }
@@ -662,12 +652,12 @@ public class McraAction extends ActionSupport {
         this.selectedPredictorIds = selectedPredictorIds;
     }
 
-    public List<PredictionAction.SmilesPrediction> getSmilesPredictions() {
-        return smilesPredictions;
+    public List<McraPrediction> getMcraPredictions() {
+        return mcraPredictions;
     }
 
-    public void setSmilesPredictions(List<PredictionAction.SmilesPrediction> smilesPredictions) {
-        this.smilesPredictions = smilesPredictions;
+    public void setMcraPredictions(List<McraPrediction> mcraPredictions) {
+        this.mcraPredictions = mcraPredictions;
     }
 
     public String getSmiles() {
@@ -685,78 +675,59 @@ public class McraAction extends ActionSupport {
     public void setCutoff(String cutoff) {
         this.cutoff = cutoff;
     }
-/*
-    public class SmilesPrediction {
-        // used by makeSmilesPrediction()
-        String predictedValue;
-        String stdDeviation;
-        String zScore;
-        int predictingModels;
-        int totalModels;
-        String predictorName;
-        String smiles;
-        String cutoff;
-        boolean show;
 
-        public String getPredictedValue() {
-            return predictedValue;
+    public class McraPrediction {
+        private int numNearestNeighbors;
+        private double predictedActivity;
+        private String name;    //SMILES or compound name
+        private List<DescriptorResult> descriptors;
+
+        public McraPrediction(int numNearestNeighbors, double predictedActivity, String name, List<DescriptorResult> descriptors) {
+            this.numNearestNeighbors = numNearestNeighbors;
+            this.predictedActivity = predictedActivity;
+            this.name = name;
+            this.descriptors = descriptors;
         }
 
-        public void setPredictedValue(String predictedValue) {
-            this.predictedValue = predictedValue;
+        public int getNumNearestNeighbors() {
+            return numNearestNeighbors;
         }
 
-        public String getStdDeviation() {
-            return stdDeviation;
+        public double getPredictedActivity() {
+            return predictedActivity;
         }
 
-        public void setStdDeviation(String stdDeviation) {
-            this.stdDeviation = stdDeviation;
+        public String getName() {
+            return name;
         }
 
-        public String getZScore() {
-            return zScore;
+        public List<DescriptorResult> getDescriptors() {
+            return descriptors;
         }
-
-        public void setZScore(String zScore) {
-            this.zScore = zScore;
-        }
-
-        public int getPredictingModels() {
-            return predictingModels;
-        }
-
-        public void setPredictingModels(int predictingModels) {
-            this.predictingModels = predictingModels;
-        }
-
-        public int getTotalModels() {
-            return totalModels;
-        }
-
-        public void setTotalModels(int totalModels) {
-            this.totalModels = totalModels;
-        }
-
-        public String getPredictorName() {
-            return predictorName;
-        }
-
-        public void setPredictorName(String predictorName) {
-            this.predictorName = predictorName;
-        }
-
-        public void setCutoff(String cutoff) {this.cutoff = cutoff;}
-
-        public String getCutoff(){return cutoff;}
-
-        public void setSmiles(String smiles) {this.smiles = smiles;}
-
-        public String getSmiles(){return smiles;}
-
-        public void setShow(Boolean show) {this.show = show;}
-
-        public Boolean getShow(){return show;}
     }
-    */
+
+    public class DescriptorResult{
+
+        public DescriptorResult(float averageSimilarity, float averageActivity) {
+            this.averageSimilarity = averageSimilarity;
+            this.averageActivity = averageActivity;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public float getAverageSimilarity() {
+            return averageSimilarity;
+        }
+
+        public float getAverageActivity() {
+            return averageActivity;
+        }
+
+        private String name;
+        private float averageSimilarity;
+        private float averageActivity;
+    }
+
 }

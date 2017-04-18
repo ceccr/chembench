@@ -13,6 +13,12 @@ public class Descriptors implements java.io.Serializable {
     public Descriptors() {
     }
 
+    public Descriptors(int compoundIndex, String compoundName, List<Double> descriptorValues) {
+        this.compoundIndex = compoundIndex;
+        this.compoundName = compoundName;
+        this.descriptorValues = descriptorValues;
+    }
+
     public List<Double> getDescriptorValues() {
         return descriptorValues;
     }

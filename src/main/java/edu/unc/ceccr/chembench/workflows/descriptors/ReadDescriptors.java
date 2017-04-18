@@ -50,22 +50,28 @@ public class ReadDescriptors {
 
     public static void readDescriptors(Predictor predictor, String sdfFile, List<String> descriptorNames,
                                        List<Descriptors> descriptorValueMatrix) throws Exception {
-        if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
-            readXDescriptors(sdfFile + ".cdk.x", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONH)) {
-            readDragonXDescriptors(sdfFile + ".dragonH", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)) {
-            readDragonXDescriptors(sdfFile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
-            readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
-            readMaccsDescriptors(sdfFile + ".maccs", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-            readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGON7)) {
-            readDragon7Descriptors(sdfFile + ".dragon7", descriptorNames, descriptorValueMatrix);
+        readDescriptors(predictor.getDescriptorGeneration(), sdfFile, descriptorNames, descriptorValueMatrix);
+    }
+
+    // Reads a single descriptor file into the descriptorValueMatrix
+    public static void readDescriptors(String descriptorType, String sdfFile, List<String> descriptorNames,
+                                        List<Descriptors> descriptorValueMatrix) throws Exception {
+        if (descriptorType.equals(Constants.CDK)) {
+            ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNames, descriptorValueMatrix);
+        } else if (descriptorType.equals(Constants.DRAGONH)) {
+            ReadDescriptors.readDragonXDescriptors(sdfFile + ".dragonH", descriptorNames, descriptorValueMatrix);
+        } else if (descriptorType.equals(Constants.DRAGONNOH)) {
+            ReadDescriptors.readDragonXDescriptors(sdfFile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
+        } else if (descriptorType.equals(Constants.MOE2D)) {
+            ReadDescriptors.readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNames, descriptorValueMatrix);
+        } else if (descriptorType.equals(Constants.MACCS)) {
+            ReadDescriptors.readMaccsDescriptors(sdfFile + ".maccs", descriptorNames, descriptorValueMatrix);
+        } else if (descriptorType.equals(Constants.ISIDA)) {
+            ReadDescriptors.readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
+        } else if (descriptorType.equals(Constants.DRAGON7)) {
+            ReadDescriptors.readDragon7Descriptors(sdfFile + ".dragon7", descriptorNames, descriptorValueMatrix);
         } else {
-            throw new RuntimeException("Bad descriptor type: " + predictor.getDescriptorGeneration());
+            throw new RuntimeException("Bad descriptor type: " + descriptorType);
         }
     }
 
@@ -76,7 +82,7 @@ public class ReadDescriptors {
         logger.debug(dragonOutputFile);
         File file = new File(dragonOutputFile);
         if (!file.exists() ) {
-            throw new Exception("Could not read Dragon descriptors. (File Missing)"+dragonOutputFile+"\n");
+            throw new Exception("Could not read Dragon descriptors. (File Missing)\n");
         }else if(file.length() == 0){
             throw new Exception("Could not read Dragon descriptors. (File Length is 0)\n");
         }
@@ -244,12 +250,117 @@ public class ReadDescriptors {
     public static void readIsidaDescriptors(String ISIDAOutputFile, List<String> descriptorNames,
                                             List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading ISIDA Descriptors");
+
+        Path[] paths = getIsidaFilePaths(ISIDAOutputFile);
+        Path headerFilePath = paths[0];
+        Path datafilePath = paths[1];
+
+        List<String> fragments = new ArrayList<>(); // list of each fragment string in the header file, e.g. "H-C"
+        fragments.add(""); // XXX fence-value for [0] since fragments are 1-indexed
+        appendIsidaFragments(fragments, headerFilePath);
+
+        // XXX LinkedHashMap is important: need to keep this map's keys in order of insertion
+        LinkedHashMap<String, SortedMap<Integer, Integer>> compoundNameToFragmentCounts = Maps.newLinkedHashMap();  // compound index => (fragment index => fragment count)
+        appendIsidaCompounds(compoundNameToFragmentCounts, datafilePath);
+
+        int compoundIndex = 1; // Descriptors.compoundIndex is 1-indexed
+        if (descriptorValueMatrix == null) {
+            descriptorValueMatrix = new ArrayList<>();
+        }
+        // XXX fragment names are 1-indexed in the .hdr file
+        descriptorNames.addAll(fragments.subList(1, fragments.size()));
+        for (String compoundName : compoundNameToFragmentCounts.keySet()) {
+            SortedMap<Integer, Integer> fragmentCounts = compoundNameToFragmentCounts.get(compoundName);
+            Descriptors d = new Descriptors();
+            d.setCompoundIndex(compoundIndex++);
+            d.setCompoundName(compoundName);
+            List<Double> fragmentCountsForCompound = new ArrayList<>();
+            // XXX fragments are 1-indexed (note loop starting point)
+            // for each fragment index, add the corresponding value in fragmentCounts (or 0 if it's null)
+            for (int i = 1; i < fragments.size(); i++) {
+                fragmentCountsForCompound.add(MoreObjects.firstNonNull(fragmentCounts.get(i), 0).doubleValue());
+            }
+            d.setDescriptorValues(fragmentCountsForCompound);
+            descriptorValueMatrix.add(d);
+        }
+    }
+
+    // Read two ISIDA outputs and return a Descriptors list for each that unions the fragments from both ISIDA files
+    public static void readJoinedIsidaDescriptors(String ISIDAOutputFile1, String ISIDAOutputFile2,
+                                                  List<Descriptors> descriptorValueMatrix1, List<Descriptors> descriptorValueMatrix2) throws Exception {
+        logger.debug("reading joined ISIDA Descriptors");
+
+        Path[] paths1 = getIsidaFilePaths(ISIDAOutputFile1);
+        Path[] paths2 = getIsidaFilePaths(ISIDAOutputFile2);
+
+        // create set of all fragment strings in either header file
+        TreeSet<String> fragmentStrings = new TreeSet<>();
+        appendIsidaFragments(fragmentStrings, paths1[0]);
+        appendIsidaFragments(fragmentStrings, paths2[0]);
+
+        // populate the Descriptors list for each source, using the combined set of fragment strings
+        readSingleJoinedIsidaFile(ISIDAOutputFile1, fragmentStrings, descriptorValueMatrix1);
+        readSingleJoinedIsidaFile(ISIDAOutputFile2, fragmentStrings, descriptorValueMatrix2);
+    }
+
+
+    // populate the Descriptors list for this ISIDA file, using this set of fragments
+    private static void readSingleJoinedIsidaFile(String ISIDAOutputFile, Set<String> fragmentStrings, List<Descriptors> descriptorValueMatrix){
+        Path[] paths = getIsidaFilePaths(ISIDAOutputFile);
+        Path headerFilePath = paths[0];
+        Path dataFilePath = paths[1];
+
+        // read header file into a map of fragment string => fragment index
+        HashMap<String, Integer> fragmentStringToIndex = new HashMap<>();
+        int index=1;    //fragments are 1-indexed in .svm
+        try (BufferedReader reader = Files.newBufferedReader(headerFilePath, StandardCharsets.UTF_8)) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                Matcher matcher = ISIDA_HEADER_REGEX.matcher(line);
+                matcher.matches();
+                fragmentStringToIndex.put(matcher.group(1), index++);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Couldn't read ISIDA header file", e);
+        }
+
+        // build a map of compound index => (fragment index => fragment count)
+        LinkedHashMap<String, SortedMap<Integer, Integer>> compoundNameToFragmentCounts = Maps.newLinkedHashMap();
+        appendIsidaCompounds(compoundNameToFragmentCounts, dataFilePath);
+
+        // for each compound, add a Descriptors to the outpt Descriptors list
+        int compoundIndex = 1; // Descriptors.compoundIndex is 1-indexed
+        for (String compoundName : compoundNameToFragmentCounts.keySet()) {
+            SortedMap<Integer, Integer> fragmentCounts = compoundNameToFragmentCounts.get(compoundName);
+
+            List<Double> paddedFragmentCounts = new ArrayList<>();  //fragment counts with 0s for any non-present fragments
+
+            // for each fragment, add the corresponding value in fragmentCounts (or 0 if it's null)
+            Iterator<String> it = fragmentStrings.iterator();
+            while (it.hasNext()){
+                String fragmentString = it.next();
+                Integer fragmentIndex = fragmentStringToIndex.get(fragmentString);
+                Integer count = 0;
+                if (fragmentIndex != null){ //check if the fragment string is in this string=>index map
+                    count = fragmentCounts.get(fragmentIndex);
+                }
+                // fragment string might be present in the map but not in this compound, for a dataset
+                paddedFragmentCounts.add(MoreObjects.firstNonNull(count, 0).doubleValue());
+            }
+
+            descriptorValueMatrix.add(new Descriptors(compoundIndex++, compoundName, paddedFragmentCounts));
+        }
+    }
+
+    // return the Paths for the ISIDA header file (.hdr) and data file (.svm), in that order
+    private static Path[] getIsidaFilePaths(String ISIDAOutputFile){
         Path rawFilePath = Paths.get(ISIDAOutputFile);
-        Path dirPath = rawFilePath.getParent();
         // for filenames like "modeling.sdf.ISIDA.svm" or even "modeling.sdf.ISIDA.svm_0" (split files),
         // remove the ".svm..." extension (assumption is that the header file is "modeling.sdf.ISIDA.hdr")
         Matcher m = ISIDA_FILENAME_REGEX.matcher(rawFilePath.getFileName().toString());
         m.matches();
+
+        Path dirPath = rawFilePath.getParent();
         Path headerFilePath = dirPath.resolve(m.group(1) + ".hdr");
         Path datafilePath;
         if (m.group(2) == null) {
@@ -257,19 +368,14 @@ public class ReadDescriptors {
         } else {
             datafilePath = dirPath.resolve(m.group(1) + m.group(2));
         }
+        return new Path[]{headerFilePath, datafilePath};
+    }
 
-        List<String> fragments = new ArrayList<>();
-        fragments.add(""); // XXX fence-value for [0] since fragments are 1-indexed
+
+    // Add the fragment strings from an ISIDA header file to a Collection<String>
+    private static void appendIsidaFragments(Collection<String> fragments, Path headerFilePath){
         try (BufferedReader reader = Files.newBufferedReader(headerFilePath, StandardCharsets.UTF_8)) {
             String line;
-            // isida header (.hdr) file structure: fragment number -> descriptor name,
-            // where numbering starts from 1
-            //    1.         Cl
-            // ... (snip)
-            //   24.         H-C
-            //   25.         H-C*C-H
-            //   26.         (Cl-C),(Cl-C*C),(Cl-C*C),(Cl-C*C*C),(Cl-C*C*C),(Cl-C*C-H),(Cl-C*C-N),xCl
-            // ...
             while ((line = reader.readLine()) != null) {
                 Matcher matcher = ISIDA_HEADER_REGEX.matcher(line);
                 matcher.matches();
@@ -278,9 +384,10 @@ public class ReadDescriptors {
         } catch (IOException e) {
             throw new RuntimeException("Couldn't read ISIDA header file", e);
         }
+    }
 
-        // XXX LinkedHashMap is important: need to keep this map's keys in order of insertion
-        LinkedHashMap<String, SortedMap<Integer, Integer>> compoundNameToFragmentCounts = Maps.newLinkedHashMap();
+    // build a map of compound index => (fragment index => fragment count)
+    private static void appendIsidaCompounds(LinkedHashMap<String, SortedMap<Integer, Integer>> compoundNameToFragmentCounts, Path datafilePath){
         try (BufferedReader reader = Files.newBufferedReader(datafilePath, StandardCharsets.UTF_8)) {
             // isida data (.svm) file structure: compound name, followed by <fragment number>:<fragment count> pairs,
             // where pairs are ordered by ascending fragment number
@@ -305,27 +412,9 @@ public class ReadDescriptors {
         } catch (IOException e) {
             throw new RuntimeException("Couldn't read ISIDA data file", e);
         }
-
-        int compoundIndex = 1; // Descriptors.compoundIndex is 1-indexed
-        if (descriptorValueMatrix == null) {
-            descriptorValueMatrix = new ArrayList<>();
-        }
-        // XXX fragment names are 1-indexed in the .hdr file
-        descriptorNames.addAll(fragments.subList(1, fragments.size()));
-        for (String compoundName : compoundNameToFragmentCounts.keySet()) {
-            SortedMap<Integer, Integer> fragmentCounts = compoundNameToFragmentCounts.get(compoundName);
-            Descriptors d = new Descriptors();
-            d.setCompoundIndex(compoundIndex++);
-            d.setCompoundName(compoundName);
-            List<Double> fragmentCountsForCompound = new ArrayList<>();
-            // XXX fragments are 1-indexed (note loop starting point)
-            for (int i = 1; i < fragments.size(); i++) {
-                fragmentCountsForCompound.add(MoreObjects.firstNonNull(fragmentCounts.get(i), 0).doubleValue());
-            }
-            d.setDescriptorValues(fragmentCountsForCompound);
-            descriptorValueMatrix.add(d);
-        }
     }
+
+
 
     public static void readXDescriptors(String xFile, List<String> descriptorNames,
                                         List<Descriptors> descriptorValueMatrix) throws Exception {
