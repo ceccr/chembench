@@ -179,9 +179,9 @@ public class Svm {
     }
 
     public static String buildSvmModelsLsf(String workingDir, String userName, String jobName) throws Exception {
-        // run modeling (bsub the python script)
-        String cmd = "bsub -q patrons ";
-        cmd += "-J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt python svm.py";
+        // run modeling (sbatch the python script)
+        String cmd = "sbatch -p ";
+        cmd += "-J cbench_" + userName + "_" + jobName + " -o sbatchOutput.txt python svm.py";
         RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
 
         String logFilePath = workingDir + "Logs/svm.py.log";

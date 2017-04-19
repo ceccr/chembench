@@ -171,7 +171,7 @@ public class CentralDogma {
                 for (LsfJobStatus jobStatus : lsfJobStatuses) {
                     if (j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)) {
                         // kill the job
-                        String cmd = "bkill " + jobStatus.jobid;
+                        String cmd = "scancel " + jobStatus.jobid;
                         RunExternalProgram.runCommand(cmd, Constants.CECCR_USER_BASE_PATH);
                     }
                 }

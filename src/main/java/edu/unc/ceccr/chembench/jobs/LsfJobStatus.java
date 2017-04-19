@@ -3,14 +3,14 @@ package edu.unc.ceccr.chembench.jobs;
 import java.util.Scanner;
 
 public class LsfJobStatus {
-    //the object representing each line of a bjobs output
+    //the object representing each line of a sbatch output
 
     public String jobid = "";
     public String user = "";
     public String stat = "";
-    public String queue = "";
-    public String from_host = "";
-    public String exec_host = "";
+    public String partition = "";
+    public String nodes = "";
+    public String nodeList = "";
     public String job_name = "";
     public String submit_time = "";
 
@@ -19,24 +19,21 @@ public class LsfJobStatus {
     //744779  ceccr   DONE  week       chembench-d bc16-n06    bsubKnn.sh Mar 31 02:36
     //744780  ceccr   DONE  week       chembench-d bc16-n06    bsubKnn.sh Mar 31 02:39
 
+//    JOBID      PARTITION    NAME        USER ST       TIME        NODES NODELIST(REASON)
+//    3600559    bigmem       oh.ortho    isai  R       1-19:29:18      1 t0602
+//    3622655    general      oh.compr    isai  R       1-00:16:05      1 c0922
 
     LsfJobStatus(String bjobsLine) {
         if (!bjobsLine.trim().isEmpty()) {
             Scanner s = new Scanner(bjobsLine);
             jobid = s.next();
+            partition = s.next();
+            job_name = s.next();
             user = s.next();
             stat = s.next();
-            queue = s.next();
-            from_host = s.next();
-            exec_host = "";
-            if (!stat.equals("PEND")) {
-                exec_host = s.next();
-            }
-            job_name = s.next();
             submit_time = "";
-            while (s.hasNext()) {
-                submit_time += s.next();
-            }
+            nodes = s.next();
+            nodeList = s.next();
             s.close();
         }
     }

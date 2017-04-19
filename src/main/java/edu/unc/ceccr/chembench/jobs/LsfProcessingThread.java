@@ -56,19 +56,19 @@ public class LsfProcessingThread extends Thread {
         // execs "bjobs -aw" and gets the status of each job
         // remove outfile if already exists
 
-        if ((new File(workingDir + "bjobs-out.txt")).exists()) {
-            FileAndDirOperations.deleteFile(workingDir + "bjobs-out.txt");
+        if ((new File(workingDir + "sbatch-out.txt")).exists()) {
+            FileAndDirOperations.deleteFile(workingDir + "sbatch-out.txt");
         }
 
         // run bjobs
-        String command = "bjobs.sh";
+        String command = "sbatch.sh";
         RunExternalProgram.runCommand(command, workingDir);
 
         // read in results
         List<LsfJobStatus> lsfStatusList = new ArrayList<>();
 
-        if ((new File(workingDir + "bjobs-out.txt")).exists()) {
-            BufferedReader br = new BufferedReader(new FileReader(workingDir + "bjobs-out.txt"));
+        if ((new File(workingDir + "sbatch-out.txt")).exists()) {
+            BufferedReader br = new BufferedReader(new FileReader(workingDir + "sbatch-out.txt"));
             String line = "";
             br.readLine(); // skip header
             while ((line = br.readLine()) != null) {
