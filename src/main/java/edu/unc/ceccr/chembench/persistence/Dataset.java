@@ -77,14 +77,15 @@ public class Dataset implements java.io.Serializable {
             List<String> descriptorNames = new ArrayList<>();
             List<Descriptors> descriptorValueMatrix = new ArrayList<>();
 
+            //use cdk first because dragon7 takes forever for large datasets
             // use Dragon 7 when available (as it has the most descriptors) but use CDK as a fallback
-            if (availableDescriptors.contains(Constants.DRAGON7)) {
+            if (availableDescriptors.contains(Constants.CDK)) {
+                Path cdkDescriptorFile = descriptorDir.resolve(sdfFile + ".cdk.x");
+                ReadDescriptors.readXDescriptors(cdkDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
+            }else if (availableDescriptors.contains(Constants.DRAGON7)) {
                 Path dragonDescriptorFile = descriptorDir.resolve(sdfFile + ".dragon7");
                 ReadDescriptors.readDragon7Descriptors(dragonDescriptorFile.toString(), descriptorNames,
                         descriptorValueMatrix);
-            } else if (availableDescriptors.contains(Constants.CDK)) {
-                Path cdkDescriptorFile = descriptorDir.resolve(sdfFile + ".cdk.x");
-                ReadDescriptors.readXDescriptors(cdkDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
             }
 
             // read in activities so we can append them to the input file for Weka
