@@ -108,9 +108,9 @@
         </tr>
         <tr>
           <th class="name">Compound Name</th>
-          <s:if test="!predictionDataset.sdfFile.isEmpty()">
-            <th class="unsortable">Structure</th>
-          </s:if>
+          <%--<s:if test="!predictionDataset.sdfFile.isEmpty()">--%>
+            <%--<th class="unsortable">Structure</th>--%>
+          <%--</s:if>--%>
           <s:iterator value="predictors">
             <th>Prediction</th>
             <s:if test="childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
@@ -126,21 +126,21 @@
         <tbody>
         <s:iterator value="compoundPredictionValues">
           <tr>
-            <td class="name"><s:property value="compound" /></td>
-            <s:if test="!predictionDataset.sdfFile.isEmpty()">
-              <td class="structure">
-                <s:url var="imageUrl" action="imageServlet" escapeAmp="false">
-                  <s:param name="user" value="%{predictionDataset.userName}" />
-                  <s:param name="projectType" value="'dataset'" />
-                  <s:param name="compoundId" value="%{compound}" />
-                  <s:param name="datasetName" value="%{predictionDataset.name}" />
-                </s:url>
-                <button class="btn btn-default">
-                  <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
-                       height="125" alt="Compound structure">
-                </button>
-              </td>
-            </s:if>
+            <td class="name compound-structure"><s:property value="compound" /></td>
+            <%--<s:if test="!predictionDataset.sdfFile.isEmpty()">--%>
+              <%--<td class="structure">--%>
+                <%--<s:url var="imageUrl" action="imageServlet" escapeAmp="false">--%>
+                  <%--<s:param name="user" value="%{predictionDataset.userName}" />--%>
+                  <%--<s:param name="projectType" value="'dataset'" />--%>
+                  <%--<s:param name="compoundId" value="%{compound}" />--%>
+                  <%--<s:param name="datasetName" value="%{predictionDataset.name}" />--%>
+                <%--</s:url>--%>
+                <%--<button class="btn btn-default">--%>
+                  <%--<img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"--%>
+                       <%--height="125" alt="Compound structure">--%>
+                <%--</button>--%>
+              <%--</td>--%>
+            <%--</s:if>--%>
             <s:if test="predictionValues != null && !predictionValues.isEmpty()">
               <s:iterator value="predictionValues">
                 <td>
