@@ -403,24 +403,24 @@ public class CreateDatasetTask extends WorkflowTask {
             }
 
             String structDir = "Visualization/Structures/";
-//            String sketchDir = "Visualization/Sketches/";
+            String sketchDir = "Visualization/Sketches/";
 
             if (!new File(path + structDir).exists()) {
                 new File(path + structDir).mkdirs();
             }
-//            if (!new File(path + sketchDir).exists()) {
-//                new File(path + sketchDir).mkdirs();
-//            }
+            if (!new File(path + sketchDir).exists()) {
+                new File(path + sketchDir).mkdirs();
+            }
 
             step = Constants.SKETCHES;
 
-            logger.debug("User: " + userName + "Job: " + jobName + " Skipping generating JPGs");
-//            logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs");
-//
-//
-//            SdfToJpg.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
-//
-//            logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs END");
+//            logger.debug("User: " + userName + "Job: " + jobName + " Skipping generating JPGs");
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs");
+
+
+            SdfToJpg.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
+
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs END");
 
             if (numCompounds < 500 && !sdfFileName.equals("") && new File(path + descriptorDir + sdfFileName + ".maccs")
                     .exists()) {
