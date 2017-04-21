@@ -189,12 +189,13 @@
 
         <action name="makeDatasetPredictionMcra" class="edu.unc.ceccr.chembench.actions.McraAction"
                 method="makeDatasetPrediction">
-            <result name="success" type="redirect">mybench</result>
+            <!--<result name="success" type="redirect">mybench</result>-->
+            <result>/jsp/mcra/mcraResults.jsp</result>
         </action>
 
         <action name="makeSmilesPredictionMcra" class="edu.unc.ceccr.chembench.actions.McraAction"
                 method="makeSmilesPrediction">
-            <result>/jsp/mcra/predictionResults.jsp</result>
+            <result>/jsp/mcra/mcraResults.jsp</result>
         </action>
         <!-- End MCRA Page -->
 

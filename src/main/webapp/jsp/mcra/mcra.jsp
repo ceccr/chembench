@@ -32,19 +32,9 @@
                                 </p>
 
                                 <s:set name="urlOverride"><s:url action="getModelingDatasets" namespace="/api" /></s:set>
-                                <div class="checkbox-table">
+                                <div class="radio-table">
                                     <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
                                 </div>
-                                <input type="hidden" name="selectedDatasetId">
-                                <input type="hidden" id="num-compounds">
-                                <input type="hidden" id="activity-type">
-
-                                <p id="small-dataset-warning" class="bg-danger">
-                                    <span class="text-danger"><strong>Warning:</strong></span> The dataset you have selected has <strong>fewer
-                                    than 40 compounds</strong>. We do not recommend developing any statistical QSAR models using a dataset
-                                    with fewer than 40 compounds because it is generally not possible to evaluate the external accuracy of
-                                    models on such small datasets.
-                                </p>
                             </div>
                         </div>
 
@@ -54,7 +44,7 @@
                             </div>
 
                             <div class="panel-body">
-                                <p>Now you can make a prediction using the models you have selected above. You can either predict a single
+                                <p>Now you can make a prediction using the modeling dataset you have selected above. You can either predict a single
                                     compound at a time, or predict an entire dataset at once. Use the tabs to change the selected prediction
                                     mode.
                                 </p>
@@ -85,28 +75,14 @@
 
                                                 <s:form id="predict-compound" action="makeSmilesPredictionMcra" method="get" cssClass="form-horizontal"
                                                         theme="simple">
-                                                    <input name="predictorIds" id="compound-selectedPredictorIds" type="hidden">
+                                                    <input name="selectedModelingDatasetId" type="hidden">
+
                                                     <div class="form-group">
                                                         <label for="smiles" class="col-xs-6 control-label">SMILES:</label>
-
                                                         <div class="col-xs-6">
                                                             <input id="smiles" name="smiles" class="form-control">
                                                         </div>
                                                     </div>
-
-                                                    <%--<div class="form-group">--%>
-                                                        <%--<label for="smiles-cutoff" class="col-xs-6 control-label">Applicability Domain cutoff:</label>--%>
-
-                                                        <%--<div class="col-xs-6">--%>
-                                                            <%--<select name="cutoff" id="smiles-cutoff" class="form-control">--%>
-                                                                <%--<option value="N/A" selected="selected">Do not use</option>--%>
-                                                                <%--<option value="3">3&sigma;</option>--%>
-                                                                <%--<option value="2">2&sigma;</option>--%>
-                                                                <%--<option value="1">1&sigma;</option>--%>
-                                                                <%--<option value="0">0&sigma;</option>--%>
-                                                            <%--</select>--%>
-                                                        <%--</div>--%>
-                                                    <%--</div>--%>
 
                                                     <div class="form-group">
                                                         <div class="col-xs-offset-6 col-xs-6">
@@ -127,31 +103,19 @@
                                     <div id="dataset" class="tab-pane">
                                         <h3>Predict a Dataset</h3>
 
-                                        <p>Select a dataset to predict. A prediction job will be created for each prediction dataset that you
-                                            have selected.
-                                        </p>
+                                        <p>Select a dataset to predict.</p>
 
-                                        <div id="prediction-dataset-selection" class="checkbox-table">
+                                        <div id="prediction-dataset-selection" class="radio-table">
                                             <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
                                         </div>
 
-                                        <p id="minimum-dataset-warning" class="bg-danger text-danger">
-                                            <strong>Please select at least one dataset to predict.</strong>
-                                        </p>
-
-                                        <p id="dataset-list-message">
-                                            Currently you have chosen <strong><span id="selected-dataset-count"></span></strong> dataset(s):
-                                        </p>
-                                        <ul id="dataset-list"></ul>
-
                                         <s:form id="predict-dataset" action="makeDatasetPredictionMcra" method="post" cssClass="form-horizontal"
-                                                theme="simple">
-                                            <input name="selectedPredictorIds" id="dataset-selectedPredictorIds" type="hidden">
-                                            <input name="selectedDatasetId" id="selectedDatasetId" type="hidden">
+                                                theme="simple" style="display: block">
+                                            <input name="selectedPredictingDatasetId" id="selectedPredictingDatasetId" type="hidden">
+                                            <input name="selectedModelingDatasetId" id="selectedModelingDatasetId" type="hidden">
 
                                             <div class="form-group">
                                                 <label for="jobName" class="col-xs-3 control-label">Prediction name:</label>
-
                                                 <div class="col-xs-6">
                                                     <input name="jobName" id="jobName" class="form-control" required="required">
                                                 </div>
@@ -159,10 +123,16 @@
 
                                             <div class="form-group">
                                                 <div class="col-xs-offset-3 col-xs-3">
-                                                    <button type="submit" class="btn btn-primary">Predict Dataset(s)</button>
+                                                    <button type="submit" class="btn btn-primary" >Predict Dataset</button>
                                                 </div>
                                             </div>
                                         </s:form>
+
+                                        <hr>
+                                        <div id="dataset-prediction-results">
+                                            <p class="help-block">Your prediction results will appear here.</p>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
