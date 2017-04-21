@@ -11,10 +11,10 @@
     <%@ include file="/jsp/main/header.jsp" %>
 
     <div id="content">
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#new-predictions" data-toggle="tab"><h5>Create a New Prediction</h5></a></li>
-            <li><a href="#existing-predictions" data-toggle="tab"><h5>Existing Predictions</h5></a></li>
-        </ul>
+        <%--<ul class="nav nav-tabs">--%>
+            <%--<li class="active"><a href="#new-predictions" data-toggle="tab"><h5>Create a New Prediction</h5></a></li>--%>
+            <%--<li><a href="#existing-predictions" data-toggle="tab"><h5>Existing Predictions</h5></a></li>--%>
+        <%--</ul>--%>
 
         <div class="tab-content">
             <div id="new-predictions" class="tab-pane active">
@@ -31,7 +31,7 @@
                                     <b><s:a action="datasets">Dataset Creation</s:a></b> page.)
                                 </p>
 
-                                <s:set name="urlOverride"><s:url action="getModelingDatasets" namespace="/api" /></s:set>
+                                <s:set name="urlOverride"><s:url action="getMcraModelingDatasets" namespace="/api" /></s:set>
                                 <div class="radio-table">
                                     <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
                                 </div>
@@ -105,6 +105,7 @@
 
                                         <p>Select a dataset to predict.</p>
 
+                                        <s:set name="urlOverride"><s:url action="getMcraDatasets" namespace="/api" /></s:set>
                                         <div id="prediction-dataset-selection" class="radio-table">
                                             <%@ include file="/jsp/mybench/mybench-datasets.jsp" %>
                                         </div>

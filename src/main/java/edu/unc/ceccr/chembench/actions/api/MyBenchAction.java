@@ -99,6 +99,41 @@ public class MyBenchAction extends ActionSupport {
         return SUCCESS;
     }
 
+    public String getMcraDatasets(){
+        List<Dataset> datasets = getDatasetObjects();
+        for (Iterator<Dataset> iterator = datasets.iterator(); iterator.hasNext(); ) {
+            Dataset d = iterator.next();
+            String descriptors = d.getAvailableDescriptors();
+            if (!descriptors.contains(Constants.ISIDA) || !descriptors.contains(Constants.MOE2D) ||
+                    !descriptors.contains(Constants.MACCS) || !descriptors.contains(Constants.DRAGONH)){
+                iterator.remove();
+            }
+        }
+        this.data = datasets;
+        return SUCCESS;
+    }
+
+    public String getMcraModelingDatasets(){
+        List<Dataset> datasets = getDatasetObjects();
+        for (Iterator<Dataset> iterator = datasets.iterator(); iterator.hasNext(); ) {
+            Dataset d = iterator.next();
+            if (!d.getDatasetType().startsWith(Constants.MODELING)){
+                iterator.remove();
+                continue;
+            }
+
+            String descriptors = d.getAvailableDescriptors();
+            if (!descriptors.contains(Constants.ISIDA) || !descriptors.contains(Constants.MOE2D) ||
+                    !descriptors.contains(Constants.MACCS) || !descriptors.contains(Constants.DRAGONH)){
+                iterator.remove();
+                continue;
+            }
+
+        }
+        this.data = datasets;
+        return SUCCESS;
+    }
+
     public String getModels() {
         List<Predictor> predictors = new ArrayList<>();
         predictors.addAll(predictorRepository.findPublicPredictors());
