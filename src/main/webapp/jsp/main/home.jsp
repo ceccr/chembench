@@ -13,6 +13,8 @@
   <div id="content">
     <div class="row">
       <section class="col-xs-8">
+        <p style="color:#FF0000;">Hello chembench users, we are currently undergoing server changes. Please be patient
+          with us in the meantime with errors relating to the transition. Thank you for your support.</p>
         <h2>Accelerating chemical genomics research</h2>
         <hr>
         <div>
