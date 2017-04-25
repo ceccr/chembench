@@ -298,7 +298,7 @@ public class ModelDetailAction extends DetailAction {
             confusionMatrix = PredictorEvaluation.calculateConfusionMatrix(extVals);
         } else if (modelingDataset.isContinuous()) {
             continuousStatistics = new ContinuousStatistics();
-            continuousStatistics.rSquared = PredictorEvaluation.calculateRSquared(extVals, residuals);
+            continuousStatistics.qSquared = PredictorEvaluation.calculateQSquared(extVals, residuals);
             continuousStatistics.rmse = PredictorEvaluation.calculateRmse(extVals);
             continuousStatistics.mae = PredictorEvaluation.calculateMae(extVals);
         }
@@ -459,13 +459,13 @@ public class ModelDetailAction extends DetailAction {
     }
 
     private static class ContinuousStatistics {
-        private Double rSquared;
+        private Double qSquared;
         private Double mae;
         private Double stddev;
         private Double rmse;
 
-        public Double getRsquared() {
-            return rSquared;
+        public Double getQsquared() {
+            return qSquared;
         }
 
         public Double getMae() {
@@ -506,7 +506,7 @@ public class ModelDetailAction extends DetailAction {
                 confusionMatrix = PredictorEvaluation.calculateConfusionMatrix(allExtVals);
             } else if (activityType.equals(Constants.CONTINUOUS)) {
                 continuousStatistics = new ContinuousStatistics();
-                continuousStatistics.rSquared = PredictorEvaluation.calculateRSquared(allExtVals, allResiduals);
+                continuousStatistics.qSquared = PredictorEvaluation.calculateQSquared(allExtVals, allResiduals);
                 continuousStatistics.rmse = PredictorEvaluation.calculateRmse(allExtVals);
                 continuousStatistics.mae = PredictorEvaluation.calculateMae(allExtVals);
             }

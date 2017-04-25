@@ -9,6 +9,7 @@ import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -555,6 +556,29 @@ public class WriteDescriptors {
         }
     }
 
+    public static void addZeroToOutput(List<Descriptors> descriptorMatrix,
+                                       StringBuffer descriptorNameStringBuffer,
+                                       String predictorDescriptorNameString){
+        logger.info("Adding 0's to the dataset descriptors");
+        String[] datasetDescriptorNames = descriptorNameStringBuffer.toString().split("\\s+");
+        String[] predictorDescriptorNames = predictorDescriptorNameString.split("\\s+");
+
+        //j keeps track of the dataset while i keeps track of the predictor
+        int j = 0;
+        for (Descriptors descriptors: descriptorMatrix) {
+            for (int i = 0; i < predictorDescriptorNames.length; i++) {
+                if (!datasetDescriptorNames[j].equals(predictorDescriptorNames[i])) {
+                    descriptors.getDescriptorValues().add(j, 0.0);
+                } else {
+                    j++;
+                }
+            }
+        }
+        descriptorNameStringBuffer.setLength(0);
+        descriptorNameStringBuffer.append(predictorDescriptorNameString);
+
+    }
+
     public static void writePredictionXFile(List<String> compoundNames, List<Descriptors> descriptorMatrix,
                                             String descriptorNameString, String xFilePath, String predictorXFilePath,
                                             String predictorScaleType) throws Exception {
@@ -577,11 +601,6 @@ public class WriteDescriptors {
         removeDescriptorsNotInPredictor(descriptorMatrix, descriptorNameStringBuffer, predictorDescriptorNameString);
         descriptorNameString = descriptorNameStringBuffer.toString();
 
-        if (predictorDescriptorNameString.split("\\s+").length != descriptorNameString.split("\\s+").length) {
-            logger.warn("WARNING: predictor had " + predictorDescriptorNameString.split("\\s+").length
-                    + " descriptors and output has " + descriptorNameString.split("\\s+").length);
-        }
-
         // do range scaling on descriptorMatrix
         if (predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)) {
             rangeScaleGivenMinMax(descriptorMatrix, predictorDescriptorValueMinima, predictorDescriptorValueMaxima);
@@ -590,6 +609,18 @@ public class WriteDescriptors {
                     predictorDescriptorValueStdDevsPlusAvgs);
         } else if (predictorScaleType.equalsIgnoreCase(Constants.NOSCALING)) {
             // don't do anything
+        }
+
+        int numberOfPredictorDescriptors = predictorDescriptorNameString.split("\\s+").length;
+        int numberOfOutputDescripors = descriptorNameString.split("\\s+").length;
+        if (numberOfPredictorDescriptors!= numberOfOutputDescripors) {
+            logger.warn("WARNING: predictor had " + numberOfPredictorDescriptors
+                    + " descriptors and output has " + numberOfOutputDescripors);
+            //add 0's to the dataset descriptor to make them have the same number of descriptors
+            if (numberOfPredictorDescriptors > numberOfOutputDescripors){
+                addZeroToOutput(descriptorMatrix, descriptorNameStringBuffer, predictorDescriptorNameString);
+                descriptorNameString = descriptorNameStringBuffer.toString();
+            }
         }
 
         // write output

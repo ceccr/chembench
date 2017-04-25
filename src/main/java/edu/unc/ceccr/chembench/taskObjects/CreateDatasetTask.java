@@ -414,6 +414,7 @@ public class CreateDatasetTask extends WorkflowTask {
 
             step = Constants.SKETCHES;
 
+//            logger.debug("User: " + userName + "Job: " + jobName + " Skipping generating JPGs");
             logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs");
 
 

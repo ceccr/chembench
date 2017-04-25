@@ -56,7 +56,7 @@ public class PredictorEvaluation {
         return residuals;
     }
 
-    public static Double calculateRSquared(List<ExternalValidation> externalValidationList, List<Double> residuals) {
+    public static Double calculateQSquared(List<ExternalValidation> externalValidationList, List<Double> residuals) {
 
         Double avg = 0.0;
         for (ExternalValidation ev : externalValidationList) {
@@ -167,6 +167,7 @@ public class PredictorEvaluation {
         String rSquared = "";
         String rSquaredAverageAndStddev = "";
         String ccrAverageAndStddev = "";
+        String ccrAll = "";
         List<ExternalValidation> externalValValues = null;
         List<Predictor> childPredictors = predictorRepository.findByParentId(selectedPredictor.getId());
 
@@ -188,7 +189,7 @@ public class PredictorEvaluation {
                         childAccuracies.addValue(childCcr);
                     } else if (selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)) {
                         List<Double> childResiduals = PredictorEvaluation.calculateResiduals(childExtVals);
-                        Double childRSquared = PredictorEvaluation.calculateRSquared(childExtVals, childResiduals);
+                        Double childRSquared = PredictorEvaluation.calculateQSquared(childExtVals, childResiduals);
                         childAccuracies.addValue(childRSquared);
                         //CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
                     }
@@ -212,12 +213,11 @@ public class PredictorEvaluation {
                 //no standard deviation for ccr because ccr is calculated using the all matrix
                 //in short, ccr is not actually the avg but the ccr for the fold "all"
                 //leaving the naming convention for now
-                double ccr = 0;
-                if (externalValValues!=null){
-                    ccr = calculateConfusionMatrix(externalValValues).getCcr();
-                }
                 ccrAverageAndStddev =
-                        Utility.roundSignificantFigures("" + ccr, Constants.REPORTED_SIGNIFICANT_FIGURES);
+                        Utility.roundSignificantFigures("" + mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
+                ccrAverageAndStddev += " \u00B1 ";
+                ccrAverageAndStddev +=
+                        Utility.roundSignificantFigures("" + stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
                 logger.debug("ccr avg and stddev: " + ccrAverageAndStddev);
                 selectedPredictor.setExternalPredictionAccuracyAvg(ccrAverageAndStddev);
             }
@@ -227,7 +227,6 @@ public class PredictorEvaluation {
 
         if (externalValValues == null || externalValValues.isEmpty()) {
             logger.debug("ext validation set empty!");
-            externalValValues = new ArrayList<>();
             return;
         }
 
@@ -257,7 +256,7 @@ public class PredictorEvaluation {
         } else if (selectedPredictor.getActivityType().equals(Constants.CONTINUOUS) && externalValValues.size() > 1) {
             //if continuous, calculate overall r^2 and... r0^2? or something?
             //just r^2 for now, more later.
-            Double rSquaredDouble = PredictorEvaluation.calculateRSquared(externalValValues, residualsAsDouble);
+            Double rSquaredDouble = PredictorEvaluation.calculateQSquared(externalValValues, residualsAsDouble);
             rSquared = Utility.roundSignificantFigures("" + rSquaredDouble, Constants.REPORTED_SIGNIFICANT_FIGURES);
             selectedPredictor.setExternalPredictionAccuracy(rSquared);
         }

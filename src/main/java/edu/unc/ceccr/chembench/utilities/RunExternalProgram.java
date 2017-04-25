@@ -51,12 +51,12 @@ public class RunExternalProgram {
 
             if (workingDir.isEmpty()) {
                 if (outputRunningMessage) {
-                    logger.info(String.format("Running external program: CMD=%s", cmd));
+                    logger.info(String.format("Running external program(1): CMD=%s", cmd));
                 }
                 p = Runtime.getRuntime().exec(cmd);
             } else {
                 if (outputRunningMessage) {
-                    logger.info(String.format("Running external program: CMD=%s, WORKINGDIR=%s", cmd, workingDir));
+                    logger.info(String.format("Running external program(2): CMD=%s, WORKINGDIR=%s", cmd, workingDir));
                 }
                 p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
             }
@@ -126,7 +126,7 @@ public class RunExternalProgram {
             FileAndDirOperations.makeDirContentsExecutable(workingDir);
 
             if (outputRunningMessage) {
-                logger.info(String.format("Running external program: CMD=%s, WORKINGDIR=%s", cmd, workingDir));
+                logger.info(String.format("Running external program(3): CMD=%s, WORKINGDIR=%s", cmd, workingDir));
             }
 
             p = Runtime.getRuntime().exec(workingDir + "temp-script.sh", null, new File(workingDir));

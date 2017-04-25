@@ -67,18 +67,20 @@ public class LsfProcessingThread extends Thread {
         // read in results
         List<LsfJobStatus> lsfStatusList = new ArrayList<>();
 
-        BufferedReader br = new BufferedReader(new FileReader(workingDir + "bjobs-out.txt"));
-        String line = "";
-        br.readLine(); // skip header
-        while ((line = br.readLine()) != null) {
-            if (!line.trim().equals("")) {
-                // non empty line
-                LsfJobStatus l = new LsfJobStatus(line);
-                lsfStatusList.add(l);
+        if ((new File(workingDir + "bjobs-out.txt")).exists()) {
+            BufferedReader br = new BufferedReader(new FileReader(workingDir + "bjobs-out.txt"));
+            String line = "";
+            br.readLine(); // skip header
+            while ((line = br.readLine()) != null) {
+                if (!line.trim().equals("")) {
+                    // non empty line
+                    LsfJobStatus l = new LsfJobStatus(line);
+                    lsfStatusList.add(l);
+                }
             }
-        }
 
-        br.close();
+            br.close();
+        }
 
         return lsfStatusList;
     }

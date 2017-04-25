@@ -73,10 +73,12 @@ public class ReadDescriptors {
                                                    List<Descriptors> descriptorValueMatrix, boolean hasHeader) throws Exception {
 
         logger.debug("reading Dragon Descriptors");
-
+        logger.debug(dragonOutputFile);
         File file = new File(dragonOutputFile);
-        if (!file.exists() || file.length() == 0) {
-            throw new Exception("Could not read Dragon descriptors.\n");
+        if (!file.exists() ) {
+            throw new Exception("Could not read Dragon descriptors. (File Missing)\n");
+        }else if(file.length() == 0){
+            throw new Exception("Could not read Dragon descriptors. (File Length is 0)\n");
         }
         FileReader fin = new FileReader(file);
         BufferedReader br = new BufferedReader(fin);

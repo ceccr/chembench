@@ -211,6 +211,7 @@ public class RunSmilesPrediction {
     }
 
     public static void generateDescriptorsForSdf(String smilesDir, Set<String> descriptorTypes) throws Exception {
+        logger.debug("About to Generate Descriptors For SDF");
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
         if (descriptorTypes.contains(Constants.CDK)) {
             GenerateDescriptors.generateCdkDescriptors(sdfile, sdfile + ".cdk");
@@ -227,6 +228,9 @@ public class RunSmilesPrediction {
         }
         if (descriptorTypes.contains(Constants.MACCS)) {
             GenerateDescriptors.generateMaccsDescriptors(sdfile, sdfile + ".maccs");
+        }
+        if(descriptorTypes.contains(Constants.DRAGON7)){
+            GenerateDescriptors.generateDragon7Descriptors(sdfile, sdfile + ".dragon7");
         }
     }
 
