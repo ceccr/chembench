@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -185,6 +186,8 @@ public class WriteCsv {
             FileAndDirOperations.deleteFile(outfileName);
         }
 
+        DecimalFormat format = new DecimalFormat(".##");
+
         try (BufferedWriter out = new BufferedWriter(new FileWriter(outfileName))) {
 
             // header metadata
@@ -218,14 +221,14 @@ public class WriteCsv {
             //rows
             for (McraAction.McraPrediction pred : mcraPredictions) {
                 out.write(pred.getName() + ",");
-                out.write(pred.getPredictedActivity() + ",");
+                out.write(format.format(pred.getPredictedActivity()) + ",");
                 if (binary) out.write(pred.getRoundedPredictedActivity() + ",");
                 out.write(pred.getNumNearestNeighbors() + ",");
                 List<McraAction.DescriptorResult> descriptorResults = pred.getDescriptors();
                 for (int i=0; i<descriptorResults.size(); i++) {
                     McraAction.DescriptorResult dr = descriptorResults.get(i);
-                    out.write(dr.getAverageActivity() + ",");
-                    out.write(dr.getAverageSimilarity() + ",");
+                    out.write(format.format(dr.getAverageActivity()) + ",");
+                    out.write(format.format(dr.getAverageSimilarity()) + ",");
                     if (i == descriptorResults.size()-1){
                         out.write(StringEscapeUtils.escapeCsv(dr.getNeighborIds()));
                     } else {
