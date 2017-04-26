@@ -99,6 +99,7 @@ public class MyBenchAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /* Return datasets filtered by the required descriptor types for MCRA prediction */
     public String getMcraDatasets(){
         List<Dataset> datasets = getDatasetObjects();
         for (Iterator<Dataset> iterator = datasets.iterator(); iterator.hasNext(); ) {
@@ -113,6 +114,7 @@ public class MyBenchAction extends ActionSupport {
         return SUCCESS;
     }
 
+    /* Return modeling datasets only, filtered by the required descriptor types for MCRA prediction */
     public String getMcraModelingDatasets(){
         List<Dataset> datasets = getDatasetObjects();
         for (Iterator<Dataset> iterator = datasets.iterator(); iterator.hasNext(); ) {

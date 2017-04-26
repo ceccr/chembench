@@ -3,6 +3,7 @@ package edu.unc.ceccr.chembench.workflows.download;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import edu.unc.ceccr.chembench.actions.McraAction;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
@@ -173,6 +174,71 @@ public class WriteCsv {
             logger.error("Failed to write prediction to CSV", e);
         }
     }
+
+    /* Only to be used for when a dataset, not a single compound, is predicted. Return path to output file */
+    public static String writePredictionValuesAsCSV(List<McraAction.McraPrediction> mcraPredictions, String username, String modelingDatasetName,
+                                                  Dataset predictingDataset, String fileName) {
+        String outfileName = Paths.get(Constants.CECCR_USER_BASE_PATH, predictingDataset.getUserName(),
+                        "DATASETS", predictingDataset.getName(), fileName + ".csv").toString();
+        if (new File(outfileName).exists()) {
+            FileAndDirOperations.deleteFile(outfileName);
+        }
+
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(outfileName))) {
+
+            // header metadata
+            String[][] header = {{"Chembench Prediction Output"},
+                    {"User Name", username},
+                    {"Predicting Dataset", predictingDataset.getName()},
+                    {"Modeling Dataset", modelingDatasetName},
+                    {"Download Date", new Date().toString()},
+                    {"Website", Constants.WEBADDRESS}};
+            for (String[] line : header) {
+                out.write(Utility.COMMA_JOINER.join(line));
+                out.newLine();
+            }
+
+            // column labels
+            List<String> predictionHeader = Lists.newArrayList("Compound", "Prediction");
+            boolean binary = mcraPredictions.get(0).getRoundedPredictedActivity() != -1;
+            if (binary) {
+                predictionHeader.add("Rounded Prediction");
+            }
+            predictionHeader.add("# Neighbors");
+            for (McraAction.DescriptorResult descriptorResult : mcraPredictions.get(0).getDescriptors()) {
+                String descriptorName = descriptorResult.getName();
+                predictionHeader.addAll(Lists.newArrayList(descriptorName + " Activity",
+                        descriptorName + " Similarity",
+                        descriptorName + " Neighbors"));
+            }
+            out.write(Utility.COMMA_JOINER.join(predictionHeader));
+            out.newLine();
+
+            //rows
+            for (McraAction.McraPrediction pred : mcraPredictions) {
+                out.write(pred.getName() + ",");
+                out.write(pred.getPredictedActivity() + ",");
+                if (binary) out.write(pred.getRoundedPredictedActivity() + ",");
+                out.write(pred.getNumNearestNeighbors() + ",");
+                List<McraAction.DescriptorResult> descriptorResults = pred.getDescriptors();
+                for (int i=0; i<descriptorResults.size(); i++) {
+                    McraAction.DescriptorResult dr = descriptorResults.get(i);
+                    out.write(dr.getAverageActivity() + ",");
+                    out.write(dr.getAverageSimilarity() + ",");
+                    if (i == descriptorResults.size()-1){
+                        out.write(dr.getNeighborIds());
+                    } else {
+                        out.write(dr.getNeighborIds()+",");
+                    }
+                }
+                out.newLine();
+            }
+        } catch (IOException e) {
+            logger.error("Failed to write prediction to CSV", e);
+        }
+        return outfileName;
+    }
+
 
     @Autowired
     public void setPredictionRepository(PredictionRepository predictionRepository) {

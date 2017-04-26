@@ -50,7 +50,6 @@
             }
             selectedRow.addClass('info');
 
-
         });
     }
 
@@ -109,32 +108,9 @@
                 return false;
             }
 
-            var jobName = form.find('#jobName');
-
             form.find('button[type="submit"]').text('Predicting...').addClass('disabled');
 
-            // get both dataset ids and names so we can append dataset names to jobName
-            // var selectedDatasets = [];
-            // fetchAllBodyRows('#prediction-dataset-selection').filter(':has(:checked)').each(function() {
-            //     var row = $(this);
-            //     var dataset = {};
-            //     dataset.id = row.find('[name="id"]').val();
-            //     dataset.name = row.find('.object-name').text();
-            //     selectedDatasets.push(dataset);
-            // });
-            // if (!jobName.val() || !selectedDatasets.length) {
-            //     return false;
-            // }
-
-            var originalJobName = jobName.val();
-            // $.each(selectedDatasets, function(index, dataset) {
-            //     form.find('#selectedModelingDatasetId').val(dataset.id);
-            //     // change jobName only if we need to (multiple datasets to predict)
-            //     if (selectedDatasets.length > 1) {
-            //         jobName.val(originalJobName + ' ' + dataset.name);
-            //     }
-              //  $.post(form.attr('action') + '?' + form.serialize());
-          //  });
+            //  $.post(form.attr('action') + '?' + form.serialize());
 
             var url = form.attr('action') + '?' + form.serialize();
             $.get(url, function(data) {
@@ -147,9 +123,9 @@
                 form.find('button[type="submit"]').text('Predict').removeClass('disabled');
             });
 
-           // window.location = Chembench.MYBENCH_URL;
-        });
+            $("#download-csv").show();
 
+        });
 
         var table = $('#modeling-dataset-selection').find('table.datatable');
         table.DataTable().on('init', function() { }).on('draw', function(){
@@ -160,5 +136,6 @@
         table2.DataTable().on('init', function() { }).on('draw', function(){
             updateDataTable(table2, "selectedPredictingDatasetId");
         });
+
     });
 })();

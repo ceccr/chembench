@@ -1,5 +1,8 @@
 package edu.unc.ceccr.chembench.servlet;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import edu.unc.ceccr.chembench.actions.McraAction;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.workflows.download.WriteCsv;
@@ -15,6 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
 public class FileServlet extends HttpServlet {
     //used to download individual files, e.g., a job result summary.
@@ -54,7 +60,6 @@ public class FileServlet extends HttpServlet {
                     dirName += "Visualization/Structures" + "/";
                     fileName = compoundId + "_3D.mol";
                 }
-
             } else if (jobType.equalsIgnoreCase(Constants.MODELING)) {
                 Predictor predictor = predictorRepository.findOne(Long.parseLong(id));
                 dirName += predictor.getUserName() + "/PREDICTORS/";
@@ -76,34 +81,43 @@ public class FileServlet extends HttpServlet {
                         WriteCsv.writePredictionValuesAsCSV(Long.parseLong(id));
                     }
                 }
+            } else if (jobType.equalsIgnoreCase(McraAction.JOB_TYPE)) {
+                Path path = Paths.get(request.getParameter("downloadPath"));
+                fileName = path.getFileName().toString();
+                dirName = path.getParent().toString()+"/";
             }
 
             //Now we know what file to send the user. Send it!
-            // Prepare streams
-            File filePath = new File(dirName + fileName);
+            writeOutput(dirName, fileName, response);
 
-            BufferedInputStream input = null;
-            if (filePath.exists()) {
-                FileInputStream fis = new FileInputStream(filePath);
-                input = new BufferedInputStream(fis);
-                response.setContentType("application/zip");
-                int contentLength = input.available();
-                response.setContentLength(contentLength);
-                response.setHeader("Content-Disposition", "inline; filename=" + fileName);
-                BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream());
-                while (contentLength-- > 0) {
-                    output.write(input.read());
-                }
-                output.close();
-                fis.close();
-                filePath.delete();
-            } else {
-                logger.warn("Bad filepath: " + dirName + fileName);
-                PrintWriter writer = response.getWriter();
-                writer.write("An error occured, can not download the project file.");
-            }
         } catch (Exception ex) {
             logger.error("", ex);
+        }
+    }
+
+    private void writeOutput(String dirName, String fileName, HttpServletResponse response) throws Exception{
+        // Prepare streams
+        File filePath = new File(dirName + fileName);
+
+        BufferedInputStream input = null;
+        if (filePath.exists()) {
+            FileInputStream fis = new FileInputStream(filePath);
+            input = new BufferedInputStream(fis);
+            response.setContentType("application/zip");
+            int contentLength = input.available();
+            response.setContentLength(contentLength);
+            response.setHeader("Content-Disposition", "inline; filename=" + fileName);
+            BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream());
+            while (contentLength-- > 0) {
+                output.write(input.read());
+            }
+            output.close();
+            fis.close();
+            filePath.delete();
+        } else {
+            logger.warn("Bad filepath: " + dirName + fileName);
+            PrintWriter writer = response.getWriter();
+            writer.write("An error occured, can not download the project file.");
         }
     }
 }
