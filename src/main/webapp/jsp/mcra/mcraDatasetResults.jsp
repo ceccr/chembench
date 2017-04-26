@@ -18,7 +18,8 @@
 
     <thead>
     <tr role="row">
-        <th colspan="<s:property value='%{showRoundedPrediction ? 4 : 3}'/>" rowspan="1"></th>
+        <s:if test="%{showRoundedPrediction}"> <th colspan="4" rowspan="1"></th> </s:if>
+        <s:else> <th colspan="3" rowspan="1"></th> </s:else>
         <s:iterator value="mcraPredictions[0].descriptors">
             <th colspan="3" rowspan="1"><s:property value="name"/></th>
         </s:iterator>
@@ -45,7 +46,6 @@
             <td><s:property value="name" /></td>
 
             <td><s:property value="getText('{0,number,#,##0.##}',{predictedActivity})" /></td>
-            <%--<s:property value="getText('{0,number,#,##0.00}',{profit})"/>--%>
 
             <s:if test="%{showRoundedPrediction}">
                 <td><s:property value="roundedPredictedActivity" /></td>
