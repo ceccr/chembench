@@ -43,16 +43,17 @@
     <s:iterator value="mcraPredictions">
         <tr>
             <td><s:property value="name" /></td>
-            <td><s:property value="predictedActivity" /></td>
+            <td><s:property value="getText('{.##}',{predictedActivity})" /></td>
+            <%--<s:property value="getText('{0,number,#,##0.00}',{profit})"/>--%>
 
-            <s:if test="%{roundedPredictedActivity != -1}">
+            <s:if test="%{showRoundedPrediction}">
                 <td><s:property value="roundedPredictedActivity" /></td>
             </s:if>
 
             <td><s:property value="numNearestNeighbors" /></td>
             <s:iterator value="descriptors">
-                <td><s:property value="averageActivity" /></td>
-                <td><s:property value="averageSimilarity" /></td>
+                <td><s:property value="getText('{.##}',{averageActivity})" /></td>
+                <td><s:property value="getText('{.##}',{averageSimilarity})" /></td>
                 <td><s:property value="neighborIds" /></td>
             </s:iterator>
         </tr>

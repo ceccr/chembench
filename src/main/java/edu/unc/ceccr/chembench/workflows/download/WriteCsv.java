@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -188,9 +189,9 @@ public class WriteCsv {
 
             // header metadata
             String[][] header = {{"Chembench Prediction Output"},
-                    {"User Name", username},
-                    {"Predicting Dataset", predictingDataset.getName()},
-                    {"Modeling Dataset", modelingDatasetName},
+                    {"User Name", StringEscapeUtils.escapeCsv(username)},
+                    {"Predicting Dataset", StringEscapeUtils.escapeCsv(predictingDataset.getName())},
+                    {"Modeling Dataset", StringEscapeUtils.escapeCsv(modelingDatasetName)},
                     {"Download Date", new Date().toString()},
                     {"Website", Constants.WEBADDRESS}};
             for (String[] line : header) {
@@ -226,9 +227,9 @@ public class WriteCsv {
                     out.write(dr.getAverageActivity() + ",");
                     out.write(dr.getAverageSimilarity() + ",");
                     if (i == descriptorResults.size()-1){
-                        out.write(dr.getNeighborIds());
+                        out.write(StringEscapeUtils.escapeCsv(dr.getNeighborIds()));
                     } else {
-                        out.write(dr.getNeighborIds()+",");
+                        out.write(StringEscapeUtils.escapeCsv(dr.getNeighborIds())+",");
                     }
                 }
                 out.newLine();
