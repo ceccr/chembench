@@ -220,7 +220,7 @@ public class WriteCsv {
 
             //rows
             for (McraAction.McraPrediction pred : mcraPredictions) {
-                out.write(pred.getName() + ",");
+                out.write(pred.getName().replaceAll(",", "_") + ",");   //replace commas in compound name with _
                 out.write(format.format(pred.getPredictedActivity()) + ",");
                 if (binary) out.write(pred.getRoundedPredictedActivity() + ",");
                 out.write(pred.getNumNearestNeighbors() + ",");
@@ -230,9 +230,11 @@ public class WriteCsv {
                     out.write(format.format(dr.getAverageActivity()) + ",");
                     out.write(format.format(dr.getAverageSimilarity()) + ",");
                     if (i == descriptorResults.size()-1){
-                        out.write(StringEscapeUtils.escapeCsv(dr.getNeighborIds()));
+                        //out.write(StringEscapeUtils.escapeCsv(dr.getNeighborIds()));
+                        out.write(dr.getNeighborIds().replaceAll(",", "_") + ",");   //replace commas in compound name with _
                     } else {
-                        out.write(StringEscapeUtils.escapeCsv(dr.getNeighborIds())+",");
+                        //out.write(StringEscapeUtils.escapeCsv(dr.getNeighborIds())+",");
+                        out.write(dr.getNeighborIds().replaceAll(",", "_") + ",");   //replace commas in compound name with _
                     }
                 }
                 out.newLine();

@@ -115,8 +115,6 @@
             var url = form.attr('action') + '?' + form.serialize();
             $.get(url, function(data) {
                 var predictionResults = $('#dataset-prediction-results');
-               // predictionResults.find('.help-block').remove();
-               // predictionResults.prepend(data);
                 predictionResults.html(data);
             }).fail(function() {
                 bootbox.alert('Error occurred during prediction.');

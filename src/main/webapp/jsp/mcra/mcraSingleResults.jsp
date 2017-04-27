@@ -9,7 +9,7 @@
             <dd><s:property value="name" /></dd>
 
             <dt>Predicted Activity</dt>
-            <dd><s:property value="predictedActivity" /></dd>
+            <dd><s:property value="getText('{0,number,#,##0.##}',{predictedActivity})" /></dd>
 
             <dt>Nearest Neighbors</dt>
             <dd><s:property value="numNearestNeighbors" /></dd>
@@ -21,6 +21,7 @@
                 <th>Descriptor Type</th>
                 <th>Average Similarity</th>
                 <th>Average Activity</th>
+                <th>Neighbor Ids</th>
             </tr>
             </thead>
 
@@ -29,8 +30,9 @@
             <s:iterator value="descriptors">
                 <tr>
                     <td><span class="object-name"><s:property value="name" /></span></td>
-                    <td><s:property value="averageSimilarity" /></td>
-                    <td><s:property value="averageActivity" /></td>
+                    <td><s:property value="getText('{0,number,#,##0.##}',{averageSimilarity})" /></td>
+                    <td><s:property value="getText('{0,number,#,##0.##}',{averageActivity})" /></td>
+                    <td><s:property value="neighborIds" /></td>
                 </tr>
             </s:iterator>
 
