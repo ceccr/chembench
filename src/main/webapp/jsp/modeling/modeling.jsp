@@ -86,7 +86,7 @@
               </div>
               <div class="radio">
                 <label>
-                  <input name="descriptorGenerationType" type="radio" value="DRAGON7" disabled>
+                  <input name="descriptorGenerationType" type="radio" value="DRAGON7">
                   Dragon 7 (3850 descriptors)
                 </label>
               </div>

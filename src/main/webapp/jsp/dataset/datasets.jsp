@@ -211,7 +211,7 @@
                   <label class="control-label col-xs-3">Descriptor data (.x):</label>
 
                   <div class="col-xs-9">
-                    <s:file name="xFileModDesc" id="xFileModDesc" theme="simple" />
+                    <s:file name="descriptorXModDesc" id="descriptorXFileModDesc" theme="simple" />
                   </div>
                 </div>
                 <div class="form-group">

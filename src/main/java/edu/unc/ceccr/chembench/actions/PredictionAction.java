@@ -50,6 +50,7 @@ public class PredictionAction extends ActionSupport {
     private List<SmilesPrediction> smilesPredictions;
     private String smiles;
     private String cutoff;
+
     // populated by the JSP form
     private Long selectedDatasetId;
     private String cutOff = "0.5";
@@ -133,6 +134,7 @@ public class PredictionAction extends ActionSupport {
             int totalModels = predictor.getNumTestModels();
 
             // for n-folded predictors
+
             if (predictor.getChildType() != null && predictor.getChildType().equals(Constants.NFOLD)) {
                 Boolean computedAD = false;
                 String[] ids = predictor.getChildIds().split("\\s+");
@@ -156,19 +158,25 @@ public class PredictionAction extends ActionSupport {
                         }
                     }
 
+                    long startTime = System.nanoTime();
                     tempPred.add(RunSmilesPrediction
                             .predictSmilesSdf(smilesDir + tempP.getName() + "/", user.getUserName(), tempP));
 
+                    long endTime = System.nanoTime();
+                    long duration = (endTime - startTime) / 1000000;
+                    logger.debug("Time it took " + duration);
                     totalModels += tempP.getNumTestModels();
                     logger.debug("Calculating predictions for " + tempP.getName());
 
                     // Calculate applicability domain
                     if (!computedAD) {
+
                         String execstr = "";
                         execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + smilesDir + tempP.getName() +
                                 "/train_0.x " + "-4PRED=" + smilesDir + tempP.getName() + "/smiles.sdf.renorm.x " + "" +
                                 " -OUT=" + smilesDir + "smiles_AD";
                         RunExternalProgram.runCommandAndLogOutput(execstr, smilesDir, "getAD");
+
                         computedAD = true;
 
                         // Read AD results
@@ -267,7 +275,7 @@ public class PredictionAction extends ActionSupport {
             sp.setPredictingModels(Integer.parseInt(predValues[0]));
             sp.setPredictedValue(predValues[1]);
             sp.setStdDeviation(predValues[2]);
-            sp.setZScore(zScore);
+            sp.setZscore(zScore);
             sp.setCutoff(cutoff);
             sp.setSmiles(smiles);
             sp.setShow(false);
@@ -710,7 +718,7 @@ public class PredictionAction extends ActionSupport {
         // used by makeSmilesPrediction()
         String predictedValue;
         String stdDeviation;
-        String zScore;
+        String zscore;
         int predictingModels;
         int totalModels;
         String predictorName;
@@ -734,12 +742,12 @@ public class PredictionAction extends ActionSupport {
             this.stdDeviation = stdDeviation;
         }
 
-        public String getZScore() {
-            return zScore;
+        public String getZscore() {
+            return zscore;
         }
 
-        public void setZScore(String zScore) {
-            this.zScore = zScore;
+        public void setZscore(String zscore) {
+            this.zscore = zscore;
         }
 
         public int getPredictingModels() {

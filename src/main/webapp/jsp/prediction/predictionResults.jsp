@@ -39,7 +39,7 @@
           <span class="text-danger">Compound similarity is above cutoff </span>
         </s:else></td>
       <td><s:property value="predictingModels" /> / <s:property value="totalModels" /></td>
-      <td><s:property value="zScore" />&sigma;</td>
+      <td><s:property value="zscore" />&sigma;</td>
     </tr>
     </tbody>
   </s:iterator>
