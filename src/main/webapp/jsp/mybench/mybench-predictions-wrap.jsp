@@ -18,7 +18,7 @@
 
     <div class="form-group">
         <div class="col-xs-offset-3 col-xs-3">
-            <button type="submit" class="btn btn-primary btn-delete">Delete predictionss)</button>
+            <button type="submit" class="btn btn-primary btn-delete">Delete prediction(s)</button>
         </div>
     </div>
 </s:form>

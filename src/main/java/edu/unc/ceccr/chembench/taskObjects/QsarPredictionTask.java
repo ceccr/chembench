@@ -391,7 +391,7 @@ public class QsarPredictionTask extends WorkflowTask {
             new File(predictionDir).mkdirs();
 
             step = Constants.COPYPREDICTOR;
-            CopyJobFiles.getPredictorFiles(userName, predictor, predictionDir);
+            CopyJobFiles.getPredictorFiles(userName, predictor, predictionDir, true);
 
             // done with 2. (copy predictor into jobDir/predictorDir)
 

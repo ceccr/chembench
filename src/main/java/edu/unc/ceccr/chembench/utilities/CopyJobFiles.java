@@ -92,7 +92,9 @@ public class CopyJobFiles {
         }
     }
 
-    public static void getPredictorFiles(String userName, Predictor predictor, String toDir) throws Exception {
+    public static void getPredictorFiles(String userName, Predictor predictor, String toDir, boolean all) throws
+            Exception {
+        // boolean all means get all files, else it will only get train_0.x file
         // gathers the predictor files needed for a prediction run
         String fromDir;
         String predictorName = predictor.getName();
@@ -113,34 +115,46 @@ public class CopyJobFiles {
         logger.info(String.format("Copying predictor: USER=%s, SOURCE=%s, DESTINATION=%s", userName, fromDir, toDir));
 
         String[] dirListing = new File(fromDir).list();
-        int symlinkedFileCount = 0;
-        int deepCopiedFileCount = 0;
+
+        //fileCount[0] = symlinkedFileCount
+        //fileCount[1] = deepCopiedFileCount
+        int[] fileCount = new int[2];
+
         for (String filename : dirListing) {
-            if (!(new File(fromDir, filename).isDirectory())) {
-                Path source = new File(fromDir, filename).toPath();
-                Path destination = new File(toDir, filename).toPath();
-
-                // for symlinks; "link" denotes the actual symlink file-object,
-                // and "target" is where the link points to (hence the reversal)
-                Path link = destination;
-                Path target = source;
-
-                try {
-                    if (filename.endsWith(".tree")) {
-                        Files.createSymbolicLink(link, target);
-                        symlinkedFileCount++;
-                    } else {
-                        Files.copy(source, destination);
-                        deepCopiedFileCount++;
-                    }
-                } catch (FileAlreadyExistsException e) {
-                    logger.error(String.format("Couldn't copy %s -> %s; file already exists", source, destination));
+            if (all) {
+                copyFile(toDir, fromDir, filename, fileCount);
+            } else {
+                if (filename.equals("train_0.x")) {
+                    copyFile(toDir, fromDir, filename, fileCount);
                 }
             }
         }
 
         logger.info(
-                String.format("Deep-copied %d files, symlinked %d files.", deepCopiedFileCount, symlinkedFileCount));
+                String.format("Deep-copied %d files, symlinked %d files.", fileCount[1], fileCount[0]));
+    }
+
+    private static void copyFile(String toDir, String fromDir, String filename, int[] fileCount) throws Exception{
+        Path source = new File(fromDir, filename).toPath();
+        Path destination = new File(toDir, filename).toPath();
+
+        // for symlinks; "link" denotes the actual symlink file-object,
+        // and "target" is where the link points to (hence the reversal)
+        Path link = destination;
+        Path target = source;
+        if (!(new File(fromDir, filename).isDirectory())) {
+            try {
+                if (filename.endsWith(".tree")) {
+                    Files.createSymbolicLink(link, target);
+                    fileCount[0]++;
+                } else {
+                    Files.copy(source, destination);
+                    fileCount[1]++;
+                }
+            } catch (FileAlreadyExistsException e) {
+                logger.error(String.format("Couldn't copy %s -> %s; file already exists", source, destination));
+            }
+        }
     }
 
     @Autowired
