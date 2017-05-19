@@ -47,8 +47,8 @@ public class RunSmilesPrediction {
 
         /* get train_0.x file from the predictor dir. */
         logger.debug("Copying predictor files from " + fromDir);
-        CopyJobFiles.getPredictorFiles(predictorUsername, predictor, workingDir);
-
+        // boolean all means get all files, else it will only get train_0.x file
+        CopyJobFiles.getPredictorFiles(predictorUsername, predictor, workingDir, false);
         logger.debug("Copying complete. Generating descriptors. ");
 
         /* generate ISIDA descriptor for smiles.sdf*/

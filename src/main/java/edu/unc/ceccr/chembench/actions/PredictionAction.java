@@ -80,6 +80,7 @@ public class PredictionAction extends ActionSupport {
 
     public String makeSmilesPrediction() throws Exception {
         String result = SUCCESS;
+        long startTime = System.nanoTime();
         ActionContext context = ActionContext.getContext();
         User user = User.getCurrentUser();
 
@@ -158,13 +159,9 @@ public class PredictionAction extends ActionSupport {
                         }
                     }
 
-                    long startTime = System.nanoTime();
                     tempPred.add(RunSmilesPrediction
                             .predictSmilesSdf(smilesDir + tempP.getName() + "/", user.getUserName(), tempP));
 
-                    long endTime = System.nanoTime();
-                    long duration = (endTime - startTime) / 1000000;
-                    logger.debug("Time it took " + duration);
                     totalModels += tempP.getNumTestModels();
                     logger.debug("Calculating predictions for " + tempP.getName());
 
@@ -293,6 +290,10 @@ public class PredictionAction extends ActionSupport {
 
             logger.debug("zScore: " + zScore);
             logger.debug("cutoff: " + cutoff);
+
+            long endTime = System.nanoTime();
+            long duration = (endTime - startTime) / 1000000;
+            logger.debug("Time it took " + duration + " ms");
 
             // add it to the array
             smilesPredictions.add(sp);
