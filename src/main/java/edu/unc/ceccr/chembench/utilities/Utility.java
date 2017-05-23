@@ -462,58 +462,33 @@ public class Utility {
         }
     }
 
-    public static void hybrid(int descriptorSetListSize, String descriptorType, List<String> descriptorNames,
-                              List<Descriptors> descriptorValueMatrix, List<String> descriptorNamesCombined,
-                              List<Descriptors> descriptorValueMatrixCombined) {
+    public static void hybrid(int descriptorSetListSize, String descriptorType, List<String> descriptorNamesTemp,
+                              List<Descriptors> descriptorValueMatrixTemp, List<String> descriptorNames,
+                              List<Descriptors> descriptorValueMatrix) {
+        //update name with descriptor type if there are more than one descriptor types
         if (descriptorSetListSize > 1) {
-            for (String name : descriptorNames) {
-                descriptorNamesCombined.add(descriptorType + "_" + name);
+            for (String name : descriptorNamesTemp) {
+                descriptorNames.add(descriptorType + "_" + name);
             }
         } else {
-            descriptorNamesCombined.addAll(descriptorNames);
+            descriptorNames.addAll(descriptorNamesTemp);
         }
-        combine(descriptorValueMatrix, descriptorValueMatrixCombined);
-    }
 
-    public static void combine(List<Descriptors> descriptorValueMatrix,
-                               List<Descriptors> descriptorValueMatrixCombined) {
-        logger.info("Combining descriptors of size " + descriptorValueMatrix.size() + " and "
-                + descriptorValueMatrixCombined.size());
-        if (!descriptorValueMatrixCombined.isEmpty()) {
-            int j = 0;
-            int k = 0;
-            int size = (descriptorValueMatrixCombined.size() < descriptorValueMatrix.size()) ?
-                    descriptorValueMatrixCombined.size() : descriptorValueMatrix.size();
-            List<Descriptors> descriptorValueMatrixCombinedTemp = new ArrayList<>();
-            descriptorValueMatrixCombinedTemp.addAll(descriptorValueMatrixCombined);
-            descriptorValueMatrixCombined.clear();
-            for (int i = 0; i < size; i++) {
-                List<Double> descriptorValues = new ArrayList<>();
-                Descriptors descriptors = new Descriptors();
-                //sets the descriptors in the combined matrix based on whichever matrix is smaller
-                if (descriptorValueMatrixCombinedTemp.size() < descriptorValueMatrix.size()) {
-                    k = i;
-                } else {
-                    j = i;
-                }
-                if (descriptorValueMatrix.get(j).getCompoundName()
-                        .equals(descriptorValueMatrixCombinedTemp.get(k).getCompoundName())) {
-                    descriptorValues.addAll(descriptorValueMatrixCombinedTemp.get(k).getDescriptorValues());
-                    descriptorValues.addAll(descriptorValueMatrix.get(j).getDescriptorValues());
-                    descriptors.setCompoundName(descriptorValueMatrix.get(j).getCompoundName());
-                    descriptors.setDescriptorValues(descriptorValues);
-                    descriptorValueMatrixCombined.add(i, descriptors);
-                } else {
-                    if (descriptorValueMatrixCombinedTemp.size() < descriptorValueMatrix.size()) {
-                        j++;
-                    } else {
-                        k++;
-                    }
-                    i--;
+        //combine descriptor matrix
+
+        if (descriptorValueMatrix.isEmpty()){
+            descriptorValueMatrix.addAll(descriptorValueMatrixTemp);
+        }else{
+            //assumption: both matrix should have the same molecules
+            logger.info("Combining descriptors of size " + descriptorValueMatrixTemp.get(0).getDescriptorValues().size() + " "
+                    + "and " + descriptorValueMatrix.get(0).getDescriptorValues().size());
+            if (descriptorValueMatrixTemp.size() == descriptorValueMatrix.size()) {
+                for (int i = 0; i < descriptorValueMatrixTemp.size(); i++) {
+                    descriptorValueMatrix.get(i).addDescriptorValues(descriptorValueMatrixTemp.get(i)
+                            .getDescriptorValues());
                 }
             }
-        } else {
-            descriptorValueMatrixCombined.addAll(descriptorValueMatrix);
+
         }
     }
 }

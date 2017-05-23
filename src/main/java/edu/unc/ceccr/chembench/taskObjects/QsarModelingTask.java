@@ -435,22 +435,22 @@ public class QsarModelingTask extends WorkflowTask {
         String xFileName = "";
 
         //hybrid descriptor
-        List<String> descriptorNamesCombined = new ArrayList<>();
         List<String> descriptorSetList = Splitter.on(", ").splitToList(descriptorGenerationType);
-        List<Descriptors> descriptorValueMatrixCombined = new ArrayList<>();
+        List<String> descriptorNames = new ArrayList<>();
+        List<Descriptors> descriptorValueMatrix = new ArrayList<>();
 
         step = Constants.PROCDESCRIPTORS;
         for (String descriptorType : descriptorSetList) {
             // read in the descriptors for the dataset
-            List<String> descriptorNames = new ArrayList<>();
-            List<Descriptors> descriptorValueMatrix = new ArrayList<>();
+            List<String> descriptorNamesTemp = new ArrayList<>();
+            List<Descriptors> descriptorValueMatrixTemp = new ArrayList<>();
 
             if (descriptorType.equals(Constants.CDK)) {
                 logger.debug("Processing CDK descriptors for job, " + jobName + " submitted by user, " + userName);
 
                 ReadDescriptors.convertCdkToX(filePath + sdFileName + ".cdk", filePath);
                 ReadDescriptors
-                        .readXDescriptors(filePath + sdFileName + ".cdk.x", descriptorNames, descriptorValueMatrix);
+                        .readXDescriptors(filePath + sdFileName + ".cdk.x", descriptorNamesTemp, descriptorValueMatrixTemp);
 
                 // for CDK descriptors, compounds with errors are skipped.
                 // Make sure that any skipped compounds are removed from the list
@@ -459,28 +459,22 @@ public class QsarModelingTask extends WorkflowTask {
                 DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
                 chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
 
-                //sets name based on if it is a hybrid and combine into a list
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
-                        descriptorNamesCombined, descriptorValueMatrixCombined);
-            } else if (descriptorType.equals(Constants.SIRMS)) {
-                logger.debug("Processing SIRMS descriptors for job, " + jobName + "submitted by user, " + userName);
-                ReadDescriptors
-                        .readSirmsDescriptors(filePath + sdFileName + ".sirms", descriptorNames, descriptorValueMatrix);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
-                        descriptorNamesCombined, descriptorValueMatrixCombined);
+                if (descriptorNamesTemp.size() > 0 && descriptorValueMatrixTemp.size() > 0) {
+                    Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
+                            descriptorNames, descriptorValueMatrix);
+                }
+
             } else if (descriptorType.equals(Constants.UPLOADED)) {
                 logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
-                ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
-
-                if (descriptorNames.size() > 0 && descriptorValueMatrix.size() > 0) {
-                    Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
-                            descriptorNamesCombined, descriptorValueMatrixCombined);
+                ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNamesTemp, descriptorValueMatrixTemp);
+                if (descriptorNamesTemp.size() > 0 && descriptorValueMatrixTemp.size() > 0) {
+                    Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNamesTemp, descriptorValueMatrixTemp,
+                            descriptorNames, descriptorValueMatrix);
                 }
             }
             else{
-                ReadDescriptors.readDescriptors(predictor, filePath + sdFileName, descriptorNames, descriptorValueMatrix);
-                Utility.hybrid(descriptorSetList.size(), descriptorType, descriptorNames, descriptorValueMatrix,
-                        descriptorNamesCombined, descriptorValueMatrixCombined);
+                ReadDescriptors.readDescriptors(predictor, filePath + sdFileName, descriptorNames,
+                        descriptorValueMatrix);
             }
         }
 
@@ -491,7 +485,7 @@ public class QsarModelingTask extends WorkflowTask {
             xFileName = sdFileName + ".x";
         }
 
-        WriteDescriptors.writeModelingXFile(chemicalNames, descriptorValueMatrixCombined, descriptorNamesCombined,
+        WriteDescriptors.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorNames,
                 filePath + xFileName, scalingType, stdDevCutoff, correlationCutoff);
 
         // apply the dataset's external split(s) to the generated .X file

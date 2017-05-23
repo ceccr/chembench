@@ -13,6 +13,13 @@ public class Descriptors implements java.io.Serializable {
     public Descriptors() {
     }
 
+    public void addDescriptorValues(List<Double> descriptorValues){
+        this.descriptorValues.addAll(descriptorValues);
+    }
+
+    public Double getDescriptorValueAtIndex(int index){
+        return descriptorValues.get(index);
+    }
     public List<Double> getDescriptorValues() {
         return descriptorValues;
     }

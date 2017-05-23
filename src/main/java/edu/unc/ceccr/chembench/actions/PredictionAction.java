@@ -69,18 +69,6 @@ public class PredictionAction extends ActionSupport {
         this.jobRepository = jobRepository;
     }
 
-    public String loadSelectPredictorPage() throws Exception {
-        userPredictors = predictorRepository.findByUserName(user.getUserName());
-        if (user.getShowPublicPredictors().equals(Constants.ALL)) {
-            userPredictors.addAll(predictorRepository.findPublicPredictors());
-        }
-        for (Predictor p : userPredictors) {
-            Dataset d = datasetRepository.findOne(p.getDatasetId());
-            p.setDatasetDisplay(d.getName());
-        }
-        return SUCCESS;
-    }
-
     public String makeSmilesPrediction() throws Exception {
         String result = SUCCESS;
         long startTime = System.nanoTime();
@@ -91,6 +79,7 @@ public class PredictionAction extends ActionSupport {
         logger.debug(" 1: " + smiles + " 2: " + cutoff + " 3: " + predictorIds);
         logger.debug(user.getUserName());
         logger.debug("SMILES predids: " + predictorIds);
+
         String[] selectedPredictorIdArray = predictorIds.split("\\s+");
         List<Predictor> predictors = new ArrayList<>();
         Set<String> descriptorTypes = Sets.newHashSet();
@@ -113,7 +102,6 @@ public class PredictionAction extends ActionSupport {
 
         /* stores results */
         smilesPredictions = new ArrayList<>();
-        int numPredictors = predictors.size();
 
         for (Predictor predictor : predictors) {
             String zScore = "";
@@ -140,7 +128,6 @@ public class PredictionAction extends ActionSupport {
             int totalModels = predictor.getNumTestModels();
 
             // for n-folded predictors
-
             if (predictor.getChildType() != null && predictor.getChildType().equals(Constants.NFOLD)) {
                 Boolean computedAD = false;
                 String[] ids = predictor.getChildIds().split("\\s+");
@@ -172,13 +159,11 @@ public class PredictionAction extends ActionSupport {
 
                     // Calculate applicability domain
                     if (!computedAD) {
-
                         String execstr = "";
                         execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + smilesDir + tempP.getName()
                                 + "/train_0.x " + "-4PRED=" + smilesDir + tempP.getName() + "/smiles.sdf.renorm.x " + ""
                                 + " -OUT=" + smilesDir + "smiles_AD";
                         RunExternalProgram.runCommandAndLogOutput(execstr, smilesDir, "getAD");
-
                         computedAD = true;
 
                         // Read AD results
@@ -310,190 +295,6 @@ public class PredictionAction extends ActionSupport {
         return result;
     }
 
-    public String loadMakePredictionsPage() throws Exception {
-        this.loadSelectPredictorPage();
-        String result = SUCCESS;
-
-        // get list of predictor IDs from the checked checkboxes
-        if (predictorCheckBoxes == null || predictorCheckBoxes.trim().isEmpty()) {
-            logger.debug("no predictor chosen!");
-            addActionError("Please select at least one predictor.");
-            result = ERROR;
-            return result;
-        }
-        selectedPredictorIds = predictorCheckBoxes.replaceAll(",", " ");
-        String[] predictorIds = selectedPredictorIds.split("\\s+");
-
-        isUploadedDescriptors = false;
-        isMixDescriptors = false;
-        singleCompoundPredictionAllowed = true;
-        HashSet<String> predictorsModelDescriptors = new HashSet<String>();
-
-        for (int i = 0; i < predictorIds.length; i++) {
-            Predictor p = predictorRepository.findOne(Long.parseLong(predictorIds[i]));
-
-            if (p.getChildType() != null && p.getChildType().equals(Constants.NFOLD)) {
-                /* check if *any* child predictor has models */
-                String[] childIds = p.getChildIds().split("\\s+");
-                boolean childHasModels = false;
-                for (String pChildId : childIds) {
-                    Predictor pChild = predictorRepository.findOne(Long.parseLong(pChildId));
-                    if (pChild.getNumTestModels() > 0) {
-                        childHasModels = true;
-                    }
-                }
-                if (!childHasModels) {
-                    addActionError("The predictor '" + p.getName() + "' cannot be used for prediction"
-                            + " because it contains no usable models.");
-                    result = ERROR;
-                }
-            } else {
-                if (p.getNumTestModels() == 0) {
-                    /*
-                     * this predictor shouldn't be used for prediction. Error
-                     * out.
-                     */
-                    addActionError("The predictor '" + p.getName() + "' cannot be used for prediction because"
-                            + " it contains no usable models.");
-                    logger.warn("The predictor '" + p.getName() + "' cannot be used for prediction because"
-                            + " it contains no usable models.");
-                    result = ERROR;
-                } else {
-                    logger.debug("predictor " + p.getName() + " is fine, it has " + p.getNumTotalModels());
-                }
-            }
-            /* adding modeling_methods for each of the selected predictors */
-            if (!p.getModelMethod().trim().isEmpty()) {
-                predictorsModelDescriptors.addAll(Arrays.asList(p.getDescriptorGeneration().trim().split(" ")));
-            }
-            selectedPredictors.add(p);
-            if (p.getDescriptorGeneration().equals(Constants.UPLOADED)) {
-                isUploadedDescriptors = true;
-                singleCompoundPredictionAllowed = false;
-            }
-
-            if (p.getDescriptorGeneration().equals(Constants.DRAGONH) || p.getDescriptorGeneration()
-                    .equals(Constants.DRAGONNOH) || p.getDescriptorGeneration().equals(Constants.MOE2D) || p
-                    .getDescriptorGeneration().equals(Constants.MACCS) || p.getDescriptorGeneration()
-                    .equals(Constants.ISIDA) || p.getDescriptorGeneration().equals(Constants.CDK)) {
-                isMixDescriptors = true;
-            }
-        }
-
-        isMixDescriptors = isMixDescriptors && isUploadedDescriptors;
-
-        if (result.equals(ERROR)) {
-            return result;
-        }
-
-        userDatasets = datasetRepository.findByUserName(user.getUserName());
-        if (user.getShowPublicDatasets().equals(Constants.ALL)) {
-            userDatasets.addAll(datasetRepository.findAllPublicDatasets());
-        } else if (user.getShowPublicDatasets().equals(Constants.SOME)) {
-            userDatasets.addAll(datasetRepository.findSomePublicDatasets());
-        }
-
-        /*
-         * set up any values that need to be populated onto the page
-         * (dropdowns, lists, display stuff)
-         */
-        userDatasetNames = Lists.transform(userDatasets, Utility.NAME_TRANSFORM);
-        userPredictorNames = Lists.transform(userPredictors, Utility.NAME_TRANSFORM);
-        userPredictionNames =
-                Lists.transform(predictionRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
-        userTaskNames = Lists.transform(jobRepository.findByUserName(user.getUserName()), Utility.NAME_TRANSFORM);
-
-        /*
-         * filtering userDatasets leaving only datasets that has same modeling
-         * method as predictor
-         */
-        List<Dataset> new_ds = new ArrayList<>();
-        for (Dataset ds : userDatasets) {
-            /*
-             * looking for arrays intersection if found then the Dataset is
-             * added to the list
-             */
-            boolean datasetRemovable = false;
-            List<String> dscrptrLst1 = Lists.newArrayList(predictorsModelDescriptors);
-            List<String> dscrptrLst2 = Arrays.asList(ds.getAvailableDescriptors().trim().split(" "));
-
-            // Find intersection, get iterator, then explicitly cast each
-            // element of intersection to a string (type safety issues)
-            List<String> dscrptrIntsct = new ArrayList<>();
-            Iterator<?> tempIterator = ListUtils.intersection(dscrptrLst1, dscrptrLst2).iterator();
-            while (tempIterator.hasNext()) {
-                dscrptrIntsct.add((String) tempIterator.next());
-            }
-
-            if (!ds.getAvailableDescriptors().trim().isEmpty() && !new_ds.contains(ds) && (dscrptrIntsct.size()
-                    == predictorsModelDescriptors.size())) {
-                for (int j = 0; j < selectedPredictors.size(); j++) {
-                    String selectedPredictorsDescriptorType = selectedPredictors.get(j).getDescriptorGeneration();
-                    if (!dscrptrLst2.contains(selectedPredictorsDescriptorType)) {
-                        datasetRemovable = true;
-                    }
-                }
-                if (!datasetRemovable) {
-                    new_ds.add(ds);
-                }
-            }
-        }
-        userDatasets.clear();
-        userDatasets.addAll(new_ds);
-
-        if (isUploadedDescriptors) {
-            userDatasets.clear();
-            boolean hasMultiUploadedDescriptors = false;
-            String descriptorTypeTest = null;
-            int times = 0;
-            for (Predictor prdctr : selectedPredictors) {
-                if (times == 0) {
-                    descriptorTypeTest = prdctr.getUploadedDescriptorType();
-                    times = 1;
-                }
-
-                if (descriptorTypeTest != null && prdctr.getUploadedDescriptorType() != null) {
-                    if (!prdctr.getUploadedDescriptorType().equals(descriptorTypeTest)) {
-                        hasMultiUploadedDescriptors = true;
-                    }
-                } else if (descriptorTypeTest == null && prdctr.getUploadedDescriptorType() == null) {
-                    hasMultiUploadedDescriptors = false;
-                } else {
-                    hasMultiUploadedDescriptors = true;
-                    break;
-                }
-
-            }
-            if (!hasMultiUploadedDescriptors) {
-                List<Dataset> datasets = datasetRepository.findByUserName(user.getUserName());
-                datasets.addAll(datasetRepository.findAllPublicDatasets());
-                for (Iterator<Dataset> iterator = datasets.iterator(); iterator.hasNext(); ) {
-                    Dataset d = iterator.next();
-                    if (Strings.isNullOrEmpty(descriptorTypeTest)) {
-                        if (!Strings.isNullOrEmpty(d.getUploadedDescriptorType()) || !d.getAvailableDescriptors()
-                                .contains(Constants.UPLOADED)) {
-                            iterator.remove();
-                        }
-                    } else {
-                        if (!d.getUploadedDescriptorType().equals(descriptorTypeTest)) {
-                            iterator.remove();
-                        }
-                    }
-                }
-                for (Dataset ds : datasets) {
-                    if (!userDatasets.contains(ds)) {
-                        userDatasets.add(ds);
-                    }
-                }
-            }
-        }
-
-        if (isMixDescriptors) {
-            userDatasets.clear();
-        }
-        return result;
-    }
-
     public String makeDatasetPrediction() throws Exception {
         /*
          * prediction form submitted, so create a new prediction task and run
@@ -548,88 +349,86 @@ public class PredictionAction extends ActionSupport {
          */
         for (Predictor sp : selectedPredictors) {
             String[] predictionDatasetDescriptors = predictionDataset.getAvailableDescriptors().split("\\s+");
-
             boolean descriptorsMatch = false;
 
-            for (int i = 0; i < predictionDatasetDescriptors.length; i++) {
-                if (sp.getDescriptorGeneration().contains(Constants.CDK) && predictionDatasetDescriptors[i]
-                        .equals(Constants.CDK)) {
-                    descriptorsMatch = true;
-                } else if (sp.getDescriptorGeneration().contains(Constants.DRAGONH) && predictionDatasetDescriptors[i]
-                        .equals(Constants.DRAGONH)) {
-                    descriptorsMatch = true;
-                } else if (sp.getDescriptorGeneration().contains(Constants.DRAGONNOH) && predictionDatasetDescriptors[i]
-                        .equals(Constants.DRAGONNOH)) {
-                    descriptorsMatch = true;
-                } else if (sp.getDescriptorGeneration().contains(Constants.MOE2D) && predictionDatasetDescriptors[i]
-                        .equals(Constants.MOE2D)) {
-                    descriptorsMatch = true;
-                } else if (sp.getDescriptorGeneration().contains(Constants.MACCS) && predictionDatasetDescriptors[i]
-                        .equals(Constants.MACCS)) {
-                    descriptorsMatch = true;
-                } else if (sp.getDescriptorGeneration().contains(Constants.ISIDA) && predictionDatasetDescriptors[i]
-                        .equals(Constants.ISIDA)) {
-                    descriptorsMatch = true;
-                } else if (sp.getDescriptorGeneration().contains(Constants.SIRMS) && predictionDatasetDescriptors[i]
-                        .equals(Constants.SIRMS)) {
-                    descriptorsMatch = true;
-                } else if (sp.getDescriptorGeneration().contains(Constants.UPLOADED) && predictionDatasetDescriptors[i]
-                        .equals(Constants.UPLOADED)) {
-                    // get the uploaded descriptors for the dataset
-                    String predictionXFile = predictionDataset.getXFile();
+            if (sp.getDescriptorGeneration().equals(Constants.UPLOADED)) {
+                // get the uploaded descriptors for the dataset
+                String predictionXFile = predictionDataset.getXFile();
 
-                    String predictionDatasetDir =
-                            Constants.CECCR_USER_BASE_PATH + predictionDataset.getUserName() + "/DATASETS/"
-                                    + predictionDataset.getName() + "/";
-                    if (predictionXFile != null && !predictionXFile.trim().isEmpty()) {
+                String predictionDatasetDir =
+                        Constants.CECCR_USER_BASE_PATH + predictionDataset.getUserName() + "/DATASETS/"
+                                + predictionDataset.getName() + "/";
+                if (predictionXFile != null && !predictionXFile.trim().isEmpty()) {
 
-                        logger.debug("Staring to read predictors from file: " + predictionDatasetDir + predictionXFile);
-                        String[] predictionDescs =
-                                ReadDescriptors.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
+                    logger.debug("Staring to read predictors from file: " + predictionDatasetDir + predictionXFile);
+                    String[] predictionDescs =
+                            ReadDescriptors.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
 
-                        // get the uploaded descriptors for the predictor
-                        Dataset predictorDataset = datasetRepository.findOne(sp.getDatasetId());
-                        String predictorDatasetDir =
-                                Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + "/DATASETS/"
-                                        + predictorDataset.getName() + "/";
-                        String[] predictorDescs = ReadDescriptors
-                                .readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
+                    // get the uploaded descriptors for the predictor
+                    Dataset predictorDataset = datasetRepository.findOne(sp.getDatasetId());
+                    String predictorDatasetDir =
+                            Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + "/DATASETS/"
+                                    + predictorDataset.getName() + "/";
+                    String[] predictorDescs =
+                            ReadDescriptors.readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
 
-                        descriptorsMatch = true;
-                            /*
-                             * for each predictor desc, make sure there's a matching
-                             * prediction desc.
-                             */
-                        for (int j = 0; j < predictorDescs.length; j++) {
-                            boolean matchingDescriptor = false;
-                            for (int k = 0; k < predictionDescs.length; k++) {
-                                if (predictorDescs[j].equals(predictionDescs[k])) {
-                                    matchingDescriptor = true;
-                                    k = predictionDescs.length;
-                                }
-                            }
-                            if (!matchingDescriptor) {
-                                descriptorsMatch = false;
-                                addActionError("The predictor '" + sp.getName() + "' contains the descriptor '"
-                                        + predictorDescs[i] + "', but this " + "descriptor was not found in "
-                                        + "the prediction dataset.");
+                    descriptorsMatch = true;
+                    /*
+                     * for each predictor desc, make sure there's a matching
+                     * prediction desc.
+                     */
+                    for (int i = 0; i < predictorDescs.length; i++) {
+                        boolean matchingDescriptor = false;
+                        for (int j = 0; j < predictionDescs.length; j++) {
+                            if (predictorDescs[i].equals(predictionDescs[j])) {
+                                matchingDescriptor = true;
+                                j = predictionDescs.length;
                             }
                         }
-
-                        if (!descriptorsMatch) {
-                            return ERROR;
+                        if (!matchingDescriptor) {
+                            descriptorsMatch = false;
+                            addActionError(
+                                    "The predictor '" + sp.getName() + "' contains the descriptor '" + predictorDescs[i]
+                                            + "', but this " + "descriptor was not found in "
+                                            + "the prediction dataset.");
                         }
                     }
+
+                    if (!descriptorsMatch) {
+                        return ERROR;
+                    }
+                }
+            } else {
+                for (int i = 0; i < predictionDatasetDescriptors.length; i++) {
+                    if (sp.getDescriptorGeneration().equals(Constants.CDK) && predictionDatasetDescriptors[i]
+                            .equals(Constants.CDK)) {
+                        descriptorsMatch = true;
+                    } else if (sp.getDescriptorGeneration().equals(Constants.DRAGONH) && predictionDatasetDescriptors[i]
+                            .equals(Constants.DRAGONH)) {
+                        descriptorsMatch = true;
+                    } else if (sp.getDescriptorGeneration().equals(Constants.DRAGONNOH)
+                            && predictionDatasetDescriptors[i].equals(Constants.DRAGONNOH)) {
+                        descriptorsMatch = true;
+                    } else if (sp.getDescriptorGeneration().equals(Constants.MOE2D) && predictionDatasetDescriptors[i]
+                            .equals(Constants.MOE2D)) {
+                        descriptorsMatch = true;
+                    } else if (sp.getDescriptorGeneration().equals(Constants.MACCS) && predictionDatasetDescriptors[i]
+                            .equals(Constants.MACCS)) {
+                        descriptorsMatch = true;
+                    } else if (sp.getDescriptorGeneration().equals(Constants.ISIDA) && predictionDatasetDescriptors[i]
+                            .equals(Constants.ISIDA)) {
+                        descriptorsMatch = true;
+                    }
+                }
+
+                if (!descriptorsMatch) {
+                    addActionError("The predictor '" + sp.getName() + "' is based on " + sp.getDescriptorGeneration()
+                            + " descriptors, but the dataset '" + predictionDataset.getName()
+                            + "' does not have these descriptors. " + "You will not be able to make"
+                            + " this prediction.");
+                    return ERROR;
                 }
             }
-
-            if (!descriptorsMatch) {
-                addActionError("The predictor '" + sp.getName() + "' is based on " + sp.getDescriptorGeneration()
-                        + " descriptors, but the dataset '" + predictionDataset.getName()
-                        + "' does not have these descriptors. " + "You will not be able to make" + " this prediction.");
-                return ERROR;
-            }
-
 
         }
 

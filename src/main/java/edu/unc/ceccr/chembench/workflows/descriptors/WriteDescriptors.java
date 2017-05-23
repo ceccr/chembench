@@ -560,38 +560,41 @@ public class WriteDescriptors {
                 writer.newLine();
             }
             if (scalingType.equalsIgnoreCase(Constants.RANGESCALING)) {
-                writer.write(joiner.join(descriptorValueMinima));
-                writer.newLine();
-                writer.write(joiner.join(descriptorValueMaxima));
-                writer.newLine();
+                writer.write(joiner.join(descriptorValueMinima) + "\n");
+                writer.write(joiner.join(descriptorValueMaxima) + "\n");
             } else if (scalingType.equalsIgnoreCase(Constants.AUTOSCALING)) {
-                writer.write(joiner.join(descriptorValueAvgs));
-                writer.newLine();
-                writer.write(joiner.join(descriptorValueStdDevPlusAvgs));
-                writer.newLine();
+                writer.write(joiner.join(descriptorValueAvgs) + "\n");
+                writer.write(joiner.join(descriptorValueStdDevPlusAvgs) + "\n");
             }
         } catch (IOException e) {
             throw new RuntimeException("Couldn't write modeling X file", e);
         }
     }
 
-    public static void addZeroToOutput(List<Descriptors> descriptorMatrix,
+
+    private static void addZeroToOutput(List<Descriptors> descriptorMatrix,
                                        StringBuffer descriptorNameStringBuffer,
                                        String predictorDescriptorNameString){
         logger.info("Adding 0's to the dataset descriptors");
         String[] datasetDescriptorNames = descriptorNameStringBuffer.toString().split("\\s+");
         String[] predictorDescriptorNames = predictorDescriptorNameString.split("\\s+");
 
+        //assumption that all descriptors in output/dataset is in predictor
+        //because output/dataset is the intersection of itself and predictor
+
         //j keeps track of the dataset while i keeps track of the predictor
         int j = 0;
         for (Descriptors descriptors: descriptorMatrix) {
+            List<Double> descriptorValues= new ArrayList<>();
             for (int i = 0; i < predictorDescriptorNames.length; i++) {
-                if (!datasetDescriptorNames[j].equals(predictorDescriptorNames[i])) {
-                    descriptors.getDescriptorValues().add(j, 0.0);
+                if ((j>=datasetDescriptorNames.length) ||
+                        (!datasetDescriptorNames[j].equals(predictorDescriptorNames[i]))) {
+                    descriptorValues.add(0.0);
                 } else {
-                    j++;
+                    descriptorValues.add(descriptors.getDescriptorValueAtIndex(j++));
                 }
             }
+            descriptors.setDescriptorValues(descriptorValues);
         }
         descriptorNameStringBuffer.setLength(0);
         descriptorNameStringBuffer.append(predictorDescriptorNameString);

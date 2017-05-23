@@ -58,20 +58,22 @@ public class ReadDescriptors {
             List<String> descriptorNamesTemp = new ArrayList<>();
             List<Descriptors> descriptorValueMatrixTemp = new ArrayList<>();
 
-            if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
-                readXDescriptors(sdfFile + ".cdk.x", descriptorNames, descriptorValueMatrix);
-            } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONH)) {
-                readDragonXDescriptors(sdfFile + ".dragonH", descriptorNames, descriptorValueMatrix);
-            } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)) {
-                readDragonXDescriptors(sdfFile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
-            } else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
-                readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNames, descriptorValueMatrix);
-            } else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
-                readMaccsDescriptors(sdfFile + ".maccs", descriptorNames, descriptorValueMatrix);
-            } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-                readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
-            } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGON7)) {
-                readDragon7Descriptors(sdfFile + ".dragon7", descriptorNames, descriptorValueMatrix);
+            if (descriptorType.equals(Constants.CDK)) {
+                readXDescriptors(sdfFile + ".cdk.x", descriptorNamesTemp, descriptorValueMatrixTemp);
+            } else if (descriptorType.equals(Constants.DRAGONH)) {
+                readDragonXDescriptors(sdfFile + ".dragonH", descriptorNamesTemp, descriptorValueMatrixTemp);
+            } else if (descriptorType.equals(Constants.DRAGONNOH)) {
+                readDragonXDescriptors(sdfFile + ".dragonNoH", descriptorNamesTemp, descriptorValueMatrixTemp);
+            } else if (descriptorType.equals(Constants.MOE2D)) {
+                readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNamesTemp, descriptorValueMatrixTemp);
+            } else if (descriptorType.equals(Constants.MACCS)) {
+                readMaccsDescriptors(sdfFile + ".maccs", descriptorNamesTemp, descriptorValueMatrixTemp);
+            } else if (descriptorType.equals(Constants.ISIDA)) {
+                readIsidaDescriptors(sdfFile + ".ISIDA", descriptorNamesTemp, descriptorValueMatrixTemp);
+            } else if (descriptorType.equals(Constants.DRAGON7)) {
+                readDragon7Descriptors(sdfFile + ".dragon7", descriptorNamesTemp, descriptorValueMatrixTemp);
+            } else if (descriptorType.equals(Constants.SIRMS)){
+                readSirmsDescriptors(sdfFile + ".sirms", descriptorNamesTemp, descriptorValueMatrixTemp);
             } else {
                 throw new RuntimeException("Bad descriptor type: " + predictor.getDescriptorGeneration());
             }
