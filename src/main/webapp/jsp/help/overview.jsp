@@ -71,7 +71,7 @@
         <p>
           That should be enough information to get you started&mdash;the other help sections give more detail on each
           part of Chembench, explaining the modeling workflows and the different parameters you can set. You can refer
-          back to them as needed, and you can contact us at <a href="mailto:thethorn@cs.unc.edu">thethorn@cs.unc.edu</a>
+          back to them as needed, and you can contact us at <a href="mailto:pozefsky@cs.unc.edu">pozefsky@cs.unc.edu</a>
           with any questions.
         </p>
       </section>
