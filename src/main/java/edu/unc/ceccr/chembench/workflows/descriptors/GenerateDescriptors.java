@@ -42,6 +42,7 @@ public class GenerateDescriptors {
         Path outFilePath = workingDir.relativize(Paths.get(outfile));
         String execstr = String.format("Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name",
                 inFilePath.toString(), outFilePath.toString());
+        logger.debug("generateIsidaDescriptor " + workingDir.toString() + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir.toString(), "ISIDA");
     }
 
@@ -54,6 +55,8 @@ public class GenerateDescriptors {
         Path headerFilePath = workingDir.relativize(Paths.get(headerFile));
         String execstr = String.format("Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name "
                 + "-h %s --StrictFrg", inFilePath.toString(), outFilePath.toString(), headerFilePath.toString());
+        logger.debug(workingDir.toString());
+        logger.debug("generateIsidaDescriptorsWithHeader " + workingDir.toString() + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir.toString(), "ISIDA");
     }
 
@@ -61,6 +64,7 @@ public class GenerateDescriptors {
         String workingDir = outfile.replaceAll("/[^/]+$", "") + "/";
         writeHExplicitDragonScriptFiles(sdfile, workingDir, outfile);
         String execstr = "dragonX -s " + workingDir + "dragon-scriptH.txt";
+        logger.debug("generateHExplicitDragonDescriptors explicit dragon" + workingDir + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonH");
     }
 
@@ -68,6 +72,7 @@ public class GenerateDescriptors {
         String workingDir = outfile.replaceAll("/[^/]+$", "") + "/";
         writeHDepletedDragonScriptFiles(sdfile, workingDir, outfile);
         String execstr = "dragonX -s " + workingDir + "dragon-scriptNoH.txt";
+        logger.debug("generateIsidaDescriptor " + workingDir + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonNoH");
     }
 
@@ -189,7 +194,7 @@ public class GenerateDescriptors {
         String execstr = "moe2D.sh " + " " + sdfile + " " + outfile + " " + Constants.CECCR_BASE_PATH +
                 "mmlsoft/SVL_DIR/batch_sd_2Ddesc.svl";
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
-
+        logger.debug("generateMoe2DDescriptors " + workingDir + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "moe2d.sh");
     }
 
@@ -198,7 +203,7 @@ public class GenerateDescriptors {
         String execstr = "maccs.sh " + sdfile + " " + outfile + " " + Constants.CECCR_BASE_PATH +
                 "mmlsoft/SVL_DIR/batch_sd_MACCSFP.svl";
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
-
+        logger.debug("generateMaccsDescriptors " + workingDir + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "maccs.sh");
     }
 
@@ -210,6 +215,7 @@ public class GenerateDescriptors {
         });
         Path sdfFilePath = Paths.get(sdfFile);
         Path descriptorsDirPath = sdfFilePath.getParent().resolve("Descriptors");
+        logger.debug("generateMaccsDescriptors " + descriptorsDirPath.toString() + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, descriptorsDirPath.toString() + "/", "dragon7");
 
         try {
