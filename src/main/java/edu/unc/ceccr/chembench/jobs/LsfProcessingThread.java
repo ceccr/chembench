@@ -60,7 +60,7 @@ public class LsfProcessingThread extends Thread {
             FileAndDirOperations.deleteFile(workingDir + "sbatch-out.txt");
         }
 
-        // run bjobs
+        // run sbatch.sh
         String command = "sbatch.sh";
         RunExternalProgram.runCommand(command, workingDir);
 

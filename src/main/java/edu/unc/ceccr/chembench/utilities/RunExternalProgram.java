@@ -19,8 +19,8 @@ public class RunExternalProgram {
 
     private static final Logger logger = LoggerFactory.getLogger(RunExternalProgram.class);
     private static String[] runQuietly =
-            {"bjobs.sh", "datasplit_train_test", "checkKnnSaProgress", "checkKnnGaProgress", "svm-train", "svm-predict",
-                    "molconvert"};
+            {"sbatch.sh", "datasplit_train_test", "checkKnnSaProgress", "checkKnnGaProgress", "svm-train",
+                    "svm-predict", "molconvert"};
 
     public static void close(Closeable c) {
         if (c != null) {
