@@ -3,6 +3,7 @@ package edu.unc.ceccr.chembench.workflows.descriptors;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
+import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorGenerationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,28 @@ import java.nio.file.StandardCopyOption;
 public class GenerateDescriptors {
 
     private static final Logger logger = LoggerFactory.getLogger(GenerateDescriptors.class);
+
+    public static void generateSpecificDescriptors(String sdfile, String outfile, String descriptor)throws Exception{
+        if (descriptor.equals(Constants.CDK)){
+            generateCdkDescriptors(sdfile, outfile);
+        }else if (descriptor.equals(Constants.DRAGONH)){
+            generateHExplicitDragonDescriptors(sdfile,outfile);
+        }else if (descriptor.equals(Constants.DRAGONNOH)){
+            generateHDepletedDragonDescriptors(sdfile,outfile);
+        }else if (descriptor.equals(Constants.MACCS)){
+            generateMaccsDescriptors(sdfile, outfile);
+        }else if (descriptor.equals(Constants.MOE2D)){
+            generateMoe2DDescriptors(sdfile, outfile);
+        }else if (descriptor.equals(Constants.ISIDA)){
+            generateIsidaDescriptors(sdfile, outfile);
+        }else if (descriptor.equals(Constants.DRAGON7)){
+            try {
+                generateDragon7Descriptors(sdfile, outfile);
+            } catch (DescriptorGenerationException e) {
+                logger.error("Dragon 7 descriptor generation failed; not adding to available descriptors", e);
+            }
+        }
+    }
 
     public static void generateCdkDescriptors(String sdfile, String outfile) throws Exception {
         //Given an SD file, run CDK to get the chemical descriptors for each compound.

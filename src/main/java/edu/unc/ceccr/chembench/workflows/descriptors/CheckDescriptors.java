@@ -1,11 +1,13 @@
 package edu.unc.ceccr.chembench.workflows.descriptors;
 
+import edu.unc.ceccr.chembench.global.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,6 +18,48 @@ public class CheckDescriptors {
     // dragon, etc.)
     // Look for any errors that would make the output unusable in modeling
     // Return an HTML-formatted string with user-readable feedback
+
+    public static String checkSpecificDescriptors(String outputFileDirectory, String sdfFileName, String
+            sdfFileEnding, String descriptor) throws Exception{
+        Path descriptorDirPath = Paths.get(outputFileDirectory);
+        String logsOutputFileDirectory = outputFileDirectory + "Logs/";
+        String checkDescriptorsDir = outputFileDirectory + sdfFileName + sdfFileEnding;
+        String errors = "";
+
+        File errorSummaryFile = null;
+        if (descriptor.equals(Constants.CDK)){
+            errors = checkCdkDescriptors(checkDescriptorsDir);
+        }else if(descriptor.equals(Constants.DRAGONH)){
+            errors = CheckDescriptors.checkDragonXDescriptors(checkDescriptorsDir);
+        }else if(descriptor.equals(Constants.DRAGONNOH)){
+            errors = CheckDescriptors.checkDragonXDescriptors(checkDescriptorsDir);
+        }else if(descriptor.equals(Constants.MOE2D)){
+            errors = checkMoe2DDescriptors(checkDescriptorsDir);
+        }else if(descriptor.equals(Constants.MACCS)) {
+            errors = CheckDescriptors.checkMaccsDescriptors(checkDescriptorsDir);
+        }else if(descriptor.equals(Constants.ISIDA)){
+            if (!(Files.exists(descriptorDirPath.resolve(sdfFileName + ".ISIDA.hdr")) && Files.exists
+                    (descriptorDirPath.resolve(sdfFileName + ".ISIDA.svm")))) {
+                errors = "Cannot find ISIDA files";
+            }
+        }else if(descriptor.equals(Constants.DRAGON7)){
+            if (!(Files.exists(descriptorDirPath.resolve(sdfFileName + ".dragon7")))) {
+                errors = "Cannot find dragon7 files";
+            }
+        }
+
+        //dragon 7 hasn't been fully implemented, no method to get errors from dragon 7 yet
+        if (!errors.isEmpty() && !descriptor.equals(Constants.DRAGON7)) {
+            //descriptorToFileEnding returns an array, at index 1 is the descriptor error file name
+            errorSummaryFile = new File(logsOutputFileDirectory +
+                    Constants.descriptorToFileEnding.get(descriptor)[1]);
+            BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+            errorSummary.write(errors);
+            errorSummary.close();
+        }
+
+        return errors;
+    }
 
     public static String checkDragonXDescriptors(String dragonOutputFile) throws Exception {
         logger.debug("Checking Dragon descriptors: " + dragonOutputFile);

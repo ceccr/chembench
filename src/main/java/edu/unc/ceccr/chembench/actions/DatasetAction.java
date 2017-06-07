@@ -52,6 +52,8 @@ public class DatasetAction extends ActionSupport {
     private String generateImagesP = "true";
     private String generateImagesPWD = "false";
     private String generateImagesMWD = "false";
+    private String selectedModelingDescriptors = "";
+    private String selectedPredictionDescriptors = "";
     //file upload stuff
     //modeling
     private File sdfFileModeling = null;
@@ -162,6 +164,7 @@ public class DatasetAction extends ActionSupport {
             useActivityBinning = useActivityBinningNFold;
         }
 
+        //checks for the existence of the sdf and act file
         if (datasetType.equalsIgnoreCase(Constants.MODELING)) {
             //do file check
             if (sdfFileModeling == null && actFileModeling == null) {
@@ -230,6 +233,7 @@ public class DatasetAction extends ActionSupport {
             if (result.equalsIgnoreCase(INPUT)) {
                 CreateDatasetTask datasetTask = new CreateDatasetTask(userName, datasetType,
                         //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
+                        selectedModelingDescriptors, //type of descriptors that user wants to generate
                         sdfFileModelingFileName, //sdfFileName
                         actFileModelingFileName, //actFileName
                         "", //xFileName
@@ -294,6 +298,7 @@ public class DatasetAction extends ActionSupport {
                 try {
                     CreateDatasetTask datasetTask = new CreateDatasetTask(userName, datasetType,
                             //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
+                            selectedPredictionDescriptors,
                             sdfFilePredictionFileName, //sdfFileName
                             "", //actFileName
                             "", //xFileName
@@ -379,6 +384,7 @@ public class DatasetAction extends ActionSupport {
                 try {
                     CreateDatasetTask datasetTask = new CreateDatasetTask(userName, datasetType,
                             //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
+                            "", //user uploaded descriptors
                             sdfFileModDescFileName, //sdfFileName
                             actFileModDescFileName, //actFileName
                             descriptorXModDescFileName, //xFileName
@@ -450,6 +456,7 @@ public class DatasetAction extends ActionSupport {
                 try {
                     CreateDatasetTask datasetTask = new CreateDatasetTask(userName, datasetType,
                             //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
+                            "", //user uploaded descriptors
                             sdfFilePredDescFileName, //sdfFileName
                             "", //actFileName
                             xFilePredDescFileName, //xFileName
@@ -732,6 +739,12 @@ public class DatasetAction extends ActionSupport {
         this.sdfFilePredictionFileName = sdfFilePredictionFileName;
     }
 
+    public String getSelectedPredictionDescriptors() {return selectedPredictionDescriptors;}
+
+    public void setSelectedPredictionDescriptors(String selectedPredictionDescriptors) {
+        this.selectedPredictionDescriptors = selectedPredictionDescriptors;
+    }
+
     public File getActFileModeling() {
         return actFileModeling;
     }
@@ -754,6 +767,12 @@ public class DatasetAction extends ActionSupport {
 
     public void setActFileModelingFileName(String actFileModelingFileName) {
         this.actFileModelingFileName = actFileModelingFileName;
+    }
+
+    public String getSelectedModelingDescriptors() {return selectedModelingDescriptors;}
+
+    public void setSelectedModelingDescriptors(String selectedModelingDescriptors){
+        this.selectedModelingDescriptors = selectedModelingDescriptors;
     }
 
     public File getActFileModDesc() {

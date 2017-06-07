@@ -1,7 +1,11 @@
 package edu.unc.ceccr.chembench.global;
 
+import com.google.common.collect.ImmutableMap;
+import jdk.nashorn.internal.ir.annotations.Immutable;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Constants {
 
@@ -207,4 +211,17 @@ public class Constants {
 
     // modelability index threshold
     public static double MODI_MODELABLE = 0.65;
+
+    //dictionary structure for mapping descriptor constants
+    //to their file endings at position 0
+    //to their error file at position 1
+    public static final Map<String, String[]> descriptorToFileEnding = ImmutableMap.<String, String[]>builder()
+            .put(Constants.CDK, new String[]{".cdk", "cdk.out"})
+            .put(Constants.DRAGONH, new String[]{".dragonH", "dragonH.out"})
+            .put(Constants.DRAGONNOH, new String[]{".dragonNoH", "dragonNoH.out"})
+            .put(Constants.MOE2D, new String[]{".moe2D", "moe2d.out"})
+            .put(Constants.MACCS, new String[]{".maccs" , "maccs.out"})
+            .put(Constants.ISIDA, new String[]{".ISIDA", "ISIDA.out"})
+            .put(Constants.DRAGON7, new String[]{".dragon7", "dragon7.out"})
+            .build();
 }
