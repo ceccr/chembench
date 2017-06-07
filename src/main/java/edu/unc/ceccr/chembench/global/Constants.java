@@ -1,8 +1,6 @@
 package edu.unc.ceccr.chembench.global;
 
 import com.google.common.collect.ImmutableMap;
-import jdk.nashorn.internal.ir.annotations.Immutable;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
