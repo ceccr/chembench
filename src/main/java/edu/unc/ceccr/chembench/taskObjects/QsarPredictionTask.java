@@ -300,9 +300,6 @@ public class QsarPredictionTask extends WorkflowTask {
                             Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/" + predictionDataset.getName()
                                     + "/" + sdf, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/" + sdf);
                 }
-                else{
-                    throw new RuntimeException("Cannot find X file for Dataset");
-                }
             }
         } catch (Exception e) {
             logger.error("User: " + userName + "Job: " + jobName + " " + e);
