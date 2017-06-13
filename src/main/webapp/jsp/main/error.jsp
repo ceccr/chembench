@@ -24,7 +24,7 @@
 
     <hr>
     <p>
-      To report a bug, or if you need help with Chembench, you can reach us at <a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a>.
+      To report a bug, or if you need help with Chembench, you can reach us at <a href="mailto:pozefsky@cs.unc.edu">pozefsky@cs.unc.edu</a>.
       <br>
       Include this error text in your email, along with a description of the problem.
     </p>

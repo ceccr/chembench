@@ -275,6 +275,8 @@ public class QsarPredictionTask extends WorkflowTask {
                             Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getName() + "/"
                                     + sdf, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/" + sdf);
 
+                }else{
+                    throw new RuntimeException("Cannot find SDF file for Dataset");
                 }
                 if (predictionDataset.getXFile() != null && !predictionDataset.getXFile().trim().isEmpty()) {
                     FileAndDirOperations.copyFile(
@@ -282,6 +284,9 @@ public class QsarPredictionTask extends WorkflowTask {
                                     + predictionDataset.getXFile(),
                             Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/" + predictionDataset
                                     .getXFile());
+                }
+                else{
+                    throw new RuntimeException("Cannot find X file for Dataset");
                 }
             } else {
                 // public datasets always have SDFs ...msypa(8/30/2011)->not

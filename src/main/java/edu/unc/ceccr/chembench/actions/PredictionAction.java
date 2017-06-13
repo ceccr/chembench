@@ -615,6 +615,9 @@ public class PredictionAction extends ActionSupport {
                     } else if (sp.getDescriptorGeneration().equals(Constants.ISIDA) && predictionDatasetDescriptors[i]
                             .equals(Constants.ISIDA)) {
                         descriptorsMatch = true;
+                    } else if (sp.getDescriptorGeneration().equals(Constants.DRAGON7) && predictionDatasetDescriptors[i]
+                            .equals(Constants.DRAGON7)) {
+                        descriptorsMatch = true;
                     }
                 }
 
