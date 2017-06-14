@@ -8,9 +8,7 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.StandardizeSdfFormat;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.datasets.StandardizeMolecules;
-import edu.unc.ceccr.chembench.workflows.descriptors.CheckDescriptors;
-import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorGenerationException;
-import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
+import edu.unc.ceccr.chembench.workflows.descriptors.*;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.DataSplit;
 import edu.unc.ceccr.chembench.workflows.visualization.HeatmapAndPCA;
 import edu.unc.ceccr.chembench.workflows.visualization.SdfToJpg;
@@ -19,13 +17,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import sun.security.krb5.internal.crypto.Des;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static edu.unc.ceccr.chembench.global.Constants.descriptorToFileEnding;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class CreateDatasetTask extends WorkflowTask {
@@ -209,42 +210,51 @@ public class CreateDatasetTask extends WorkflowTask {
             // generate descriptors
             this.numCompounds = DatasetFileOperations.getSdfCompoundNames(path + sdfFileName).size();
 
-            String descriptorDir = "Descriptors/";
-            if (!new File(path + descriptorDir).exists()) {
-                new File(path + descriptorDir).mkdirs();
+            DescriptorSet[] descriptorSetList = new DescriptorSet[]{ new DescriptorCDK(),new DescriptorDragonH(),
+                    new DescriptorDragonNoH(), new DescriptorMoe2D(), new DescriptorMaccs(), new DescriptorIsida(),
+                    new DescriptorDragon7()};
+
+            String descriptorDir = path + "Descriptors/";
+            if (!new File(descriptorDir).exists()) {
+                new File(descriptorDir).mkdirs();
             }
 
             step = Constants.DESCRIPTORS + " and " + Constants.CHECKDESCRIPTORS;
             logger.debug("User: " + userName + "Job: " + jobName + " Generating Descriptors");
             List<String> selectedDatasetDescriptorTypeList =  new ArrayList<>();
             if (selectedDatasetDescriptorTypes.contains(Constants.ALL) || selectedDatasetDescriptorTypes.isEmpty()){
-                selectedDatasetDescriptorTypeList.addAll(descriptorToFileEnding.keySet());
+                selectedDatasetDescriptorTypeList.addAll(Arrays.asList(Constants.DESCRIPTORSETS));
             }else{
-                selectedDatasetDescriptorTypeList = Splitter.on(", ").splitToList
-                        (selectedDatasetDescriptorTypes);
+                selectedDatasetDescriptorTypeList = Splitter.on(", ").splitToList(selectedDatasetDescriptorTypes);
             }
 
             // the dataset included an SDF so we need to generate descriptors from it
-            for (String descriptor : selectedDatasetDescriptorTypeList) {
-                //descriptorToFileEnding returns an array, at index 0 is the descriptor file ending name
-                String fileEnding = descriptorToFileEnding.get(descriptor)[0];
-                logger.debug("User: " + userName + "Job: " + jobName + " Generating " + descriptor + " Descriptors");
-                if (fileEnding != null) { //if string is null, it means that the descriptor is not a key in the map
-                    GenerateDescriptors.generateSpecificDescriptors(path + sdfFileName,
-                            path + descriptorDir + sdfFileName + fileEnding, descriptor);
-                    String errors =
-                            CheckDescriptors.checkSpecificDescriptors(path + descriptorDir, sdfFileName,
-                            fileEnding, descriptor);
+            for (String descriptorString : selectedDatasetDescriptorTypeList) {
+                for (DescriptorSet descriptorSet: descriptorSetList){
+                    if (descriptorString.equals(descriptorSet.getDescriptorSet())){
+                        String sdfFile = path + sdfFileName;
+                        String descriptorFile = descriptorDir + sdfFileName;
+                        //    String descriptorOutFile = descriptorDir + sdfFileName + descriptorSet.getFileEnding();
 
-                    //CDK is available regardless of errors
-                    if (descriptor.equals(Constants.CDK)){
-                        availableDescriptors += Constants.CDK + " ";
+                        descriptorSet.generateDescriptors(sdfFile, descriptorFile);
+                        String errors = descriptorSet.checkDescriptors(descriptorFile);
+
+                        if (!errors.isEmpty() && !descriptorSet.equals(Constants.DRAGON7)) {
+                            File errorSummaryFile = new File(descriptorDir + "Logs/" +
+                                    descriptorSet.getFileErrorOut());
+                            BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+                            errorSummary.write(errors);
+                            errorSummary.close();
+                        }
+
+                        //CDK is available regardless of errors
+                        if (descriptorString.equals(Constants.CDK)){
+                            availableDescriptors += Constants.CDK + " ";
+                        }
+                        else if(errors.isEmpty()){
+                            availableDescriptors += descriptorString + " ";
+                        }
                     }
-                    else if(errors.isEmpty()){
-                        availableDescriptors += descriptor + " ";
-                    }
-                } else {
-                    throw new RuntimeException("Invalid Descriptor type");
                 }
             }
         }

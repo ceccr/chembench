@@ -97,7 +97,7 @@
         <thead>
         <tr>
           <s:if test="!predictionDataset.sdfFile.isEmpty()">
-            <th colspan="2"><!-- spacer for compound name/structure --></th>
+            <th colspan="1"><!-- spacer for compound name/structure --></th>
           </s:if>
           <s:else>
             <th><!-- spacer for compound name --></th>

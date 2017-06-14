@@ -8,7 +8,7 @@ import edu.unc.ceccr.chembench.utilities.CreateJobDirectories;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.workflows.descriptors.ConvertDescriptorsToXAndScale;
-import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
+import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorIsida;
 import edu.unc.ceccr.chembench.workflows.download.WriteCsv;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.*;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.annotation.PostConstruct;
+import javax.management.Descriptor;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -418,9 +419,10 @@ public class QsarPredictionTask extends WorkflowTask {
             step = Constants.PROCDESCRIPTORS;
 
             if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-                GenerateDescriptors.generateIsidaDescriptorsWithHeader(predictionDir + sdfile,
-                        predictionDir + sdfile + ".renorm.ISIDA", predictionDir + predictor.getSdFileName() + ".ISIDA" +
-                                ".hdr");
+                DescriptorIsida descriptorIsida = new DescriptorIsida();
+                descriptorIsida.generateIsidaDescriptorsWithHeader(predictionDir + sdfile,
+                        predictionDir + sdfile + descriptorIsida.getFileRenormEnding(),
+                        predictionDir + predictor.getSdFileName() + descriptorIsida.getFileHdrEnding());
                 ConvertDescriptorsToXAndScale
                         .convertDescriptorsToXAndScale(predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x",
                                 predictor.getDescriptorGeneration(), predictor.getScalingType(),

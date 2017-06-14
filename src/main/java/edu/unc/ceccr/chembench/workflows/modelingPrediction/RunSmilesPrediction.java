@@ -7,9 +7,7 @@ import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import edu.unc.ceccr.chembench.utilities.*;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.datasets.StandardizeMolecules;
-import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
-import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
-import edu.unc.ceccr.chembench.workflows.descriptors.WriteDescriptors;
+import edu.unc.ceccr.chembench.workflows.descriptors.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,31 +211,27 @@ public class RunSmilesPrediction {
     public static void generateDescriptorsForSdf(String smilesDir, Set<String> descriptorTypes) throws Exception {
         logger.debug("About to Generate Descriptors For SDF");
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
-        if (descriptorTypes.contains(Constants.CDK)) {
-            GenerateDescriptors.generateCdkDescriptors(sdfile, sdfile + ".cdk");
-            ReadDescriptors.convertCdkToX(sdfile + ".cdk", smilesDir);
-        }
-        if (descriptorTypes.contains(Constants.DRAGONH)) {
-            GenerateDescriptors.generateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonH");
-        }
-        if (descriptorTypes.contains(Constants.DRAGONNOH)) {
-            GenerateDescriptors.generateHDepletedDragonDescriptors(sdfile, sdfile + ".dragonNoH");
-        }
-        if (descriptorTypes.contains(Constants.MOE2D)) {
-            GenerateDescriptors.generateMoe2DDescriptors(sdfile, sdfile + ".moe2D");
-        }
-        if (descriptorTypes.contains(Constants.MACCS)) {
-            GenerateDescriptors.generateMaccsDescriptors(sdfile, sdfile + ".maccs");
-        }
-        if(descriptorTypes.contains(Constants.DRAGON7)){
-            GenerateDescriptors.generateDragon7Descriptors(sdfile, sdfile + ".dragon7");
+
+        DescriptorSet[] descriptorSetList = new DescriptorSet[]{ new DescriptorCDK(),new DescriptorDragonH(),
+                new DescriptorDragonNoH(), new DescriptorMoe2D(), new DescriptorMaccs(), new DescriptorIsida(),
+                new DescriptorDragon7()};
+
+        for (DescriptorSet descriptorSet : descriptorSetList){
+            if (descriptorTypes.contains(descriptorSet.getDescriptorSet())){
+                descriptorSet.generateDescriptors(sdfile, sdfile);
+                if (descriptorTypes.contains(Constants.CDK)) {
+                    ReadDescriptors.convertCdkToX(sdfile + descriptorSet.getFileEnding(), smilesDir);
+                }
+            }
         }
     }
 
     public static void generateIsidaDescriptorsForSdf(String smilesDir, String predictorSdfFileNames) throws Exception {
+        DescriptorIsida descriptorIsida = new DescriptorIsida();
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
-        String predictorHeaderFile = smilesDir + predictorSdfFileNames + ".ISIDA.hdr";
-        GenerateDescriptors.generateIsidaDescriptorsWithHeader(sdfile, sdfile + ".ISIDA", predictorHeaderFile);
+        String predictorHeaderFile = smilesDir + predictorSdfFileNames + descriptorIsida.getFileHdrEnding();
+        descriptorIsida.generateIsidaDescriptorsWithHeader(sdfile,
+                sdfile + descriptorIsida.getFileEnding(), predictorHeaderFile);
     }
 
     @Autowired

@@ -1,4 +1,4 @@
-import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
+import edu.unc.ceccr.chembench.workflows.descriptors.*;
 import junitx.framework.ComparisonFailure;
 import junitx.framework.FileAssert;
 import org.junit.AfterClass;
@@ -48,22 +48,24 @@ public class GenerateDescriptorsTest extends BaseTest {
 
     @Test
     public void generateCdkDescriptors() throws Exception {
-        GenerateDescriptors.generateCdkDescriptors(sdfFilePath.toString(), "cdk.out");
-        FileAssert.assertEquals(tempDescriptorsDirPath.resolve("cdk.out").toFile(),
-                resourcesDirPath.resolve(BASE_FILE_NAME + ".cdk").toFile());
+        DescriptorCDK descriptorCDK = new DescriptorCDK();
+        descriptorCDK.generateDescriptors(sdfFilePath.toString(), descriptorCDK.getFileErrorOut());
+        FileAssert.assertEquals(tempDescriptorsDirPath.resolve(descriptorCDK.getFileErrorOut()).toFile(),
+                resourcesDirPath.resolve(BASE_FILE_NAME + descriptorCDK.getFileEnding()).toFile());
     }
 
     @Test
     public void generateIsidaDescriptorsWithAndWithoutHeader() throws Exception {
-        GenerateDescriptors.generateIsidaDescriptors(sdfFilePath.toString(), "isida");
-        FileAssert.assertEquals(tempDescriptorsDirPath.resolve("isida.hdr").toFile(),
-                resourcesDirPath.resolve(BASE_FILE_NAME + ".isida.hdr").toFile());
-        FileAssert.assertEquals(tempDescriptorsDirPath.resolve("isida.svm").toFile(),
-                resourcesDirPath.resolve(BASE_FILE_NAME + ".isida.svm").toFile());
+        DescriptorIsida descriptorIsida = new DescriptorIsida();
+        descriptorIsida.generateDescriptors(sdfFilePath.toString(), sdfFilePath.toString());
+        FileAssert.assertEquals(tempDescriptorsDirPath.resolve(descriptorIsida.getFileHdrEnding()).toFile(),
+                resourcesDirPath.resolve(BASE_FILE_NAME + descriptorIsida.getFileHdrEnding()).toFile());
+        FileAssert.assertEquals(tempDescriptorsDirPath.resolve(descriptorIsida.getFileSvmEnding()).toFile(),
+                resourcesDirPath.resolve(BASE_FILE_NAME + descriptorIsida.getFileSvmEnding()).toFile());
 
         String otherHeader = "skin-sensitization.isida.hdr";
         Path otherHeaderPath = Files.copy(resourcesDirPath.resolve(otherHeader), tempDirPath.resolve(otherHeader));
-        GenerateDescriptors.generateIsidaDescriptorsWithHeader(sdfFilePath.toString(), "isida-with-header",
+        descriptorIsida.generateIsidaDescriptorsWithHeader(sdfFilePath.toString(), "isida-with-header",
                 otherHeaderPath.toString());
         FileAssert.assertEquals(tempDescriptorsDirPath.resolve("isida-with-header.svm").toFile(),
                 resourcesDirPath.resolve(BASE_FILE_NAME + "-against-skin-sensitization.isida.svm").toFile());
