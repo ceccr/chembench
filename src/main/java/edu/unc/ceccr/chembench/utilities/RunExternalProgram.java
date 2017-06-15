@@ -129,7 +129,10 @@ public class RunExternalProgram {
                 logger.info(String.format("Running external program(3): CMD=%s, WORKINGDIR=%s", cmd, workingDir));
             }
 
-            p = Runtime.getRuntime().exec(workingDir + "temp-script.sh", null, new File(workingDir));
+//            p = Runtime.getRuntime().exec(workingDir + "temp-script.sh", null, new File(workingDir));
+            ProcessBuilder builder = new ProcessBuilder("sh", workingDir + "temp-script.sh");
+            p = builder.start();
+
             return p.waitFor();
         } catch (Exception e) {
             logger.error("Error executing external program", e);
