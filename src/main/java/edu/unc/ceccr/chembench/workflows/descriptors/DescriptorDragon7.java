@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-public class DescriptorDragon7 implements DescriptorSet {
+public class DescriptorDragon7 extends DescriptorCommonDragon implements DescriptorSet {
     private static final Logger logger = LoggerFactory.getLogger(DescriptorDragon7.class);
 
     @Override
@@ -49,7 +49,7 @@ public class DescriptorDragon7 implements DescriptorSet {
 
     @Override
     public String checkDescriptors(String outputFile) throws Exception {
-        File dragon7File = new File(outputFile);
+        File dragon7File = new File(outputFile + getFileEnding());
         String errors = "";
 
         if (!dragon7File.exists()) {

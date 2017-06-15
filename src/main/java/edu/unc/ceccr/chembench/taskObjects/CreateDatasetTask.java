@@ -234,7 +234,6 @@ public class CreateDatasetTask extends WorkflowTask {
                     if (descriptorString.equals(descriptorSet.getDescriptorSet())){
                         String sdfFile = path + sdfFileName;
                         String descriptorFile = descriptorDir + sdfFileName;
-                        //    String descriptorOutFile = descriptorDir + sdfFileName + descriptorSet.getFileEnding();
 
                         descriptorSet.generateDescriptors(sdfFile, descriptorFile);
                         String errors = descriptorSet.checkDescriptors(descriptorFile);

@@ -563,20 +563,25 @@ public class WriteDescriptors {
         String[] datasetDescriptorNames = descriptorNameStringBuffer.toString().split("\\s+");
         String[] predictorDescriptorNames = predictorDescriptorNameString.split("\\s+");
 
+        //assumption that all descriptors in output/dataset is in predictor
+        //because output/dataset is the intersection of itself and predictor
+
         //j keeps track of the dataset while i keeps track of the predictor
         int j = 0;
         for (Descriptors descriptors: descriptorMatrix) {
+            List<Double> descriptorValues= new ArrayList<>();
             for (int i = 0; i < predictorDescriptorNames.length; i++) {
-                if (!datasetDescriptorNames[j].equals(predictorDescriptorNames[i])) {
-                    descriptors.getDescriptorValues().add(j, 0.0);
+                if ((j>=datasetDescriptorNames.length) ||
+                        (!datasetDescriptorNames[j].equals(predictorDescriptorNames[i]))) {
+                    descriptorValues.add(0.0);
                 } else {
-                    j++;
+                    descriptorValues.add(descriptors.getDescriptorValueAtIndex(j++));
                 }
             }
+            descriptors.setDescriptorValues(descriptorValues);
         }
         descriptorNameStringBuffer.setLength(0);
         descriptorNameStringBuffer.append(predictorDescriptorNameString);
-
     }
 
     public static void writePredictionXFile(List<String> compoundNames, List<Descriptors> descriptorMatrix,
