@@ -229,9 +229,10 @@ public class RunSmilesPrediction {
     public static void generateIsidaDescriptorsForSdf(String smilesDir, String predictorSdfFileNames) throws Exception {
         DescriptorIsida descriptorIsida = new DescriptorIsida();
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
-        String predictorHeaderFile = smilesDir + predictorSdfFileNames + descriptorIsida.getFileHdrEnding();
-        descriptorIsida.generateIsidaDescriptorsWithHeader(sdfile,
-                sdfile + descriptorIsida.getFileEnding(), predictorHeaderFile);
+        descriptorIsida.generateDescriptors(sdfile, sdfile);
+//        String predictorHeaderFile = smilesDir + predictorSdfFileNames + descriptorIsida.getFileHdrEnding();
+//        descriptorIsida.generateIsidaDescriptorsWithHeader(sdfile,
+//                sdfile + descriptorIsida.getFileEnding(), predictorHeaderFile);
     }
 
     @Autowired
