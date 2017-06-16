@@ -130,8 +130,6 @@ public class RunExternalProgram {
             }
 
             p = Runtime.getRuntime().exec(workingDir + "temp-script.sh", null, new File(workingDir));
-//            ProcessBuilder builder = new ProcessBuilder("sh", workingDir + "temp-script.sh");
-//            p = builder.start();
 
             return p.waitFor();
         } catch (Exception e) {

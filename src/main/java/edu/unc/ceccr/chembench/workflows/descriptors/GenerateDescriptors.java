@@ -66,6 +66,10 @@ public class GenerateDescriptors {
         String execstr = "dragonX -s " + workingDir + "dragon-scriptH.txt";
         logger.debug("generateHExplicitDragonDescriptors explicit dragon" + workingDir + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonH");
+        String exec1 = "ldd /CHEMBENCH/common/dragon/dragonX";
+        RunExternalProgram.runCommandAndLogOutput(exec1, workingDir, "dragonldd");
+        String exec2 = "./moe";
+        RunExternalProgram.runCommandAndLogOutput(exec2, workingDir, "moe");
     }
 
     public static void generateHDepletedDragonDescriptors(String sdfile, String outfile) throws Exception {
