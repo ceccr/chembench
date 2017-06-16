@@ -40,7 +40,7 @@ public class GenerateDescriptors {
         Path workingDir = Paths.get(sdfile.replaceAll("/[^/]+$", "")).resolve("Descriptors");
         Path inFilePath = workingDir.relativize(Paths.get(sdfile));
         Path outFilePath = workingDir.relativize(Paths.get(outfile));
-        String execstr = String.format("Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name",
+        String execstr = String.format("/CHEMBENCH/common/mmlsoft/bin.bak/Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name",
                 inFilePath.toString(), outFilePath.toString());
         logger.debug("generateIsidaDescriptor " + workingDir.toString() + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir.toString(), "ISIDA");
