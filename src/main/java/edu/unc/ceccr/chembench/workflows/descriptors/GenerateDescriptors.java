@@ -210,7 +210,7 @@ public class GenerateDescriptors {
         logger.debug("generateMaccsDescriptors " + workingDir + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "maccs.sh");
         String execstr1 = "echo $LD_LIBRARY_PATH";
-        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "getPath");
+        RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir + "/Descriptors/", "getPath");
     }
 
     public static void generateDragon7Descriptors(String sdfFile, String outFile) throws DescriptorGenerationException {
