@@ -40,7 +40,7 @@ public class GenerateDescriptors {
         Path workingDir = Paths.get(sdfile.replaceAll("/[^/]+$", "")).resolve("Descriptors");
         Path inFilePath = workingDir.relativize(Paths.get(sdfile));
         Path outFilePath = workingDir.relativize(Paths.get(outfile));
-        String execstr = String.format("/CHEMBENCH/common/mmlsoft/bin.bak/Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name",
+        String execstr = String.format("Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 -t 10 -l 2 -u 4 -s Chembench_Name",
                 inFilePath.toString(), outFilePath.toString());
         logger.debug("generateIsidaDescriptor " + workingDir.toString() + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir.toString(), "ISIDA");
@@ -53,7 +53,7 @@ public class GenerateDescriptors {
         Path inFilePath = workingDir.relativize(Paths.get(sdfile));
         Path outFilePath = workingDir.relativize(Paths.get(outfile));
         Path headerFilePath = workingDir.relativize(Paths.get(headerFile));
-        String execstr = String.format("/CHEMBENCH/common/mmlsoft/bin.bak/Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 "
+        String execstr = String.format("Fragmentor -i %s -o %s -t 0 -t 3 -l 2 -u 4 "
                 + "-t 10 -l 2 -u 4 "
                 + "-s Chembench_Name "
                 + "-h %s --StrictFrg", inFilePath.toString(), outFilePath.toString(), headerFilePath.toString());
@@ -65,7 +65,7 @@ public class GenerateDescriptors {
     public static void generateHExplicitDragonDescriptors(String sdfile, String outfile) throws Exception {
         String workingDir = outfile.replaceAll("/[^/]+$", "") + "/";
         writeHExplicitDragonScriptFiles(sdfile, workingDir, outfile);
-        String execstr = "/CHEMBENCH/common/mmlsoft/bin.bak/dragonX -s " + workingDir + "dragon-scriptH.txt";
+        String execstr = "dragonX -s " + workingDir + "dragon-scriptH.txt";
         logger.debug("generateHExplicitDragonDescriptors explicit dragon" + workingDir + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonH");
     }
@@ -73,7 +73,7 @@ public class GenerateDescriptors {
     public static void generateHDepletedDragonDescriptors(String sdfile, String outfile) throws Exception {
         String workingDir = outfile.replaceAll("/[^/]+$", "") + "/";
         writeHDepletedDragonScriptFiles(sdfile, workingDir, outfile);
-        String execstr = "/CHEMBENCH/common/mmlsoft/bin.bak/dragonX -s " + workingDir + "dragon-scriptNoH.txt";
+        String execstr = "dragonX -s " + workingDir + "dragon-scriptNoH.txt";
         logger.debug("generateIsidaDescriptor " + workingDir + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonNoH");
     }
@@ -193,7 +193,7 @@ public class GenerateDescriptors {
 
     public static void generateMoe2DDescriptors(String sdfile, String outfile) throws Exception {
         //command: "moe2D.sh infile.sdf outfile.moe2D"
-        String execstr = "/CHEMBENCH/common/mmlsoft/bin.bak/moe2D.sh " + " " + sdfile + " "
+        String execstr = "moe2D.sh " + " " + sdfile + " "
                 + outfile + " " + Constants.CECCR_BASE_PATH +
                 "mmlsoft/SVL_DIR/batch_sd_2Ddesc.svl";
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
@@ -203,7 +203,7 @@ public class GenerateDescriptors {
 
     public static void generateMaccsDescriptors(String sdfile, String outfile) throws Exception {
         //command: "maccs.sh infile.sdf outfile.maccs"
-        String execstr = "/CHEMBENCH/common/mmlsoft/bin.bak/maccs.sh " + sdfile + " "
+        String execstr = "maccs.sh " + sdfile + " "
                 + outfile + " " + Constants.CECCR_BASE_PATH +
                 "mmlsoft/SVL_DIR/batch_sd_MACCSFP.svl";
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
@@ -213,13 +213,13 @@ public class GenerateDescriptors {
 
     public static void generateDragon7Descriptors(String sdfFile, String outFile) throws DescriptorGenerationException {
         String scriptFilePath = Paths.get(Constants.CECCR_BASE_PATH, Constants.DRAGON7_SCRIPT_PATH).toString();
-        String execstr = Utility.SPACE_JOINER.join(new String[]{"/CHEMBENCH/common/mmlsoft/bin.bak/dragon7",
+        String execstr = Utility.SPACE_JOINER.join(new String[]{"dragon7",
                 "-s", scriptFilePath,
                 "<", sdfFile
         });
         Path sdfFilePath = Paths.get(sdfFile);
         Path descriptorsDirPath = sdfFilePath.getParent().resolve("Descriptors");
-        logger.debug("generateMaccsDescriptors " + descriptorsDirPath.toString() + " " + execstr);
+        logger.debug("generateDragon7Descriptors " + descriptorsDirPath.toString() + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, descriptorsDirPath.toString() + "/", "dragon7");
 
         try {
