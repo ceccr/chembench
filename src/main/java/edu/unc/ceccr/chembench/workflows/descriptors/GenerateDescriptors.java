@@ -209,6 +209,8 @@ public class GenerateDescriptors {
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
         logger.debug("generateMaccsDescriptors " + workingDir + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "maccs.sh");
+        String execstr1 = "echo $LD_LIBRARY_PATH";
+        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "getPath");
     }
 
     public static void generateDragon7Descriptors(String sdfFile, String outFile) throws DescriptorGenerationException {
