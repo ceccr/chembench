@@ -209,7 +209,7 @@ public class GenerateDescriptors {
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
         logger.debug("generateMaccsDescriptors " + workingDir + " " + execstr);
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "maccs.sh");
-        String execstr1 = "echo $LD_LIBRARY_PATH";
+        String execstr1 = "echo $PATH";
         RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir + "/Descriptors/", "getPath");
     }
 
