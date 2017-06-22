@@ -38,7 +38,7 @@ public class DescriptorDragon7 extends DescriptorCommonDragon implements Descrip
             RunExternalProgram.runCommandAndLogOutput(execstr, descriptorsDirPath.toString() + "/", "dragon7");
 
             try {
-                Files.move(descriptorsDirPath.resolve("dragon7.out"), Paths.get(outFile), StandardCopyOption.REPLACE_EXISTING);
+                Files.move(descriptorsDirPath.resolve("dragon7.out"), Paths.get(outFile + getFileEnding()), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new DescriptorGenerationException("Dragon 7 descriptor generation failed", e);
             }
