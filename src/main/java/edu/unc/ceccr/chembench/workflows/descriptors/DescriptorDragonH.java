@@ -17,7 +17,7 @@ public class DescriptorDragonH extends DescriptorCommonDragon implements Descrip
     }
 
     @Override
-    public String getDescriptorSet() {
+    public String getDescriptorSetName() {
         return Constants.DRAGONH;
     }
 

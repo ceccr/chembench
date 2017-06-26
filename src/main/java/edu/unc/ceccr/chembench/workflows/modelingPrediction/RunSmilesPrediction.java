@@ -28,7 +28,7 @@ public class RunSmilesPrediction {
     private static final Logger logger = LoggerFactory.getLogger(RunSmilesPrediction.class);
     private static PredictorRepository predictorRepository;
 
-    public static String[] predictSmilesSdf(String workingDir, String username, Predictor predictor) throws Exception {
+    public static String[] predictSmilesSdf(String workingDir, String username, Predictor predictor, AllDescriptors descriptorSetListObj) throws Exception {
         Path wd = new File(workingDir).toPath();
         if (!Files.exists(wd)) {
             logger.info("Working directory doesn't exist, creating it: " + wd.toString());
@@ -59,7 +59,8 @@ public class RunSmilesPrediction {
         List<Descriptors> descriptorValueMatrix = new ArrayList<>();
         List<String> chemicalNames = DatasetFileOperations.getSdfCompoundNames(sdfile);
 
-        ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
+        descriptorSetListObj.readDescriptorSetsWithFileEnding(sdfile, descriptorNames, descriptorValueMatrix);
+//        ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
 
         logger.debug("Normalizing descriptors to fit predictor.");
 
@@ -208,31 +209,11 @@ public class RunSmilesPrediction {
         logger.debug("Finished smilesToSdf");
     }
 
-    public static void generateDescriptorsForSdf(String smilesDir, Set<String> descriptorTypes) throws Exception {
-        logger.debug("About to Generate Descriptors For SDF");
-        String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
-
-        DescriptorSet[] descriptorSetList = new DescriptorSet[]{ new DescriptorCDK(),new DescriptorDragonH(),
-                new DescriptorDragonNoH(), new DescriptorMoe2D(), new DescriptorMaccs(), new DescriptorIsida(),
-                new DescriptorDragon7()};
-
-        for (DescriptorSet descriptorSet : descriptorSetList){
-            if (descriptorTypes.contains(descriptorSet.getDescriptorSet())){
-                descriptorSet.generateDescriptors(sdfile, sdfile);
-                if (descriptorTypes.contains(Constants.CDK)) {
-                    ReadDescriptors.convertCdkToX(sdfile + descriptorSet.getFileEnding(), smilesDir);
-                }
-            }
-        }
-    }
-
     public static void generateIsidaDescriptorsForSdf(String smilesDir, String predictorSdfFileNames) throws Exception {
-        DescriptorIsida descriptorIsida = new DescriptorIsida();
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
+
+        DescriptorIsida descriptorIsida = new DescriptorIsida();
         descriptorIsida.generateDescriptors(sdfile, sdfile);
-//        String predictorHeaderFile = smilesDir + predictorSdfFileNames + descriptorIsida.getFileHdrEnding();
-//        descriptorIsida.generateIsidaDescriptorsWithHeader(sdfile,
-//                sdfile + descriptorIsida.getFileEnding(), predictorHeaderFile);
     }
 
     @Autowired

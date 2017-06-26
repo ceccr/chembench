@@ -1,18 +1,23 @@
 package edu.unc.ceccr.chembench.workflows.descriptors;
 
 import edu.unc.ceccr.chembench.global.Constants;
+import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class DescriptorMoe2D implements DescriptorSet {
+    private static final Logger logger = LoggerFactory.getLogger(DescriptorMoe2D.class);
 
     @Override
-    public String getDescriptorSet() {
+    public String getDescriptorSetName() {
         return Constants.MOE2D;
     }
 
@@ -36,6 +41,56 @@ public class DescriptorMoe2D implements DescriptorSet {
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "moe2d.sh");
     }
 
+    @Override
+    public void readDescriptors(String moe2DOutputFile, List<String> descriptorNames,
+                                            List<Descriptors> descriptorValueMatrix) throws Exception {
+        logger.debug("reading Moe2D Descriptors");
+
+        File file = new File(moe2DOutputFile);
+        if (!file.exists() || file.length() == 0) {
+            throw new Exception("Could not read MOE2D descriptors.\n");
+        }
+        FileReader fin = new FileReader(file);
+        BufferedReader br = new BufferedReader(fin);
+        /* contains descriptor names */
+        String line = br.readLine();
+        Scanner tok = new Scanner(line);
+        tok.useDelimiter(",");
+        /* first descriptor says "name"; we don't need that. */
+        tok.next();
+        while (tok.hasNext()) {
+            descriptorNames.add(tok.next());
+        }
+        while ((line = br.readLine()) != null) {
+            tok = new Scanner(line);
+            tok.useDelimiter(",");
+            if (tok.hasNext()) {
+                /* first descriptor value is the name of the compound */
+                tok.next();
+            }
+            List<Double> descriptorValues = new ArrayList<>();
+            while (tok.hasNext()) {
+                String val = tok.next();
+                if (val.contains("NaN") || val.contains("e")) {
+                    /*
+                     * there's a divide-by-zero error for MOE2D sometimes.
+                     * Results in NaN or "e+23" type numbers. only happens on
+                     * a few descriptors, so it should be OK to just call it a
+                     * 0 and move on.
+                     */
+                    val = "0";
+                }
+                descriptorValues.add(Double.parseDouble(val));
+            }
+            if (!descriptorValues.isEmpty()) {
+                Descriptors di = new Descriptors();
+                di.setDescriptorValues(descriptorValues);
+                descriptorValueMatrix.add(di);
+            }
+            tok.close();
+        }
+        br.close();
+    }
     @Override
     public String checkDescriptors(String moe2DOutputFile) throws Exception {
         // right now this doesn't check anything. The MOE2D descriptors never

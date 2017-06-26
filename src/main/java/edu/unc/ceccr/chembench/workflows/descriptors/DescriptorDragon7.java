@@ -1,6 +1,7 @@
 package edu.unc.ceccr.chembench.workflows.descriptors;
 
 import edu.unc.ceccr.chembench.global.Constants;
+import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.slf4j.Logger;
@@ -12,12 +13,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 public class DescriptorDragon7 extends DescriptorCommonDragon implements DescriptorSet {
     private static final Logger logger = LoggerFactory.getLogger(DescriptorDragon7.class);
 
     @Override
-    public String getDescriptorSet() { return Constants.DRAGON7;}
+    public String getDescriptorSetName() { return Constants.DRAGON7;}
 
     @Override
     public String getFileEnding() { return ".dragon7";}

@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
-import sun.security.krb5.internal.crypto.Des;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -103,7 +102,7 @@ public class CreateDatasetTask extends WorkflowTask {
 
         this.userName = userName;
         this.datasetType = datasetType;
-        this.selectedDatasetDescriptorTypes =selectedDatasetDescriptorTypes;
+        this.selectedDatasetDescriptorTypes = selectedDatasetDescriptorTypes;
         this.sdfFileName = sdfFileName.replaceAll(" ", "_");
         this.actFileName = actFileName.replaceAll(" ", "_");
         this.xFileName = xFileName.replaceAll(" ", "_");
@@ -210,10 +209,6 @@ public class CreateDatasetTask extends WorkflowTask {
             // generate descriptors
             this.numCompounds = DatasetFileOperations.getSdfCompoundNames(path + sdfFileName).size();
 
-            DescriptorSet[] descriptorSetList = new DescriptorSet[]{ new DescriptorCDK(),new DescriptorDragonH(),
-                    new DescriptorDragonNoH(), new DescriptorMoe2D(), new DescriptorMaccs(), new DescriptorIsida(),
-                    new DescriptorDragon7()};
-
             String descriptorDir = path + "Descriptors/";
             if (!new File(descriptorDir).exists()) {
                 new File(descriptorDir).mkdirs();
@@ -221,39 +216,37 @@ public class CreateDatasetTask extends WorkflowTask {
 
             step = Constants.DESCRIPTORS + " and " + Constants.CHECKDESCRIPTORS;
             logger.debug("User: " + userName + "Job: " + jobName + " Generating Descriptors");
-            List<String> selectedDatasetDescriptorTypeList =  new ArrayList<>();
-            if (selectedDatasetDescriptorTypes.contains(Constants.ALL) || selectedDatasetDescriptorTypes.isEmpty()){
-                selectedDatasetDescriptorTypeList.addAll(Arrays.asList(Constants.DESCRIPTORSETS));
-            }else{
-                selectedDatasetDescriptorTypeList = Splitter.on(", ").splitToList(selectedDatasetDescriptorTypes);
+
+            //generate all descriptors if they forgot to choose a descriptor to generate
+            if (selectedDatasetDescriptorTypes.isEmpty()) {
+                selectedDatasetDescriptorTypes = Constants.ALL;
             }
 
+            //generate necessary descriptorSet objects
+            AllDescriptors generateDescriptorsObj = new AllDescriptors(selectedDatasetDescriptorTypes);
+            List<DescriptorSet> descriptorSetList = generateDescriptorsObj.getDescriptorSets();
+
             // the dataset included an SDF so we need to generate descriptors from it
-            for (String descriptorString : selectedDatasetDescriptorTypeList) {
-                for (DescriptorSet descriptorSet: descriptorSetList){
-                    if (descriptorString.equals(descriptorSet.getDescriptorSet())){
-                        String sdfFile = path + sdfFileName;
-                        String descriptorFile = descriptorDir + sdfFileName;
+            for (DescriptorSet descriptorSet : descriptorSetList) {
+                String sdfFile = path + sdfFileName;
+                String descriptorFile = descriptorDir + sdfFileName;
 
-                        descriptorSet.generateDescriptors(sdfFile, descriptorFile);
-                        String errors = descriptorSet.checkDescriptors(descriptorFile);
+                descriptorSet.generateDescriptors(sdfFile, descriptorFile);
 
-                        if (!errors.isEmpty() && !descriptorSet.equals(Constants.DRAGON7)) {
-                            File errorSummaryFile = new File(descriptorDir + "Logs/" +
-                                    descriptorSet.getFileErrorOut());
-                            BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
-                            errorSummary.write(errors);
-                            errorSummary.close();
-                        }
+                String errors = descriptorSet.checkDescriptors(descriptorFile);
+                if (!errors.isEmpty()) {
+                    File errorSummaryFile = new File(descriptorDir +
+                            "Logs/" + descriptorSet.getFileErrorOut());
+                    BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+                    errorSummary.write(errors);
+                    errorSummary.close();
+                }
 
-                        //CDK is available regardless of errors
-                        if (descriptorString.equals(Constants.CDK)){
-                            availableDescriptors += Constants.CDK + " ";
-                        }
-                        else if(errors.isEmpty()){
-                            availableDescriptors += descriptorString + " ";
-                        }
-                    }
+                //CDK is available regardless of errors
+                if (descriptorSet.getDescriptorSetName().equals(Constants.CDK)) {
+                    availableDescriptors += Constants.CDK + " ";
+                } else if (errors.isEmpty()) {
+                    availableDescriptors += descriptorSet.getDescriptorSetName() + " ";
                 }
             }
         }

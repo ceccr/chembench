@@ -12,6 +12,8 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.calculations.PredictorEvaluation;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
+import edu.unc.ceccr.chembench.workflows.descriptors.AllDescriptors;
+import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorSet;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.*;
@@ -33,6 +35,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static edu.unc.ceccr.chembench.global.Constants.DESCRIPTORSETS;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class QsarModelingTask extends WorkflowTask {
@@ -435,28 +439,32 @@ public class QsarModelingTask extends WorkflowTask {
         List<String> chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
         Dataset dataset = datasetRepository.findOne(datasetID);
         String xFileName = "";
+
         // read in descriptors from the dataset
         step = Constants.PROCDESCRIPTORS;
+        //generate necessary descriptorSet objects
+        AllDescriptors generateDescriptorsObj = new AllDescriptors(descriptorGenerationType);
+        List<DescriptorSet> descriptorSetList = generateDescriptorsObj.getDescriptorSets();
+        String sdFile = filePath + sdFileName;
         // for CDK we need to do some preprocessing so we can't call ReadDescriptors.readDescriptors on it yet
-        if (descriptorGenerationType.equals(Constants.CDK)) {
-            logger.debug("Processing CDK descriptors for job, " + jobName + " submitted by user, " + userName);
+        for (DescriptorSet descriptorSet: descriptorSetList) {
+            if (descriptorSet.getDescriptorSetName().equals(Constants.CDK)) {
+                logger.debug("Processing CDK descriptors for job, " + jobName + " submitted by user, " + userName);
+                descriptorSet.readDescriptors(sdFile + descriptorSet.getFileEnding(), descriptorNames, descriptorValueMatrix);
 
-            ReadDescriptors.convertCdkToX(filePath + sdFileName + ".cdk", filePath);
-            ReadDescriptors.readXDescriptors(filePath + sdFileName + ".cdk.x", descriptorNames, descriptorValueMatrix);
-
-            // for CDK descriptors, compounds with errors are skipped.
-            // Make sure that any skipped compounds are removed from the list
-            // of external compounds
-            DatasetFileOperations.removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
-            DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
-            chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
-        } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
-            logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
-            ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
-        } else {
-            ReadDescriptors.readDescriptors(predictor, filePath + sdFileName, descriptorNames, descriptorValueMatrix);
+                // for CDK descriptors, compounds with errors are skipped.
+                // Make sure that any skipped compounds are removed from the list
+                // of external compounds
+                DatasetFileOperations.removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
+                DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
+                chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
+            } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
+                logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
+                descriptorSet.readDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
+            } else {
+                descriptorSet.readDescriptors(sdFile + descriptorSet.getFileEnding(), descriptorNames, descriptorValueMatrix);
+            }
         }
-
         // write out the descriptors into a .x file for modeling
         if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             xFileName = dataset.getXFile();

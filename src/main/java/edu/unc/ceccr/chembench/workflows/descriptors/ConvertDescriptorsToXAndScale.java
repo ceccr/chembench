@@ -72,10 +72,8 @@ public class ConvertDescriptorsToXAndScale {
         }
 
         while (descriptorsFilePart.exists()) {
-
             List<String> descriptorNames = new ArrayList<>();
             List<Descriptors> descriptorValueMatrix = new ArrayList<>();
-
             List<String> chemicalNames = new ArrayList<>();
 
             for (int i = filePartNumber * compoundsPerChunk; i < (filePartNumber + 1) * compoundsPerChunk; i++) {
@@ -84,36 +82,12 @@ public class ConvertDescriptorsToXAndScale {
                 }
             }
 
-            if (descriptorGenerationType.equals(Constants.CDK)) {
-                // descriptorsFile += ".cdk";
-                // ReadDescriptors.convertCdkToX(workingDir +
-                // descriptorsFile+".x_" + filePartNumber, workingDir);
-                ReadDescriptors.readXDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
-                        descriptorValueMatrix);
-            } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
-                ReadDescriptors
-                        .readDragonXDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
-                                descriptorValueMatrix);
-            } else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
-                ReadDescriptors
-                        .readDragonXDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
-                                descriptorValueMatrix);
-            } else if (descriptorGenerationType.equals(Constants.MOE2D)) {
-                ReadDescriptors
-                        .readMoe2DDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
-                                descriptorValueMatrix);
-            } else if (descriptorGenerationType.equals(Constants.MACCS)) {
-                ReadDescriptors
-                        .readMaccsDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
-                                descriptorValueMatrix);
-            } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
-                ReadDescriptors
-                        .readIsidaDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
-                                descriptorValueMatrix);
-            } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
-                ReadDescriptors.readXDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
-                        descriptorValueMatrix);
-            }
+            // descriptorsFile += ".cdk";
+            // ReadDescriptors.convertCdkToX(workingDir +
+            // descriptorsFile+".x_" + filePartNumber, workingDir);
+            AllDescriptors descriptorSetListObj = new AllDescriptors(descriptorGenerationType);
+            descriptorSetListObj.readDescriptorSets(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames,
+                    descriptorValueMatrix);
 
             String descriptorString = Utility.stringListToString(descriptorNames);
             WriteDescriptors.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString,
@@ -148,30 +122,9 @@ public class ConvertDescriptorsToXAndScale {
                     workingDir + sdfile);
             chemicalNames = DatasetFileOperations.getSdfCompoundNames(workingDir + sdfile);
         }
-        String descriptorsFile = sdfile;
-        if (descriptorGenerationType.equals(Constants.CDK)) {
-            descriptorsFile += ".cdk";
-            ReadDescriptors.convertCdkToX(workingDir + descriptorsFile, workingDir);
-            ReadDescriptors
-                    .readXDescriptors(workingDir + descriptorsFile + ".x", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
-            descriptorsFile += ".dragonH";
-            ReadDescriptors.readDragonXDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
-            descriptorsFile += ".dragonNoH";
-            ReadDescriptors.readDragonXDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.MOE2D)) {
-            descriptorsFile += ".moe2D";
-            ReadDescriptors.readMoe2DDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.MACCS)) {
-            descriptorsFile += ".maccs";
-            ReadDescriptors.readMaccsDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
-            descriptorsFile += ".renorm.ISIDA";
-            ReadDescriptors.readIsidaDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
-            ReadDescriptors.readXDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
-        }
+
+        AllDescriptors descriptorsSetListObj = new AllDescriptors(descriptorGenerationType);
+        descriptorsSetListObj.readDescriptorSetsWithFileEnding(workingDir + sdfile, descriptorNames, descriptorValueMatrix);
 
         String descriptorString = Utility.stringListToString(descriptorNames);
         WriteDescriptors

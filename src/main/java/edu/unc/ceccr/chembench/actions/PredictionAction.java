@@ -11,6 +11,7 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
+import edu.unc.ceccr.chembench.workflows.descriptors.AllDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.RunSmilesPrediction;
 import org.apache.commons.collections.ListUtils;
@@ -122,10 +123,14 @@ public class PredictionAction extends ActionSupport {
 
             // generate an SDF from this SMILES string
             RunSmilesPrediction.smilesToSdf(smiles, smilesDir);
+            AllDescriptors descriptorSetListObj = new AllDescriptors(predictor.getDescriptorGeneration());
             logger.info(String.format("Generated SDF file from SMILES \"%s\" written to %s", smiles, smilesDir));
+
             // generate descriptors using the given SDF file except for ISIDA
             if (!predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-                RunSmilesPrediction.generateDescriptorsForSdf(smilesDir, descriptorTypes);
+                String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
+                descriptorSetListObj.generateDescriptorSetsWithoutIsida(sdfile, sdfile);
+//                RunSmilesPrediction.generateDescriptorsForSdf(smilesDir, predictor.getDescriptorGeneration());
             }else{
                 logger.info(predictor.getDescriptorGeneration());
             }
@@ -160,7 +165,7 @@ public class PredictionAction extends ActionSupport {
                     }
 
                     tempPred.add(RunSmilesPrediction
-                            .predictSmilesSdf(smilesDir + tempP.getName() + "/", user.getUserName(), tempP));
+                            .predictSmilesSdf(smilesDir + tempP.getName() + "/", user.getUserName(), tempP, descriptorSetListObj));
 
                     totalModels += tempP.getNumTestModels();
                     logger.debug("Calculating predictions for " + tempP.getName());
@@ -231,7 +236,7 @@ public class PredictionAction extends ActionSupport {
              * prediction
              */
             else {
-                predValues = RunSmilesPrediction.predictSmilesSdf(smilesDir, user.getUserName(), predictor);
+                predValues = RunSmilesPrediction.predictSmilesSdf(smilesDir, user.getUserName(), predictor, descriptorSetListObj);
 
                 // Calculate applicability domian
                 String execstr = "";

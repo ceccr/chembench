@@ -11,7 +11,7 @@ public class DescriptorDragonNoH extends DescriptorCommonDragon implements Descr
     private static final Logger logger = LoggerFactory.getLogger(DescriptorDragonNoH.class);
 
     @Override
-    public String getDescriptorSet() {
+    public String getDescriptorSetName() {
         return Constants.DRAGONNOH;
     }
 
