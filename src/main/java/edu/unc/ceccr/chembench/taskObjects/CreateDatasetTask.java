@@ -223,34 +223,14 @@ public class CreateDatasetTask extends WorkflowTask {
             }
 
             //generate necessary descriptorSet objects
+            String descriptorFile = descriptorDir + sdfFileName;
             AllDescriptors generateDescriptorsObj = new AllDescriptors(selectedDatasetDescriptorTypes);
-            List<DescriptorSet> descriptorSetList = generateDescriptorsObj.getDescriptorSets();
 
             // the dataset included an SDF so we need to generate descriptors from it
-            for (DescriptorSet descriptorSet : descriptorSetList) {
-                String sdfFile = path + sdfFileName;
-                String descriptorFile = descriptorDir + sdfFileName;
-
-                descriptorSet.generateDescriptors(sdfFile, descriptorFile);
-
-                String errors = descriptorSet.checkDescriptors(descriptorFile);
-                if (!errors.isEmpty()) {
-                    File errorSummaryFile = new File(descriptorDir +
-                            "Logs/" + descriptorSet.getFileErrorOut());
-                    BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
-                    errorSummary.write(errors);
-                    errorSummary.close();
-                }
-
-                //CDK is available regardless of errors
-                if (descriptorSet.getDescriptorSetName().equals(Constants.CDK)) {
-                    availableDescriptors += Constants.CDK + " ";
-                } else if (errors.isEmpty()) {
-                    availableDescriptors += descriptorSet.getDescriptorSetName() + " ";
-                }
-            }
+            generateDescriptorsObj.generateDescriptorSets(path + sdfFileName, descriptorFile, "");
+            availableDescriptors =
+                    generateDescriptorsObj.checkDescriptorsAndReturnAvailableDescriptors(descriptorDir, descriptorFile);
         }
-
         // add uploaded descriptors to list (if any)
         if (datasetType.equals(Constants.MODELINGWITHDESCRIPTORS) || datasetType
                 .equals(Constants.PREDICTIONWITHDESCRIPTORS)) {

@@ -5,6 +5,9 @@ import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
+import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorCDK;
+import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorDragon7;
+import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorDragonH;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,11 +83,19 @@ public class Dataset implements java.io.Serializable {
             //use cdk first because dragon7 takes forever for large datasets
             // use Dragon 7 when available (as it has the most descriptors) but use CDK as a fallback
             if (availableDescriptors.contains(Constants.CDK)) {
+                DescriptorCDK cdk = new DescriptorCDK();
                 Path cdkDescriptorFile = descriptorDir.resolve(sdfFile + ".cdk.x");
-                ReadDescriptors.readXDescriptors(cdkDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
+                cdk.readDescriptors(cdkDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
             }else if (availableDescriptors.contains(Constants.DRAGON7)) {
-                Path dragonDescriptorFile = descriptorDir.resolve(sdfFile + ".dragon7");
-                ReadDescriptors.readDragon7Descriptors(dragonDescriptorFile.toString(), descriptorNames,
+                DescriptorDragon7 dragon7 = new DescriptorDragon7();
+                Path dragonDescriptorFile = descriptorDir.resolve(sdfFile + dragon7.getFileEnding());
+                dragon7.readDescriptors(dragonDescriptorFile.toString(), descriptorNames,
+                        descriptorValueMatrix);
+            }
+            else if (availableDescriptors.contains(Constants.DRAGONH)){
+                DescriptorDragonH dragonH = new DescriptorDragonH();
+                Path dragonDescriptorFile = descriptorDir.resolve(sdfFile + dragonH.getFileEnding());
+                dragonH.readDescriptors(dragonDescriptorFile.toString(), descriptorNames,
                         descriptorValueMatrix);
             }
 

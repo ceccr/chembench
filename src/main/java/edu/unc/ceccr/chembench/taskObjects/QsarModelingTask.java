@@ -14,7 +14,6 @@ import edu.unc.ceccr.chembench.workflows.calculations.PredictorEvaluation;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.descriptors.AllDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorSet;
-import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.*;
 import org.slf4j.Logger;
@@ -35,8 +34,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import static edu.unc.ceccr.chembench.global.Constants.DESCRIPTORSETS;
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class QsarModelingTask extends WorkflowTask {

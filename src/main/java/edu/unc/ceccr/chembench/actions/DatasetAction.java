@@ -10,14 +10,19 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
+import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.management.Descriptor;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+
+import static edu.unc.ceccr.chembench.global.Constants.DESCRIPTORSETS;
 
 public class DatasetAction extends ActionSupport {
 
@@ -106,7 +111,7 @@ public class DatasetAction extends ActionSupport {
     }
 
     private List<String> getUploadedDescriptorTypes() {
-        Set<String> uploadedTypes = Sets.newHashSet();
+        Set<String> uploadedTypes = Sets.newHashSet(Arrays.asList(DESCRIPTORSETS));
         List<Dataset> datasets = datasetRepository.findByUserName(user.getUserName());
         datasets.addAll(datasetRepository.findAllPublicDatasets());
         for (Dataset d : datasets) {

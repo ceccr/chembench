@@ -84,10 +84,20 @@
                 if (selectedDatasets.length > 1) {
                     jobName.val(originalJobName + ' ' + dataset.name);
                 }
-                $.post(form.attr('action') + '?' + form.serialize());
             });
 
-            window.location = Chembench.MYBENCH_URL;
+            var selectedModelDescriptors = fetchAllBodyRows('#prediction-model-selection').find(':checked').siblings(
+                    '[name="model_descriptors"]').map(function() {
+                return $(this).val();
+            }).get();
+            alert(selectedModelDescriptors.val(selectedModelDescriptors.join(' ')));
+
+            $.post(form.attr('action') + '?' + form.serialize()).done(function( data ) {
+                window.location = Chembench.MYBENCH_URL;
+            }).fail(function(xhr, status, error) {
+                alert("check that descriptors for model exist in dataset and vice versa.");
+                window.location = Chembench.ERROR_URL;
+            });
         });
 
         $('#prediction-model-selection, #prediction-dataset-selection').find('table').DataTable().one('draw',

@@ -4,6 +4,9 @@ import com.google.common.base.Splitter;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Descriptors;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +40,10 @@ public class AllDescriptors {
                 if (descriptorString.equals(Constants.DRAGON7) || descriptorString.equals(Constants.ALL)) {
                     descriptorSets.add(new DescriptorDragon7());
                 }
-                if (descriptorString.equals(Constants.UPLOADED)){
+                if (descriptorString.equals(Constants.UPLOADED)) {
                     descriptorSets.add(new DescriptorUploaded());
                 }
             }
-        }else{
-            throw new RuntimeException("Empty descriptor type");
         }
     }
 
@@ -50,11 +51,12 @@ public class AllDescriptors {
         return descriptorSets;
     }
 
-    public void generateDescriptorSetsWithoutIsida(String sdfFile, String outFile) throws Exception{
+    public void generateDescriptorSets(String sdfFile, String outFile, String notDescriptorSet) throws
+            Exception{
         //this function is for smiles prediction
          if (!descriptorSets.isEmpty()){
              for (DescriptorSet descriptorSet: descriptorSets){
-                 if (!descriptorSet.getDescriptorSetName().equals(Constants.ISIDA) ||
+                 if (!descriptorSet.getDescriptorSetName().equals(notDescriptorSet) ||
                          !descriptorSet.getDescriptorSetName().equals(Constants.UPLOADED)) {
                      descriptorSet.generateDescriptors(sdfFile, outFile);
                  }
@@ -79,5 +81,28 @@ public class AllDescriptors {
                 descriptorSet.readDescriptors(sdfFile, descriptorNames, descriptorValueMatrix);
             }
         }
+    }
+
+    public String checkDescriptorsAndReturnAvailableDescriptors(String descriptorDir, String descriptorFile)
+            throws Exception{
+        String availableDescriptors = "";
+
+        for (DescriptorSet descriptorSet : descriptorSets) {
+            String errors = descriptorSet.checkDescriptors(descriptorFile);
+            if (!errors.isEmpty()) {
+                File errorSummaryFile = new File(descriptorDir + "Logs/" + descriptorSet.getFileErrorOut());
+                BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+                errorSummary.write(errors);
+                errorSummary.close();
+            }
+
+            //CDK is available regardless of errors
+            if (descriptorSet.getDescriptorSetName().equals(Constants.CDK)) {
+                availableDescriptors += Constants.CDK + " ";
+            } else if (errors.isEmpty()) {
+                availableDescriptors += descriptorSet.getDescriptorSetName() + " ";
+            }
+        }
+        return availableDescriptors;
     }
 }
