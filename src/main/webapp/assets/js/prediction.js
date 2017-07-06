@@ -86,17 +86,11 @@
                 }
             });
 
-            var selectedModelDescriptors = fetchAllBodyRows('#prediction-model-selection').find(':checked').siblings(
-                    '[name="model_descriptors"]').map(function() {
-                return $(this).val();
-            }).get();
-            alert(selectedModelDescriptors.val(selectedModelDescriptors.join(' ')));
-
-            $.post(form.attr('action') + '?' + form.serialize()).done(function( data ) {
+            $.post(form.attr('action') + '?' + form.serialize()).done(function() {
                 window.location = Chembench.MYBENCH_URL;
-            }).fail(function(xhr, status, error) {
-                alert("check that descriptors for model exist in dataset and vice versa.");
-                window.location = Chembench.ERROR_URL;
+            }).fail(function() {
+                alert("ERROR: check that descriptors for model exist in dataset and vice versa.");
+                location.reload();
             });
         });
 
