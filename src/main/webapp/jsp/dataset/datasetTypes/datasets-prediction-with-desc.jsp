@@ -23,7 +23,7 @@
   <label class="control-label col-xs-3">Descriptor data (.x):</label>
 
   <div class="col-xs-9">
-    <s:file name="xFilePredDesc" id="xFilePredDesc" theme="simple" />
+    <s:file name="descriptorXFilePredDesc" id="xFilePredD" theme="simple"/>
   </div>
 </div>
 <div class="form-group">
@@ -37,7 +37,8 @@
           for="newDescriptorNameD">New type</label>
       </div>
       <div class="col-xs-9 uploaded-descriptor-type-entry">
-        <s:textfield name="descriptorNewNameD" id="descriptorNewNameD" theme="simple" />
+        <s:textfield name="descriptorNewNameD" id="descriptorNewNameD" theme="simple"
+                      cssClass="form-control"/>
       </div>
     </div>
     <s:if test="userUploadedDescriptorTypes.size() > 0">

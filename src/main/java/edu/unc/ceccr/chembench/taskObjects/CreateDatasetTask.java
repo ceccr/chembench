@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.taskObjects;
 
-import com.google.common.base.Splitter;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Dataset;
 import edu.unc.ceccr.chembench.persistence.DatasetRepository;
@@ -18,14 +17,8 @@ import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-
 
 @Configurable(autowire = Autowire.BY_TYPE)
 public class CreateDatasetTask extends WorkflowTask {

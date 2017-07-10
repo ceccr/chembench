@@ -10,12 +10,10 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.management.Descriptor;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,9 +80,9 @@ public class DatasetAction extends ActionSupport {
     private String sdfFileModDescContentType = "";
     private String sdfFileModDescFileName = "";
     //prediction with descriptors
-    private File xFilePredDesc = null;
-    private String xFilePredDescContentType = "";
-    private String xFilePredDescFileName = "";
+    private File descriptorXFilePredDesc = null;
+    private String descriptorXFilePredDescContentType = "";
+    private String descriptorXFilePredDescFileName = "";
     private File sdfFilePredDesc = null;
     private String sdfFilePredDescContentType = "";
     private String sdfFilePredDescFileName = "";
@@ -110,6 +108,7 @@ public class DatasetAction extends ActionSupport {
         this.jobRepository = jobRepository;
     }
 
+    //let user name descriptor type at modeling with descriptors and prediction with descriptors
     private List<String> getUploadedDescriptorTypes() {
         Set<String> uploadedTypes = Sets.newHashSet(Arrays.asList(DESCRIPTORSETS));
         List<Dataset> datasets = datasetRepository.findByUserName(user.getUserName());
@@ -420,7 +419,7 @@ public class DatasetAction extends ActionSupport {
                 }
             }
         } else if (datasetType.equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)) {
-            if (xFilePredDesc == null) {
+            if (descriptorXFilePredDesc == null) {
                 addActionError("File upload failed or no files supplied. If you are using Chrome, "
                         + "try again in a different browser such as Firefox.");
                 result = ERROR;
@@ -429,18 +428,19 @@ public class DatasetAction extends ActionSupport {
             if (result.equalsIgnoreCase(INPUT)) {
                 //verify uploaded files and copy them to the dataset dir
                 try {
-                    if (!xFilePredDescFileName.endsWith(".x")) {
-                        xFilePredDescFileName += ".x";
+                    if (!descriptorXFilePredDescFileName.endsWith(".x")) {
+                        descriptorXFilePredDescFileName += ".x";
                     }
 
                     msgs = DatasetFileOperations
-                            .uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", xFilePredDesc,
-                                    xFilePredDescFileName, datasetName, dataTypeModeling, datasetType,
+                            .uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "",
+                                    descriptorXFilePredDesc,
+                                    descriptorXFilePredDescFileName, datasetName, dataTypeModeling, datasetType,
                                     externalCompoundList);
                     sdfFilePredDescFileName =
                             sdfFilePredDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-                    xFilePredDescFileName =
-                            xFilePredDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
+                    descriptorXFilePredDescFileName =
+                            descriptorXFilePredDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
                     descriptorTypePredDesc =
                             descriptorNewNameD.trim().isEmpty() ? selectedDescriptorUsedNameD : descriptorNewNameD;
                 } catch (Exception ex) {
@@ -464,7 +464,7 @@ public class DatasetAction extends ActionSupport {
                             "", //user uploaded descriptors
                             sdfFilePredDescFileName, //sdfFileName
                             "", //actFileName
-                            xFilePredDescFileName, //xFileName
+                            descriptorXFilePredDescFileName, //xFileName
                             descriptorTypePredDesc, //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or
                             // PREDICTIONWITHDESCRIPTORS
                             Constants.PREDICTION, //act file type, Continuous or Category,
@@ -479,7 +479,7 @@ public class DatasetAction extends ActionSupport {
 
                     int numCompounds = DatasetFileOperations.getXCompoundNames(
                             Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
-                                    xFilePredDescFileName).size();
+                                    descriptorXFilePredDescFileName).size();
                     int numModels = 0;
 
                     CentralDogma centralDogma = CentralDogma.getInstance();
@@ -816,42 +816,42 @@ public class DatasetAction extends ActionSupport {
         return descriptorXModDescContentType;
     }
 
-    public void setDescriptorXModDescContentType(String fileContentType) {
-        descriptorXModDescContentType = fileContentType;
+    public void setDescriptorXModDescContentType(String descriptorXModDescContentType) {
+        this.descriptorXModDescContentType = descriptorXModDescContentType;
     }
 
     public String getDescriptorXModDescFileName() {
         return descriptorXModDescFileName;
     }
 
-    public void setDescriptorXModDescFileName(String fileName) {
-        descriptorXModDescFileName = fileName;
+    public void setDescriptorXModDescFileName(String descriptorXModDescFileName) {
+        this.descriptorXModDescFileName = descriptorXModDescFileName;
     }
 
     //end file upload stuff
 
-    public File getXFilePredDesc() {
-        return xFilePredDesc;
+    public File getDescriptorXFilePredDesc() {
+        return descriptorXFilePredDesc;
     }
 
-    public void setXFilePredDesc(File filePredDesc) {
-        xFilePredDesc = filePredDesc;
+    public void setDescriptorXFilePredDesc(File descriptorXFilePredDesc) {
+        this.descriptorXFilePredDesc = descriptorXFilePredDesc;
     }
 
-    public String getXFilePredDescContentType() {
-        return xFilePredDescContentType;
+    public String getDescriptorXFilePredDescContentType() {
+        return descriptorXFilePredDescContentType;
     }
 
-    public void setXFilePredDescContentType(String filePredDescContentType) {
-        xFilePredDescContentType = filePredDescContentType;
+    public void setDescriptorXFilePredDescContentType(String descriptorXFilePredDescContentType) {
+        this.descriptorXFilePredDescContentType = descriptorXFilePredDescContentType;
     }
 
-    public String getXFilePredDescFileName() {
-        return xFilePredDescFileName;
+    public String getDescriptorXFilePredDescFileName() {
+        return descriptorXFilePredDescFileName;
     }
 
-    public void setXFilePredDescFileName(String filePredDescFileName) {
-        xFilePredDescFileName = filePredDescFileName;
+    public void setDescriptorXFilePredDescFileName(String descriptorXFilePredDescFileName) {
+        this.descriptorXFilePredDescFileName = descriptorXFilePredDescFileName;
     }
 
     public File getSdfFilePredDesc() {

@@ -263,14 +263,12 @@ public class WriteDescriptors {
 
     private static List<List<Double>> transpose(List<List<Double>> original) {
         List<List<Double>> transpose = new ArrayList<>();
-        for (List<Double> column : original) {
-            for (int r = 0; r < column.size(); r++) {
-                List<Double> row = transpose.get(r);
-                if (row == null) {
-                    row = new ArrayList<>();
-                }
-                row.add(column.get(r));
+        for (int i = 0; i < original.get(0).size(); i++){
+            List<Double> col = new ArrayList<>();
+            for (List<Double> row: original){
+                col.add(row.get(i));
             }
+            transpose.add(col);
         }
         return transpose;
     }
