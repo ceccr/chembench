@@ -98,7 +98,7 @@ public class DescriptorMoe2D implements DescriptorSet {
         // right now this doesn't check anything. The MOE2D descriptors never
         // seem to cause issues.
         String errors = "";
-
+        moe2DOutputFile += getFileEnding();
         File file = new File(moe2DOutputFile + getFileEnding());
         if (!file.exists() || file.length() == 0) {
             errors = "Could not read descriptor file.\n";
