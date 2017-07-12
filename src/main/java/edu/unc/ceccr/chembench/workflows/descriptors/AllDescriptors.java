@@ -11,10 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AllDescriptors {
+    private String descriptors;
     private List<DescriptorSet> descriptorSets;
 
     public AllDescriptors(String descriptors) {
+        this.descriptors = descriptors;
         descriptorSets = new ArrayList<>();
+
         if (!descriptors.isEmpty()) {
             List<String> descriptorsSplit = Splitter.on(", ").splitToList(descriptors);
 
@@ -47,13 +50,16 @@ public class AllDescriptors {
         }
     }
 
+    public String getDescriptors(){
+        return descriptors;
+    }
+
     public List<DescriptorSet> getDescriptorSets (){
         return descriptorSets;
     }
 
     public void generateDescriptorSets(String sdfFile, String outFile, String notDescriptorSet) throws
             Exception{
-        //this function is for smiles prediction
          if (!descriptorSets.isEmpty()){
              for (DescriptorSet descriptorSet: descriptorSets){
                  if (!descriptorSet.getDescriptorSetName().equals(notDescriptorSet) ||
@@ -73,16 +79,14 @@ public class AllDescriptors {
         }
     }
 
-    public void readDescriptorSetsWithFileEnding(String sdfFile, List<String> descriptorNames,
-                                   List<Descriptors> descriptorValueMatrix) throws Exception{
+    public void readDescriptorSetsChunks (String sdfFile, List<String> descriptorNames,
+                                          List<Descriptors> descriptorValueMatrix) throws Exception{
         if (!descriptorSets.isEmpty()){
             for (DescriptorSet descriptorSet: descriptorSets){
-                sdfFile += descriptorSet.getFileEnding();
-                descriptorSet.readDescriptors(sdfFile, descriptorNames, descriptorValueMatrix);
+                descriptorSet.readDescriptorsChunks(sdfFile, descriptorNames, descriptorValueMatrix);
             }
         }
     }
-
     public String checkDescriptorsAndReturnAvailableDescriptors(String descriptorDir, String descriptorFile)
             throws Exception{
         String availableDescriptors = "";
@@ -104,5 +108,18 @@ public class AllDescriptors {
             }
         }
         return availableDescriptors;
+    }
+
+    public String splitDescriptors(String workingDir, String descriptorsFile) throws Exception{
+        StringBuilder descriptorsFileWithEnding = new StringBuilder();
+        if (!descriptorSets.isEmpty()) {
+            if (!descriptorsFileWithEnding.toString().isEmpty()){
+                descriptorsFileWithEnding.append(", ");
+            }
+            for (DescriptorSet descriptorSet : descriptorSets) {
+                descriptorsFileWithEnding.append(descriptorSet.splitFile(workingDir, descriptorsFile));
+            }
+        }
+        return descriptorsFileWithEnding.toString();
     }
 }

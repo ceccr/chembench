@@ -10,7 +10,7 @@ import edu.unc.ceccr.chembench.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.descriptors.AllDescriptors;
-import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
+import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorUtility;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.RunSmilesPrediction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -125,8 +125,8 @@ public class PredictionAction extends ActionSupport {
             // generate descriptors using the given SDF file except for ISIDA
             if (!predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
                 String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
+                //exclude ISIDA from being generated
                 descriptorSetListObj.generateDescriptorSets(sdfile, sdfile, Constants.ISIDA);
-//                RunSmilesPrediction.generateDescriptorsForSdf(smilesDir, predictor.getDescriptorGeneration());
             }else{
                 logger.info(predictor.getDescriptorGeneration());
             }
@@ -374,7 +374,7 @@ public class PredictionAction extends ActionSupport {
 
                     logger.debug("Staring to read predictors from file: " + predictionDatasetDir + predictionXFile);
                     String[] predictionDescs =
-                            ReadDescriptors.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
+                            DescriptorUtility.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
 
                     // get the uploaded descriptors for the predictor
                     Dataset predictorDataset = datasetRepository.findOne(sp.getDatasetId());
@@ -382,7 +382,7 @@ public class PredictionAction extends ActionSupport {
                             Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + "/DATASETS/"
                                     + predictorDataset.getName() + "/";
                     String[] predictorDescs =
-                            ReadDescriptors.readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
+                            DescriptorUtility.readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
 
                     descriptorsMatch = true;
                     /*

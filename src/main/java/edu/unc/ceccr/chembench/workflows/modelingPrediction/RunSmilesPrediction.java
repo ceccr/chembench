@@ -21,7 +21,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Component
 public class RunSmilesPrediction {
@@ -43,15 +42,15 @@ public class RunSmilesPrediction {
         String fromDir = Constants.CECCR_USER_BASE_PATH + predictorUsername + "/PREDICTORS/" + predictor.getName() +
                 "/";
 
-        /* get train_0.x file from the predictor dir. */
         logger.debug("Copying predictor files from " + fromDir);
-        // boolean all means get all files, else it will only get train_0.x file
+        // (true) means get all files
+        // (false) means only get train_0.x file
         CopyJobFiles.getPredictorFiles(predictorUsername, predictor, workingDir, false);
         logger.debug("Copying complete. Generating descriptors. ");
 
         /* generate ISIDA descriptor for smiles.sdf*/
         if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-            generateIsidaDescriptorsForSdf(workingDir, predictor.getSdFileName());
+            generateIsidaDescriptorsForSdf(sdfile);
         }
 
         /* create the descriptors for the chemical and read them in */
@@ -59,8 +58,7 @@ public class RunSmilesPrediction {
         List<Descriptors> descriptorValueMatrix = new ArrayList<>();
         List<String> chemicalNames = DatasetFileOperations.getSdfCompoundNames(sdfile);
 
-        descriptorSetListObj.readDescriptorSetsWithFileEnding(sdfile, descriptorNames, descriptorValueMatrix);
-//        ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
+        descriptorSetListObj.readDescriptorSets(sdfile, descriptorNames, descriptorValueMatrix);
 
         logger.debug("Normalizing descriptors to fit predictor.");
 
@@ -209,9 +207,7 @@ public class RunSmilesPrediction {
         logger.debug("Finished smilesToSdf");
     }
 
-    public static void generateIsidaDescriptorsForSdf(String smilesDir, String predictorSdfFileNames) throws Exception {
-        String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
-
+    public static void generateIsidaDescriptorsForSdf(String sdfile) throws Exception {
         DescriptorIsida descriptorIsida = new DescriptorIsida();
         descriptorIsida.generateDescriptors(sdfile, sdfile);
     }

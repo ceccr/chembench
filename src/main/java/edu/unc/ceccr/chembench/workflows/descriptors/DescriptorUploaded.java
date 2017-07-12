@@ -6,10 +6,7 @@ import edu.unc.ceccr.chembench.persistence.Descriptors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -90,5 +87,54 @@ public class DescriptorUploaded implements DescriptorSet{
         } catch (FileNotFoundException e) {
             logger.error(file + ": File not found");
         }
+    }
+
+    @Override
+    public void readDescriptorsChunks(String outputFile, List<String> descriptorNames,
+                                      List<Descriptors> descriptorValueMatrix) throws Exception {
+        //no file ending changes so no changes to readDescriptors necessary
+        readDescriptors(outputFile, descriptorNames, descriptorValueMatrix);
+    }
+
+    @Override
+    public String splitFile(String workingDir, String descriptorsFile) throws Exception {
+        File file = new File(workingDir + descriptorsFile);
+        if (!file.exists() || file.length() == 0) {
+            throw new Exception("Could not read UPLOADED descriptors.\n");
+        }
+        FileReader fin = new FileReader(file);
+        BufferedReader br = new BufferedReader(fin);
+
+        int currentFile = 0;
+        int moleculesInCurrentFile = 0;
+        BufferedWriter outFilePart =
+                new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+
+        // don't bother changing the numbers to reflect #compounds in file
+        // part, it doesn't matter
+        String header = br.readLine() + "\n";
+        String descriptorNames = br.readLine() + "\n";
+        outFilePart.write(header);
+        outFilePart.write(descriptorNames);
+
+        String line;
+        while ((line = br.readLine()) != null) {
+            outFilePart.write(line + "\n");
+
+            moleculesInCurrentFile++;
+            if (moleculesInCurrentFile == compoundsPerChunk) {
+                outFilePart.close();
+                moleculesInCurrentFile = 0;
+                currentFile++;
+                outFilePart = new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+                outFilePart.write(header);
+                outFilePart.write(descriptorNames);
+            }
+        }
+        br.close();
+        outFilePart.write("\n");
+        outFilePart.close();
+
+        return descriptorsFile;
     }
 }

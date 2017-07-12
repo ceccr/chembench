@@ -127,20 +127,6 @@
         <s:iterator value="compoundPredictionValues">
           <tr>
             <td class="name compound-structure"><s:property value="compound" /></td>
-            <%--<s:if test="!predictionDataset.sdfFile.isEmpty()">--%>
-              <%--<td class="structure">--%>
-                <%--<s:url var="imageUrl" action="imageServlet" escapeAmp="false">--%>
-                  <%--<s:param name="user" value="%{predictionDataset.userName}" />--%>
-                  <%--<s:param name="projectType" value="'dataset'" />--%>
-                  <%--<s:param name="compoundId" value="%{compound}" />--%>
-                  <%--<s:param name="datasetName" value="%{predictionDataset.name}" />--%>
-                <%--</s:url>--%>
-                <%--<button class="btn btn-default">--%>
-                  <%--<img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"--%>
-                       <%--height="125" alt="Compound structure">--%>
-                <%--</button>--%>
-              <%--</td>--%>
-            <%--</s:if>--%>
             <s:if test="predictionValues != null && !predictionValues.isEmpty()">
               <s:iterator value="predictionValues">
                 <td>
@@ -159,8 +145,8 @@
                 </td>
                 <td>
                   <s:if
-                      test="prediction.computeZscore == @edu.unc.ceccr.chembench.global.Constants@YES && zScore != null">
-                    <s:property value="zScore" />&sigma;
+                      test="prediction.computeZscore == @edu.unc.ceccr.chembench.global.Constants@YES && zscore != null">
+                    <s:property value="zscore" />&sigma;
                   </s:if>
                   <s:else>
                     <span class="text-muted">N/A</span>

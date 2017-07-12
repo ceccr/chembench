@@ -7,9 +7,7 @@ import edu.unc.ceccr.chembench.utilities.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -93,7 +91,63 @@ public abstract class DescriptorCommonDragon implements DescriptorSet {
     @Override
     public void readDescriptors(String dragonOutputFile, List<String> descriptorNames,
                                 List<Descriptors> descriptorValueMatrix) throws Exception {
+        dragonOutputFile+=getFileEnding();
+        readDescriptorFile (dragonOutputFile, descriptorNames, descriptorValueMatrix);
+    }
 
+    @Override
+    public void readDescriptorsChunks(String outputFile, List<String> descriptorNames, List<Descriptors>
+            descriptorValueMatrix) throws Exception{
+        readDescriptorFile (outputFile, descriptorNames, descriptorValueMatrix);
+    }
+
+    //TODO: implement splitFile for dragon7
+    public String splitFile(String workingDir, String descriptorsFile) throws Exception {
+        descriptorsFile += getFileEnding();
+
+        File file = new File(workingDir + descriptorsFile);
+        if (!file.exists() || file.length() == 0) {
+            throw new Exception("Could not read Dragon descriptors.\n");
+        }
+        FileReader fin = new FileReader(file);
+        BufferedReader br = new BufferedReader(fin);
+
+        int currentFile = 0;
+        int moleculesInCurrentFile = 0;
+        BufferedWriter outFilePart =
+                new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+
+        String header = br.readLine() + "\n"; // stores everything up to where
+        // descriptors begin.
+        header += br.readLine() + "\n";
+        header += br.readLine() + "\n";
+
+        outFilePart.write(header);
+
+        String line;
+        // Now we're at the descriptor values for each compound
+        while ((line = br.readLine()) != null) {
+            outFilePart.write(line + "\n");
+
+            moleculesInCurrentFile++;
+            if (moleculesInCurrentFile == compoundsPerChunk) {
+                outFilePart.close();
+                moleculesInCurrentFile = 0;
+                currentFile++;
+                outFilePart = new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+                outFilePart.write(header);
+            }
+        }
+
+        // close final file
+        br.close();
+        outFilePart.close();
+
+        return descriptorsFile;
+    }
+
+    private void readDescriptorFile (String dragonOutputFile, List<String> descriptorNames, List<Descriptors>
+            descriptorValueMatrix) throws Exception{
         logger.debug("reading Dragon Descriptors");
         logger.debug(dragonOutputFile);
         File file = new File(dragonOutputFile);

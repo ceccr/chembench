@@ -6,9 +6,7 @@ import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -44,9 +42,102 @@ public class DescriptorMoe2D implements DescriptorSet {
     @Override
     public void readDescriptors(String moe2DOutputFile, List<String> descriptorNames,
                                             List<Descriptors> descriptorValueMatrix) throws Exception {
-        logger.debug("reading Moe2D Descriptors");
+        moe2DOutputFile +=getFileEnding();
+        readDescriptorFile (moe2DOutputFile, descriptorNames, descriptorValueMatrix);
+    }
 
-        File file = new File(moe2DOutputFile);
+    @Override
+    public void readDescriptorsChunks(String outputFile, List<String> descriptorNames,
+                                      List<Descriptors> descriptorValueMatrix) throws Exception {
+        readDescriptorFile (outputFile, descriptorNames, descriptorValueMatrix);
+    }
+
+    @Override
+    public String splitFile(String workingDir, String descriptorsFile) throws Exception {
+        descriptorsFile += getFileEnding();
+
+        File file = new File(workingDir + descriptorsFile);
+        if (!file.exists() || file.length() == 0) {
+            throw new Exception("Could not read MOE2D descriptors.\n");
+        }
+        FileReader fin = new FileReader(file);
+        BufferedReader br = new BufferedReader(fin);
+
+        String header = ""; // stores everything up to where descriptors
+        // begin.
+        int currentFile = 0;
+        int moleculesInCurrentFile = 0;
+        BufferedWriter outFilePart =
+                new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+
+        header = br.readLine() + "\n";
+        outFilePart.write(header);
+
+        String line;
+        while ((line = br.readLine()) != null) {
+            outFilePart.write(line + "\n");
+
+            moleculesInCurrentFile++;
+            if (moleculesInCurrentFile == compoundsPerChunk) {
+                outFilePart.close();
+                moleculesInCurrentFile = 0;
+                currentFile++;
+                outFilePart = new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+                outFilePart.write(header);
+            }
+        }
+        br.close();
+        outFilePart.write("\n");
+        outFilePart.close();
+
+        return descriptorsFile;
+    }
+
+    @Override
+    public String checkDescriptors(String moe2DOutputFile) throws Exception {
+        // right now this doesn't check anything. The MOE2D descriptors never
+        // seem to cause issues.
+        String errors = "";
+
+        File file = new File(moe2DOutputFile + getFileEnding());
+        if (!file.exists() || file.length() == 0) {
+            errors = "Could not read descriptor file.\n";
+            return errors;
+        }
+
+        FileReader fin = new FileReader(file);
+        BufferedReader br = new BufferedReader(fin);
+
+        ArrayList<String> descriptorValues; // values for each molecule
+
+        String line = br.readLine(); // descriptor names
+
+        while ((line = br.readLine()) != null) {
+            Scanner tok = new Scanner(line);
+
+            if (tok.hasNext()) {
+                tok.next(); // first value is compound name
+            }
+
+            while (tok.hasNext()) {
+                String t = tok.next();
+                try {
+                    // check if it's a number
+                    Float.parseFloat(t);
+                } catch (Exception ex) {
+                    errors += "Error reading Moe2D descriptor value: " + t + "\n";
+                }
+            }
+            tok.close();
+        }
+        br.close();
+        return errors;
+    }
+
+    private void readDescriptorFile (String outputFile, List<String> descriptorNames, List<Descriptors>
+            descriptorValueMatrix) throws Exception{
+        logger.debug("reading Moe2D Descriptors");
+        File file = new File(outputFile);
         if (!file.exists() || file.length() == 0) {
             throw new Exception("Could not read MOE2D descriptors.\n");
         }
@@ -90,45 +181,5 @@ public class DescriptorMoe2D implements DescriptorSet {
             tok.close();
         }
         br.close();
-    }
-    @Override
-    public String checkDescriptors(String moe2DOutputFile) throws Exception {
-        // right now this doesn't check anything. The MOE2D descriptors never
-        // seem to cause issues.
-        String errors = "";
-
-        File file = new File(moe2DOutputFile + getFileEnding());
-        if (!file.exists() || file.length() == 0) {
-            errors = "Could not read descriptor file.\n";
-            return errors;
-        }
-
-        FileReader fin = new FileReader(file);
-        BufferedReader br = new BufferedReader(fin);
-
-        ArrayList<String> descriptorValues; // values for each molecule
-
-        String line = br.readLine(); // descriptor names
-
-        while ((line = br.readLine()) != null) {
-            Scanner tok = new Scanner(line);
-
-            if (tok.hasNext()) {
-                tok.next(); // first value is compound name
-            }
-
-            while (tok.hasNext()) {
-                String t = tok.next();
-                try {
-                    // check if it's a number
-                    Float.parseFloat(t);
-                } catch (Exception ex) {
-                    errors += "Error reading Moe2D descriptor value: " + t + "\n";
-                }
-            }
-            tok.close();
-        }
-        br.close();
-        return errors;
     }
 }

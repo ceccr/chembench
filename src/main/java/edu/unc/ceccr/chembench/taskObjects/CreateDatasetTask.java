@@ -220,6 +220,7 @@ public class CreateDatasetTask extends WorkflowTask {
             AllDescriptors generateDescriptorsObj = new AllDescriptors(selectedDatasetDescriptorTypes);
 
             // the dataset included an SDF so we need to generate descriptors from it
+            // anything descriptorSet excluded from generation is the last parameter
             generateDescriptorsObj.generateDescriptorSets(path + sdfFileName, descriptorFile, "");
             availableDescriptors =
                     generateDescriptorsObj.checkDescriptorsAndReturnAvailableDescriptors(descriptorDir, descriptorFile);
@@ -397,9 +398,7 @@ public class CreateDatasetTask extends WorkflowTask {
         datasetRepository.save(dataset);
     }
 
-    public void delete() throws Exception {
-
-    }
+    public void delete() throws Exception {}
 
     public void setStep(String step) {
         this.step = step;

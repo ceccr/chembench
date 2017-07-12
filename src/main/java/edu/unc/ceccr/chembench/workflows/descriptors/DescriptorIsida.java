@@ -10,9 +10,7 @@ import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -72,8 +70,66 @@ public class DescriptorIsida implements DescriptorSet {
     @Override
     public void readDescriptors(String ISIDAOutputFile, List<String> descriptorNames,
                                             List<Descriptors> descriptorValueMatrix) throws Exception {
+
+        ISIDAOutputFile += getFileEnding();
+        readDescriptorFile (ISIDAOutputFile, descriptorNames, descriptorValueMatrix);
+    }
+
+    @Override
+    public void readDescriptorsChunks(String outputFile, List<String> descriptorNames,
+                                      List<Descriptors> descriptorValueMatrix) throws Exception {
+        readDescriptorFile (outputFile, descriptorNames, descriptorValueMatrix);
+    }
+
+    @Override
+    public String splitFile(String workingDir, String descriptorsFile) throws Exception {
+        descriptorsFile += ".renorm.ISIDA.svm";
+
+        File file = new File(workingDir + descriptorsFile);
+        if (!file.exists() || file.length() == 0) {
+            throw new Exception("Could not read ISIDA descriptors.\n");
+        }
+        FileReader fin = new FileReader(file);
+        BufferedReader br = new BufferedReader(fin);
+        int currentFile = 0;
+        int moleculesInCurrentFile = 0;
+        BufferedWriter outFilePart =
+                new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+        String line;
+        while ((line = br.readLine()) != null) {
+            outFilePart.write(line + "\n");
+
+            moleculesInCurrentFile++;
+            if (moleculesInCurrentFile == compoundsPerChunk) {
+                outFilePart.close();
+                moleculesInCurrentFile = 0;
+                currentFile++;
+                outFilePart = new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+            }
+        }
+        br.close();
+        outFilePart.newLine();
+        outFilePart.close();
+
+        return descriptorsFile;
+    }
+
+    @Override
+    public String checkDescriptors(String outputFile) throws Exception {
+        File hdrFile = new File(outputFile + getFileHdrEnding());
+        File svmFile = new File (outputFile + getFileSvmEnding());
+        String errors = "";
+
+        if (!(hdrFile.exists() && svmFile.exists())) {
+            errors = "Cannot find ISIDA files";
+        }
+        return errors;
+    }
+
+    private void readDescriptorFile (String outputFile, List<String> descriptorNames, List<Descriptors>
+            descriptorValueMatrix) throws Exception{
         logger.debug("reading ISIDA Descriptors");
-        Path rawFilePath = Paths.get(ISIDAOutputFile);
+        Path rawFilePath = Paths.get(outputFile);
         Path dirPath = rawFilePath.getParent();
         // for filenames like "modeling.sdf.ISIDA.svm" or even "modeling.sdf.ISIDA.svm_0" (split files),
         // remove the ".svm..." extension (assumption is that the header file is "modeling.sdf.ISIDA.hdr")
@@ -154,17 +210,6 @@ public class DescriptorIsida implements DescriptorSet {
             d.setDescriptorValues(fragmentCountsForCompound);
             descriptorValueMatrix.add(d);
         }
-    }
-    @Override
-    public String checkDescriptors(String outputFile) throws Exception {
-        File hdrFile = new File(outputFile + getFileHdrEnding());
-        File svmFile = new File (outputFile + getFileSvmEnding());
-        String errors = "";
-
-        if (!(hdrFile.exists() && svmFile.exists())) {
-            errors = "Cannot find ISIDA files";
-        }
-        return errors;
     }
 
 }

@@ -7,8 +7,8 @@ import edu.unc.ceccr.chembench.utilities.CopyJobFiles;
 import edu.unc.ceccr.chembench.utilities.CreateJobDirectories;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
-import edu.unc.ceccr.chembench.workflows.descriptors.ConvertDescriptorsToXAndScale;
 import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorIsida;
+import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorUtility;
 import edu.unc.ceccr.chembench.workflows.download.WriteCsv;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.*;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
 import javax.annotation.PostConstruct;
-import javax.management.Descriptor;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -355,8 +354,7 @@ public class QsarPredictionTask extends WorkflowTask {
             }
             if (childResults.size() == 0) {
                 // this should never happen; there's a check to prevent people
-                // from
-                // selecting predictors that have no usable models in their
+                // from selecting predictors that have no usable models in their
                 // child predictors
                 throw new Exception("No child in the nfold predictor generated any results!");
             }
@@ -372,7 +370,7 @@ public class QsarPredictionTask extends WorkflowTask {
                 parentPredictionValue.setNumTotalModels(childResults.size());
                 parentPredictionValue.setObservedValue(pv.getObservedValue());
                 parentPredictionValue.setPredictorId(predictor.getId());
-                parentPredictionValue.setZScore(pv.getZScore());
+                parentPredictionValue.setZscore(pv.getZscore());
                 predValues.add(parentPredictionValue);
             }
             // calculate average predicted value and stddev over each child
@@ -423,16 +421,12 @@ public class QsarPredictionTask extends WorkflowTask {
                 descriptorIsida.generateIsidaDescriptorsWithHeader(predictionDir + sdfile,
                         predictionDir + sdfile + descriptorIsida.getFileRenormEnding(),
                         predictionDir + predictor.getSdFileName() + descriptorIsida.getFileHdrEnding());
-                ConvertDescriptorsToXAndScale
-                        .convertDescriptorsToXAndScale(predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x",
-                                predictor.getDescriptorGeneration(), predictor.getScalingType(),
-                                predictionDataset.getNumCompound());
-            } else {
-                ConvertDescriptorsToXAndScale
-                        .convertDescriptorsToXAndScale(predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x",
-                                predictor.getDescriptorGeneration(), predictor.getScalingType(),
-                                predictionDataset.getNumCompound());
             }
+            DescriptorUtility
+                    .convertDescriptorsToXAndScale(predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x",
+                            predictor.getDescriptorGeneration(), predictor.getScalingType(),
+                            predictionDataset.getNumCompound());
+
             // done with 3. (copy dataset from jobDir to jobDir/predictorDir.
             // Scale descriptors to fit predictor.)
 
@@ -479,6 +473,7 @@ public class QsarPredictionTask extends WorkflowTask {
                 }
             }
 
+
             //Apply applicability domain
             String execstr = "";
             String predictionXFile = predictionDir + sdfile + ".renorm.x";
@@ -494,33 +489,35 @@ public class QsarPredictionTask extends WorkflowTask {
             RunExternalProgram.runCommandAndLogOutput(execstr, predictionDir, "getAD");
 
             //Read AD results
-            try {
+//            if (!cutoff.equals("-1")) {
+                try {
 
-                String gadFile = predictionDir + "PRE_AD.gad";
-                File file = new File(gadFile);
-                FileReader fin = new FileReader(file);
-                Scanner src = new Scanner(fin);
-                int counter = 0;
+                    String gadFile = predictionDir + "PRE_AD.gad";
+                    File file = new File(gadFile);
+                    FileReader fin = new FileReader(file);
+                    Scanner src = new Scanner(fin);
+                    int counter = 0;
 
-                while (src.hasNext()) {
-                    String readLine = src.nextLine();
-                    if (readLine.startsWith("ID")) {
-                        while (src.hasNext() && counter < predValues.size()) {
-                            readLine = src.nextLine();
-                            String[] values = readLine.split("\\s+");
-                            String zScore = values[3];
-                            predValues.get(counter).setZScore(Float.parseFloat(zScore));
-                            counter++;
+                    while (src.hasNext()) {
+                        String readLine = src.nextLine();
+                        if (readLine.startsWith("ID")) {
+                            while (src.hasNext() && counter < predValues.size()) {
+                                readLine = src.nextLine();
+                                String[] values = readLine.split("\\s+");
+                                String zScore = values[3];
+                                predValues.get(counter).setZscore(Float.parseFloat(zScore));
+                                counter++;
+                            }
                         }
                     }
+
+                    src.close();
+                    fin.close();
+
+                } catch (Exception e) {//Catch exception if any
+                    logger.error("User: " + userName + "Job: " + jobName + " " + e);
                 }
-
-                src.close();
-                fin.close();
-
-            } catch (Exception e) {//Catch exception if any
-                logger.error("User: " + userName + "Job: " + jobName + " " + e);
-            }
+//            }
 
             for (PredictionValue pv : predValues) {
                 pv.setPredictionId(prediction.getId());

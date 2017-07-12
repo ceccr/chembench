@@ -447,7 +447,7 @@ public class QsarModelingTask extends WorkflowTask {
         for (DescriptorSet descriptorSet: descriptorSetList) {
             if (descriptorSet.getDescriptorSetName().equals(Constants.CDK)) {
                 logger.debug("Processing CDK descriptors for job, " + jobName + " submitted by user, " + userName);
-                descriptorSet.readDescriptors(sdFile + descriptorSet.getFileEnding(), descriptorNames, descriptorValueMatrix);
+                descriptorSet.readDescriptors(sdFile, descriptorNames, descriptorValueMatrix);
 
                 // for CDK descriptors, compounds with errors are skipped.
                 // Make sure that any skipped compounds are removed from the list
@@ -459,7 +459,7 @@ public class QsarModelingTask extends WorkflowTask {
                 logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
                 descriptorSet.readDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
             } else {
-                descriptorSet.readDescriptors(sdFile + descriptorSet.getFileEnding(), descriptorNames, descriptorValueMatrix);
+                descriptorSet.readDescriptors(sdFile, descriptorNames, descriptorValueMatrix);
             }
         }
         // write out the descriptors into a .x file for modeling
