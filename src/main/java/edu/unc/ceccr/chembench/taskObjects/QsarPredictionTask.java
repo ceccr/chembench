@@ -42,6 +42,7 @@ public class QsarPredictionTask extends WorkflowTask {
     private int allPredsTotalModels = -1; // used by getProgress function
     private List<String> selectedPredictorNames = new ArrayList<>(); // used by getProgress function
     private Prediction prediction;
+    private int maxCompounds = 20000;
 
     @Autowired
     private DatasetRepository datasetRepository;
@@ -475,49 +476,66 @@ public class QsarPredictionTask extends WorkflowTask {
 
 
             //Apply applicability domain
-            String execstr = "";
-            String predictionXFile = predictionDir + sdfile + ".renorm.x";
-            File predictionFile = new File(predictionXFile);
-            if (!predictionFile.exists()) {
-                predictionXFile = predictionDir + "RF_" + sdfile + ".renorm.x";
-            }
 
-            String predictorXFile =
-                    predictor.getModelMethod().startsWith(Constants.RANDOMFOREST) ? "RF_train_0.x" : "train_0.x";
-            execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + predictionDir + predictorXFile + " " +
-                    "-4PRED=" + predictionXFile + " -OUT=" + predictionDir + "PRE_AD";
-            RunExternalProgram.runCommandAndLogOutput(execstr, predictionDir, "getAD");
-
-            //Read AD results
-//            if (!cutoff.equals("-1")) {
-                try {
-
-                    String gadFile = predictionDir + "PRE_AD.gad";
-                    File file = new File(gadFile);
-                    FileReader fin = new FileReader(file);
-                    Scanner src = new Scanner(fin);
-                    int counter = 0;
-
-                    while (src.hasNext()) {
-                        String readLine = src.nextLine();
-                        if (readLine.startsWith("ID")) {
-                            while (src.hasNext() && counter < predValues.size()) {
-                                readLine = src.nextLine();
-                                String[] values = readLine.split("\\s+");
-                                String zScore = values[3];
-                                predValues.get(counter).setZscore(Float.parseFloat(zScore));
-                                counter++;
-                            }
+            if (predValues!=null && !predValues.isEmpty()){
+                if (predValues.size() > maxCompounds && predictor.getActivityType().equals(Constants.CATEGORY)) {
+                    for (PredictionValue predVal : predValues){
+                        if (predVal.getPredictedValue() <= 0.2){
+                            predVal.setZscore((float) 0);
+                        }
+                        else if (predVal.getPredictedValue() >= 0.8){
+                            predVal.setZscore((float) 1);
+                        }
+                        else{
+                            predVal.setZscore((float) 99999);
                         }
                     }
+                } else{
+                    //this AD is too long to run so only run when less than 20,000 compounds
+                    String execstr = "";
+                    String predictionXFile = predictionDir + sdfile + ".renorm.x";
+                    File predictionFile = new File(predictionXFile);
+                    if (!predictionFile.exists()) {
+                        predictionXFile = predictionDir + "RF_" + sdfile + ".renorm.x";
+                    }
 
-                    src.close();
-                    fin.close();
+                    String predictorXFile =
+                            predictor.getModelMethod().startsWith(Constants.RANDOMFOREST) ? "RF_train_0.x" : "train_0.x";
+                    execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + predictionDir + predictorXFile + " " + "-4PRED=" + predictionXFile + " -OUT=" + predictionDir + "PRE_AD";
+                    RunExternalProgram.runCommandAndLogOutput(execstr, predictionDir, "getAD");
 
-                } catch (Exception e) {//Catch exception if any
-                    logger.error("User: " + userName + "Job: " + jobName + " " + e);
+                    //Read AD results
+                    try {
+
+                        String gadFile = predictionDir + "PRE_AD.gad";
+                        File file = new File(gadFile);
+                        FileReader fin = new FileReader(file);
+                        Scanner src = new Scanner(fin);
+                        int counter = 0;
+
+                        while (src.hasNext()) {
+                            String readLine = src.nextLine();
+                            if (readLine.startsWith("ID")) {
+                                while (src.hasNext() && counter < predValues.size()) {
+                                    readLine = src.nextLine();
+                                    String[] values = readLine.split("\\s+");
+                                    String zScore = values[3];
+                                    predValues.get(counter).setZscore(Float.parseFloat(zScore));
+                                    counter++;
+                                }
+                            }
+                        }
+
+                        src.close();
+                        fin.close();
+
+                    } catch (Exception e) {//Catch exception if any
+                        logger.error("User: " + userName + "Job: " + jobName + " " + e);
+                    }
                 }
-//            }
+            }else {
+                logger.error("User: " + userName + "Job: " + jobName + " " + "no prediction values");
+            }
 
             for (PredictionValue pv : predValues) {
                 pv.setPredictionId(prediction.getId());

@@ -158,7 +158,11 @@ public class WriteCsv {
                         predictionValues.add(pv.getNumModelsUsed());
                         predictionValues.add(pv.getNumTotalModels());
                         if (pv.getZscore() != null) {
-                            predictionValues.add(pv.getZscore());
+                            if (pv.getZscore() == 99999){
+                                predictionValues.add("Out of AD");
+                            }else {
+                                predictionValues.add(pv.getZscore());
+                            }
                             predictionValues.add((pv.getZscore() < prediction.getSimilarityCutoff()) ? "Yes" : "No");
                         } else {
                             predictionValues.add("N/A"); // app. domain column
