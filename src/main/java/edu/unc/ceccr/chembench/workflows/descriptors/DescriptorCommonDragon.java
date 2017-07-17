@@ -101,7 +101,6 @@ public abstract class DescriptorCommonDragon implements DescriptorSet {
         readDescriptorFile (outputFile, descriptorNames, descriptorValueMatrix);
     }
 
-    //TODO: implement splitFile for dragon7
     public String splitFile(String workingDir, String descriptorsFile) throws Exception {
         descriptorsFile += getFileEnding();
 
@@ -119,8 +118,10 @@ public abstract class DescriptorCommonDragon implements DescriptorSet {
 
         String header = br.readLine() + "\n"; // stores everything up to where
         // descriptors begin.
-        header += br.readLine() + "\n";
-        header += br.readLine() + "\n";
+        if (getDescriptorSetName().equals(Constants.DRAGONH) || getDescriptorSetName().equals(Constants.DRAGONNOH)) {
+            header += br.readLine() + "\n";
+            header += br.readLine() + "\n";
+        }
 
         outFilePart.write(header);
 

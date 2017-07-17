@@ -10,7 +10,7 @@ export CHEMAXON_LICENSE_URL=$CHEMBENCH_HOME/licenses/jchem.cxl
 export DRGX_LICENSEDATA=$CHEMBENCH_HOME/licenses/dragon.txt
 ENV
 
-tomcat_version = "7.0.70"
+tomcat_version = "7.0.79"
 tomcat_home = "/opt/apache-tomcat-#{tomcat_version}"
 catalina_opts = <<-OPTS
 export CATALINA_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -Dchembench.jChemPath=$CHEMBENCH_HOME/jchem"
@@ -82,13 +82,13 @@ Vagrant.configure(2) do |config|
             maven \
             dos2unix
 
-        wget -O /tmp/tomcat.tgz 'http://www-us.apache.org/dist/tomcat/tomcat-7/v7.0.70/bin/apache-tomcat-7.0.70.tar.gz'
+        wget -O /tmp/tomcat.tgz 'http://www-us.apache.org/dist/tomcat/tomcat-7/v7.0.79/bin/apache-tomcat-7.0.79.tar.gz'
         sudo tar xzvf /tmp/tomcat.tgz -C /opt
         sudo echo '#{chembench_env}' >> #{tomcat_home}/bin/setenv.sh
         sudo echo '#{catalina_opts}' >> #{tomcat_home}/bin/setenv.sh
         sudo echo '#{tomcat_users_xml}' > #{tomcat_home}/conf/tomcat-users.xml
         sudo echo '#{tomcat_jchem_xml}' > #{tomcat_home}/Catalina/localhost/jchem.xml
-        sudo tar xzvf /vagrant/basebox.tgz -C /opt
+        sudo tar xzvf /vagrant/basebox.tar -C /opt
         sudo chown -R vagrant:vagrant /opt/chembench
 
         mysql -u root -e 'CREATE DATABASE cbprod'

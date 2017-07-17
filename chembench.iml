@@ -11,12 +11,7 @@
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/java/edu/unc/ceccr/chembench/config/ApplicationContext.java</file>
-          <file>file://$MODULE_DIR$/src/main/java/edu/unc/ceccr/chembench/config/PersistenceContext.java</file>
-        </fileset>
-      </configuration>
+      <configuration />
     </facet>
     <facet type="web" name="Web">
       <configuration>
@@ -31,17 +26,6 @@
           <root url="file://$MODULE_DIR$/src/main/resources" />
         </sourceRoots>
       </configuration>
-      <facet type="Struts2" name="Struts 2">
-        <configuration>
-          <fileset id="s2fileset2" name="My Fileset 2" removed="false">
-            <file>file://$MODULE_DIR$/src/main/resources/struts.xml</file>
-            <file>jar://$MAVEN_REPOSITORY$/org/apache/struts/struts2-core/2.3.32/struts2-core-2.3.32.jar!/struts-default.xml</file>
-            <file>jar://$MAVEN_REPOSITORY$/org/apache/struts/struts2-json-plugin/2.3.32/struts2-json-plugin-2.3.32.jar!/struts-plugin.xml</file>
-            <file>jar://$MAVEN_REPOSITORY$/org/apache/struts/struts2-spring-plugin/2.3.32/struts2-spring-plugin-2.3.32.jar!/struts-plugin.xml</file>
-          </fileset>
-          <propertiesKeys disabled="false" />
-        </configuration>
-      </facet>
     </facet>
     <facet type="Python" name="Python">
       <configuration sdkName="" />
