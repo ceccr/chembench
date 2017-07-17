@@ -6,6 +6,7 @@ import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.chembench.utilities.PositiveRandom;
+import edu.unc.ceccr.chembench.utilities.StringUtility;
 import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -153,15 +154,7 @@ public class ModelAction extends ActionSupport {
 
     public String execute() throws Exception {
         // form has been submitted
-        if (jobName != null) {
-            jobName = jobName.replaceAll(" ", "_");
-            jobName = jobName.replaceAll("\\(", "_");
-            jobName = jobName.replaceAll("\\)", "_");
-            jobName = jobName.replaceAll("\\[", "_");
-            jobName = jobName.replaceAll("\\]", "_");
-            jobName = jobName.replaceAll("/", "_");
-            jobName = jobName.replaceAll("&", "_");
-        }
+        jobName = StringUtility.jobNameRegExCleanUp(jobName);
 
         Predictor existingPredictor = predictorRepository.findByNameAndUserName(jobName, user.getUserName());
         if (existingPredictor != null) {

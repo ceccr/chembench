@@ -2,12 +2,12 @@ package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.CreateDatasetTask;
+import edu.unc.ceccr.chembench.utilities.StringUtility;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import org.slf4j.Logger;
@@ -137,22 +137,11 @@ public class DatasetAction extends ActionSupport {
     }
 
     public String execute() throws Exception {
-
         String emailOnCompletion = "false"; //for now
-
         String result = INPUT;
 
-        ActionContext context = ActionContext.getContext();
         String userName = user.getUserName();
-        if (datasetName != null) {
-            datasetName = datasetName.replaceAll("\\s+", "_");
-            datasetName = datasetName.replaceAll("\\(", "_");
-            datasetName = datasetName.replaceAll("\\)", "_");
-            datasetName = datasetName.replaceAll("\\[", "_");
-            datasetName = datasetName.replaceAll("\\]", "_");
-            datasetName = datasetName.replaceAll("/", "_");
-            datasetName = datasetName.replaceAll("&", "_");
-        }
+        datasetName = StringUtility.jobNameRegExCleanUp(datasetName);
 
         logger.debug("Starting dataset task");
         logger.debug("Uploaded dataset " + datasetName + " User: " + userName);
@@ -197,10 +186,8 @@ public class DatasetAction extends ActionSupport {
                             .uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, actFileModeling,
                                     actFileModelingFileName, null, "", datasetName, dataTypeModeling, datasetType,
                                     externalCompoundList);
-                    sdfFileModelingFileName =
-                            sdfFileModelingFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-                    actFileModelingFileName =
-                            actFileModelingFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
+                    sdfFileModelingFileName = StringUtility.fileNameRegExCleanUp(sdfFileModelingFileName);
+                    actFileModelingFileName = StringUtility.fileNameRegExCleanUp(actFileModelingFileName);
                 } catch (Exception ex) {
                     logger.error("", ex);
                     result = ERROR;
@@ -283,8 +270,7 @@ public class DatasetAction extends ActionSupport {
                     msgs = DatasetFileOperations
                             .uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, "", null, "",
                                     datasetName, dataTypeModeling, datasetType, externalCompoundList);
-                    sdfFilePredictionFileName = sdfFilePredictionFileName.replaceAll(" ", "_").replaceAll("\\(", "_")
-                            .replaceAll("\\)", "_");
+                    sdfFilePredictionFileName = StringUtility.fileNameRegExCleanUp(sdfFilePredictionFileName);
                 } catch (Exception ex) {
                     logger.error("", ex);
                     result = ERROR;
@@ -346,8 +332,7 @@ public class DatasetAction extends ActionSupport {
             if (result.equalsIgnoreCase(INPUT)) {
                 //verify uploaded files and copy them to the dataset dir
                 try {
-                    actFileModDescFileName =
-                            actFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
+                    actFileModDescFileName = StringUtility.fileNameRegExCleanUp(actFileModDescFileName);
                     if (actFileModDescFileName.endsWith(".a")) {
                         actFileModDescFileName =
                                 actFileModDescFileName.substring(0, actFileModDescFileName.length() - 2) + ".act";
@@ -362,12 +347,9 @@ public class DatasetAction extends ActionSupport {
                             .uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc,
                                     actFileModDescFileName, descriptorXModDesc, descriptorXModDescFileName, datasetName,
                                     dataTypeModeling, datasetType, externalCompoundList);
-                    sdfFileModDescFileName =
-                            sdfFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-                    actFileModDescFileName =
-                            actFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-                    descriptorXModDescFileName =
-                            descriptorXModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
+                    sdfFileModDescFileName = StringUtility.fileNameRegExCleanUp(sdfFileModDescFileName);
+                    actFileModDescFileName = StringUtility.fileNameRegExCleanUp(actFileModDescFileName);
+                    descriptorXModDescFileName = StringUtility.fileNameRegExCleanUp(descriptorXModDescFileName);
                     descriptorTypeModDesc =
                             descriptorNewName.trim().isEmpty() ? selectedDescriptorUsedName : descriptorNewName;
 
@@ -437,10 +419,8 @@ public class DatasetAction extends ActionSupport {
                                     descriptorXFilePredDesc,
                                     descriptorXFilePredDescFileName, datasetName, dataTypeModeling, datasetType,
                                     externalCompoundList);
-                    sdfFilePredDescFileName =
-                            sdfFilePredDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-                    descriptorXFilePredDescFileName =
-                            descriptorXFilePredDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
+                    sdfFilePredDescFileName = StringUtility.fileNameRegExCleanUp(sdfFilePredDescFileName);
+                    descriptorXFilePredDescFileName = StringUtility.fileNameRegExCleanUp(descriptorXFilePredDescFileName);
                     descriptorTypePredDesc =
                             descriptorNewNameD.trim().isEmpty() ? selectedDescriptorUsedNameD : descriptorNewNameD;
                 } catch (Exception ex) {

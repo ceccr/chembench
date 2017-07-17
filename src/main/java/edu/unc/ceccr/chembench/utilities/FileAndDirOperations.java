@@ -18,6 +18,10 @@ import java.util.List;
 public class FileAndDirOperations {
     private static final Logger logger = LoggerFactory.getLogger(FileAndDirOperations.class);
 
+    public static void checkFileName(){
+
+    }
+    
     public static int countFilesInDirMatchingPattern(String dir, String pattern) {
         int count = 0;
 

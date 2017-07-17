@@ -8,6 +8,7 @@ import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
+import edu.unc.ceccr.chembench.utilities.StringUtility;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.descriptors.AllDescriptors;
 import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorUtility;
@@ -315,15 +316,7 @@ public class PredictionAction extends ActionSupport {
         Dataset predictionDataset = datasetRepository.findOne(selectedDatasetId);
         String sdf = predictionDataset.getSdfFile();
 
-        if (jobName != null) {
-            jobName = jobName.replaceAll(" ", "_");
-            jobName = jobName.replaceAll("\\(", "_");
-            jobName = jobName.replaceAll("\\)", "_");
-            jobName = jobName.replaceAll("\\[", "_");
-            jobName = jobName.replaceAll("\\]", "_");
-            jobName = jobName.replaceAll("/", "_");
-            jobName = jobName.replaceAll("&", "_");
-        }
+        jobName = StringUtility.jobNameRegExCleanUp(jobName);
 
         logger.debug(user.getUserName());
         logger.debug("predids: " + selectedPredictorIds);
