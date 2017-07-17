@@ -13,6 +13,9 @@ public class Constants {
         AUTOSCALING, RANGESCALING, NOSCALING
     }
 
+    public static final String[] DESCRIPTORSETS = new String[]{Constants.CDK, Constants.DRAGONH,
+            Constants.DRAGONNOH, Constants.MOE2D, Constants.MACCS, Constants.ISIDA, Constants.DRAGON7 };
+
     //After submitting around 250 jobs, LSF won't let you submit more, it just returns an error.
     //Cap the number of jobs that can be added to the LSF queue at any given time.
     public static final int MAXLSFJOBS = 200;
@@ -207,4 +210,5 @@ public class Constants {
 
     // modelability index threshold
     public static double MODI_MODELABLE = 0.65;
+
 }

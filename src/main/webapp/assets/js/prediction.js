@@ -84,10 +84,14 @@
                 if (selectedDatasets.length > 1) {
                     jobName.val(originalJobName + ' ' + dataset.name);
                 }
-                $.post(form.attr('action') + '?' + form.serialize());
             });
 
-            window.location = Chembench.MYBENCH_URL;
+            $.post(form.attr('action') + '?' + form.serialize()).done(function() {
+                window.location = Chembench.MYBENCH_URL;
+            }).fail(function() {
+                alert("ERROR: check that descriptors for model exist in dataset and vice versa.");
+                location.reload();
+            });
         });
 
         $('#prediction-model-selection, #prediction-dataset-selection').find('table').DataTable().one('draw',

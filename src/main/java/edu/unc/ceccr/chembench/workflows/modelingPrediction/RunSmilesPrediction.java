@@ -7,9 +7,7 @@ import edu.unc.ceccr.chembench.persistence.PredictorRepository;
 import edu.unc.ceccr.chembench.utilities.*;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.datasets.StandardizeMolecules;
-import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
-import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
-import edu.unc.ceccr.chembench.workflows.descriptors.WriteDescriptors;
+import edu.unc.ceccr.chembench.workflows.descriptors.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +21,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Component
 public class RunSmilesPrediction {
     private static final Logger logger = LoggerFactory.getLogger(RunSmilesPrediction.class);
     private static PredictorRepository predictorRepository;
 
-    public static String[] predictSmilesSdf(String workingDir, String username, Predictor predictor) throws Exception {
+    public static String[] predictSmilesSdf(String workingDir, String username, Predictor predictor, AllDescriptors descriptorSetListObj) throws Exception {
         Path wd = new File(workingDir).toPath();
         if (!Files.exists(wd)) {
             logger.info("Working directory doesn't exist, creating it: " + wd.toString());
@@ -45,15 +42,15 @@ public class RunSmilesPrediction {
         String fromDir = Constants.CECCR_USER_BASE_PATH + predictorUsername + "/PREDICTORS/" + predictor.getName() +
                 "/";
 
-        /* get train_0.x file from the predictor dir. */
         logger.debug("Copying predictor files from " + fromDir);
-        CopyJobFiles.getPredictorFiles(predictorUsername, predictor, workingDir);
-
+        // (true) means get all files
+        // (false) means only get train_0.x file
+        CopyJobFiles.getPredictorFiles(predictorUsername, predictor, workingDir, false);
         logger.debug("Copying complete. Generating descriptors. ");
 
         /* generate ISIDA descriptor for smiles.sdf*/
         if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-            generateIsidaDescriptorsForSdf(workingDir, predictor.getSdFileName());
+            generateIsidaDescriptorsForSdf(sdfile);
         }
 
         /* create the descriptors for the chemical and read them in */
@@ -61,7 +58,7 @@ public class RunSmilesPrediction {
         List<Descriptors> descriptorValueMatrix = new ArrayList<>();
         List<String> chemicalNames = DatasetFileOperations.getSdfCompoundNames(sdfile);
 
-        ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
+        descriptorSetListObj.readDescriptorSets(sdfile, descriptorNames, descriptorValueMatrix);
 
         logger.debug("Normalizing descriptors to fit predictor.");
 
@@ -210,34 +207,9 @@ public class RunSmilesPrediction {
         logger.debug("Finished smilesToSdf");
     }
 
-    public static void generateDescriptorsForSdf(String smilesDir, Set<String> descriptorTypes) throws Exception {
-        logger.debug("About to Generate Descriptors For SDF");
-        String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
-        if (descriptorTypes.contains(Constants.CDK)) {
-            GenerateDescriptors.generateCdkDescriptors(sdfile, sdfile + ".cdk");
-            ReadDescriptors.convertCdkToX(sdfile + ".cdk", smilesDir);
-        }
-        if (descriptorTypes.contains(Constants.DRAGONH)) {
-            GenerateDescriptors.generateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonH");
-        }
-        if (descriptorTypes.contains(Constants.DRAGONNOH)) {
-            GenerateDescriptors.generateHDepletedDragonDescriptors(sdfile, sdfile + ".dragonNoH");
-        }
-        if (descriptorTypes.contains(Constants.MOE2D)) {
-            GenerateDescriptors.generateMoe2DDescriptors(sdfile, sdfile + ".moe2D");
-        }
-        if (descriptorTypes.contains(Constants.MACCS)) {
-            GenerateDescriptors.generateMaccsDescriptors(sdfile, sdfile + ".maccs");
-        }
-        if(descriptorTypes.contains(Constants.DRAGON7)){
-            GenerateDescriptors.generateDragon7Descriptors(sdfile, sdfile + ".dragon7");
-        }
-    }
-
-    public static void generateIsidaDescriptorsForSdf(String smilesDir, String predictorSdfFileNames) throws Exception {
-        String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
-        String predictorHeaderFile = smilesDir + predictorSdfFileNames + ".ISIDA.hdr";
-        GenerateDescriptors.generateIsidaDescriptorsWithHeader(sdfile, sdfile + ".ISIDA", predictorHeaderFile);
+    public static void generateIsidaDescriptorsForSdf(String sdfile) throws Exception {
+        DescriptorIsida descriptorIsida = new DescriptorIsida();
+        descriptorIsida.generateDescriptors(sdfile, sdfile);
     }
 
     @Autowired

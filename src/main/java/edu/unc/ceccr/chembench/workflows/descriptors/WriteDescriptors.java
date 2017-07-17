@@ -263,14 +263,12 @@ public class WriteDescriptors {
 
     private static List<List<Double>> transpose(List<List<Double>> original) {
         List<List<Double>> transpose = new ArrayList<>();
-        for (List<Double> column : original) {
-            for (int r = 0; r < column.size(); r++) {
-                List<Double> row = transpose.get(r);
-                if (row == null) {
-                    row = new ArrayList<>();
-                }
-                row.add(column.get(r));
+        for (int i = 0; i < original.get(0).size(); i++){
+            List<Double> col = new ArrayList<>();
+            for (List<Double> row: original){
+                col.add(row.get(i));
             }
+            transpose.add(col);
         }
         return transpose;
     }
@@ -439,6 +437,34 @@ public class WriteDescriptors {
         br.close();
     }
 
+    private static void addZeroToOutput(List<Descriptors> descriptorMatrix,
+                                        StringBuffer descriptorNameStringBuffer,
+                                        String predictorDescriptorNameString){
+        logger.info("Adding 0's to the dataset descriptors");
+        String[] datasetDescriptorNames = descriptorNameStringBuffer.toString().split("\\s+");
+        String[] predictorDescriptorNames = predictorDescriptorNameString.split("\\s+");
+
+        //assumption that all descriptors in output/dataset is in predictor
+        //because output/dataset is the intersection of itself and predictor
+
+        //j keeps track of the dataset while i keeps track of the predictor
+        int j = 0;
+        for (Descriptors descriptors: descriptorMatrix) {
+            List<Double> descriptorValues= new ArrayList<>();
+            for (int i = 0; i < predictorDescriptorNames.length; i++) {
+                if ((j>=datasetDescriptorNames.length) ||
+                        (!datasetDescriptorNames[j].equals(predictorDescriptorNames[i]))) {
+                    descriptorValues.add(0.0);
+                } else {
+                    descriptorValues.add(descriptors.getDescriptorValueAtIndex(j++));
+                }
+            }
+            descriptors.setDescriptorValues(descriptorValues);
+        }
+        descriptorNameStringBuffer.setLength(0);
+        descriptorNameStringBuffer.append(predictorDescriptorNameString);
+    }
+
     public static void writeModelingXFile(List<String> compoundNames, List<Descriptors> descriptorMatrix,
                                           List<String> descriptorNames, String xFilePath, String scalingType,
                                           String stdDevCutoff, String correlationCutoff) throws Exception {
@@ -554,29 +580,6 @@ public class WriteDescriptors {
         } catch (IOException e) {
             throw new RuntimeException("Couldn't write modeling X file", e);
         }
-    }
-
-    public static void addZeroToOutput(List<Descriptors> descriptorMatrix,
-                                       StringBuffer descriptorNameStringBuffer,
-                                       String predictorDescriptorNameString){
-        logger.info("Adding 0's to the dataset descriptors");
-        String[] datasetDescriptorNames = descriptorNameStringBuffer.toString().split("\\s+");
-        String[] predictorDescriptorNames = predictorDescriptorNameString.split("\\s+");
-
-        //j keeps track of the dataset while i keeps track of the predictor
-        int j = 0;
-        for (Descriptors descriptors: descriptorMatrix) {
-            for (int i = 0; i < predictorDescriptorNames.length; i++) {
-                if (!datasetDescriptorNames[j].equals(predictorDescriptorNames[i])) {
-                    descriptors.getDescriptorValues().add(j, 0.0);
-                } else {
-                    j++;
-                }
-            }
-        }
-        descriptorNameStringBuffer.setLength(0);
-        descriptorNameStringBuffer.append(predictorDescriptorNameString);
-
     }
 
     public static void writePredictionXFile(List<String> compoundNames, List<Descriptors> descriptorMatrix,

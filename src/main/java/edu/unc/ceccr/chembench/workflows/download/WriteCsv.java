@@ -157,9 +157,9 @@ public class WriteCsv {
                         predictionValues.add(pv.getStandardDeviation());
                         predictionValues.add(pv.getNumModelsUsed());
                         predictionValues.add(pv.getNumTotalModels());
-                        if (pv.getZScore() != null) {
-                            predictionValues.add(pv.getZScore());
-                            predictionValues.add((pv.getZScore() < prediction.getSimilarityCutoff()) ? "Yes" : "No");
+                        if (pv.getZscore() != null) {
+                            predictionValues.add(pv.getZscore());
+                            predictionValues.add((pv.getZscore() < prediction.getSimilarityCutoff()) ? "Yes" : "No");
                         } else {
                             predictionValues.add("N/A"); // app. domain column
                             predictionValues.add("N/A"); // "in cutoff?" column

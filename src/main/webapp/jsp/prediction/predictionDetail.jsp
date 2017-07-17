@@ -97,7 +97,7 @@
         <thead>
         <tr>
           <s:if test="!predictionDataset.sdfFile.isEmpty()">
-            <th colspan="2"><!-- spacer for compound name/structure --></th>
+            <th colspan="1"><!-- spacer for compound name/structure --></th>
           </s:if>
           <s:else>
             <th><!-- spacer for compound name --></th>
@@ -108,9 +108,9 @@
         </tr>
         <tr>
           <th class="name">Compound Name</th>
-          <s:if test="!predictionDataset.sdfFile.isEmpty()">
-            <th class="unsortable">Structure</th>
-          </s:if>
+          <%--<s:if test="!predictionDataset.sdfFile.isEmpty()">--%>
+            <%--<th class="unsortable">Structure</th>--%>
+          <%--</s:if>--%>
           <s:iterator value="predictors">
             <th>Prediction</th>
             <s:if test="childType == @edu.unc.ceccr.chembench.global.Constants@NFOLD">
@@ -126,21 +126,7 @@
         <tbody>
         <s:iterator value="compoundPredictionValues">
           <tr>
-            <td class="name"><s:property value="compound" /></td>
-            <s:if test="!predictionDataset.sdfFile.isEmpty()">
-              <td class="structure">
-                <s:url var="imageUrl" action="imageServlet" escapeAmp="false">
-                  <s:param name="user" value="%{predictionDataset.userName}" />
-                  <s:param name="projectType" value="'dataset'" />
-                  <s:param name="compoundId" value="%{compound}" />
-                  <s:param name="datasetName" value="%{predictionDataset.name}" />
-                </s:url>
-                <button class="btn btn-default">
-                  <img src="<s:property value="imageUrl" />" class="img-thumbnail compound-structure" width="125"
-                       height="125" alt="Compound structure">
-                </button>
-              </td>
-            </s:if>
+            <td class="name compound-structure"><s:property value="compound" /></td>
             <s:if test="predictionValues != null && !predictionValues.isEmpty()">
               <s:iterator value="predictionValues">
                 <td>
@@ -159,8 +145,8 @@
                 </td>
                 <td>
                   <s:if
-                      test="prediction.computeZscore == @edu.unc.ceccr.chembench.global.Constants@YES && zScore != null">
-                    <s:property value="zScore" />&sigma;
+                      test="prediction.computeZscore == @edu.unc.ceccr.chembench.global.Constants@YES && zscore != null">
+                    <s:property value="zscore" />&sigma;
                   </s:if>
                   <s:else>
                     <span class="text-muted">N/A</span>

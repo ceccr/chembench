@@ -16,7 +16,7 @@ public class PredictionValue implements java.io.Serializable {
     private Long predictionId;
     private Long id;
     private float observedValue;
-    private Float zScore;
+    private Float zscore;
 
     private int numTotalModels;
 
@@ -98,12 +98,12 @@ public class PredictionValue implements java.io.Serializable {
     }
 
     @Column(name = "zScore")
-    public Float getZScore() {
-        return zScore;
+    public Float getZscore() {
+        return zscore;
     }
 
-    public void setZScore(Float zScore) {
-        this.zScore = zScore;
+    public void setZscore(Float zscore) {
+        this.zscore = zscore;
     }
 
     @Transient

@@ -6,7 +6,7 @@ import edu.unc.ceccr.chembench.jobs.CentralDogma;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.chembench.utilities.PositiveRandom;
-import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
+import edu.unc.ceccr.chembench.workflows.descriptors.DescriptorUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -240,7 +240,7 @@ public class ModelAction extends ActionSupport {
                 // get num descriptors
                 String datasetDir =
                         Constants.CECCR_USER_BASE_PATH + ds.getUserName() + "/DATASETS/" + ds.getName() + "/";
-                int numDescriptors = ReadDescriptors.readDescriptorNamesFromX(ds.getXFile(), datasetDir).length;
+                int numDescriptors = DescriptorUtility.readDescriptorNamesFromX(ds.getXFile(), datasetDir).length;
                 int numMaxDesc = Integer.parseInt(knnMaxNumDescriptors);
                 if (numDescriptors < numMaxDesc) {
                     addActionError("Your uploaded dataset contains only " + numDescriptors
