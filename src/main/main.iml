@@ -30,5 +30,10 @@
     <orderEntry type="library" name="ext" level="project" />
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="lib1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.struts.xwork:xwork-core:2.3.32" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.1.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-1.2-api:2.5" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.21" level="project" />
   </component>
 </module>

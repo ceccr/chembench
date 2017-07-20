@@ -18,11 +18,31 @@ public class StringUtility {
     }
 
     public static String fileNameRegExCleanUp(String filename){
-        filename = filename.replaceAll(" ", "_");
-        filename = filename.replaceAll("\\(", "_");
-        filename = filename.replaceAll("\\)", "_");
-
+        if (!filename.isEmpty()) {
+            filename = filename.replaceAll(" ", "_");
+            filename = filename.replaceAll("\\(", "_");
+            filename = filename.replaceAll("\\)", "_");
+        }
         return filename;
     }
 
+    public static String checkAndCorrectXFileName(String xFileName){
+        if (!xFileName.isEmpty()){
+            if (!xFileName.endsWith(".x")) {
+                xFileName += ".x";
+            }
+        }
+        return xFileName;
+    }
+
+    public static String checkAndCorrectACTFileName(String actFileName){
+        if (!actFileName.isEmpty()) {
+            if (actFileName.endsWith(".a")) {
+                actFileName = actFileName.substring(0, actFileName.length() - 2) + ".act";
+            } else if (!actFileName.endsWith(".act")) {
+                actFileName += ".act";
+            }
+        }
+        return actFileName;
+    }
 }

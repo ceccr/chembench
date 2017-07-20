@@ -25,7 +25,6 @@ public class CreateDatasetTask extends WorkflowTask {
     private static final Logger logger = LoggerFactory.getLogger(CreateDatasetTask.class);
     private String userName = null;
     private String datasetType;
-    private String selectedDatasetDescriptorTypes;
     private String sdfFileName;
     private String actFileName;
     private String xFileName;
@@ -85,8 +84,8 @@ public class CreateDatasetTask extends WorkflowTask {
         }
     }
 
-    public CreateDatasetTask(String userName, String datasetType, String selectedDatasetDescriptorTypes, String sdfFileName,
-                             String actFileName, String xFileName, String descriptorType, String actFileDataType,
+    public CreateDatasetTask(String userName, String datasetType, String sdfFileName, String actFileName,
+                             String xFileName, String descriptorType, String actFileDataType,
                              String standardize, String splitType, String hasBeenScaled, String numExternalCompounds,
                              String numExternalFolds, String useActivityBinning, String externalCompoundList,
                              String datasetName, String paperReference, String dataSetDescription,
@@ -95,7 +94,6 @@ public class CreateDatasetTask extends WorkflowTask {
 
         this.userName = userName;
         this.datasetType = datasetType;
-        this.selectedDatasetDescriptorTypes = selectedDatasetDescriptorTypes;
         this.sdfFileName = sdfFileName.replaceAll(" ", "_");
         this.actFileName = actFileName.replaceAll(" ", "_");
         this.xFileName = xFileName.replaceAll(" ", "_");
@@ -211,13 +209,13 @@ public class CreateDatasetTask extends WorkflowTask {
             logger.debug("User: " + userName + "Job: " + jobName + " Generating Descriptors");
 
             //generate all descriptors if they forgot to choose a descriptor to generate
-            if (selectedDatasetDescriptorTypes.isEmpty()) {
-                selectedDatasetDescriptorTypes = Constants.ALL;
+            if (descriptorType.isEmpty()) {
+                descriptorType = Constants.ALL;
             }
 
             //generate necessary descriptorSet objects
             String descriptorFile = descriptorDir + sdfFileName;
-            AllDescriptors generateDescriptorsObj = new AllDescriptors(selectedDatasetDescriptorTypes);
+            AllDescriptors generateDescriptorsObj = new AllDescriptors(descriptorType);
 
             // the dataset included an SDF so we need to generate descriptors from it
             // anything descriptorSet excluded from generation is the last parameter

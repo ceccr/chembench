@@ -138,344 +138,187 @@ public class DatasetAction extends ActionSupport {
 
     public String execute() throws Exception {
         String emailOnCompletion = "false"; //for now
-        String result = INPUT;
 
-        String userName = user.getUserName();
         datasetName = StringUtility.jobNameRegExCleanUp(datasetName);
+        String userName = user.getUserName();
+        String datasetDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/";
+        String noFileMessage = "File upload failed or no files supplied. If you are using Chrome, "
+                + "try again in a different browser such as Firefox.";
+        List<String> msgs = new ArrayList<>();
+
+        String selectedDatasetDescriptorTypes = ""; // type of descriptors to generate in MODELING and PREDICTION
+        String sdfFileName = "";
+        String actFileName = "";
+        String xFileName = "";
+        String descriptorType = "";     //used in MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
+        String actFileDataType = "";   //Continuous/Category for MODELING/MODELINGWITHDESCRIPTORS; Prediction otherwise.
+        String standardize = "";        //used in MODELING and PREDICTION
+        String hasBeenScaledYet = "";   //true or false or empty (MODELING and PREDICTION)
+        String generateImages = "";
+
+        File sdFile = null;
+        File actFile = null;
+        File xFile = null;
 
         logger.debug("Starting dataset task");
         logger.debug("Uploaded dataset " + datasetName + " User: " + userName);
 
-        List<String> msgs = new ArrayList<>();
+        if (datasetType.equalsIgnoreCase(Constants.MODELING)) {
+            //do file check
+            if (sdfFileModeling == null && actFileModeling == null) {
+                addActionError(noFileMessage);
+                return ERROR;
+            } else if (sdfFileModeling == null) {
+                addActionError("Missing SDF or file upload error.");
+                return ERROR;
+            } else if (actFileModeling == null) {
+                addActionError("Missing Activity file or file upload error. If you do not have an Activity file for"
+                        + " this dataset, use the Prediction Set option when uploading.");
+                return ERROR;
+            }
+
+            sdfFileName = sdfFileModelingFileName;
+            actFileName = actFileModelingFileName;
+            actFileDataType = dataTypeModeling;
+            descriptorType = selectedModelingDescriptors;
+            standardize = standardizeModeling;
+            generateImages = generateImagesM;
+
+            sdFile = sdfFileModeling;
+            actFile = actFileModeling;
+        } else if (datasetType.equalsIgnoreCase(Constants.PREDICTION)) {
+            if (sdfFilePrediction == null) {
+                addActionError(noFileMessage);
+                return ERROR;
+            }
+
+            sdfFileName = sdfFilePredictionFileName;
+            actFileDataType = Constants.PREDICTION;
+            descriptorType = selectedPredictionDescriptors;
+            standardize = standardizePrediction;
+            generateImages = generateImagesP;
+
+            sdFile = sdfFilePrediction;
+        } else if (datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)) {
+            if (descriptorXModDesc == null || actFileModDesc == null) {
+                addActionError(noFileMessage);
+                return ERROR;
+            }
+
+            sdfFileName = sdfFileModDescFileName;
+            actFileName = actFileModDescFileName;
+            xFileName = descriptorXModDescFileName;
+            descriptorTypeModDesc =
+                    descriptorNewName.trim().isEmpty() ? selectedDescriptorUsedName : descriptorNewName;
+            descriptorType = descriptorTypeModDesc;
+            actFileDataType = dataTypeModDesc;
+            standardize = standardizeModDesc;
+            hasBeenScaledYet = hasBeenScaled;
+            generateImages = generateImagesMWD;
+
+            sdFile = sdfFileModDesc;
+            actFile = actFileModDesc;
+            xFile = descriptorXModDesc;
+        } else if (datasetType.equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)) {
+            if (descriptorXFilePredDesc == null) {
+                addActionError(noFileMessage);
+                return ERROR;
+            }
+
+            sdfFileName = sdfFilePredDescFileName;
+            xFileName = descriptorXFilePredDescFileName;
+            descriptorTypePredDesc =
+                    descriptorNewNameD.trim().isEmpty() ? selectedDescriptorUsedNameD : descriptorNewNameD;
+            descriptorType = descriptorTypePredDesc;
+            actFileDataType = Constants.PREDICTION;
+            standardize = standardizePredDesc;
+            hasBeenScaledYet = hasBeenScaled;
+            generateImages = generateImagesPWD;
+
+            sdFile = sdfFilePredDesc;
+            xFile = descriptorXFilePredDesc;
+        }
 
         if (externalCompoundsCountOrPercent.equalsIgnoreCase("percent")) {
-            double tmp = Double.parseDouble(numExternalCompounds);
-            tmp /= 100;
+            double tmp = Double.parseDouble(numExternalCompounds) / 100;
             numExternalCompounds = "" + tmp;
         }
+
         if (splitType.equals(Constants.NFOLD)) {
             useActivityBinning = useActivityBinningNFold;
         }
 
-        //checks for the existence of the sdf and act file
+        try {
+            //verify uploaded files and copy them to the dataset dir
+            sdfFileName = StringUtility.fileNameRegExCleanUp(sdfFileName);
+            actFileName = StringUtility.fileNameRegExCleanUp(actFileName);
+            xFileName = StringUtility.fileNameRegExCleanUp(xFileName);
+
+            if (!datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS) || !datasetType
+                    .equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)) {
+                //only correct filenames that are modeling/prediction with descriptors
+                if (!datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)) {
+                    actFileName = StringUtility.checkAndCorrectACTFileName(actFileName);
+                }
+                xFileName = StringUtility.checkAndCorrectXFileName(xFileName);
+            }
+
+            msgs = DatasetFileOperations
+                    .uploadDataset(userName, sdFile, sdfFileName, actFile, actFileName, xFile, xFileName,
+                            datasetName, actFileDataType, datasetType, externalCompoundList);
+        } catch (Exception ex) {
+            logger.error("", ex);
+            msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
+        }
+        if (!msgs.isEmpty()) {
+            for (String msg : msgs) {
+                addActionError(msg);
+            }
+            return ERROR;
+        }
+
+        // if all is well so far, make sure that the dataset has at
+        // least the minimum number of compounds that we require
+        // (if it's a modeling dataset; we allow prediction datasets to
+        // be any size)
         if (datasetType.equalsIgnoreCase(Constants.MODELING)) {
-            //do file check
-            if (sdfFileModeling == null && actFileModeling == null) {
-                addActionError("File upload failed or no files supplied. If you are using Chrome, "
-                        + "try again in a different browser such as Firefox.");
-                result = ERROR;
-            } else if (sdfFileModeling == null) {
-                addActionError("Missing SDF or file upload error.");
-                result = ERROR;
-            } else if (actFileModeling == null) {
-                addActionError("Missing Activity file or file upload error. If you do not have an Activity file for"
-                        + " this dataset, use the Prediction Set option when uploading.");
-                result = ERROR;
-            }
-
-            if (result.equalsIgnoreCase(INPUT)) {
-                //verify uploaded files and copy them to the dataset dir
-                if (actFileModelingFileName.endsWith(".a")) {
-                    actFileModelingFileName =
-                            actFileModelingFileName.substring(0, actFileModelingFileName.length() - 2) + ".act";
-                } else if (!actFileModelingFileName.endsWith(".act")) {
-                    actFileModelingFileName += ".act";
-                }
-                try {
-                    msgs = DatasetFileOperations
-                            .uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, actFileModeling,
-                                    actFileModelingFileName, null, "", datasetName, dataTypeModeling, datasetType,
-                                    externalCompoundList);
-                    sdfFileModelingFileName = StringUtility.fileNameRegExCleanUp(sdfFileModelingFileName);
-                    actFileModelingFileName = StringUtility.fileNameRegExCleanUp(actFileModelingFileName);
-                } catch (Exception ex) {
-                    logger.error("", ex);
-                    result = ERROR;
-                    msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
-                }
-                if (!msgs.isEmpty()) {
-                    for (String msg : msgs) {
-                        addActionError(msg);
-                    }
-                    result = ERROR;
-                }
-
-                // if all is well so far, make sure that the dataset has at
-                // least the minimum number of compounds that we require
-                // (if it's a modeling dataset; we allow prediction datasets to
-                // be any size)
-                if (result != ERROR && datasetType.startsWith("MODELING")) {
-                    int numCompounds = DatasetFileOperations.getACTCompoundNames(
-                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
-                                    actFileModelingFileName).size();
-                    if (numCompounds < Constants.DATASET_MIN_COMPOUNDS) {
-                        logger.warn(String.format("Rejected dataset job: had only %d compounds while %d are required",
-                                numCompounds, Constants.DATASET_MIN_COMPOUNDS));
-                        addActionError(String
-                                .format("Your dataset job only has %d compounds while a minimum of %d are required. "
-                                        + "Please choose a SDF and ACT file pair with a greater number of " +
-                                        "compounds.", numCompounds, Constants.DATASET_MIN_COMPOUNDS));
-                        result = ERROR;
-                    }
-                }
-            }
-
-            // proceed if no errors so far
-            if (result.equalsIgnoreCase(INPUT)) {
-                CreateDatasetTask datasetTask = new CreateDatasetTask(userName, datasetType,
-                        //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
-                        selectedModelingDescriptors, //type of descriptors that user wants to generate
-                        sdfFileModelingFileName, //sdfFileName
-                        actFileModelingFileName, //actFileName
-                        "", //xFileName
-                        "", //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
-                        dataTypeModeling, //act file type, Continuous or Category,
-                        // if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
-                        standardizeModeling, //used in MODELING and PREDICTION
-                        splitType, //RANDOM or USERDEFINED
-                        "", //scaling type
-                        numExternalCompounds, //if splitType is RANDOM
-                        numExternalFolds, //if splitType is NFOLD
-                        useActivityBinning, //if splitType is RANDOM
-                        externalCompoundList, //if splitType is USERDEFINED
-                        datasetName, paperReference, dataSetDescription, generateImagesM);
-                try {
-                    logger.debug("getting ACT compound count from " + Constants.CECCR_USER_BASE_PATH + userName +
-                            "/DATASETS/" + datasetName + "/" + actFileModelingFileName);
-                    int numCompounds = DatasetFileOperations.getACTCompoundNames(
-                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
-                                    actFileModelingFileName).size();
-                    int numModels = 0;
-
-                    CentralDogma centralDogma = CentralDogma.getInstance();
-                    centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels,
-                            emailOnCompletion);
-
-                } catch (Exception ex) {
-                    logger.error("", ex);
-                }
-            }
-        } else if (datasetType.equalsIgnoreCase(Constants.PREDICTION)) {
-            logger.debug("got into function");
-            //do file check
-            if (sdfFilePrediction == null) {
-                addActionError("File upload failed or no files supplied. If you are using Chrome, "
-                        + "try again in a different browser such as Firefox.");
-                result = ERROR;
-            }
-
-            if (result.equalsIgnoreCase(INPUT)) {
-                //verify uploaded files and copy them to the dataset dir
-                try {
-                    msgs = DatasetFileOperations
-                            .uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, "", null, "",
-                                    datasetName, dataTypeModeling, datasetType, externalCompoundList);
-                    sdfFilePredictionFileName = StringUtility.fileNameRegExCleanUp(sdfFilePredictionFileName);
-                } catch (Exception ex) {
-                    logger.error("", ex);
-                    result = ERROR;
-                    msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
-                }
-
-                if (!msgs.isEmpty()) {
-                    for (String msg : msgs) {
-                        addActionError(msg);
-                    }
-                    result = ERROR;
-                }
-            }
-            if (result.equalsIgnoreCase(INPUT)) {
-                try {
-                    CreateDatasetTask datasetTask = new CreateDatasetTask(userName, datasetType,
-                            //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
-                            selectedPredictionDescriptors,
-                            sdfFilePredictionFileName, //sdfFileName
-                            "", //actFileName
-                            "", //xFileName
-                            "", //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or
-                            // PREDICTIONWITHDESCRIPTORS
-                            Constants.PREDICTION, //act file type, Continuous or Category,
-                            // if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
-                            standardizePrediction, //used in MODELING and PREDICTION
-                            splitType, //RANDOM or USERDEFINED
-                            "", //scaling type
-                            numExternalCompounds, //if splitType is RANDOM
-                            numExternalFolds, //if splitType is NFOLD
-                            useActivityBinning, //if splitType is RANDOM
-                            externalCompoundList, //if splitType is USERDEFINED
-                            datasetName, paperReference, dataSetDescription, generateImagesP);
-
-                    int numCompounds = DatasetFileOperations.getSdfCompoundNames(
-                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
-                                    sdfFilePredictionFileName).size();
-                    int numModels = 0;
-                    logger.debug("adding task");
-
-                    CentralDogma centralDogma = CentralDogma.getInstance();
-                    centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels,
-                            emailOnCompletion);
-
-                } catch (Exception ex) {
-                    logger.error("", ex);
-                    result = ERROR;
-                    msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
-                }
-            }
-        } else if (datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)) {
-
-            if (descriptorXModDesc == null || actFileModDesc == null) {
-                addActionError("File upload failed or no files supplied. If you are using Chrome, "
-                        + "try again in a different browser such as Firefox.");
-                result = ERROR;
-            }
-
-            if (result.equalsIgnoreCase(INPUT)) {
-                //verify uploaded files and copy them to the dataset dir
-                try {
-                    actFileModDescFileName = StringUtility.fileNameRegExCleanUp(actFileModDescFileName);
-                    if (actFileModDescFileName.endsWith(".a")) {
-                        actFileModDescFileName =
-                                actFileModDescFileName.substring(0, actFileModDescFileName.length() - 2) + ".act";
-                    } else if (!actFileModDescFileName.endsWith(".act")) {
-                        actFileModDescFileName += ".act";
-                    }
-                    if (!descriptorXModDescFileName.endsWith(".x")) {
-                        descriptorXModDescFileName += ".x";
-                    }
-
-                    msgs = DatasetFileOperations
-                            .uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc,
-                                    actFileModDescFileName, descriptorXModDesc, descriptorXModDescFileName, datasetName,
-                                    dataTypeModeling, datasetType, externalCompoundList);
-                    sdfFileModDescFileName = StringUtility.fileNameRegExCleanUp(sdfFileModDescFileName);
-                    actFileModDescFileName = StringUtility.fileNameRegExCleanUp(actFileModDescFileName);
-                    descriptorXModDescFileName = StringUtility.fileNameRegExCleanUp(descriptorXModDescFileName);
-                    descriptorTypeModDesc =
-                            descriptorNewName.trim().isEmpty() ? selectedDescriptorUsedName : descriptorNewName;
-
-                } catch (Exception ex) {
-                    logger.error("", ex);
-                    result = ERROR;
-                    msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
-                }
-
-                if (!msgs.isEmpty()) {
-                    for (String msg : msgs) {
-                        addActionError(msg);
-                    }
-                    result = ERROR;
-                }
-            }
-            if (result.equalsIgnoreCase(INPUT)) {
-                try {
-                    CreateDatasetTask datasetTask = new CreateDatasetTask(userName, datasetType,
-                            //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
-                            "", //user uploaded descriptors
-                            sdfFileModDescFileName, //sdfFileName
-                            actFileModDescFileName, //actFileName
-                            descriptorXModDescFileName, //xFileName
-                            descriptorTypeModDesc, //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or
-                            // PREDICTIONWITHDESCRIPTORS
-                            dataTypeModDesc, //act file type, Continuous or Category,
-                            // if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
-                            standardizeModDesc, splitType, //RANDOM or USERDEFINED
-                            hasBeenScaled, //true or false
-                            numExternalCompounds, //if splitType is RANDOM
-                            numExternalFolds, //if splitType is NFOLD
-                            useActivityBinning, //if splitType is RANDOM
-                            externalCompoundList, //if splitType is USERDEFINED
-                            datasetName, paperReference, dataSetDescription, generateImagesMWD);
-
-                    int numCompounds = DatasetFileOperations.getACTCompoundNames(
-                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
-                                    actFileModDescFileName).size();
-                    int numModels = 0;
-
-                    CentralDogma centralDogma = CentralDogma.getInstance();
-                    centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels,
-                            emailOnCompletion);
-                } catch (Exception ex) {
-                    logger.error("", ex);
-                    result = ERROR;
-                    msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
-                }
-            }
-        } else if (datasetType.equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)) {
-            if (descriptorXFilePredDesc == null) {
-                addActionError("File upload failed or no files supplied. If you are using Chrome, "
-                        + "try again in a different browser such as Firefox.");
-                result = ERROR;
-            }
-
-            if (result.equalsIgnoreCase(INPUT)) {
-                //verify uploaded files and copy them to the dataset dir
-                try {
-                    if (!descriptorXFilePredDescFileName.endsWith(".x")) {
-                        descriptorXFilePredDescFileName += ".x";
-                    }
-
-                    msgs = DatasetFileOperations
-                            .uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "",
-                                    descriptorXFilePredDesc,
-                                    descriptorXFilePredDescFileName, datasetName, dataTypeModeling, datasetType,
-                                    externalCompoundList);
-                    sdfFilePredDescFileName = StringUtility.fileNameRegExCleanUp(sdfFilePredDescFileName);
-                    descriptorXFilePredDescFileName = StringUtility.fileNameRegExCleanUp(descriptorXFilePredDescFileName);
-                    descriptorTypePredDesc =
-                            descriptorNewNameD.trim().isEmpty() ? selectedDescriptorUsedNameD : descriptorNewNameD;
-                } catch (Exception ex) {
-                    logger.error("", ex);
-                    result = ERROR;
-                    msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
-                }
-
-                if (!msgs.isEmpty()) {
-                    for (String msg : msgs) {
-                        addActionError(msg);
-                    }
-                    result = ERROR;
-                }
-            }
-
-            if (result.equalsIgnoreCase(INPUT)) {
-                try {
-                    CreateDatasetTask datasetTask = new CreateDatasetTask(userName, datasetType,
-                            //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
-                            "", //user uploaded descriptors
-                            sdfFilePredDescFileName, //sdfFileName
-                            "", //actFileName
-                            descriptorXFilePredDescFileName, //xFileName
-                            descriptorTypePredDesc, //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or
-                            // PREDICTIONWITHDESCRIPTORS
-                            Constants.PREDICTION, //act file type, Continuous or Category,
-                            // if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
-                            standardizePredDesc, splitType, //RANDOM or USERDEFINED
-                            "", //hasBeenScaled
-                            numExternalCompounds, //if splitType is RANDOM
-                            numExternalFolds, //if splitType is NFOLD
-                            useActivityBinning, //if splitType is RANDOM
-                            externalCompoundList, //if splitType is USERDEFINED
-                            datasetName, paperReference, dataSetDescription, generateImagesPWD);
-
-                    int numCompounds = DatasetFileOperations.getXCompoundNames(
-                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" +
-                                    descriptorXFilePredDescFileName).size();
-                    int numModels = 0;
-
-                    CentralDogma centralDogma = CentralDogma.getInstance();
-                    centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels,
-                            emailOnCompletion);
-
-                    //Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
-                } catch (Exception ex) {
-                    logger.error("", ex);
-                    result = ERROR;
-                    msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
-                }
+            int numCompounds = DatasetFileOperations.getACTCompoundNames(datasetDir + actFileName).size();
+            if (numCompounds < Constants.DATASET_MIN_COMPOUNDS) {
+                logger.warn(
+                        String.format("Rejected dataset job: had only %d compounds while %d are required", numCompounds,
+                                Constants.DATASET_MIN_COMPOUNDS));
+                addActionError(String.format(
+                        "Your dataset job only has %d compounds while a minimum of %d are required. "
+                                + "Please choose a SDF and ACT file pair with a greater number of " + "compounds.",
+                        numCompounds, Constants.DATASET_MIN_COMPOUNDS));
+                return ERROR;
             }
         }
 
-        return result;
+        try {
+            CreateDatasetTask datasetTask = new CreateDatasetTask(userName, datasetType,
+                    //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
+                    sdfFileName, actFileName, xFileName, descriptorType,
+                    actFileDataType, standardize,
+                    splitType, //RANDOM or USERDEFINED
+                    hasBeenScaledYet, numExternalCompounds, //if splitType is RANDOM
+                    numExternalFolds, //if splitType is NFOLD
+                    useActivityBinning, //if splitType is RANDOM
+                    externalCompoundList, //if splitType is USERDEFINED
+                    datasetName, paperReference, dataSetDescription, generateImages);
+            int numCompounds = getNumberOfCompounds(datasetDir, sdfFileName, actFileName, xFileName);
+            int numModels = 0;
+
+            CentralDogma centralDogma = CentralDogma.getInstance();
+            centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels,
+                    emailOnCompletion);
+        } catch (Exception ex) {
+            logger.error("", ex);
+            msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
+            return ERROR;
+        }
+
+        return INPUT;
     }
 
     public String generateModi() throws Exception {
@@ -490,6 +333,21 @@ public class DatasetAction extends ActionSupport {
             this.modi = dataset.getModi();
             return SUCCESS;
         }
+    }
+
+    private int getNumberOfCompounds(String datasetDir, String sdfFileName, String actFileName, String xFileName)
+            throws Exception {
+        int numCompounds = 0;
+        if (datasetType.equalsIgnoreCase(Constants.MODELING) || datasetType
+                .equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)) {
+            logger.debug("getting ACT compound count from " + datasetDir + actFileName);
+            numCompounds = DatasetFileOperations.getACTCompoundNames(datasetDir + actFileName).size();
+        } else if (datasetType.equalsIgnoreCase(Constants.PREDICTION)) {
+            numCompounds = DatasetFileOperations.getSdfCompoundNames(datasetDir + sdfFileName).size();
+        } else if (datasetType.equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)) {
+            numCompounds = DatasetFileOperations.getXCompoundNames(datasetDir + xFileName).size();
+        }
+        return numCompounds;
     }
 
     public String getDatasetName() {
@@ -724,7 +582,9 @@ public class DatasetAction extends ActionSupport {
         this.sdfFilePredictionFileName = sdfFilePredictionFileName;
     }
 
-    public String getSelectedPredictionDescriptors() {return selectedPredictionDescriptors;}
+    public String getSelectedPredictionDescriptors() {
+        return selectedPredictionDescriptors;
+    }
 
     public void setSelectedPredictionDescriptors(String selectedPredictionDescriptors) {
         this.selectedPredictionDescriptors = selectedPredictionDescriptors;
@@ -754,9 +614,11 @@ public class DatasetAction extends ActionSupport {
         this.actFileModelingFileName = actFileModelingFileName;
     }
 
-    public String getSelectedModelingDescriptors() {return selectedModelingDescriptors;}
+    public String getSelectedModelingDescriptors() {
+        return selectedModelingDescriptors;
+    }
 
-    public void setSelectedModelingDescriptors(String selectedModelingDescriptors){
+    public void setSelectedModelingDescriptors(String selectedModelingDescriptors) {
         this.selectedModelingDescriptors = selectedModelingDescriptors;
     }
 

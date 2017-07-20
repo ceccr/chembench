@@ -186,8 +186,6 @@ public class DatasetFileOperations {
         // copy files from temp location into datasets dir
         // run validations on each file after the copy
         if (sdfFile != null) {
-            sdfFileName = sdfFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-            logger.debug("checking SDF");
             saveSdfFile(sdfFile, path, sdfFileName);
             sdfFile = new File(path + sdfFileName);
 
@@ -207,7 +205,6 @@ public class DatasetFileOperations {
         }
 
         if (actFile != null) {
-            actFileName = actFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
             logger.debug("checking ACT");
             String msg = saveACTFile(actFile, path, actFileName);
             if (!msg.isEmpty()) {
@@ -237,7 +234,6 @@ public class DatasetFileOperations {
         }
 
         if (xFile != null) {
-            xFileName = xFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
             logger.debug("checking X");
             String msg = saveXFile(xFile, path, xFileName);
             xFile = new File(path + xFileName);
@@ -253,11 +249,11 @@ public class DatasetFileOperations {
 
         // generate an empty activity file (needed for... heatmaps or
         // something...?)
-        if (actFileType.equals(Constants.PREDICTION)) {
+        if (datasetType.equals(Constants.PREDICTION)) {
             logger.debug("Generating empty ACT");
             generateEmptyActFile(path, sdfFileName.substring(0, sdfFileName.lastIndexOf(".")), path + sdfFileName);
         }
-        if (actFileType.equals(Constants.PREDICTIONWITHDESCRIPTORS)) {
+        if (datasetType.equals(Constants.PREDICTIONWITHDESCRIPTORS)) {
             logger.debug("Generating empty ACT");
             generateEmptyActFile(path, xFileName.substring(0, xFileName.lastIndexOf(".")), path + xFileName);
         }

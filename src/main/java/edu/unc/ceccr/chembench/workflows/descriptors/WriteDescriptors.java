@@ -9,7 +9,6 @@ import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.rmi.runtime.Log;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
