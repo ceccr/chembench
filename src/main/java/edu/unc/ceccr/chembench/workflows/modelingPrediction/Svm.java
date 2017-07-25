@@ -183,9 +183,10 @@ public class Svm {
         String cmd = "sbatch ";
         cmd += "-J cbench_" + userName + "_" + jobName +
                 " -D " + workingDir +
-                " -e " + workingDir + "Logs/svm.py.err" +
-                " --wrap=\"python svm.py\" > Logs/svm.py.log";
-        RunExternalProgram.runCommand(cmd, workingDir);
+//                " -e " + workingDir + "Logs/svm.py.err" +
+                " -o " + workingDir + "sbatchOutput.txt" +
+                " --wrap=\"python svm.py\"";
+        RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
 
         String logFilePath = workingDir + "Logs/svm.py.log";
         return LsfUtilities.getLsfJobId(logFilePath);
