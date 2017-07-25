@@ -74,19 +74,20 @@ public class LsfUtilities {
             // an error occurred in job submission.
             throw new RuntimeException("LSF job submission failed");
         }
-
-        Scanner sc = new Scanner(line);
-        String jobId = "";
-        if (sc.hasNext()) {
-            sc.next();
-        }
-        if (sc.hasNext()) {
-            jobId = sc.next();
-        }
-        logger.debug(jobId.substring(1, jobId.length() - 1));
+        String jobId = line.substring(line.lastIndexOf(" ")+1);
+//        Scanner sc = new Scanner(line);
+//        String jobId = "";
+//        if (sc.hasNext()) {
+//            sc.next();
+//        }
+//        if (sc.hasNext()) {
+//            jobId = sc.next();
+//        }
+//        logger.debug(jobId.substring(1, jobId.length() - 1));
+        logger.debug(jobId);
         in.close();
-        sc.close();
-        return jobId.substring(1, jobId.length() - 1);
+//        sc.close();
+        return jobId;
     }
 
 }

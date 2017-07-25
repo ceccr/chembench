@@ -183,13 +183,12 @@ public class Svm {
         String cmd = "sbatch ";
         cmd += "-J cbench_" + userName + "_" + jobName +
                 " -D " + workingDir +
-                " -o " + workingDir + "sbatchOutput.txt" +
                 " -e " + workingDir + "Logs/svm.py.err" +
-                " --wrap=\"python svm.py\"";
+                " --wrap=\"python svm.py\" > Logs/svm.py.log";
         RunExternalProgram.runCommand(cmd, workingDir);
 
-//        String logFilePath = workingDir + "Logs/svm.py.log";
-        return LsfUtilities.getLsfJobIdSlurm(workingDir);
+        String logFilePath = workingDir + "Logs/svm.py.log";
+        return LsfUtilities.getLsfJobId(logFilePath);
     }
 
     public static List<SvmModel> readSvmModels(String workingDir, String cutoff) throws Exception {
