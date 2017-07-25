@@ -180,12 +180,16 @@ public class Svm {
 
     public static String buildSvmModelsLsf(String workingDir, String userName, String jobName) throws Exception {
         // run modeling (sbatch the python script)
-        String cmd = "sbatch -p ";
-        cmd += "-J cbench_" + userName + "_" + jobName + " -o sbatchOutput.txt python svm.py";
-        RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
+        String cmd = "sbatch ";
+        cmd += "-J cbench_" + userName + "_" + jobName +
+                " -D " + workingDir +
+                " -o " + workingDir + "sbatchOutput.txt" +
+                " -e " + workingDir + "Logs/svm.py.err" +
+                " --wrap=\"python svm.py\"";
+        RunExternalProgram.runCommand(cmd, workingDir);
 
-        String logFilePath = workingDir + "Logs/svm.py.log";
-        return LsfUtilities.getLsfJobId(logFilePath);
+//        String logFilePath = workingDir + "Logs/svm.py.log";
+        return LsfUtilities.getLsfJobIdSlurm(workingDir);
     }
 
     public static List<SvmModel> readSvmModels(String workingDir, String cutoff) throws Exception {

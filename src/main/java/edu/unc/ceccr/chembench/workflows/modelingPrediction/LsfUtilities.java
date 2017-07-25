@@ -3,11 +3,13 @@ package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileReader;
 import java.util.Scanner;
 
@@ -44,6 +46,17 @@ public class LsfUtilities {
         FileAndDirOperations.makeDirContentsExecutable(lsfPath + "yRandom/");
         logger.debug("Copied mmlsoft/bin.bak to lsfPath");
 
+    }
+
+    public static String getLsfJobIdSlurm (String workingDir) throws Exception{
+        File dir = new File(workingDir);
+        FileFilter fileFilter = new WildcardFileFilter("slurm*.out");
+        File[] files = dir.listFiles(fileFilter);
+        for (int i = 0; i < files.length; i++) {
+            logger.debug(files[i].getName());
+        }
+
+        return files[0].getName();
     }
 
     public static String getLsfJobId(String logFilePath) throws Exception {
