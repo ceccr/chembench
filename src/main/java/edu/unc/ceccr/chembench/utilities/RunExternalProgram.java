@@ -138,4 +138,31 @@ public class RunExternalProgram {
         }
     }
 
+    public static int runCommandAndLogOutputSVM(String cmd, String workingDir) {
+        // runs an external program and writes user info to logfile
+        if (!workingDir.endsWith("/")) {
+            workingDir += "/";
+        }
+
+        try {
+            File scriptFile = new File(workingDir + "temp-script.sh");
+            BufferedWriter out = new BufferedWriter(new FileWriter(scriptFile));
+            out.write(cmd + "\n");
+            out.close();
+
+            scriptFile.setExecutable(true);
+            FileAndDirOperations.makeDirContentsExecutable(workingDir);
+
+            ProcessBuilder pb = new ProcessBuilder("sh", "temp-script.sh");
+            pb.directory(new File(workingDir));
+
+            Process p = pb.start();
+
+            return p.waitFor();
+        } catch (Exception e) {
+            logger.error("Error executing external program", e);
+            return -1;
+        }
+    }
+
 }
