@@ -147,7 +147,7 @@ public class RunExternalProgram {
         try {
             File scriptFile = new File(workingDir + "temp-script.sh");
             BufferedWriter out = new BufferedWriter(new FileWriter(scriptFile));
-            out.write(cmd + "\n");
+            out.write(cmd);
             out.close();
 
             scriptFile.setExecutable(true);
