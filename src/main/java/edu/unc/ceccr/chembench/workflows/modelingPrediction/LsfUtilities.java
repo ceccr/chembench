@@ -48,17 +48,6 @@ public class LsfUtilities {
 
     }
 
-    public static String getLsfJobIdSlurm (String workingDir) throws Exception{
-        File dir = new File(workingDir);
-        FileFilter fileFilter = new WildcardFileFilter("slurm*.out");
-        File[] files = dir.listFiles(fileFilter);
-        for (int i = 0; i < files.length; i++) {
-            logger.debug(files[i].getName());
-        }
-
-        return files[0].getName();
-    }
-
     public static String getLsfJobId(String logFilePath) throws Exception {
         Thread.sleep(200); // give the file time to close properly? I guess?
         BufferedReader in = new BufferedReader(new FileReader(logFilePath));
@@ -75,18 +64,9 @@ public class LsfUtilities {
             throw new RuntimeException("LSF job submission failed");
         }
         String jobId = line.substring(line.lastIndexOf(" ")+1);
-//        Scanner sc = new Scanner(line);
-//        String jobId = "";
-//        if (sc.hasNext()) {
-//            sc.next();
-//        }
-//        if (sc.hasNext()) {
-//            jobId = sc.next();
-//        }
-//        logger.debug(jobId.substring(1, jobId.length() - 1));
         logger.debug(jobId);
         in.close();
-//        sc.close();
+
         return jobId;
     }
 

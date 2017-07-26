@@ -14,14 +14,16 @@ public class LsfJobStatus {
     public String job_name = "";
     public String submit_time = "";
 
-    //744782  ceccr   PEND  week       chembench-d             bsubKnn.sh Mar 31 02:47
-    //744771  ceccr   DONE  week       chembench-d bc14-n04    bsubKnn.sh Mar 31 02:27
-    //744779  ceccr   DONE  week       chembench-d bc16-n06    bsubKnn.sh Mar 31 02:36
-    //744780  ceccr   DONE  week       chembench-d bc16-n06    bsubKnn.sh Mar 31 02:39
+//    JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+//           8685136   general cbench_w    ceccr  R       1:48      1 c0808
+//           8685135   general cbench_w    ceccr  R       1:59      1 c0803
+//           8685134   general cbench_w    ceccr  R       2:09      1 c0824
+//           8685133   general cbench_w    ceccr  R       2:20      1 c0934
+//           8685131   general cbench_w    ceccr  R       2:30      1 c0929
 
-//    JOBID      PARTITION    NAME        USER ST       TIME        NODES NODELIST(REASON)
-//    3600559    bigmem       oh.ortho    isai  R       1-19:29:18      1 t0602
-//    3622655    general      oh.compr    isai  R       1-00:16:05      1 c0922
+//    Job state, compact form: PD (pending), R (running), CA (cancelled),
+//    CF(configuring), CG (completing), CD (completed), F (failed), TO (timeout),
+//    NF (node failure), RV (revoked) and SE (special exit state).
 
     LsfJobStatus(String bjobsLine) {
         if (!bjobsLine.trim().isEmpty()) {
