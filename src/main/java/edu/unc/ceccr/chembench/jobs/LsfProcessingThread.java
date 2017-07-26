@@ -101,7 +101,7 @@ public class LsfProcessingThread extends Thread {
 
                 // For every finished job, do postprocessing.
                 for (LsfJobStatus jobStatus : lsfJobStatuses) {
-                    if (jobStatus.stat.equals("COMPLETED") || jobStatus.stat.equals("FAILED")) {
+                    if (jobStatus.stat.equals("COMPLETING") || jobStatus.stat.equals("FAILED")) {
                         // check if this is a running job
                         for (Job j : readOnlyJobArray) {
                             if (j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)) {
