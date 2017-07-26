@@ -188,7 +188,7 @@ public class Svm {
                 " --wrap=\"python svm.py\""
                 + " > Logs/svm.py.log";
 
-        RunExternalProgram.runCommand(cmd, workingDir);
+        RunExternalProgram.runCommandAndLogOutputSVM(cmd, workingDir);
 
         String logFilePath = workingDir + "Logs/svm.py.log";
         return LsfUtilities.getLsfJobId(logFilePath);
