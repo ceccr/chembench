@@ -193,14 +193,17 @@ public class KnnPlus {
         f.setExecutable(true);
 
         // exec shell script
-        String command = "sbatch -p ";
-        command += "-J cbench_" + userName + "_" + jobName + " -o sbatchOutput.txt " +
-                workingDir + "bsubKnnPlus.sh";
+        String command = "sbatch -J cbench_" + userName + "_" + jobName +
+                " -D " + workingDir +
+                " -e " + workingDir + "Logs/sbatchKnnPlus.err" +
+                " -o " + workingDir + "sbatchOutput.txt" +
+                " --wrap=\"sh bsubKnnPlus.sh\""
+                + " > Logs/sbatchKnnPlus.log";
+
         RunExternalProgram.runCommandAndLogOutput(command, workingDir, "sbatchKnnPlus");
 
         String logFilePath = workingDir + "Logs/sbatchKnnPlus.log";
         return LsfUtilities.getLsfJobId(logFilePath);
-
     }
 
     public static void buildKnnPlusModels(KnnPlusParameters knnPlusParameters, String actFileDataType, String modelType,

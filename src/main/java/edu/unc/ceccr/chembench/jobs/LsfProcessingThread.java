@@ -53,7 +53,7 @@ public class LsfProcessingThread extends Thread {
     }
 
     public static List<LsfJobStatus> checkLsfStatus(String workingDir) throws Exception {
-        // execs "bjobs -aw" and gets the status of each job
+        // execs "squeue -u " and gets the status of each job
         // remove outfile if already exists
 
         if ((new File(workingDir + "sbatch-out.txt")).exists()) {
@@ -70,6 +70,7 @@ public class LsfProcessingThread extends Thread {
         if ((new File(workingDir + "sbatch-out.txt")).exists()) {
             BufferedReader br = new BufferedReader(new FileReader(workingDir + "sbatch-out.txt"));
             String line = "";
+            br.readLine(); // skip date
             br.readLine(); // skip header
             while ((line = br.readLine()) != null) {
                 if (!line.trim().equals("")) {
@@ -78,7 +79,6 @@ public class LsfProcessingThread extends Thread {
                     lsfStatusList.add(l);
                 }
             }
-
             br.close();
         }
 
@@ -101,7 +101,7 @@ public class LsfProcessingThread extends Thread {
 
                 // For every finished job, do postprocessing.
                 for (LsfJobStatus jobStatus : lsfJobStatuses) {
-                    if (jobStatus.stat.equals("CD") || jobStatus.stat.equals("F")) {
+                    if (jobStatus.stat.equals("COMPLETED") || jobStatus.stat.equals("FAILED")) {
                         // check if this is a running job
                         for (Job j : readOnlyJobArray) {
                             if (j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)) {
@@ -185,8 +185,8 @@ public class LsfProcessingThread extends Thread {
                                     // This will happen if the system was
                                     // rebooted while the job was running.
                                     for (LsfJobStatus jobStatus : lsfJobStatuses) {
-                                        if (jobStatus.jobid.equals(j.getLsfJobId()) && (jobStatus.stat.equals("PEND")
-                                                || jobStatus.stat.equals("RUN") || jobStatus.stat.equals("SSUSP"))) {
+                                        if (jobStatus.jobid.equals(j.getLsfJobId()) && (jobStatus.stat.equals("PENDING")
+                                                || jobStatus.stat.equals("RUNNING") || jobStatus.stat.equals("SUSPENDED"))) {
                                             // job is already running, so
                                             // don't do anything to it
                                             jobIsRunningAlready = true;
@@ -258,15 +258,15 @@ public class LsfProcessingThread extends Thread {
                     // previous check
                     for (LsfJobStatus jobStatus : lsfJobStatuses) {
                         if ((oldLsfStatuses.containsKey(jobStatus.jobid) && oldLsfStatuses.get(jobStatus.jobid)
-                                .equals("PEND") && jobStatus.stat.equals("RUN")) || (
-                                !oldLsfStatuses.containsKey(jobStatus.jobid) && jobStatus.stat.equals("RUN"))) {
+                                .equals("PENDING") && jobStatus.stat.equals("RUNNING")) || (
+                                !oldLsfStatuses.containsKey(jobStatus.jobid) && jobStatus.stat.equals("RUNNING"))) {
                             // the job *just* started on LSF. Find the job
                             // with this lsfJobId and set its date.
                             for (Job j : readOnlyJobArray) {
                                 if (j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)) {
                                     j.setTimeStartedByLsf(new Date());
-                                    CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
-                                }
+                                CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
+                            }
                             }
                         }
                         oldLsfStatuses.put(jobStatus.jobid, jobStatus.stat);

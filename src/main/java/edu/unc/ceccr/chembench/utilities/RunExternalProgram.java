@@ -138,7 +138,7 @@ public class RunExternalProgram {
         }
     }
 
-    public static int runCommandAndLogOutputSVM(String cmd, String workingDir) {
+    public static int runCommandAndLogOutputLSF(String cmd, String workingDir) {
         // runs an external program and writes user info to logfile
         if (!workingDir.endsWith("/")) {
             workingDir += "/";
