@@ -187,6 +187,8 @@ public class Svm {
                 " -o " + workingDir + "sbatchOutput.txt" +
                 " --wrap=\"python svm.py\""
                 + " > Logs/svm.py.log";
+        String cmdtemp  = "which python";
+        RunExternalProgram.runCommandAndLogOutput(cmdtemp, workingDir, "svmtester");
         RunExternalProgram.runCommandAndLogOutputSVM(cmd, workingDir);
 
         String logFilePath = workingDir + "Logs/svm.py.log";
