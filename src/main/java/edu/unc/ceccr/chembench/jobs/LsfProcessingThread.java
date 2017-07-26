@@ -61,26 +61,26 @@ public class LsfProcessingThread extends Thread {
         }
 
         // run sbatch.sh
-//        String command = "sbatch.sh";
-//        RunExternalProgram.runCommand(command, workingDir);
+        String command = "sbatch.sh";
+        RunExternalProgram.runCommand(command, workingDir);
 
         // read in results
         List<LsfJobStatus> lsfStatusList = new ArrayList<>();
 
-//        if ((new File(workingDir + "sbatch-out.txt")).exists()) {
-//            BufferedReader br = new BufferedReader(new FileReader(workingDir + "sbatch-out.txt"));
-//            String line = "";
-//            br.readLine(); // skip header
-//            while ((line = br.readLine()) != null) {
-//                if (!line.trim().equals("")) {
-//                    // non empty line
-//                    LsfJobStatus l = new LsfJobStatus(line);
-//                    lsfStatusList.add(l);
-//                }
-//            }
-//
-//            br.close();
-//        }
+        if ((new File(workingDir + "sbatch-out.txt")).exists()) {
+            BufferedReader br = new BufferedReader(new FileReader(workingDir + "sbatch-out.txt"));
+            String line = "";
+            br.readLine(); // skip header
+            while ((line = br.readLine()) != null) {
+                if (!line.trim().equals("")) {
+                    // non empty line
+                    LsfJobStatus l = new LsfJobStatus(line);
+                    lsfStatusList.add(l);
+                }
+            }
+
+            br.close();
+        }
 
         return lsfStatusList;
     }
