@@ -1,6 +1,5 @@
 package edu.unc.ceccr.chembench.jobs;
 
-import com.google.common.collect.Sets;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Job;
 import edu.unc.ceccr.chembench.persistence.User;
@@ -141,6 +140,10 @@ public class LsfProcessingThread extends Thread {
                     logger.error("Error checking lsf status", e);
                 }
 
+                if (lsfJobStatuses.size() > 1) {
+                    logger.debug("current" + lsfJobStatuses.size());
+                }
+                
                 Set<String> currentJobs = new HashSet<>();
                 for (LsfJobStatus jobStatus : lsfJobStatuses) {
                     currentJobs.add(jobStatus.jobid);
@@ -154,15 +157,22 @@ public class LsfProcessingThread extends Thread {
                 difference.addAll(checkForCompletion);
                 difference.removeAll(currentJobs);
 
+                if (difference.size() > 1) {
+                    logger.debug("difference occured" + difference.size());
+                }
+
                 List<String> finishedJobId = new ArrayList<>();
                 try {
                     finishedJobId = checkFinished(difference, Constants.CECCR_BASE_PATH);
                 } catch (Exception e) {
                     logger.error("Error checking finished job status", e);
                 }
-
-                if (!finishedJobId.isEmpty()){
-                // For every finished job, do postprocessing.
+                if (finishedJobId.size() > 1) {
+                    logger.debug("finished check" + finishedJobId.size());
+                }
+                if (!finishedJobId.isEmpty()) {
+                    checkForCompletion.removeAll(difference);
+                    // For every finished job, do postprocessing.
                     for (String jobId : finishedJobId) {
                         // check if this is a running job
                         for (Job j : readOnlyJobArray) {
