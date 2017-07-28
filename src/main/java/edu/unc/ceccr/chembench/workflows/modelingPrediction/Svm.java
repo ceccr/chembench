@@ -182,6 +182,7 @@ public class Svm {
         // run modeling (sbatch the python script)
         String cmd = "sbatch " +
                 "-J cbench_" + userName + "_" + jobName +
+                "-t 4:00:00 " +
                 " -D " + workingDir +
                 " -e " + workingDir + "Logs/svm.py.err" +
                 " -o " + workingDir + "sbatchOutput.txt" +
