@@ -194,7 +194,7 @@ public class KnnPlus {
 
         // exec shell script
         String command = "sbatch -J cbench_" + userName + "_" + jobName +
-                "-t 4:00:00 " +
+                " -t 4:00:00" +
                 " -D " + workingDir +
                 " -e " + workingDir + "Logs/sbatchKnnPlus.err" +
                 " -o " + workingDir + "sbatchOutput.txt" +
