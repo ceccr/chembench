@@ -105,6 +105,7 @@ public class DescriptorIsida implements DescriptorSet {
                 moleculesInCurrentFile = 0;
                 currentFile++;
                 outFilePart = new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+                outFilePart.write(header);
             }
         }
         br.close();
