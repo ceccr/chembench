@@ -95,6 +95,14 @@ public class DescriptorIsida implements DescriptorSet {
         int moleculesInCurrentFile = 0;
         BufferedWriter outFilePart =
                 new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+
+        // Added to copy CDK, testing if this makes ISIDA work
+        String header = br.readLine() + "\n";
+        String descriptorNames = br.readLine() + "\n";
+        outFilePart.write(header);
+        outFilePart.write(descriptorNames);
+        // change ended
+
         String line;
         while ((line = br.readLine()) != null) {
             outFilePart.write(line + "\n");
@@ -105,7 +113,10 @@ public class DescriptorIsida implements DescriptorSet {
                 moleculesInCurrentFile = 0;
                 currentFile++;
                 outFilePart = new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+                // new testing line
                 outFilePart.write(header);
+                outFilePart.write(descriptorNames);
+                // test ended
             }
         }
         br.close();
