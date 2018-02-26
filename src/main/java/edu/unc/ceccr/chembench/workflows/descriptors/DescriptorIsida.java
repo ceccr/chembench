@@ -108,7 +108,7 @@ public class DescriptorIsida implements DescriptorSet {
             outFilePart.write(line + "\n");
 
             moleculesInCurrentFile++;
-            if (moleculesInCurrentFile == compoundsPerChunk) {
+            if (moleculesInCurrentFile == 1500) {
                 outFilePart.close();
                 moleculesInCurrentFile = 0;
                 currentFile++;
