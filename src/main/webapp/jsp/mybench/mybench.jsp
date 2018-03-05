@@ -13,7 +13,7 @@
                 <%@ include file="/jsp/main/header.jsp" %>
 
                     <section id="content">
-                        <h2>My Bench/Testing</h2>
+                        <h2>My Bench</h2>
 
                         <p>Every dataset, predictor, and prediction you have created on Chembench is available on this page. You can track progress of all the running jobs using the job queue.
                         </p>
