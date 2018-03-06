@@ -45,6 +45,7 @@ public class DescriptorIsida implements DescriptorSet {
 
     @Override
     public void generateDescriptors(String sdfile, String outfile) {
+        logger.debug("isida generateDescriptors");
         //Given an SDF file, run ISIDA to get the chemical descriptors for each compound
         //Generate sdf.ISIDA.hdr and sdf.ISIDA.svm
         Path workingDir = Paths.get(sdfile.replaceAll("/[^/]+$", "")).resolve("Descriptors");
@@ -56,6 +57,7 @@ public class DescriptorIsida implements DescriptorSet {
     }
 
     public void generateIsidaDescriptorsWithHeader(String sdfile, String outfile, String headerFile) {
+        logger.debug("isida generateDescriptorsWithHeader");
         //Given an SDF file, run ISIDA to get the chemical descriptors for each compound with the .hdr from predictor
         //Generate sdf.ISIDA.hdr and sdf.ISIDA.svm
         Path workingDir = Paths.get(sdfile.replaceAll("/[^/]+$", "")).resolve("Descriptors");
@@ -70,7 +72,7 @@ public class DescriptorIsida implements DescriptorSet {
     @Override
     public void readDescriptors(String ISIDAOutputFile, List<String> descriptorNames,
                                             List<Descriptors> descriptorValueMatrix) throws Exception {
-
+        logger.debug("isida readDescriptors");
         ISIDAOutputFile += getFileEnding();
         readDescriptorFile (ISIDAOutputFile, descriptorNames, descriptorValueMatrix);
     }
@@ -78,11 +80,14 @@ public class DescriptorIsida implements DescriptorSet {
     @Override
     public void readDescriptorsChunks(String outputFile, List<String> descriptorNames,
                                       List<Descriptors> descriptorValueMatrix) throws Exception {
+        logger.debug("isida readDescriptorChunks");
         readDescriptorFile (outputFile, descriptorNames, descriptorValueMatrix);
     }
 
     @Override
     public String splitFile(String workingDir, String descriptorsFile) throws Exception {
+        logger.debug("isida splitFile");
+
         descriptorsFile += ".renorm.ISIDA.svm";
 
         File file = new File(workingDir + descriptorsFile);
@@ -128,6 +133,7 @@ public class DescriptorIsida implements DescriptorSet {
 
     @Override
     public String checkDescriptors(String outputFile) throws Exception {
+        logger.debug("isida checkDescriptors");
         File hdrFile = new File(outputFile + getFileHdrEnding());
         File svmFile = new File (outputFile + getFileSvmEnding());
         String errors = "";
@@ -140,6 +146,7 @@ public class DescriptorIsida implements DescriptorSet {
 
     private void readDescriptorFile (String outputFile, List<String> descriptorNames, List<Descriptors>
             descriptorValueMatrix) throws Exception{
+        logger.debug("isida readDesciptorFile");
         logger.debug("reading ISIDA Descriptors");
         Path rawFilePath = Paths.get(outputFile);
         Path dirPath = rawFilePath.getParent();

@@ -152,17 +152,22 @@ public class DatasetDetailAction extends DetailAction {
         descriptorGenerationResults.add(cdkResult);
 
         DescriptorGenerationResult isidaResult = new DescriptorGenerationResult();
-        isidaResult.setDescriptorType("ISIDA");
-        if (dataset.getAvailableDescriptors().contains(Constants.ISIDA)) {
-            isidaResult.setGenerationResult("Successful");
-        } else {
-            if (Files.exists(descriptorLogPath.resolve("ISIDA.out"))) {
-                isidaResult
-                        .setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("ISIDA.out")));
+        try {
+            isidaResult.setDescriptorType("ISIDA");
+            if (dataset.getAvailableDescriptors().contains(Constants.ISIDA)) {
+                isidaResult.setGenerationResult("Successful");
+            } else {
+                if (Files.exists(descriptorLogPath.resolve("ISIDA.out"))) {
+                    isidaResult
+                            .setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorLogPath.resolve("ISIDA.out")));
+                }
+                isidaResult.setGenerationResult("Descriptor generation failed. See error summary for details.");
             }
-            isidaResult.setGenerationResult("Descriptor generation failed. See error summary for details.");
+            descriptorGenerationResults.add(isidaResult);
+        } catch (Exception e) {
+            logger.error("Isida ", e);
         }
-        descriptorGenerationResults.add(isidaResult);
+       
 
         DescriptorGenerationResult dragonHResult = new DescriptorGenerationResult();
         dragonHResult.setDescriptorType("Dragon (with hydrogens)");
