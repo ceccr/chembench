@@ -91,7 +91,7 @@ public class DescriptorIsida implements DescriptorSet {
         descriptorsFile += ".renorm.ISIDA.svm";
 
         File file = new File(workingDir + descriptorsFile);
-        if (!file.exists() || file.length() == compoundsPerChunk) {
+        if (!file.exists() || file.length() == 0) {
             throw new Exception("Could not read ISIDA descriptors.\n");
         }
         FileReader fin = new FileReader(file);
