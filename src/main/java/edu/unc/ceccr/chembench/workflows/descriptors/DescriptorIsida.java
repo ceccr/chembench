@@ -180,11 +180,13 @@ public class DescriptorIsida implements DescriptorSet {
                 fragments.add(matcher.group(1));
             }
         } catch (IOException e) {
+            logger.debug("isida error");
             throw new RuntimeException("Couldn't read ISIDA header file", e);
         } catch (IndexOutOfBoundsException e1){
+            logger.debug("isida error");
             throw new IndexOutOfBoundsException("array section 1 error");
         }
-
+        logger.debug("isida readDesciptorFile_processing");
         // XXX LinkedHashMap is important: need to keep this map's keys in order of insertion
         LinkedHashMap<String, SortedMap<Integer, Integer>> compoundNameToFragmentCounts = Maps.newLinkedHashMap();
         try (BufferedReader reader = Files.newBufferedReader(datafilePath, StandardCharsets.UTF_8)) {
@@ -209,35 +211,38 @@ public class DescriptorIsida implements DescriptorSet {
                 compoundNameToFragmentCounts.put(compoundName, fragmentCounts);
             }
         } catch (IOException e) {
+            logger.debug("isida error");
             throw new RuntimeException("Couldn't read ISIDA data file", e);
         } catch (IndexOutOfBoundsException e1){
+            logger.debug("isida error");
             throw new IndexOutOfBoundsException("array section2 error");
         }
-
+        logger.debug("isida readDesciptorFile_processing2");
         int compoundIndex = 1; // Descriptors.compoundIndex is 1-indexed
         if (descriptorValueMatrix == null) {
             descriptorValueMatrix = new ArrayList<>();
         }
         // XXX fragment names are 1-indexed in the .hdr file
         try {
-        descriptorNames.addAll(fragments.subList(1, fragments.size()));
-        for (String compoundName : compoundNameToFragmentCounts.keySet()) {
-            SortedMap<Integer, Integer> fragmentCounts = compoundNameToFragmentCounts.get(compoundName);
-            Descriptors d = new Descriptors();
-            d.setCompoundIndex(compoundIndex++);
-            d.setCompoundName(compoundName);
-            List<Double> fragmentCountsForCompound = new ArrayList<>();
+            descriptorNames.addAll(fragments.subList(1, fragments.size()));
+            for (String compoundName : compoundNameToFragmentCounts.keySet()) {
+                SortedMap<Integer, Integer> fragmentCounts = compoundNameToFragmentCounts.get(compoundName);
+                Descriptors d = new Descriptors();
+                d.setCompoundIndex(compoundIndex++);
+                d.setCompoundName(compoundName);
+                List<Double> fragmentCountsForCompound = new ArrayList<>();
             // XXX fragments are 1-indexed (note loop starting point)
-            for (int i = 1; i < fragments.size(); i++) {
-                fragmentCountsForCompound.add(MoreObjects.firstNonNull(fragmentCounts.get(i), 0).doubleValue());
+                for (int i = 1; i < fragments.size(); i++) {
+                    fragmentCountsForCompound.add(MoreObjects.firstNonNull(fragmentCounts.get(i), 0).doubleValue());
+                }
+                d.setDescriptorValues(fragmentCountsForCompound);
+                descriptorValueMatrix.add(d);
             }
-            d.setDescriptorValues(fragmentCountsForCompound);
-            descriptorValueMatrix.add(d);
+        } catch (IndexOutOfBoundsException e1){
+            logger.debug("isida error");
+            throw new IndexOutOfBoundsException("array section3 error");
         }
-    } catch (IndexOutOfBoundsException e1){
-        throw new IndexOutOfBoundsException("array section3 error");
-    }
-    logger.debug("isida readDesciptorFile_ending");
+        logger.debug("isida readDesciptorFile_ending");
 
     }
 
