@@ -181,6 +181,8 @@ public class DescriptorIsida implements DescriptorSet {
             }
         } catch (IOException e) {
             throw new RuntimeException("Couldn't read ISIDA header file", e);
+        } catch (IndexOutOfBoundsException e1){
+            throw new IndexOutOfBoundsException("array section 1 error");
         }
 
         // XXX LinkedHashMap is important: need to keep this map's keys in order of insertion
@@ -208,6 +210,8 @@ public class DescriptorIsida implements DescriptorSet {
             }
         } catch (IOException e) {
             throw new RuntimeException("Couldn't read ISIDA data file", e);
+        } catch (IndexOutOfBoundsException e1){
+            throw new IndexOutOfBoundsException("array section2 error");
         }
 
         int compoundIndex = 1; // Descriptors.compoundIndex is 1-indexed
@@ -215,6 +219,7 @@ public class DescriptorIsida implements DescriptorSet {
             descriptorValueMatrix = new ArrayList<>();
         }
         // XXX fragment names are 1-indexed in the .hdr file
+        try {
         descriptorNames.addAll(fragments.subList(1, fragments.size()));
         for (String compoundName : compoundNameToFragmentCounts.keySet()) {
             SortedMap<Integer, Integer> fragmentCounts = compoundNameToFragmentCounts.get(compoundName);
@@ -229,6 +234,9 @@ public class DescriptorIsida implements DescriptorSet {
             d.setDescriptorValues(fragmentCountsForCompound);
             descriptorValueMatrix.add(d);
         }
+    } catch (IndexOutOfBoundsException e1){
+        throw new IndexOutOfBoundsException("array section3 error");
+    }
     }
 
 }
