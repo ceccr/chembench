@@ -146,7 +146,7 @@ public class DescriptorIsida implements DescriptorSet {
 
     private void readDescriptorFile (String outputFile, List<String> descriptorNames, List<Descriptors>
             descriptorValueMatrix) throws Exception{
-        logger.debug("isida readDesciptorFile");
+        logger.debug("isida readDesciptorFile_begin");
         logger.debug("reading ISIDA Descriptors");
         Path rawFilePath = Paths.get(outputFile);
         Path dirPath = rawFilePath.getParent();
