@@ -180,10 +180,10 @@ public class DescriptorIsida implements DescriptorSet {
                 fragments.add(matcher.group(1));
             }
         } catch (IOException e) {
-            logger.debug("isida error");
+            logger.debug("isida error 0");
             throw new RuntimeException("Couldn't read ISIDA header file", e);
         } catch (IndexOutOfBoundsException e1){
-            logger.debug("isida error");
+            logger.debug("isida error 1");
             throw new IndexOutOfBoundsException("array section 1 error");
         }
         logger.debug("isida readDesciptorFile_processing");
@@ -211,10 +211,10 @@ public class DescriptorIsida implements DescriptorSet {
                 compoundNameToFragmentCounts.put(compoundName, fragmentCounts);
             }
         } catch (IOException e) {
-            logger.debug("isida error");
+            logger.debug("isida error 3" );
             throw new RuntimeException("Couldn't read ISIDA data file", e);
         } catch (IndexOutOfBoundsException e1){
-            logger.debug("isida error");
+            logger.debug("isida error 2");
             throw new IndexOutOfBoundsException("array section2 error");
         }
         logger.debug("isida readDesciptorFile_processing2");
@@ -239,7 +239,7 @@ public class DescriptorIsida implements DescriptorSet {
                 descriptorValueMatrix.add(d);
             }
         } catch (IndexOutOfBoundsException e1){
-            logger.debug("isida error");
+            logger.debug("isida error 4");
             throw new IndexOutOfBoundsException("array section3 error");
         }
         logger.debug("isida readDesciptorFile_ending");
