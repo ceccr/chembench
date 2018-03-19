@@ -102,9 +102,9 @@ public class DescriptorIsida implements DescriptorSet {
                 new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
 
         // // Added to copy CDK, testing if this makes ISIDA work
-        // String header = br.readLine() + "\n";
+        String header = br.readLine() + "\n";
         // String descriptorNames = br.readLine() + "\n";
-        // outFilePart.write(header);
+        outFilePart.write(header);
         // outFilePart.write(descriptorNames);
         // // change ended
 
@@ -119,7 +119,7 @@ public class DescriptorIsida implements DescriptorSet {
                 currentFile++;
                 outFilePart = new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
                 // // new testing line
-                // outFilePart.write(header);
+                outFilePart.write(header);
                 // outFilePart.write(descriptorNames);
                 // // test ended
             }
