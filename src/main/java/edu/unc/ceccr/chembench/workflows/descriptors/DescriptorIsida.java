@@ -201,7 +201,9 @@ public class DescriptorIsida implements DescriptorSet {
             Splitter lineSplitter = Splitter.on(CharMatcher.WHITESPACE).omitEmptyStrings();
             Splitter pairSplitter = Splitter.on(':');
             while ((line = reader.readLine()) != null) {
+                logger.debug("line : " + line);
                 List<String> items = lineSplitter.splitToList(line);
+                logger.debug("the list : " + items.get(1).toString() + items.get(0).toString());
                 String compoundName = items.get(0);
                 SortedMap<Integer, Integer> fragmentCounts = Maps.newTreeMap();
                 for (String fragmentPair : items.subList(1, items.size())) {
