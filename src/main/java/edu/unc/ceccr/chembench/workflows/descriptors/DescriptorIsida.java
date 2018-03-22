@@ -121,11 +121,12 @@ public class DescriptorIsida implements DescriptorSet {
                 // outFilePart.write(header);
                 // outFilePart.write(descriptorNames);
                 // // test ended
+            } else {
+                moleculesInCurrentFile++;
             }
-            moleculesInCurrentFile++;
         }
         br.close();
-        outFilePart.newLine();
+        // outFilePart.newLine();
         outFilePart.close();
 
         return descriptorsFile;
