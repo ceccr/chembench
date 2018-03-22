@@ -102,7 +102,7 @@ public class DescriptorIsida implements DescriptorSet {
                 new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
 
         // // Added to copy CDK, testing if this makes ISIDA work
-        String header = br.readLine() + "\n";
+        // String header = br.readLine() + "\n";
         // String descriptorNames = br.readLine() + "\n";
         // outFilePart.write(header);
         // outFilePart.write(descriptorNames);
@@ -112,8 +112,7 @@ public class DescriptorIsida implements DescriptorSet {
         while ((line = br.readLine()) != null) {
             outFilePart.write(line + "\n");
 
-            moleculesInCurrentFile++;
-            if (moleculesInCurrentFile == compoundsPerChunk-1) {
+            if (moleculesInCurrentFile == compoundsPerChunk) {
                 outFilePart.close();
                 moleculesInCurrentFile = 0;
                 currentFile++;
@@ -123,6 +122,7 @@ public class DescriptorIsida implements DescriptorSet {
                 // outFilePart.write(descriptorNames);
                 // // test ended
             }
+            moleculesInCurrentFile++;
         }
         br.close();
         outFilePart.newLine();
