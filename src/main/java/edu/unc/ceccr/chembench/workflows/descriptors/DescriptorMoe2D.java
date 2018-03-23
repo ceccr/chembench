@@ -57,6 +57,8 @@ public class DescriptorMoe2D implements DescriptorSet {
         descriptorsFile += getFileEnding();
 
         File file = new File(workingDir + descriptorsFile);
+	
+
         if (!file.exists() || file.length() == 0) {
             throw new Exception("Could not read MOE2D descriptors.\n");
         }
@@ -150,6 +152,10 @@ public class DescriptorMoe2D implements DescriptorSet {
 		
             throw new Exception("Could not read MOE2D descriptors.\n");
         }
+
+	 logger.debug("There is nothing wrong"); // edit temp
+
+		
         FileReader fin = new FileReader(file);
         BufferedReader br = new BufferedReader(fin);
         /* contains descriptor names */
