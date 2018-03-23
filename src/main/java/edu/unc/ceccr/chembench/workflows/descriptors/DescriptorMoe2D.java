@@ -57,7 +57,8 @@ public class DescriptorMoe2D implements DescriptorSet {
         descriptorsFile += getFileEnding();
 
         File file = new File(workingDir + descriptorsFile);
-	
+
+	logger.debug("Log starts here:"); // edit temp	
         logger.debug("File length " + file.length()); // edit temp
         logger.debug("File exists? " + file.exists()); // edit temp
         logger.debug("File does not exist? " + !file.exists()); // edit temp
