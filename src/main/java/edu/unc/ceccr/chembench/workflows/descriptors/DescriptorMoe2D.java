@@ -140,6 +140,7 @@ public class DescriptorMoe2D implements DescriptorSet {
         File file = new File(outputFile);
         
         logger.debug(outputFile + " -- this is what is parsed into File object :: This is the file object" + file); // edit temp
+	logger.debug("File length " + file.length()); // edit temp
         
         if (!file.exists() || file.length() == 0) {
             throw new Exception("Could not read MOE2D descriptors.\n");
