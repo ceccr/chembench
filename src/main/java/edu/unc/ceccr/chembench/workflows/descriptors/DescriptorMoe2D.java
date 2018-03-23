@@ -145,6 +145,9 @@ public class DescriptorMoe2D implements DescriptorSet {
 	logger.debug("File does not exist? " + !file.exists()); // edit temp
         
         if (!file.exists() || file.length() == 0) {
+	
+		logger.debug("You have an error, the file does not exist, or the length is 0"); // edit temp
+		
             throw new Exception("Could not read MOE2D descriptors.\n");
         }
         FileReader fin = new FileReader(file);
