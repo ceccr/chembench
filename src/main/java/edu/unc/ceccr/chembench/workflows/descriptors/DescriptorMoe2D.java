@@ -154,7 +154,7 @@ public class DescriptorMoe2D implements DescriptorSet {
 
 	logger.debug("After file creation: " + file ); // edit temp	
 	logger.debug("Length of file: " + file.length()); // edit temp        
-	logger.debug("Does it exist?: " file.exists()); // edit temp
+	logger.debug("Does it exist?: " +  file.exists()); // edit temp
 
         if (!file.exists() || file.length() == 0) {
 	
