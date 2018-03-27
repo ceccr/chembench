@@ -103,6 +103,9 @@ public class DescriptorMoe2D implements DescriptorSet {
     public String checkDescriptors(String moe2DOutputFile) throws Exception {
         // right now this doesn't check anything. The MOE2D descriptors never
         // seem to cause issues.
+
+	logger.debug("Log for checkDescriptors here:");
+	
         String errors = "";
         moe2DOutputFile += getFileEnding();
         File file = new File(moe2DOutputFile + getFileEnding());
