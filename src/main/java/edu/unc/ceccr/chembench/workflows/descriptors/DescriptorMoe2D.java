@@ -148,6 +148,7 @@ public class DescriptorMoe2D implements DescriptorSet {
         logger.debug("reading Moe2D Descriptors");
         File file = new File(outputFile);
         
+	logger.debug("Read descriptors log here:");	
         
         if (!file.exists() || file.length() == 0) {
 	
