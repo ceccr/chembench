@@ -157,7 +157,7 @@ public class DescriptorMoe2D implements DescriptorSet {
             throw new Exception("Could not read MOE2D descriptors.\n");
         }
 
-
+	logger.debug("Post check log");
 		
         FileReader fin = new FileReader(file);
         BufferedReader br = new BufferedReader(fin);
