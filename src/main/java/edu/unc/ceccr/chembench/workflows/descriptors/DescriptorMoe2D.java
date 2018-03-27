@@ -146,10 +146,16 @@ public class DescriptorMoe2D implements DescriptorSet {
     private void readDescriptorFile (String outputFile, List<String> descriptorNames, List<Descriptors>
             descriptorValueMatrix) throws Exception{
         logger.debug("reading Moe2D Descriptors");
+
+	logger.debug("Before file creation: " + outputFile ); // edit temp
         File file = new File(outputFile);
         
-	logger.debug("Read descriptors log here:");	
-        
+	logger.debug("Read descriptors log here:");
+
+	logger.debug("After file creation: " + file ); // edit temp	
+	logger.debug("Length of file: " + file.length()); // edit temp        
+	logger.debug("Does it exist?: " file.exists()); // edit temp
+
         if (!file.exists() || file.length() == 0) {
 	
 		logger.debug("You have an error, the file does not exist, or the length is 0"); // edit temp
