@@ -58,12 +58,12 @@ public class DescriptorMoe2D implements DescriptorSet {
 
         File file = new File(workingDir + descriptorsFile);
 
-	logger.debug("Log starts here:"); // edit temp	
-        logger.debug("File length " + file.length()); // edit temp
-        logger.debug("File exists? " + file.exists()); // edit temp
-        logger.debug("File does not exist? " + !file.exists()); // edit temp
+	logger.debug("splitFile log here"); // edit temp	
 
         if (!file.exists() || file.length() == 0) {
+
+		logger.debug("splitFile log INSIDE here"); // edit temp		
+
             throw new Exception("Could not read MOE2D descriptors.\n");
         }
         FileReader fin = new FileReader(file);
@@ -104,12 +104,15 @@ public class DescriptorMoe2D implements DescriptorSet {
         // right now this doesn't check anything. The MOE2D descriptors never
         // seem to cause issues.
 
-	logger.debug("Log for checkDescriptors here:");
+	logger.debug("checkDescriptors log here"); // edit temp
 	
         String errors = "";
         moe2DOutputFile += getFileEnding();
         File file = new File(moe2DOutputFile + getFileEnding());
         if (!file.exists() || file.length() == 0) {
+		
+		 logger.debug("checkDescriptors log INSIDE here"); // edit temp
+
             errors = "Could not read descriptor file.\n";
             return errors;
         }
@@ -150,20 +153,15 @@ public class DescriptorMoe2D implements DescriptorSet {
 	logger.debug("Before file creation: " + outputFile ); // edit temp
         File file = new File(outputFile);
         
-	logger.debug("Read descriptors log here:");
-
-	logger.debug("After file creation: " + file ); // edit temp	
-	logger.debug("Length of file: " + file.length()); // edit temp        
-	logger.debug("Does it exist?: " +  file.exists()); // edit temp
+	logger.debug("readDescriptorFile log here"); // edit temp
 
         if (!file.exists() || file.length() == 0) {
 	
-		logger.debug("You have an error, the file does not exist, or the length is 0"); // edit temp
-		
+		logger.debug("readDescriptorFile log INSIDE here"); // edit temp
+	
             throw new Exception("Could not read MOE2D descriptors.\n");
         }
 
-	logger.debug("Post check log");
 		
         FileReader fin = new FileReader(file);
         BufferedReader br = new BufferedReader(fin);
