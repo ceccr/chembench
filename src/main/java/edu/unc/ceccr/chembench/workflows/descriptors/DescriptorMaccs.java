@@ -98,7 +98,8 @@ public class DescriptorMaccs implements DescriptorSet{
         // right now this doesn't check anything. The MACCS keys never seem to
         // cause issues.
         String errors = "";
-//////->possibly caused issue like in Moe2D        maccsOutputFile += getFileEnding();
+
+
         File file = new File(maccsOutputFile + getFileEnding());
         if (!file.exists() || file.length() == 0) {
             errors = "Could not read descriptor file.\n";
