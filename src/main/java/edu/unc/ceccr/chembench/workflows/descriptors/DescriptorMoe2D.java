@@ -105,23 +105,23 @@ public class DescriptorMoe2D implements DescriptorSet {
         // seem to cause issues.
 
 	logger.debug("checkDescriptors log here"); // edit temp
-	logger.debug("parameter string before concantenation: " + moe2DOutputFile); // edit temp	
+//	logger.debug("parameter string before concantenation: " + moe2DOutputFile); // edit temp	
 	
         String errors = "";
-        moe2DOutputFile += getFileEnding();
+  //////// -> possibly caused issue      moe2DOutputFile += getFileEnding();
 	//i think the issue is that we are concatenating twice!!	
 
-	logger.debug("file ending that is being concatenated: " + getFileEnding()); // edit temp
-	logger.debug("parameter string after concatenation: " + moe2DOutputFile); // edit temp
+//	logger.debug("file ending that is being concatenated: " + getFileEnding()); // edit temp
+//	logger.debug("parameter string after concatenation: " + moe2DOutputFile); // edit temp
 
         File file = new File(moe2DOutputFile + getFileEnding());
 	
-	 logger.debug("parameter string is turned into a file datatype, this is it now: " + file); // edit temp
-	 logger.debug("does the file exist?: " + file.exists()); // edit temp
+//	 logger.debug("parameter string is turned into a file datatype, this is it now: " + file); // edit temp
+//	 logger.debug("does the file exist?: " + file.exists()); // edit temp
 
         if (!file.exists() || file.length() == 0) {
 		
-		 logger.debug("checkDescriptors log INSIDE here"); // edit temp
+//		 logger.debug("checkDescriptors log INSIDE here"); // edit temp
 
             errors = "Could not read descriptor file.\n";
             return errors;
