@@ -58,11 +58,11 @@ public class DescriptorMoe2D implements DescriptorSet {
 
         File file = new File(workingDir + descriptorsFile);
 
-	logger.debug("splitFile log here"); // edit temp	
+	//logger.debug("splitFile log here"); // edit temp	
 
         if (!file.exists() || file.length() == 0) {
 
-		logger.debug("splitFile log INSIDE here"); // edit temp		
+		//logger.debug("splitFile log INSIDE here"); // edit temp		
 
             throw new Exception("Could not read MOE2D descriptors.\n");
         }
@@ -105,10 +105,20 @@ public class DescriptorMoe2D implements DescriptorSet {
         // seem to cause issues.
 
 	logger.debug("checkDescriptors log here"); // edit temp
+	logger.debug("parameter string before concantenation: " + moe2DOutputFile); // edit temp	
 	
         String errors = "";
         moe2DOutputFile += getFileEnding();
+	//i think the issue is that we are concatenating twice!!	
+
+	logger.debug("file ending that is being concatenated: " + getFileEnding()); // edit temp
+	logger.debug("parameter string after concatenation: " + moe2DOutputFile); // edit temp
+
         File file = new File(moe2DOutputFile + getFileEnding());
+	
+	 logger.debug("parameter string is turned into a file datatype, this is it now: " + file); // edit temp
+	 logger.debug("does the file exist?: " + file.exists()); // edit temp
+
         if (!file.exists() || file.length() == 0) {
 		
 		 logger.debug("checkDescriptors log INSIDE here"); // edit temp
@@ -153,11 +163,11 @@ public class DescriptorMoe2D implements DescriptorSet {
 	logger.debug("Before file creation: " + outputFile ); // edit temp
         File file = new File(outputFile);
         
-	logger.debug("readDescriptorFile log here"); // edit temp
+	//logger.debug("readDescriptorFile log here"); // edit temp
 
         if (!file.exists() || file.length() == 0) {
 	
-		logger.debug("readDescriptorFile log INSIDE here"); // edit temp
+		//logger.debug("readDescriptorFile log INSIDE here"); // edit temp
 	
             throw new Exception("Could not read MOE2D descriptors.\n");
         }
