@@ -129,7 +129,12 @@ public class MyBenchAction extends ActionSupport {
 
 	   for (String rawPredictorId : rawPredictorIds) {
                 Predictor predictor = predictorRepository.findOne(Long.parseLong(rawPredictorId));
-                predictorNames.add(String.format("%s (%s,%s)", predictor.getName(), predictor.getDescriptorGeneration(),
+                
+			logger.debug("This is predictor.getName() log: " + predictor.getName());
+			logger.debug("This is predictor.getDescriptorGeneration() log: " + predictor.getDescriptorGeneration());
+			logger.debug("This is predictor.getModelMethod() log: " + predictor.getModelMethod());	
+	
+		predictorNames.add(String.format("%s (%s,%s)", predictor.getName(), predictor.getDescriptorGeneration(),
                         predictor.getModelMethod()));
             }
             prediction.setDatasetDisplay(predictionDataset.getName());
