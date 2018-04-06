@@ -124,7 +124,10 @@ public class MyBenchAction extends ActionSupport {
             List<String> predictorNames = new ArrayList<>();
             Dataset predictionDataset = datasetRepository.findOne(prediction.getDatasetId());
             List<String> rawPredictorIds = splitter.splitToList(prediction.getPredictorIds());
-            for (String rawPredictorId : rawPredictorIds) {
+         
+		logger.debug("MyBenchAction log: " + rawPredictorIds);
+
+	   for (String rawPredictorId : rawPredictorIds) {
                 Predictor predictor = predictorRepository.findOne(Long.parseLong(rawPredictorId));
                 predictorNames.add(String.format("%s (%s,%s)", predictor.getName(), predictor.getDescriptorGeneration(),
                         predictor.getModelMethod()));
