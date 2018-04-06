@@ -131,6 +131,7 @@ public class MyBenchAction extends ActionSupport {
                 Predictor predictor = predictorRepository.findOne(Long.parseLong(rawPredictorId));
                 
 			logger.debug("This is predictor OBJECT log: " + predictor);
+			logger.debug("This is predictor OBJECT id log: " + Long.parseLong(rawPredictorId));
 			logger.debug("This is predictor.getName() log: " + predictor.getName());
 			logger.debug("This is predictor.getDescriptorGeneration() log: " + predictor.getDescriptorGeneration());
 			logger.debug("This is predictor.getModelMethod() log: " + predictor.getModelMethod());	
