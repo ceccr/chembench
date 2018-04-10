@@ -125,16 +125,16 @@ public class MyBenchAction extends ActionSupport {
             Dataset predictionDataset = datasetRepository.findOne(prediction.getDatasetId());
             List<String> rawPredictorIds = splitter.splitToList(prediction.getPredictorIds());
          
-		logger.debug("MyBenchAction log: " + rawPredictorIds);
+		//logger.debug("MyBenchAction log: " + rawPredictorIds);
 
 	   for (String rawPredictorId : rawPredictorIds) {
                 Predictor predictor = predictorRepository.findOne(Long.parseLong(rawPredictorId));
                 
-			logger.debug("This is predictor OBJECT log: " + predictor);
-			logger.debug("This is predictor OBJECT id log: " + Long.parseLong(rawPredictorId));
-			logger.debug("This is predictor.getName() log: " + predictor.getName());
-			logger.debug("This is predictor.getDescriptorGeneration() log: " + predictor.getDescriptorGeneration());
-			logger.debug("This is predictor.getModelMethod() log: " + predictor.getModelMethod());	
+		//	logger.debug("This is predictor OBJECT log: " + predictor);
+		//	logger.debug("This is predictor OBJECT id log: " + Long.parseLong(rawPredictorId));
+		//	logger.debug("This is predictor.getName() log: " + predictor.getName());
+		//	logger.debug("This is predictor.getDescriptorGeneration() log: " + predictor.getDescriptorGeneration());
+		//	logger.debug("This is predictor.getModelMethod() log: " + predictor.getModelMethod());	
 	
 		predictorNames.add(String.format("%s (%s,%s)", predictor.getName(), predictor.getDescriptorGeneration(),
                         predictor.getModelMethod()));
