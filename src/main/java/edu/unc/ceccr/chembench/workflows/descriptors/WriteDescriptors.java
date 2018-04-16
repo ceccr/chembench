@@ -601,6 +601,7 @@ public class WriteDescriptors {
         // remove descriptors from prediction set that are not in the
         // predictor
         StringBuffer descriptorNameStringBuffer = new StringBuffer(descriptorNameString);
+        logger.info("dragon7bug: "+ descriptorNameString);
         removeDescriptorsNotInPredictor(descriptorMatrix, descriptorNameStringBuffer, predictorDescriptorNameString);
         descriptorNameString = descriptorNameStringBuffer.toString();
 

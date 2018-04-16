@@ -102,6 +102,7 @@ public class DescriptorUtility {
         descriptorsSetListObj.readDescriptorSets(workingDir + sdfile, descriptorNames, descriptorValueMatrix);
 
         String descriptorString = Utility.stringListToString(descriptorNames);
+        
         WriteDescriptors
                 .writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, workingDir + outputXFile,
                         workingDir + predictorXFile, scalingType);
