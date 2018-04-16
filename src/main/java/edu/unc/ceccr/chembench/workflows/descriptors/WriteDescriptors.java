@@ -617,11 +617,13 @@ public class WriteDescriptors {
 
         int numberOfPredictorDescriptors = predictorDescriptorNameString.split("\\s+").length;
         int numberOfOutputDescripors = descriptorNameString.split("\\s+").length;
+        logger.info("dragon7bug: " + numberOfPredictorDescriptors + " output size " + numberOfOutputDescripors);
         if (numberOfPredictorDescriptors!= numberOfOutputDescripors) {
             logger.warn("WARNING: predictor had " + numberOfPredictorDescriptors
                     + " descriptors and output has " + numberOfOutputDescripors);
             //add 0's to the dataset descriptor to make them have the same number of descriptors
             if (numberOfPredictorDescriptors > numberOfOutputDescripors){
+                logger.warn("Adding 0 to smaller descriptors");
                 addZeroToOutput(descriptorMatrix, descriptorNameStringBuffer, predictorDescriptorNameString);
                 descriptorNameString = descriptorNameStringBuffer.toString();
             }
