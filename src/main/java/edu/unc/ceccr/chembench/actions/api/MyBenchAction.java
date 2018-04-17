@@ -119,9 +119,9 @@ public class MyBenchAction extends ActionSupport {
             return SUCCESS;
         }
 
+	//New Version: test predictors and skip entire predictions that failed
 	List<Prediction> predictions = new ArrayList<>();
 
-	///test to skip failed predictions
 	List<Prediction> predictionsTest = new ArrayList<>();
         predictionsTest.addAll(predictionRepository.findByUserName(user.getUserName()));
 	boolean errorFound = false; 	
@@ -144,8 +144,10 @@ public class MyBenchAction extends ActionSupport {
 		}
 	}
 	
-	//////
+	/////////////////////////
 
+	
+	//Version that failed
        // List<Prediction> predictions = new ArrayList<>();
         //predictions.addAll(predictionRepository.findByUserName(user.getUserName()));
         
@@ -157,26 +159,15 @@ public class MyBenchAction extends ActionSupport {
             Dataset predictionDataset = datasetRepository.findOne(prediction.getDatasetId());
             List<String> rawPredictorIds = splitter.splitToList(prediction.getPredictorIds());
          
-		//logger.debug("MyBenchAction log: " + rawPredictorIds);
-
 	   for (String rawPredictorId : rawPredictorIds) {
                 Predictor predictor = predictorRepository.findOne(Long.parseLong(rawPredictorId));
-                
-		//	logger.debug("This is predictor OBJECT log: " + predictor);
-		//	logger.debug("This is predictor OBJECT id log: " + Long.parseLong(rawPredictorId));
-		//	logger.debug("This is predictor.getName() log: " + predictor.getName());
-		//	logger.debug("This is predictor.getDescriptorGeneration() log: " + predictor.getDescriptorGeneration());
-		//	logger.debug("This is predictor.getModelMethod() log: " + predictor.getModelMethod());	
-	
+                	
 		predictorNames.add(String.format("%s (%s,%s)", predictor.getName(), predictor.getDescriptorGeneration(),
                         predictor.getModelMethod()));
             }
             prediction.setDatasetDisplay(predictionDataset.getName());
             prediction.setPredictorNames(joiner.join(predictorNames));
         }
-
-	//logger.debug("This is predictions OBJECT log: " + predictions);
-	//logger.debug("This is predictions OBJECT log size: " + predictions.size());
         data = predictions;
         return SUCCESS;
     }
