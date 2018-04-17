@@ -157,8 +157,6 @@ public class MyBenchAction extends ActionSupport {
        // List<Prediction> predictions = new ArrayList<>();
         //predictions.addAll(predictionRepository.findByUserName(user.getUserName()));
         
-	//logger.debug("This is predictions OBJECT log: " + predictions);
-       	//logger.debug("This is predictions OBJECT log size: " + predictions.size());
 
 	for (Prediction prediction : predictions) {
             List<String> predictorNames = new ArrayList<>();
