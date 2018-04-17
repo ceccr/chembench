@@ -118,8 +118,36 @@ public class MyBenchAction extends ActionSupport {
         if (user == null) {
             return SUCCESS;
         }
-        List<Prediction> predictions = new ArrayList<>();
-        predictions.addAll(predictionRepository.findByUserName(user.getUserName()));
+
+	List<Prediction> predictions = new ArrayList<>();
+
+	///test to skip failed predictions
+	List<Prediction> predictionsTest = new ArrayList<>();
+        predictionsTest.addAll(predictionRepository.findByUserName(user.getUserName()));
+	boolean errorFound = false; 	
+
+	for(int i=0; i<predictionsTest.size(); i++) { 
+		List<String> rawPredictorIdsTest = splitter.splitToList(predictionsTest.get(i).getPredictorIds());		
+		errorFound = false; 	
+
+		for(int j=0; j<rawPredictorIdsTest.size(); j++) { 
+			Predictor predictor = predictorRepository.findOne(Long.parseLong(rawPredictorIdsTest.get(j)));
+			if(predictor == null { 
+				errorFound = true; 
+			}
+		}
+		
+		if(errorFound == false) { 
+			predictions.add( predictionsTest.get(i) ); 
+		} else { 
+			//ignore that prediction	
+		}
+	}
+	
+	//////
+
+       // List<Prediction> predictions = new ArrayList<>();
+        //predictions.addAll(predictionRepository.findByUserName(user.getUserName()));
         
 	logger.debug("This is predictions OBJECT log: " + predictions);
         logger.debug("This is predictions OBJECT log size: " + predictions.size());
