@@ -132,7 +132,7 @@ public class MyBenchAction extends ActionSupport {
 
 		for(int j=0; j<rawPredictorIdsTest.size(); j++) { 
 			Predictor predictor = predictorRepository.findOne(Long.parseLong(rawPredictorIdsTest.get(j)));
-			if(predictor == null { 
+			if(predictor == null) { 
 				errorFound = true; 
 			}
 		}
