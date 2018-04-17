@@ -127,10 +127,14 @@ public class MyBenchAction extends ActionSupport {
 	boolean errorFound = false; 	
 
 	for(int i=0; i<predictionsTest.size(); i++) { 
+		errorFound = false;
+
 		List<String> rawPredictorIdsTest = splitter.splitToList(predictionsTest.get(i).getPredictorIds());		
 		Dataset predictionDatasetTest = datasetRepository.findOne(predictionsTest.get(i).getDatasetId());
-			logger.debug("This is predictionDatasetTest OBJECT log: " + predictionDatasetTest);
-		errorFound = false; 	
+			//logger.debug("This is predictionDatasetTest OBJECT log: " + predictionDatasetTest);
+		if(predictionDatasetTest == null) { 
+			errorFound = true;	
+		} 	
 
 		for(int j=0; j<rawPredictorIdsTest.size(); j++) { 
 			Predictor predictor = predictorRepository.findOne(Long.parseLong(rawPredictorIdsTest.get(j)));
