@@ -142,6 +142,9 @@ public class MyBenchAction extends ActionSupport {
             prediction.setDatasetDisplay(predictionDataset.getName());
             prediction.setPredictorNames(joiner.join(predictorNames));
         }
+
+	logger.debug("This is predictions OBJECT log: " + predictions);
+	logger.debug("This is predictions OBJECT log size: " + predictions.size());
         data = predictions;
         return SUCCESS;
     }
