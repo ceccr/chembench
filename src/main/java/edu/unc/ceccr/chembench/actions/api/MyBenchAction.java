@@ -120,7 +120,11 @@ public class MyBenchAction extends ActionSupport {
         }
         List<Prediction> predictions = new ArrayList<>();
         predictions.addAll(predictionRepository.findByUserName(user.getUserName()));
-        for (Prediction prediction : predictions) {
+        
+	logger.debug("This is predictions OBJECT log: " + predictions);
+        logger.debug("This is predictions OBJECT log size: " + predictions.size());
+
+	for (Prediction prediction : predictions) {
             List<String> predictorNames = new ArrayList<>();
             Dataset predictionDataset = datasetRepository.findOne(prediction.getDatasetId());
             List<String> rawPredictorIds = splitter.splitToList(prediction.getPredictorIds());
@@ -143,8 +147,8 @@ public class MyBenchAction extends ActionSupport {
             prediction.setPredictorNames(joiner.join(predictorNames));
         }
 
-	logger.debug("This is predictions OBJECT log: " + predictions);
-	logger.debug("This is predictions OBJECT log size: " + predictions.size());
+	//logger.debug("This is predictions OBJECT log: " + predictions);
+	//logger.debug("This is predictions OBJECT log size: " + predictions.size());
         data = predictions;
         return SUCCESS;
     }
