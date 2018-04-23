@@ -475,6 +475,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
 
             //Apply applicability domain
+            logger.info("apply applicability domain");
             String execstr = "";
             String predictionXFile = predictionDir + sdfile + ".renorm.x";
             File predictionFile = new File(predictionXFile);

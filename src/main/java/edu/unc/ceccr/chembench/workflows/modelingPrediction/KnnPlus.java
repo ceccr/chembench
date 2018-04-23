@@ -122,6 +122,7 @@ public class KnnPlus {
         // '_avk' - k/2 neighbors within AD, '_mnk' - at least 1 within AD
         // <def.>
         command += " -AD=" + knnPlusParameters.getKnnApplicabilityDomain().trim();
+        logger.info("Knn AD");
 
         // '-EVL=...' - model's quality controls; e.g. -EVL=A0.5@0.6
         // For continuous kNN it means q2 >0.5 and R2>0.6

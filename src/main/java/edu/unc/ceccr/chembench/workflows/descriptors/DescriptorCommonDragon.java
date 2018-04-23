@@ -148,6 +148,9 @@ public abstract class DescriptorCommonDragon implements DescriptorSet {
 
     private void readDescriptorFile (String dragonOutputFile, List<String> descriptorNames, List<Descriptors>
             descriptorValueMatrix) throws Exception{
+        for (int i= 0; i< descriptorNames.size() ; i++){
+            logger.debug(descriptorNames.get(i));
+        }
         logger.debug("reading Dragon Descriptors");
         logger.debug(dragonOutputFile);
         File file = new File(dragonOutputFile);
@@ -206,5 +209,7 @@ public abstract class DescriptorCommonDragon implements DescriptorSet {
             descriptorValues.clear();
         }
         br.close();
+        logger.debug("dragon7bug: " + descriptorNames);
+        
     }
 }

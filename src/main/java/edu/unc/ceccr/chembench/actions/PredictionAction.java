@@ -167,6 +167,7 @@ public class PredictionAction extends ActionSupport {
                     logger.debug("Calculating predictions for " + tempP.getName());
 
                     // Calculate applicability domain
+                    logger.info("calculate applicability domain");
                     if (!computedAD) {
 
                         String execstr = "";
