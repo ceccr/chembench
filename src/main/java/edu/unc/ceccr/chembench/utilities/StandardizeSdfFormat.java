@@ -16,7 +16,7 @@ public class StandardizeSdfFormat {
         try {
             //add a name tag for each compound to ISIDA
             logger.debug("User: " + userName + "Job: " + jobName + " Add name tags to SDF: " + sdfFile);
-
+            
             File file = new File(sdfFile);
             FileReader fin = new FileReader(file);
             File ouputFile = new File(outputSdfFile);
@@ -30,6 +30,7 @@ public class StandardizeSdfFormat {
                 String temp;
                 while (src.hasNext()) {
                     temp = src.nextLine();
+                    logger.info("dragon7bug: " + temp);
                     if (!temp.startsWith("$")) {
                         sb.append("\n" + temp);
                     } else {

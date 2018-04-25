@@ -46,6 +46,7 @@ public abstract class DescriptorCommonDragon implements DescriptorSet {
         tok = new Scanner(line);
         while (tok.hasNext()) {
             String dname = tok.next();
+            logger.info("dragon7bug checkDescriptor: " + dname);
             descriptorNames.add(dname);
         }
         tok.close();
@@ -191,6 +192,7 @@ public abstract class DescriptorCommonDragon implements DescriptorSet {
             descriptorValues.clear();
             while (tok.hasNext()) {
                 String dvalue = tok.next();
+                logger.info("dragon7bug readDescriptorFile " + dvalue);
                 if (dvalue.equalsIgnoreCase("Error")) {
                     tok.close();
                     throw new Exception("Dragon descriptors invalid!");
