@@ -1,5 +1,7 @@
 package edu.unc.ceccr.chembench.actions;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
@@ -7,16 +9,27 @@ import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.persistence.UserRepository;
 import edu.unc.ceccr.chembench.utilities.SendEmails;
 import edu.unc.ceccr.chembench.utilities.Utility;
-import net.tanesha.recaptcha.ReCaptcha;
-import net.tanesha.recaptcha.ReCaptchaFactory;
-import net.tanesha.recaptcha.ReCaptchaResponse;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class UserAction extends ActionSupport implements ServletRequestAware {
@@ -112,7 +125,6 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
     }
 
     public String registerUser() throws Exception {
-        ActionContext context = ActionContext.getContext();
         String result = SUCCESS;
         // form validation
         // Validate that each required field has something in it.
@@ -139,21 +151,7 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
             result = ERROR;
         }
 
-        // check CAPTCHA
-        ReCaptcha captcha;
-        if (request.isSecure()) {
-            captcha = ReCaptchaFactory
-                    .newSecureReCaptcha(Constants.RECAPTCHA_PUBLICKEY, Constants.RECAPTCHA_PRIVATEKEY, false);
-        } else {
-            captcha =
-                    ReCaptchaFactory.newReCaptcha(Constants.RECAPTCHA_PUBLICKEY, Constants.RECAPTCHA_PRIVATEKEY, false);
-        }
-        ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1", recaptcha_challenge_field, recaptcha_response_field);
-
-        if (!resp.isValid()) {
-            addActionError("The text you typed for the CAPTCHA test did not match the picture. Try again.");
-            result = ERROR;
-        }
+        result = checkCaptcha(result);
 
         if (result.equals(ERROR)) {
             return result;
@@ -222,6 +220,49 @@ public class UserAction extends ActionSupport implements ServletRequestAware {
         logger.debug("In case email failed, temp password for user: " + user.getUserName() + " is: " + password);
         // if user != null, it will show a "You are logged in" message.
         user = null;
+        return result;
+    }
+
+    class ReCaptchaResult {
+        @SerializedName("success")
+        private boolean success;
+        @SerializedName("error-codes")
+        private List<String> errors;
+
+        public boolean isValid() {
+            return success;
+        }
+    }
+
+    private String checkCaptcha(String result) throws IOException {
+        // Request parameters and other properties.
+        List<NameValuePair> params = new ArrayList<>();
+        params.add(new BasicNameValuePair("secret", Constants.RECAPTCHA_PRIVATEKEY));
+        params.add(new BasicNameValuePair("response", request.getParameter("g-recaptcha-response")));
+
+        //Execute and get the response.
+        HttpClient httpclient = HttpClients.createDefault();
+        HttpPost httppost = new HttpPost("https://www.google.com/recaptcha/api/siteverify");
+        httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
+        HttpResponse response = httpclient.execute(httppost);
+        HttpEntity entity = response.getEntity();
+
+        ReCaptchaResult captchaResult = new ReCaptchaResult();
+        if (entity != null) {
+            InputStream instream = entity.getContent();
+            try {
+                Reader reader = new InputStreamReader(instream, "UTF-8");
+                captchaResult = new Gson().fromJson(reader, ReCaptchaResult.class);
+            } finally {
+                instream.close();
+            }
+        }
+
+        if (!captchaResult.isValid()) {
+            addActionError("Sorry, you didn't pass the CAPTCHA test. Try again.");
+            result = ERROR;
+        }
         return result;
     }
     /* End Variables used for user registration and updates */

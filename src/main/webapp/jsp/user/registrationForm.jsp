@@ -5,6 +5,7 @@
 <head>
   <%@ include file="/jsp/main/head.jsp" %>
   <title>Chembench | Registration</title>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
 <div id="main" class="container">
@@ -140,14 +141,9 @@
 
       <div class="form-group">
         <div class="col-xs-offset-3 col-xs-4">
-          <script>
-            var RecaptchaOptions = {
-              theme: 'white',
-              tabindex: 2
-            };
-          </script>
-          <script type="text/javascript"
-                  src="https://www.google.com/recaptcha/api/challenge?k=<s:property value="recaptchaPublicKey" />"></script>
+          <div class="g-recaptcha"
+               data-sitekey="<s:property value="recaptchaPublicKey" />">
+          </div>
         </div>
       </div>
 
