@@ -23,7 +23,7 @@
 
     <p>
       Thank you for using Chembench! If you encounter any problems, please contact us at <a
-        href="mailto:pozefsky@cs.unc.edu">pozefsky@cs.unc.edu</a>
+        href="mailto:murik@email.unc.edu">murik@email.unc.edu</a>
     </p>
 
     <hr>
